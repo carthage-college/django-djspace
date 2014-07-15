@@ -41,19 +41,47 @@ class MyModel(models.Model):
 
 class PersonalInformation(models.Model):
     
-    DEF = "df"
+    rocket_contest = models.BooleanField()
+    
+    DEF_CITIZEN = "df"
+    US = "y"
+    NON_US = "n"
+    CITIZENSHIP_CHOICES = (
+        (DEF_CITIZEN, "Pick One"),
+        (US, "Yes"),
+        (NON_US, "No"),
+    )
+    citizenship = models.CharField(max_length=2,choices=CITIZENSHIP_CHOICES,default=DEF_CITIZEN)
+    
+    DEF_PROFESSION = "df"
+    UNDERGRAD = "undg"
+    GRADUATE = "grad"
+    PROFESSIONAL = "prfs"
+    PROFESSOR = "prof"
+    K12_EDUCATOR = "k12"
+    PROFESSION_CHOICES = (
+        (DEF_PROFESSION,"Pick One"),
+        (UNDERGRAD,"Undergrad"),
+        (GRADUATE,"Graduate"),
+        (PROFESSIONAL,"Professional"),
+        (PROFESSOR,"Professor"),
+        (K12_EDUCATOR,"K12 Educator"),
+    )
+    profession = models.CharField(max_length=4,choices=PROFESSION_CHOICES,default=DEF_PROFESSION)
+    
+    DEF_SALUTATION = "df"
     MR = "mr"
     MS = "ms"
     MRS = "mrs"
     DR = "dr"
     SALUTATION_CHOICES = (
-        (DEF,"Pick One"),
+        (DEF_SALUTATION,"Pick One"),
         (MR,'Mr'),
         (MS,'Ms'),
         (MRS,'Mrs'),
         (DR,'Dr'),
     )
-    salutation = models.CharField(max_length=3,choices=SALUTATION_CHOICES,default=DEF)
+    salutation = models.CharField(max_length=3,choices=SALUTATION_CHOICES,default=DEF_SALUTATION)
     
     first = models.CharField(max_length=20)
     middle = models.CharField(max_length=15)
