@@ -88,7 +88,7 @@ class PersonalInformation(models.Model):
     last = models.CharField(max_length=20)
     maiden_name = models.CharField(max_length=20)
     additional_name = models.CharField(max_length=20)
-    title_department = models.CharField(max_length=40)
+    title_department = models.CharField("Title or Department",max_length=40)
     web_page = models.CharField(max_length=50)
     
     
