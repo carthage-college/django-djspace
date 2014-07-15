@@ -36,3 +36,31 @@ class MyModel(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('myapp_detail', [str(self.id)])
+        
+        
+
+class PersonalInformation(models.Model):
+    
+    DEF = "df"
+    MR = "mr"
+    MS = "ms"
+    MRS = "mrs"
+    DR = "dr"
+    SALUTATION_CHOICES = (
+        (DEF,"Pick One"),
+        (MR,'Mr'),
+        (MS,'Ms'),
+        (MRS,'Mrs'),
+        (DR,'Dr'),
+    )
+    salutation = models.CharField(max_length=3,choices=SALUTATION_CHOICES,default=DEF)
+    
+    first = models.CharField(max_length=20)
+    middle = models.CharField(max_length=15)
+    last = models.CharField(max_length=20)
+    maiden_name = models.CharField(max_length=20)
+    additional_name = models.CharField(max_length=20)
+    title_department = models.CharField(max_length=40)
+    web_page = models.CharField(max_length=50)
+    
+    
