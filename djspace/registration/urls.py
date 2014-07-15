@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 admin.autodiscover()
 
 urlpatterns = patterns('djspace.registration.views',
+    url(r'^$', 'index', name='index'),
     url(
         r'^myview/(?P<pid>\d+)/$',
         'myview', name="myapp_display"

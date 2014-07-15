@@ -7,6 +7,12 @@ from django.shortcuts import render_to_response, get_object_or_404
 from djspace.registration.forms import MyForm
 from djtools.utils.mail import send_mail
 
+from django.http import HttpResponse #delete this later
+
+def index(request):
+    return HttpResponse("Hello, world")
+
+
 
 def myview(request,pid):
     if settings.DEBUG:
