@@ -4,13 +4,13 @@ from django.db import models, connection
 from django.contrib.auth.models import User        
 
 CITIZENSHIP = (
-    ('default','Pick One'),
+    ('','--Select--'),
     ('us','Yes'),
     ('non-us','No'),
 )
 
 PROFESSION = (
-    ('default','Pick One'),
+    ('','--Select--'),
     ('undergrad','Undergraduate'),
     ('graduate','Graduate'),
     ('professional','Professional'),
@@ -19,7 +19,7 @@ PROFESSION = (
 )
 
 SALUTATION = (
-    ('default','Pick One'),
+    ('','--Select--'),
     ('mr','Mr'),
     ('ms','Ms'),
     ('mrs','Mrs'),
@@ -31,7 +31,8 @@ class PersonalInformation(models.Model):
     Personal information when registering
     """
     
-    rocket_contest = models.BooleanField(verbose_name="Tribal or AISES Rocket Competition")
+    rocket_contest = models.BooleanField("Tribal or AISES Competition",
+                                         verbose_name="Tribal or AISES Rocket Competition")
     citizenship = models.CharField("US Citizenship",
                                    max_length=7,
                                    choices=CITIZENSHIP)
