@@ -10,7 +10,8 @@ from djtools.utils.mail import send_mail
 from django.http import HttpResponse #delete this later
 
 def index(request):
-    return HttpResponse("Hello, world")
+        
+    return render(request, 'registration/form.html')
 
 
 
