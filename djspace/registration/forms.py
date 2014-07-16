@@ -2,10 +2,13 @@
 
 from django import forms
 
-from djspace.registration.models import MyModel
+from djspace.registration.models import PersonalInformation
 
-class MyForm(forms.ModelForm):
+
+class PersonalInformationForm(forms.ModelForm):
+    """
+    A form to collect personal information
+    """
 
     class Meta:
-        model = MyModel
-
+        model = PersonalInformation
