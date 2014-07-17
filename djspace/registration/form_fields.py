@@ -121,7 +121,7 @@ To do pile
     
     
     """
-    if professional
+    if professional/professor/k12 educator
     """
         Employer (select)
         Employer name
@@ -131,12 +131,5 @@ To do pile
         Employer ZIP
         
         
-        
-    """
-    If professor
-    """
 
-"""
-Personal
-"""
 
