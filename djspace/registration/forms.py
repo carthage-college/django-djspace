@@ -2,7 +2,7 @@
 
 from django import forms
 
-from djspace.registration.models import PersonalInformation
+from djspace.registration.models import PersonalInformation, AddressInformation
 
 
 class PersonalInformationForm(forms.ModelForm):
@@ -12,3 +12,13 @@ class PersonalInformationForm(forms.ModelForm):
 
     class Meta:
         model = PersonalInformation
+        
+
+
+class AddressInformationForm(forms.ModelForm):
+    """
+    A form to collect address information
+    """
+    
+    class Meta:
+        model = AddressInformation
