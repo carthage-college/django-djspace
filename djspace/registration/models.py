@@ -52,7 +52,8 @@ class PersonalInformation(models.Model):
     )
     middle = models.CharField(
         "Middle Name",
-        max_length=15
+        max_length=15,
+        blank=true
     )
     last = models.CharField(
         "Last Name",
@@ -60,19 +61,23 @@ class PersonalInformation(models.Model):
     )
     maiden_name = models.CharField(
         "Maiden Name",
-        max_length=20
+        max_length=20,
+        blank=true
     )
     #Do we need additional name? -zw
     additional_name = models.CharField(
         "Additional name",
-        max_length=20
+        max_length=20,
+        blank=true
     )
     title_department = models.CharField(
         "Title or Department",
-        max_length=40
+        max_length=40,
+        blank=true
     )
     #Consider renaming "web page" -zw
     web_page = models.CharField(
         "Web page",
-        max_length=50
+        max_length=50,
+        blank=true
     )
