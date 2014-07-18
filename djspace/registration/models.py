@@ -217,21 +217,21 @@ RACE = (
 
 
 class UndergraduateInformation(BasePersonalInformation): 
-
+    pass
 
 
 class GraduateInformation(BasePersonalInformation):
-
+    pass
 
 
 class ProfessionalInformation(BasePersonalInformation):
-
+    pass
 
 
 class ProfessorInformation(BasePersonalInformation):
-    
+    pass
     
 
 class K12EducatorInformation(BasePersonalInformation):
-
+    pass
 
