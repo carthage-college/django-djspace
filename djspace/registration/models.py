@@ -217,11 +217,18 @@ RACE = (
 
 
 class UndergraduateInformation(BasePersonalInformation): 
-    pass
+    
+    # Highschool information
+    high_school = BaseLocationInformation()
 
 
 class GraduateInformation(BasePersonalInformation):
-    pass
+    
+    # University information
+    university = BaseLocationInformation()
+    
+    # Highschool information
+    high_school = BaseLocationInformation()
 
 
 class ProfessionalInformation(BasePersonalInformation,BaseEmployerInformation):
