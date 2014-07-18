@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db import models, connection
-from django.contrib.auth.models import User        
+from django.contrib.auth.models import User
+from djspace.registration import base_models
 
 YES_NO = (
     ('yes','Yes'),
