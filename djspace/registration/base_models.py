@@ -3,6 +3,9 @@ from django.conf import settings
 from django.db import models, connection
 from django.contrib.auth.models import User  
 
+EMPLOYERS = (
+    ('OHNO','FILL IN THIS')   
+)
 
 class BasePersonalInformation(models.Model):
     
@@ -61,4 +64,13 @@ class BaseLocationInformation(models.Model):
     zip_code = models.CharField(
         "ZIP code",
         max_length=11
+    )
+
+
+class BaseEmployerInformation(BaseLocationInformation):
+    
+    employer = models.CharField(
+        "Employers",
+        max_length=30,
+        choices=EMPLOYERS
     )
