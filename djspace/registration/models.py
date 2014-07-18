@@ -224,14 +224,14 @@ class GraduateInformation(BasePersonalInformation):
     pass
 
 
-class ProfessionalInformation(BasePersonalInformation):
+class ProfessionalInformation(BasePersonalInformation,BaseEmployerInformation):
     pass
 
 
-class ProfessorInformation(BasePersonalInformation):
+class ProfessorInformation(BasePersonalInformation,BaseEmployerInformation):
     pass
     
 
-class K12EducatorInformation(BasePersonalInformation):
+class K12EducatorInformation(BasePersonalInformation,BaseEmployerInformation):
     pass
 
