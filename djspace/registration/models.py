@@ -216,138 +216,22 @@ RACE = (
 )
 
 
-class PersonalInformation(models.Model):
-    """
-    Personal information when registering
-    """
-    
-    rocket_contest = models.BooleanField(
-        "Tribal or AISES Competition"
-    )
-    citizenship = models.CharField(
-        "US Citizenship",
-        max_length=3,
-        choices=YES_NO
-    )
-    profession = models.CharField(
-        "Profession",
-        max_length=11,
-        choices=PROFESSION
-    )
-    salutation = models.CharField(
-        "Salutation",
-        max_length=3,
-        choices=SALUTATION
-    )
-    first = models.CharField(
-        "First Name",
-        max_length=20
-    )
-    middle = models.CharField(
-        "Middle Name",
-        max_length=15,
-        blank=True
-    )
-    last = models.CharField(
-        "Last Name",
-        max_length=20
-    )
-    maiden_name = models.CharField(
-        "Maiden Name",
-        max_length=20,
-        blank=True
-    )
-    #Do we need additional name? -zw
-    additional_name = models.CharField(
-        "Additional name",
-        max_length=20,
-        blank=True
-    )
-    title_department = models.CharField(
-        "Title or Department",
-        max_length=40,
-        blank=True
-    )
-    #Consider renaming "web page" -zw
-    web_page = models.CharField(
-        "Web page",
-        max_length=50,
-        blank=True
-    )
+class UndergraduateInformation(BasePersonalInformation): 
 
-class AddressInformation(models.Model):
-    """
-    Address information when registering
-    """
+
+
+class GraduateInformation(BasePersonalInformation):
+
+
+
+class ProfessionalInformation(BasePersonalInformation):
+
+
+
+class ProfessorInformation(BasePersonalInformation):
     
-    street = models.CharField(
-        "Street",
-        max_length=35
-    )
-    city = models.CharField(
-        "City",
-        max_length=25
-    )
-    state = models.CharField(
-        "State",
-        max_length=2,
-        choices=STATES
-    )
-    zip_code = models.CharField(
-        "Zip Code",
-        max_length=10
-    )
-    phone = models.CharField(
-        "Phone number",
-        max_length=16
-    )
-    primary_interest = models.CharField(
-        "Primary Interest",
-        max_length=50,
-        choices=PRIMARY_INTEREST
-    )
-    primary_interest_other = models.CharField(
-        "Other primary interest",
-        max_length=50
-    )
-    secondary_interest = models.CharField(
-        "Secondary Interest",
-        max_length=50,
-        choices=SECONDARY_INTEREST
-    )
-    birthdate = models.DateField(
-        "Birthdate",
-        auto_now=False
-    )
-    gender = models.CharField(
-        "Gender",
-        max_length=8,
-        choices=GENDER
-    )
-    disability = models.BooleanField(
-        "Disability"
-    )
-    race = models.CharField(
-        "Race",
-        max_length=40,
-        choices=RACE
-    )
-    tribe = models.CharField(
-        "Tribe",
-        max_length=55
-    )
-    first_sibling = models.CharField(
-        "First sibling to graduate",
-        max_length=3,
-        choices=YES_NO
-    )
-    subsidized_lunch = models.CharField(
-        "Subsidized school lunch",
-        max_length=3,
-        choices=YES_NO
-    )
-    us_veteran = models.CharField(
-        "US Military Veteran",
-        max_length=3,
-        choices=YES_NO
-    )
+    
+
+class K12EducatorInformation(BasePersonalInformation):
+
+
