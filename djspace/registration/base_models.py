@@ -67,6 +67,11 @@ class BaseLocationInformation(models.Model):
     )
 
 
+class HigherEducationInformation(BaseLocationInformation):
+    
+    pass
+
+
 class BaseEmployerInformation(BaseLocationInformation):
     
     employer = models.CharField(
