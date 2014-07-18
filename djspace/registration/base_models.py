@@ -87,3 +87,11 @@ class BaseEmployerInformation(BaseLocationInformation):
         max_length=30,
         choices=EMPLOYERS
     )
+
+
+class WSGCAdvisorInformation(BasePersonalInformation):
+    
+    title_department = models.CharField(
+        "Title or department",
+        max_length = 25
+    )
