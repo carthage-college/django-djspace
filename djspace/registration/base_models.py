@@ -12,7 +12,15 @@ class BasePersonalInformation(models.Model):
     GENDER = (
      ('male','Male'),('female','Female')   
     )
+    SALUTATION = (
+     ('mr','Mr'),('ms','Ms'),('mrs','Mrs'),('dr','Dr')   
+    )
     
+    salutation = models.CharField(
+        "Salutation",
+        max_length=8,
+        choices=SALUTATION
+    )
     first = models.CharField(
         "First name",
         max_length=20
