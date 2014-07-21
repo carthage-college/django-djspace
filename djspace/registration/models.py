@@ -2,7 +2,8 @@
 from django.conf import settings
 from django.db import models, connection
 from django.contrib.auth.models import User
-from djspace.registration import base_models
+from djspace.registration.base_models import *
+
 
 YES_NO = (
     ('yes','Yes'),

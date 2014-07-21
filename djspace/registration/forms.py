@@ -2,23 +2,14 @@
 
 from django import forms
 
-from djspace.registration.models import PersonalInformation, AddressInformation
+from djspace.registration.models import *
 
 
-class PersonalInformationForm(forms.ModelForm):
+class UndergraduateInformationForm(forms.ModelForm):
     """
     A form to collect personal information
     """
 
     class Meta:
-        model = PersonalInformation
+        model = UndergraduateInformation
         
-
-
-class AddressInformationForm(forms.ModelForm):
-    """
-    A form to collect address information
-    """
-    
-    class Meta:
-        model = AddressInformation

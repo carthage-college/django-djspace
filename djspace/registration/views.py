@@ -8,8 +8,8 @@ from djspace.registration.forms import PersonalInformationForm
 from djtools.utils.mail import send_mail
 
 
-def index(request):
-    form = PersonalInformationForm()
+def undergrad(request):
+    form = UndergraduateInformationForm()
     
     return render_to_response(
         "registration/form.html",
