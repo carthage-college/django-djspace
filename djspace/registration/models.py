@@ -221,7 +221,7 @@ class UndergraduateInformation(BasePersonalInformation):
     
     # Highschool information
     high_school = BaseLocationInformation()
-
+    
     # WSGC advisor information
     advisor = WSGCAdvisorInformation()
     
