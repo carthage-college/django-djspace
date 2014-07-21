@@ -9,6 +9,9 @@ EMPLOYERS = (
 
 class BasePersonalInformation(models.Model):
     
+    class Meta:
+        abstract = True
+    
     GENDER = (
      ('male','Male'),('female','Female')   
     )
@@ -53,6 +56,9 @@ class BasePersonalInformation(models.Model):
 
 class BaseLocationInformation(models.Model):
     
+    class Meta:
+        abstract = True
+        
     name = models.CharField(
         "Name",
         max_length=25
@@ -77,11 +83,17 @@ class BaseLocationInformation(models.Model):
 
 class HigherEducationInformation(BaseLocationInformation):
     
+    class Meta:
+        abstract = True
+    
     pass
 
 
 class BaseEmployerInformation(BaseLocationInformation):
     
+    class Meta:
+        abstract = True
+        
     employer = models.CharField(
         "Employers",
         max_length=30,
@@ -91,6 +103,9 @@ class BaseEmployerInformation(BaseLocationInformation):
 
 class WSGCAdvisorInformation(BasePersonalInformation):
     
+    class Meta:
+        abstract = True
+        
     title_department = models.CharField(
         "Title or department",
         max_length = 25

@@ -217,7 +217,7 @@ RACE = (
 )
 
 
-class UndergraduateInformation(BasePersonalInformation): 
+class UndergraduateInformation(BasePersonalInformation, BaseLocationInformation, WSGCAdvisorInformation): 
     
     # Highschool information
     high_school = BaseLocationInformation()
