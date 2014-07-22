@@ -2,7 +2,7 @@
 
 from django import forms
 
-from djspace.registration.models import *
+from djspace.registration import models
 
 
 class UndergraduateInformationForm(forms.ModelForm):
