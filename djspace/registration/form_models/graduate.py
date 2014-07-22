@@ -92,7 +92,7 @@ INTEREST = (
 )
 
 
-class GraduateInformation(BasePersonalInformation):
+class GraduateInformation():
 
     first = models.CharField(
         "First name",
