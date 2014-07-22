@@ -87,7 +87,7 @@ RACE = (
 
 
 
-class ProfessorInformation(BasePersonalInformation,BaseEmployerInformation):
+class ProfessorInformation():
     
     first = models.CharField(
         "First name",
