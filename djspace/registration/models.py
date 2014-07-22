@@ -4,11 +4,8 @@ from django.db import models, connection
 from django.contrib.auth.models import User
 from djspace.registration.base_models import *
 
-
-YES_NO = (
-    ('yes','Yes'),
-    ('no','No'),
-)
+from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
+from djtools.fields import GENDER_CHOICES
 
 PROFESSION = (
     ('undergrad','Undergraduate'),
@@ -16,65 +13,6 @@ PROFESSION = (
     ('professional','Professional'),
     ('professor','Professor'),
     ('k12educator','K12 Educator'),
-)
-
-SALUTATION = (
-    ('mr','Mr'),
-    ('ms','Ms'),
-    ('mrs','Mrs'),
-    ('dr','Dr'),
-)
-
-STATES = (
-    ('AL','Alabama'),
-    ('AK','Alaska'),
-    ('AZ','Arizona'),
-    ('AR','Arkansas'),
-    ('CA','California'),
-    ('CO','Colorado'),
-    ('CT','Connecticut'),
-    ('DE','Delaware'),
-    ('FL','Florida'),
-    ('GA','Georgia'),
-    ('HI','Hawaii'),
-    ('ID','Idaho'),
-    ('IL','Illinois'),
-    ('IN','Indiana'),
-    ('IA','Iowa'),
-    ('KS','Kansas'),
-    ('KY','Kentucky'),
-    ('LA','Louisiana'),
-    ('ME','Maine'),
-    ('MD','Maryland'),
-    ('MA','Massachusetts'),
-    ('MI','Michigan'),
-    ('MN','Minnesota'),
-    ('MS','Mississippi'),
-    ('MO','Missouri'),
-    ('MT','Montana'),
-    ('NE','Nebraska'),
-    ('NV','Nevada'),
-    ('NH','New Hampsire'),
-    ('NJ','New Jersey'),
-    ('NM','New Mexico'),
-    ('NY','New York'),
-    ('NC','North Carolina'),
-    ('ND','North Dakota'),
-    ('OH','Ohio'),
-    ('OK','Oklahoma'),
-    ('OR','Oregon'),
-    ('PA','Pennsylvania'),
-    ('RI','Rhode Island'),
-    ('SC','South Carolina'),
-    ('SD','South Dakota'),
-    ('TN','Tennessee'),
-    ('TX','Texas'),
-    ('UT','Utah'),
-    ('VT','Vermont'),
-    ('WA','Washington'),
-    ('WV','West Virginia'),
-    ('WI','Wisconsin'),
-    ('WY','Wyoming')
 )
 
 PRIMARY_INTEREST = (
@@ -198,12 +136,7 @@ SECONDARY_INTEREST = (
     ('psychology','Psychology'),
     ('socialsciences','Social Sciences'),
     ('sociology','Sociology'),
-    ('zoology','Zoology')    
-)
-
-GENDER = (
-    ('male','Male'),
-    ('female','Female')
+    ('zoology','Zoology')
 )
 
 RACE = (
@@ -217,35 +150,491 @@ RACE = (
 )
 
 
-class UndergraduateInformation(BasePersonalInformation, BaseLocationInformation, WSGCAdvisorInformation): 
-    
-    # Highschool information
-    high_school = BaseLocationInformation()
-    
-    # WSGC advisor information
-    advisor = WSGCAdvisorInformation()
-    
+class UndergraduateInformation():
+
+    first = models.CharField(
+        "First name",
+        max_length=20
+    )
+    middle = models.CharField(
+        "Middle name",
+        max_length=20
+    )
+    last = models.CharField(
+        "Last name",
+        max_length=20
+    )
+    citizen = models.BooleanField(
+        "US Citizen"
+    )
+    rocket_comp = models.BooleanField(
+        "Tribal or AISES Rocket Competition"
+    )
+    maiden = models.CharField(
+        "Maiden name",
+        max_length=20
+    )
+    additional = models.CharField(
+        "Additional name",
+        max_length=20
+    )
+    title_department = models.CharField(
+        "Title or Department",
+        max_length=20
+    )
+    webpage = models.CharField(
+        "Web page",
+        max_length=20
+    )
+    street = models.CharField(
+        "Street",
+        max_length=20
+    )
+    city = models.CharField(
+        "City",
+        max_length=20
+    )
+    state = models.CharField(
+        "State",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    ZIP = models.CharField(
+        "Zip code",
+        max_length=9
+    )
+    phone = models.CharField(
+        "Phone number",
+        max_length=16
+    )
+    primary = models.CharField(
+        "Primary interest",
+        max_length=35,
+        choices=PRIMARY_INTEREST
+    )
+    primary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    secondary = models.CharField(
+        "Secondary interest",
+        max_length=35,
+        choices=SECONDARY_INTEREST
+    )
+    secondary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    birthdate = models.DateField(
+        "Birthdate",
+        auto_now=False
+    )
+    gender = models.CharField(
+        "Gender",
+        max_length=8,
+        choices=GENDER_CHOICES
+    )
+    disability = models.BooleanField(
+        "Disability"
+    )
+    race = models.CharField(
+        "Race",
+        max_length=25,
+        choices=RACE
+    )
+    tribe = models.CharField(
+        "Tribe",
+        max_length=20
+    )
+
 
 class GraduateInformation(BasePersonalInformation):
-    
-    # University information
-    university = BaseLocationInformation()
-    
-    # Highschool information
-    high_school = BaseLocationInformation()
-    
-    # WSGC advisor information
-    advisor = WSGCAdvisorInformation()
 
+    first = models.CharField(
+        "First name",
+        max_length=20
+    )
+    middle = models.CharField(
+        "Middle name",
+        max_length=20
+    )
+    last = models.CharField(
+        "Last name",
+        max_length=20
+    )
+    citizen = models.BooleanField(
+        "US Citizen"
+    )
+    rocket_comp = models.BooleanField(
+        "Tribal or AISES Rocket Competition"
+    )
+    maiden = models.CharField(
+        "Maiden name",
+        max_length=20
+    )
+    additional = models.CharField(
+        "Additional name",
+        max_length=20
+    )
+    title_department = models.CharField(
+        "Title or Department",
+        max_length=20
+    )
+    webpage = models.CharField(
+        "Web page",
+        max_length=20
+    )
+    street = models.CharField(
+        "Street",
+        max_length=20
+    )
+    city = models.CharField(
+        "City",
+        max_length=20
+    )
+    state = models.CharField(
+        "State",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    ZIP = models.CharField(
+        "Zip code",
+        max_length=9
+    )
+    phone = models.CharField(
+        "Phone number",
+        max_length=16
+    )
+    primary = models.CharField(
+        "Primary interest",
+        max_length=35,
+        choices=PRIMARY_INTEREST
+    )
+    primary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    secondary = models.CharField(
+        "Secondary interest",
+        max_length=35,
+        choices=SECONDARY_INTEREST
+    )
+    secondary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    birthdate = models.DateField(
+        "Birthdate",
+        auto_now=False
+    )
+    gender = models.CharField(
+        "Gender",
+        max_length=8,
+        choices=GENDER_CHOICES
+    )
+    disability = models.BooleanField(
+        "Disability"
+    )
+    race = models.CharField(
+        "Race",
+        max_length=25,
+        choices=RACE
+    )
+    tribe = models.CharField(
+        "Tribe",
+        max_length=20
+    )
+    
 
 class ProfessionalInformation(BasePersonalInformation,BaseEmployerInformation):
-    pass
-
+    
+    first = models.CharField(
+        "First name",
+        max_length=20
+    )
+    middle = models.CharField(
+        "Middle name",
+        max_length=20
+    )
+    last = models.CharField(
+        "Last name",
+        max_length=20
+    )
+    citizen = models.BooleanField(
+        "US Citizen"
+    )
+    rocket_comp = models.BooleanField(
+        "Tribal or AISES Rocket Competition"
+    )
+    maiden = models.CharField(
+        "Maiden name",
+        max_length=20
+    )
+    additional = models.CharField(
+        "Additional name",
+        max_length=20
+    )
+    title_department = models.CharField(
+        "Title or Department",
+        max_length=20
+    )
+    webpage = models.CharField(
+        "Web page",
+        max_length=20
+    )
+    street = models.CharField(
+        "Street",
+        max_length=20
+    )
+    city = models.CharField(
+        "City",
+        max_length=20
+    )
+    state = models.CharField(
+        "State",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    ZIP = models.CharField(
+        "Zip code",
+        max_length=9
+    )
+    phone = models.CharField(
+        "Phone number",
+        max_length=16
+    )
+    primary = models.CharField(
+        "Primary interest",
+        max_length=35,
+        choices=PRIMARY_INTEREST
+    )
+    primary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    secondary = models.CharField(
+        "Secondary interest",
+        max_length=35,
+        choices=SECONDARY_INTEREST
+    )
+    secondary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    birthdate = models.DateField(
+        "Birthdate",
+        auto_now=False
+    )
+    gender = models.CharField(
+        "Gender",
+        max_length=8,
+        choices=GENDER_CHOICES
+    )
+    disability = models.BooleanField(
+        "Disability"
+    )
+    race = models.CharField(
+        "Race",
+        max_length=25,
+        choices=RACE
+    )
+    tribe = models.CharField(
+        "Tribe",
+        max_length=20
+    )
+    
 
 class ProfessorInformation(BasePersonalInformation,BaseEmployerInformation):
-    pass
+    
+    first = models.CharField(
+        "First name",
+        max_length=20
+    )
+    middle = models.CharField(
+        "Middle name",
+        max_length=20
+    )
+    last = models.CharField(
+        "Last name",
+        max_length=20
+    )
+    citizen = models.BooleanField(
+        "US Citizen"
+    )
+    rocket_comp = models.BooleanField(
+        "Tribal or AISES Rocket Competition"
+    )
+    maiden = models.CharField(
+        "Maiden name",
+        max_length=20
+    )
+    additional = models.CharField(
+        "Additional name",
+        max_length=20
+    )
+    title_department = models.CharField(
+        "Title or Department",
+        max_length=20
+    )
+    webpage = models.CharField(
+        "Web page",
+        max_length=20
+    )
+    street = models.CharField(
+        "Street",
+        max_length=20
+    )
+    city = models.CharField(
+        "City",
+        max_length=20
+    )
+    state = models.CharField(
+        "State",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    ZIP = models.CharField(
+        "Zip code",
+        max_length=9
+    )
+    phone = models.CharField(
+        "Phone number",
+        max_length=16
+    )
+    primary = models.CharField(
+        "Primary interest",
+        max_length=35,
+        choices=PRIMARY_INTEREST
+    )
+    primary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    secondary = models.CharField(
+        "Secondary interest",
+        max_length=35,
+        choices=SECONDARY_INTEREST
+    )
+    secondary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    birthdate = models.DateField(
+        "Birthdate",
+        auto_now=False
+    )
+    gender = models.CharField(
+        "Gender",
+        max_length=8,
+        choices=GENDER_CHOICES
+    )
+    disability = models.BooleanField(
+        "Disability"
+    )
+    race = models.CharField(
+        "Race",
+        max_length=25,
+        choices=RACE
+    )
+    tribe = models.CharField(
+        "Tribe",
+        max_length=20
+    )
     
 
 class K12EducatorInformation(BasePersonalInformation,BaseEmployerInformation):
-    pass
-
+    
+    first = models.CharField(
+        "First name",
+        max_length=20
+    )
+    middle = models.CharField(
+        "Middle name",
+        max_length=20
+    )
+    last = models.CharField(
+        "Last name",
+        max_length=20
+    )
+    citizen = models.BooleanField(
+        "US Citizen"
+    )
+    rocket_comp = models.BooleanField(
+        "Tribal or AISES Rocket Competition"
+    )
+    maiden = models.CharField(
+        "Maiden name",
+        max_length=20
+    )
+    additional = models.CharField(
+        "Additional name",
+        max_length=20
+    )
+    title_department = models.CharField(
+        "Title or Department",
+        max_length=20
+    )
+    webpage = models.CharField(
+        "Web page",
+        max_length=20
+    )
+    street = models.CharField(
+        "Street",
+        max_length=20
+    )
+    city = models.CharField(
+        "City",
+        max_length=20
+    )
+    state = models.CharField(
+        "State",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    ZIP = models.CharField(
+        "Zip code",
+        max_length=9
+    )
+    phone = models.CharField(
+        "Phone number",
+        max_length=16
+    )
+    primary = models.CharField(
+        "Primary interest",
+        max_length=35,
+        choices=PRIMARY_INTEREST
+    )
+    primary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    secondary = models.CharField(
+        "Secondary interest",
+        max_length=35,
+        choices=SECONDARY_INTEREST
+    )
+    secondary_other = models.CharField(
+        "Other",
+        max_length=35
+    )
+    birthdate = models.DateField(
+        "Birthdate",
+        auto_now=False
+    )
+    gender = models.CharField(
+        "Gender",
+        max_length=8,
+        choices=GENDER_CHOICES
+    )
+    disability = models.BooleanField(
+        "Disability"
+    )
+    race = models.CharField(
+        "Race",
+        max_length=25,
+        choices=RACE
+    )
+    tribe = models.CharField(
+        "Tribe",
+        max_length=20
+    )
