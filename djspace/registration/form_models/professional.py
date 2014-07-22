@@ -8,6 +8,10 @@ from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
 
 
+EMPLOYER = (
+    (':\(','OH NO, WE NEED TO FILL THESE OUT')    
+)
+
 INTEREST = (
     ('aeronauticalaerospace','Aeronautical/Aerospace'),
     ('agricultural','Agricultural'),
@@ -176,4 +180,31 @@ class ProfessionalInformation(BasePersonalInformation,BaseEmployerInformation):
     tribe = models.CharField(
         "Tribe",
         max_length=20
+    )
+    employer = models.CharField(
+        "Employer",
+        max_length=20,
+        choices=EMPLOYER
+    )
+    employer_name = models.CharField(
+        "Employer name",
+        max_length=20,
+        choices=EMPLOYER
+    )
+    employer_street = models.CharField(
+        "Employer street",
+        max_length=20
+    )
+    employer_city = models.CharField(
+        "Employer city",
+        max_length=20
+    )
+    employer_state = models.CharField(
+        "Employer state",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    employer_zip = models.CharField(
+        "Employer zip code",
+        max_length=9
     )
