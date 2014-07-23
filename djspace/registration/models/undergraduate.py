@@ -3,8 +3,7 @@ from django.conf import settings
 from django.db import models, connection
 from django.contrib.auth.models import User
 
-from djspace.registration.models.base_models import BasePersonalInformation, BaseWSGCInformation
-from djspace.registration.models.base_models import BaseHighschoolInformation, BaseUndergradInformation
+from djspace.registration.models.base_models import *
 
 class UndergraduateInformation(BasePersonalInformation, BaseWSGCInformation, BaseHighschoolInformation, BaseUndergradInformation):
     
