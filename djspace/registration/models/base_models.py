@@ -102,7 +102,7 @@ EMPLOYER = (
 )
 
 
-class BaseInformationModel(models.Model):
+class BasePersonalInformation(models.Model):
 
     first = models.CharField(
         "First name",
@@ -147,7 +147,7 @@ class BaseInformationModel(models.Model):
         max_length=20
     )
     state = models.CharField(
-    "State",
+        "State",
         max_length=2,
         choices=STATE_CHOICES
     )
@@ -200,7 +200,6 @@ class BaseInformationModel(models.Model):
     )
   
   
-  
 class BaseEmployerInformation(models.Model):
 
     employer = models.CharField(
@@ -229,4 +228,135 @@ class BaseEmployerInformation(models.Model):
     employer_zip = models.CharField(
         "Employer zip code",
         max_length=9
+    )
+
+
+class BaseWSGCInformation(models.Model):
+    
+    wsgc_school = models.CharField(
+        "WSGC college enrolled or applied to",
+        max_length=20
+    )
+    wsgc_school_num = models.CharField(
+        "WSGC college enrolled or applied to student number",
+        max_length=20
+    )
+    wsgc_advisor_salutation = models.CharField(
+        "WSGC advisor salutation",
+        max_length=10,
+        choices=SALUTATION_TITLES
+    )
+    wsgc_advisor_first = models.CharField(
+        "WSGC advisor first name",
+        max_length=20
+    )
+    wsgc_advisor_middle = models.CharField(
+        "WSGC advisor middle name",
+        max_length=20
+    )
+    wsgc_advisor_last = models.CharField(
+        "WSGC advisor last name",
+        max_length=20
+    )
+    wsgc_advisor_title_department = models.CharField(
+        "WSGC advisor title or department",
+        max_length=20
+    )
+    wsgc_advisor_email = models.EmailField(
+        "WSGC advisor email",
+        max_length=20
+    )
+    wsgc_advisor_confirm_email = models.EmailField(
+        "WSGC advisor confirm email",
+        max_length=20
+    )
+    wsgc_advisor_phone = models.CharField(
+        "Phone number",
+        max_length=16
+    )
+    
+    
+class BaseHighschoolInformation(models.Model):
+    
+    highschool_name = models.CharField(
+        "Highschool name",
+        max_length=20
+    )
+    highschool_street = models.CharField(
+        "Highschool street",
+        max_length=20
+    )
+    highschool_city = models.CharField(
+        "Highschool city",
+        max_length=20
+    )
+    highschool_state = models.CharField(
+        "Highschool state",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    highschool_zip = models.CharField(
+        "Highschool zip code",
+        max_length=9
+    )
+    
+    
+class BaseUndergradInformation(models.Model):
+    
+    # Going to need select options later
+    major = models.CharField(
+        "Major",
+        max_length=20
+    )
+    # Going to need select options later
+    major_2 = models.CharField(
+        "Major 2",
+        max_length=20
+    )
+    # Going to need select options later
+    minor = models.CharField(
+        "Minor",
+        max_length=20
+    )
+    gpa = models.FloatField(
+        "Current cumulative GPA",
+        max_length=4
+    )
+    scale = models.IntegerField(
+        "Scale",
+        max_length=1
+    )
+    CREDITS = models.FloatField(
+        "Credits",
+        max_length=5
+    )
+    graduation = models.DateField(
+        "Expected date of graduation",
+        auto_now=False
+    )
+
+
+class BaseCollegeInformation(models.Model):
+    
+    university_street = models.CharField(
+        "University street",
+        max_length=20
+    )
+    university_city = models.CharField(
+        "University city",
+        max_length=20
+    )
+    university_state = models.CharField(
+        "University state",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    university_zip = models.CharField(
+        "University zip code",
+        max_length=9
+    )
+    undergraduate_degree = models.CharField(
+        "University degree",
+        max_length=20,
+        choices=UNDERGRADUATE_DEGREE
     )
