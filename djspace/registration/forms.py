@@ -2,8 +2,7 @@
 
 from django import forms
 
-from djspace.registration import models
-
+from djspace.registration.models.undergraduate import UndergraduateInformation
 
 class UndergraduateInformationForm(forms.ModelForm):
     """
@@ -12,4 +11,4 @@ class UndergraduateInformationForm(forms.ModelForm):
 
     class Meta:
         model = UndergraduateInformation
-        
+
