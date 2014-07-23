@@ -98,7 +98,8 @@ GRADUATE_DEGREE = (
 )
 
 EMPLOYER = (
-    (':\(','OH NO, WE NEED TO FILL THESE OUT')    
+    ('sad','OH NO, WE NEED TO FILL THESE OUT'),
+    ('stillsad','Still sad')
 )
 
 
