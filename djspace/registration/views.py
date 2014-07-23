@@ -4,7 +4,8 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render_to_response, get_object_or_404
 
-from djspace.registration.forms import UndergraduateInformationForm
+from djspace.registration.forms import *
+
 from djtools.utils.mail import send_mail
 
 
@@ -17,7 +18,41 @@ def undergrad(request):
         context_instance=RequestContext(request)
     )
 
+def graduate(request):
+    form = GraduateInformationForm()
+    
+    return render_to_response(
+        "registration/form.html",
+        {"form": form,},
+        context_instance=RequestContext(request)
+    )
 
+def professional(request):
+    form = ProfessionalInformationForm()
+    
+    return render_to_response(
+        "registration/form.html",
+        {"form": form,},
+        context_instance=RequestContext(request)
+    )
+
+def professor(request):
+    form = ProfessorInformationForm()
+    
+    return render_to_response(
+        "registration/form.html",
+        {"form": form,},
+        context_instance=RequestContext(request)
+    )
+
+def k12educator(request):
+    form = K12EducatorInformationForm()
+
+    return render_to_response(
+        "registration/form.html",
+        {"form": form,},
+        context_instance=RequestContext(request)
+    )
 
 def myview(request,pid):
     if settings.DEBUG:
