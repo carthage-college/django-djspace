@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
+<<<<<<< HEAD
+class K12Educator(BasePersonal, BaseEmployer):
+
+=======
 class K12EducatorInformation(BasePersonalInformation, BaseEmployerInformation):
     
     # fields to remove
@@ -18,4 +22,5 @@ class K12EducatorInformation(BasePersonalInformation, BaseEmployerInformation):
         
     """
     
+>>>>>>> 03189e61af75450444ee49681e4742300730b54c
     pass

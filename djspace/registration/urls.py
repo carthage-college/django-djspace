@@ -12,18 +12,14 @@ urlpatterns = patterns('djspace.registration.views',
     url(r'^test/3$', 'professor', name='professor form'),
     url(r'^test/4$', 'k12educator', name='k12 educator form'),
     url(
-        r'^myview/(?P<pid>\d+)/$',
-        'myview', name="myapp_display"
-    ),
-    url(
-        r'^search/$',
-        'search', name="myapp_search"
-    ),
-    url(
         r'^myview/success/$',
         TemplateView.as_view(
             template_name='myapp/success.html'
         ),
         name='myapp_success'
+    ),
+    url(
+        r'^(?P<reg_type>[a-zA-Z0-9_-]+)/$',
+        'form', name="registration_form"
     ),
 )

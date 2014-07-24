@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
+<<<<<<< HEAD
+class Professional(BasePersonal, BaseEmployer):
+
+    pass
+=======
 class ProfessionalInformation(BasePersonalInformation, BaseEmployerInformation):
     
     # remove fields:
@@ -19,3 +24,4 @@ class ProfessionalInformation(BasePersonalInformation, BaseEmployerInformation):
         tribe
     """
     pass
+>>>>>>> 03189e61af75450444ee49681e4742300730b54c

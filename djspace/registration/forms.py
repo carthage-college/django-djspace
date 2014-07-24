@@ -2,35 +2,35 @@
 
 from django import forms
 
-from djspace.registration.models.undergraduate import UndergraduateInformation
-from djspace.registration.models.graduate import GraduateInformation
-from djspace.registration.models.professional import ProfessionalInformation
-from djspace.registration.models.professor import ProfessorInformation
-from djspace.registration.models.k12educator import K12EducatorInformation
+from djspace.registration.models.undergraduate import Undergraduate
+from djspace.registration.models.graduate import Graduate
+from djspace.registration.models.professional import Professional
+from djspace.registration.models.professor import Professor
+from djspace.registration.models.k12educator import K12Educator
 
-class UndergraduateInformationForm(forms.ModelForm):
+class UndergraduateForm(forms.ModelForm):
     """
     A form to collect undergraduate information
     """
 
     class Meta:
-        model = UndergraduateInformation
+        model = Undergraduate
 
 
-class GraduateInformationForm(forms.ModelForm):
+class GraduateForm(forms.ModelForm):
     """
     A form to collect graduate information
     """
-    
+
     class Meta:
-        model = GraduateInformation
-        
-        
-class ProfessionalInformationForm(forms.ModelForm):
+        model = Graduate
+
+
+class ProfessionalForm(forms.ModelForm):
     """
     A form to collect professional information
     """
-    
+
     def __init__(self, *args, **kwargs):
         super(ProfessionalInformationForm, self).__init__(*args, **kwargs)
         self.fields.pop('salutation')
@@ -41,25 +41,25 @@ class ProfessionalInformationForm(forms.ModelForm):
         self.fields.pop('secondary')
         self.fields.pop('secondary_other')
         self.fields.pop('tribe')
-    
+
     class Meta:
-        model = ProfessionalInformation
-        
-        
-class ProfessorInformationForm(forms.ModelForm):
+        model = Professional
+
+
+class ProfessorForm(forms.ModelForm):
     """
     A form to collect professor information
     """
-    
+
     class Meta:
-        model = ProfessorInformation
-        
-        
-class K12EducatorInformationForm(forms.ModelForm):
+        model = Professor
+
+
+class K12EducatorForm(forms.ModelForm):
     """
     A form to collect K12 information
     """
-    
+
     def __init__(self, *args, **kwargs):
         super(K12EducatorInformationForm, self).__init__(*args, **kwargs)
         self.fields.pop('salutation')
@@ -69,4 +69,4 @@ class K12EducatorInformationForm(forms.ModelForm):
         self.fields.pop('secondary_other')
 
     class Meta:
-        model = K12EducatorInformation
+        model = K12Educator
