@@ -7,4 +7,15 @@ from djspace.registration.models.base_models import *
 
 class K12EducatorInformation(BasePersonalInformation, BaseEmployerInformation):
     
+    # fields to remove
+    """
+        salutation
+        additional (RENAME TO "Nickname")
+        title
+        webpage
+        secondary
+        secondary_other
+        
+    """
+    
     pass
