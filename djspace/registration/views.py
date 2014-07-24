@@ -9,6 +9,20 @@ from djspace.registration.forms import *
 from djtools.utils.mail import send_mail
 
 
+def form(request, reg_type):
+    try:
+        form = eval(reg_type.capitalize()+"Form")()
+    except:
+        raise Http404
+
+    #template = "registration/%s/form.html" % (reg_type),
+
+    return render_to_response(
+        "registration/form.html",
+        {"form": form,"reg_type":reg_type},
+        context_instance=RequestContext(request)
+    )
+
 def undergrad(request):
     form = UndergraduateInformationForm()
 
@@ -20,7 +34,7 @@ def undergrad(request):
 
 def graduate(request):
     form = GraduateInformationForm()
-    
+
     return render_to_response(
         "registration/form.html",
         {"form": form,},
@@ -29,7 +43,7 @@ def graduate(request):
 
 def professional(request):
     form = ProfessionalInformationForm()
-    
+
     return render_to_response(
         "registration/form.html",
         {"form": form,},
@@ -38,7 +52,7 @@ def professional(request):
 
 def professor(request):
     form = ProfessorInformationForm()
-    
+
     return render_to_response(
         "registration/form.html",
         {"form": form,},
@@ -82,10 +96,3 @@ def myview(request,pid):
         {"form": form,},
         context_instance=RequestContext(request)
     )
-
-def search(request):
-    return render_to_response(
-        "myapp/search.html",
-        context_instance=RequestContext(request)
-    )
-

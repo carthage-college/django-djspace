@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
-class UndergraduateInformation(BasePersonalInformation, BaseWSGCInformation, BaseHighschoolInformation, BaseUndergradInformation):
-    
+class Undergraduate(BasePersonal, BaseWSGC, BaseHighschool, BaseUndergrad):
+
     degree_seeking = models.CharField(
         "Degree seeking",
         max_length=20,

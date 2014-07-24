@@ -103,7 +103,7 @@ EMPLOYER = (
 )
 
 
-class BasePersonalInformation(models.Model):
+class BasePersonal(models.Model):
 
     first = models.CharField(
         "First name",
@@ -201,7 +201,7 @@ class BasePersonalInformation(models.Model):
     )
   
   
-class BaseEmployerInformation(models.Model):
+class BaseEmployer(models.Model):
 
     employer = models.CharField(
         "Employer",
@@ -232,7 +232,7 @@ class BaseEmployerInformation(models.Model):
     )
 
 
-class BaseWSGCInformation(models.Model):
+class BaseWSGC(models.Model):
     
     wsgc_school = models.CharField(
         "WSGC college enrolled or applied to",
@@ -277,7 +277,7 @@ class BaseWSGCInformation(models.Model):
     )
     
     
-class BaseHighschoolInformation(models.Model):
+class BaseHighschool(models.Model):
     
     highschool_name = models.CharField(
         "Highschool name",
@@ -302,7 +302,7 @@ class BaseHighschoolInformation(models.Model):
     )
     
     
-class BaseUndergradInformation(models.Model):
+class BaseUndergrad(models.Model):
     
     # Going to need select options later
     major = models.CharField(
@@ -337,7 +337,7 @@ class BaseUndergradInformation(models.Model):
     )
 
 
-class BaseCollegeInformation(models.Model):
+class BaseCollege(models.Model):
     
     university_street = models.CharField(
         "University street",
