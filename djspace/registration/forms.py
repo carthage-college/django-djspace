@@ -31,6 +31,17 @@ class ProfessionalForm(forms.ModelForm):
     A form to collect professional information
     """
 
+    def __init__(self, *args, **kwargs):
+        super(ProfessionalInformationForm, self).__init__(*args, **kwargs)
+        self.fields.pop('salutation')
+        self.fields.pop('maiden')
+        self.fields.pop('additional')
+        self.fields.pop('title_department')
+        self.fields.pop('webpage')
+        self.fields.pop('secondary')
+        self.fields.pop('secondary_other')
+        self.fields.pop('tribe')
+
     class Meta:
         model = Professional
 
@@ -48,6 +59,14 @@ class K12EducatorForm(forms.ModelForm):
     """
     A form to collect K12 information
     """
+
+    def __init__(self, *args, **kwargs):
+        super(K12EducatorInformationForm, self).__init__(*args, **kwargs)
+        self.fields.pop('salutation')
+        self.fields.pop('title_department')
+        self.fields.pop('webpage')
+        self.fields.pop('secondary')
+        self.fields.pop('secondary_other')
 
     class Meta:
         model = K12Educator

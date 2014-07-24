@@ -105,6 +105,11 @@ EMPLOYER = (
 
 class BasePersonal(models.Model):
 
+    salutation = models.CharField(
+        "Salutation",
+        max_length=10,
+        choices=SALUTATION_TITLES
+    )
     first = models.CharField(
         "First name",
         max_length=20
