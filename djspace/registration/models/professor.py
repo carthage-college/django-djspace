@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
-class ProfessorInformation(BasePersonal, BaseEmployer):
+class Professor(BasePersonal, BaseEmployer):
     
     graduate_first = models.CharField(
         "First of your sibilings to graduate from college",

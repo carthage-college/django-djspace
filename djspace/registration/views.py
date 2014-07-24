@@ -24,7 +24,7 @@ def form(request, reg_type):
     )
 
 def undergrad(request):
-    form = UndergraduateInformationForm()
+    form = UndergraduateForm()
 
     return render_to_response(
         "registration/form.html",
@@ -33,7 +33,7 @@ def undergrad(request):
     )
 
 def graduate(request):
-    form = GraduateInformationForm()
+    form = GraduateForm()
 
     return render_to_response(
         "registration/form.html",
@@ -42,7 +42,7 @@ def graduate(request):
     )
 
 def professional(request):
-    form = ProfessionalInformationForm()
+    form = ProfessionalForm()
 
     return render_to_response(
         "registration/form.html",
@@ -51,7 +51,7 @@ def professional(request):
     )
 
 def professor(request):
-    form = ProfessorInformationForm()
+    form = ProfessorForm()
 
     return render_to_response(
         "registration/form.html",
@@ -60,7 +60,7 @@ def professor(request):
     )
 
 def k12educator(request):
-    form = K12EducatorInformationForm()
+    form = K12EducatorForm()
 
     return render_to_response(
         "registration/form.html",

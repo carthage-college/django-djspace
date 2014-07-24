@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
-class ProfessionalInformation(BasePersonal, BaseEmployer):
+class Professional(BasePersonal, BaseEmployer):
     
     pass
 
