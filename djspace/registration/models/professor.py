@@ -5,12 +5,7 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
-<<<<<<< HEAD
-class Professor(BasePersonal, BaseEmployer):
-
-    pass
-=======
-class ProfessorInformation(BasePersonalInformation, BaseEmployerInformation):
+class ProfessorInformation(BasePersonal, BaseEmployer):
     
     graduate_first = models.CharField(
         "First of your sibilings to graduate from college",
@@ -27,4 +22,3 @@ class ProfessorInformation(BasePersonalInformation, BaseEmployerInformation):
         max_length=6,
         choices=BINARY_CHOICES
     )
->>>>>>> 03189e61af75450444ee49681e4742300730b54c
