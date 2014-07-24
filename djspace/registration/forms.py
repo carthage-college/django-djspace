@@ -35,7 +35,7 @@ class ProfessionalInformationForm(forms.ModelForm):
         super(ProfessionalInformationForm, self).__init__(*args, **kwargs)
         self.fields.pop('salutation')
         self.fields.pop('maiden')
-        self.fields.pop('additional_name')
+        self.fields.pop('additional')
         self.fields.pop('title_department')
         self.fields.pop('webpage')
         self.fields.pop('secondary')
@@ -61,7 +61,7 @@ class K12EducatorInformationForm(forms.ModelForm):
     """
     
     def __init__(self, *args, **kwargs):
-        super(ProfessionalInformationForm, self).__init__(*args, **kwargs)
+        super(K12EducatorInformationForm, self).__init__(*args, **kwargs)
         self.fields.pop('salutation')
         self.fields.pop('title')
         self.fields.pop('webpage')
