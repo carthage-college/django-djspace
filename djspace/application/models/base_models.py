@@ -53,16 +53,12 @@ class BaseFacultyAdvisor(models.Model):
         "File upload",
         upload_to=None
     )
-    
-    
-class ReducedGravityNonAdvisor(BaseFacultyAdvisor):
-    
     select = models.CharField(
         "Select team",
         max_length=30
         #NEEDS A SELECT
     )
-
+    
 
 class StudentTravel(models.Model):
     
