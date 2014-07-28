@@ -19,10 +19,12 @@ K12 Educator (CANNOT TAKE REDUCED GRAVITY FORM)
 (CANNOT TAKE STUDENT FORM)
 """
 
+    Pick one (reduced gravity, or student travel)
+
     """
     reduced gravity
     """
-    select (faculty advisor, team lead, member)
+        select (faculty advisor, team lead, member)
     
     
         """
