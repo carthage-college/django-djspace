@@ -58,7 +58,8 @@ class BaseFacultyAdvisor(models.Model):
 class ReducedGravityNonAdvisor(BaseFacultyAdvisor):
     
     select = models.CharField(
-        "Select team"
+        "Select team",
+        max_length=30
         #NEEDS A SELECT
     )
 
@@ -78,7 +79,7 @@ class StudentTravel(models.Model):
         max_length=20,
         choices=TIME_FRAME
     )
-    FILE = models.FileField(
+    FILE_travel = models.FileField(
         "File upload",
         upload_to=None
     )
