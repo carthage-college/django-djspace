@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}WSGC {{reg_type|capfirst}} Application &mdash; Carthage College{% endblock %}
+{% block extra_style %}
+<style type="text/css" media="screen, projection">
+    #second li {margin: 0;}
+    li.ctrlHolder div ul li {display:inline; padding-right:3px;}
+    .form .blockLabels label {display: inherit;}
+</style>
+{% endblock %}
+{% block left_nav %}
+    {% include "application/left_nav.html" %}
+{% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+        WSGC {{reg_type|capfirst}} Application Form
+        <span id="secondary-dropdown"></span>
+    </h1>
+{% endblock %}
+{% block content %}
+<div class="forms-container">
+    {% include "includes/generic_form.html" %}
+</div>
+{% endblock %}
+{% block sidebar %}
+    {% include "application/side_bar.html" %}
+{% endblock %}
+
