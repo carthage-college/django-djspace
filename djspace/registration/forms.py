@@ -6,7 +6,7 @@ from djspace.registration.models.undergraduate import Undergraduate
 from djspace.registration.models.graduate import Graduate
 from djspace.registration.models.professional import Professional
 from djspace.registration.models.professor import Professor
-from djspace.registration.models.k12educator import K12Educator
+from djspace.registration.models.k12educator import K12educator
 
 class UndergraduateForm(forms.ModelForm):
     """
@@ -55,13 +55,13 @@ class ProfessorForm(forms.ModelForm):
         model = Professor
 
 
-class K12EducatorForm(forms.ModelForm):
+class K12educatorForm(forms.ModelForm):
     """
     A form to collect K12 information
     """
 
     def __init__(self, *args, **kwargs):
-        super(K12EducatorForm, self).__init__(*args, **kwargs)
+        super(K12educatorForm, self).__init__(*args, **kwargs)
         self.fields.pop('salutation')
         self.fields.pop('title_department')
         self.fields.pop('webpage')
@@ -69,4 +69,4 @@ class K12EducatorForm(forms.ModelForm):
         self.fields.pop('secondary_other')
 
     class Meta:
-        model = K12Educator
+        model = K12educator
