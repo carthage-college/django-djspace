@@ -12,7 +12,26 @@ class UndergraduateForm(forms.ModelForm):
     """
     A form to collect undergraduate information
     """
-
+    def __init__(self, *args, **kwargs):
+        super(UndergraduateForm, self).__init__(*args, **kwargs)
+        self.fields.pop('salutation')
+        self.fields.pop('maiden')
+        self.fields.pop('additional')
+        self.fields.pop('title_department')
+        self.fields.pop('webpage')
+        self.fields.pop('wsgc_advisor_salutation')
+        self.fields.pop('wsgc_advisor_first')
+        self.fields.pop('wsgc_advisor_middle')
+        self.fields.pop('wsgc_advisor_last')
+        self.fields.pop('wsgc_advisor_title_department')
+        self.fields.pop('wsgc_advisor_email')
+        self.fields.pop('wsgc_advisor_confirm_email')
+        self.fields.pop('wsgc_advisor_phone')
+        self.fields.pop('highschool_street')
+        self.fields.pop('highschool_city')
+        self.fields.pop('highschool_state')
+        self.fields.pop('highschool_zip')
+        
     class Meta:
         model = Undergraduate
 
