@@ -12,6 +12,12 @@ class UndergraduateForm(forms.ModelForm):
     """
     A form to collect undergraduate information
     """
+    
+    citizen = forms.ChoiceField(
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
+    )
+    
     def __init__(self, *args, **kwargs):
         super(UndergraduateForm, self).__init__(*args, **kwargs)
         self.fields.pop('salutation')
@@ -40,6 +46,11 @@ class GraduateForm(forms.ModelForm):
     """
     A form to collect graduate information
     """
+    
+    citizen = forms.ChoiceField(
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
+    )
 
     class Meta:
         model = Graduate
@@ -49,6 +60,11 @@ class ProfessionalForm(forms.ModelForm):
     """
     A form to collect professional information
     """
+    
+    citizen = forms.ChoiceField(
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
+    )
 
     def __init__(self, *args, **kwargs):
         super(ProfessionalForm, self).__init__(*args, **kwargs)
@@ -69,6 +85,11 @@ class ProfessorForm(forms.ModelForm):
     """
     A form to collect professor information
     """
+    
+    citizen = forms.ChoiceField(
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
+    )
 
     class Meta:
         model = Professor
@@ -78,6 +99,11 @@ class K12educatorForm(forms.ModelForm):
     """
     A form to collect K12 information
     """
+    
+    citizen = forms.ChoiceField(
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
+    )
 
     def __init__(self, *args, **kwargs):
         super(K12educatorForm, self).__init__(*args, **kwargs)
