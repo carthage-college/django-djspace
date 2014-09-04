@@ -17,6 +17,10 @@ class UndergraduateForm(forms.ModelForm):
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect()
     )
+    rocket_comp = forms.ChoiceField(
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
+    )
     
     def __init__(self, *args, **kwargs):
         super(UndergraduateForm, self).__init__(*args, **kwargs)
@@ -48,6 +52,10 @@ class GraduateForm(forms.ModelForm):
     """
     
     citizen = forms.ChoiceField(
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
+    )
+    rocket_comp = forms.ChoiceField(
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect()
     )
