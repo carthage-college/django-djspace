@@ -150,7 +150,12 @@ class BasePersonal(models.Model):
         max_length=20
     )
     citizen = models.BooleanField(
-        "US Citizen"
+        '''Are you a U.S. citizen? \
+        U.S. citizenship is required \
+        for participation in WSGC programs. \
+        Non U.S. citizens are not \
+        eligible for WSGC funding.''',
+        choices=BINARY_CHOICES
     )
     rocket_comp = models.BooleanField(
         "Tribal or AISES Rocket Competition"
