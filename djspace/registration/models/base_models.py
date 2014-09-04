@@ -158,7 +158,11 @@ class BasePersonal(models.Model):
         choices=BINARY_CHOICES
     )
     rocket_comp = models.BooleanField(
-        "Tribal or AISES Rocket Competition"
+        '''Do you intend to apply for \
+        funding for the Tribal or AISES \
+        Rocket Competitions?Tribal or \
+        AISES Rocket Competition''',
+        choices=BINARY_CHOICES
     )
     maiden = models.CharField(
         "Maiden name",
