@@ -93,6 +93,33 @@ EMPLOYER = (
     ('stillsad','Still sad')
 )
 
+WSGC_SCHOOL = (
+    ('alverno','Alverno College'),
+    ('carroll','Carroll University'),
+    ('carthage','Carthage College'),
+    ('menominee','College of Menominee Nation'),
+    ('lawrence','Lawrence University'),
+    ('marquette','Marquette University'),
+    ('medicalwisconsin','Medical College of Wisconsin'),
+    ('msoe','Milwaukee School of Engineering'),
+    ('ripon','Ripon College'),
+    ('stnorbert','St. Norbert College'),
+    ('uwfoxvalley','UW Fox Valley'),
+    ('uwgreenbay','UW Green Bay'),
+    ('uwlacrosse','UW LaCrosse'),
+    ('uwmadison','UW Madison'),
+    ('uwmilwaukee','UW Milwaukee'),
+    ('uwoshkosh','UW Oshkosh'),
+    ('uwparkside','UW Parkside'),
+    ('uwplatteville','UW Platteville'),
+    ('uwriverfalls','UW River Falls'),
+    ('uwstephenspoint','UW Stevens Point'),
+    ('uwstout','UW Stout'),
+    ('uwsuperior','UW Superior'),
+    ('uwshitewater','UW Whitewater'),
+    ('westerntechnical','Western Technical College'),
+    ('wisconsinlutheran','Wisconsin Lutheran College')
+)
 
 class BasePersonal(models.Model):
 
@@ -114,10 +141,19 @@ class BasePersonal(models.Model):
         max_length=20
     )
     citizen = models.BooleanField(
-        "US Citizen"
+        '''Are you a U.S. citizen? \
+        U.S. citizenship is required \
+        for participation in WSGC programs. \
+        Non U.S. citizens are not \
+        eligible for WSGC funding.''',
+        choices=BINARY_CHOICES
     )
     rocket_comp = models.BooleanField(
-        "Tribal or AISES Rocket Competition"
+        '''Do you intend to apply for \
+        funding for the Tribal or AISES \
+        Rocket Competitions?Tribal or \
+        AISES Rocket Competition''',
+        choices=BINARY_CHOICES
     )
     maiden = models.CharField(
         "Maiden name",
@@ -248,7 +284,7 @@ class BaseWSGC(models.Model):
     
     wsgc_school = models.CharField(
         "WSGC college enrolled or applied to",
-        max_length=20
+        chocies=WSGC_SCHOOL
     )
     wsgc_school_num = models.CharField(
         "WSGC college enrolled or applied to student number",
