@@ -16,12 +16,13 @@ def form(request, reg_type):
         raise Http404
 
     #template = "registration/%s/form.html" % (reg_type),
-
+    
     return render_to_response(
         "registration/form.html",
         {"form": form,"reg_type":reg_type},
         context_instance=RequestContext(request)
     )
+
 
 def undergrad(request):
     form = UndergraduateForm()

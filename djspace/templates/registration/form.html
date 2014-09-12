@@ -2,26 +2,67 @@
 {% block title %}WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College{% endblock %}
 {% block extra_style %}
 <style type="text/css" media="screen, projection">
-    #second li {margin: 0;}
     li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     .form .blockLabels label {display: inherit;}
 </style>
+{% endblock %}
+{% block page_header %}
+    WSGC Registration
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
         WSGC {{reg_type|capfirst}} Registration Form
         <span id="secondary-dropdown"></span>
     </h1>
-    
     <script type="text/javascript">
         $(document).ready(function(){
            // 
-        });    
+        });
     </script>
 {% endblock %}
 {% block content %}
-    text
-<div class="forms-container">
-    {% include "includes/generic_form.html" %}
+<div class="forms-container large-8 medium-10 small-12">
+    {% include "includes/required_text.html" %}
+    <form method="post" action="." class="form">
+        {% csrf_token %}
+        <fieldset class="blockLabels">
+            If you would like to apply for any WSGC funding opportunity, you will need to 
+            register with WGSC using the form below. Once you are registered, you will be 
+            able to log into the WSGC website and apply for any program for which you are 
+            eligible.
+            <ol>
+                {% for field in form.visible_fields %}
+                    {% if field.name == 'first' %}
+                        <h2>Personal Information</h2>
+                        <fieldset class="blockLabels">
+                            <ol>
+                    {% endif %}    
+                    {% if field.name == 'wsgc_school' %}
+                            </ol>
+                        </fieldset>
+                        <h2>Please tell us about your college or university affiliation</h2>
+                        <fieldset class="blockLabels">
+                            <ol>
+                    {% endif %}
+                    {% if field.name == 'campus_mailing' %}
+                            </ol>
+                        </fieldset>
+                        <h2>Contact Information</h2>
+                    {% endif %}
+                    {% if field.name == 'race' %}
+                        <li class="form-group ctrlHolder">
+                            <h3 class="required">
+                                <label for="id_race_0">Race</label>
+                            </h3>
+                        {% for f in field %}
+                            {{ f }}
+                        {% endfor %}
+                    {% else %}
+                        {% include "form_field.inc.html" %}
+                    {% endif %}
+                {% endfor %}
+            </ol>
+        </fieldset>
+    </form>
 </div>
 {% endblock %}

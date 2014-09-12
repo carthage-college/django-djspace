@@ -6,6 +6,22 @@ from django.contrib.auth.models import User
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
 
+YES_NO_DECLINE = (
+    ('Yes', 'Yes'),
+    ('No', 'No'),
+    ('Decline', 'Decline to state')
+)
+
+RACES = (
+    ('American Indian/Alaska Native','American Indian/Alaska Native'),
+    ('Asian','Asian'),
+    ('Black/African American','Black/African American'),
+    ('Caucasian','Caucasian'),
+    ('Hispanic','Hispanic'),
+    ('Native Hawaiian/Other Pacific Islander','Native Hawaiian/Other Pacific Islander'),
+    ('Other','Other')
+)
+
 PROFESSION = (
     ('undergrad','Undergraduate'),
     ('graduate','Graduate'),
@@ -78,14 +94,16 @@ INTEREST = (
 
 
 UNDERGRADUATE_DEGREE = (
-    ('associate','Associates'),
-    ('bachelor','Bachelors')
+    ('bachelor','Bachelor\'s degree'),
+    ('associate','Associate\'s degree/certificate')
 )
 
 GRADUATE_DEGREE = (
-    ('master','Masters'),
-    ('doctorate','Doctorate'),
-    ('other','Other')
+    ('M.S.','M.S.'),
+    ('Ph.D','Ph.D'),
+    ('M.D.','M.D.'),
+    ('Other','Other')
+
 )
 
 EMPLOYER = (
@@ -133,8 +151,8 @@ class BasePersonal(models.Model):
         max_length=20
     )
     middle = models.CharField(
-        "Middle name",
-        max_length=20
+        "Middle initial",
+        max_length=1
     )
     last = models.CharField(
         "Last name",
@@ -151,7 +169,7 @@ class BasePersonal(models.Model):
     rocket_comp = models.BooleanField(
         '''Do you intend to apply for \
         funding for the Tribal or AISES \
-        Rocket Competitions?Tribal or \
+        Rocket Competitions? Tribal or \
         AISES Rocket Competition''',
         choices=BINARY_CHOICES
     )
@@ -216,36 +234,23 @@ class BasePersonal(models.Model):
     )
     gender = models.CharField(
         "Gender",
-        max_length=8,
+        max_length=24,
         choices=GENDER_CHOICES
     )
-    disability = models.BooleanField(
-        "Disability"
+    disability = models.CharField(
+        "Disability status",
+        max_length=16,
+        choices=YES_NO_DECLINE
     )
-    race_american = models.BooleanField(
-        "American Indian/Alaska Native"
-    )
-    race_asian = models.BooleanField(
-        "Asian"
-    )
-    race_african = models.BooleanField(
-        "Black/African American"
-    )
-    race_caucasian = models.BooleanField(
-        "Caucasian"
-    )
-    race_hispanic = models.BooleanField(
-        "Hispanic"
-    )
-    race_pacific = models.BooleanField(
-        "Native Hawaiian/Other Pacific Islander",
-    )
-    race_other = models.BooleanField(
-        "Other race"
+    race = models.CharField(
+        "Race",
+        max_length=128,
+        choices=RACES
     )
     tribe = models.CharField(
         "Tribe",
-        max_length=20
+        max_length=20,
+        blank=True
     )
   
   
@@ -284,7 +289,7 @@ class BaseWSGC(models.Model):
     
     wsgc_school = models.CharField(
         "WSGC college enrolled or applied to",
-        chocies=WSGC_SCHOOL
+        choices=WSGC_SCHOOL
     )
     wsgc_school_num = models.CharField(
         "WSGC college enrolled or applied to student number",
@@ -352,48 +357,69 @@ class BaseHighschool(models.Model):
     
 class BaseUndergrad(models.Model):
     
-    # Going to need select options later
+    # NEEDS TO BE A DROP DOWN
     major = models.CharField(
-        "Major",
+        "Primary major",
         max_length=20
     )
-    # Going to need select options later
-    major_2 = models.CharField(
-        "Major 2",
-        max_length=20
+    major_other = models.CharField(
+        "Other",
+        max_length=128,
+        blank=True
     )
-    # Going to need select options later
-    minor = models.CharField(
-        "Minor",
-        max_length=20
+    # NEEDS TO BE A DROP DOWN
+    secondary_major_minor = models.CharField(
+        "Secondary major or minor",
+        max_length=128
+    )
+    secondary_major_minor_other = models.CharField(
+        "Other",
+        max_length=128,
+        blank=True
+    )
+    student_id = models.CharField(
+        "Student ID",
+        max_length=7
     )
     gpa = models.FloatField(
         "Current cumulative GPA",
         max_length=4
     )
+    gpa_major = models.FloatField(
+        "GPA in major",
+        max_length=4
+    )
     scale = models.IntegerField(
-        "Scale",
+        "GPA scale",
         max_length=1
     )
     CREDITS = models.FloatField(
-        "Credits",
+        "Cumulative college credits",
         max_length=5
     )
     graduation = models.CharField(
-        "Expected date of graduation",
+        "Expected month and year of graduation",
         max_length=10
     )
-
+    degree = models.CharField(
+        "Degree you are seeking",
+        max_length=20,
+        choices=UNDERGRADUATE_DEGREE
+    )
+    campus_mailing = models.CharField(
+        "Campus mailing address",
+        max_length=128
+    )
 
 class BaseCollege(models.Model):
     
     university_street = models.CharField(
         "University street",
-        max_length=20
+        max_length=128
     )
     university_city = models.CharField(
         "University city",
-        max_length=20
+        max_length=128
     )
     university_state = models.CharField(
         "University state",
@@ -405,7 +431,7 @@ class BaseCollege(models.Model):
         max_length=9
     )
     undergraduate_degree = models.CharField(
-        "University degree",
+        "Degree you are seeking",
         max_length=20,
         choices=UNDERGRADUATE_DEGREE
     )

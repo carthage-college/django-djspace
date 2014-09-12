@@ -7,6 +7,16 @@ from djspace.registration.models.base_models import *
 
 class Graduate(BasePersonal, BaseWSGC, BaseUndergrad, BaseCollege):
 
+    degree_program = models.CharField(
+        "What degree program are you enrolled in?",
+        max_length=128,
+        choices=GRADUATE_DEGREE
+    )
+    degree_program_other = models.CharField(
+        "Other",
+        max_length=128,
+        blank=True
+    )
     undergraduate_honors = models.CharField(
         "Undergraduate honors",
         max_length=20
