@@ -7,20 +7,20 @@
     .form .blockLabels label {display: inherit;}
 </style>
 {% endblock %}
-{% block left_nav %}
-    {% include "registration/left_nav.html" %}
-{% endblock %}
 {% block content_head %}
     <h1 id="page_title">
         WSGC {{reg_type|capfirst}} Registration Form
         <span id="secondary-dropdown"></span>
     </h1>
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+           // 
+        });    
+    </script>
 {% endblock %}
 {% block content %}
 <div class="forms-container">
     {% include "includes/generic_form.html" %}
 </div>
-{% endblock %}
-{% block sidebar %}
-    {% include "registration/side_bar.html" %}
 {% endblock %}

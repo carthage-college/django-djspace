@@ -76,15 +76,6 @@ INTEREST = (
     ('zoology','Zoology')
 )
 
-RACE = (
-    ('americanindianalaskanative','American Indian/Alaska Native'),
-    ('asian','Asian'),
-    ('blackafricanamerican','Black/African American'),
-    ('caucasian','Caucasian'),
-    ('hispanic','Hispanic'),
-    ('nativehawaiianotherpacificislander','Native Hawaiian/Other Pacific Islander'),
-    ('otherrace','Other race')
-)
 
 UNDERGRADUATE_DEGREE = (
     ('associate','Associates'),
@@ -190,15 +181,31 @@ class BasePersonal(models.Model):
     gender = models.CharField(
         "Gender",
         max_length=8,
-    choices=GENDER_CHOICES
+        choices=GENDER_CHOICES
     )
     disability = models.BooleanField(
         "Disability"
     )
-    race = models.CharField(
-        "Race",
-        max_length=25,
-        choices=RACE
+    race_american = models.BooleanField(
+        "American Indian/Alaska Native"
+    )
+    race_asian = models.BooleanField(
+        "Asian"
+    )
+    race_african = models.BooleanField(
+        "Black/African American"
+    )
+    race_caucasian = models.BooleanField(
+        "Caucasian"
+    )
+    race_hispanic = models.BooleanField(
+        "Hispanic"
+    )
+    race_pacific = models.BooleanField(
+        "Native Hawaiian/Other Pacific Islander",
+    )
+    race_other = models.BooleanField(
+        "Other race"
     )
     tribe = models.CharField(
         "Tribe",
@@ -336,9 +343,9 @@ class BaseUndergrad(models.Model):
         "Credits",
         max_length=5
     )
-    graduation = models.DateField(
+    graduation = models.CharField(
         "Expected date of graduation",
-        auto_now=False
+        max_length=10
     )
 
 

@@ -12,9 +12,23 @@ class UndergraduateForm(forms.ModelForm):
     """
     A form to collect undergraduate information
     """
-
+    
     class Meta:
         model = Undergraduate
+        widgets = {
+            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),            
+            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
+            'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'}),
+            #wsgc
+            'wsgc_advisor_phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
+            #highschool
+            'gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
+            'CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
+            #college
+            'gpa_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
+            'year_in_school': forms.TextInput(attrs={'placeholder': 'eg. 2015'})
+        }
 
 
 class GraduateForm(forms.ModelForm):
@@ -24,6 +38,20 @@ class GraduateForm(forms.ModelForm):
 
     class Meta:
         model = Graduate
+        widgets = {
+            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),            
+            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
+            'graduation': forms.TextInput(attrs={'placeholder': '05-15-2014'}),
+            #wsgc
+            'wsgc_advisor_phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
+            #college
+            'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
+            'graduate_gpa_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
+            'graduate_CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
+            'graduate_year_in_school': forms.TextInput(attrs={'placeholder': 'eg. 2015'}),
+            'graduate_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'})
+        }
 
 
 class ProfessionalForm(forms.ModelForm):
@@ -44,6 +72,12 @@ class ProfessionalForm(forms.ModelForm):
 
     class Meta:
         model = Professional
+        widgets = {
+            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),            
+            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
+            'graduation': forms.TextInput(attrs={'placeholder': '05-15-2014'})
+        }
 
 
 class ProfessorForm(forms.ModelForm):
@@ -53,6 +87,12 @@ class ProfessorForm(forms.ModelForm):
 
     class Meta:
         model = Professor
+        widgets = {
+            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),            
+            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
+            'graduation': forms.TextInput(attrs={'placeholder': '05-15-2014'})
+        }
 
 
 class K12EducatorForm(forms.ModelForm):
@@ -70,3 +110,9 @@ class K12EducatorForm(forms.ModelForm):
 
     class Meta:
         model = K12Educator
+        widgets = {
+            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),            
+            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
+            'graduation': forms.TextInput(attrs={'placeholder': '05-15-2014'})
+        }
