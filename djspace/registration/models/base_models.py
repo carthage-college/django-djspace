@@ -94,8 +94,8 @@ INTEREST = (
 
 
 UNDERGRADUATE_DEGREE = (
-    ('bachelor','Bachelor\'s degree'),
-    ('associate','Associate\'s degree/certificate')
+    ("bachelor","Bachelor's degree"),
+    ("associate","Associate's degree/certificate")
 )
 
 GRADUATE_DEGREE = (
@@ -159,17 +159,17 @@ class BasePersonal(models.Model):
         max_length=20
     )
     citizen = models.BooleanField(
-        '''Are you a U.S. citizen? \
-        U.S. citizenship is required \
-        for participation in WSGC programs. \
-        Non U.S. citizens are not \
+        '''Are you a U.S. citizen?
+        U.S. citizenship is required
+        for participation in WSGC programs.
+        Non U.S. citizens are not
         eligible for WSGC funding.''',
         choices=BINARY_CHOICES
     )
     rocket_comp = models.BooleanField(
-        '''Do you intend to apply for \
-        funding for the Tribal or AISES \
-        Rocket Competitions? Tribal or \
+        '''Do you intend to apply for
+        funding for the Tribal or AISES
+        Rocket Competitions? Tribal or
         AISES Rocket Competition''',
         choices=BINARY_CHOICES
     )
@@ -252,8 +252,8 @@ class BasePersonal(models.Model):
         max_length=20,
         blank=True
     )
-  
-  
+
+
 class BaseEmployer(models.Model):
 
     employer = models.CharField(

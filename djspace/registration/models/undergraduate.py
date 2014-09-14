@@ -7,7 +7,7 @@ from djspace.registration.models.base_models import *
 
 class Undergraduate(BasePersonal, BaseWSGC, BaseHighschool, BaseUndergrad):
 
-    pass    
+    pass
     #undergraduate_concentration = models.CharField(
     #    "Area of Undergraduate Concentration in a Space, Aerospace, or Space-Related Field",
     #    max_length=20

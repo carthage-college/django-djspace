@@ -16,13 +16,6 @@ urlpatterns = patterns('',
     url(
         r'^registration/', include("djspace.registration.urls")
     ),
-    # direct to template
-    url(
-        r'^success/$',
-        TemplateView.as_view(
-            template_name="registration/success.html"
-        )
-    ),
     # redirect
     url(
         r'^$', RedirectView.as_view(url="/foobar/")
