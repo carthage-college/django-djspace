@@ -22,7 +22,7 @@ class UndergraduateForm(forms.ModelForm):
     birthdate = forms.DateField(
         label = "Birth date",
         widget=forms.TextInput(attrs={'placeholder': 'Format: 10/31/1993'})
-    ),
+    )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES, widget = forms.RadioSelect()
     )
@@ -42,21 +42,27 @@ class UndergraduateForm(forms.ModelForm):
 
     class Meta:
         model = Undergraduate
-        exclude = (
+        fields = ['first','middle','last','citizen','rocket_comp','birthdate','gender',
+                  'disability','race','tribe','wsgc_school','major','major_other',
+                  'secondary_major_minor','secondary_major_minor_other','student_id',
+                  'gpa','gpa_major','scale', 'CREDITS', 'graduation', 'degree',
+                  'highschool_name', 'highschool_city', 'highschool_state',
+                  'address', 'street', 'city', 'state', 'ZIP', 'phone', 'email']
+        '''exclude = (
             'salutation', 'maiden', 'additional', 'title_department',
-            'webpage', 'street', 'city', 'state', 'ZIP', 'phone',
+            'webpage',
             'primary', 'primary_other', 'secondary', 'secondary_other',
             'wsgc_school_num', 'wsgc_advisor_salutation', 'wsgc_advisor_first',
             'wsgc_advisor_middle', 'wsgc_advisor_last',
             'wsgc_advisor_title_department', 'wsgc_advisor_email',
             'wsgc_advisor_confirm_email', 'wsgc_advisor_phone',
-            'highschool_zip'
-        )
+            'highschool_zip', 'degree',
+        )'''
         widgets = {
             'citizen': forms.RadioSelect(),
             'rocket_comp': forms.RadioSelect(),
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
-            'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'}),
+            'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2014'}),
             #wsgc
             'wsgc_advisor_phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
             #highschool

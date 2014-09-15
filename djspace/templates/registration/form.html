@@ -51,10 +51,13 @@
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}
-            {% if field.name == 'campus_mailing' %}
+            <text>name: test</text>
+            {% if field.name == 'address' %}
                     </ol>
                 </fieldset>
                 <h2>Contact Information</h2>
+                <fieldset class="blockLabels">
+                    <ol>
             {% endif %}
             {% if field.name == 'race' %}
                 <li class="form-group ctrlHolder">
@@ -70,6 +73,8 @@
                 {% include "form_field.inc.html" %}
             {% endif %}
         {% endfor %}
+                    </ol>
+                </fieldset>
     </form>
 </div>
 {% endblock %}

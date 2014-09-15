@@ -189,22 +189,30 @@ class BasePersonal(models.Model):
         "Web page",
         max_length=20
     )
+    address = models.CharField(
+        "Mailing address",
+        max_length=128
+    )
     street = models.CharField(
         "Street",
-        max_length=20
+        max_length=128,
+        blank=True
     )
     city = models.CharField(
         "City",
-        max_length=20
+        max_length=128,
+        blank=True
     )
     state = models.CharField(
         "State",
         max_length=2,
-        choices=STATE_CHOICES
+        choices=STATE_CHOICES,
+        blank=True
     )
     ZIP = models.CharField(
         "Zip code",
-        max_length=9
+        max_length=9,
+        blank=True
     )
     phone = models.CharField(
         "Phone number",
@@ -214,6 +222,9 @@ class BasePersonal(models.Model):
         "Primary interest",
         max_length=35,
         choices=INTEREST
+    )
+    email = models.EmailField(
+        "Email"
     )
     primary_other = models.CharField(
         "Other",
@@ -228,10 +239,10 @@ class BasePersonal(models.Model):
         "Other",
         max_length=35
     )
-    birthdate = models.DateField(
-        "Birthdate",
-        auto_now=False
-    )
+    #birthdate = models.DateField(
+    #    "Birthdate",
+    #    auto_now=False
+    #)
     gender = models.CharField(
         "Gender",
         max_length=24,
@@ -401,11 +412,11 @@ class BaseUndergrad(models.Model):
         "Expected month and year of graduation",
         max_length=10
     )
-    degree = models.CharField(
-        "Degree you are seeking",
-        max_length=20,
-        choices=UNDERGRADUATE_DEGREE
-    )
+    #degree = models.CharField(
+    #   "Degree you are seeking",
+    #    max_length=20,
+    #    choices=UNDERGRADUATE_DEGREE
+    #)
     campus_mailing = models.CharField(
         "Campus mailing address",
         max_length=128
