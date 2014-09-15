@@ -103,7 +103,6 @@ GRADUATE_DEGREE = (
     ('Ph.D','Ph.D'),
     ('M.D.','M.D.'),
     ('Other','Other')
-
 )
 
 EMPLOYER = (
@@ -148,7 +147,7 @@ class BasePersonal(models.Model):
     )
     first = models.CharField(
         "First name",
-        max_length=20
+        max_length=128
     )
     middle = models.CharField(
         "Middle initial",
@@ -156,7 +155,7 @@ class BasePersonal(models.Model):
     )
     last = models.CharField(
         "Last name",
-        max_length=20
+        max_length=128
     )
     citizen = models.BooleanField(
         '''Are you a U.S. citizen?
@@ -181,9 +180,13 @@ class BasePersonal(models.Model):
         "Additional name",
         max_length=20
     )
-    title_department = models.CharField(
+    department_program = models.CharField(
         "Title or Department",
-        max_length=20
+        max_length=128
+    )
+    title = models.CharField(
+        "Title (eg. Assistant Prof, Assoc. Prof, Prof.)?",
+        max_length=128
     )
     webpage = models.CharField(
         "Web page",

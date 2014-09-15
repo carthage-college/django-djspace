@@ -5,8 +5,11 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
-class Professor(BasePersonal, BaseEmployer):
+class Faculty(BasePersonal, BaseEmployer):
     
+    campus_email = models.EmailField(
+        "Campus email address"
+    )
     graduate_first = models.CharField(
         "First of your sibilings to graduate from college",
         max_length=6,

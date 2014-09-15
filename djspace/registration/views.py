@@ -29,7 +29,7 @@ def undergrad(request):
 
     return render_to_response(
         "registration/form.html",
-        {"form": form,},
+        {"form": form,"reg_type":"Undergraduate"},
         context_instance=RequestContext(request)
     )
 
@@ -38,7 +38,7 @@ def graduate(request):
 
     return render_to_response(
         "registration/form.html",
-        {"form": form,},
+        {"form": form,"reg_type":"Graduate"},
         context_instance=RequestContext(request)
     )
 
@@ -52,11 +52,11 @@ def professional(request):
     )
 
 def professor(request):
-    form = ProfessorForm()
+    form = FacultyForm()
 
     return render_to_response(
-        "registration/form.html",
-        {"form": form,},
+        "registration/faculty_form.html",
+        {"form": form,"reg_type":"Faculty"},
         context_instance=RequestContext(request)
     )
 

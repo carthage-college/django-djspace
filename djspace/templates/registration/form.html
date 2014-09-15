@@ -8,7 +8,7 @@
     .form .blockLabels label {display: inherit;}
 </style>
 {% endblock %}
-{% block extra_javascript %}
+{% block extra_javascript %}    
     <script type="text/javascript">
         $(document).ready(function(){
            //
@@ -22,7 +22,7 @@
     <h1 id="page_title">
         WSGC {{reg_type|capfirst}} Registration Form
         <span id="secondary-dropdown"></span>
-    </h1>
+    </h1>    
 {% endblock %}
 {% block content %}
 <div class="forms-container large-8 medium-10 small-12">
@@ -51,11 +51,12 @@
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}
-            <text>name: test</text>
             {% if field.name == 'address' %}
                     </ol>
                 </fieldset>
-                <h2>Contact Information</h2>
+                <h2>
+                    Contact Information
+                </h2>
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}

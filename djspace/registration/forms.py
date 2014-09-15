@@ -5,7 +5,7 @@ from django import forms
 from djspace.registration.models.undergraduate import Undergraduate
 from djspace.registration.models.graduate import Graduate
 from djspace.registration.models.professional import Professional
-from djspace.registration.models.professor import Professor
+from djspace.registration.models.professor import Faculty
 from djspace.registration.models.k12educator import K12Educator
 from djspace.registration.models.base_models import YES_NO_DECLINE, RACES
 from djspace.registration.models.base_models import UNDERGRADUATE_DEGREE
@@ -80,9 +80,29 @@ class GraduateForm(forms.ModelForm):
     A form to collect graduate information
     """
 
+    birthdate = forms.DateField(
+        label = "Birth date",
+        widget=forms.TextInput(attrs={'placeholder': 'Format: 10/31/1993'})
+    )
+    gender = forms.TypedChoiceField(
+        choices = GENDER_CHOICES, widget = forms.RadioSelect()
+    )
+    disability = forms.TypedChoiceField(
+        choices = YES_NO_DECLINE, widget = forms.RadioSelect()
+    )
+    race = forms.MultipleChoiceField(
+        help_text = 'Check all that apply',
+        choices = RACES, widget = forms.CheckboxSelectMultiple()
+    )
+    
     class Meta:
         model = Graduate
-        exclude = (
+        fields = ['first', 'middle', 'last', 'citizen', 'birthdate', 'gender',
+                  'disability', 'race', 'tribe', 'wsgc_school', 'degree_program',
+                  'degree_program_other', 'concentration_area', 'graduate_gpa',
+                  'graduate_scale', 'graduate_graduation_year', 'address',
+                  'street', 'city', 'state', 'ZIP', 'phone', 'email']
+        '''exclude = (
             'salutation', 'rocket_comp', 'maiden', 'additional',
             'title_department', 'webpage', 'street', 'city', 'state',
             'ZIP', 'primary', 'primary_other', 'secondary', 'secondary_other',
@@ -90,8 +110,9 @@ class GraduateForm(forms.ModelForm):
             'wsgc_advisor_middle', 'wsgc_advisor_last',
             'wsgc_advisor_title_department', 'wsgc_advisor_email',
             'wsgc_advisor_confirm_email'
-        )
+        )'''
         widgets = {
+            'citizen': forms.RadioSelect(),
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
             'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
             'race': forms.CheckboxSelectMultiple(attrs={'label':'Check all that apply'}),
@@ -100,6 +121,7 @@ class GraduateForm(forms.ModelForm):
             #wsgc
             'wsgc_advisor_phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
             #college
+            'degree_program': forms.RadioSelect(),
             'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_gpa_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
@@ -107,6 +129,16 @@ class GraduateForm(forms.ModelForm):
             'graduate_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'})
         }
 
+    def clean(self):
+        cleaned_data = super(GraduateForm, self).clean()
+        degree_program = cleaned_data.get("degree_program")
+        degree_program_other = cleaned_data.get("degree_program_other")
+        
+        if degree_program == "Other":
+            if degree_program_other == "":
+                self._errors["degree_program_other"] = self.error_class(["Required field."])
+                
+        return cleaned_data
 
 class ProfessionalForm(forms.ModelForm):
     """
@@ -127,13 +159,27 @@ class ProfessionalForm(forms.ModelForm):
         }
 
 
-class ProfessorForm(forms.ModelForm):
+class FacultyForm(forms.ModelForm):
     """
-    A form to collect professor information
+    A form to collect faculty information
     """
+    
+    gender = forms.TypedChoiceField(
+        choices = GENDER_CHOICES, widget = forms.RadioSelect()
+    )
+    disability = forms.TypedChoiceField(
+        choices = YES_NO_DECLINE, widget = forms.RadioSelect()
+    )
+    race = forms.MultipleChoiceField(
+        help_text = 'Check all that apply',
+        choices = RACES, widget = forms.CheckboxSelectMultiple()
+    )
 
     class Meta:
-        model = Professor
+        model = Faculty
+        fields = ['salutation', 'first', 'middle', 'last', 'gender', 'disability',
+                  'race', 'tribe', 'citizen', 'department_program', 'title',
+                  'webpage', 'campus_email']
         widgets = {
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
             'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),

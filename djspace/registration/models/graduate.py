@@ -17,6 +17,10 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad, BaseCollege):
         max_length=128,
         blank=True
     )
+    concentration_area = models.CharField(
+        "Concentration area (eg. physics, astronomy, physiology, etc.)?",
+        max_length=128
+    )
     undergraduate_honors = models.CharField(
         "Undergraduate honors",
         max_length=20
@@ -69,7 +73,7 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad, BaseCollege):
         max_length=4
     )
     graduate_scale = models.IntegerField(
-        "Scale",
+        "GPA Scale",
         max_length=1
     )
     graduate_CREDITS = models.FloatField(
@@ -80,7 +84,7 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad, BaseCollege):
         "Year in school as of next fall",
         max_length=4
     )
-    graduate_graduation = models.DateField(
-        "Expected date of graduation",
-        auto_now=False
+    graduate_graduation_year = models.IntegerField(
+        "Anticipated graduation year",
+        max_length=4
     )
