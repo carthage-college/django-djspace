@@ -10,7 +10,7 @@ from djspace.registration.models.k12educator import K12Educator
 from djspace.registration.models.base_models import YES_NO_DECLINE, RACES
 from djspace.registration.models.base_models import UNDERGRADUATE_DEGREE
 
-from djtools.fields import GENDER_CHOICES, BINARY_CHOICES
+from djtools.fields import GENDER_CHOICES, BINARY_CHOICES, SALUTATION_TITLES
 
 from localflavor.us.forms import USPhoneNumberField
 
@@ -37,7 +37,8 @@ class UndergraduateForm(forms.ModelForm):
     )
     race = forms.MultipleChoiceField(
         help_text = 'Check all that apply',
-        choices = RACES, widget = forms.CheckboxSelectMultiple()
+        choices = RACES,
+        widget = forms.CheckboxSelectMultiple()
     )
     degree = forms.TypedChoiceField(
         choices = UNDERGRADUATE_DEGREE, widget = forms.RadioSelect()
@@ -183,8 +184,11 @@ class ProfessionalForm(forms.ModelForm):
 
     class Meta:
         model = Professional
-        fields = ['first', 'middle', 'last', 'citizen', 'birthdate',
-                  'gender','disability','race', 'wsgc_affiliate', 'phone', 'email']
+        fields = [
+            'first', 'middle', 'last', 'citizen', 'birthdate',
+            'gender','disability','race', 'wsgc_affiliate',
+            'phone', 'email'
+        ]
         exclude = (
             'salutation', 'maiden', 'additional', 'title_department',
             'webpage', 'secondary', 'secondary_other', 'tribe'
@@ -202,7 +206,10 @@ class FacultyForm(forms.ModelForm):
     """
     A form to collect faculty information
     """
-
+    salutation = forms.CharField(
+        widget=forms.Select(choices=SALUTATION_TITLES),
+        required=False
+    )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES, widget = forms.RadioSelect()
     )
@@ -220,7 +227,8 @@ class FacultyForm(forms.ModelForm):
 
     class Meta:
         model = Faculty
-        fields = ['salutation', 'first', 'middle', 'last', 'gender', 'disability',
+        fields = [
+            'salutation', 'first', 'middle', 'last', 'gender', 'disability',
             'race', 'tribe', 'citizen', 'department_program', 'title',
             'webpage', 'campus_email', 'address_1', 'address_2', 'city',
             'state', 'postal_code', 'campus_phone'

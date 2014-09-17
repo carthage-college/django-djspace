@@ -2,19 +2,22 @@
 {% block title %}
     WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
-{% block extra_style %}
-<style type="text/css" media="screen, projection">
-    li.ctrlHolder div ul li {display:inline; padding-right:3px;}
-    .form .blockLabels label {display: inherit;}
-</style>
-{% endblock %}
 {% block extra_javascript %}
     <script type="text/javascript">
         $(document).ready(function(){
-           //
+            $('label[for="id_citizen_0"]').closest('ul').addClass('linline');
+            $('label[for="id_disability_0"]').closest('ul').addClass('linline');
+            $('label[for="id_gender_0"]').closest('ul').addClass('linline');
+            $('label[for="id_rocket_comp_0"]').closest('ul').addClass('linline');
         });
     </script>
 {% endblock %}
+{% block extra_style %}
+<style type="text/css" media="screen, projection">
+    .linline li {display:inline; padding-right:3px;}
+</style>
+{% endblock %}
+
 {% block extra_body %}
 class="carthage-page generic-subpage spacegrant"
 id="djforms"
@@ -76,23 +79,7 @@ id="djforms"
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}
-            {% if field.name == 'race' %}
-                <li class="form-group ctrlHolder">
-                    <h3 class="required">
-                        <label for="id_race_0">Race</label>
-                    </h3>
-                    {% if field.errors %}
-                    <div class="required warning">
-                        <span class="error-message">{{ field.errors|join:", "}}</span>
-                    {% endif %}
-                    <p class="help">{{field.help_text}}</p>
-                    {% for f in field %}
-                        {{ f }}
-                    {% endfor %}
-                </li>
-            {% else %}
-                {% include "form_field.inc.html" %}
-            {% endif %}
+            {% include "form_field.inc.html" %}
         {% endfor %}
             </ol>
         </fieldset>

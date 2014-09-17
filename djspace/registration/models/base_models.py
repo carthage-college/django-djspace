@@ -13,11 +13,6 @@ YES_NO_DECLINE = (
     ('Decline', 'Decline to state')
 )
 
-YES_NO = (
-    ('Yes', 'Yes'),
-    ('No', 'No')
-)
-
 RACES = (
     ('American Indian/Alaska Native','American Indian/Alaska Native'),
     ('Asian','Asian'),
@@ -29,11 +24,11 @@ RACES = (
 )
 
 PROFESSION = (
-    ('undergrad','Undergraduate'),
-    ('graduate','Graduate'),
-    ('professional','Professional'),
-    ('professor','Professor'),
-    ('k12educator','K12 Educator'),
+    ('Undergrad','Undergraduate'),
+    ('Graduate','Graduate'),
+    ('Professional','Professional'),
+    ('Professor','Professor'),
+    ('K12 Educator','K12 Educator'),
 )
 
 INTEREST = (
@@ -100,8 +95,8 @@ INTEREST = (
 
 
 UNDERGRADUATE_DEGREE = (
-    ("bachelor","Bachelor's degree"),
-    ("associate","Associate's degree/certificate")
+    ("Bachelor's degree","Bachelor's degree"),
+    ("Associate's degree/certificate","Associate's degree/certificate")
 )
 
 GRADUATE_DEGREE = (
@@ -165,7 +160,7 @@ class BasePersonal(models.Model):
     salutation = models.CharField(
         "Salutation",
         max_length=10,
-        choices=SALUTATION_TITLES
+        null=True, blank=True
     )
     first = models.CharField(
         "First name",
@@ -185,7 +180,7 @@ class BasePersonal(models.Model):
         for participation in WSGC programs.
         Non U.S. citizens are not
         eligible for WSGC funding.''',
-        choices=YES_NO,
+        choices=BINARY_CHOICES,
         max_length=4
     )
     rocket_comp = models.CharField(
@@ -193,7 +188,7 @@ class BasePersonal(models.Model):
         funding for the Tribal or AISES
         Rocket Competitions? Tribal or
         AISES Rocket Competition''',
-        choices=YES_NO,
+        choices=BINARY_CHOICES,
         max_length=4
     )
     maiden = models.CharField(
@@ -324,9 +319,9 @@ class BaseEmployer(models.Model):
 
 
 class BaseWSGC(models.Model):
-    
+
     wsgc_school = models.CharField(
-        "WSGC college enrolled or applied to",
+        "WSGC College or University applied to",
         choices=WSGC_SCHOOL,
         max_length=128
     )
@@ -365,35 +360,35 @@ class BaseWSGC(models.Model):
         "Phone number",
         max_length=16
     )
-    
-    
+
+
 class BaseHighschool(models.Model):
-    
+
     highschool_name = models.CharField(
-        "Highschool name",
+        "High school name",
         max_length=128
     )
     highschool_street = models.CharField(
-        "Highschool street",
+        "High school street",
         max_length=128
     )
     highschool_city = models.CharField(
-        "Highschool city",
+        "High school city",
         max_length=128
     )
     highschool_state = models.CharField(
-        "Highschool state",
+        "High school state",
         max_length=2,
         choices=STATE_CHOICES
     )
     highschool_postal_code = models.CharField(
-        "Highschool zip code",
+        "High school zip code",
         max_length=9
     )
-    
-    
+
+
 class BaseUndergrad(models.Model):
-    
+
     # NEEDS TO BE A DROP DOWN
     major = models.CharField(
         "Primary major",

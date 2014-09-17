@@ -25,7 +25,7 @@ def form(request, reg_type):
 
 
 def undergrad(request):
-    
+
     if request.method == 'POST':
         form = UndergraduateForm(request.POST)
         if form.is_valid():
@@ -36,7 +36,7 @@ def undergrad(request):
                 "registration/form.html",
                 {"form": form,"reg_type":"Undergraduate"},
                 context_instance=RequestContext(request)
-            )        
+            )
     else:
         form = UndergraduateForm()
     return render_to_response(
@@ -44,7 +44,7 @@ def undergrad(request):
         {'form': form,"reg_type":"Undergraduate"},
         context_instance=RequestContext(request)
     )
-    
+
 
 def graduate(request):
 
@@ -58,7 +58,7 @@ def graduate(request):
                 "registration/form.html",
                 {"form": form,"reg_type":"Graduate"},
                 context_instance=RequestContext(request)
-            )        
+            )
     else:
         form = GraduateForm()
     return render_to_response(
@@ -80,7 +80,7 @@ def professional(request):
                 "registration/form.html",
                 {"form": form,"reg_type":"Professional"},
                 context_instance=RequestContext(request)
-            )        
+            )
     else:
         form = ProfessionalForm()
     return render_to_response(
@@ -91,7 +91,7 @@ def professional(request):
 
 
 def professor(request):
-    
+
     if request.method == 'POST':
         form = FacultyForm(request.POST)
         if form.is_valid():
@@ -102,7 +102,7 @@ def professor(request):
                 "registration/faculty_form.html",
                 {"form": form,"reg_type":"Faculty"},
                 context_instance=RequestContext(request)
-            )        
+            )
     else:
         form = FacultyForm()
     return render_to_response(
