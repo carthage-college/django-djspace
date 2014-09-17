@@ -7,5 +7,9 @@ from djspace.registration.models.base_models import *
 
 class Professional(BasePersonal, BaseEmployer):
     
-    pass
+    wsgc_affiliate = models.CharField(
+        "WSGC Affiliate",
+        max_length=128,
+        choices=WSGC_AFFILIATE
+    )
 

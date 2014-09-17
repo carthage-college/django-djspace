@@ -10,7 +10,7 @@ from djspace.registration.models.k12educator import K12Educator
 from djspace.registration.models.base_models import YES_NO_DECLINE, RACES
 from djspace.registration.models.base_models import UNDERGRADUATE_DEGREE
 
-from djtools.fields import GENDER_CHOICES
+from djtools.fields import GENDER_CHOICES, BINARY_CHOICES
 
 from localflavor.us.forms import USPhoneNumberField
 
@@ -21,7 +21,13 @@ class UndergraduateForm(forms.ModelForm):
 
     birthdate = forms.DateField(
         label = "Birth date",
-        widget=forms.TextInput(attrs={'placeholder': 'Format: 10/31/1993'})
+        widget=forms.TextInput(attrs={'placeholder': 'Format: 05/30/1993'})
+    )
+    citizen = forms.TypedChoiceField(
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    rocket_comp = forms.TypedChoiceField(
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES, widget = forms.RadioSelect()
@@ -42,12 +48,16 @@ class UndergraduateForm(forms.ModelForm):
 
     class Meta:
         model = Undergraduate
-        fields = ['first','middle','last','citizen','rocket_comp','birthdate','gender',
-                  'disability','race','tribe','wsgc_school','major','major_other',
-                  'secondary_major_minor','secondary_major_minor_other','student_id',
-                  'gpa','gpa_major','scale', 'CREDITS', 'graduation', 'degree',
-                  'highschool_name', 'highschool_city', 'highschool_state',
-                  'address', 'street', 'city', 'state', 'ZIP', 'phone', 'email']
+        fields = [
+            'first','middle','last','citizen','rocket_comp','birthdate',
+            'gender', 'disability','race','tribe','wsgc_school','major',
+            'major_other', 'secondary_major_minor',
+            'secondary_major_minor_other','student_id', 'gpa',
+            'gpa_major','scale', 'CREDITS', 'graduation', 'degree',
+            'highschool_name', 'highschool_city', 'highschool_state',
+            'address', 'street', 'city', 'state', 'postal_code', 'phone',
+            'email'
+        ]
         '''exclude = (
             'salutation', 'maiden', 'additional', 'title_department',
             'webpage',
@@ -56,11 +66,9 @@ class UndergraduateForm(forms.ModelForm):
             'wsgc_advisor_middle', 'wsgc_advisor_last',
             'wsgc_advisor_title_department', 'wsgc_advisor_email',
             'wsgc_advisor_confirm_email', 'wsgc_advisor_phone',
-            'highschool_zip', 'degree',
+            'highschool_postal_code', 'degree',
         )'''
         widgets = {
-            'citizen': forms.RadioSelect(),
-            'rocket_comp': forms.RadioSelect(),
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
             'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2014'}),
             #wsgc
@@ -69,10 +77,20 @@ class UndergraduateForm(forms.ModelForm):
             'gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
             #college
+            'scale': forms.TextInput(attrs={'placeholder': 'eg. 4'}),
             'gpa_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/15'}),
             'year_in_school': forms.TextInput(attrs={'placeholder': 'eg. 2015'})
         }
+
+    def clean(self):
+        cleaned_data = super(UndergraduateForm, self).clean()
+        citizen = cleaned_data.get("citizen")
+
+        if citizen == "No":
+            self._errors["citizen"] = self.error_class(["Must be Yes."])
+
+        return cleaned_data
 
 
 class GraduateForm(forms.ModelForm):
@@ -82,7 +100,7 @@ class GraduateForm(forms.ModelForm):
 
     birthdate = forms.DateField(
         label = "Birth date",
-        widget=forms.TextInput(attrs={'placeholder': 'Format: 10/31/1993'})
+        widget=forms.TextInput(attrs={'placeholder': 'Format: 05/30/1993'})
     )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES, widget = forms.RadioSelect()
@@ -97,15 +115,17 @@ class GraduateForm(forms.ModelForm):
     
     class Meta:
         model = Graduate
-        fields = ['first', 'middle', 'last', 'citizen', 'birthdate', 'gender',
-                  'disability', 'race', 'tribe', 'wsgc_school', 'degree_program',
-                  'degree_program_other', 'concentration_area', 'graduate_gpa',
-                  'graduate_scale', 'graduate_graduation_year', 'address',
-                  'street', 'city', 'state', 'ZIP', 'phone', 'email']
+        fields = [
+            'first', 'middle', 'last', 'citizen', 'birthdate', 'gender',
+            'disability', 'race', 'tribe', 'wsgc_school', 'degree_program',
+            'degree_program_other', 'concentration_area', 'graduate_gpa',
+            'graduate_scale', 'graduate_graduation_year', 'address',
+            'street', 'city', 'state', 'postal_code', 'phone', 'email'
+        ]
         '''exclude = (
             'salutation', 'rocket_comp', 'maiden', 'additional',
             'title_department', 'webpage', 'street', 'city', 'state',
-            'ZIP', 'primary', 'primary_other', 'secondary', 'secondary_other',
+            'postal_code', 'primary', 'primary_other', 'secondary', 'secondary_other',
             'wsgc_school_num', 'wsgc_advisor_salutation', 'wsgc_advisor_first',
             'wsgc_advisor_middle', 'wsgc_advisor_last',
             'wsgc_advisor_title_department', 'wsgc_advisor_email',
@@ -125,6 +145,7 @@ class GraduateForm(forms.ModelForm):
             'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_gpa_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
+            'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4'}),
             'graduate_year_in_school': forms.TextInput(attrs={'placeholder': 'eg. 2015'}),
             'graduate_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'})
         }
@@ -144,26 +165,11 @@ class ProfessionalForm(forms.ModelForm):
     """
     A form to collect professional information
     """
-
-    class Meta:
-        model = Professional
-        exclude = (
-            'salutation', 'maiden', 'additional', 'title_department',
-            'webpage', 'secondary', 'secondary_other', 'tribe'
-        )
-        widgets = {
-            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
-            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
-            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
-            'graduation': forms.TextInput(attrs={'placeholder': '05-15-2014'})
-        }
-
-
-class FacultyForm(forms.ModelForm):
-    """
-    A form to collect faculty information
-    """
     
+    birthdate = forms.DateField(
+        label = "Birth date",
+        widget=forms.TextInput(attrs={'placeholder': 'Format: 05/30/1993'})
+    )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES, widget = forms.RadioSelect()
     )
@@ -176,11 +182,51 @@ class FacultyForm(forms.ModelForm):
     )
 
     class Meta:
+        model = Professional
+        fields = ['first', 'middle', 'last', 'citizen', 'birthdate',
+                  'gender','disability','race', 'wsgc_affiliate', 'phone', 'email']
+        exclude = (
+            'salutation', 'maiden', 'additional', 'title_department',
+            'webpage', 'secondary', 'secondary_other', 'tribe'
+        )
+        widgets = {
+            'citizen': forms.RadioSelect(),
+            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
+            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
+            'graduation': forms.TextInput(attrs={'placeholder': '05-15-2014'})
+        }
+
+
+class FacultyForm(forms.ModelForm):
+    """
+    A form to collect faculty information
+    """
+
+    gender = forms.TypedChoiceField(
+        choices = GENDER_CHOICES, widget = forms.RadioSelect()
+    )
+    disability = forms.TypedChoiceField(
+        choices = YES_NO_DECLINE, widget = forms.RadioSelect()
+    )
+    race = forms.MultipleChoiceField(
+        help_text = 'Check all that apply',
+        choices = RACES, widget = forms.CheckboxSelectMultiple()
+    )
+    campus_phone = USPhoneNumberField(
+        "Campus phone number",
+        widget=forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'})
+    )
+
+    class Meta:
         model = Faculty
         fields = ['salutation', 'first', 'middle', 'last', 'gender', 'disability',
-                  'race', 'tribe', 'citizen', 'department_program', 'title',
-                  'webpage', 'campus_email']
+            'race', 'tribe', 'citizen', 'department_program', 'title',
+            'webpage', 'campus_email', 'address_1', 'address_2', 'city',
+            'state', 'postal_code', 'campus_phone'
+        ]
         widgets = {
+            'citizen': forms.RadioSelect(),
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
             'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
             'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),

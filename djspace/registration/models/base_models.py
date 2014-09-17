@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db import models, connection
+from django.core.validators import *
 from django.contrib.auth.models import User
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
@@ -10,6 +11,11 @@ YES_NO_DECLINE = (
     ('Yes', 'Yes'),
     ('No', 'No'),
     ('Decline', 'Decline to state')
+)
+
+YES_NO = (
+    ('Yes', 'Yes'),
+    ('No', 'No')
 )
 
 RACES = (
@@ -138,6 +144,22 @@ WSGC_SCHOOL = (
     ('wisconsinlutheran','Wisconsin Lutheran College')
 )
 
+WSGC_AFFILIATE = (
+    ('Aerogel Technolgies','Aerogel Technolgies'),
+    ('Astronautics','Astronautics'),
+    ('BTCI','BTCI'),
+    ('Charter','Charter'),
+    ('Crossroads at Big Creek','Crossroads at Big Creek'),
+    ('DOT','DOT'),
+    ('DPI','DPI'),
+    ('EAA','EAA'), 
+    ('Orbitec','Orbitec'),
+    ('Space Explorers','Space Explorers'),
+    ('Space Port','Space Port'), 
+    ('Sheboygan', 'Sheboygan'),
+    ('StaatsQuest','StaatsQuest')
+)
+
 class BasePersonal(models.Model):
 
     salutation = models.CharField(
@@ -157,20 +179,22 @@ class BasePersonal(models.Model):
         "Last name",
         max_length=128
     )
-    citizen = models.BooleanField(
+    citizen = models.CharField(
         '''Are you a U.S. citizen?
         U.S. citizenship is required
         for participation in WSGC programs.
         Non U.S. citizens are not
         eligible for WSGC funding.''',
-        choices=BINARY_CHOICES
+        choices=YES_NO,
+        max_length=4
     )
-    rocket_comp = models.BooleanField(
+    rocket_comp = models.CharField(
         '''Do you intend to apply for
         funding for the Tribal or AISES
         Rocket Competitions? Tribal or
         AISES Rocket Competition''',
-        choices=BINARY_CHOICES
+        choices=YES_NO,
+        max_length=4
     )
     maiden = models.CharField(
         "Maiden name",
@@ -181,7 +205,7 @@ class BasePersonal(models.Model):
         max_length=20
     )
     department_program = models.CharField(
-        "Title or Department",
+        "Department / Program",
         max_length=128
     )
     title = models.CharField(
@@ -190,7 +214,8 @@ class BasePersonal(models.Model):
     )
     webpage = models.CharField(
         "Web page",
-        max_length=20
+        max_length=128,
+        blank=True
     )
     address = models.CharField(
         "Mailing address",
@@ -212,7 +237,7 @@ class BasePersonal(models.Model):
         choices=STATE_CHOICES,
         blank=True
     )
-    ZIP = models.CharField(
+    postal_code = models.CharField(
         "Zip code",
         max_length=9,
         blank=True
@@ -258,8 +283,7 @@ class BasePersonal(models.Model):
     )
     race = models.CharField(
         "Race",
-        max_length=128,
-        choices=RACES
+        max_length=128
     )
     tribe = models.CharField(
         "Tribe",
@@ -293,7 +317,7 @@ class BaseEmployer(models.Model):
         max_length=2,
         choices=STATE_CHOICES
     )
-    employer_zip = models.CharField(
+    employer_postal_code = models.CharField(
         "Employer zip code",
         max_length=9
     )
@@ -303,7 +327,8 @@ class BaseWSGC(models.Model):
     
     wsgc_school = models.CharField(
         "WSGC college enrolled or applied to",
-        choices=WSGC_SCHOOL
+        choices=WSGC_SCHOOL,
+        max_length=128
     )
     wsgc_school_num = models.CharField(
         "WSGC college enrolled or applied to student number",
@@ -331,12 +356,10 @@ class BaseWSGC(models.Model):
         max_length=20
     )
     wsgc_advisor_email = models.EmailField(
-        "WSGC advisor email",
-        max_length=20
+        "WSGC advisor email"
     )
     wsgc_advisor_confirm_email = models.EmailField(
-        "WSGC advisor confirm email",
-        max_length=20
+        "WSGC advisor confirm email"
     )
     wsgc_advisor_phone = models.CharField(
         "Phone number",
@@ -348,22 +371,22 @@ class BaseHighschool(models.Model):
     
     highschool_name = models.CharField(
         "Highschool name",
-        max_length=20
+        max_length=128
     )
     highschool_street = models.CharField(
         "Highschool street",
-        max_length=20
+        max_length=128
     )
     highschool_city = models.CharField(
         "Highschool city",
-        max_length=20
+        max_length=128
     )
     highschool_state = models.CharField(
         "Highschool state",
         max_length=2,
         choices=STATE_CHOICES
     )
-    highschool_zip = models.CharField(
+    highschool_postal_code = models.CharField(
         "Highschool zip code",
         max_length=9
     )
@@ -413,7 +436,13 @@ class BaseUndergrad(models.Model):
     )
     graduation = models.CharField(
         "Expected month and year of graduation",
-        max_length=10
+        max_length=10,
+        validators=[
+            RegexValidator(
+                r'[\d]{2}/[1-2][\d]{3}',
+                'Use this format MM/YYYY',
+                'Invalid Format'
+            )]
     )
     #degree = models.CharField(
     #   "Degree you are seeking",
@@ -426,7 +455,7 @@ class BaseUndergrad(models.Model):
     )
 
 class BaseCollege(models.Model):
-    
+
     university_street = models.CharField(
         "University street",
         max_length=128
@@ -440,7 +469,7 @@ class BaseCollege(models.Model):
         max_length=2,
         choices=STATE_CHOICES
     )
-    university_zip = models.CharField(
+    university_postal_code = models.CharField(
         "University zip code",
         max_length=9
     )
