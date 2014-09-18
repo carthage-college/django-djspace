@@ -150,13 +150,17 @@ WSGC_AFFILIATE = (
     ('EAA','EAA'), 
     ('Orbitec','Orbitec'),
     ('Space Explorers','Space Explorers'),
-    ('Space Port','Space Port'), 
+    ('Space Port','Space Port'),
     ('Sheboygan', 'Sheboygan'),
     ('StaatsQuest','StaatsQuest')
 )
 
 class BasePersonal(models.Model):
 
+    user = models.ForeignKey(
+        User,
+        related_name="profile_user"
+    )
     salutation = models.CharField(
         "Salutation",
         max_length=10,
@@ -286,6 +290,9 @@ class BasePersonal(models.Model):
         blank=True
     )
 
+    class Meta:
+        abstract = True
+
 
 class BaseEmployer(models.Model):
 
@@ -361,30 +368,8 @@ class BaseWSGC(models.Model):
         max_length=16
     )
 
-
-class BaseHighschool(models.Model):
-
-    highschool_name = models.CharField(
-        "High school name",
-        max_length=128
-    )
-    highschool_street = models.CharField(
-        "High school street",
-        max_length=128
-    )
-    highschool_city = models.CharField(
-        "High school city",
-        max_length=128
-    )
-    highschool_state = models.CharField(
-        "High school state",
-        max_length=2,
-        choices=STATE_CHOICES
-    )
-    highschool_postal_code = models.CharField(
-        "High school zip code",
-        max_length=9
-    )
+    class Meta:
+        abstract = True
 
 
 class BaseUndergrad(models.Model):
@@ -449,27 +434,5 @@ class BaseUndergrad(models.Model):
         max_length=128
     )
 
-class BaseCollege(models.Model):
-
-    university_street = models.CharField(
-        "University street",
-        max_length=128
-    )
-    university_city = models.CharField(
-        "University city",
-        max_length=128
-    )
-    university_state = models.CharField(
-        "University state",
-        max_length=2,
-        choices=STATE_CHOICES
-    )
-    university_postal_code = models.CharField(
-        "University zip code",
-        max_length=9
-    )
-    undergraduate_degree = models.CharField(
-        "Degree you are seeking",
-        max_length=20,
-        choices=UNDERGRADUATE_DEGREE
-    )
+    class Meta:
+        abstract = True

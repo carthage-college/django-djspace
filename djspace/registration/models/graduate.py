@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
-class Graduate(BasePersonal, BaseWSGC, BaseUndergrad, BaseCollege):
+class Graduate(BasePersonal, BaseWSGC, BaseUndergrad):
 
     degree_program = models.CharField(
         "What degree program are you enrolled in?",
@@ -87,4 +87,27 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad, BaseCollege):
     graduate_graduation_year = models.IntegerField(
         "Anticipated graduation year",
         max_length=4
+    )
+    # from base college
+    university_street = models.CharField(
+        "University street",
+        max_length=128
+    )
+    university_city = models.CharField(
+        "University city",
+        max_length=128
+    )
+    university_state = models.CharField(
+        "University state",
+        max_length=2,
+        choices=STATE_CHOICES
+    )
+    university_postal_code = models.CharField(
+        "University zip code",
+        max_length=9
+    )
+    undergraduate_degree = models.CharField(
+        "Degree you are seeking",
+        max_length=20,
+        choices=UNDERGRADUATE_DEGREE
     )

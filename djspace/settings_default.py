@@ -30,9 +30,9 @@ SERVER_URL = ""
 API_URL = "%s/%s" % (SERVER_URL, "api")
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_DIR = os.path.dirname(__file__)
-ROOT_URL = "/djskeletor/"
-ROOT_URLCONF = 'djskeletor.core.urls'
-WSGI_APPLICATION = 'djskeletor.wsgi.application'
+ROOT_URL = "/forms/"
+ROOT_URLCONF = 'djspace.core.urls'
+WSGI_APPLICATION = 'djspace.wsgi.application'
 MEDIA_ROOT = ''
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATIC_ROOT = ''
@@ -48,7 +48,7 @@ DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'djskeletor',
+        'NAME': 'django_djspace',
         'ENGINE': 'django.db.backends.mysql',
         'USER': '',
         'PASSWORD': ''
@@ -65,10 +65,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'djskeletor',
-    'djskeletor.core',
-    'djskeletor.myapp',
+    'djauth',
     'djtools',
+    'djspace.core',
+    'djspace.registration',
 )
 
 MIDDLEWARE_CLASSES = (
