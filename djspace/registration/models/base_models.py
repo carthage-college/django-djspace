@@ -183,14 +183,6 @@ class BasePersonal(models.Model):
         choices=BINARY_CHOICES,
         max_length=4
     )
-    rocket_comp = models.CharField(
-        '''Do you intend to apply for
-        funding for the Tribal or AISES
-        Rocket Competitions? Tribal or
-        AISES Rocket Competition''',
-        choices=BINARY_CHOICES,
-        max_length=4
-    )
     maiden = models.CharField(
         "Maiden name",
         max_length=20
