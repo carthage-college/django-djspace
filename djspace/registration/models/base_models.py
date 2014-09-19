@@ -197,7 +197,7 @@ class BasePersonal(models.Model):
         max_length=128
     )
     title = models.CharField(
-        "Title (eg. Assistant Prof, Assoc. Prof, Prof.)?",
+        "Title (eg. Assistant Prof., Associate Prof., Prof.)",
         max_length=128
     )
     webpage = models.CharField(
