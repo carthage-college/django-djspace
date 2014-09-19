@@ -26,9 +26,6 @@ class UndergraduateForm(forms.ModelForm):
     citizen = forms.TypedChoiceField(
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    rocket_comp = forms.TypedChoiceField(
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
-    )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES, widget = forms.RadioSelect()
     )
@@ -50,7 +47,7 @@ class UndergraduateForm(forms.ModelForm):
     class Meta:
         model = Undergraduate
         fields = [
-            'first','middle','last','citizen','rocket_comp','birthdate',
+            'first','middle','last','citizen','birthdate',
             'gender', 'disability','race','tribe','wsgc_school','major',
             'major_other', 'secondary_major_minor',
             'secondary_major_minor_other','student_id', 'gpa',
