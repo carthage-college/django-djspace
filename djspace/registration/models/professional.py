@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from django.db import models
 
 from djspace.registration.models.base_models import BasePersonal
+from djspace.registration.choices import WSGC_AFFILIATE
 
 class Professional(BasePersonal):
 
