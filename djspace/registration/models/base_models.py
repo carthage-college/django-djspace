@@ -209,6 +209,15 @@ class BasePersonal(models.Model):
         "Mailing address",
         max_length=128
     )
+    address_1 = models.CharField(
+        "Address line 1",
+        max_length=128
+    )
+    address_2 = models.CharField(
+        "Address line 2",
+        max_length=128,
+        blank=True
+    )
     street = models.CharField(
         "Street",
         max_length=128,
@@ -216,19 +225,16 @@ class BasePersonal(models.Model):
     )
     city = models.CharField(
         "City",
-        max_length=128,
-        blank=True
+        max_length=128
     )
     state = models.CharField(
         "State",
         max_length=2,
-        choices=STATE_CHOICES,
-        blank=True
+        choices=STATE_CHOICES
     )
     postal_code = models.CharField(
         "Zip code",
-        max_length=9,
-        blank=True
+        max_length=9
     )
     phone = models.CharField(
         "Phone number",
@@ -409,13 +415,8 @@ class BaseUndergrad(models.Model):
     )
     graduation = models.CharField(
         "Expected month and year of graduation",
-        max_length=10,
-        validators=[
-            RegexValidator(
-                r'[\d]{2}/[1-2][\d]{3}',
-                'Use this format MM/YYYY',
-                'Invalid Format'
-            )]
+        max_length=7,
+        validators=[month_year_validator]
     )
     #degree = models.CharField(
     #   "Degree you are seeking",

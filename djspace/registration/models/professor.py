@@ -10,14 +10,14 @@ class Faculty(BasePersonal, BaseEmployer):
     campus_email = models.EmailField(
         "Campus email address"
     )
-    address_1 = models.CharField(
-        "Address line 1",
-        max_length=128
-    )
-    address_2 = models.CharField(
-        "Address line 2",
-        max_length=128
-    )
+    #address_1 = models.CharField(
+    #    "Address line 1",
+    #    max_length=128
+    #)
+    #address_2 = models.CharField(
+    #    "Address line 2",
+    #    max_length=128
+    #)
     graduate_first = models.CharField(
         "First of your sibilings to graduate from college",
         max_length=6,

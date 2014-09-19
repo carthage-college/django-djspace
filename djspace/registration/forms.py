@@ -53,7 +53,7 @@ class UndergraduateForm(forms.ModelForm):
             'secondary_major_minor_other','student_id', 'gpa',
             'gpa_major','scale', 'CREDITS', 'graduation', 'degree',
             'highschool_name', 'highschool_city', 'highschool_state',
-            'address', 'street', 'city', 'state', 'postal_code', 'phone',
+            'address_1', 'address_2', 'city', 'state', 'postal_code', 'phone',
             'email'
         ]
         widgets = {
@@ -113,7 +113,7 @@ class GraduateForm(forms.ModelForm):
             'first', 'middle', 'last', 'citizen', 'birthdate', 'gender',
             'disability', 'race', 'tribe', 'wsgc_school', 'degree_program',
             'degree_program_other', 'concentration_area', 'graduate_gpa',
-            'graduate_scale', 'graduate_graduation_year', 'address',
+            'graduate_scale', 'graduate_graduation_year', 'address_1', 'address_2',
             'street', 'city', 'state', 'postal_code', 'phone', 'email'
         ]
         '''exclude = (

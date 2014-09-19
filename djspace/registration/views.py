@@ -77,14 +77,14 @@ def professional(request):
             return HttpResponseRedirect(reverse('success'))
         else:
             return render_to_response(
-                "registration/form.html",
+                "registration/professional_form.html",
                 {"form": form,"reg_type":"Professional"},
                 context_instance=RequestContext(request)
             )
     else:
         form = ProfessionalForm()
     return render_to_response(
-        'registration/form.html',
+        'registration/professional_form.html',
         {'form': form,"reg_type":"Professional"},
         context_instance=RequestContext(request)
     )
