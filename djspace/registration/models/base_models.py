@@ -157,10 +157,6 @@ WSGC_AFFILIATE = (
 
 class BasePersonal(models.Model):
 
-    user = models.ForeignKey(
-        User,
-        related_name="profile_user"
-    )
     salutation = models.CharField(
         "Salutation",
         max_length=10,
