@@ -10,7 +10,7 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 ADMINS = (
-    ('', ''),
+    ('',''),
 )
 MANAGERS = ADMINS
 
@@ -25,12 +25,13 @@ USE_L10N = False
 USE_TZ = False
 DEFAULT_CHARSET = 'utf-8'
 FILE_CHARSET = 'utf-8'
-
-SERVER_URL = ""
+SERVER_URL = "spacegrant.carthage.edu"
 API_URL = "%s/%s" % (SERVER_URL, "api")
+LIVEWHALE_API_URL = "https://%s" % (SERVER_URL)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 ROOT_DIR = os.path.dirname(__file__)
-ROOT_URL = "/forms/"
+#ROOT_URL = "/"
+ROOT_URL = "/djspace/"
 ROOT_URLCONF = 'djspace.core.urls'
 WSGI_APPLICATION = 'djspace.wsgi.application'
 MEDIA_ROOT = ''
@@ -56,6 +57,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
+    # django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -65,10 +67,21 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'djauth',
-    'djtools',
-    'djspace.core',
+    # registration and authentication
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # auth providers
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.github',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.openid',
+    # 'allauth.socialaccount.providers.stackexchange',
+    # 'allauth.socialaccount.providers.twitter',
+    # core
     'djspace.registration',
+    'djspace.registration.models',
+    'djtools',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -86,9 +99,9 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 TEMPLATE_DIRS = (
-    "/data2/django_templates/djdfir/",
+    "/data2/django_projects/djspace/templates/",
+    "/data2/django_templates/djeuropa/",
     "/data2/django_templates/djcher/",
-    "/data2/django_projects/djskeletor/templates/",
     "/data2/django_templates/",
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -97,6 +110,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.core.context_processors.debug",
     "django.core.context_processors.media",
+    # allauth specific context processors
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
 )
 # caching
 CACHES = {
@@ -105,51 +121,57 @@ CACHES = {
         #'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
         #'LOCATION': '127.0.0.1:11211',
         #'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        #'LOCATION': '/var/tmp/django_djskeletor_cache',
+        #'LOCATION': '/var/tmp/django_djspace_cache',
         #'TIMEOUT': 60*20,
-        #'KEY_PREFIX': "DJSKELETOR_",
+        #'KEY_PREFIX': "DJSPACE_",
         #'OPTIONS': {
         #    'MAX_ENTRIES': 80000,
         #}
     }
 }
 CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
-# LDAP Constants
-LDAP_SERVER = ''
-LDAP_PORT = '636'
-LDAP_PROTOCOL = "ldaps"
-LDAP_BASE = ""
-LDAP_USER = ""
-LDAP_PASS = ""
-LDAP_EMAIL_DOMAIN = ""
-LDAP_GROUPS = {"":"",}
-LDAP_OBJECT_CLASS = ""
-LDAP_OBJECT_CLASS_LIST = ["",""]
-LDAP_RETURN = []
 # auth backends
 AUTHENTICATION_BACKENDS = (
-    'djauth.ldapBackend.LDAPBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    # allauth specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
-LOGIN_URL = '/djskeletor/accounts/login/'
-LOGIN_REDIRECT_URL = '/djskeletor/'
-USE_X_FORWARDED_HOST = True
+LOGIN_URL = '%saccounts/login/' % ROOT_URL
+LOGIN_REDIRECT_URL = ROOT_URL
+# allauth configuration
+ACCOUNT_AUTHENTICATION_METHOD ="email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[WSGC] "
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+ACCOUNT_LOGIN_REDIRECT_URL = ROOT_URL
+ACCOUNT_SIGNUP_FORM_CLASS = ""
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_USER_MODEL_EMAIL_FIELD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_PASSWORD_MIN_LENGTH = 12
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_SESSION_COOKIE_AGE = 86400
+# sessions
 #SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN=".carthage.edu"
-SESSION_COOKIE_NAME ='django_djskeletor_cookie'
+SESSION_COOKIE_NAME ='django_djspace_cookie'
 SESSION_COOKIE_AGE = 86400
 # SMTP settings
-EMAIL_HOST = ''
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_FAIL_SILENTLY = False
+EMAIL_FAIL_SILENTLY = True
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
-SERVER_MAIL=''
-# logging
+SERVER_MAIL=""
+# logs and logging
+USE_X_FORWARDED_HOST = True
 LOG_FILEPATH = os.path.join(os.path.dirname(__file__), "logs/")
 LOG_FILENAME = LOG_FILEPATH + "debug.log"
 LOGGING = {
@@ -199,7 +221,7 @@ LOGGING = {
         }
     },
     'loggers': {
-        'djskeletor': {
+        'djspace': {
             'handlers':['logfile'],
             'propagate': True,
             'level':'DEBUG',

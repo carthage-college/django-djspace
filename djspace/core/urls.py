@@ -10,6 +10,9 @@ handler500 = 'djtools.views.errors.server_error'
 
 urlpatterns = patterns('',
     url(
+        r'^accounts/', include('allauth.urls')
+    ),
+    url(
         r'^admin/', include(admin.site.urls)
     ),
     # registration
