@@ -110,12 +110,3 @@ def professor(request):
         {'form': form,"reg_type":"Faculty"},
         context_instance=RequestContext(request)
     )
-
-def k12educator(request):
-    form = K12EducatorForm()
-
-    return render_to_response(
-        "registration/form.html",
-        {"form": form,},
-        context_instance=RequestContext(request)
-    )

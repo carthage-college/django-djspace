@@ -6,7 +6,6 @@ from djspace.registration.models.undergraduate import Undergraduate
 from djspace.registration.models.graduate import Graduate, GRADUATE_DEGREE
 from djspace.registration.models.professional import Professional
 from djspace.registration.models.professor import Faculty
-from djspace.registration.models.k12educator import K12Educator
 from djspace.registration.models.base_models import YES_NO_DECLINE, RACES
 from djspace.registration.models.base_models import UNDERGRADUATE_DEGREE
 
@@ -227,25 +226,6 @@ class FacultyForm(forms.ModelForm):
         ]
         widgets = {
             'citizen': forms.RadioSelect(),
-            'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
-            'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
-            'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
-            'graduation': forms.TextInput(attrs={'placeholder': '05-15-2014'})
-        }
-
-
-class K12EducatorForm(forms.ModelForm):
-    """
-    A form to collect K12 information
-    """
-
-    class Meta:
-        model = K12Educator
-        exclude = (
-            'salutation', 'title_department', 'webpage',
-            'secondary', 'secondary_other'
-        )
-        widgets = {
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
             'phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
             'birthdate': forms.TextInput(attrs={'placeholder': 'eg. 05-30-1993'}),
