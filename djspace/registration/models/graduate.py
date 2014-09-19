@@ -4,6 +4,7 @@ from django.db import models, connection
 from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
+from djspace.registration.validators import *
 
 class Graduate(BasePersonal, BaseWSGC, BaseUndergrad):
 
@@ -25,18 +26,18 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad):
         "Undergraduate honors",
         max_length=20
     )
-    gre_verbal = models.IntegerField(
-        "GRE Verbal",
-        max_length=3
-    )
-    gre_quantitative = models.IntegerField(
-        "GRE Quantitative",
-        max_length=3
-    )
-    gre_analytic = models.IntegerField(
-        "GRE Analytic",
-        max_length=3
-    )
+    #gre_verbal = models.IntegerField(
+    #    "GRE Verbal",
+    #    max_length=3
+    #)
+    #gre_quantitative = models.IntegerField(
+    #    "GRE Quantitative",
+    #    max_length=3
+    #)
+    #gre_analytic = models.IntegerField(
+    #    "GRE Analytic",
+    #    max_length=3
+    #)
     test = models.CharField(
         "Other test",
         max_length=20
@@ -66,15 +67,17 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad):
     )
     graduate_gpa = models.FloatField(
         "Current cumulative GPA",
-        max_length=4
+        max_length=4,
+        validators=[credit_gpa_validator]
     )
-    graduate_gpa_major = models.FloatField(
-        "Major GPA",
-        max_length=4
-    )
+    #graduate_gpa_major = models.FloatField(
+    #    "Major GPA",
+    #    max_length=4
+    #)
     graduate_scale = models.IntegerField(
         "GPA Scale",
-        max_length=1
+        max_length=4,
+        validators=[credit_gpa_validator]
     )
     graduate_CREDITS = models.FloatField(
         "Credits",

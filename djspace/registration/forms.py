@@ -56,16 +56,6 @@ class UndergraduateForm(forms.ModelForm):
             'address', 'street', 'city', 'state', 'postal_code', 'phone',
             'email'
         ]
-        '''exclude = (
-            'salutation', 'maiden', 'additional', 'title_department',
-            'webpage',
-            'primary', 'primary_other', 'secondary', 'secondary_other',
-            'wsgc_school_num', 'wsgc_advisor_salutation', 'wsgc_advisor_first',
-            'wsgc_advisor_middle', 'wsgc_advisor_last',
-            'wsgc_advisor_title_department', 'wsgc_advisor_email',
-            'wsgc_advisor_confirm_email', 'wsgc_advisor_phone',
-            'highschool_postal_code', 'degree',
-        )'''
         widgets = {
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
             'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2014'}),
@@ -73,22 +63,22 @@ class UndergraduateForm(forms.ModelForm):
             'wsgc_advisor_phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
             #highschool
             'gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
-            'CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
+            'CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86.0'}),
             #college
-            'scale': forms.TextInput(attrs={'placeholder': 'eg. 4'}),
+            'scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
             'gpa_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
-            'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/15'}),
+            'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2015'}),
             'year_in_school': forms.TextInput(attrs={'placeholder': 'eg. 2015'})
         }
 
-    def clean(self):
+    '''def clean(self):
         cleaned_data = super(UndergraduateForm, self).clean()
         citizen = cleaned_data.get("citizen")
 
         if citizen == "No":
             self._errors["citizen"] = self.error_class(["Must be Yes."])
 
-        return cleaned_data
+        return cleaned_data'''
 
 
 class GraduateForm(forms.ModelForm):
@@ -146,7 +136,7 @@ class GraduateForm(forms.ModelForm):
             'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_gpa_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
-            'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4'}),
+            'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
             'graduate_year_in_school': forms.TextInput(attrs={'placeholder': 'eg. 2015'}),
             'graduate_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'})
         }

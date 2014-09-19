@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models, connection
 from django.core.validators import *
+from djspace.registration.validators import *
 from django.contrib.auth.models import User
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
@@ -386,21 +387,25 @@ class BaseUndergrad(models.Model):
         "Student ID",
         max_length=7
     )
-    gpa = models.FloatField(
+    gpa = models.CharField(
         "Current cumulative GPA",
-        max_length=4
+        max_length=4,
+        validators=[credit_gpa_validator]
     )
-    gpa_major = models.FloatField(
+    gpa_major = models.CharField(
         "GPA in major",
-        max_length=4
+        max_length=4,
+        validators=[credit_gpa_validator]
     )
-    scale = models.IntegerField(
+    scale = models.CharField(
         "GPA scale",
-        max_length=1
+        max_length=4,
+        validators=[credit_gpa_validator]
     )
-    CREDITS = models.FloatField(
+    CREDITS = models.CharField(
         "Cumulative college credits",
-        max_length=5
+        max_length=6,
+        validators=[credit_gpa_validator]
     )
     graduation = models.CharField(
         "Expected month and year of graduation",
