@@ -5,31 +5,21 @@ from django.contrib.auth.models import User
 
 from djspace.registration.models.base_models import *
 
-class Faculty(BasePersonal, BaseEmployer):
+class Faculty(BasePersonal):
 
     campus_email = models.EmailField(
         "Campus email address"
     )
-    #address_1 = models.CharField(
-    #    "Address line 1",
-    #    max_length=128
-    #)
-    #address_2 = models.CharField(
-    #    "Address line 2",
-    #    max_length=128
-    #)
-    graduate_first = models.CharField(
-        "First of your sibilings to graduate from college",
-        max_length=6,
-        choices=BINARY_CHOICES
+    department_program = models.CharField(
+        "Department / Program",
+        max_length=128
     )
-    subsidized_lunch = models.CharField(
-        "Did you qualify for a subsidized school lunch",
-        max_length=6,
-        choices=BINARY_CHOICES
+    title = models.CharField(
+        "Title (eg. Assistant Prof., Associate Prof., Prof.)",
+        max_length=128
     )
-    us_vet = models.CharField(
-        "US Veteran of the Military",
-        max_length=6,
-        choices=BINARY_CHOICES
+    webpage = models.CharField(
+        "Web page",
+        max_length=128,
+        blank=True
     )
