@@ -77,14 +77,14 @@ def professional(request):
             return HttpResponseRedirect(reverse('success'))
         else:
             return render_to_response(
-                "registration/form.html",
+                "registration/professional_form.html",
                 {"form": form,"reg_type":"Professional"},
                 context_instance=RequestContext(request)
             )
     else:
         form = ProfessionalForm()
     return render_to_response(
-        'registration/form.html',
+        'registration/professional_form.html',
         {'form': form,"reg_type":"Professional"},
         context_instance=RequestContext(request)
     )
@@ -108,14 +108,5 @@ def professor(request):
     return render_to_response(
         'registration/faculty_form.html',
         {'form': form,"reg_type":"Faculty"},
-        context_instance=RequestContext(request)
-    )
-
-def k12educator(request):
-    form = K12EducatorForm()
-
-    return render_to_response(
-        "registration/form.html",
-        {"form": form,},
         context_instance=RequestContext(request)
     )

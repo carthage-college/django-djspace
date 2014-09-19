@@ -55,7 +55,7 @@ id="djforms"
             website and apply for any program for which you are eligible.
         </p>
         {% for field in form.visible_fields %}
-            {% if field.name == 'first' %}
+            {% if field.name == 'first_name' %}
                 <h2>Personal Information</h2>
                 <fieldset class="blockLabels">
                     <ol>
@@ -70,7 +70,7 @@ id="djforms"
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}
-            {% if field.name == 'address' %}
+            {% if field.name == 'address_1' %}
                     </ol>
                 </fieldset>
                 <h2>
@@ -79,7 +79,19 @@ id="djforms"
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}
-            {% include "form_field.inc.html" %}
+            {% if field.name == 'race' %}
+                <li class="form-group ctrlHolder">
+                    <h3 class="required">
+                        <label for="id_race_0">Race</label>
+                    </h3>
+                    <p class="help">{{field.help_text}}</p>
+                    {% for f in field %}
+                        {{ f }}
+                    {% endfor %}
+                </li>
+            {% else %}
+                {% include "form_field.inc.html" %}
+            {% endif %}
         {% endfor %}
             </ol>
         </fieldset>
