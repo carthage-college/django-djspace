@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
-from django.db import models, connection
-from django.contrib.auth.models import User
 
-from djspace.registration.models.base_models import *
+from djspace.registration.models.base_models import BasePersonal
 
 class Professional(BasePersonal):
-    
+
     wsgc_affiliate = models.CharField(
         "WSGC Affiliate",
         max_length=128,

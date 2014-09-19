@@ -3,10 +3,10 @@
 from django import forms
 
 from djspace.registration.models.undergraduate import *
-from djspace.registration.models.graduate import Graduate, GRADUATE_DEGREE
+from djspace.registration.models.graduate import Graduate
 from djspace.registration.models.professional import Professional
 from djspace.registration.models.professor import Faculty
-from djspace.registration.models.base_models import YES_NO_DECLINE, RACES
+from djspace.registration.choices import YES_NO_DECLINE, RACES, GRADUATE_DEGREE
 
 from djtools.fields import GENDER_CHOICES, BINARY_CHOICES, SALUTATION_TITLES
 
@@ -104,8 +104,8 @@ class GraduateForm(forms.ModelForm):
         ]
         widgets = {
             #college
-            'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),            
-            'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),            
+            'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
+            'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
             'graduate_graduation_year': forms.TextInput(attrs={'placeholder': 'eg. 2015'})
         }
 
@@ -154,14 +154,14 @@ class ProfessionalForm(forms.ModelForm):
             'first_name', 'middle_initial', 'last_name', 'us_citizen', 'birthdate',
             'gender','disability','race', 'wsgc_affiliate',
             'phone', 'email'
-        ]        
+        ]
 
 
 class FacultyForm(forms.ModelForm):
     """
     A form to collect faculty information
     """
-    
+
     salutation = forms.CharField(
         widget=forms.Select(choices=SALUTATION_TITLES),
         required=False
@@ -193,6 +193,6 @@ class FacultyForm(forms.ModelForm):
             'webpage', 'campus_email', 'address_1', 'address_2', 'city',
             'state', 'postal_code', #'campus_phone'
         ]
-        widgets = {     
+        widgets = {
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'})
         }

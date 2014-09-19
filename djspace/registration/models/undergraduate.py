@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
-from django.db import models, connection
-from django.contrib.auth.models import User
+from django.db import models
 
 from djspace.registration.models.base_models import *
-
-UNDERGRADUATE_DEGREE = (
-    ("Bachelor's degree","Bachelor's degree"),
-    ("Associate's degree/certificate","Associate's degree/certificate")
-)
 
 class Undergraduate(BasePersonal, BaseWSGC, BaseUndergrad):
 

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
-from django.db import models, connection
-from django.contrib.auth.models import User
+from django.db import models
 
 from djspace.registration.models.base_models import *
 from djspace.registration.validators import *
