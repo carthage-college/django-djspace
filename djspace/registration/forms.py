@@ -58,7 +58,7 @@ class UndergraduateForm(forms.ModelForm):
         ]
         widgets = {
             'webpage': forms.TextInput(attrs={'placeholder': 'eg. www.mywebsite.com'}),
-            'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2014'}),
+            'graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2015'}),
             #wsgc
             'wsgc_advisor_phone': forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'}),
             #highschool
@@ -114,7 +114,7 @@ class GraduateForm(forms.ModelForm):
             'disability', 'race', 'tribe', 'wsgc_school', 'degree_program',
             'degree_program_other', 'concentration_area', 'graduate_gpa',
             'graduate_scale', 'graduate_graduation_year', 'address_1', 'address_2',
-            'street', 'city', 'state', 'postal_code', 'phone', 'email'
+            'city', 'state', 'postal_code', 'phone', 'email'
         ]
         '''exclude = (
             'salutation', 'rocket_comp', 'maiden', 'additional',
@@ -138,7 +138,8 @@ class GraduateForm(forms.ModelForm):
             'graduate_CREDITS': forms.TextInput(attrs={'placeholder': 'eg. 86'}),
             'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
             'graduate_year_in_school': forms.TextInput(attrs={'placeholder': 'eg. 2015'}),
-            'graduate_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'})
+            'graduate_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05-15-2014'}),
+            'graduate_graduation_year': forms.TextInput(attrs={'placeholder': 'eg. 2015'})
         }
 
     def clean(self):

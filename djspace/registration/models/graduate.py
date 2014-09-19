@@ -9,7 +9,7 @@ from djspace.registration.validators import *
 class Graduate(BasePersonal, BaseWSGC, BaseUndergrad):
 
     degree_program = models.CharField(
-        "What degree program are you enrolled in?",
+        "What degree program are you enrolled in",
         max_length=128,
         choices=GRADUATE_DEGREE
     )
@@ -19,7 +19,7 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad):
         blank=True
     )
     concentration_area = models.CharField(
-        "Concentration area (eg. physics, astronomy, physiology, etc.)?",
+        "Concentration area (eg. physics, astronomy, physiology, etc.)",
         max_length=128
     )
     undergraduate_honors = models.CharField(
@@ -87,9 +87,10 @@ class Graduate(BasePersonal, BaseWSGC, BaseUndergrad):
         "Year in school as of next fall",
         max_length=4
     )
-    graduate_graduation_year = models.IntegerField(
+    graduate_graduation_year = models.CharField(
         "Anticipated graduation year",
-        max_length=4
+        max_length=4,
+        validators=[four_digit_year_validator]
     )
     # from base college
     university_street = models.CharField(
