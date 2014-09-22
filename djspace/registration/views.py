@@ -1,13 +1,9 @@
-from django.conf import settings
-from django.template import RequestContext, loader
+from django.template import RequestContext
 from django.http import HttpResponseRedirect, Http404
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.shortcuts import render_to_response, get_object_or_404
+from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
 
 from djspace.registration.forms import *
-
-from djtools.utils.mail import send_mail
-
 
 def form(request, reg_type):
     try:

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
 
-from djspace.registration.choices import RACES
+from djspace.registration.choices import RACES, REG_TYPE
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
@@ -57,7 +56,6 @@ class UserProfile(models.Model):
         choices = GENDER_CHOICES
     )
     race = models.CharField(
-        choices = RACES,
         max_length=128,
         help_text = 'Check all that apply'
     )
@@ -75,6 +73,10 @@ class UserProfile(models.Model):
         "United States Citizen",
         max_length=4,
         choices=BINARY_CHOICES
+    )
+    registration_type = models.CharField(
+        max_length=32,
+        choices=REG_TYPE
     )
 
     def __unicode__(self):

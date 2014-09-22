@@ -1,3 +1,10 @@
+REG_TYPE = (
+    ('Undergraduate','Undergraduate'),
+    ('Graduate','Graduate'),
+    ('Faculty','Faculty'),
+    ('Professional','Professional')
+)
+
 RACES = (
     ('American Indian/Alaska Native','American Indian/Alaska Native'),
     ('Asian','Asian'),

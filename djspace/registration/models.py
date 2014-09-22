@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.contrib.auth.models import User
 
 from djspace.registration.choices import WSGC_AFFILIATE, WSGC_SCHOOL
 from djspace.registration.validators import *
@@ -8,6 +9,8 @@ from djtools.fields import STATE_CHOICES
 
 class BaseStudent(models.Model):
 
+    # Django user
+    user = models.OneToOneField( User)
     # NEEDS TO BE A DROP DOWN
     major = models.CharField(
         "Primary major",
@@ -114,6 +117,9 @@ class Graduate(BaseStudent):
 
 class Faculty(models.Model):
 
+    # Django user
+    user = models.OneToOneField( User)
+    # etc
     campus_email = models.EmailField(
         "Campus email address"
     )
@@ -134,11 +140,17 @@ class Faculty(models.Model):
 
 
 #class K12Educator(models.Model):
+    # Django user
+#    user = models.OneToOneField( User)
+    # etc
 #    pass
 
 
 class Professional(models.Model):
 
+    # Django user
+    user = models.OneToOneField( User)
+    # etc
     wsgc_affiliate = models.CharField(
         "WSGC Affiliate",
         max_length=128,

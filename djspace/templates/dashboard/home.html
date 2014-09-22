@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}
+    WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
+{% endblock %}
+{% block extra_javascript %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //
+        });
+    </script>
+{% endblock %}
+{% block extra_style %}
+<style type="text/css" media="screen, projection">
+    .linline li {display:inline; padding-right:3px;}
+</style>
+{% endblock %}
+{% block page_header %}
+    Account Manager
+{% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+        {{user.first_name}}
+        {{user.profile.second_name}}
+        {{user.last_name}}'s
+        Profile
+        <span id="secondary-dropdown"></span>
+    </h1>
+{% endblock %}
+{% block content %}
+<div class="forms-container">
+    <form method="post" action="." class="form">
+        {% csrf_token %}
+        <fieldset class="blockLabels">
+            <ol>
+                {% for field in form %}
+                    {% include "form_field.inc.html" %}
+                {% endfor %}
+            </ol>
+        </fieldset>
+        {% include "form_submit.inc.html" %}
+    </form>
+</div>
+{% endblock %}

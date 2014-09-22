@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(
         r'^admin/', include(admin.site.urls)
     ),
+    url(
+        r'^dashboard/', include('djspace.dashboard.urls')
+    ),
     # registration
     url(
         r'^registration/', include("djspace.registration.urls")
