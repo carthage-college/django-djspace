@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
-from django.db import models, connection
-from django.contrib.auth.models import User
+from django.db import models
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
@@ -27,7 +25,7 @@ TIME_FRAME = (
 )
 
 class BaseFacultyAdvisor(models.Model):
-    
+
     title = models.CharField(
         "Title",
         max_length=20,
@@ -58,10 +56,10 @@ class BaseFacultyAdvisor(models.Model):
         max_length=30
         #NEEDS A SELECT
     )
-    
+
 
 class StudentTravel(models.Model):
-    
+
     purpose = models.CharField(
         "Purpose of travel",
         max_length=50

@@ -1,9 +1,3 @@
-YES_NO_DECLINE = (
-    ('Yes', 'Yes'),
-    ('No', 'No'),
-    ('Decline', 'Decline to state')
-)
-
 RACES = (
     ('American Indian/Alaska Native','American Indian/Alaska Native'),
     ('Asian','Asian'),

@@ -1,5 +1,8 @@
 {% load i18n %}
 {% load account %}
-
-{% user_display user as user_display %}
-<p><strong>{% trans "Note" %}:</strong> {% blocktrans %}you are already logged in as {{ user_display }}.{% endblocktrans %}</p>
+<p>
+    <strong>{% trans "Note" %}:</strong>
+    {% blocktrans with email_address.email as email %}
+        you are already logged in with email address {{ email }}.
+    {% endblocktrans %}
+</p>
