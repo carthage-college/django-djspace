@@ -3,17 +3,14 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from djspace.core.models import UserProfile
-from djspace.registration.choices import RACES
+from djspace.core.models import UserProfile, GenericChoice
 
-class UserProfileAdminForm(forms.ModelForm):
-    race = forms.MultipleChoiceField(choices = RACES)
+class GenericChoiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'value', 'ranking', 'active', 'tags')
 
-    class Meta:
-        model = UserProfile
+admin.site.register(GenericChoice, GenericChoiceAdmin)
 
 class UserProfileAdmin(admin.ModelAdmin):
-    form = UserProfileAdminForm
     search_fields = (
         'user__last_name','user__first_name','user__email','user__username'
     )

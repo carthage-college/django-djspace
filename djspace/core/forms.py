@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 
-from djspace.registration.choices import RACES
-from djspace.core.models import UserProfile
+from djspace.core.models import UserProfile, GenericChoice
+from djspace.core.models import REG_TYPE, BIRTH_YEAR_CHOICES
 
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE
 
 from localflavor.us.forms import USPhoneNumberField
+
+RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("name")
 
 class SignupForm(forms.Form):
     """
@@ -28,16 +31,21 @@ class SignupForm(forms.Form):
     last_name = forms.CharField(
         max_length=30
     )
+    registration_type = forms.CharField(
+        max_length=32,
+        widget=forms.Select(choices=REG_TYPE)
+    )
     date_of_birth = forms.DateField(
         label = "Date of birth",
-        widget=forms.TextInput(attrs={'placeholder': 'Format: mm/dd/yyyy'})
+        widget=SelectDateWidget(years=BIRTH_YEAR_CHOICES)
     )
     gender = forms.TypedChoiceField(
-        choices = GENDER_CHOICES, widget = forms.RadioSelect()
+        choices = GENDER_CHOICES,
+        widget = forms.RadioSelect()
     )
-    race = forms.MultipleChoiceField(
+    race = forms.ModelMultipleChoiceField(
+        queryset = RACES,
         help_text = 'Check all that apply',
-        choices = RACES,
         widget = forms.CheckboxSelectMultiple()
     )
     tribe = forms.CharField(
@@ -83,8 +91,7 @@ class SignupForm(forms.Form):
             user = user,
             salutation = cd['salutation'],
             second_name = cd['second_name'],
-            gender = cd.get('gender'),
-            race = cd.get('race'),
+            gender = cd['gender'],
             tribe = cd.get('tribe'),
             disability = cd['disability'],
             us_citizen = cd['us_citizen'],
@@ -96,5 +103,8 @@ class SignupForm(forms.Form):
             postal_code = cd['postal_code'],
             phone = cd['phone']
         )
+        profile.save()
+        for r in request.POST.getlist('race'):
+            profile.race.add(r)
         profile.save()
 

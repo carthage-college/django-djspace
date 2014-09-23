@@ -7,6 +7,20 @@
 {% block page_header %}
     Wisconsin Space Grant Consortium
 {% endblock %}
+{% block left_nav %}
+    {{ block.super }}
+    {% if user.is_authenticated %}
+        <h3>Account</h3>
+        <div>
+            <ul>
+                <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                <li><a href="#">Manage applications</a></li>
+                <li><a href="{% url 'dashboard_home' %}">Manage profile</a></li>
+                <li><a href="{% url 'account_change_password' %}">Change password</a></li>
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
 {% block content_head %}
     <h1 id="page_title">
         WSGC {{reg_type|capfirst}} Registration Form

@@ -2,10 +2,57 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djspace.registration.choices import RACES, REG_TYPE
-
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
+
+from taggit.managers import TaggableManager
+
+from datetime import date
+
+REG_TYPE = (
+    ('','----select----'),
+    ('Undergraduate','Undergraduate'),
+    ('Graduate','Graduate'),
+    ('Faculty','Faculty'),
+    ('Professional','Professional')
+)
+
+BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -16))]
+
+class GenericChoice(models.Model):
+    """
+    For making choices for choice fields for forms
+    """
+    name = models.CharField(
+        unique=True, max_length=255
+    )
+    value = models.CharField(
+        max_length=255
+    )
+    ranking = models.IntegerField(
+        null=True, blank=True, default=0,
+        max_length=3,
+        verbose_name="Ranking",
+        help_text=
+        """
+        A number from 0 to 999 to determine this object's position in a list.
+        """
+    )
+    active = models.BooleanField(
+        help_text=
+        """
+        Do you want the field to be visable on your form?
+        """,
+        verbose_name="Is active?",
+        default=True
+    )
+    tags = TaggableManager()
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['ranking']
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
@@ -55,8 +102,9 @@ class UserProfile(models.Model):
         max_length=16,
         choices = GENDER_CHOICES
     )
-    race = models.CharField(
-        max_length=128,
+    race = models.ManyToManyField(
+        GenericChoice,
+        related_name="user_profile_race",
         help_text = 'Check all that apply'
     )
     tribe = models.CharField(
@@ -81,4 +129,3 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return "%s %s's profile" % (self.user.first_name, self.user.last_name)
-

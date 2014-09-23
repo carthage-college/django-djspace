@@ -1,20 +1,3 @@
-REG_TYPE = (
-    ('Undergraduate','Undergraduate'),
-    ('Graduate','Graduate'),
-    ('Faculty','Faculty'),
-    ('Professional','Professional')
-)
-
-RACES = (
-    ('American Indian/Alaska Native','American Indian/Alaska Native'),
-    ('Asian','Asian'),
-    ('Black/African American','Black/African American'),
-    ('Caucasian','Caucasian'),
-    ('Hispanic','Hispanic'),
-    ('Native Hawaiian/Other Pacific Islander','Native Hawaiian/Other Pacific Islander'),
-    ('Other','Other')
-)
-
 GRADUATE_DEGREE = (
     ('M.S.','M.S.'),
     ('Ph.D','Ph.D'),

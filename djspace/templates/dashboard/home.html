@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "home.html" %}
 {% block title %}
     WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
@@ -12,6 +12,8 @@
 {% block extra_style %}
 <style type="text/css" media="screen, projection">
     .linline li {display:inline; padding-right:3px;}
+    #id_date_of_birth_day, #id_date_of_birth_year {width:90px;}
+    #id_date_of_birth_month { width: 150px;}
 </style>
 {% endblock %}
 {% block page_header %}
@@ -19,17 +21,24 @@
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
+        {{user.profile.salutation}}
         {{user.first_name}}
         {{user.profile.second_name}}
-        {{user.last_name}}'s
-        Profile
+        {{user.last_name}}
         <span id="secondary-dropdown"></span>
     </h1>
+    {% if message %}
+    <div class="notice">
+        <p><h4>Your profile has been saved.</h4></p>
+    </div>
+    {% endif %}
 {% endblock %}
 {% block content %}
 <div class="forms-container">
     <form method="post" action="." class="form">
         {% csrf_token %}
+        <input type="hidden" name="salutation" value="{{user.profile.salutation}}" />
+        <input type="hidden" name="second_name" value="{{user.profile.second_name}}" />
         <fieldset class="blockLabels">
             <ol>
                 {% for field in form %}
