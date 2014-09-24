@@ -1,17 +1,32 @@
 from django.template import RequestContext
-from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect, Http404
+from django.contrib.auth.decorators import login_required
 
 from djspace.registration.forms import *
 
+import os
+
+@login_required
 def form(request, reg_type):
+    user = request.user
     try:
-        form = eval(reg_type.capitalize()+"Form")()
+        reg = eval(reg_type).object.get(user=user)
+    except:
+        reg = None
+    try:
+        form = eval(reg_type+"Form")(instance=reg)
     except:
         raise Http404
-
-    #template = "registration/%s/form.html" % (reg_type),
+    if request.method == 'POST':
+        try:
+            form = eval(reg_type+"Form")(instance=reg, data=request.POST)
+        except:
+            raise Http404
+        if form.is_valid():
+            data = form.save()
+            return HttpResponseRedirect(reverse('registration_success'))
 
     return render_to_response(
         "registration/form.html",

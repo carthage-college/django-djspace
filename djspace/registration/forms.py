@@ -19,6 +19,7 @@ class UndergraduateForm(forms.ModelForm):
 
     class Meta:
         model = Undergraduate
+        exclude = ('user',)
         fields = [
             'wsgc_school', 'major',
             'major_other', 'secondary_major_minor',
@@ -48,6 +49,7 @@ class GraduateForm(forms.ModelForm):
 
     class Meta:
         model = Graduate
+        exclude = ('user',)
         fields = [
             'wsgc_school', 'degree_program',
             'degree_program_other', 'concentration_area', 'graduate_gpa',
@@ -81,6 +83,7 @@ class ProfessionalForm(forms.ModelForm):
 
     class Meta:
         model = Professional
+        exclude = ('user',)
 
 
 class FacultyForm(forms.ModelForm):
@@ -90,3 +93,4 @@ class FacultyForm(forms.ModelForm):
 
     class Meta:
         model = Faculty
+        exclude = ('user',)

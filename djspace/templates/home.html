@@ -9,17 +9,25 @@
 {% endblock %}
 {% block left_nav %}
     {{ block.super }}
-    {% if user.is_authenticated %}
-        <h3>Account</h3>
-        <div>
-            <ul>
+    <h3>Account</h3>
+    <div>
+        <ul>
+            {% if user.is_authenticated %}
                 <li><a href="{% url 'account_logout' %}">Logout</a></li>
                 <li><a href="#">Manage applications</a></li>
-                <li><a href="{% url 'dashboard_home' %}">Manage profile</a></li>
-                <li><a href="{% url 'account_change_password' %}">Change password</a></li>
-            </ul>
-        </div>
-    {% endif %}
+                <li>
+                    <a href="{% url 'dashboard_home' %}">Manage profile</a>
+                </li>
+                <li>
+                    <a href="{% url 'account_change_password' %}">
+                        Change password
+                    </a>
+                </li>
+            {% else %}
+                <li><a href="{% url 'account_login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
@@ -28,6 +36,6 @@
     </h1>
 {% endblock %}
 {% block content %}
-<div class="forms-container large-8 medium-10 small-12">
-</div>
+    <div class="forms-container large-8 medium-10 small-12">
+    </div>
 {% endblock %}

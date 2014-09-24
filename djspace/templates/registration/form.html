@@ -1,14 +1,11 @@
-{% extends "base.html" %}
+{% extends "home.html" %}
 {% block title %}
     WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
 {% block extra_javascript %}
     <script type="text/javascript">
         $(document).ready(function(){
-            $('label[for="id_citizen_0"]').closest('ul').addClass('linline');
-            $('label[for="id_disability_0"]').closest('ul').addClass('linline');
-            $('label[for="id_gender_0"]').closest('ul').addClass('linline');
-            $('label[for="id_rocket_comp_0"]').closest('ul').addClass('linline');
+            //
         });
     </script>
 {% endblock %}

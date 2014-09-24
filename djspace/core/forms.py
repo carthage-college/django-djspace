@@ -2,8 +2,8 @@
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 
-from djspace.core.models import UserProfile, GenericChoice
-from djspace.core.models import REG_TYPE, BIRTH_YEAR_CHOICES
+from djspace.core.models import UserProfile, GenericChoice, BIRTH_YEAR_CHOICES
+from djspace.core.models import REG_TYPE
 
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE
@@ -37,7 +37,7 @@ class SignupForm(forms.Form):
     )
     date_of_birth = forms.DateField(
         label = "Date of birth",
-        widget=SelectDateWidget(years=BIRTH_YEAR_CHOICES)
+        widget=SelectDateWidget(years=range(1996,1929,-1))
     )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES,
