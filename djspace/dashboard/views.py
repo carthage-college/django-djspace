@@ -13,6 +13,15 @@ from djtools.utils.mail import send_mail
 
 @login_required
 def home(request):
+    """
+    User dashboard home
+    """
+
+@login_required
+def profile_form(request):
+    """
+    Form method that handles user profile data.
+    """
     message = None
     user = request.user
     profile = UserProfile.objects.get(user=user)
@@ -33,7 +42,7 @@ def home(request):
     else:
         form = UserProfileForm(instance=profile)
     return render_to_response(
-        "dashboard/home.html", {
+        "dashboard/profile_form.html", {
             "form":form,"reg_form":reg_form,
             "reg_type":reg_type,"message":message
         }, context_instance=RequestContext(request)

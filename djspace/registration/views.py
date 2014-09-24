@@ -6,10 +6,11 @@ from django.contrib.auth.decorators import login_required
 
 from djspace.registration.forms import *
 
-import os
-
 @login_required
 def form(request, reg_type):
+    """
+    Generic form method that handles all registration types.
+    """
     user = request.user
     try:
         reg = eval(reg_type).object.get(user=user)
@@ -25,7 +26,9 @@ def form(request, reg_type):
         except:
             raise Http404
         if form.is_valid():
-            data = form.save()
+            data = form.save(commit=False)
+            data.user = user
+            data.save()
             return HttpResponseRedirect(reverse('registration_success'))
 
     return render_to_response(

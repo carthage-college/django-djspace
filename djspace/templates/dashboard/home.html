@@ -16,6 +16,7 @@
     .linline li {display:inline; padding-right:3px;}
     #id_date_of_birth_day, #id_date_of_birth_year {width:90px;}
     #id_date_of_birth_month { width: 130px;}
+    .column2 { padding-top: 0; }
 </style>
 {% endblock %}
 {% block page_header %}
@@ -37,6 +38,7 @@
 {% endblock %}
 {% block content %}
 <div class="forms-container large-6 medium-12 small-12">
+    <h2>Your Profile</h2>
     <form method="post" action="." class="form">
         {% csrf_token %}
         <input type="hidden" name="salutation" value="{{user.profile.salutation}}" />
@@ -52,6 +54,7 @@
     </form>
 </div>
 <div class="forms-container column2 large-4 medium-12 small-12">
+    <h2>Registration Information</h2>
     <form action="{% url 'registration_form' reg_type %}"
         method="post" class="form">
         {% csrf_token %}

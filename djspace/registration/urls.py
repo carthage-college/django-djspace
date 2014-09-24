@@ -11,7 +11,7 @@ urlpatterns = patterns('djspace.registration.views',
     #url(r'professional', 'professional', name='professional_form'),
     #url(r'faculty', 'professor', name='faculty_form'),
     url(
-        r'success',
+        r'^success/$',
         TemplateView.as_view(
             template_name='registration/success.html'
         ),
