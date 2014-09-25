@@ -2,6 +2,14 @@
 {% load i18n %}
 {% load account %}
 {% load url from future %}
+{% block extra_javascript %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('label[for="id_remember"]').parent().addClass("fleft");
+        });
+    </script>
+{% endblock %}
+
 {% block content_head %}
     <h1 id="page_title">
         {% trans "Sign In" %}
@@ -29,7 +37,7 @@
     <p>
     {% blocktrans %}
         If you have not created an account yet, then please
-        <a href="{{ signup_url }}">sign up</a> first.
+        <a href="{{ signup_url }}"><strong>sign up</strong></a> first.
     {% endblocktrans %}
     </p>
 {% endif %}
@@ -55,7 +63,7 @@
         {% endif %}
         {% include "form_submit.inc.html" %}
         <a class="button secondaryAction" href="{% url 'account_reset_password' %}">
-            {% trans "Forgot Password?" %}
+            <strong>{% trans "Have you forgotten your password?" %}</strong>
         </a>
     </form>
 </div>

@@ -14,6 +14,7 @@
             $('label[for="id_us_citizen_0"]').closest('ul').addClass('linline');
             $('label[for="id_disability_0"]').closest('ul').addClass('linline');
             $('label[for="id_gender_0"]').closest('ul').addClass('linline');
+            $("#id_date_of_birth_month").parent().parent().find('h3').addClass("required");
         });
     </script>
 {% endblock %}
@@ -28,7 +29,7 @@
     <p>
         {% blocktrans %}
             Already have an account? Then please
-            <a href="{{ login_url }}">sign in</a>.
+            <a href="{{ login_url }}"><strong>sign in</strong></a>.
         {% endblocktrans %}
     </p>
     <form class="signup form" id="signup_form" method="post"

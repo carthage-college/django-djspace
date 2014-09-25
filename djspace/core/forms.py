@@ -38,6 +38,7 @@ class SignupForm(forms.Form):
     )
     date_of_birth = forms.DateField(
         label = "Date of birth",
+        required=False,
         widget=SelectDateWidget(years=range(1996,1929,-1))
     )
     gender = forms.TypedChoiceField(
@@ -82,6 +83,15 @@ class SignupForm(forms.Form):
     phone = USPhoneNumberField(
         widget=forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'})
     )
+
+    def clean(self):
+        cd = super(SignupForm, self).clean()
+        if not cd.get("date_of_birth"):
+            self._errors["date_of_birth"] = self.error_class(
+                ["Required field."]
+            )
+        return cd
+
 
     def signup(self, request, user):
         cd = self.cleaned_data
