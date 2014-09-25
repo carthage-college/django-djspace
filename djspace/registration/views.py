@@ -12,8 +12,11 @@ def form(request, reg_type):
     Generic form method that handles all registration types.
     """
     user = request.user
+    # check if someone is up to something
+    if user.profile.registration_type != reg_type:
+        return HttpResponseRedirect(reverse('dashboard_home'))
     try:
-        reg = eval(reg_type).object.get(user=user)
+        reg = eval(reg_type).objects.get(user=user)
     except:
         reg = None
     try:

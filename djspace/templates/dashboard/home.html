@@ -5,18 +5,14 @@
 {% block extra_javascript %}
     <script type="text/javascript">
         $(document).ready(function(){
-            $('label[for="id_us_citizen_0"]').closest('ul').addClass('linline');
-            $('label[for="id_disability_0"]').closest('ul').addClass('linline');
-            $('label[for="id_gender_0"]').closest('ul').addClass('linline');
+            //
         });
     </script>
 {% endblock %}
 {% block extra_style %}
 <style type="text/css" media="screen, projection">
-    .linline li {display:inline; padding-right:3px;}
-    #id_date_of_birth_day, #id_date_of_birth_year {width:90px;}
-    #id_date_of_birth_month { width: 130px;}
-    .column2 { padding-top: 0; }
+    h2 {margin-bottom:9px;}
+    .column2 {padding-top: 0;}
 </style>
 {% endblock %}
 {% block page_header %}
@@ -28,44 +24,58 @@
         {{user.first_name}}
         {{user.profile.second_name}}
         {{user.last_name}}
+        <small class="fright" style="margin-right:20px;">
+            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x green"></i></a>
+        </small>
         <span id="secondary-dropdown"></span>
     </h1>
-    {% if message %}
-    <div class="notice">
-        <p><h4>Your profile has been saved.</h4></p>
-    </div>
-    {% endif %}
 {% endblock %}
 {% block content %}
-<div class="forms-container large-6 medium-12 small-12">
-    <h2>Your Profile</h2>
-    <form method="post" action="." class="form">
-        {% csrf_token %}
-        <input type="hidden" name="salutation" value="{{user.profile.salutation}}" />
-        <input type="hidden" name="second_name" value="{{user.profile.second_name}}" />
-        <fieldset class="blockLabels">
-            <ol>
-                {% for field in form %}
-                    {% include "form_field.inc.html" %}
-                {% endfor %}
-            </ol>
-        </fieldset>
-        {% include "form_submit.inc.html" %}
-    </form>
+<div class="large-6 medium-12 small-12">
+    <h2>Your Grant Applications</h2>
+    {% if user.profile.us_citizen == "Yes" %}
+        <ul>
+        <li><a href="#">App 1</a></li>
+        <li><a href="#">App 2</a></li>
+        <li><a href="#">App 3</a></li>
+        <li><a href="#">App 4</a></li>
+        </ul>
+    {% else %}
+        <div class="notice">
+            <p>
+                <h4>
+                    You must be a United States citizen to apply
+                    for grants from NASA.
+                </h4>
+            </p>
+        </div>
+    {% endif %}
 </div>
-<div class="forms-container column2 large-4 medium-12 small-12">
-    <h2>Registration Information</h2>
-    <form action="{% url 'registration_form' reg_type %}"
-        method="post" class="form">
-        {% csrf_token %}
-        <fieldset class="blockLabels">
-            <ol>
-                {% for field in reg_form %}
-                    {% include "form_field.inc.html" %}
-                {% endfor %}
-            </ol>
-        </fieldset>
-        {% include "form_submit.inc.html" %}
-    </form>
+<div class="column2 large-5 medium-12 small-12">
+    <h2>Message Center</h2>
+    {% if not reg %}
+    <div class="notice">
+    {% else %}
+    <div class="success">
+    {% endif %}
+        <p>
+            <h4>
+                {% if not reg %}
+                <i class="fa fa-times red"></i>
+                You have not completed your
+                <a href="{% url 'registration_form' user.profile.registration_type %}">
+                    registration profile.
+                </a>
+                {% else %}
+                <i class="fa fa-check green"></i>
+                Your registration is complete.<br><br>
+                <i class="fa fa-rocket green"></i>
+                <a href="#" style="color:blue;">
+                    Apply for grants.
+                </a>
+                {% endif %}
+            </h4>
+        </p>
+    </div>
 </div>
 {% endblock %}

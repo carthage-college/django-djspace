@@ -89,6 +89,10 @@ class Undergraduate(BaseStudent):
 
 class Graduate(BaseStudent):
 
+    degree_program = models.CharField(
+        max_length=32,
+        blank=True
+    )
     degree_program_other = models.CharField(
         "Other",
         max_length=128,
@@ -98,12 +102,12 @@ class Graduate(BaseStudent):
         "Concentration area (eg. physics, astronomy, physiology, etc.)",
         max_length=128
     )
-    graduate_gpa = models.FloatField(
+    graduate_gpa = models.CharField(
         "Current cumulative GPA",
         max_length=4,
         validators=[credit_gpa_validator]
     )
-    graduate_scale = models.IntegerField(
+    graduate_scale = models.CharField(
         "GPA Scale",
         max_length=4,
         validators=[credit_gpa_validator]

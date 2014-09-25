@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('djspace.dashboard.views',
     url(
-        r'^/profile/$',
+        r'^profile/$',
         'profile_form', name="dashboard_profile"
     ),
     url(

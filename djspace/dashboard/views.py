@@ -16,6 +16,16 @@ def home(request):
     """
     User dashboard home
     """
+    reg_type = request.user.profile.registration_type
+    try:
+        reg = eval(reg_type).objects.get(user=request.user)
+    except:
+        reg = None
+
+    return render_to_response(
+        "dashboard/home.html", {"reg":reg,},
+        context_instance=RequestContext(request)
+    )
 
 @login_required
 def profile_form(request):
