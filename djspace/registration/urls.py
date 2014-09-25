@@ -6,10 +6,6 @@ from django.views.generic import TemplateView
 admin.autodiscover()
 
 urlpatterns = patterns('djspace.registration.views',
-    #url(r'undergraduate', 'undergrad', name='undergrad_form'),
-    #url(r'graduate', 'graduate', name='graduate_form'),
-    #url(r'professional', 'professional', name='professional_form'),
-    #url(r'faculty', 'professor', name='faculty_form'),
     url(
         r'^success/$',
         TemplateView.as_view(

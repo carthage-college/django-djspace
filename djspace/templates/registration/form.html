@@ -3,13 +3,20 @@
     WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
 {% block extra_javascript %}
+    <script src="//www.carthage.edu/static/vendor/jquery/plugins/jquery.mtz.monthpicker.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            //
+            options = {
+                startYear: 2014,
+                finalYear: 2025
+            };
+            $('#id_month_year_of_graduation').monthpicker(options);
         });
     </script>
 {% endblock %}
 {% block extra_style %}
+<link rel="stylesheet" type="text/css" media="screen"
+    href="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css">
 <style type="text/css" media="screen, projection">
     .linline li {display:inline; padding-right:3px;}
 </style>

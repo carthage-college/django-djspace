@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.contrib import messages
 from django.forms.extras.widgets import SelectDateWidget
 
 from djspace.core.models import UserProfile, GenericChoice, BIRTH_YEAR_CHOICES
@@ -91,6 +92,7 @@ class SignupForm(forms.Form):
             user = user,
             salutation = cd['salutation'],
             second_name = cd['second_name'],
+            registration_type = cd['registration_type'],
             gender = cd['gender'],
             tribe = cd.get('tribe'),
             disability = cd['disability'],
@@ -107,4 +109,11 @@ class SignupForm(forms.Form):
         for r in request.POST.getlist('race'):
             profile.race.add(r)
         profile.save()
-
+        if profile.us_citizen == "No":
+            messages.warning(
+                request,
+                """
+                You must be a United States citizen in order to
+                apply for grants from NASA.
+                """
+            )

@@ -63,7 +63,8 @@
                 {% if not reg %}
                 <i class="fa fa-times red"></i>
                 You have not completed your
-                <a href="{% url 'registration_form' user.profile.registration_type %}">
+                <a href="{% url 'registration_form' user.profile.registration_type %}"
+                    style="color:blue;">
                     registration profile.
                 </a>
                 {% else %}
