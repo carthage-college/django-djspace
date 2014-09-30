@@ -7,6 +7,49 @@ from djspace.registration.validators import *
 
 from djtools.fields import STATE_CHOICES
 
+MAJORS = (
+    ('Aeronautical Engineering','Aeronautical Engineering'),
+    ('Aerospace Engineering','Aerospace Engineering'),
+    ('Applied Physics','Applied Physics'),
+    ('Astronomy','Astronomy'),
+    ('Astrophysics','Astrophysics'),
+    ('Atmoshperic Sciences','Atmoshperic Sciences'),
+    ('Biochemistry','Biochemistry'),
+    ('Biology','Biology'),
+    ('Biomedical Engineering','Biomedical Engineering'),
+    ('Biomedical Science','Biomedical Science'),
+    ('Biophysics','Biophysics'),
+    ('Biotechnology','Biotechnology'),
+    ('Chemical Engineering','Chemical Engineering'),
+    ('Chemistry','Chemistry'),
+    ('Civil Engineering','Civil Engineering'),
+    ('Computer Engineering','Computer Engineering'),
+    ('Computer Science','Computer Science'),
+    ('Electrical Engineering','Electrical Engineering'),
+    ('Environmental Science','Environmental Science'),
+    ('Environmental Studies','Environmental Studies'),
+    ('Geography','Geography'),
+    ('Geology','Geology'),
+    ('Geophysics','Geophysics'),
+    ('Geoscience','Geoscience'),
+    ('Industrial Engineering','Industrial Engineering'),
+    ('Kinesiology','Kinesiology'),
+    ('Mathematics','Mathematics'),
+    ('Mechanical Engineering','Mechanical Engineering'),
+    ('Meteorology','Meteorology'),
+    ('Microbiology','Microbiology'),
+    ('Molecular and Cell Biology','Molecular and Cell Biology'),
+    ('Molecular and Environmental Plant Science','Molecular and Environmental Plant Science'),
+    ('Neuroscience','Neuroscience'),
+    ('Nuclear Engineering','Nuclear Engineering'),
+    ('Oceanography','Oceanography'),
+    ('Other','Other'),
+    ('Physics','Physics'),
+    ('Statistics','Statistics'),
+    ('Systems Engineering','Systems Engineering')   
+)
+
+
 class BaseStudent(models.Model):
 
     # Django user
@@ -14,7 +57,8 @@ class BaseStudent(models.Model):
     # NEEDS TO BE A DROP DOWN
     major = models.CharField(
         "Primary major",
-        max_length=20
+        max_length=128,
+        choices=MAJORS
     )
     major_other = models.CharField(
         "Other",
@@ -24,7 +68,8 @@ class BaseStudent(models.Model):
     # NEEDS TO BE A DROP DOWN
     secondary_major_minor = models.CharField(
         "Secondary major or minor",
-        max_length=128
+        max_length=128,
+        choices=MAJORS
     )
     secondary_major_minor_other = models.CharField(
         "Other",
