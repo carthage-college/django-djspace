@@ -13,6 +13,8 @@
 <style type="text/css" media="screen, projection">
     h2 {margin-bottom:9px;}
     .column2 {padding-top: 0;}
+    .red, .glyphicon {color:#800;}
+    .green, .glyphicon-ok {color:#008000;}
 </style>
 {% endblock %}
 {% block page_header %}
@@ -25,7 +27,7 @@
         {{user.profile.second_name}}
         {{user.last_name}}
         <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x green"></i></a>
+            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x"></i></a>
         </small>
         <span id="secondary-dropdown"></span>
     </h1>
@@ -62,11 +64,11 @@
             <h4>
                 {% if not reg %}
                 <i class="fa fa-times red"></i>
-                You have not completed your
+                You must complete your
                 <a href="{% url 'registration_form' user.profile.registration_type %}"
                     style="color:blue;">
-                    registration profile.
-                </a>
+                    registration profile
+                </a> before applying for grants from NASA.
                 {% else %}
                 <i class="fa fa-check green"></i>
                 Your registration is complete.<br><br>

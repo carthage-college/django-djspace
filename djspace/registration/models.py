@@ -46,7 +46,7 @@ MAJORS = (
     ('Other','Other'),
     ('Physics','Physics'),
     ('Statistics','Statistics'),
-    ('Systems Engineering','Systems Engineering')   
+    ('Systems Engineering','Systems Engineering')
 )
 
 
