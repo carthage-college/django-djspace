@@ -38,6 +38,13 @@
     </div>
     {% include "socialaccount/snippets/login_extra.html" %}
 {% else %}
+    {% if messages %}
+        {% for message in messages %}
+        <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
     <p>
     {% blocktrans %}
         If you are not registered with WSGC,

@@ -59,7 +59,7 @@ class SignupForm(forms.Form):
         choices = YES_NO_DECLINE, widget = forms.RadioSelect()
     )
     us_citizen = forms.TypedChoiceField(
-        label = "U.S. Citizen",
+        label = "United States Citizen",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
     address1 = forms.CharField(

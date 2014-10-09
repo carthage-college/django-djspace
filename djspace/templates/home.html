@@ -8,9 +8,10 @@
     Wisconsin Space Grant Consortium
 {% endblock %}
 {% block left_nav %}
-    {{ block.super }}
-    <h3>Account</h3>
-    <div>
+    <h3>
+        <a href="{% url 'dashboard_home' %}">Account</a>
+    </h3>
+    <div style="margin-bottom:14px;">
         <ul>
             {% if user.is_authenticated %}
                 <li>
@@ -20,16 +21,22 @@
                     <a href="{% url 'dashboard_profile' %}">Manage profile</a>
                 </li>
                 <li>
+                    <a href="{% url 'account_email' %}">
+                        Manage email addresses
+                    </a>
+                </li>
+                <li>
                     <a href="{% url 'account_change_password' %}">
                         Change password
                     </a>
                 </li>
-                <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                <li><a href="{% url 'account_logout' %}">Sign out</a></li>
             {% else %}
-                <li><a href="{% url 'account_login' %}">Login</a></li>
+                <li><a href="{% url 'account_login' %}">Sign in</a></li>
             {% endif %}
         </ul>
     </div>
+    {{ block.super }}
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">

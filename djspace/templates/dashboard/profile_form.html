@@ -41,8 +41,9 @@
 {% endblock %}
 {% block content %}
 <div class="forms-container large-6 medium-12 small-12">
-    <h2>Your Profile</h2>
     <form method="post" action="." class="form">
+        <h2>Account information</h2>
+        <h2>Your Profile</h2>
         {% csrf_token %}
         <input type="hidden" name="salutation" value="{{user.profile.salutation}}" />
         <input type="hidden" name="second_name" value="{{user.profile.second_name}}" />

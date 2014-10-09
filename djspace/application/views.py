@@ -22,39 +22,3 @@ def form(request, reg_type):
         {"form": form,"reg_type":reg_type},
         context_instance=RequestContext(request)
     )
-
-def undergrad(request):
-    form = UndergraduateForm()
-
-    return render_to_response(
-        "application/form.html",
-        {"form": form,},
-        context_instance=RequestContext(request)
-    )
-
-def graduate(request):
-    form = GraduateForm()
-
-    return render_to_response(
-        "application/form.html",
-        {"form": form,},
-        context_instance=RequestContext(request)
-    )
-
-def professional(request):
-    form = ProfessionalForm()
-
-    return render_to_response(
-        "application/form.html",
-        {"form": form,},
-        context_instance=RequestContext(request)
-    )
-
-def professor(request):
-    form = ProfessorForm()
-
-    return render_to_response(
-        "application/form.html",
-        {"form": form,},
-        context_instance=RequestContext(request)
-    )

@@ -33,6 +33,13 @@
     </h1>
 {% endblock %}
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div{% if message.tags %} class="{{ message.tags }} large-12 medium-12 small-12"{% endif %}>
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
 <div class="large-6 medium-12 small-12">
     <h2>Your Grant Applications</h2>
     {% if user.profile.us_citizen == "Yes" %}

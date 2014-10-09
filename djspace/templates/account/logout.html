@@ -3,7 +3,7 @@
 {% load i18n %}
 {% block content_head %}
     <h1 id="page_title">
-        {% trans "Log Out" %}
+        {% trans "Sign out" %}
         <small class="fright" style="margin-right:20px;">
             <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x green"></i></a>
         </small>
@@ -12,7 +12,7 @@
 {% endblock %}
 {% block content %}
 <p>
-    {% trans 'Are you certain that you want to log out?' %}
+    {% trans 'Are you certain that you want to sign out?' %}
 </p>
 <div class="forms-container">
     <form method="post" action="{% url 'account_logout' %}" class="form">
@@ -22,7 +22,7 @@
                 value="{{redirect_field_value}}"/>
         {% endif %}
         <input type="submit" name="action" class="button"
-            value="{% trans "Log out" %}"/>
+            value="{% trans "Sign out" %}"/>
     </form>
 </div>
 {% endblock %}
