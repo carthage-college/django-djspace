@@ -20,7 +20,7 @@
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
-        {% trans "Sign Up" %}
+        {% trans "Register" %}
         <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
@@ -46,7 +46,30 @@
             {% endfor %}
             </p>
         {% endif %}
-        {% include "includes/generic_form.html" %}
+        <fieldset class="blockLabels">
+            <ol>
+                {% for field in form %}
+                    <li class="ctrlHolder">
+                    <h3>{{ field.label_tag }}</h3>
+                    {% if field.help_text %}
+                    <p class="help">{{field.help_text}}</p>
+                    {% endif %}
+                    {% if field.name == "password1" and not field.errors %}
+                    <p class="help">Password must be a minimum of 8 characters.</p>
+                    {% endif %}
+                    {% if field.errors %}
+                    <div class="required warning">
+                    <span class="error-message">{{ field.errors|join:", "}}</span>
+                    {% else %}
+                    <div{% if field.field.required %} class="required"{% endif %}>
+                    {% endif %}
+                    {{field}}
+                    </div>
+                    </li>
+                {% endfor %}
+            </ol>
+        </fieldset>
+        {% include "form_submit.inc.html" %}
     </form>
 </div>
 {% endblock %}

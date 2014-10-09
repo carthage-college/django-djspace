@@ -61,20 +61,21 @@ class BaseStudent(models.Model):
         choices=MAJORS
     )
     major_other = models.CharField(
-        "Other",
+        "If Other, please state",
         max_length=128,
-        blank=True
+        null=True, blank=True
     )
     # NEEDS TO BE A DROP DOWN
     secondary_major_minor = models.CharField(
         "Secondary major or minor",
         max_length=128,
+        null=True, blank=True,
         choices=MAJORS
     )
     secondary_major_minor_other = models.CharField(
-        "Other",
+        "If Other, please state",
         max_length=128,
-        blank=True
+        null=True, blank=True
     )
     student_id = models.CharField(
         "Student ID",
@@ -106,7 +107,7 @@ class BaseStudent(models.Model):
         validators=[month_year_validator]
     )
     wsgc_school = models.CharField(
-        "WSGC College or University applied to",
+        "WSGC College or University",
         choices=WSGC_SCHOOL,
         max_length=128
     )
@@ -136,12 +137,12 @@ class Graduate(BaseStudent):
 
     degree_program = models.CharField(
         max_length=32,
-        blank=True
+        null=True, blank=True,
     )
     degree_program_other = models.CharField(
         "Other",
         max_length=128,
-        blank=True
+        null=True, blank=True,
     )
     concentration_area = models.CharField(
         "Concentration area (eg. physics, astronomy, physiology, etc.)",
@@ -184,7 +185,7 @@ class Faculty(models.Model):
         "Web site",
         max_length=128,
         help_text = "eg. www.mywebsite.com",
-        blank=True
+        null=True, blank=True,
     )
 
 
@@ -203,5 +204,9 @@ class Professional(models.Model):
     wsgc_affiliate = models.CharField(
         "WSGC Affiliate",
         max_length=128,
+        help_text = """
+            You must be associated with a WSGC commercial, government, or
+            nonprofit affiliate in order to proceed
+        """,
         choices=WSGC_AFFILIATE
     )

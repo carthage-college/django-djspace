@@ -50,21 +50,17 @@
     {% endif %}
     <form method="post" action="." class="form">
         {% csrf_token %}
-        <p>
-            If you would like to apply for any WSGC funding opportunity,
-            you will need to register with WGSC using the form below.
-            Once you are registered, you will be able to log into the WSGC
-            website and apply for any program for which you are eligible.
-        </p>
         {% for field in form.visible_fields %}
             {% if field.name == 'first_name' %}
                 <h2>Personal Information</h2>
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}
+            {% if field.name == 'campus_email' or field.name == 'wsgc_affiliate' %}
+                <fieldset class="blockLabels">
+                    <ol>
+            {% endif %}
             {% if field.name == 'wsgc_school' %}
-                    </ol>
-                </fieldset>
                 <h2>
                     Please tell us about your college
                     or university affiliation
@@ -72,28 +68,7 @@
                 <fieldset class="blockLabels">
                     <ol>
             {% endif %}
-            {% if field.name == 'address_1' %}
-                    </ol>
-                </fieldset>
-                <h2>
-                    Contact Information
-                </h2>
-                <fieldset class="blockLabels">
-                    <ol>
-            {% endif %}
-            {% if field.name == 'race' %}
-                <li class="form-group ctrlHolder">
-                    <h3 class="required">
-                        <label for="id_race_0">Race</label>
-                    </h3>
-                    <p class="help">{{field.help_text}}</p>
-                    {% for f in field %}
-                        {{ f }}
-                    {% endfor %}
-                </li>
-            {% else %}
-                {% include "form_field.inc.html" %}
-            {% endif %}
+            {% include "form_field.inc.html" %}
         {% endfor %}
             </ol>
         </fieldset>
