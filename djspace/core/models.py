@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 
+from djspace.registration.models import *
+
 from taggit.managers import TaggableManager
 
 from datetime import date
@@ -129,3 +131,9 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return "%s %s's profile" % (self.user.first_name, self.user.last_name)
+
+    def get_registration(self):
+        try:
+            return eval(self.registration_type).objects.get(user=self.user)
+        except:
+            return None

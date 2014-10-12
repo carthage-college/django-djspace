@@ -189,13 +189,6 @@ class Faculty(models.Model):
     )
 
 
-#class K12Educator(models.Model):
-    # Django user
-#    user = models.ForeignKey(User)
-    # etc
-#    pass
-
-
 class Professional(models.Model):
 
     # Django user

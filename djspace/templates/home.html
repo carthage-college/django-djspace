@@ -30,6 +30,11 @@
                         Change password
                     </a>
                 </li>
+                {% if user.is_superuser %}
+                <li>
+                    <a href="/forms/admin/">Administration</a>
+                </li>
+                {% endif %}
                 <li><a href="{% url 'account_logout' %}">Sign out</a></li>
             {% else %}
                 <li><a href="{% url 'account_login' %}">Sign in</a></li>
