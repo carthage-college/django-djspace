@@ -27,6 +27,7 @@ class SignupForm(forms.Form):
         max_length=30
     )
     second_name = forms.CharField(
+        label="Second name, middle name or initial",
         max_length=30
     )
     last_name = forms.CharField(

@@ -1,13 +1,13 @@
 from django.conf import settings
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 
 from djspace.registration.forms import *
-from djspace.core.models import UserProfile
-from djspace.dashboard.forms import UserProfileForm
+from djspace.dashboard.forms import UserForm, UserProfileForm
 
 from djtools.utils.mail import send_mail
 
@@ -27,33 +27,81 @@ def home(request):
         context_instance=RequestContext(request)
     )
 
+@csrf_exempt
+def registration_type(request):
+    if request.method == 'POST':
+        reg_type = request.POST.get("registration_type")
+        try:
+            reg = eval(reg_type).objects.get(user=request.user)
+        except:
+            reg = None
+
+        try:
+            reg_form = eval(reg_type+"Form")(
+                instance=reg, prefix="reg"
+            )
+        except:
+            raise Http404
+
+        return render_to_response(
+            "dashboard/registration_form.inc.html", {"reg_form":reg_form,},
+            context_instance=RequestContext(request)
+        )
+    else:
+        raise Http404
+
 @login_required
 def profile_form(request):
     """
     Form method that handles user profile data.
     """
-    message = None
+    message = "WTF?!"
+    #message = None
     user = request.user
-    profile = UserProfile.objects.get(user=user)
+    profile = user.profile
     reg_type = profile.registration_type
+    reg_data = None
+    # user may have changed registration type
+    if request.method == 'POST' and reg_type != request.POST.get("pro-registration_type"):
+        reg_type = request.POST.get("pro-registration_type")
     try:
         reg = eval(reg_type).objects.get(user=user)
     except:
         reg = None
-
-    reg_form = eval(reg_type+"Form")(instance=reg)
     if request.method == 'POST':
-        form = UserProfileForm(instance=profile, data=request.POST)
-        if form.is_valid():
-            data = form.save(commit=False)
-            data.user = user
-            data.save()
+        reg_form = eval(reg_type+"Form")(
+            instance=reg, prefix="reg", data=request.POST
+        )
+        pro_form = UserProfileForm(
+            instance=profile, data=request.POST, prefix="pro"
+        )
+        usr_form = UserForm(prefix="usr", data=request.POST)
+        if pro_form.is_valid() and reg_form.is_valid() and usr_form.is_valid():
+            usr = usr_form.cleaned_data
+            user.first_name = usr["first_name"]
+            user.last_name = usr["last_name"]
+            user.save()
+            pro = pro_form.save(commit=False)
+            pro.salutation = usr["salutation"]
+            pro.second_name = usr["second_name"]
+            pro.user = user
+            pro.save()
+            reg = reg_form.save(commit=False)
+            reg.user = user
+            reg.save()
             message = "Success"
     else:
-        form = UserProfileForm(instance=profile)
+        usr_form = UserForm(initial={
+            'salutation':profile.salutation,'first_name':user.first_name,
+            'second_name':profile.second_name,'last_name':user.last_name
+        }, prefix="usr")
+        reg_form = eval(reg_type+"Form")(
+            instance=reg, prefix="reg"
+        )
+        pro_form = UserProfileForm(instance=profile, prefix="pro")
     return render_to_response(
         "dashboard/profile_form.html", {
-            "form":form,"reg_form":reg_form,
+            "pro_form":pro_form,"reg_form":reg_form,"usr_form":usr_form,
             "reg_type":reg_type,"message":message
         }, context_instance=RequestContext(request)
     )

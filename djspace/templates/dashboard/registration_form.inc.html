@@ -1,0 +1,8 @@
+<h2>Registration Information</h2>
+<fieldset class="blockLabels">
+    <ol>
+        {% for field in reg_form %}
+            {% include "form_field.inc.html" %}
+        {% endfor %}
+    </ol>
+</fieldset>

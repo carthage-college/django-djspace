@@ -12,6 +12,26 @@ from localflavor.us.forms import USPhoneNumberField
 
 RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("name")
 
+class UserForm(forms.Form):
+    """
+    Django User data plus salutation and second_name from profile
+    """
+    salutation = forms.CharField(
+        widget=forms.Select(choices=SALUTATION_TITLES),
+        max_length=16,
+        required=False
+    )
+    first_name = forms.CharField(
+        max_length=30
+    )
+    second_name = forms.CharField(
+        label="Second name, middle name or initial",
+        max_length=30
+    )
+    last_name = forms.CharField(
+        max_length=30
+    )
+
 class UserProfileForm(forms.ModelForm):
     """
     User profile data
@@ -71,4 +91,9 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         exclude = ('user','salutation','second_name')
-
+        fields = [
+            'registration_type', 'address1','address2',
+            'city','state','postal_code','phone',
+            'date_of_birth','gender','race',
+            'tribe','disability','us_citizen'
+        ]

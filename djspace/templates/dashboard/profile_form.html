@@ -3,20 +3,64 @@
     WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
 {% block extra_javascript %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('label[for="id_us_citizen_0"]').closest('ul').addClass('linline');
-            $('label[for="id_disability_0"]').closest('ul').addClass('linline');
-            $('label[for="id_gender_0"]').closest('ul').addClass('linline');
+<script src="//www.carthage.edu/static/vendor/js/spin.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('label[for="id_pro-us_citizen_0"]').closest('ul').addClass('linline');
+    $('label[for="id_pro-disability_0"]').closest('ul').addClass('linline');
+    $('label[for="id_pro-gender_0"]').closest('ul').addClass('linline');
+    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 20, // The length of each line
+        width: 10, // The line thickness
+        radius: 30, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb or array of colors
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'search-results', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: '50px', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    };
+    var target = document.getElementById('reggie');
+    var spinner = new Spinner(opts).spin(target);
+    spinner.stop(target);
+    $('#id_pro-registration_type').on('change',function(){
+        $.ajax({
+            url:  '{% url "registration_type" %}',
+            type: 'POST',
+            async: true,
+            data: {'registration_type': $(this).val()},
+            beforeSend: function(){
+                spinner.spin(target);
+            },
+            success: function(data){
+                spinner.stop(target);
+                $('#reggie').html(data);
+            },
+            error: function (){
+                console.log("error");
+            }
         });
-    </script>
+    });
+});
+</script>
 {% endblock %}
 {% block extra_style %}
 <style type="text/css" media="screen, projection">
     .linline li {display:inline; padding-right:3px;}
-    #id_date_of_birth_day, #id_date_of_birth_year {width:90px;}
-    #id_date_of_birth_month { width: 130px;}
+    #id_pro-date_of_birth_day, #id_pro-date_of_birth_year {width:90px;}
+    #id_pro-date_of_birth_month { width: 130px;}
     .column2 { padding-top: 0; }
+    .form fieldset.btnHolder {
+    background-color: #fcffff;
+    border: 2px solid #ddf3f3;
+    }
 </style>
 {% endblock %}
 {% block page_header %}
@@ -33,43 +77,45 @@
         </small>
         <span id="secondary-dropdown"></span>
     </h1>
-    {% if message %}
+    {% if message == "Success" %}
     <div class="notice">
         <p><h4>Your profile has been saved.</h4></p>
     </div>
     {% endif %}
 {% endblock %}
 {% block content %}
-<div class="forms-container large-6 medium-12 small-12">
-    <form method="post" action="." class="form">
+<form method="post" action="." class="form">
+    {% csrf_token %}
+    <div class="forms-container large-6 medium-12 small-12">
         <h2>Account information</h2>
+        <fieldset class="blockLabels">
+            <ol>
+                {% for field in usr_form %}
+                    {% include "form_field.inc.html" %}
+                {% endfor %}
+            </ol>
+        </fieldset>
         <h2>Your Profile</h2>
-        {% csrf_token %}
-        <input type="hidden" name="salutation" value="{{user.profile.salutation}}" />
-        <input type="hidden" name="second_name" value="{{user.profile.second_name}}" />
         <fieldset class="blockLabels">
             <ol>
-                {% for field in form %}
+                {% for field in pro_form %}
                     {% include "form_field.inc.html" %}
                 {% endfor %}
             </ol>
         </fieldset>
-        {% include "form_submit.inc.html" %}
-    </form>
-</div>
-<div class="forms-container column2 large-4 medium-12 small-12">
-    <h2>Registration Information</h2>
-    <form action="{% url 'registration_form' reg_type %}"
-        method="post" class="form">
-        {% csrf_token %}
-        <fieldset class="blockLabels">
+    </div>
+    <div class="forms-container column2 large-6 medium-12 small-12" id="reggie">
+        {% include "dashboard/registration_form.inc.html" %}
+    </div>
+    <div class="forms-container large-12 medium-12 small-12">
+        <fieldset class="btnHolder">
             <ol>
-                {% for field in reg_form %}
-                    {% include "form_field.inc.html" %}
-                {% endfor %}
+                <li style="text-align:center;">
+                <label for="id_submit"></label>
+                <input id="id_submit" class="button" type="submit" value="Submit">
+                </li>
             </ol>
         </fieldset>
-        {% include "form_submit.inc.html" %}
-    </form>
-</div>
+    </div>
+</form>
 {% endblock %}
