@@ -137,7 +137,6 @@ class Graduate(BaseStudent):
 
     degree_program = models.CharField(
         max_length=32,
-        null=True, blank=True,
     )
     degree_program_other = models.CharField(
         "Other",

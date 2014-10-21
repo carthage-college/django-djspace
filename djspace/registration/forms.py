@@ -37,6 +37,27 @@ class UndergraduateForm(forms.ModelForm):
             'month_year_of_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2015'})
         }
 
+    def clean(self):
+        cleaned_data = super(UndergraduateForm, self).clean()
+        major = cleaned_data.get("major")
+        major_other = cleaned_data.get("major_other")
+        secondary_major_minor = cleaned_data.get("secondary_major_minor")
+        secondary_major_minor_other = cleaned_data.get("secondary_major_minor_other")
+
+        if major == "Other":
+            if major_other == "":
+                self._errors["major_other"] = self.error_class(
+                    ["Required field."]
+                )
+
+        if secondary_major_minor == "Other":
+            if secondary_major_minor_other == "":
+                self._errors["secondary_major_minor_other"] = self.error_class(
+                    ["Required field."]
+                )
+
+        return cleaned_data
+
 
 class GraduateForm(forms.ModelForm):
     """

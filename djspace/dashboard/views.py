@@ -1,15 +1,19 @@
 from django.conf import settings
-from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.forms.models import model_to_dict
+from django.utils.safestring import mark_safe
 from django.shortcuts import render_to_response
+from django.template import RequestContext, loader
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 
 from djspace.registration.forms import *
 from djspace.dashboard.forms import UserForm, UserProfileForm
 
 from djtools.utils.mail import send_mail
+
+import json
 
 @login_required
 def home(request):
@@ -42,11 +46,26 @@ def registration_type(request):
             )
         except:
             raise Http404
+        reggie = None
+        if reg:
+            reggie = model_to_dict(reg)
+        t = loader.get_template("dashboard/registration_form.inc.html")
+        c = RequestContext(request, {"reg_form":reg_form})
+        data = {'form':t.render(c),'reg':reggie,}
+        response = HttpResponse(
+            json.dumps(data),
+            content_type="application/json; charset=utf-8"
+        )
+        return response
 
+        """
         return render_to_response(
-            "dashboard/registration_form.inc.html", {"reg_form":reg_form,},
+            "dashboard/registration_form.inc.html", {
+                "reg_form":reg_form,"reg":reg
+            },
             context_instance=RequestContext(request)
         )
+        """
     else:
         raise Http404
 
@@ -55,8 +74,7 @@ def profile_form(request):
     """
     Form method that handles user profile data.
     """
-    message = "WTF?!"
-    #message = None
+    message = None
     user = request.user
     profile = user.profile
     reg_type = profile.registration_type

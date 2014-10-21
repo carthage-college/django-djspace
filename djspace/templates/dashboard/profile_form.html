@@ -41,12 +41,67 @@ $(document).ready(function(){
             },
             success: function(data){
                 spinner.stop(target);
-                $('#reggie').html(data);
+                $('#reggie').html(data.form);
+                $(".required > input").addClass("required");
+                $(".required > select").addClass("required");
+                $(".required > textarea").addClass("required");
+                $(".required > ul").parent().parent().find('h3').addClass("required");
+                {% if data.reg.degree_program != "Other" %}
+                $('#id_reg-degree_program_other').closest('li').slideUp(200);
+                {% endif %}
+                {% if data.reg.major != "Other" %}
+                $('#id_reg-major_other').closest('li').slideUp(200);
+                {% endif %}
+                {% if data.reg.secondary_major_minor != "Other" %}
+                $('#id_reg-secondary_major_other').closest('li').slideUp(200);
+                {% endif %}
             },
             error: function (){
                 console.log("error");
             }
         });
+    });
+    /* undergraduate major other */
+    {% if reg_form.major.value != "Other" %}
+        $('#id_reg-major_other').closest('li').slideUp(200);
+    {% else %}
+        $('#id_reg-major_other').addClass('required');
+    {% endif %}
+    {% if reg_form.secondary_major_minor.value != "Other" %}
+        $('#id_reg-secondary_major_minor_other').closest('li').slideUp(200);
+    {% else %}
+        $('#id_reg-secondary_major_minor_other').addClass('required');
+    {% endif %}
+    $('#reggie').on('click', '#id_reg-major', function () {
+        if( $(this).val() == "Other") {
+            $('#id_reg-major_other').addClass('required');
+            $('#id_reg-major_other').closest('li').slideDown(200);
+        }else{
+            $('#id_reg-major_other').removeClass('required');
+            $('#id_reg-major_other').closest('li').slideUp(200);
+        }
+    });
+    $('#reggie').on('click', '#id_reg-secondary_major_minor', function () {
+        if( $(this).val() == "Other") {
+            $('#id_reg-secondary_major_minor_other').addClass('required');
+            $('#id_reg-secondary_major_minor_other').closest('li').slideDown(200);
+        }else{
+            $('#id_reg-secondary_major_minor_other').removeClass('required');
+            $('#id_reg-secondary_major_minor_other').closest('li').slideUp(200);
+        }
+    });
+    /* graduate degree other */
+    {% if reg_form.degree_program.value != "Other" %}
+    $('#id_reg-degree_program_other').closest('li').slideUp(200);
+    {% endif %}
+    $('#reggie').on('click', 'input[name="reg-degree_program"]', function () {
+        if( $(this).val() == "Other") {
+            $('#id_reg-degree_program_other').addClass('required');
+            $('#id_reg-degree_program_other').closest('li').slideDown(200);
+        }else{
+            $('#id_reg-degree_program_other').removeClass('required');
+            $('#id_reg-degree_program_other').closest('li').slideUp(200);
+        }
     });
 });
 </script>
@@ -77,13 +132,20 @@ $(document).ready(function(){
         </small>
         <span id="secondary-dropdown"></span>
     </h1>
-    {% if message == "Success" %}
+    {% if message %}
     <div class="notice">
         <p><h4>Your profile has been saved.</h4></p>
     </div>
     {% endif %}
 {% endblock %}
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
 <form method="post" action="." class="form">
     {% csrf_token %}
     <div class="forms-container large-6 medium-12 small-12">
