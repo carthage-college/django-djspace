@@ -23,11 +23,10 @@ class UndergraduateForm(forms.ModelForm):
         fields = [
             'wsgc_school', 'major',
             'major_other', 'secondary_major_minor',
-            'secondary_major_minor_other', 'student_id',
-            'current_cumulative_gpa', 'gpa_in_major', 'gpa_scale',
-            'cumulative_college_credits',
-            'month_year_of_graduation', 'degree',
-            'highschool_name', 'highschool_city', 'highschool_state',
+            'secondary_major_minor_other', 'current_cumulative_gpa',
+            'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
+            'month_year_of_graduation', 'degree', 'highschool_name',
+            'highschool_city', 'highschool_state',
         ]
         widgets = {
             'current_cumulative_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),

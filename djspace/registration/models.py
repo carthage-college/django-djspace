@@ -54,7 +54,6 @@ class BaseStudent(models.Model):
 
     # Django user
     user = models.ForeignKey(User)
-    # NEEDS TO BE A DROP DOWN
     major = models.CharField(
         "Primary major",
         max_length=128,
@@ -65,7 +64,6 @@ class BaseStudent(models.Model):
         max_length=128,
         null=True, blank=True
     )
-    # NEEDS TO BE A DROP DOWN
     secondary_major_minor = models.CharField(
         "Secondary major or minor",
         max_length=128,
@@ -76,10 +74,6 @@ class BaseStudent(models.Model):
         "If Other, please state",
         max_length=128,
         null=True, blank=True
-    )
-    student_id = models.CharField(
-        "Student ID",
-        max_length=7
     )
     current_cumulative_gpa = models.CharField(
         "Current cumulative GPA",
@@ -169,9 +163,6 @@ class Faculty(models.Model):
     # Django user
     user = models.ForeignKey(User)
     # etc
-    campus_email = models.EmailField(
-        "Campus email address"
-    )
     department_program = models.CharField(
         "Department / Program",
         max_length=128
