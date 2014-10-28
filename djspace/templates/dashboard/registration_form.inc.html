@@ -1,8 +1,14 @@
 <h2>Registration Information</h2>
 <fieldset class="blockLabels">
     <ol>
+        {% if reg_type == "Graduate" %}
+        <li><h3>Undergraduate information</h3></li>
+        {% endif %}
         {% for field in reg_form %}
             {% include "form_field.inc.html" %}
+            {% if field.name == "degree" %}
+            <li><h3>Graduate information</h3></li>
+            {% endif %}
         {% endfor %}
     </ol>
 </fieldset>

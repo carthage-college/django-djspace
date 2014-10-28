@@ -185,11 +185,11 @@ class UndergraduateResearch(models.Model):
         upload_to="files/undergraduate/research/proposal/",
         help_text="PDF format"
     )
-    undergraduate_transcripts = models.FileField(
+    high_school_transcripts = models.FileField(
         upload_to="files/undergraduate/research/undergraduate_transcripts/",
         help_text="PDF format"
     )
-    graduate_transcripts = models.FileField(
+    undergraduate_transcripts = models.FileField(
         upload_to="files/undergraduate/research/undergraduate_transcripts/",
         help_text="PDF format"
     )

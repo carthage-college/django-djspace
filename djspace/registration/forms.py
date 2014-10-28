@@ -13,10 +13,6 @@ class UndergraduateForm(forms.ModelForm):
     A form to collect undergraduate information
     """
 
-    degree = forms.TypedChoiceField(
-        choices = UNDERGRADUATE_DEGREE, widget = forms.RadioSelect()
-    )
-
     class Meta:
         model = Undergraduate
         exclude = ('user',)
@@ -25,7 +21,7 @@ class UndergraduateForm(forms.ModelForm):
             'major_other', 'secondary_major_minor',
             'secondary_major_minor_other', 'current_cumulative_gpa',
             'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
-            'month_year_of_graduation', 'degree', 'highschool_name',
+            'month_year_of_graduation', 'highschool_name',
             'highschool_city', 'highschool_state',
         ]
         widgets = {
@@ -63,7 +59,17 @@ class GraduateForm(forms.ModelForm):
     A form to collect graduate information
     """
 
+    cumulative_college_credits = forms.CharField(
+        label = "Total credits"
+    )
+    month_year_of_graduation = forms.CharField(
+        label = "Month and year of graduation"
+    )
+    undergraduate_degree = forms.TypedChoiceField(
+        choices = UNDERGRADUATE_DEGREE, widget = forms.RadioSelect()
+    )
     degree_program = forms.TypedChoiceField(
+        label = "Graduate degree program",
         choices = GRADUATE_DEGREE, widget = forms.RadioSelect()
     )
 
@@ -71,12 +77,22 @@ class GraduateForm(forms.ModelForm):
         model = Graduate
         exclude = ('user',)
         fields = [
-            'wsgc_school', 'degree_program',
-            'degree_program_other', 'concentration_area', 'graduate_gpa',
+            'major',
+            'major_other', 'secondary_major_minor',
+            'secondary_major_minor_other',
+            'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
+            'month_year_of_graduation', 'undergraduate_degree',
+            'wsgc_school', 'degree_program', 'degree_program_other',
+            'concentration_area', 'graduate_gpa',
             'graduate_scale', 'graduate_graduation_year',
         ]
         widgets = {
-            #college
+            # undergraduate
+            'gpa_in_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
+            'gpa_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
+            'cumulative_college_credits': forms.TextInput(attrs={'placeholder': 'eg. 86.0'}),
+            'month_year_of_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2015'}),
+            # graduate
             'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
             'graduate_graduation_year': forms.TextInput(attrs={'placeholder': 'eg. 2015'})
@@ -84,15 +100,30 @@ class GraduateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(GraduateForm, self).clean()
+        major = cleaned_data.get("major")
+        major_other = cleaned_data.get("major_other")
+        secondary_major_minor = cleaned_data.get("secondary_major_minor")
+        secondary_major_minor_other = cleaned_data.get("secondary_major_minor_other")
         degree_program = cleaned_data.get("degree_program")
         degree_program_other = cleaned_data.get("degree_program_other")
+
+        if major == "Other":
+            if major_other == "":
+                self._errors["major_other"] = self.error_class(
+                    ["Required field."]
+                )
+
+        if secondary_major_minor == "Other":
+            if secondary_major_minor_other == "":
+                self._errors["secondary_major_minor_other"] = self.error_class(
+                    ["Required field."]
+                )
 
         if degree_program == "Other":
             if degree_program_other == "":
                 self._errors["degree_program_other"] = self.error_class(
                     ["Required field."]
                 )
-
         return cleaned_data
 
 

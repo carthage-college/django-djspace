@@ -2,8 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djspace.registration.choices import WSGC_AFFILIATE, WSGC_SCHOOL
 from djspace.registration.validators import *
+from djspace.registration.choices import WSGC_AFFILIATE, WSGC_SCHOOL
+from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
 from djtools.fields import STATE_CHOICES
 
@@ -129,8 +130,13 @@ class Undergraduate(BaseStudent):
 
 class Graduate(BaseStudent):
 
+    undergraduate_degree = models.CharField(
+        max_length=32,
+        choices=UNDERGRADUATE_DEGREE
+    )
     degree_program = models.CharField(
         max_length=32,
+        choices=GRADUATE_DEGREE
     )
     degree_program_other = models.CharField(
         "Other",

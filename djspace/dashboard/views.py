@@ -50,22 +50,15 @@ def registration_type(request):
         if reg:
             reggie = model_to_dict(reg)
         t = loader.get_template("dashboard/registration_form.inc.html")
-        c = RequestContext(request, {"reg_form":reg_form})
-        data = {'form':t.render(c),'reg':reggie,}
+        c = RequestContext(
+            request, {"reg_form":reg_form,'reg_type':reg_type}
+        )
+        data = {'form':t.render(c),'reg':reggie}
         response = HttpResponse(
             json.dumps(data),
             content_type="application/json; charset=utf-8"
         )
         return response
-
-        """
-        return render_to_response(
-            "dashboard/registration_form.inc.html", {
-                "reg_form":reg_form,"reg":reg
-            },
-            context_instance=RequestContext(request)
-        )
-        """
     else:
         raise Http404
 
