@@ -6,7 +6,7 @@
         {% endif %}
         {% for field in reg_form %}
             {% include "form_field.inc.html" %}
-            {% if field.name == "degree" %}
+            {% if field.name == "undergraduate_degree" %}
             <li><h3>Graduate information</h3></li>
             {% endif %}
         {% endfor %}
