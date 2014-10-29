@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block title %}WSGC {{reg_type|capfirst}} Application &mdash; Carthage College{% endblock %}
+{% extends "home.html" %}
+{% block title %}WSGC {{app_name}} Application &mdash; Carthage College{% endblock %}
 {% block extra_style %}
 <style type="text/css" media="screen, projection">
     #second li {margin: 0;}
@@ -7,21 +7,17 @@
     .form .blockLabels label {display: inherit;}
 </style>
 {% endblock %}
-{% block left_nav %}
-    {% include "application/left_nav.html" %}
-{% endblock %}
 {% block content_head %}
     <h1 id="page_title">
-        WSGC {{reg_type|capfirst}} Application Form
+        {{app_name}} Application
+        <small class="fright" style="margin-right:20px;">
+            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x green"></i></a>
+        </small>
         <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
 {% block content %}
-<div class="forms-container">
+<div class="forms-container large-8 medium-10 small-12">
     {% include "includes/generic_form.html" %}
 </div>
 {% endblock %}
-{% block sidebar %}
-    {% include "application/side_bar.html" %}
-{% endblock %}
-

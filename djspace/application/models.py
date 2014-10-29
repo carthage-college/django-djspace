@@ -28,6 +28,10 @@ TIME_FRAME = (
 
 class HighAltitudeBalloonLaunch(models.Model):
 
+    # meta
+    user = models.ForeignKey(User)
+    status = models.BooleanField(default=False)
+    # core
     letter_interest = models.FileField(
         "Letter of interest",
         upload_to="files/high-altitude-balloon-launch/letter-interest/",
@@ -42,6 +46,10 @@ class HighAltitudeBalloonLaunch(models.Model):
 
 class HighAltitudeBalloonPayload(models.Model):
 
+    # meta
+    user = models.ForeignKey(User)
+    status = models.BooleanField(default=False)
+    # core
     letter_interest = models.FileField(
         "Letter of interest",
         upload_to="files/high-altitude-balloon-payload/letter-interest/",
@@ -56,6 +64,10 @@ class HighAltitudeBalloonPayload(models.Model):
 
 class ClarkFellowship(models.Model):
 
+    # meta
+    user = models.ForeignKey(User)
+    status = models.BooleanField(default=False)
+    # core
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
         max_length=4,
@@ -69,7 +81,11 @@ class ClarkFellowship(models.Model):
         max_length=128,
         choices=TIME_FRAME
     )
-    funds_request = models.IntegerField(help_text="In Dollars")
+    funds_requested = models.IntegerField(help_text="In Dollars")
+    funds_authorized = models.IntegerField(
+        help_text="In Dollars",
+        null=True,blank=True
+    )
     synopsis = models.TextField()
     proposal = models.FileField(
         upload_to="files/graduate/clark-fellow/proposal/",
@@ -102,7 +118,7 @@ class ClarkFellowship(models.Model):
     signed_certification = models.FileField(
         upload_to="files/graduate/clark-fellow/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://spacegrant.carthage.edu/live/files/1364-wsgc-signed-certifications-doc">
+            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
             Signed certification document
             </a>
         ''')
@@ -111,6 +127,10 @@ class ClarkFellowship(models.Model):
 
 class GraduateFellowship(models.Model):
 
+    # meta
+    user = models.ForeignKey(User)
+    status = models.BooleanField(default=False)
+    # core
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
         max_length=4,
@@ -124,7 +144,11 @@ class GraduateFellowship(models.Model):
         max_length=128,
         choices=TIME_FRAME
     )
-    funds_request = models.IntegerField(help_text="In Dollars")
+    funds_requested = models.IntegerField(help_text="In Dollars")
+    funds_authorized = models.IntegerField(
+        help_text="In Dollars",
+        null=True,blank=True
+    )
     synopsis = models.TextField()
     proposal = models.FileField(
         upload_to="files/graduate/fellowship/proposal/",
@@ -157,7 +181,7 @@ class GraduateFellowship(models.Model):
     signed_certification = models.FileField(
         upload_to="files/graduate/fellowship/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://spacegrant.carthage.edu/live/files/1364-wsgc-signed-certifications-doc">
+            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
             Signed certification document
             </a>
         ''')
@@ -168,13 +192,16 @@ class UndergraduateResearch(models.Model):
 
     # meta
     user = models.ForeignKey(User)
-    status = models.BooleanField()
+    status = models.BooleanField(default=False)
     # core
     project_title = models.CharField(
         "Title of project", max_length=255
     )
-    funds_request = models.IntegerField(help_text="In Dollars")
-    funds_authorized = models.IntegerField(help_text="In Dollars")
+    funds_requested = models.IntegerField(help_text="In Dollars")
+    funds_authorized = models.IntegerField(
+        help_text="In Dollars",
+        null=True,blank=True
+    )
     time_frame = models.CharField(
         "Time frame that best suits your project",
         max_length=128,
@@ -207,7 +234,7 @@ class UndergraduateResearch(models.Model):
     signed_certification = models.FileField(
         upload_to="files/undergraduate/research/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://spacegrant.carthage.edu/live/files/1364-wsgc-signed-certifications-doc">
+            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
             Signed certification document
             </a>
         ''')
@@ -243,7 +270,7 @@ class UndergraduateScholarship(models.Model):
     signed_certification = models.FileField(
         upload_to="files/undergraduate/scholarship/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://spacegrant.carthage.edu/live/files/1364-wsgc-signed-certifications-doc">
+            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
             Signed certification document
             </a>
         ''')

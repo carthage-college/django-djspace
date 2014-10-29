@@ -4,37 +4,54 @@ from django import forms
 
 from djspace.application.models import *
 
-class UndergraduateForm(forms.ModelForm):
+class UndergraduateScholarshipForm(forms.ModelForm):
     """
-    A form to collect undergraduate information
-    """
-
-    class Meta:
-        model = Student
-
-
-class GraduateForm(forms.ModelForm):
-    """
-    A form to collect graduate information
     """
 
     class Meta:
-        model = Student
+        model = UndergraduateScholarship
+        exclude = ('user','status')
 
 
-class ProfessionalForm(forms.ModelForm):
+class UndergraduateResearchForm(forms.ModelForm):
     """
-    A form to collect professional information
-    """
-
-    class Meta:
-        model = NonEducator
-
-
-class ProfessorForm(forms.ModelForm):
-    """
-    A form to collect professor information
     """
 
     class Meta:
-        model = NonEducator
+        model = UndergraduateResearch
+        exclude = ('user','status','funds_authorized')
+
+
+class GraduateFellowshipForm(forms.ModelForm):
+    """
+    """
+
+    class Meta:
+        model = GraduateFellowship
+        exclude = ('user','status','funds_authorized')
+
+
+class ClarkFellowshipForm(forms.ModelForm):
+    """
+    """
+
+    class Meta:
+        model = ClarkFellowship
+        exclude = ('user','status','funds_authorized')
+
+class HighAltitudeBalloonPayloadForm(forms.ModelForm):
+    """
+    """
+
+    class Meta:
+        model = HighAltitudeBalloonPayload
+        exclude = ('user','status')
+
+class HighAltitudeBalloonLaunchForm(forms.ModelForm):
+    """
+    """
+
+    class Meta:
+        model = HighAltitudeBalloonLaunch
+        exclude = ('user','status')
+

@@ -41,24 +41,57 @@
     {% endfor %}
 {% endif %}
 <div class="large-6 medium-12 small-12">
+{% if user.profile.us_citizen == "Yes" %}
     <h2>Your Grant Applications</h2>
-    {% if user.profile.us_citizen == "Yes" %}
-        <ul>
+    <ul>
         <li><a href="#">App 1</a></li>
         <li><a href="#">App 2</a></li>
         <li><a href="#">App 3</a></li>
         <li><a href="#">App 4</a></li>
-        </ul>
-    {% else %}
-        <div class="notice">
-            <p>
-                <h4>
-                    You must be a United States citizen to apply
-                    for grants from NASA.
-                </h4>
-            </p>
-        </div>
-    {% endif %}
+    </ul>
+    <h2>Grant Applications</h2>
+    <ul>
+        <li>
+            <a href="{% url 'application_form' 'undergraduate-scholarship' %}">
+                Undergraduate Scholarship
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'application_form' 'undergraduate-research' %}">
+                Undergraduate Research
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'application_form' 'graduate-fellowship' %}">
+                Graduate Fellowship
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'application_form' 'clark-fellowship' %}">
+                Clark Fellowship
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'application_form' 'high-altitude-balloon-payload' %}">
+                High Altitude Balloon Payload
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'application_form' 'high-altitude-balloon-launch' %}">
+                High Altitude Balloon Launch
+            </a>
+        </li>
+    </ul>
+{% else %}
+    <div class="notice">
+        <p>
+            <h4>
+                You must be a United States citizen to apply
+                for grants from NASA.
+            </h4>
+        </p>
+    </div>
+{% endif %}
 </div>
 <div class="column2 large-5 medium-12 small-12">
     <h2>Message Center</h2>

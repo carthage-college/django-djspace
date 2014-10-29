@@ -11,7 +11,11 @@ handler500 = 'djtools.views.errors.server_error'
 urlpatterns = patterns('',
     # account management
     url(
-        r'^accounts/', include('allauth.urls')
+        r'^account/', include('allauth.urls')
+    ),
+    # grants applications
+    url(
+        r'^application/', include('djspace.application.urls')
     ),
     # django admin
     url(
