@@ -15,7 +15,7 @@
         <ul>
             {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url 'dashboard_home' %}">Manage applications</a>
+                    <a href="{% url 'dashboard_home' %}">Manage grant applications</a>
                 </li>
                 <li>
                     <a href="{% url 'dashboard_profile' %}">Manage profile</a>
@@ -32,7 +32,7 @@
                 </li>
                 {% if user.is_superuser %}
                 <li>
-                    <a href="/forms/admin/">Administration</a>
+                    <a href="{% url 'admin:index' %}">Administration</a>
                 </li>
                 {% endif %}
                 <li><a href="{% url 'account_logout' %}">Sign out</a></li>

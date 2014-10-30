@@ -53,8 +53,15 @@ MAJORS = (
 
 class BaseStudent(models.Model):
 
-    # Django user
+    # meta
     user = models.ForeignKey(User)
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
+    # core
     major = models.CharField(
         "Primary major",
         max_length=128,
@@ -112,7 +119,11 @@ class BaseStudent(models.Model):
 
 
 class Undergraduate(BaseStudent):
-
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="undergraduate_updated_by",
+        editable=False
+    )
     highschool_name = models.CharField(
         "High school name",
         max_length=128
@@ -129,7 +140,11 @@ class Undergraduate(BaseStudent):
 
 
 class Graduate(BaseStudent):
-
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="graduate_updated_by",
+        editable=False
+    )
     undergraduate_degree = models.CharField(
         max_length=32,
         choices=UNDERGRADUATE_DEGREE
@@ -166,9 +181,20 @@ class Graduate(BaseStudent):
 
 class Faculty(models.Model):
 
-    # Django user
+    # meta
     user = models.ForeignKey(User)
-    # etc
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="faculty_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
+    # core
     department_program = models.CharField(
         "Department / Program",
         max_length=128
@@ -187,9 +213,20 @@ class Faculty(models.Model):
 
 class Professional(models.Model):
 
-    # Django user
+    # meta
     user = models.ForeignKey(User)
-    # etc
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="professional_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
+    # core
     wsgc_affiliate = models.CharField(
         "WSGC Affiliate",
         max_length=128,

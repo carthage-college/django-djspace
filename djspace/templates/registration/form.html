@@ -50,26 +50,11 @@
     {% endif %}
     <form method="post" action="." class="form">
         {% csrf_token %}
-        {% for field in form.visible_fields %}
-            {% if field.name == 'first_name' %}
-                <h2>Personal Information</h2>
-                <fieldset class="blockLabels">
-                    <ol>
-            {% endif %}
-            {% if field.name == 'campus_email' or field.name == 'wsgc_affiliate' %}
-                <fieldset class="blockLabels">
-                    <ol>
-            {% endif %}
-            {% if field.name == 'wsgc_school' %}
-                <h2>
-                    Please tell us about your college
-                    or university affiliation
-                </h2>
-                <fieldset class="blockLabels">
-                    <ol>
-            {% endif %}
+        <fieldset>
+            <ol>
+            {% for field in form.visible_fields %}
             {% include "form_field.inc.html" %}
-        {% endfor %}
+            {% endfor %}
             </ol>
         </fieldset>
         {% include "form_submit.inc.html" %}

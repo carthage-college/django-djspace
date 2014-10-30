@@ -8,6 +8,7 @@ from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 from djspace.registration.models import *
 
 from taggit.managers import TaggableManager
+from gm2m import GM2MField
 
 from datetime import date
 
@@ -57,9 +58,23 @@ class GenericChoice(models.Model):
         ordering = ['ranking']
 
 class UserProfile(models.Model):
+
+    # meta
     user = models.OneToOneField(
         User, related_name="profile"
     )
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="user_profile_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
+    # core
     salutation = models.CharField(
         max_length=16,
         choices=SALUTATION_TITLES,
@@ -128,6 +143,7 @@ class UserProfile(models.Model):
         max_length=32,
         choices=REG_TYPE
     )
+    applications = GM2MField()
 
     def __unicode__(self):
         return "%s %s's profile" % (self.user.first_name, self.user.last_name)

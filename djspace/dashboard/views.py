@@ -99,6 +99,7 @@ def profile_form(request):
             pro.save()
             reg = reg_form.save(commit=False)
             reg.user = user
+            reg.updated_by = user
             reg.save()
             message = "Success"
     else:

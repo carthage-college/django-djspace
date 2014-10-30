@@ -31,6 +31,7 @@ def form(request, reg_type):
         if form.is_valid():
             data = form.save(commit=False)
             data.user = user
+            data.updated_by = user
             data.save()
             return HttpResponseRedirect(reverse('registration_success'))
 

@@ -1,17 +1,29 @@
 from django.contrib import admin
 from django.conf.urls import patterns, url
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = patterns('djspace.application.views',
     url(
+        r'^$',
+        login_required(TemplateView.as_view(
+            template_name='application/home.html'
+        )),
+        name='application_home'
+    ),
+    url(
         r'^success/$',
-        TemplateView.as_view(
-            template_name='myapp/success.html'
-        ),
-        name='myapp_success'
+        login_required(TemplateView.as_view(
+            template_name='application/success.html'
+        )),
+        name='application_success'
+    ),
+    url(
+        r'^(?P<app_type>[a-zA-Z0-9_-]+)/(?P<aid>\d+)/update/$',
+        'form', name="application_update"
     ),
     url(
         r'^(?P<app_type>[a-zA-Z0-9_-]+)/$',
-        'form', name="application_form"
+        'form', name="application_create"
     ),
 )

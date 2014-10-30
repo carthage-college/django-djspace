@@ -1,0 +1,17 @@
+{% extends "home.html" %}
+{% block title %}WSGC Application &mdash; Carthage College{% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+        Grants Applications
+        <small class="fright" style="margin-right:20px;">
+            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x green"></i></a>
+        </small>
+        <span id="secondary-dropdown"></span>
+    </h1>
+{% endblock %}
+{% block content %}
+<div class="large-8 medium-10 small-12">
+    <h2>Forms</h2>
+    {% include "dashboard/applications.inc.html" %}
+</div>
+{% endblock %}

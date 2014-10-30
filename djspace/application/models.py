@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
@@ -31,6 +32,17 @@ class HighAltitudeBalloonLaunch(models.Model):
     # meta
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="habl_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
     # core
     letter_interest = models.FileField(
         "Letter of interest",
@@ -43,12 +55,35 @@ class HighAltitudeBalloonLaunch(models.Model):
         help_text="PDF format"
     )
 
+    def __unicode__(self):
+        return "High Altitude Balloon Launch"
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'app_type': "high-altitude-balloon-launch",
+                'aid': str(self.id)
+            }
+        )
+
 
 class HighAltitudeBalloonPayload(models.Model):
 
     # meta
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="habp_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
     # core
     letter_interest = models.FileField(
         "Letter of interest",
@@ -61,12 +96,35 @@ class HighAltitudeBalloonPayload(models.Model):
         help_text="PDF format"
     )
 
+    def __unicode__(self):
+        return "High Altitude Balloon Payload"
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'app_type': "high-altitude-balloon-payload",
+                'aid': str(self.id)
+            }
+        )
+
 
 class ClarkFellowship(models.Model):
 
     # meta
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="clark_fellowship_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
     # core
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
@@ -118,11 +176,23 @@ class ClarkFellowship(models.Model):
     signed_certification = models.FileField(
         upload_to="files/graduate/clark-fellow/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
+            <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
             </a>
         ''')
     )
+
+    def __unicode__(self):
+        return "Clark Fellowship: %s" % self.project_title
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'app_type': "clark-fellowship",
+                'aid': str(self.id)
+            }
+        )
 
 
 class GraduateFellowship(models.Model):
@@ -130,6 +200,17 @@ class GraduateFellowship(models.Model):
     # meta
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="graduate_fellowship_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
     # core
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
@@ -181,11 +262,23 @@ class GraduateFellowship(models.Model):
     signed_certification = models.FileField(
         upload_to="files/graduate/fellowship/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
+            <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
             </a>
         ''')
     )
+
+    def __unicode__(self):
+        return "Graduate Fellowship: %s" % self.project_title
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'app_type': "graduate-fellowship",
+                'aid': str(self.id)
+            }
+        )
 
 
 class UndergraduateResearch(models.Model):
@@ -193,6 +286,17 @@ class UndergraduateResearch(models.Model):
     # meta
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="undergraduate_research_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
     # core
     project_title = models.CharField(
         "Title of project", max_length=255
@@ -234,18 +338,41 @@ class UndergraduateResearch(models.Model):
     signed_certification = models.FileField(
         upload_to="files/undergraduate/research/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
+            <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
             </a>
         ''')
     )
+
+    def __unicode__(self):
+        return "Undergraduate Research: %s" % self.project_title
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'app_type': "undergraduate-research",
+                'aid': str(self.id)
+            }
+        )
 
 
 class UndergraduateScholarship(models.Model):
 
     # meta
     user = models.ForeignKey(User)
-    status = models.BooleanField()
+    status = models.BooleanField(default=False)
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="undergraduate_scholarship_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
     # core
     statement = models.TextField()
     high_school_transcripts = models.FileField(
@@ -270,8 +397,22 @@ class UndergraduateScholarship(models.Model):
     signed_certification = models.FileField(
         upload_to="files/undergraduate/scholarship/signed_certification/",
         help_text=mark_safe('''
-            <a href="https://erc.carthage.edu/live/files/1365-wsgc-gcertificationspdf">
+            <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
             </a>
         ''')
     )
+
+    def __unicode__(self):
+        return "Undergraduate Scholarship"
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'app_type': "undergraduate-scholarship",
+                'aid': str(self.id)
+            }
+        )
+
+

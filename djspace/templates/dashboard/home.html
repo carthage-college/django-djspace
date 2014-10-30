@@ -41,48 +41,20 @@
     {% endfor %}
 {% endif %}
 <div class="large-6 medium-12 small-12">
-{% if user.profile.us_citizen == "Yes" %}
+{% if user.profile.us_citizen == "Yes" and reg %}
     <h2>Your Grant Applications</h2>
     <ul>
-        <li><a href="#">App 1</a></li>
-        <li><a href="#">App 2</a></li>
-        <li><a href="#">App 3</a></li>
-        <li><a href="#">App 4</a></li>
+    {% for app in user.profile.applications.all %}
+        <li>
+            [{{app.date_created|date:"SHORT_DATE_FORMAT"}}]
+            <a href="{{app.get_absolute_url}}">{{app}}</a>
+        </li>
+    {% endfor %}
     </ul>
-    <h2>Grant Applications</h2>
-    <ul>
-        <li>
-            <a href="{% url 'application_form' 'undergraduate-scholarship' %}">
-                Undergraduate Scholarship
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'application_form' 'undergraduate-research' %}">
-                Undergraduate Research
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'application_form' 'graduate-fellowship' %}">
-                Graduate Fellowship
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'application_form' 'clark-fellowship' %}">
-                Clark Fellowship
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'application_form' 'high-altitude-balloon-payload' %}">
-                High Altitude Balloon Payload
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'application_form' 'high-altitude-balloon-launch' %}">
-                High Altitude Balloon Launch
-            </a>
-        </li>
-    </ul>
+    <h2>Grant Application Forms</h2>
+    {% include "dashboard/applications.inc.html" %}
 {% else %}
+    {% if not user.profile.us_citizen %}
     <div class="notice">
         <p>
             <h4>
@@ -91,6 +63,7 @@
             </h4>
         </p>
     </div>
+    {% endif %}
 {% endif %}
 </div>
 <div class="column2 large-5 medium-12 small-12">
@@ -105,7 +78,7 @@
                 {% if not reg %}
                 <i class="fa fa-times red"></i>
                 You must complete your
-                <a href="{% url 'registration_form' user.profile.registration_type %}"
+                <a href="{% url 'dashboard_profile' %}"
                     style="color:blue;">
                     registration profile
                 </a> before applying for grants from NASA.
@@ -113,7 +86,7 @@
                 <i class="fa fa-check green"></i>
                 Your registration is complete.<br><br>
                 <i class="fa fa-rocket green"></i>
-                <a href="#" style="color:blue;">
+                <a href="{% url 'application_home' %}" style="color:blue;">
                     Apply for grants.
                 </a>
                 {% endif %}

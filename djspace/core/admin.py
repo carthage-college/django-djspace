@@ -57,6 +57,8 @@ admin.site.register(UserProfile, UserProfileAdmin)
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
     can_delete = False
+    # we need this because UserProfile has two FK to auth.User model
+    fk_name = 'user'
 
 class UserProfileAdmin(UserAdmin):
     inlines = (UserProfileInline, )
