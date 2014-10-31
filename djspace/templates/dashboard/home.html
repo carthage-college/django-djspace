@@ -15,6 +15,7 @@
     .column2 {padding-top: 0;}
     .red, .glyphicon {color:#800;}
     .green, .glyphicon-ok {color:#008000;}
+    .short-date {color:#880;}
 </style>
 {% endblock %}
 {% block page_header %}
@@ -45,14 +46,14 @@
     <h2>Your Grant Applications</h2>
     <ul>
     {% for app in user.profile.applications.all %}
-        <li>
-            [{{app.date_created|date:"SHORT_DATE_FORMAT"}}]
+        <li style="font-weight:bold;">
+            <span class="short-date">
+                {{app.date_created|date:"SHORT_DATE_FORMAT"}}
+            </span>
             <a href="{{app.get_absolute_url}}">{{app}}</a>
         </li>
     {% endfor %}
     </ul>
-    <h2>Grant Application Forms</h2>
-    {% include "dashboard/applications.inc.html" %}
 {% else %}
     {% if not user.profile.us_citizen %}
     <div class="notice">
@@ -67,10 +68,11 @@
 {% endif %}
 </div>
 <div class="column2 large-5 medium-12 small-12">
-    <h2>Message Center</h2>
     {% if not reg %}
+    <h2>Message Center</h2>
     <div class="notice">
     {% else %}
+    <h2>Grant Application Forms</h2>
     <div class="success">
     {% endif %}
         <p>
@@ -83,12 +85,9 @@
                     registration profile
                 </a> before applying for grants from NASA.
                 {% else %}
-                <i class="fa fa-check green"></i>
-                Your registration is complete.<br><br>
-                <i class="fa fa-rocket green"></i>
-                <a href="{% url 'application_home' %}" style="color:blue;">
-                    Apply for grants.
-                </a>
+                <div style="margin-left:9px;">
+                    {% include "dashboard/applications.inc.html" %}
+                </div>
                 {% endif %}
             </h4>
         </p>

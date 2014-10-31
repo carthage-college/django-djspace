@@ -42,7 +42,9 @@ def form(request, app_type, aid=None):
             data.user = user
             data.updated_by = user
             data.save()
-            user.profile.applications.add(data)
+            # if not update add generic many-to-many relationship (gm2m)
+            if not aid:
+                user.profile.applications.add(data)
             return HttpResponseRedirect(reverse('application_success'))
 
     return render_to_response(

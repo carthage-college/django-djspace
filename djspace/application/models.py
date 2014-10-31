@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
+from djtools.fields.format_checker import ContentTypeRestrictedFileField
 
 GRAVITY_TRAVEL = (
     ('gravity','Reduced Gravity'),
@@ -44,14 +45,16 @@ class HighAltitudeBalloonLaunch(models.Model):
         "Date Updated", auto_now=True
     )
     # core
-    letter_interest = models.FileField(
+    letter_interest = ContentTypeRestrictedFileField(
         "Letter of interest",
         upload_to="files/high-altitude-balloon-launch/letter-interest/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    cv = models.FileField(
+    cv = ContentTypeRestrictedFileField(
         "Résumé",
         upload_to="files/high-altitude-balloon-launch/cv/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
 
@@ -85,14 +88,16 @@ class HighAltitudeBalloonPayload(models.Model):
         "Date Updated", auto_now=True
     )
     # core
-    letter_interest = models.FileField(
+    letter_interest = ContentTypeRestrictedFileField(
         "Letter of interest",
         upload_to="files/high-altitude-balloon-payload/letter-interest/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    cv = models.FileField(
+    cv = ContentTypeRestrictedFileField(
         "Résumé",
         upload_to="files/high-altitude-balloon-payload/cv/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
 
@@ -145,36 +150,42 @@ class ClarkFellowship(models.Model):
         null=True,blank=True
     )
     synopsis = models.TextField()
-    proposal = models.FileField(
+    proposal = ContentTypeRestrictedFileField(
         upload_to="files/graduate/clark-fellow/proposal/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    cv = models.FileField(
+    cv = ContentTypeRestrictedFileField(
         "Résumé",
         upload_to="files/graduate/clark-fellow/cv/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    budget = models.FileField(
+    budget = ContentTypeRestrictedFileField(
         upload_to="files/graduate/clark-fellow/budget/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    undergraduate_transcripts = models.FileField(
-        upload_to="files/graduate/clark-fellow/undergraduate_transcripts/",
+    undergraduate_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/graduate/clark-fellow/transcripts/undergraduate/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    graduate_transcripts = models.FileField(
-        upload_to="files/graduate/clark-fellow/graduate_transcripts/",
+    graduate_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/graduate/clark-fellow/transcripts/graduate/",
         help_text="PDF format"
     )
-    recommendation = models.FileField(
+    recommendation = ContentTypeRestrictedFileField(
         upload_to="files/graduate/clark-fellow/recommendation/",
+        content_types=['application/pdf'],
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = models.FileField(
-        upload_to="files/graduate/clark-fellow/signed_certification/",
+    signed_certification = ContentTypeRestrictedFileField(
+        upload_to="files/graduate/clark-fellow/signed-certification/",
+        content_types=['application/pdf'],
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
@@ -183,7 +194,7 @@ class ClarkFellowship(models.Model):
     )
 
     def __unicode__(self):
-        return "Clark Fellowship: %s" % self.project_title
+        return "Clark Fellowship&mdash;%s" % self.project_title
 
     def get_absolute_url(self):
         return reverse(
@@ -231,36 +242,43 @@ class GraduateFellowship(models.Model):
         null=True,blank=True
     )
     synopsis = models.TextField()
-    proposal = models.FileField(
+    proposal = ContentTypeRestrictedFileField(
         upload_to="files/graduate/fellowship/proposal/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    cv = models.FileField(
+    cv = ContentTypeRestrictedFileField(
         "Résumé",
         upload_to="files/graduate/fellowship/cv/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    budget = models.FileField(
+    budget = ContentTypeRestrictedFileField(
         upload_to="files/graduate/fellowship/budget/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    undergraduate_transcripts = models.FileField(
-        upload_to="files/graduate/fellowship/undergraduate_transcripts/",
+    undergraduate_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/graduate/fellowship/transcripts/undergraduate/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    graduate_transcripts = models.FileField(
-        upload_to="files/graduate/fellowship/graduate_transcripts/",
+    graduate_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/graduate/fellowship/transcripts/graduate/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    recommendation = models.FileField(
+    recommendation = ContentTypeRestrictedFileField(
         upload_to="files/graduate/fellowship/recommendation/",
+        content_types=['application/pdf'],
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = models.FileField(
-        upload_to="files/graduate/fellowship/signed_certification/",
+    signed_certification = ContentTypeRestrictedFileField(
+        upload_to="files/graduate/fellowship/signed-certification/",
+        content_types=['application/pdf'],
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
@@ -312,31 +330,37 @@ class UndergraduateResearch(models.Model):
         choices=TIME_FRAME
     )
     synopsis = models.TextField()
-    proposal = models.FileField(
+    proposal = ContentTypeRestrictedFileField(
         upload_to="files/undergraduate/research/proposal/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    high_school_transcripts = models.FileField(
-        upload_to="files/undergraduate/research/undergraduate_transcripts/",
+    high_school_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/research/transcripts/high-school/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    undergraduate_transcripts = models.FileField(
-        upload_to="files/undergraduate/research/undergraduate_transcripts/",
+    undergraduate_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/research/transcripts/undergraduate/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    wsgc_advisor_recommendation = models.FileField(
-        upload_to="files/undergraduate/research/wsgc_advisor_recommendation/",
+    wsgc_advisor_recommendation = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/research/wsgc-advisor-recommendation/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    recommendation = models.FileField(
+    recommendation = ContentTypeRestrictedFileField(
         upload_to="files/undergraduate/research/recommendation/",
+        content_types=['application/pdf'],
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = models.FileField(
-        upload_to="files/undergraduate/research/signed_certification/",
+    signed_certification = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/research/signed-certification/",
+        content_types=['application/pdf'],
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
@@ -375,27 +399,32 @@ class UndergraduateScholarship(models.Model):
     )
     # core
     statement = models.TextField()
-    high_school_transcripts = models.FileField(
-        upload_to="files/undergraduate/scholarship/high_school_transcripts/",
+    high_school_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/scholarship/transcripts/high-school/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    undergraduate_transcripts = models.FileField(
-        upload_to="files/undergraduate/scholarship/undergraduate_transcripts/",
+    undergraduate_transcripts = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/scholarship/transcripts/undergraduate/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    wsgc_advisor_recommendation = models.FileField(
-        upload_to="files/undergraduate/scholarship/wsgc_advisor_recommendation/",
+    wsgc_advisor_recommendation = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/scholarship/wsgc-advisor-recommendation/",
+        content_types=['application/pdf'],
         help_text="PDF format"
     )
-    recommendation = models.FileField(
+    recommendation = ContentTypeRestrictedFileField(
         upload_to="files/undergraduate/scholarship/recommendation/",
+        content_types=['application/pdf'],
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = models.FileField(
-        upload_to="files/undergraduate/scholarship/signed_certification/",
+    signed_certification = ContentTypeRestrictedFileField(
+        upload_to="files/undergraduate/scholarship/signed-certification/",
+        content_types=['application/pdf'],
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
