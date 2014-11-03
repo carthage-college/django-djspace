@@ -1,4 +1,4 @@
-{% extends "home.html" %}
+{% extends "dashboard/home.html" %}
 {% block title %}WSGC {{app_name}} Application &mdash; Carthage College{% endblock %}
 {% block extra_javascript %}
 <script src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
@@ -16,13 +16,9 @@ $(function() {
 </script>
 {% endblock %}
 {% block extra_style %}
+{{block.super}}
 <link href="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea.css"
     rel="stylesheet" type="text/css" />
-<style type="text/css" media="screen, projection">
-    #second li {margin: 0;}
-    li.ctrlHolder div ul li {display:inline; padding-right:3px;}
-    .form .blockLabels label {display: inherit;}
-</style>
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
