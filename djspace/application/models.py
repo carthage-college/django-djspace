@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
+from djspace.registration.validators import MimetypeValidator
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
-from djtools.fields.format_checker import ContentTypeRestrictedFileField
 
 GRAVITY_TRAVEL = (
     ('gravity','Reduced Gravity'),
@@ -45,27 +45,32 @@ class HighAltitudeBalloonLaunch(models.Model):
         "Date Updated", auto_now=True
     )
     # core
-    letter_interest = ContentTypeRestrictedFileField(
+    letter_interest = models.FileField(
         "Letter of interest",
         upload_to="files/high-altitude-balloon-launch/letter-interest/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    cv = ContentTypeRestrictedFileField(
+    cv = models.FileField(
         "Résumé",
         upload_to="files/high-altitude-balloon-launch/cv/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
 
     def __unicode__(self):
         return "High Altitude Balloon Launch"
 
+    def get_application_type(self):
+        return "High Altitude Balloon Launch"
+
     def get_absolute_url(self):
         return reverse(
             'application_update',
             kwargs = {
-                'app_type': "high-altitude-balloon-launch",
+                'application_type': "high-altitude-balloon-launch",
                 'aid': str(self.id)
             }
         )
@@ -88,27 +93,32 @@ class HighAltitudeBalloonPayload(models.Model):
         "Date Updated", auto_now=True
     )
     # core
-    letter_interest = ContentTypeRestrictedFileField(
+    letter_interest = models.FileField(
         "Letter of interest",
         upload_to="files/high-altitude-balloon-payload/letter-interest/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    cv = ContentTypeRestrictedFileField(
+    cv = models.FileField(
         "Résumé",
         upload_to="files/high-altitude-balloon-payload/cv/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
 
     def __unicode__(self):
         return "High Altitude Balloon Payload"
 
+    def get_application_type(self):
+        return "High Altitude Balloon Payload"
+
     def get_absolute_url(self):
         return reverse(
             'application_update',
             kwargs = {
-                'app_type': "high-altitude-balloon-payload",
+                'application_type': "high-altitude-balloon-payload",
                 'aid': str(self.id)
             }
         )
@@ -150,42 +160,50 @@ class ClarkFellowship(models.Model):
         null=True,blank=True
     )
     synopsis = models.TextField()
-    proposal = ContentTypeRestrictedFileField(
+    proposal = models.FileField(
         upload_to="files/graduate/clark-fellow/proposal/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    cv = ContentTypeRestrictedFileField(
+    cv = models.FileField(
         "Résumé",
         upload_to="files/graduate/clark-fellow/cv/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    budget = ContentTypeRestrictedFileField(
+    budget = models.FileField(
         upload_to="files/graduate/clark-fellow/budget/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    undergraduate_transcripts = ContentTypeRestrictedFileField(
+    undergraduate_transcripts = models.FileField(
         upload_to="files/graduate/clark-fellow/transcripts/undergraduate/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    graduate_transcripts = ContentTypeRestrictedFileField(
+    graduate_transcripts = models.FileField(
         upload_to="files/graduate/clark-fellow/transcripts/graduate/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    recommendation = ContentTypeRestrictedFileField(
+    recommendation = models.FileField(
         upload_to="files/graduate/clark-fellow/recommendation/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = ContentTypeRestrictedFileField(
+    signed_certification = models.FileField(
         upload_to="files/graduate/clark-fellow/signed-certification/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
@@ -194,13 +212,16 @@ class ClarkFellowship(models.Model):
     )
 
     def __unicode__(self):
-        return "Clark Fellowship&mdash;%s" % self.project_title
+        return self.project_title
+
+    def get_application_type(self):
+        return "Clark Fellowship"
 
     def get_absolute_url(self):
         return reverse(
             'application_update',
             kwargs = {
-                'app_type': "clark-fellowship",
+                'application_type': "clark-fellowship",
                 'aid': str(self.id)
             }
         )
@@ -242,43 +263,50 @@ class GraduateFellowship(models.Model):
         null=True,blank=True
     )
     synopsis = models.TextField()
-    proposal = ContentTypeRestrictedFileField(
+    proposal = models.FileField(
         upload_to="files/graduate/fellowship/proposal/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    cv = ContentTypeRestrictedFileField(
+    cv = models.FileField(
         "Résumé",
         upload_to="files/graduate/fellowship/cv/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    budget = ContentTypeRestrictedFileField(
+    budget = models.FileField(
         upload_to="files/graduate/fellowship/budget/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    undergraduate_transcripts = ContentTypeRestrictedFileField(
+    undergraduate_transcripts = models.FileField(
         upload_to="files/graduate/fellowship/transcripts/undergraduate/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    graduate_transcripts = ContentTypeRestrictedFileField(
+    graduate_transcripts = models.FileField(
         upload_to="files/graduate/fellowship/transcripts/graduate/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    recommendation = ContentTypeRestrictedFileField(
+    recommendation = models.FileField(
         upload_to="files/graduate/fellowship/recommendation/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = ContentTypeRestrictedFileField(
+    signed_certification = models.FileField(
         upload_to="files/graduate/fellowship/signed-certification/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
@@ -287,13 +315,16 @@ class GraduateFellowship(models.Model):
     )
 
     def __unicode__(self):
-        return "Graduate Fellowship: %s" % self.project_title
+        return self.project_title
+
+    def get_application_type(self):
+        return "Graduate Fellowship"
 
     def get_absolute_url(self):
         return reverse(
             'application_update',
             kwargs = {
-                'app_type': "graduate-fellowship",
+                'application_type': "graduate-fellowship",
                 'aid': str(self.id)
             }
         )
@@ -330,37 +361,43 @@ class UndergraduateResearch(models.Model):
         choices=TIME_FRAME
     )
     synopsis = models.TextField()
-    proposal = ContentTypeRestrictedFileField(
+    proposal = models.FileField(
         upload_to="files/undergraduate/research/proposal/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    high_school_transcripts = ContentTypeRestrictedFileField(
+    high_school_transcripts = models.FileField(
         upload_to="files/undergraduate/research/transcripts/high-school/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    undergraduate_transcripts = ContentTypeRestrictedFileField(
+    undergraduate_transcripts = models.FileField(
         upload_to="files/undergraduate/research/transcripts/undergraduate/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    wsgc_advisor_recommendation = ContentTypeRestrictedFileField(
+    wsgc_advisor_recommendation = models.FileField(
         upload_to="files/undergraduate/research/wsgc-advisor-recommendation/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    recommendation = ContentTypeRestrictedFileField(
+    recommendation = models.FileField(
         upload_to="files/undergraduate/research/recommendation/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = ContentTypeRestrictedFileField(
+    signed_certification = models.FileField(
         upload_to="files/undergraduate/research/signed-certification/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
@@ -369,13 +406,16 @@ class UndergraduateResearch(models.Model):
     )
 
     def __unicode__(self):
-        return "Undergraduate Research: %s" % self.project_title
+        return self.project_title
+
+    def get_application_type(self):
+        return "Undergraduate Research"
 
     def get_absolute_url(self):
         return reverse(
             'application_update',
             kwargs = {
-                'app_type': "undergraduate-research",
+                'application_type': "undergraduate-research",
                 'aid': str(self.id)
             }
         )
@@ -399,32 +439,37 @@ class UndergraduateScholarship(models.Model):
     )
     # core
     statement = models.TextField()
-    high_school_transcripts = ContentTypeRestrictedFileField(
+    high_school_transcripts = models.FileField(
         upload_to="files/undergraduate/scholarship/transcripts/high-school/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    undergraduate_transcripts = ContentTypeRestrictedFileField(
+    undergraduate_transcripts = models.FileField(
         upload_to="files/undergraduate/scholarship/transcripts/undergraduate/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    wsgc_advisor_recommendation = ContentTypeRestrictedFileField(
+    wsgc_advisor_recommendation = models.FileField(
         upload_to="files/undergraduate/scholarship/wsgc-advisor-recommendation/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="PDF format"
     )
-    recommendation = ContentTypeRestrictedFileField(
+    recommendation = models.FileField(
         upload_to="files/undergraduate/scholarship/recommendation/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text="""
             PDF format:
             Cannot be the same as the WSGC recommendation
         """
     )
-    signed_certification = ContentTypeRestrictedFileField(
+    signed_certification = models.FileField(
         upload_to="files/undergraduate/scholarship/signed-certification/",
-        content_types=['application/pdf'],
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
         help_text=mark_safe('''
             <a href="https://www.carthage.edu/live/files/1365-pdf">
             Signed certification document
@@ -435,11 +480,14 @@ class UndergraduateScholarship(models.Model):
     def __unicode__(self):
         return "Undergraduate Scholarship"
 
+    def get_application_type(self):
+        return "Undergraduate Scholarship"
+
     def get_absolute_url(self):
         return reverse(
             'application_update',
             kwargs = {
-                'app_type': "undergraduate-scholarship",
+                'application_type': "undergraduate-scholarship",
                 'aid': str(self.id)
             }
         )

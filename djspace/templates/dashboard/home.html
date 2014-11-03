@@ -9,16 +9,6 @@
         });
     </script>
 {% endblock %}
-{% block extra_style %}
-<style type="text/css" media="screen, projection">
-    h2 {margin-bottom:9px;}
-    .column2 {padding-top: 0;}
-    .red, .glyphicon {color:#800;}
-    .green, .glyphicon-ok {color:#008000;}
-    .short-date {color:#880;}
-    span.error-message{font-weight:bold;}
-</style>
-{% endblock %}
 {% block page_header %}
     Account Manager
 {% endblock %}
@@ -47,11 +37,22 @@
     <h2>Your Grant Applications</h2>
     <ul>
     {% for app in user.profile.applications.all %}
+        {% ifchanged app.get_application_type %}
+            </ul>
+            <h3>{{app.get_application_type}}</h3>
+            <ul>
+        {% endifchanged %}
         <li style="font-weight:bold;">
             <span class="short-date">
                 {{app.date_created|date:"SHORT_DATE_FORMAT"}}
             </span>
-            <a href="{{app.get_absolute_url}}">{{app}}</a>
+            <a href="{{app.get_absolute_url}}">
+            {% if app.project_title %}
+                {{app}}
+            {% else %}
+                Application
+            {% endif %}
+            </a>
         </li>
     {% endfor %}
     </ul>

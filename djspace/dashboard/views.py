@@ -25,6 +25,12 @@ def home(request):
         reg = eval(reg_type).objects.get(user=request.user)
     except:
         reg = None
+    # if the user does not have any applications, the gm2m
+    # field will throw an error
+    try:
+        apps = request.user.profile.applications
+    except:
+        apps = None
 
     return render_to_response(
         "dashboard/home.html", {"reg":reg,},

@@ -145,6 +145,7 @@ class UserProfile(models.Model):
     )
     applications = GM2MField()
 
+
     def __unicode__(self):
         return "%s %s's profile" % (self.user.first_name, self.user.last_name)
 

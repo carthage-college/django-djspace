@@ -1,0 +1,32 @@
+{% extends "application/email/base.html" %}
+{% block title %}Undergraduate Scholarship{% endblock %}
+{% block data %}
+<h4>Statement</h4>
+<p>{{data.statement|safe}}</p>
+<h4>Files</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.high_school_transcripts}}">
+        High school transcripts
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.undergraduate_transcripts}}">
+        Undergraduate transcripts
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_advisor_recommendation}}">
+        WSGC Advisor recommendation
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.recommendation}}">
+        Recommendation
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.signed_certification}}">
+        Signed certification
+    </a>
+</p>
+{% endblock %}

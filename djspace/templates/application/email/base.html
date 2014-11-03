@@ -1,0 +1,57 @@
+<h2>{% block title %}{% endblock %}</h2>
+<pre style="font-size:1.4em;">
+{% block profile %}
+Name........................ {{data.user.profile.salutation}} {{data.user.first_name}} {{data.user.profile.second_name}} {{data.user.last_name}}
+Registration type........... {{data.user.profile.registration_type}}
+Date created................ {{data.date_created}}
+Date updated................ {{data.date_updated}}
+Email....................... {{data.user.email}}
+Phone....................... {{data.user.profile.phone}}
+{% endblock %}
+</pre>
+{% block data %}
+<h4>Are you anticipating other funding this year?</h4>
+<p>{{data.anticipating_funding}}</p>
+<h4>Title of project</h4>
+<p>{{data.project_title}}</p>
+<h4>Time frame that best suits your project</h4>
+<p>{{data.time_frame}}</p>
+<h4>Synopsis</h4>
+<p>{{data.synopsis}}</p>
+<h4>Files</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}">
+        Proposal
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.cv}}">
+        Résumé
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
+        Budget
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.undergraduate_transcripts}}">
+        Undergraduate transcripts
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.graduate_transcripts}}">
+        Graduate transcripts
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.recomendation}}">
+        Recommendation
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.signed_certification}}">
+        Signed certification
+    </a>
+</p>
+{% endblock %}

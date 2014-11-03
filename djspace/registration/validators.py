@@ -1,6 +1,6 @@
 from django.core.validators import *
-
 from django.core.exceptions import ValidationError
+
 import magic
 
 class MimetypeValidator(object):

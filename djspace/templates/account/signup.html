@@ -1,13 +1,6 @@
 {% extends "account/base.html" %}
 {% load url from future %}
 {% load i18n %}
-{% block extra_style %}
-<style type="text/css" media="screen, projection">
-    .linline li {display:inline; padding-right:3px;}
-    #id_date_of_birth_day, #id_date_of_birth_year {width:90px;}
-    #id_date_of_birth_month { width: 150px;}
-</style>
-{% endblock %}
 {% block extra_javascript %}
     <script type="text/javascript">
         $(document).ready(function(){

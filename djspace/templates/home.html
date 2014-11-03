@@ -3,7 +3,22 @@
     WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
 {% block extra_javascript %}{% endblock %}
-{% block extra_style %}{% endblock %}
+{% block extra_style %}
+<style type="text/css" media="screen, projection">
+    h2 {margin-bottom:9px;}
+    h3 {margin-top:9px 0;}
+    .linline li {display:inline; padding-right:3px;}
+    .column2 {padding-top: 0;}
+    .red, .glyphicon {color:#800;}
+    .short-date {color:#880;}
+    span.error-message{font-weight:bold;}
+    p.help{font-weight:bold;}
+    .form .blockLabels label { font-weight: bold; }
+    #id_pro-date_of_birth_day, #id_pro-date_of_birth_year {width:90px;}
+    #id_pro-date_of_birth_month { width: 130px;}
+    .column2 { padding-top: 0; }
+</style>
+{% endblock %}
 {% block page_header %}
     Wisconsin Space Grant Consortium
 {% endblock %}
@@ -51,7 +66,7 @@
         {{user.profile.second_name}}
         {{user.last_name}}
         <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-home fa-2x green"></i></a>
+            <a href="{% url 'dashboard_home' %}"><i class="fa fa-home fa-2x"></i></a>
         </small>
     {% else %}
         WSGC {{reg_type|capfirst}} Registration

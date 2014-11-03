@@ -10,11 +10,17 @@ from djspace.application.forms import *
 from djtools.utils.mail import send_mail
 
 @login_required
-def form(request, app_type, aid=None):
+def form(request, application_type, aid=None):
+    if settings.DEBUG:
+        TO_LIST = ["larry@carthage.edu",]
+    else:
+        TO_LIST = ["wsgc.applications@carthage.edu",]
+    BCC = settings.MANAGERS
+
     user = request.user
-    slist = app_type.split("-")
-    app_name = slist.pop(0).capitalize()
-    for n in slist:
+    slug_list = application_type.split("-")
+    app_name = slug_list.pop(0).capitalize()
+    for n in slug_list:
         app_name += " %s" % n.capitalize()
     app_type = "".join(app_name.split(" "))
 
@@ -28,6 +34,7 @@ def form(request, app_type, aid=None):
     try:
         form = eval(app_type+"Form")(instance=app)
     except:
+        # app_type does not match an existing form
         raise Http404
 
     if request.method == 'POST':
@@ -36,7 +43,9 @@ def form(request, app_type, aid=None):
                 instance=app, data=request.POST, files=request.FILES
             )
         except:
+            # app_type does not match an existing form
             raise Http404
+
         if form.is_valid():
             data = form.save(commit=False)
             data.user = user
@@ -44,7 +53,36 @@ def form(request, app_type, aid=None):
             data.save()
             # if not update add generic many-to-many relationship (gm2m)
             if not aid:
+                date = data.date_created
                 user.profile.applications.add(data)
+            else:
+                date = data.date_updated
+
+            # email confirmation
+            template = "application/email/%s.html" % application_type
+            if not settings.DEBUG:
+                TO_LIST.append(data.user.email)
+                if aid:
+                    app_name += " (UPDATED)"
+                subject = "[%s] %s: %s, %s" % (
+                    app_name, date,
+                    data.user.last_name, data.user.first_name,
+                )
+                send_mail(
+                    request, TO_LIST,
+                    subject, data.user.email,
+                    template, data, BCC,
+                )
+                return HttpResponseRedirect(reverse('application_success'))
+            else:
+                return render_to_response(
+                    template,
+                    {
+                        'data': data,'form':form
+                    },
+                    context_instance=RequestContext(request)
+                )
+
             return HttpResponseRedirect(reverse('application_success'))
 
     return render_to_response(

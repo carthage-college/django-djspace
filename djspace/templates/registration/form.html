@@ -15,11 +15,9 @@
     </script>
 {% endblock %}
 {% block extra_style %}
+{{block.super}}
 <link rel="stylesheet" type="text/css" media="screen"
     href="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css">
-<style type="text/css" media="screen, projection">
-    .linline li {display:inline; padding-right:3px;}
-</style>
 {% endblock %}
 {% block page_header %}
     WSGC Registration
@@ -28,7 +26,7 @@
     <h1 id="page_title">
         WSGC {{reg_type|capfirst}} Registration
         <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x green"></i></a>
+            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x"></i></a>
         </small>
         <span id="secondary-dropdown"></span>
     </h1>
