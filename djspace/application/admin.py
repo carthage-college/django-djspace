@@ -19,10 +19,12 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     def cv_link(self, instance):
         return "<a href='%s'>CV</a>" % (instance.cv.url,)
     cv_link.allow_tags = True
+    cv_link.short_description = 'CV'
 
     def letter_interest_link(self, instance):
         return "<a href='%s'>Letter</a>" % (instance.letter_interest.url,)
     letter_interest_link.allow_tags = True
+    letter_interest_link.short_description = 'Letter of interest'
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user
