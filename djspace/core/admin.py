@@ -9,6 +9,33 @@ from djspace.core.models import UserProfile, GenericChoice
 
 import csv
 
+class GenericAdmin(admin.ModelAdmin):
+
+    list_display  = (
+        'last_name', 'first_name', 'date_created','date_updated',
+        'email', 'phone'
+    )
+
+    ordering = [
+        'date_created','user__last_name','user__email'
+    ]
+
+    list_per_page = 500
+    raw_id_fields = ("user","updated_by",)
+
+    def first_name(self, instance):
+        return instance.user.first_name
+
+    def last_name(self, instance):
+        return instance.user.last_name
+
+    def email(self, instance):
+        return instance.user.email
+
+    def phone(self, instance):
+        return instance.user.profile.phone
+
+
 def export_registrants(modeladmin, request, queryset):
     # exclude these fields from registration data
     exclude = ['id','user']
@@ -46,12 +73,12 @@ class GenericChoiceAdmin(admin.ModelAdmin):
 
 admin.site.register(GenericChoice, GenericChoiceAdmin)
 
-class UserProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(admin.ModelAdmin):
     search_fields = (
         'user__last_name','user__first_name','user__email','user__username'
     )
 
-admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(UserProfile, ProfileAdmin)
 
 # override django admin user display
 class UserProfileInline(admin.StackedInline):
@@ -61,7 +88,7 @@ class UserProfileInline(admin.StackedInline):
     fk_name = 'user'
 
 class UserProfileAdmin(UserAdmin):
-    inlines = (UserProfileInline, )
+    inlines = (UserProfileInline,)
     actions = [export_registrants]
 
 admin.site.unregister(User)

@@ -117,7 +117,6 @@ class BaseStudent(models.Model):
     class Meta:
         abstract = True
 
-
 class Undergraduate(BaseStudent):
     updated_by = models.ForeignKey(
         User, verbose_name="Updated by",
@@ -209,6 +208,9 @@ class Faculty(models.Model):
         help_text = "eg. www.mywebsite.com",
         null=True, blank=True,
     )
+
+    class Meta:
+        verbose_name_plural = "Faculty"
 
 
 class Professional(models.Model):

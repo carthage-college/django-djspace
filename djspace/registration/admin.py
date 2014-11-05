@@ -1,8 +1,9 @@
 from django.contrib import admin
 
 from djspace.registration.models import *
+from djspace.core.admin import GenericAdmin
 
-class UndergraduateAdmin(admin.ModelAdmin):
+class UndergraduateAdmin(GenericAdmin):
 
     model = Undergraduate
     list_per_page = 500
@@ -12,7 +13,7 @@ class UndergraduateAdmin(admin.ModelAdmin):
         obj.updated_by = request.user
         super(UndergraduateAdmin, self).save(request, obj, form, change)
 
-class GraduateAdmin(admin.ModelAdmin):
+class GraduateAdmin(GenericAdmin):
 
     model = Graduate
     list_per_page = 500
@@ -22,7 +23,7 @@ class GraduateAdmin(admin.ModelAdmin):
         obj.updated_by = request.user
         super(GraduateAdmin, self).save(request, obj, form, change)
 
-class FacultyAdmin(admin.ModelAdmin):
+class FacultyAdmin(GenericAdmin):
 
     model = Faculty
     list_per_page = 500
@@ -32,7 +33,7 @@ class FacultyAdmin(admin.ModelAdmin):
         obj.updated_by = request.user
         super(FacultyAdmin, self).save(request, obj, form, change)
 
-class ProfessionalAdmin(admin.ModelAdmin):
+class ProfessionalAdmin(GenericAdmin):
 
     model = Professional
     list_per_page = 500
@@ -43,9 +44,7 @@ class ProfessionalAdmin(admin.ModelAdmin):
             obj.updated_by = request.user
         super(ProfessionalAdmin, self).save(request, obj, form, change)
 
-
 admin.site.register(Undergraduate, UndergraduateAdmin)
 admin.site.register(Graduate, GraduateAdmin)
 admin.site.register(Faculty, FacultyAdmin)
 admin.site.register(Professional, ProfessionalAdmin)
-

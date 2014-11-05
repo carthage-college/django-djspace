@@ -75,6 +75,9 @@ class HighAltitudeBalloonLaunch(models.Model):
             }
         )
 
+    class Meta:
+        verbose_name_plural = "High altitude balloon launches"
+
 
 class HighAltitudeBalloonPayload(models.Model):
 
