@@ -50,14 +50,18 @@ class HighAltitudeBalloonLaunch(models.Model):
         upload_to="files/high-altitude-balloon-launch/letter-interest/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="""
+            Letter must include two faculty members' names, emails,
+            and phone numbers, who can be contacted as references.
+            PDF format.
+        """
     )
     cv = models.FileField(
         "Résumé",
         upload_to="files/high-altitude-balloon-launch/cv/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
 
     def __unicode__(self):
@@ -101,14 +105,18 @@ class HighAltitudeBalloonPayload(models.Model):
         upload_to="files/high-altitude-balloon-payload/letter-interest/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="""
+            Letter must include two faculty members' names, emails,
+            and phone numbers, who can be contacted as references.
+            PDF format.
+        """
     )
     cv = models.FileField(
         "Résumé",
         upload_to="files/high-altitude-balloon-payload/cv/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
 
     def __unicode__(self):
@@ -127,7 +135,7 @@ class HighAltitudeBalloonPayload(models.Model):
         )
 
 
-class ClarkFellowship(models.Model):
+class ClarkGraduateFellowship(models.Model):
 
     # meta
     user = models.ForeignKey(User)
@@ -144,10 +152,23 @@ class ClarkFellowship(models.Model):
         "Date Updated", auto_now=True
     )
     # core
+    signed_certification = models.FileField(
+        upload_to="files/graduate/clark-fellow/signed-certification/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text=mark_safe('''
+            Before beginning the application process,
+            please print, obtain signatures, and scan the<br>
+            <a href="https://www.carthage.edu/live/files/1365-pdf" target="_blank">
+            signed certification document
+            </a>.
+        ''')
+    )
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
         max_length=4,
-        choices=BINARY_CHOICES
+        choices=BINARY_CHOICES,
+        help_text="Grants/Scholarships/etc."
     )
     project_title = models.CharField(
         "Title of project", max_length=255
@@ -160,57 +181,71 @@ class ClarkFellowship(models.Model):
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
         help_text="In Dollars",
-        null=True,blank=True
     )
-    synopsis = models.TextField()
+    synopsis = models.TextField(
+        help_text = '''
+            Please include a short synopsis of your project
+            (no more than 200 characters) outlining its purpose
+            in terms understandable by the general reader.
+            If your project is selected for funding, this
+            wording will be used on our website.
+        '''
+    )
     proposal = models.FileField(
         upload_to="files/graduate/clark-fellow/proposal/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     cv = models.FileField(
         "Résumé",
         upload_to="files/graduate/clark-fellow/cv/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     budget = models.FileField(
         upload_to="files/graduate/clark-fellow/budget/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     undergraduate_transcripts = models.FileField(
         upload_to="files/graduate/clark-fellow/transcripts/undergraduate/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     graduate_transcripts = models.FileField(
         upload_to="files/graduate/clark-fellow/transcripts/graduate/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
-    recommendation = models.FileField(
-        upload_to="files/graduate/clark-fellow/recommendation/",
+    recommendation_1 = models.FileField(
+        "Recommendation letter 1",
+        upload_to="files/graduate/fellowship/recommendation/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="""
-            PDF format:
-            Cannot be the same as the WSGC recommendation
-        """
-    )
-    signed_certification = models.FileField(
-        upload_to="files/graduate/clark-fellow/signed-certification/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
+        null=True,blank=True,
         help_text=mark_safe('''
-            <a href="https://www.carthage.edu/live/files/1365-pdf">
-            Signed certification document
-            </a>
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
+        ''')
+    )
+    recommendation_2 = models.FileField(
+        "Recommendation letter 1",
+        upload_to="files/graduate/fellowship/recommendation/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True,blank=True,
+        help_text=mark_safe('''
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
         ''')
     )
 
@@ -218,13 +253,13 @@ class ClarkFellowship(models.Model):
         return self.project_title
 
     def get_application_type(self):
-        return "Clark Fellowship"
+        return "Dr. Laurel Salton Clark Memorial Fellowship"
 
     def get_absolute_url(self):
         return reverse(
             'application_update',
             kwargs = {
-                'application_type': "clark-fellowship",
+                'application_type': "clark-graduate-fellowship",
                 'aid': str(self.id)
             }
         )
@@ -247,10 +282,23 @@ class GraduateFellowship(models.Model):
         "Date Updated", auto_now=True
     )
     # core
+    signed_certification = models.FileField(
+        upload_to="files/graduate/fellowship/signed-certification/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text=mark_safe('''
+            Before beginning the application process,
+            please print, obtain signatures, and scan the<br>
+            <a href="https://www.carthage.edu/live/files/1365-pdf" target="_blank">
+            signed certification document
+            </a>
+        ''')
+    )
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
         max_length=4,
-        choices=BINARY_CHOICES
+        choices=BINARY_CHOICES,
+        help_text="Grants/Scholarships/etc."
     )
     project_title = models.CharField(
         "Title of project", max_length=255
@@ -265,55 +313,70 @@ class GraduateFellowship(models.Model):
         help_text="In Dollars",
         null=True,blank=True
     )
-    synopsis = models.TextField()
+    synopsis = models.TextField(
+        help_text = '''
+            Please include a short synopsis of your project
+            (no more than 200 characters) outlining its purpose
+            in terms understandable by the general reader.
+            If your project is selected for funding, this
+            wording will be used on our website.
+        '''
+    )
     proposal = models.FileField(
         upload_to="files/graduate/fellowship/proposal/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     cv = models.FileField(
         "Résumé",
         upload_to="files/graduate/fellowship/cv/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     budget = models.FileField(
         upload_to="files/graduate/fellowship/budget/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     undergraduate_transcripts = models.FileField(
         upload_to="files/graduate/fellowship/transcripts/undergraduate/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     graduate_transcripts = models.FileField(
         upload_to="files/graduate/fellowship/transcripts/graduate/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
-    recommendation = models.FileField(
+    recommendation_1 = models.FileField(
+        "Recommendation letter 1",
         upload_to="files/graduate/fellowship/recommendation/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="""
-            PDF format:
-            Cannot be the same as the WSGC recommendation
-        """
+        null=True,blank=True,
+        help_text=mark_safe('''
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
+        ''')
     )
-    signed_certification = models.FileField(
-        upload_to="files/graduate/fellowship/signed-certification/",
+    recommendation_2 = models.FileField(
+        "Recommendation letter 1",
+        upload_to="files/graduate/fellowship/recommendation/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
+        null=True,blank=True,
         help_text=mark_safe('''
-            <a href="https://www.carthage.edu/live/files/1365-pdf">
-            Signed certification document
-            </a>
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
         ''')
     )
 
@@ -350,6 +413,18 @@ class UndergraduateResearch(models.Model):
         "Date Updated", auto_now=True
     )
     # core
+    signed_certification = models.FileField(
+        upload_to="files/undergraduate/research/signed-certification/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text=mark_safe('''
+            Before beginning the application process,
+            please print, obtain signatures, and scan the<br>
+            <a href="https://spacegrant.carthage.edu/live/files/1347-pdf" target="_blank">
+            signed certification document
+            </a>
+        ''')
+    )
     project_title = models.CharField(
         "Title of project", max_length=255
     )
@@ -363,48 +438,58 @@ class UndergraduateResearch(models.Model):
         max_length=128,
         choices=TIME_FRAME
     )
-    synopsis = models.TextField()
+    synopsis = models.TextField(
+        help_text = '''
+            Please include a short synopsis of your project
+            (no more than 200 characters) outlining its purpose
+            in terms understandable by the general reader.
+            If your project is selected for funding, this
+            wording will be used on our website. PDF format.
+        '''
+    )
     proposal = models.FileField(
         upload_to="files/undergraduate/research/proposal/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     high_school_transcripts = models.FileField(
         upload_to="files/undergraduate/research/transcripts/high-school/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        null=True,blank=True,
+        help_text="First and second year students only. PDF format."
     )
     undergraduate_transcripts = models.FileField(
         upload_to="files/undergraduate/research/transcripts/undergraduate/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="PDF format."
     )
     wsgc_advisor_recommendation = models.FileField(
-        upload_to="files/undergraduate/research/wsgc-advisor-recommendation/",
+        "Faculty Research Advisor Recommendation Letter",
+        upload_to="files/undergraduate/scholarship/wsgc-advisor-recommendation/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        null=True,blank=True,
+        help_text=mark_safe('''
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
+        ''')
     )
     recommendation = models.FileField(
-        upload_to="files/undergraduate/research/recommendation/",
+        "Additional Letter of Recommendation (faculty member or other professional reference)",
+        upload_to="files/undergraduate/scholarship/recommendation/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="""
-            PDF format:
-            Cannot be the same as the WSGC recommendation
-        """
-    )
-    signed_certification = models.FileField(
-        upload_to="files/undergraduate/research/signed-certification/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
+        null=True,blank=True,
         help_text=mark_safe('''
-            <a href="https://www.carthage.edu/live/files/1365-pdf">
-            Signed certification document
-            </a>
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
         ''')
     )
 
@@ -441,42 +526,72 @@ class UndergraduateScholarship(models.Model):
         "Date Updated", auto_now=True
     )
     # core
-    statement = models.TextField()
-    high_school_transcripts = models.FileField(
-        upload_to="files/undergraduate/scholarship/transcripts/high-school/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format"
-    )
-    undergraduate_transcripts = models.FileField(
-        upload_to="files/undergraduate/scholarship/transcripts/undergraduate/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format"
-    )
-    wsgc_advisor_recommendation = models.FileField(
-        upload_to="files/undergraduate/scholarship/wsgc-advisor-recommendation/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format"
-    )
-    recommendation = models.FileField(
-        upload_to="files/undergraduate/scholarship/recommendation/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="""
-            PDF format:
-            Cannot be the same as the WSGC recommendation
-        """
-    )
     signed_certification = models.FileField(
         upload_to="files/undergraduate/scholarship/signed-certification/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
-            <a href="https://www.carthage.edu/live/files/1365-pdf">
-            Signed certification document
+            Before beginning the application process,
+            please print, obtain signatures, and scan the<br>
+            <a href="https://spacegrant.carthage.edu/live/files/1347-pdf" target="_blank">
+            signed certification document
             </a>
+        ''')
+    )
+    statement = models.FileField(
+        upload_to="files/undergraduate/scholarship/statement/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text=mark_safe('''Maximum two-page statement containing the following:
+            <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">
+            <li>a clear and concise account of your reasons
+            for seeking this scholarship</li>
+            <li>evidence of previous interest and experience
+            in space, aerospace, or space-related studies</li>
+            <li>description of your present interest in the
+            space sciences</li>
+            <li>a description of the program of space-related
+            studies you plan to pursue during the period of this
+             award.</li></ol> PDF format.
+        ''')
+    )
+    high_school_transcripts = models.FileField(
+        upload_to="files/undergraduate/scholarship/transcripts/high-school/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True,blank=True,
+        help_text="First and second year students only. PDF format."
+    )
+    undergraduate_transcripts = models.FileField(
+        upload_to="files/undergraduate/scholarship/transcripts/undergraduate/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="PDF format."
+    )
+    wsgc_advisor_recommendation = models.FileField(
+        "Faculty Research Advisor Recommendation Letter",
+        upload_to="files/undergraduate/scholarship/wsgc-advisor-recommendation/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True,blank=True,
+        help_text=mark_safe('''
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
+        ''')
+    )
+    recommendation = models.FileField(
+        "Additional Letter of Recommendation (faculty member or other professional reference)",
+        upload_to="files/undergraduate/scholarship/recommendation/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True,blank=True,
+        help_text=mark_safe('''
+            Recommendation letter is required for the application but may be
+            emailed by Advisor directly to WSGC at
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            PDF format.
         ''')
     )
 

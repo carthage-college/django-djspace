@@ -102,6 +102,7 @@ class SignupForm(forms.Form):
         user.save()
         profile = UserProfile(
             user = user,
+            updated_by = user,
             salutation = cd['salutation'],
             second_name = cd['second_name'],
             registration_type = cd['registration_type'],
@@ -121,6 +122,7 @@ class SignupForm(forms.Form):
         for r in request.POST.getlist('race'):
             profile.race.add(r)
         profile.save()
+
         if profile.us_citizen == "No":
             messages.warning(
                 request,

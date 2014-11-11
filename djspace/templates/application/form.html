@@ -1,6 +1,7 @@
 {% extends "dashboard/home.html" %}
 {% block title %}WSGC {{app_name}} Application &mdash; Carthage College{% endblock %}
 {% block extra_javascript %}
+<script src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
 <script src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function() {
@@ -12,25 +13,97 @@ $(function() {
             "unlink", "|", "orderedList", "unorderedList"
         ]
     });
+    /*
+    $('i[id$="_qtip"]').each(function() {
+        $(this).qtip({
+            prerender: true,
+            style: {
+                classes: 'qtip-bootstrap',
+                tip: { corner: 'left bottom'}
+            },
+            position: {
+                my: 'bottom left',
+                at: 'top right'
+            },
+            content: {
+                text: $('#' +  $(this).attr("id") + '_help').html()
+            }
+        });
+    });
+    */
 });
 </script>
 {% endblock %}
 {% block extra_style %}
 {{block.super}}
+<link href="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.1/jquery.qtip.min.css"
+    rel="stylesheet" type="text/css" />
 <link href="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea.css"
     rel="stylesheet" type="text/css" />
+<style type="text/css" media="screen, projection">
+    .form h3, .h3back {background-color: #efefef; padding: 0 5px; }
+    .help {margin:5px 0 9px 9px;}
+    label[for=id_synopsis]:after {
+        font-family: FontAwesome;
+        /*content: "\f069";*/
+        content: "*";
+        color:#800;
+        font-size:1.1em;
+        margin-left:5px;
+    }
+</style>
+{% endblock %}
+{% block page_header %}
+    Program Applications
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
-        {{app_name}} Application
+        {% if app_name == "Clark Graduate Fellowship" %}
+            Dr. Laurel Salton Clark Memorial<br>Fellowship
+        {% else %}
+            {{app_name}}
+        {% endif %}
+        Application
         <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x"></i></a>
+            <a href="{% url 'dashboard_home' %}">
+                <i class="fa fa-globe fa-2x"></i>
+            </a>
         </small>
         <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
 {% block content %}
+{% include "application/intro_instructions.inc.html" %}
 <div class="forms-container">
-    {% include "includes/generic_form_multi.html" %}
+    <form class="form" enctype="multipart/form-data" action="." method="post">
+    <fieldset class="blockLabels">
+        <ol>
+            {% for field in form.visible_fields %}
+            <li class="form-group ctrlHolder">
+                <h3>
+                    {{ field.label_tag }}
+                </h3>
+                {% if field.errors %}
+                <div class="required warning clear">
+                    <span class="error-message">
+                        {{ field.errors|join:", "}}
+                    </span>
+                {% else %}
+                <div class="clear{% if field.field.required %} required{% endif %}">
+                {% endif %}
+                {{field}}
+                <!-- <i class="fa fa-info-circle green" id="{{field.name}}_qtip"></i> -->
+                {% if field.help_text %}
+                    <div class="help" id="{{field.name}}_qtip_help">
+                        {{field.help_text}}
+                    </div>
+                {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ol>
+    </fieldset>
+    {% include "form_submit.inc.html" %}
+    </form>
 </div>
 {% endblock %}

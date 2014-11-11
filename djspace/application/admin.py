@@ -44,17 +44,17 @@ class HighAltitudeBalloonPayloadAdmin(HighAltitudeBalloonLaunchAdmin):
             request, obj, form, change
         )
 
-class ClarkFellowshipAdmin(GenericAdmin):
+class ClarkGraduateFellowshipAdmin(GenericAdmin):
 
-    model = ClarkFellowship
+    model = ClarkGraduateFellowship
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user
-        super(ClarkFellowshipAdmin, self).save(
+        super(ClarkGraduateFellowshipAdmin, self).save(
             request, obj, form, change
         )
 
-class GraduateFellowshipAdmin(ClarkFellowshipAdmin):
+class GraduateFellowshipAdmin(ClarkGraduateFellowshipAdmin):
 
     model = GraduateFellowship
 
@@ -91,7 +91,7 @@ admin.site.register(
     HighAltitudeBalloonPayload, HighAltitudeBalloonPayloadAdmin
 )
 admin.site.register(
-    ClarkFellowship, ClarkFellowshipAdmin
+    ClarkGraduateFellowship, ClarkGraduateFellowshipAdmin
 )
 admin.site.register(
     GraduateFellowship, GraduateFellowshipAdmin

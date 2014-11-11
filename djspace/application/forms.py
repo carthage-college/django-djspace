@@ -31,12 +31,12 @@ class GraduateFellowshipForm(forms.ModelForm):
         exclude = ('user','status','funds_authorized')
 
 
-class ClarkFellowshipForm(forms.ModelForm):
+class ClarkGraduateFellowshipForm(forms.ModelForm):
     """
     """
 
     class Meta:
-        model = ClarkFellowship
+        model = ClarkGraduateFellowship
         exclude = ('user','status','funds_authorized')
 
 class HighAltitudeBalloonPayloadForm(forms.ModelForm):
