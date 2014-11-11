@@ -91,9 +91,7 @@ $(function() {
                 {% else %}
                 <div class="clear{% if field.field.required %} required{% endif %}">
                 {% endif %}
-                <span class="button">
                 {{field}}
-                </span>
                 <!-- <i class="fa fa-info-circle green" id="{{field.name}}_qtip"></i> -->
                 {% if field.help_text %}
                     <div class="help" id="{{field.name}}_qtip_help">
