@@ -1,7 +1,6 @@
 {% extends "dashboard/home.html" %}
 {% block title %}WSGC {{app_name}} Application &mdash; Carthage College{% endblock %}
 {% block extra_javascript %}
-<script src="//cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
 <script src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function() {
@@ -13,31 +12,13 @@ $(function() {
             "unlink", "|", "orderedList", "unorderedList"
         ]
     });
-    /*
-    $('i[id$="_qtip"]').each(function() {
-        $(this).qtip({
-            prerender: true,
-            style: {
-                classes: 'qtip-bootstrap',
-                tip: { corner: 'left bottom'}
-            },
-            position: {
-                my: 'bottom left',
-                at: 'top right'
-            },
-            content: {
-                text: $('#' +  $(this).attr("id") + '_help').html()
-            }
-        });
-    });
-    */
+    $("input[id$='clear_id']").css({ float: "right" });
+    $("label[for$='clear_id']").css({ float: "right", marginRight:"7px" });
 });
 </script>
 {% endblock %}
 {% block extra_style %}
 {{block.super}}
-<link href="//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.1/jquery.qtip.min.css"
-    rel="stylesheet" type="text/css" />
 <link href="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea.css"
     rel="stylesheet" type="text/css" />
 <style type="text/css" media="screen, projection">
@@ -51,6 +32,7 @@ $(function() {
         font-size:1.1em;
         margin-left:5px;
     }
+    .clear {font-weight:bold;}
 </style>
 {% endblock %}
 {% block page_header %}
@@ -76,6 +58,7 @@ $(function() {
 {% include "application/intro_instructions.inc.html" %}
 <div class="forms-container">
     <form class="form" enctype="multipart/form-data" action="." method="post">
+    {% csrf_token %}
     <fieldset class="blockLabels">
         <ol>
             {% for field in form.visible_fields %}

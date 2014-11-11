@@ -1,9 +1,12 @@
 {% extends "application/email/base.html" %}
 {% block title %}Undergraduate Scholarship{% endblock %}
 {% block data %}
-<h4>Statement</h4>
-<p>{{data.statement|safe}}</p>
 <h4>Files</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.statement}}">
+        Statement
+    </a>
+</p>
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.high_school_transcripts}}">
         High school transcripts

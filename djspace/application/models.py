@@ -180,7 +180,8 @@ class ClarkGraduateFellowship(models.Model):
     )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
-        help_text="In Dollars",
+        null=True,blank=True,
+        help_text="In Dollars"
     )
     synopsis = models.TextField(
         help_text = '''
@@ -236,7 +237,7 @@ class ClarkGraduateFellowship(models.Model):
         ''')
     )
     recommendation_2 = models.FileField(
-        "Recommendation letter 1",
+        "Recommendation letter 2",
         upload_to="files/graduate/fellowship/recommendation/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -310,8 +311,8 @@ class GraduateFellowship(models.Model):
     )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
-        help_text="In Dollars",
-        null=True,blank=True
+        null=True,blank=True,
+        help_text="In Dollars"
     )
     synopsis = models.TextField(
         help_text = '''
@@ -367,7 +368,7 @@ class GraduateFellowship(models.Model):
         ''')
     )
     recommendation_2 = models.FileField(
-        "Recommendation letter 1",
+        "Recommendation letter 2",
         upload_to="files/graduate/fellowship/recommendation/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -384,7 +385,7 @@ class GraduateFellowship(models.Model):
         return self.project_title
 
     def get_application_type(self):
-        return "Graduate Fellowship"
+        return "WSGC Graduate Fellowship"
 
     def get_absolute_url(self):
         return reverse(
@@ -430,8 +431,8 @@ class UndergraduateResearch(models.Model):
     )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
-        help_text="In Dollars",
-        null=True,blank=True
+        null=True,blank=True,
+        help_text="In Dollars"
     )
     time_frame = models.CharField(
         "Time frame that best suits your project",
@@ -497,7 +498,7 @@ class UndergraduateResearch(models.Model):
         return self.project_title
 
     def get_application_type(self):
-        return "Undergraduate Research"
+        return "Undergraduate Research Fellowship"
 
     def get_absolute_url(self):
         return reverse(
