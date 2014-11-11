@@ -9,7 +9,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
 
     list_display  = (
         'last_name', 'first_name', 'date_created','date_updated',
-        'email', 'phone', 'cv_link', 'letter_interest_link', 'status'
+        'email_link', 'phone', 'cv_link', 'letter_interest_link', 'status'
     )
 
     def __init__(self, *args, **kwargs):

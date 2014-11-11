@@ -13,6 +13,10 @@ $(function() {
             "unlink", "|", "orderedList", "unorderedList"
         ]
     });
+    $('input[type=file]').each(function() {
+        $(this).parent().addClass("fileUpload");
+        $(this).parent().prepend('<span>Select File</span>');
+    });
     /*
     $('i[id$="_qtip"]').each(function() {
         $(this).qtip({
@@ -51,6 +55,23 @@ $(function() {
         font-size:1.1em;
         margin-left:5px;
     }
+.fileUpload {
+    margin: 10px;
+    overflow: hidden;
+    position: relative;
+}
+.fileUpload input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
 </style>
 {% endblock %}
 {% block page_header %}
@@ -91,7 +112,9 @@ $(function() {
                 {% else %}
                 <div class="clear{% if field.field.required %} required{% endif %}">
                 {% endif %}
+                <span class="button">
                 {{field}}
+                </span>
                 <!-- <i class="fa fa-info-circle green" id="{{field.name}}_qtip"></i> -->
                 {% if field.help_text %}
                     <div class="help" id="{{field.name}}_qtip_help">
