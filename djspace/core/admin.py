@@ -2,6 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from django.contrib.auth.admin import UserAdmin
 
@@ -12,8 +13,8 @@ import csv
 class GenericAdmin(admin.ModelAdmin):
 
     list_display  = (
-        'last_name', 'first_name', 'date_created','date_updated',
-        'email', 'phone'
+        'last_name', 'first_name', 'email_link', 'phone',
+        'date_created', 'date_updated',
     )
 
     ordering = [
@@ -23,17 +24,22 @@ class GenericAdmin(admin.ModelAdmin):
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
 
-    def first_name(self, instance):
-        return instance.user.first_name
+    def first_name(self, obj):
+        return obj.user.first_name
 
-    def last_name(self, instance):
-        return instance.user.last_name
+    def last_name(self, obj):
+        return obj.user.last_name
 
-    def email(self, instance):
-        return instance.user.email
+    def email_link(self, obj):
+        return "<a href='%s'>%s</a>" % (
+            reverse('admin:auth_user_change', args=(obj.user.id,)),
+            obj.user.email
+        )
+    email_link.allow_tags = True
+    email_link.short_description = 'User Profile'
 
-    def phone(self, instance):
-        return instance.user.profile.phone
+    def phone(self, obj):
+        return obj.user.profile.phone
 
 
 def export_registrants(modeladmin, request, queryset):
