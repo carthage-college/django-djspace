@@ -2,11 +2,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djspace.registration.validators import *
 from djspace.registration.choices import WSGC_AFFILIATE, WSGC_SCHOOL
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
 from djtools.fields import STATE_CHOICES
+from djtools.fields.validators import *
 
 MAJORS = (
     ('Aeronautical Engineering','Aeronautical Engineering'),

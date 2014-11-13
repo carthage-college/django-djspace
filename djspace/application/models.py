@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
-from djspace.registration.validators import MimetypeValidator
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
+from djtools.fields.validators import MimetypeValidator
 
 GRAVITY_TRAVEL = (
     ('gravity','Reduced Gravity'),
