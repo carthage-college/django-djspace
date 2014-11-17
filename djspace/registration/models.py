@@ -2,11 +2,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djspace.registration.choices import WSGC_AFFILIATE, WSGC_SCHOOL
+from djspace.registration.choices import WSGC_SCHOOL
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
+from djspace.core.models import GenericChoice
 
 from djtools.fields import STATE_CHOICES
 from djtools.fields.validators import *
+
+#def limit_affiliates():
+    #affiliate_ids = [
+    #    g.id for g in GenericChoice.objects.filter(
+    #        tags__name__in=["WSGC Affiliates"]
+    #    ).order_by("name")
+    #]
+    #limit_choices_to={"feature__in":
 
 MAJORS = (
     ('Aeronautical Engineering','Aeronautical Engineering'),
@@ -213,6 +222,7 @@ class Faculty(models.Model):
         verbose_name_plural = "Faculty"
 
 
+
 class Professional(models.Model):
 
     # meta
@@ -229,12 +239,13 @@ class Professional(models.Model):
         "Date Updated", auto_now=True
     )
     # core
-    wsgc_affiliate = models.CharField(
-        "WSGC Affiliate",
-        max_length=128,
+    wsgc_affiliate = models.ForeignKey(
+        GenericChoice,
+        verbose_name="WSGC Affiliate",
+        related_name="professional_wsgc_affiliate",
+        on_delete=models.SET_NULL,
         help_text = """
             You must be associated with a WSGC commercial, government, or
             nonprofit affiliate in order to proceed
-        """,
-        choices=WSGC_AFFILIATE
+        """
     )

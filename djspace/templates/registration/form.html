@@ -10,7 +10,9 @@
                 startYear: 2014,
                 finalYear: 2025
             };
-            $('#id_month_year_of_graduation').monthpicker(options);
+            $('body').on('focus',"#id_reg-month_year_of_graduation", function(){
+                $(this).monthpicker(options);
+            });
         });
     </script>
 {% endblock %}

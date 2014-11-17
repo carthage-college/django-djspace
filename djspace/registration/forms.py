@@ -2,11 +2,18 @@
 
 from django import forms
 
-from djspace.registration.models import Undergraduate, Graduate, Faculty
+from djspace.core.models import GenericChoice
 from djspace.registration.models import Professional
+from djspace.registration.models import Undergraduate, Graduate, Faculty
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE
+from djtools.fields.validators import month_year_validator
+
+try:
+    AFFILIATES = GenericChoice.objects.filter(tags__name__in=["WSGC Affiliates"]).order_by("name")
+except:
+    AFFILIATES = GenericChoice.objects.none()
 
 class UndergraduateForm(forms.ModelForm):
     """
@@ -63,7 +70,10 @@ class GraduateForm(forms.ModelForm):
         label = "Total credits"
     )
     month_year_of_graduation = forms.CharField(
-        label = "Month and year of graduation"
+        label = "Month and year of graduation",
+        max_length=7,
+        validators=[month_year_validator],
+        widget=forms.TextInput(attrs={'placeholder': 'eg. 05/2015'})
     )
     undergraduate_degree = forms.TypedChoiceField(
         choices = UNDERGRADUATE_DEGREE, widget = forms.RadioSelect()
@@ -91,7 +101,6 @@ class GraduateForm(forms.ModelForm):
             'gpa_in_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'gpa_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
             'cumulative_college_credits': forms.TextInput(attrs={'placeholder': 'eg. 86.0'}),
-            'month_year_of_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2015'}),
             # graduate
             'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
@@ -131,6 +140,8 @@ class ProfessionalForm(forms.ModelForm):
     """
     A form to collect professional information
     """
+
+    wsgc_affiliate = forms.ModelChoiceField(queryset=AFFILIATES)
 
     class Meta:
         model = Professional

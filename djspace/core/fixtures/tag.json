@@ -1,1 +1,1 @@
-[{"pk": 1, "model": "taggit.tag", "fields": {"name": "Race", "slug": "race"}}]
+[{"fields": {"name": "Race", "slug": "race"}, "model": "taggit.tag", "pk": 1}, {"fields": {"name": "WSGC Affiliates", "slug": "wsgc-affiliates"}, "model": "taggit.tag", "pk": 2}]

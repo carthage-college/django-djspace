@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 
-from djspace.registration.models import *
-
 from taggit.managers import TaggableManager
 from gm2m import GM2MField
 
@@ -20,7 +18,7 @@ REG_TYPE = (
     ('Professional','Professional')
 )
 
-BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -16))]
+BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
 
 class GenericChoice(models.Model):
     """
