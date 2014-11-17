@@ -7,26 +7,32 @@
         Statement
     </a>
 </p>
+{% if data.high_school_transcripts %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.high_school_transcripts}}">
         High school transcripts
     </a>
 </p>
+{% endif %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.undergraduate_transcripts}}">
         Undergraduate transcripts
     </a>
 </p>
+{% if data.wsgc_advisor_recommendation %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_advisor_recommendation}}">
         WSGC Advisor recommendation
     </a>
 </p>
+{% endif %}
+{% if data.recommendation %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.recommendation}}">
         Recommendation
     </a>
 </p>
+{% endif %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.signed_certification}}">
         Signed certification
