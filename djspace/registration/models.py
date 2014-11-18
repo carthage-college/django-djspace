@@ -9,13 +9,13 @@ from djspace.core.models import GenericChoice
 from djtools.fields import STATE_CHOICES
 from djtools.fields.validators import *
 
-#def limit_affiliates():
-    #affiliate_ids = [
-    #    g.id for g in GenericChoice.objects.filter(
-    #        tags__name__in=["WSGC Affiliates"]
-    #    ).order_by("name")
-    #]
-    #limit_choices_to={"feature__in":
+def limit_affiliates():
+    affiliate_ids = [
+        g.id for g in GenericChoice.objects.filter(
+            tags__name__in=["WSGC Affiliates"]
+        ).order_by("name")
+    ]
+    return affiliate_ids
 
 MAJORS = (
     ('Aeronautical Engineering','Aeronautical Engineering'),
@@ -241,6 +241,7 @@ class Professional(models.Model):
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
+        limit_choices_to={"id__in":limit_affiliates},
         verbose_name="WSGC Affiliate",
         related_name="professional_wsgc_affiliate",
         on_delete=models.SET_NULL,

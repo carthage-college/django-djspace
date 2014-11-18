@@ -55,6 +55,14 @@ class GenericChoice(models.Model):
     class Meta:
         ordering = ['ranking']
 
+def limit_race():
+    rids = [
+        g.id for g in GenericChoice.objects.filter(
+            tags__name__in=["Race"]
+        ).order_by("name")
+    ]
+    return rids
+
 class UserProfile(models.Model):
 
     # meta
@@ -119,6 +127,7 @@ class UserProfile(models.Model):
     )
     race = models.ManyToManyField(
         GenericChoice,
+        limit_choices_to={"id__in":limit_race},
         related_name="user_profile_race",
         help_text = 'Check all that apply'
     )
