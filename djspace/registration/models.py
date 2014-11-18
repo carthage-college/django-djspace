@@ -245,6 +245,7 @@ class Professional(models.Model):
         verbose_name="WSGC Affiliate",
         related_name="professional_wsgc_affiliate",
         on_delete=models.SET_NULL,
+        null=True,
         help_text = """
             You must be associated with a WSGC commercial, government, or
             nonprofit affiliate in order to proceed

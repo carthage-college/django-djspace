@@ -41,10 +41,12 @@ $(function() {
 {% block content_head %}
     <h1 id="page_title">
         {% if app_name == "Clark Graduate Fellowship" %}
-            Dr. Laurel Salton Clark Memorial<br>Fellowship
+            Dr. Laurel Salton Clark Memorial<br>Research Fellowship
+        {% else %}{% if app_name == "Graduate Fellowship" %}
+            WSGC Research Fellowship
         {% else %}
             {{app_name}}
-        {% endif %}
+        {% endif %}{% endif %}
         Application
         <small class="fright" style="margin-right:20px;">
             <a href="{% url 'dashboard_home' %}">

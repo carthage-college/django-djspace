@@ -159,7 +159,7 @@ class ClarkGraduateFellowship(models.Model):
         help_text=mark_safe('''
             Before beginning the application process,
             please print, obtain signatures, and scan the<br>
-            <a href="https://www.carthage.edu/live/files/1365-pdf" target="_blank">
+            <a href="/live/files/1808-pdf" target="_blank">
             signed certification document
             </a>.
         ''')
@@ -254,7 +254,7 @@ class ClarkGraduateFellowship(models.Model):
         return self.project_title
 
     def get_application_type(self):
-        return "Dr. Laurel Salton Clark Memorial Fellowship"
+        return "Dr. Laurel Salton Clark Memorial Research Fellowship"
 
     def get_absolute_url(self):
         return reverse(
@@ -290,7 +290,7 @@ class GraduateFellowship(models.Model):
         help_text=mark_safe('''
             Before beginning the application process,
             please print, obtain signatures, and scan the<br>
-            <a href="https://www.carthage.edu/live/files/1365-pdf" target="_blank">
+            <a href="/live/files/1808-pdf" target="_blank">
             signed certification document
             </a>
         ''')
@@ -385,7 +385,7 @@ class GraduateFellowship(models.Model):
         return self.project_title
 
     def get_application_type(self):
-        return "WSGC Graduate Fellowship"
+        return "WSGC Research Fellowship"
 
     def get_absolute_url(self):
         return reverse(
@@ -421,7 +421,7 @@ class UndergraduateResearch(models.Model):
         help_text=mark_safe('''
             Before beginning the application process,
             please print, obtain signatures, and scan the<br>
-            <a href="https://spacegrant.carthage.edu/live/files/1347-pdf" target="_blank">
+            <a href="/live/files/1827-pdf" target="_blank">
             signed certification document
             </a>
         ''')
@@ -534,7 +534,7 @@ class UndergraduateScholarship(models.Model):
         help_text=mark_safe('''
             Before beginning the application process,
             please print, obtain signatures, and scan the<br>
-            <a href="https://spacegrant.carthage.edu/live/files/1347-pdf" target="_blank">
+            <a href="/live/files/1827-pdf" target="_blank">
             signed certification document
             </a>
         ''')
