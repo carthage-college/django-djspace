@@ -11,7 +11,7 @@ class UndergraduateAdmin(GenericAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user
-        super(UndergraduateAdmin, self).save(request, obj, form, change)
+        super(UndergraduateAdmin, self).save_model(request, obj, form, change)
 
 class GraduateAdmin(GenericAdmin):
 
@@ -21,7 +21,7 @@ class GraduateAdmin(GenericAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user
-        super(GraduateAdmin, self).save(request, obj, form, change)
+        super(GraduateAdmin, self).save_model(request, obj, form, change)
 
 class FacultyAdmin(GenericAdmin):
 
@@ -31,7 +31,7 @@ class FacultyAdmin(GenericAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user
-        super(FacultyAdmin, self).save(request, obj, form, change)
+        super(FacultyAdmin, self).save_model(request, obj, form, change)
 
 class ProfessionalAdmin(GenericAdmin):
 
@@ -42,7 +42,7 @@ class ProfessionalAdmin(GenericAdmin):
     def save_model(self, request, obj, form, change):
         if change:
             obj.updated_by = request.user
-        super(ProfessionalAdmin, self).save(request, obj, form, change)
+        super(ProfessionalAdmin, self).save_model(request, obj, form, change)
 
 admin.site.register(Undergraduate, UndergraduateAdmin)
 admin.site.register(Graduate, GraduateAdmin)
