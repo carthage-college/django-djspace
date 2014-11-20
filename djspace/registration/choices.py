@@ -10,51 +10,31 @@ UNDERGRADUATE_DEGREE = (
     ("Associate's degree/certificate","Associate's degree/certificate")
 )
 
-EMPLOYER = (
-    ('sad','OH NO, WE NEED TO FILL THESE OUT'),
-    ('stillsad','Still sad')
-)
-
 WSGC_SCHOOL = (
-    ('alverno','Alverno College'),
-    ('carroll','Carroll University'),
-    ('carthage','Carthage College'),
-    ('menominee','College of Menominee Nation'),
-    ('lawrence','Lawrence University'),
-    ('marquette','Marquette University'),
-    ('medicalwisconsin','Medical College of Wisconsin'),
-    ('msoe','Milwaukee School of Engineering'),
-    ('ripon','Ripon College'),
-    ('stnorbert','St. Norbert College'),
-    ('uwfoxvalley','UW Fox Valley'),
-    ('uwgreenbay','UW Green Bay'),
-    ('uwlacrosse','UW LaCrosse'),
-    ('uwmadison','UW Madison'),
-    ('uwmilwaukee','UW Milwaukee'),
-    ('uwoshkosh','UW Oshkosh'),
-    ('uwparkside','UW Parkside'),
-    ('uwplatteville','UW Platteville'),
-    ('uwriverfalls','UW River Falls'),
-    ('uwstephenspoint','UW Stevens Point'),
-    ('uwstout','UW Stout'),
-    ('uwsuperior','UW Superior'),
-    ('uwshitewater','UW Whitewater'),
-    ('westerntechnical','Western Technical College'),
-    ('wisconsinlutheran','Wisconsin Lutheran College')
-)
-
-WSGC_AFFILIATE = (
-    ('Aerogel Technolgies','Aerogel Technolgies'),
-    ('Astronautics','Astronautics'),
-    ('BTCI','BTCI'),
-    ('Charter','Charter'),
-    ('Crossroads at Big Creek','Crossroads at Big Creek'),
-    ('Department of Transportation','Department of Transportation'),
-    ('Department of Public Instruction','Department of Public Instruction'),
-    ('Experimental Aircraft Association','Experimental Aircraft Association'),
-    ('Orbitec','Orbitec'),
-    ('Space Explorers','Space Explorers'),
-    ('Space Port','Space Port'),
-    ('Sheboygan', 'Sheboygan'),
-    ('StaatsQuest','StaatsQuest')
+    ('Alverno College','Alverno College'),
+    ('Carroll University','Carroll University'),
+    ('Carthage College','Carthage College'),
+    ('College of Menominee Nation','College of Menominee Nation'),
+    ('Lawrence University','Lawrence University'),
+    ('Marquette University','Marquette University'),
+    ('Medical College of Wisconsin','Medical College of Wisconsin'),
+    ('Milwaukee School of Engineering','Milwaukee School of Engineering'),
+    ('Ripon College','Ripon College'),
+    ('St. Norbert College','St. Norbert College'),
+    ('UW Fox Valley','UW Fox Valley'),
+    ('UW Green Bay','UW Green Bay'),
+    ('UW LaCrosse','UW LaCrosse'),
+    ('UW Madison','UW Madison'),
+    ('UW Milwaukee','UW Milwaukee'),
+    ('UW Oshkosh','UW Oshkosh'),
+    ('UW Parkside','UW Parkside'),
+    ('UW Platteville','UW Platteville'),
+    ('UW River Falls','UW River Falls'),
+    ('UW Stephens Point','UW Stevens Point'),
+    ('UW Stout','UW Stout'),
+    ('UW Superior','UW Superior'),
+    ('UW Washington County','UW Washington County'),
+    ('UW Whitewater','UW Whitewater'),
+    ('Western Technical College','Western Technical College'),
+    ('Wisconsin Lutheran College','Wisconsin Lutheran College')
 )

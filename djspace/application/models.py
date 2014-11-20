@@ -385,7 +385,7 @@ class GraduateFellowship(models.Model):
         return self.project_title
 
     def get_application_type(self):
-        return "WSGC Research Fellowship"
+        return "WSGC Graduate &amp; Professional Research Fellowship"
 
     def get_absolute_url(self):
         return reverse(
