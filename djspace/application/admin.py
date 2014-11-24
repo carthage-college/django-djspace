@@ -86,6 +86,19 @@ class UndergraduateResearchAdmin(GenericAdmin):
             request, obj, form, change
         )
 
+class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
+
+    model = FirstNationsLaunchCompetition
+
+    def save_model(self, request, obj, form, change):
+        obj.updated_by = request.user
+        super(FirstNationsLaunchCompetition, self).save(
+            request, obj, form, change
+        )
+
+admin.site.register(
+    FirstNationsLaunchCompetition, FirstNationsLaunchCompetitionAdmin
+)
 admin.site.register(
     HighAltitudeBalloonLaunch, HighAltitudeBalloonLaunchAdmin
 )

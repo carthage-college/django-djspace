@@ -142,6 +142,7 @@ class BaseStudent(models.Model):
         verbose_name="College or University",
         limit_choices_to={"id__in":limit_college_university},
         #limit_choices_to={"id__in":limit_generic_choice("College or University")},
+        help_text="FNL Participants: Choose 'OTHER.'",
         max_length=128
     )
 

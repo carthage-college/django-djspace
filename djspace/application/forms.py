@@ -55,3 +55,11 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
         model = HighAltitudeBalloonLaunch
         exclude = ('user','status')
 
+class FirstNationsLaunchCompetitionForm(forms.ModelForm):
+    """
+    """
+
+    class Meta:
+        model = FirstNationsLaunchCompetition
+        exclude = ('user','status')
+

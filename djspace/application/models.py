@@ -13,10 +13,9 @@ GRAVITY_TRAVEL = (
     ('travel','Student Travel')
 )
 
-TITLE = (
+ROLE = (
     ('advisor','Faculty Advisor'),
     ('leader','Team Lead'),
-    ('member','Member')
 )
 
 TIME_FRAME = (
@@ -27,6 +26,57 @@ TIME_FRAME = (
     ('Summer, fall, and spring','Summer, fall, and spring'),
     ('Fall and spring','Fall and spring')
 )
+
+class FirstNationsLaunchCompetition(models.Model):
+
+    # meta
+    user = models.ForeignKey(User)
+    status = models.BooleanField(default=False)
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="fnlc_updated_by",
+        editable=False
+    )
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
+    # core
+    team_name = models.CharField(
+        max_length=255
+    )
+    role = models.CharField(
+        "Your Role",
+        max_length=128,
+        choices=ROLE
+    )
+    proposal_file = models.FileField(
+        "Proposal",
+        upload_to="files/first-nations-launch-competition/proposal/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="""
+            PDF format.
+        """
+    )
+
+    def __unicode__(self):
+        return "First Nations Launch Competition"
+
+    def get_application_type(self):
+        return "First Nations Launch Competition"
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'application_type': "first-nations-launch-competition",
+                'aid': str(self.id)
+            }
+        )
+
 
 class HighAltitudeBalloonLaunch(models.Model):
 

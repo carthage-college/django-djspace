@@ -2,6 +2,8 @@
 
 cd /d2/django_projects/djspace/static/
 
+mkdir -p files/first-nations-launch-competition/proposal/
+
 mkdir -p files/high-altitude-balloon-payload/cv/
 mkdir -p files/high-altitude-balloon-payload/letter-interest/
 mkdir -p files/high-altitude-balloon-launch/cv/
