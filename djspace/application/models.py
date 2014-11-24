@@ -14,8 +14,8 @@ GRAVITY_TRAVEL = (
 )
 
 ROLE = (
-    ('advisor','Faculty Advisor'),
-    ('leader','Team Lead'),
+    ('Faculty Advisor','Faculty Advisor'),
+    ('Team leader','Team Leader'),
 )
 
 TIME_FRAME = (

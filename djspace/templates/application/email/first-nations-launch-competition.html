@@ -1,0 +1,14 @@
+{% extends "application/email/base.html" %}
+{% block title %}First Nations Launch Competition Application{% endblock %}
+{% block data %}
+<h4>Team Name</h4>
+<p>{{data.team_name}}</p>
+<h4>Your Role</h4>
+<p>{{data.role}}</p>
+<h4>Files</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}">
+        Proposal
+    </a>
+</p>
+{% endblock %}
