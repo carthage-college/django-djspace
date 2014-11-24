@@ -1,1 +1,1 @@
-[{"fields": {"name": "Race", "slug": "race"}, "model": "taggit.tag", "pk": 1}, {"fields": {"name": "WSGC Affiliates", "slug": "wsgc-affiliates"}, "model": "taggit.tag", "pk": 2}]
+[{"fields": {"name": "Race", "slug": "race"}, "model": "taggit.tag", "pk": 1}, {"fields": {"name": "WSGC Affiliates", "slug": "wsgc-affiliates"}, "model": "taggit.tag", "pk": 2}, {"fields": {"name": "College or University", "slug": "college-or-university"}, "model": "taggit.tag", "pk": 5}]

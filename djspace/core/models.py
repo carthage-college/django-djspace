@@ -25,10 +25,10 @@ class GenericChoice(models.Model):
     For making choices for choice fields for forms
     """
     name = models.CharField(
-        unique=True, max_length=255
+        max_length=255
     )
     value = models.CharField(
-        max_length=255
+        unique=True, max_length=255
     )
     ranking = models.IntegerField(
         null=True, blank=True, default=0,

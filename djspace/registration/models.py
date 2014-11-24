@@ -9,13 +9,33 @@ from djspace.core.models import GenericChoice
 from djtools.fields import STATE_CHOICES
 from djtools.fields.validators import *
 
-def limit_affiliates():
-    affiliate_ids = [
+def limit_affiliation():
+    ids = [
         g.id for g in GenericChoice.objects.filter(
-            tags__name__in=["WSGC Affiliates"]
+            tags__name__in=["WSGC Affiliation"]
         ).order_by("name")
     ]
-    return affiliate_ids
+    return ids
+
+def limit_college_university():
+    ids = [
+        g.id for g in GenericChoice.objects.filter(
+            tags__name__in=["College or University"]
+        ).order_by("name")
+    ]
+    return ids
+
+def limit_generic_choice(tag):
+    """
+    why does this not work?
+    """
+    ids = [
+        g.id for g in GenericChoice.objects.filter(
+            tags__name__in=[tag]
+        ).order_by("name")
+    ]
+    return ids
+
 
 MAJORS = (
     ('Aeronautical Engineering','Aeronautical Engineering'),
@@ -117,9 +137,11 @@ class BaseStudent(models.Model):
         max_length=7,
         validators=[month_year_validator]
     )
-    wsgc_school = models.CharField(
-        "WSGC College or University",
-        choices=WSGC_SCHOOL,
+    wsgc_school = models.ForeignKey(
+        GenericChoice,
+        verbose_name="College or University",
+        limit_choices_to={"id__in":limit_college_university},
+        #limit_choices_to={"id__in":limit_generic_choice("College or University")},
         max_length=128
     )
 
@@ -241,7 +263,7 @@ class Professional(models.Model):
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        limit_choices_to={"id__in":limit_affiliates},
+        limit_choices_to={"id__in":limit_affiliation},
         verbose_name="WSGC Affiliate",
         related_name="professional_wsgc_affiliate",
         on_delete=models.SET_NULL,

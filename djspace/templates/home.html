@@ -48,7 +48,7 @@
                         Change password
                     </a>
                 </li>
-                {% if user.is_superuser %}
+                {% if user.is_staff %}
                 <li>
                     <a href="{% url 'admin:index' %}">Administration</a>
                 </li>

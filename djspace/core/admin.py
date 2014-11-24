@@ -10,38 +10,6 @@ from djspace.core.models import UserProfile, GenericChoice
 
 import csv
 
-class GenericAdmin(admin.ModelAdmin):
-
-    list_display  = (
-        'last_name', 'first_name', 'email_link', 'phone',
-        'date_created', 'date_updated',
-    )
-
-    ordering = [
-        'date_created','user__last_name','user__email'
-    ]
-
-    list_per_page = 500
-    raw_id_fields = ("user","updated_by",)
-
-    def first_name(self, obj):
-        return obj.user.first_name
-
-    def last_name(self, obj):
-        return obj.user.last_name
-
-    def email_link(self, obj):
-        return "<a href='%s'>%s</a>" % (
-            reverse('admin:auth_user_change', args=(obj.user.id,)),
-            obj.user.email
-        )
-    email_link.allow_tags = True
-    email_link.short_description = 'User Profile'
-
-    def phone(self, obj):
-        return obj.user.profile.phone
-
-
 def export_registrants(modeladmin, request, queryset):
     # exclude these fields from registration data
     exclude = ['id','user']
@@ -73,6 +41,37 @@ def export_registrants(modeladmin, request, queryset):
     return response
 
 export_registrants.short_description = "Export Registrants"
+
+class GenericAdmin(admin.ModelAdmin):
+
+    list_display  = (
+        'last_name', 'first_name', 'email_link', 'phone',
+        'date_created', 'date_updated',
+    )
+
+    ordering = [
+        'date_created','user__last_name','user__email'
+    ]
+
+    list_per_page = 500
+    raw_id_fields = ("user","updated_by",)
+
+    def first_name(self, obj):
+        return obj.user.first_name
+
+    def last_name(self, obj):
+        return obj.user.last_name
+
+    def email_link(self, obj):
+        return "<a href='%s'>%s</a>" % (
+            reverse('admin:auth_user_change', args=(obj.user.id,)),
+            obj.user.email
+        )
+    email_link.allow_tags = True
+    email_link.short_description = 'User Profile'
+
+    def phone(self, obj):
+        return obj.user.profile.phone
 
 class GenericChoiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'value', 'ranking', 'active', 'tags')
