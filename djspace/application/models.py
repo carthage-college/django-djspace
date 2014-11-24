@@ -52,7 +52,7 @@ class FirstNationsLaunchCompetition(models.Model):
         max_length=128,
         choices=ROLE
     )
-    proposal_file = models.FileField(
+    proposal = models.FileField(
         "Proposal",
         upload_to="files/first-nations-launch-competition/proposal/",
         validators=[MimetypeValidator('application/pdf')],
