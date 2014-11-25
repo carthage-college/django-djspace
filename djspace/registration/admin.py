@@ -9,9 +9,6 @@ class UndergraduateAdmin(GenericAdmin):
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
 
-    def save_model(self, request, obj, form, change):
-        obj.updated_by = request.user
-        super(UndergraduateAdmin, self).save_model(request, obj, form, change)
 
 class GraduateAdmin(GenericAdmin):
 
@@ -19,9 +16,6 @@ class GraduateAdmin(GenericAdmin):
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
 
-    def save_model(self, request, obj, form, change):
-        obj.updated_by = request.user
-        super(GraduateAdmin, self).save_model(request, obj, form, change)
 
 class FacultyAdmin(GenericAdmin):
 
@@ -29,9 +23,6 @@ class FacultyAdmin(GenericAdmin):
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
 
-    def save_model(self, request, obj, form, change):
-        obj.updated_by = request.user
-        super(FacultyAdmin, self).save_model(request, obj, form, change)
 
 class ProfessionalAdmin(GenericAdmin):
 
@@ -39,10 +30,6 @@ class ProfessionalAdmin(GenericAdmin):
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
 
-    def save_model(self, request, obj, form, change):
-        if change:
-            obj.updated_by = request.user
-        super(ProfessionalAdmin, self).save_model(request, obj, form, change)
 
 admin.site.register(Undergraduate, UndergraduateAdmin)
 admin.site.register(Graduate, GraduateAdmin)

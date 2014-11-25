@@ -13,6 +13,10 @@ from localflavor.us.forms import USPhoneNumberField
 
 RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("name")
 
+import datetime
+
+DOB_YEAR = datetime.date.today().year-17
+
 class SignupForm(forms.Form):
     """
     Gathers auth and user profile data
@@ -40,7 +44,7 @@ class SignupForm(forms.Form):
     date_of_birth = forms.DateField(
         label = "Date of birth",
         required=False,
-        widget=SelectDateWidget(years=range(1996,1929,-1))
+        widget=SelectDateWidget(years=range(DOB_YEAR,1929,-1))
     )
     gender = forms.TypedChoiceField(
         choices = GENDER_CHOICES,

@@ -73,6 +73,11 @@ class GenericAdmin(admin.ModelAdmin):
     def phone(self, obj):
         return obj.user.profile.phone
 
+    def save_model(self, request, obj, form, change):
+        obj.updated_by = request.user
+        obj.save()
+
+
 class GenericChoiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'value', 'ranking', 'active', 'tags')
 

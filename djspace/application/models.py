@@ -544,6 +544,9 @@ class UndergraduateResearch(models.Model):
         ''')
     )
 
+    class Meta:
+        verbose_name_plural = "Undergraduate Research"
+
     def __unicode__(self):
         return self.project_title
 
