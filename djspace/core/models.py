@@ -157,6 +157,9 @@ class UserProfile(models.Model):
         return "%s %s's profile" % (self.user.first_name, self.user.last_name)
 
     def get_registration(self):
+        from djspace.registration.models import Undergraduate, Graduate
+        from djspace.registration.models import Faculty, Professional
+
         try:
             return eval(self.registration_type).objects.get(user=self.user)
         except:

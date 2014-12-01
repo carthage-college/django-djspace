@@ -42,12 +42,21 @@ def export_registrants(modeladmin, request, queryset):
 
 export_registrants.short_description = "Export Registrants"
 
-class GenericAdmin(admin.ModelAdmin):
+PROFILE_LIST_DISPLAY = [
+    'salutation','first_name','second_name','last_name',
+    'email','phone','address1','address2','city','state',
+    'postal_code','date_of_birth','gender','race','tribe',
+    'disability','us_citizen','registration_type'
+]
 
-    list_display  = (
-        'last_name', 'first_name', 'email_link', 'phone',
-        'date_created', 'date_updated',
-    )
+class GenericAdmin(admin.ModelAdmin):
+    """
+    Base admin class that represents the shared elements that
+    most models can use, or override in their respective classes.
+    """
+
+    list_display = PROFILE_LIST_DISPLAY
+    list_display_links = None
 
     ordering = [
         'date_created','user__last_name','user__email'
@@ -56,22 +65,75 @@ class GenericAdmin(admin.ModelAdmin):
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
 
+    # user/profile data
+    salutation =  lambda s, o: o.user.profile.salutation
+
     def first_name(self, obj):
         return obj.user.first_name
+
+    def second_name(self, obj):
+        return obj.user.profile.second_name
 
     def last_name(self, obj):
         return obj.user.last_name
 
-    def email_link(self, obj):
-        return "<a href='%s'>%s</a>" % (
-            reverse('admin:auth_user_change', args=(obj.user.id,)),
-            obj.user.email
-        )
-    email_link.allow_tags = True
-    email_link.short_description = 'User Profile'
-
     def phone(self, obj):
         return obj.user.profile.phone
+
+    def address1(self, obj):
+        return obj.user.profile.address1
+
+    def address2(self, obj):
+        return obj.user.profile.address2
+
+    def city(self, obj):
+        return obj.user.profile.city
+
+    def state(self, obj):
+        return obj.user.profile.state
+
+    def postal_code(self, obj):
+        return obj.user.profile.postal_code
+
+    def gender(self, obj):
+        return obj.user.profile.gender
+
+    def disability(self, obj):
+        return obj.user.profile.disability
+
+    def us_citizen(self, obj):
+        return obj.user.profile.us_citizen
+
+    def race(self, obj):
+        return "/".join([r.name for r in obj.user.profile.race.all()])
+
+    def tribe(self, obj):
+        return obj.user.profile.tribe
+
+    def email(self, obj):
+        return '<a href="%s">%s</a>' % (
+            reverse("admin:auth_user_change", args=(obj.user.id,)),
+            obj.user.email
+        )
+    email.allow_tags = True
+    email.short_description = 'Profile (view/edit)'
+
+    def registration_type(self, obj):
+        return '<a href="%s">%s</a>' % (
+            reverse(
+                "admin:registration_{}_change".format(
+                    obj.user.profile.registration_type.lower()
+                ),
+                args=(obj.user.profile.get_registration().id,)
+            ),
+            obj.user.profile.registration_type
+        )
+    registration_type.allow_tags = True
+    registration_type.short_description = 'Reg Type (view/edit)'
+
+
+    def date_of_birth(self, obj):
+        return obj.user.profile.date_of_birth
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user

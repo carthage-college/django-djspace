@@ -3,32 +3,24 @@ from django.contrib import admin
 from djspace.registration.models import *
 from djspace.core.admin import GenericAdmin
 
-class UndergraduateAdmin(GenericAdmin):
+class UndergraduateAdmin(admin.ModelAdmin):
 
     model = Undergraduate
-    list_per_page = 500
-    raw_id_fields = ("user","updated_by",)
 
 
-class GraduateAdmin(GenericAdmin):
+class GraduateAdmin(admin.ModelAdmin):
 
     model = Graduate
-    list_per_page = 500
-    raw_id_fields = ("user","updated_by",)
 
 
-class FacultyAdmin(GenericAdmin):
+class FacultyAdmin(admin.ModelAdmin):
 
     model = Faculty
-    list_per_page = 500
-    raw_id_fields = ("user","updated_by",)
 
 
-class ProfessionalAdmin(GenericAdmin):
+class ProfessionalAdmin(admin.ModelAdmin):
 
     model = Professional
-    list_per_page = 500
-    raw_id_fields = ("user","updated_by",)
 
 
 admin.site.register(Undergraduate, UndergraduateAdmin)
