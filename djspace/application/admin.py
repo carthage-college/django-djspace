@@ -1,40 +1,38 @@
 from django.contrib import admin
+from django.http import HttpResponse
 from django.utils.text import Truncator
+from django.forms.models import model_to_dict
 
 from djspace.application.models import *
 from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
+from djspace.core.admin import PROFILE_HEADERS, get_profile_fields
 
 import csv
+import json
+import logging
+logger = logging.getLogger(__name__)
 
 def export_applications(modeladmin, request, queryset):
-    # exclude these fields from registration data
-    exclude = ['id','user']
     response = HttpResponse("", content_type="text/csv; charset=utf-8")
-    response['Content-Disposition']='attachment; filename=wsgc_registrants.csv'
+    filename = "{}.csv".format(modeladmin)
+    response['Content-Disposition']='attachment; filename={}'.format(filename)
     writer = csv.writer(response)
-    writer.writerow([
-        'Salutation','First Name','Second Name','Last Name','Email','Phone',
-        'Address 1','Address 2','City','State','Postal Code','Date of Birth',
-        'Gender','Race','Tribe','Disability','U.S. Citizen','Registration Type'
-    ])
+    logger.debug(
+        #"modeladmin = {}".format(modeladmin.model._meta.get_all_field_names())
+        modeladmin.model._meta.get_all_field_names()
+    )
+    headers = PROFILE_HEADERS + modeladmin.model._meta.get_all_field_names()
+
+    writer.writerow(headers)
     for reg in queryset:
-        race = [r.name for r in reg.profile.race.all()]
-        fields = [
-            reg.profile.salutation,reg.first_name,reg.profile.second_name,
-            reg.last_name,reg.email,reg.profile.phone,reg.profile.address1,
-            reg.profile.address2,reg.profile.city,reg.profile.state,
-            reg.profile.postal_code,reg.profile.date_of_birth,
-            reg.profile.gender,' '.join(race),reg.profile.tribe,
-            reg.profile.disability,reg.profile.us_citizen,
-            reg.profile.registration_type
-        ]
-        reg_data = reg.profile.get_registration()
-        if reg_data:
-            for n,v in model_to_dict(reg_data).items():
-                if n not in exclude:
-                    fields.append(v)
+        fields = get_profile_fields(reg.user)
+        for field in reg._meta.get_all_field_names():
+            if field != "user":
+                fields.append(getattr(reg, field, None))
         writer.writerow(fields)
     return response
+
+export_applications.short_description = "Export Applications"
 
 
 class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
@@ -47,6 +45,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
         'status'
     ]
     list_editable = ['status']
+    actions = [export_applications]
 
     def cv_link(self, instance):
         return '<a href="{}" target="_blank">CV</a>'.format(
@@ -82,6 +81,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
+    actions = [export_applications]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(25, html=True, truncate=" ...")
@@ -131,16 +131,26 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     graduate_transcripts_link.short_description = "Graduate Transcripts"
 
     def recommendation_1_link(self, instance):
-        return '<a href="{}" target="_blank">Rec. 1</a>'.format(
-            instance.recommendation_1.url
-        )
+        try:
+            code = '<a href="{}" target="_blank">Rec. 1</a>'.format(
+                instance.recommendation_1.url
+            )
+        except:
+            code = None
+        return code
+
     recommendation_1_link.allow_tags = True
     recommendation_1_link.short_description = "Recommendation 1"
 
     def recommendation_2_link(self, instance):
-        return '<a href="{}" target="_blank">Rec. 2</a>'.format(
-            instance.recommendation_2.url
-        )
+        try:
+            code = '<a href="{}" target="_blank">Rec. 2</a>'.format(
+                instance.recommendation_2.url
+            )
+        except:
+            code = None
+        return code
+
     recommendation_2_link.allow_tags = True
     recommendation_2_link.short_description = "Recommendation 2"
 
@@ -220,6 +230,7 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
+    actions = [export_applications]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(25,html=True,truncate="...")
@@ -244,6 +255,8 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'wsgc_advisor_recommendation_link','recommendation_link',
         'date_created','date_updated','status'
     ]
+    list_editable = ['status']
+    actions = [export_applications]
 
     def statement_link(self, instance):
         return '<a href="{}" target="_blank">Statement</a>'.format(
@@ -262,6 +275,7 @@ class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
         'date_created','date_updated','status'
     ]
     list_editable = ['status']
+    actions = [export_applications]
 
     def proposal_link(self, instance):
         return '<a href="{}" target="_blank">Proposal</a>'.format(
