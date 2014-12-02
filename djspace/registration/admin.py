@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from djspace.registration.models import *
-from djspace.core.admin import GenericAdmin
 
 class UndergraduateAdmin(admin.ModelAdmin):
 
