@@ -9,18 +9,12 @@ from djspace.core.admin import PROFILE_HEADERS, get_profile_fields
 
 import csv
 import json
-import logging
-logger = logging.getLogger(__name__)
 
 def export_applications(modeladmin, request, queryset):
     response = HttpResponse("", content_type="text/csv; charset=utf-8")
     filename = "{}.csv".format(modeladmin)
     response['Content-Disposition']='attachment; filename={}'.format(filename)
     writer = csv.writer(response)
-    logger.debug(
-        #"modeladmin = {}".format(modeladmin.model._meta.get_all_field_names())
-        modeladmin.model._meta.get_all_field_names()
-    )
     headers = PROFILE_HEADERS + modeladmin.model._meta.get_all_field_names()
 
     writer.writerow(headers)

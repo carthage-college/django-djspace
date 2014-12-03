@@ -1,23 +1,24 @@
 from django.contrib import admin
 
 from djspace.registration.models import *
+from djspace.core.admin import GenericAdmin
 
-class UndergraduateAdmin(admin.ModelAdmin):
+class UndergraduateAdmin(GenericAdmin):
 
     model = Undergraduate
 
 
-class GraduateAdmin(admin.ModelAdmin):
+class GraduateAdmin(GenericAdmin):
 
     model = Graduate
 
 
-class FacultyAdmin(admin.ModelAdmin):
+class FacultyAdmin(GenericAdmin):
 
     model = Faculty
 
 
-class ProfessionalAdmin(admin.ModelAdmin):
+class ProfessionalAdmin(GenericAdmin):
 
     model = Professional
 
