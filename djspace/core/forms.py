@@ -15,7 +15,7 @@ RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("name")
 
 import datetime
 
-DOB_YEAR = datetime.date.today().year-17
+DOB_YEAR = datetime.date.today().year-10
 
 class SignupForm(forms.Form):
     """
