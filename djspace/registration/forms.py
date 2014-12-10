@@ -22,7 +22,7 @@ class UndergraduateForm(forms.ModelForm):
 
     class Meta:
         model = Undergraduate
-        exclude = ('user',)
+        exclude = ('user','status',)
         fields = [
             'wsgc_school', 'major',
             'major_other', 'secondary_major_minor',
@@ -85,7 +85,7 @@ class GraduateForm(forms.ModelForm):
 
     class Meta:
         model = Graduate
-        exclude = ('user',)
+        exclude = ('user','status',)
         fields = [
             'major',
             'major_other', 'secondary_major_minor',
@@ -145,7 +145,7 @@ class ProfessionalForm(forms.ModelForm):
 
     class Meta:
         model = Professional
-        exclude = ('user',)
+        exclude = ('user','status',)
 
 
 class FacultyForm(forms.ModelForm):
@@ -155,4 +155,4 @@ class FacultyForm(forms.ModelForm):
 
     class Meta:
         model = Faculty
-        exclude = ('user',)
+        exclude = ('user','status',)
