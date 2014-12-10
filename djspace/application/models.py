@@ -27,11 +27,11 @@ TIME_FRAME = (
     ('Fall and spring','Fall and spring')
 )
 
-def upload_to_path(instance, filename):
+def upload_to_path(self, filename):
     """
     Generates the path as a string for file field.
     """
-    return 
+    return "files/applications/{}/{}".format(self.get_slug(), filename)
 
 
 class BaseModel(models.Model):
@@ -63,7 +63,7 @@ class BaseModel(models.Model):
         return reverse(
             'application_update',
             kwargs = {
-                'application_type': get_slug(),
+                'application_type': self.get_slug(),
                 'aid': str(self.id)
             }
         )
@@ -105,7 +105,7 @@ class HigherEducationInitiatives(BaseModel):
         '''
     )
     proposal = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
@@ -126,7 +126,7 @@ class ResearchInfrastructure(HigherEducationInitiatives):
     def __unicode__(self):
         return "Research Infrastructure"
 
-    def get_application_type(self):
+    def get_application_type():
         return "Research Infrastructure"
 
     def get_slug(self):
@@ -146,7 +146,7 @@ class FirstNationsLaunchCompetition(BaseModel):
     )
     proposal = models.FileField(
         "Proposal",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="""
@@ -169,7 +169,7 @@ class HighAltitudeBalloonLaunch(BaseModel):
     # core
     letter_interest = models.FileField(
         "Letter of interest",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="""
@@ -180,7 +180,7 @@ class HighAltitudeBalloonLaunch(BaseModel):
     )
     cv = models.FileField(
         "Résumé",
-        upload_to="files/applications",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
@@ -192,7 +192,7 @@ class HighAltitudeBalloonLaunch(BaseModel):
     def get_application_type(self):
         return "High Altitude Balloon Launch"
 
-    def get_slug():
+    def get_slug(self):
         return "high-altitude-balloon-launch"
 
     class Meta:
@@ -204,10 +204,10 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloonLaunch):
     def __unicode__(self):
         return "High Altitude Balloon Payload"
 
-    def get_application_type(self):
+    def get_application_type():
         return "High Altitude Balloon Payload"
 
-    def get_slug():
+    def get_slug(self):
         return "high-altitude-balloon-payload"
 
 
@@ -215,7 +215,7 @@ class ClarkGraduateFellowship(BaseModel):
 
     # core
     signed_certification = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
@@ -255,39 +255,39 @@ class ClarkGraduateFellowship(BaseModel):
         '''
     )
     proposal = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     cv = models.FileField(
         "Résumé",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     budget = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     undergraduate_transcripts = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     graduate_transcripts = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     recommendation_1 = models.FileField(
         "Recommendation letter 1",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -300,7 +300,7 @@ class ClarkGraduateFellowship(BaseModel):
     )
     recommendation_2 = models.FileField(
         "Recommendation letter 2",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -315,19 +315,19 @@ class ClarkGraduateFellowship(BaseModel):
     def __unicode__(self):
         return self.project_title
 
-    def get_application_type(self):
+    def get_application_type():
         return "Dr. Laurel Salton Clark Memorial Research Fellowship"
 
-    def get_slug():
+    def get_slug(self):
         return "clark-graduate-fellowship"
 
 
 class GraduateFellowship(ClarkGraduateFellowship):
 
-    def get_application_type(self):
+    def get_application_type():
         return "WSGC Graduate &amp; Professional Research Fellowship"
 
-    def get_slug():
+    def get_slug(self):
         return "graduate-fellowship"
 
 
@@ -335,7 +335,7 @@ class UndergraduateResearch(BaseModel):
 
     # core
     signed_certification = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
@@ -369,27 +369,27 @@ class UndergraduateResearch(BaseModel):
         '''
     )
     proposal = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     high_school_transcripts = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
         help_text="First and second year students only. PDF format."
     )
     undergraduate_transcripts = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -402,7 +402,7 @@ class UndergraduateResearch(BaseModel):
     )
     recommendation = models.FileField(
         "Additional Letter of Recommendation (faculty member or other professional reference)",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -420,10 +420,10 @@ class UndergraduateResearch(BaseModel):
     def __unicode__(self):
         return self.project_title
 
-    def get_application_type(self):
+    def get_application_type():
         return "Undergraduate Research Fellowship"
 
-    def get_slug():
+    def get_slug(self):
         return "undergraduate-research"
 
 
@@ -431,7 +431,7 @@ class UndergraduateScholarship(BaseModel):
 
     # core
     signed_certification = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
@@ -443,7 +443,7 @@ class UndergraduateScholarship(BaseModel):
         ''')
     )
     statement = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''Maximum two-page statement containing the following:
@@ -460,21 +460,21 @@ class UndergraduateScholarship(BaseModel):
         ''')
     )
     high_school_transcripts = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
         help_text="First and second year students only. PDF format."
     )
     undergraduate_transcripts = models.FileField(
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -490,7 +490,7 @@ class UndergraduateScholarship(BaseModel):
             Additional Letter of Recommendation
             (faculty member or other professional reference)
         """,
-        upload_to="files/applications/",
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -505,9 +505,9 @@ class UndergraduateScholarship(BaseModel):
     def __unicode__(self):
         return "Undergraduate Scholarship"
 
-    def get_application_type(self):
+    def get_application_type():
         return "Undergraduate Scholarship"
 
-    def get_slug():
+    def get_slug(self):
         return "undergraduate-scholarship"
 
