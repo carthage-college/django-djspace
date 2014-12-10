@@ -4,9 +4,21 @@ from django import forms
 
 from djspace.application.models import *
 
+class HigherEducationInitiativesForm(forms.ModelForm):
+
+    class Meta:
+        model = HigherEducationInitiatives
+        exclude = ('user','status','funds_authorized')
+
+
+class ResearchInfrastructureForm(forms.ModelForm):
+
+    class Meta:
+        model = ResearchInfrastructure
+        exclude = ('user','status','funds_authorized')
+
+
 class UndergraduateScholarshipForm(forms.ModelForm):
-    """
-    """
 
     class Meta:
         model = UndergraduateScholarship
@@ -14,8 +26,6 @@ class UndergraduateScholarshipForm(forms.ModelForm):
 
 
 class UndergraduateResearchForm(forms.ModelForm):
-    """
-    """
 
     class Meta:
         model = UndergraduateResearch
@@ -23,8 +33,6 @@ class UndergraduateResearchForm(forms.ModelForm):
 
 
 class GraduateFellowshipForm(forms.ModelForm):
-    """
-    """
 
     class Meta:
         model = GraduateFellowship
@@ -32,32 +40,24 @@ class GraduateFellowshipForm(forms.ModelForm):
 
 
 class ClarkGraduateFellowshipForm(forms.ModelForm):
-    """
-    """
 
     class Meta:
         model = ClarkGraduateFellowship
         exclude = ('user','status','funds_authorized')
 
 class HighAltitudeBalloonPayloadForm(forms.ModelForm):
-    """
-    """
 
     class Meta:
         model = HighAltitudeBalloonPayload
         exclude = ('user','status')
 
 class HighAltitudeBalloonLaunchForm(forms.ModelForm):
-    """
-    """
 
     class Meta:
         model = HighAltitudeBalloonLaunch
         exclude = ('user','status')
 
 class FirstNationsLaunchCompetitionForm(forms.ModelForm):
-    """
-    """
 
     class Meta:
         model = FirstNationsLaunchCompetition

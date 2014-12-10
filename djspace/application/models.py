@@ -27,14 +27,20 @@ TIME_FRAME = (
     ('Fall and spring','Fall and spring')
 )
 
-class FirstNationsLaunchCompetition(models.Model):
+def upload_to_path(instance, filename):
+    """
+    Generates the path as a string for file field.
+    """
+    return 
 
+
+class BaseModel(models.Model):
     # meta
     user = models.ForeignKey(User)
     status = models.BooleanField(default=False)
     updated_by = models.ForeignKey(
         User, verbose_name="Updated by",
-        related_name="fnlc_updated_by",
+        related_name="%(app_label)s_%(class)s_related",
         editable=False
     )
     date_created = models.DateTimeField(
@@ -43,6 +49,92 @@ class FirstNationsLaunchCompetition(models.Model):
     date_updated = models.DateTimeField(
         "Date Updated", auto_now=True
     )
+
+    class Meta:
+        abstract = True
+
+    def __unicode__(self):
+        return u'%s %s' % (self.last_name, self.first_name)
+
+    def get_slug(self):
+        return "base-model"
+
+    def get_absolute_url(self):
+        return reverse(
+            'application_update',
+            kwargs = {
+                'application_type': get_slug(),
+                'aid': str(self.id)
+            }
+        )
+
+
+class HigherEducationInitiatives(BaseModel):
+
+    # core
+    project_title = models.CharField(
+        "Title of project", max_length=255
+    )
+    funds_requested = models.IntegerField(help_text="In Dollars")
+    funds_authorized = models.IntegerField(
+        null=True,blank=True,
+        help_text="In Dollars"
+    )
+    proposed_match = models.IntegerField(
+        "Proposed match (1:1 mimimum)",
+        help_text="In Dollars"
+    )
+    source_match = models.CharField(
+        "Source(s) of match", max_length=255
+    )
+    time_frame = models.CharField(
+        "Time frame that best suits your project",
+        max_length=128,
+        choices=TIME_FRAME
+    )
+    location = models.CharField(
+        "Location of project", max_length=255
+    )
+    synopsis = models.TextField(
+        help_text = '''
+            Please include a short synopsis of your project
+            (no more than 200 characters) outlining its purpose
+            in terms understandable by the general reader.
+            If your project is selected for funding, this
+            wording will be used on our website.
+        '''
+    )
+    proposal = models.FileField(
+        upload_to="files/applications/",
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="PDF format."
+    )
+
+    def __unicode__(self):
+        return "Higher Education Initiatives"
+
+    def get_application_type(self):
+        return "Higher Education Initiatives"
+
+    def get_slug(self):
+        return "higher-education-initiatives"
+
+
+class ResearchInfrastructure(HigherEducationInitiatives):
+
+    def __unicode__(self):
+        return "Research Infrastructure"
+
+    def get_application_type(self):
+        return "Research Infrastructure"
+
+    def get_slug(self):
+        return "research-infrastructure"
+
+
+class FirstNationsLaunchCompetition(BaseModel):
+
     # core
     team_name = models.CharField(
         max_length=255
@@ -54,7 +146,7 @@ class FirstNationsLaunchCompetition(models.Model):
     )
     proposal = models.FileField(
         "Proposal",
-        upload_to="files/first-nations-launch-competition/proposal/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="""
@@ -68,36 +160,16 @@ class FirstNationsLaunchCompetition(models.Model):
     def get_application_type(self):
         return "First Nations Launch Competition"
 
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': "first-nations-launch-competition",
-                'aid': str(self.id)
-            }
-        )
+    def get_slug(self):
+        return "first-nations-launch-competition"
 
 
-class HighAltitudeBalloonLaunch(models.Model):
+class HighAltitudeBalloonLaunch(BaseModel):
 
-    # meta
-    user = models.ForeignKey(User)
-    status = models.BooleanField(default=False)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="habl_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
     # core
     letter_interest = models.FileField(
         "Letter of interest",
-        upload_to="files/high-altitude-balloon-launch/letter-interest/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="""
@@ -108,7 +180,7 @@ class HighAltitudeBalloonLaunch(models.Model):
     )
     cv = models.FileField(
         "Résumé",
-        upload_to="files/high-altitude-balloon-launch/cv/",
+        upload_to="files/applications",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
@@ -120,54 +192,14 @@ class HighAltitudeBalloonLaunch(models.Model):
     def get_application_type(self):
         return "High Altitude Balloon Launch"
 
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': "high-altitude-balloon-launch",
-                'aid': str(self.id)
-            }
-        )
+    def get_slug():
+        return "high-altitude-balloon-launch"
 
     class Meta:
         verbose_name_plural = "High altitude balloon launches"
 
 
-class HighAltitudeBalloonPayload(models.Model):
-
-    # meta
-    user = models.ForeignKey(User)
-    status = models.BooleanField(default=False)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="habp_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
-    # core
-    letter_interest = models.FileField(
-        "Letter of interest",
-        upload_to="files/high-altitude-balloon-payload/letter-interest/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="""
-            Letter must include two faculty members' names, emails,
-            and phone numbers, who can be contacted as references.
-            PDF format.
-        """
-    )
-    cv = models.FileField(
-        "Résumé",
-        upload_to="files/high-altitude-balloon-payload/cv/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format."
-    )
+class HighAltitudeBalloonPayload(HighAltitudeBalloonLaunch):
 
     def __unicode__(self):
         return "High Altitude Balloon Payload"
@@ -175,35 +207,15 @@ class HighAltitudeBalloonPayload(models.Model):
     def get_application_type(self):
         return "High Altitude Balloon Payload"
 
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': "high-altitude-balloon-payload",
-                'aid': str(self.id)
-            }
-        )
+    def get_slug():
+        return "high-altitude-balloon-payload"
 
 
-class ClarkGraduateFellowship(models.Model):
+class ClarkGraduateFellowship(BaseModel):
 
-    # meta
-    user = models.ForeignKey(User)
-    status = models.BooleanField(default=False)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="clark_fellowship_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
     # core
     signed_certification = models.FileField(
-        upload_to="files/graduate/clark-fellow/signed-certification/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
@@ -243,39 +255,39 @@ class ClarkGraduateFellowship(models.Model):
         '''
     )
     proposal = models.FileField(
-        upload_to="files/graduate/clark-fellow/proposal/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     cv = models.FileField(
         "Résumé",
-        upload_to="files/graduate/clark-fellow/cv/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     budget = models.FileField(
-        upload_to="files/graduate/clark-fellow/budget/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     undergraduate_transcripts = models.FileField(
-        upload_to="files/graduate/clark-fellow/transcripts/undergraduate/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     graduate_transcripts = models.FileField(
-        upload_to="files/graduate/clark-fellow/transcripts/graduate/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     recommendation_1 = models.FileField(
         "Recommendation letter 1",
-        upload_to="files/graduate/fellowship/recommendation/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -288,7 +300,7 @@ class ClarkGraduateFellowship(models.Model):
     )
     recommendation_2 = models.FileField(
         "Recommendation letter 2",
-        upload_to="files/graduate/fellowship/recommendation/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -306,166 +318,24 @@ class ClarkGraduateFellowship(models.Model):
     def get_application_type(self):
         return "Dr. Laurel Salton Clark Memorial Research Fellowship"
 
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': "clark-graduate-fellowship",
-                'aid': str(self.id)
-            }
-        )
+    def get_slug():
+        return "clark-graduate-fellowship"
 
 
-class GraduateFellowship(models.Model):
-
-    # meta
-    user = models.ForeignKey(User)
-    status = models.BooleanField(default=False)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="graduate_fellowship_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
-    # core
-    signed_certification = models.FileField(
-        upload_to="files/graduate/fellowship/signed-certification/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text=mark_safe('''
-            Before beginning the application process,
-            please print, obtain signatures, and scan the<br>
-            <a href="/live/files/1808-pdf" target="_blank">
-            signed certification document
-            </a>
-        ''')
-    )
-    anticipating_funding = models.CharField(
-        "Are you anticipating other funding this year?",
-        max_length=4,
-        choices=BINARY_CHOICES,
-        help_text="Grants/Scholarships/etc."
-    )
-    project_title = models.CharField(
-        "Title of project", max_length=255
-    )
-    time_frame = models.CharField(
-        "Time frame that best suits your project",
-        max_length=128,
-        choices=TIME_FRAME
-    )
-    funds_requested = models.IntegerField(help_text="In Dollars")
-    funds_authorized = models.IntegerField(
-        null=True,blank=True,
-        help_text="In Dollars"
-    )
-    synopsis = models.TextField(
-        help_text = '''
-            Please include a short synopsis of your project
-            (no more than 200 characters) outlining its purpose
-            in terms understandable by the general reader.
-            If your project is selected for funding, this
-            wording will be used on our website.
-        '''
-    )
-    proposal = models.FileField(
-        upload_to="files/graduate/fellowship/proposal/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format."
-    )
-    cv = models.FileField(
-        "Résumé",
-        upload_to="files/graduate/fellowship/cv/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format."
-    )
-    budget = models.FileField(
-        upload_to="files/graduate/fellowship/budget/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format."
-    )
-    undergraduate_transcripts = models.FileField(
-        upload_to="files/graduate/fellowship/transcripts/undergraduate/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format."
-    )
-    graduate_transcripts = models.FileField(
-        upload_to="files/graduate/fellowship/transcripts/graduate/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format."
-    )
-    recommendation_1 = models.FileField(
-        "Recommendation letter 1",
-        upload_to="files/graduate/fellowship/recommendation/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True,blank=True,
-        help_text=mark_safe('''
-            Recommendation letter is required for the application but may be
-            emailed by Advisor directly to WSGC at
-            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
-        ''')
-    )
-    recommendation_2 = models.FileField(
-        "Recommendation letter 2",
-        upload_to="files/graduate/fellowship/recommendation/",
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True,blank=True,
-        help_text=mark_safe('''
-            Recommendation letter is required for the application but may be
-            emailed by Advisor directly to WSGC at
-            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
-        ''')
-    )
-
-    def __unicode__(self):
-        return self.project_title
+class GraduateFellowship(ClarkGraduateFellowship):
 
     def get_application_type(self):
         return "WSGC Graduate &amp; Professional Research Fellowship"
 
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': "graduate-fellowship",
-                'aid': str(self.id)
-            }
-        )
+    def get_slug():
+        return "graduate-fellowship"
 
 
-class UndergraduateResearch(models.Model):
+class UndergraduateResearch(BaseModel):
 
-    # meta
-    user = models.ForeignKey(User)
-    status = models.BooleanField(default=False)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="undergraduate_research_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
     # core
     signed_certification = models.FileField(
-        upload_to="files/undergraduate/research/signed-certification/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
@@ -499,27 +369,27 @@ class UndergraduateResearch(models.Model):
         '''
     )
     proposal = models.FileField(
-        upload_to="files/undergraduate/research/proposal/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     high_school_transcripts = models.FileField(
-        upload_to="files/undergraduate/research/transcripts/high-school/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
         help_text="First and second year students only. PDF format."
     )
     undergraduate_transcripts = models.FileField(
-        upload_to="files/undergraduate/research/transcripts/undergraduate/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
-        upload_to="files/undergraduate/scholarship/wsgc-advisor-recommendation/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -532,7 +402,7 @@ class UndergraduateResearch(models.Model):
     )
     recommendation = models.FileField(
         "Additional Letter of Recommendation (faculty member or other professional reference)",
-        upload_to="files/undergraduate/scholarship/recommendation/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -553,35 +423,15 @@ class UndergraduateResearch(models.Model):
     def get_application_type(self):
         return "Undergraduate Research Fellowship"
 
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': "undergraduate-research",
-                'aid': str(self.id)
-            }
-        )
+    def get_slug():
+        return "undergraduate-research"
 
 
-class UndergraduateScholarship(models.Model):
+class UndergraduateScholarship(BaseModel):
 
-    # meta
-    user = models.ForeignKey(User)
-    status = models.BooleanField(default=False)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="undergraduate_scholarship_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
     # core
     signed_certification = models.FileField(
-        upload_to="files/undergraduate/scholarship/signed-certification/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
@@ -593,7 +443,7 @@ class UndergraduateScholarship(models.Model):
         ''')
     )
     statement = models.FileField(
-        upload_to="files/undergraduate/scholarship/statement/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''Maximum two-page statement containing the following:
@@ -610,21 +460,21 @@ class UndergraduateScholarship(models.Model):
         ''')
     )
     high_school_transcripts = models.FileField(
-        upload_to="files/undergraduate/scholarship/transcripts/high-school/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
         help_text="First and second year students only. PDF format."
     )
     undergraduate_transcripts = models.FileField(
-        upload_to="files/undergraduate/scholarship/transcripts/undergraduate/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format."
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
-        upload_to="files/undergraduate/scholarship/wsgc-advisor-recommendation/",
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -636,8 +486,11 @@ class UndergraduateScholarship(models.Model):
         ''')
     )
     recommendation = models.FileField(
-        "Additional Letter of Recommendation (faculty member or other professional reference)",
-        upload_to="files/undergraduate/scholarship/recommendation/",
+        """
+            Additional Letter of Recommendation
+            (faculty member or other professional reference)
+        """,
+        upload_to="files/applications/",
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
@@ -655,13 +508,6 @@ class UndergraduateScholarship(models.Model):
     def get_application_type(self):
         return "Undergraduate Scholarship"
 
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': "undergraduate-scholarship",
-                'aid': str(self.id)
-            }
-        )
-
+    def get_slug():
+        return "undergraduate-scholarship"
 

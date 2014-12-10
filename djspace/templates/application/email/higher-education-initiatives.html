@@ -1,0 +1,24 @@
+{% extends "application/email/base.html" %}
+{% block title %}Higher Education Initiatives{% endblock %}
+{% block data %}
+<h4>Title of project</h4>
+<p>{{data.project_title}}</p>
+<h4>Time frame that best suits your project</h4>
+<p>{{data.time_frame}}</p>
+<h4>Funds requested</h4>
+<p>{{data.funds_requested}}</p>
+<h4>Proposed match</h4>
+<p>{{data.proposed_match}}</p>
+<h4>Source(s) of match</h4>
+<p>{{data.source_match}}</p>
+<h4>Location</h4>
+<p>{{data.location}}</p>
+<h4>Synopsis</h4>
+<div>{{data.synopsis|safe}}</div>
+<h4>Files</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}">
+        Proposal
+    </a>
+</p>
+{% endblock %}

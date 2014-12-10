@@ -278,6 +278,45 @@ class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
     proposal_link.allow_tags = True
     proposal_link.short_description = 'Proposal'
 
+class HigherEducationInitiativesAdmin(GenericAdmin):
+
+    model = HigherEducationInitiatives
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'project_title', 'time_frame',
+        'funds_requested', 'funds_authorized',
+        'proposed_match', 'source_match', 'location',
+        'synopsis_trunk', 'proposal_link',
+        'date_created','date_updated','status'
+    ]
+    list_editable = ['funds_authorized','status']
+    list_display_links = ['project_title']
+    actions = [export_applications]
+
+    def synopsis_trunk(self, instance):
+        return Truncator(instance.synopsis).words(25, html=True, truncate=" ...")
+    synopsis_trunk.allow_tags = True
+    synopsis_trunk.short_description = "Synopsis truncated"
+
+    def proposal_link(self, instance):
+        return '<a href="{}" target="_blank">Proposal</a>'.format(
+            instance.proposal.url
+        )
+    proposal_link.allow_tags = True
+    proposal_link.short_description = 'Proposal file'
+
+
+class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
+
+    model = ResearchInfrastructure
+
+
+admin.site.register(
+    ResearchInfrastructure, ResearchInfrastructureAdmin
+)
+admin.site.register(
+    HigherEducationInitiatives, HigherEducationInitiativesAdmin
+)
 admin.site.register(
     FirstNationsLaunchCompetition, FirstNationsLaunchCompetitionAdmin
 )
