@@ -35,6 +35,7 @@ class BaseModel(models.Model):
         related_name="%(app_label)s_%(class)s_related",
         editable=False
     )
+    status = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
