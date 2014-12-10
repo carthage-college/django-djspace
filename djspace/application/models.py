@@ -31,7 +31,10 @@ def upload_to_path(self, filename):
     """
     Generates the path as a string for file field.
     """
-    return "files/applications/{}/{}".format(self.get_slug(), filename)
+    ts = self.date_created.strftime("%Y%m%d%H%M%S%f")
+    return "files/applications/{}/{}/{}/{}".format(
+        self.get_slug(), self.user.id, ts, filename
+    )
 
 
 class BaseModel(models.Model):
@@ -81,8 +84,7 @@ class HigherEducationInitiatives(BaseModel):
         help_text="In Dollars"
     )
     proposed_match = models.IntegerField(
-        "Proposed match (1:1 mimimum)",
-        help_text="In Dollars"
+        "Proposed match (1:1 mimimum)(in $)",
     )
     source_match = models.CharField(
         "Source(s) of match", max_length=255
@@ -126,11 +128,35 @@ class ResearchInfrastructure(HigherEducationInitiatives):
     def __unicode__(self):
         return "Research Infrastructure"
 
-    def get_application_type():
+    def get_application_type(self):
         return "Research Infrastructure"
 
     def get_slug(self):
         return "research-infrastructure"
+
+
+class AerospaceOutreach(HigherEducationInitiatives):
+
+    def __unicode__(self):
+        return "Aerospace Outreach"
+
+    def get_application_type(self):
+        return "Aerospace Outreach"
+
+    def get_slug(self):
+        return "aerospace-outreach"
+
+
+class SpecialInitiatives(HigherEducationInitiatives):
+
+    def __unicode__(self):
+        return "Special Initiatives"
+
+    def get_application_type(self):
+        return "Special Initiatives"
+
+    def get_slug(self):
+        return "aerospace-outreach"
 
 
 class FirstNationsLaunchCompetition(BaseModel):

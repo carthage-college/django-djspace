@@ -311,11 +311,27 @@ class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
     model = ResearchInfrastructure
 
 
+class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
+
+    model = AerospaceOutreach
+
+
+class SpecialInitiativesAdmin(HigherEducationInitiativesAdmin):
+
+    model = SpecialInitiatives
+
+
+admin.site.register(
+    HigherEducationInitiatives, HigherEducationInitiativesAdmin
+)
 admin.site.register(
     ResearchInfrastructure, ResearchInfrastructureAdmin
 )
 admin.site.register(
-    HigherEducationInitiatives, HigherEducationInitiativesAdmin
+    AerospaceOutreach, AerospaceOutreachAdmin
+)
+admin.site.register(
+    SpecialInitiatives, SpecialInitiativesAdmin
 )
 admin.site.register(
     FirstNationsLaunchCompetition, FirstNationsLaunchCompetitionAdmin

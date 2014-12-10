@@ -18,6 +18,36 @@ class ResearchInfrastructureForm(forms.ModelForm):
         exclude = ('user','status','funds_authorized')
 
 
+class AerospaceOutreachForm(forms.ModelForm):
+
+    class Meta:
+        model = AerospaceOutreach
+        exclude = ('user','status','funds_authorized')
+
+
+class SpecialInitiativesForm(forms.ModelForm):
+
+    proposed_match = forms.IntegerField(
+        label = "Proposed match (1:1 mimimum)(in $)",
+        help_text = """
+            Match must be 50% for ongoing program;
+            25% for new innovated programs (or)
+            programs with significant legacy value.
+        """
+    )
+    source_match = forms.IntegerField(
+        label = "Source(s) of match",
+        help_text = """
+            Overhead (or indirect costs) cannot exceed 0.5
+            of the required matching funds
+        """
+    )
+
+    class Meta:
+        model = SpecialInitiatives
+        exclude = ('user','status','funds_authorized')
+
+
 class UndergraduateScholarshipForm(forms.ModelForm):
 
     class Meta:
