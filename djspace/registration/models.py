@@ -2,9 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djspace.registration.choices import WSGC_SCHOOL
+from djspace.registration.choices import WSGC_SCHOOL, MAJORS
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
-from djspace.core.models import GenericChoice
+from djspace.core.models import BaseModel, GenericChoice
 
 from djtools.fields import STATE_CHOICES
 from djtools.fields.validators import *
@@ -37,59 +37,8 @@ def limit_generic_choice(tag):
     return ids
 
 
-MAJORS = (
-    ('Aeronautical Engineering','Aeronautical Engineering'),
-    ('Aerospace Engineering','Aerospace Engineering'),
-    ('Applied Physics','Applied Physics'),
-    ('Astronomy','Astronomy'),
-    ('Astrophysics','Astrophysics'),
-    ('Atmoshperic Sciences','Atmoshperic Sciences'),
-    ('Biochemistry','Biochemistry'),
-    ('Biology','Biology'),
-    ('Biomedical Engineering','Biomedical Engineering'),
-    ('Biomedical Science','Biomedical Science'),
-    ('Biophysics','Biophysics'),
-    ('Biotechnology','Biotechnology'),
-    ('Chemical Engineering','Chemical Engineering'),
-    ('Chemistry','Chemistry'),
-    ('Civil Engineering','Civil Engineering'),
-    ('Computer Engineering','Computer Engineering'),
-    ('Computer Science','Computer Science'),
-    ('Electrical Engineering','Electrical Engineering'),
-    ('Environmental Science','Environmental Science'),
-    ('Environmental Studies','Environmental Studies'),
-    ('Geography','Geography'),
-    ('Geology','Geology'),
-    ('Geophysics','Geophysics'),
-    ('Geoscience','Geoscience'),
-    ('Industrial Engineering','Industrial Engineering'),
-    ('Kinesiology','Kinesiology'),
-    ('Mathematics','Mathematics'),
-    ('Mechanical Engineering','Mechanical Engineering'),
-    ('Meteorology','Meteorology'),
-    ('Microbiology','Microbiology'),
-    ('Molecular and Cell Biology','Molecular and Cell Biology'),
-    ('Molecular and Environmental Plant Science','Molecular and Environmental Plant Science'),
-    ('Neuroscience','Neuroscience'),
-    ('Nuclear Engineering','Nuclear Engineering'),
-    ('Oceanography','Oceanography'),
-    ('Other','Other'),
-    ('Physics','Physics'),
-    ('Statistics','Statistics'),
-    ('Systems Engineering','Systems Engineering')
-)
+class BaseStudent(BaseModel):
 
-
-class BaseStudent(models.Model):
-
-    # meta
-    user = models.ForeignKey(User)
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
     # core
     major = models.CharField(
         "Primary major",
@@ -150,11 +99,6 @@ class BaseStudent(models.Model):
         abstract = True
 
 class Undergraduate(BaseStudent):
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="undergraduate_updated_by",
-        editable=False
-    )
     highschool_name = models.CharField(
         "High school name",
         max_length=128
@@ -171,11 +115,6 @@ class Undergraduate(BaseStudent):
 
 
 class Graduate(BaseStudent):
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="graduate_updated_by",
-        editable=False
-    )
     undergraduate_degree = models.CharField(
         max_length=32,
         choices=UNDERGRADUATE_DEGREE
@@ -210,21 +149,8 @@ class Graduate(BaseStudent):
     )
 
 
-class Faculty(models.Model):
+class Faculty(BaseModel):
 
-    # meta
-    user = models.ForeignKey(User)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="faculty_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
     # core
     department_program = models.CharField(
         "Department / Program",
@@ -245,22 +171,8 @@ class Faculty(models.Model):
         verbose_name_plural = "Faculty"
 
 
+class Professional(BaseModel):
 
-class Professional(models.Model):
-
-    # meta
-    user = models.ForeignKey(User)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="professional_updated_by",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,

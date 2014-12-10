@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
+from djspace.core.models import BaseModel
+
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
 from djtools.fields.validators import MimetypeValidator
@@ -35,41 +37,6 @@ def upload_to_path(self, filename):
     return "files/applications/{}/{}/{}/{}".format(
         self.get_slug(), self.user.id, ts, filename
     )
-
-
-class BaseModel(models.Model):
-    # meta
-    user = models.ForeignKey(User)
-    status = models.BooleanField(default=False)
-    updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
-        related_name="%(app_label)s_%(class)s_related",
-        editable=False
-    )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
-
-    class Meta:
-        abstract = True
-
-    def __unicode__(self):
-        return u'%s %s' % (self.last_name, self.first_name)
-
-    def get_slug(self):
-        return "base-model"
-
-    def get_absolute_url(self):
-        return reverse(
-            'application_update',
-            kwargs = {
-                'application_type': self.get_slug(),
-                'aid': str(self.id)
-            }
-        )
 
 
 class HigherEducationInitiatives(BaseModel):

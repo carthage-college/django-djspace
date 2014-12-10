@@ -20,6 +20,26 @@ REG_TYPE = (
 
 BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
 
+class BaseModel(models.Model):
+
+    # meta
+    user = models.ForeignKey(User)
+    date_created = models.DateTimeField(
+        "Date Created", auto_now_add=True
+    )
+    date_updated = models.DateTimeField(
+        "Date Updated", auto_now=True
+    )
+    updated_by = models.ForeignKey(
+        User, verbose_name="Updated by",
+        related_name="%(app_label)s_%(class)s_related",
+        editable=False
+    )
+
+    class Meta:
+        abstract = True
+
+
 class GenericChoice(models.Model):
     """
     For making choices for choice fields for forms
@@ -80,6 +100,7 @@ class UserProfile(models.Model):
     date_updated = models.DateTimeField(
         "Date Updated", auto_now=True
     )
+
     # core
     salutation = models.CharField(
         max_length=16,
