@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import admin
 from django.http import HttpResponse
 from django.utils.text import Truncator
@@ -11,18 +12,38 @@ import csv
 import json
 
 def export_applications(modeladmin, request, queryset):
+    """
+    """
+
+    file_fields = [
+        "cv", "proposal", "signed_certification", "letter_interest",
+        "budget", "undergraduate_transcripts", "graduate_transcripts",
+        "recommendation", "recommendation_1", "recommendation_2",
+        "high_school_transcripts", "wsgc_advisor_recommendation",
+        "statement"
+    ]
+    exclude = ["user", "user_id", "updated_by_id", "id"]
     response = HttpResponse("", content_type="text/csv; charset=utf-8")
     filename = "{}.csv".format(modeladmin)
     response['Content-Disposition']='attachment; filename={}'.format(filename)
     writer = csv.writer(response)
     headers = PROFILE_HEADERS + modeladmin.model._meta.get_all_field_names()
+    # remove unwanted headers
+    for e in exclude:
+        headers.remove(e)
 
     writer.writerow(headers)
     for reg in queryset:
         fields = get_profile_fields(reg.user)
         for field in reg._meta.get_all_field_names():
-            if field != "user":
-                fields.append(getattr(reg, field, None))
+            if field not in exclude:
+                val = getattr(reg, field, None)
+                if field in file_fields:
+                    val = "https://{}{}{}".format(
+                        settings.SERVER_URL, settings.MEDIA_URL,
+                        getattr(reg, field, None)
+                    )
+                fields.append(val)
         writer.writerow(fields)
     return response
 

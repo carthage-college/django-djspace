@@ -20,7 +20,7 @@ REG_TYPE = (
 
 BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
 
-class BaseModel(models.Model):
+class Base(models.Model):
 
     # meta
     user = models.ForeignKey(User)
@@ -35,7 +35,14 @@ class BaseModel(models.Model):
         related_name="%(app_label)s_%(class)s_related",
         editable=False
     )
-    status = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
+
+
+class BaseModel(Base):
+
+    status = models.BooleanField(default=False, verbose_name="Funded")
 
     class Meta:
         abstract = True

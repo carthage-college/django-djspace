@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from djspace.registration.choices import WSGC_SCHOOL, MAJORS
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
-from djspace.core.models import BaseModel, GenericChoice
+from djspace.core.models import Base, GenericChoice
 
 from djtools.fields import STATE_CHOICES
 from djtools.fields.validators import *
@@ -37,7 +37,7 @@ def limit_generic_choice(tag):
     return ids
 
 
-class BaseStudent(BaseModel):
+class BaseStudent(Base):
 
     # core
     major = models.CharField(
@@ -149,7 +149,7 @@ class Graduate(BaseStudent):
     )
 
 
-class Faculty(BaseModel):
+class Faculty(Base):
 
     # core
     department_program = models.CharField(
@@ -171,7 +171,7 @@ class Faculty(BaseModel):
         verbose_name_plural = "Faculty"
 
 
-class Professional(BaseModel):
+class Professional(Base):
 
     # core
     wsgc_affiliate = models.ForeignKey(
