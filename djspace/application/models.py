@@ -89,6 +89,9 @@ class HigherEducationInitiatives(BaseModel):
     def get_slug(self):
         return "higher-education-initiatives"
 
+    class Meta:
+        verbose_name_plural = "Higher Education Initiatives"
+
 
 class ResearchInfrastructure(HigherEducationInitiatives):
 
@@ -113,6 +116,9 @@ class AerospaceOutreach(HigherEducationInitiatives):
     def get_slug(self):
         return "aerospace-outreach"
 
+    class Meta:
+        verbose_name_plural = "Aerospace Outreach"
+
 
 class SpecialInitiatives(HigherEducationInitiatives):
 
@@ -124,6 +130,9 @@ class SpecialInitiatives(HigherEducationInitiatives):
 
     def get_slug(self):
         return "aerospace-outreach"
+
+    class Meta:
+        verbose_name_plural = "Special Initiatives"
 
 
 class FirstNationsLaunchCompetition(BaseModel):

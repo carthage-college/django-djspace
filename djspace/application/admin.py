@@ -10,6 +10,8 @@ from djspace.core.admin import PROFILE_HEADERS, get_profile_fields
 
 import csv
 import json
+import logging
+logger = logging.getLogger(__name__)
 
 def export_applications(modeladmin, request, queryset):
     """
@@ -22,15 +24,29 @@ def export_applications(modeladmin, request, queryset):
         "high_school_transcripts", "wsgc_advisor_recommendation",
         "statement"
     ]
-    exclude = ["user", "user_id", "updated_by_id", "id"]
+    exclude = [
+        "user", "user_id", "updated_by_id", "id",
+        "aerospaceoutreach", "clarkgraduatefellowship",
+        "firstnationslaunchcompetition", "graduatefellowship",
+        "highaltitudeballoonpayload","highaltitudeballoonlaunch",
+        "researchinfrastructure", "specialinitiatives",
+        "undergraduateresearch", "undergraduatescholarship"
+    ]
     response = HttpResponse("", content_type="text/csv; charset=utf-8")
     filename = "{}.csv".format(modeladmin)
     response['Content-Disposition']='attachment; filename={}'.format(filename)
     writer = csv.writer(response)
+    logger.debug(
+        "modeladmin field names = {}".format(
+            modeladmin.model._meta.get_all_field_names()
+        )
+    )
     headers = PROFILE_HEADERS + modeladmin.model._meta.get_all_field_names()
+    logger.debug("headers = {}".format(headers))
     # remove unwanted headers
     for e in exclude:
-        headers.remove(e)
+        if e in headers:
+            headers.remove(e)
 
     writer.writerow(headers)
     for reg in queryset:
