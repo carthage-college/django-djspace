@@ -10,6 +10,10 @@ from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
 from djtools.fields.validators import MimetypeValidator
 
+from uuid import uuid4
+
+import os
+
 GRAVITY_TRAVEL = (
     ('gravity','Reduced Gravity'),
     ('travel','Student Travel')
@@ -33,10 +37,14 @@ def upload_to_path(self, filename):
     """
     Generates the path as a string for file field.
     """
+    ext = filename.split('.')[-1]
+    # set filename as random string
+    filename = '{}.{}'.format(uuid4().hex, ext)
     ts = self.date_created.strftime("%Y%m%d%H%M%S%f")
-    return "files/applications/{}/{}/{}/{}".format(
-        self.get_slug(), self.user.id, ts, filename
+    path = "files/applications/{}/{}/{}/".format(
+        self.get_slug(), self.user.id, ts
     )
+    return os.path.join(path, filename)
 
 
 class HigherEducationInitiatives(BaseModel):
