@@ -139,15 +139,19 @@ class GenericAdmin(admin.ModelAdmin):
     email.short_description = 'Profile (view/edit)'
 
     def registration_type(self, obj):
-        return '<a href="%s">%s</a>' % (
-            reverse(
-                "admin:registration_{}_change".format(
-                    obj.user.profile.registration_type.lower()
+        try:
+            reg_type = '<a href="%s">%s</a>' % (
+                reverse(
+                    "admin:registration_{}_change".format(
+                        obj.user.profile.registration_type.lower()
+                    ),
+                    args=(obj.user.profile.get_registration().id,)
                 ),
-                args=(obj.user.profile.get_registration().id,)
-            ),
-            obj.user.profile.registration_type
-        )
+                obj.user.profile.registration_type
+            )
+        except:
+            return None
+        return reg_type
     registration_type.allow_tags = True
     registration_type.short_description = 'Reg Type (view/edit)'
 
