@@ -35,13 +35,17 @@
 <div class="large-6 medium-12 small-12">
 {% if user.profile.us_citizen == "Yes" and reg %}
     <h2>Review and edit submitted applications</h2>
-    <ul>
     {% for app in user.profile.applications.all %}
-        {% ifchanged app.get_application_type %}
+        {% if forloop.first %}
+            <h3>{{app.get_application_type}}</h3>
+            <ul>
+        {% else %}
+        {% ifchanged app.get_application_type and not forloop.first %}
             </ul>
             <h3>{{app.get_application_type}}</h3>
             <ul>
         {% endifchanged %}
+        {% endif %}
         <li style="font-weight:bold;">
             <span class="short-date">
                 {{app.date_created|date:"SHORT_DATE_FORMAT"}}

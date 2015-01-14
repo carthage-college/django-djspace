@@ -47,7 +47,7 @@ def upload_to_path(self, filename):
     return os.path.join(path, filename)
 
 
-class HigherEducationInitiatives(BaseModel):
+class EducationInitiatives(BaseModel):
 
     # core
     project_title = models.CharField(
@@ -88,6 +88,12 @@ class HigherEducationInitiatives(BaseModel):
         help_text="PDF format."
     )
 
+    class Meta:
+        abstract = True
+
+
+class HigherEducationInitiatives(EducationInitiatives):
+
     def __unicode__(self):
         return "Higher Education Initiatives"
 
@@ -97,11 +103,15 @@ class HigherEducationInitiatives(BaseModel):
     def get_slug(self):
         return "higher-education-initiatives"
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
     class Meta:
         verbose_name_plural = "Higher Education Initiatives"
 
 
-class ResearchInfrastructure(HigherEducationInitiatives):
+class ResearchInfrastructure(EducationInitiatives):
 
     def __unicode__(self):
         return "Research Infrastructure"
@@ -112,8 +122,15 @@ class ResearchInfrastructure(HigherEducationInitiatives):
     def get_slug(self):
         return "research-infrastructure"
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
 
-class AerospaceOutreach(HigherEducationInitiatives):
+    class Meta:
+        verbose_name_plural = "Research Infrastructure"
+
+
+class AerospaceOutreach(EducationInitiatives):
 
     def __unicode__(self):
         return "Aerospace Outreach"
@@ -123,12 +140,16 @@ class AerospaceOutreach(HigherEducationInitiatives):
 
     def get_slug(self):
         return "aerospace-outreach"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         verbose_name_plural = "Aerospace Outreach"
 
 
-class SpecialInitiatives(HigherEducationInitiatives):
+class SpecialInitiatives(EducationInitiatives):
 
     def __unicode__(self):
         return "Special Initiatives"
@@ -138,6 +159,10 @@ class SpecialInitiatives(HigherEducationInitiatives):
 
     def get_slug(self):
         return "aerospace-outreach"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         verbose_name_plural = "Special Initiatives"
@@ -173,6 +198,10 @@ class FirstNationsLaunchCompetition(BaseModel):
     def get_slug(self):
         return "first-nations-launch-competition"
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
 
 class HighAltitudeBalloonLaunch(BaseModel):
 
@@ -205,8 +234,12 @@ class HighAltitudeBalloonLaunch(BaseModel):
     def get_slug(self):
         return "high-altitude-balloon-launch"
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
     class Meta:
-        verbose_name_plural = "High altitude balloon launches"
+        verbose_name_plural = "High altitude balloon launch"
 
 
 class HighAltitudeBalloonPayload(HighAltitudeBalloonLaunch):
@@ -214,11 +247,14 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloonLaunch):
     def __unicode__(self):
         return "High Altitude Balloon Payload"
 
-    def get_application_type():
+    def get_application_type(self):
         return "High Altitude Balloon Payload"
 
     def get_slug(self):
         return "high-altitude-balloon-payload"
+
+    class Meta:
+        verbose_name_plural = "High altitude balloon payload"
 
 
 class ClarkGraduateFellowship(BaseModel):
@@ -325,16 +361,20 @@ class ClarkGraduateFellowship(BaseModel):
     def __unicode__(self):
         return self.project_title
 
-    def get_application_type():
+    def get_application_type(self):
         return "Dr. Laurel Salton Clark Memorial Research Fellowship"
 
     def get_slug(self):
         return "clark-graduate-fellowship"
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
 
 class GraduateFellowship(ClarkGraduateFellowship):
 
-    def get_application_type():
+    def get_application_type(self):
         return "WSGC Graduate &amp; Professional Research Fellowship"
 
     def get_slug(self):
@@ -411,7 +451,10 @@ class UndergraduateResearch(BaseModel):
         ''')
     )
     recommendation = models.FileField(
-        "Additional Letter of Recommendation (faculty member or other professional reference)",
+        """
+            Additional Letter of Recommendation
+            (faculty member or other professional reference)
+        """,
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -424,17 +467,21 @@ class UndergraduateResearch(BaseModel):
         ''')
     )
 
-    class Meta:
-        verbose_name_plural = "Undergraduate Research"
-
     def __unicode__(self):
         return self.project_title
 
-    def get_application_type():
+    def get_application_type(self):
         return "Undergraduate Research Fellowship"
 
     def get_slug(self):
         return "undergraduate-research"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+    class Meta:
+        verbose_name_plural = "Undergraduate Research"
 
 
 class UndergraduateScholarship(BaseModel):
@@ -515,9 +562,13 @@ class UndergraduateScholarship(BaseModel):
     def __unicode__(self):
         return "Undergraduate Scholarship"
 
-    def get_application_type():
+    def get_application_type(self):
         return "Undergraduate Scholarship"
 
     def get_slug(self):
         return "undergraduate-scholarship"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
 
