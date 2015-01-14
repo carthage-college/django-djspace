@@ -6,11 +6,21 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 
 from djspace.application.forms import *
+from djspace.registration.models import *
 
 from djtools.utils.mail import send_mail
 
 @login_required
 def form(request, application_type, aid=None):
+
+    # verify that the user has completed registration
+    reg_type = request.user.profile.registration_type
+    try:
+        reg = eval(reg_type).objects.get(user=request.user)
+    except:
+        # redirect to dashboard
+        return HttpResponseRedirect(reverse('dashboard_home'))
+
     if settings.DEBUG:
         TO_LIST = ["larry@carthage.edu",]
     else:
@@ -26,6 +36,7 @@ def form(request, application_type, aid=None):
 
     app = None
     if aid:
+        # prevent users from managing apps that are not theirs
         try:
             app = eval(app_type).objects.get(pk=aid, user=user)
         except:
