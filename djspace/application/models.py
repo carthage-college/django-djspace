@@ -158,7 +158,7 @@ class SpecialInitiatives(EducationInitiatives):
         return "Special Initiatives"
 
     def get_slug(self):
-        return "aerospace-outreach"
+        return "special-initiatives"
 
     @models.permalink
     def get_absolute_url(self):

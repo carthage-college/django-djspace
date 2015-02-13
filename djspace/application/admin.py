@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib import admin
 from django.http import HttpResponse
@@ -10,8 +11,6 @@ from djspace.core.admin import PROFILE_HEADERS, get_profile_fields
 
 import csv
 import json
-import logging
-logger = logging.getLogger(__name__)
 
 def export_applications(modeladmin, request, queryset):
     """
@@ -36,13 +35,7 @@ def export_applications(modeladmin, request, queryset):
     filename = "{}.csv".format(modeladmin)
     response['Content-Disposition']='attachment; filename={}'.format(filename)
     writer = csv.writer(response)
-    logger.debug(
-        "modeladmin field names = {}".format(
-            modeladmin.model._meta.get_all_field_names()
-        )
-    )
     headers = PROFILE_HEADERS + modeladmin.model._meta.get_all_field_names()
-    logger.debug("headers = {}".format(headers))
     # remove unwanted headers
     for e in exclude:
         if e in headers:
@@ -53,7 +46,7 @@ def export_applications(modeladmin, request, queryset):
         fields = get_profile_fields(reg.user)
         for field in reg._meta.get_all_field_names():
             if field not in exclude:
-                val = getattr(reg, field, None)
+                val = unicode(getattr(reg, field, None)).encode("utf-8", "ignore")
                 if field in file_fields:
                     val = "https://{}{}{}".format(
                         settings.SERVER_URL, settings.MEDIA_URL,
@@ -115,7 +108,9 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     actions = [export_applications]
 
     def synopsis_trunk(self, instance):
-        return Truncator(instance.synopsis).words(25, html=True, truncate=" ...")
+        return Truncator(instance.synopsis).words(
+            25, html=True, truncate=" ..."
+        )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
@@ -264,7 +259,9 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     actions = [export_applications]
 
     def synopsis_trunk(self, instance):
-        return Truncator(instance.synopsis).words(25,html=True,truncate="...")
+        return Truncator(instance.synopsis).words(
+            25, html=True, truncate=" ..."
+        )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
@@ -331,7 +328,9 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     actions = [export_applications]
 
     def synopsis_trunk(self, instance):
-        return Truncator(instance.synopsis).words(25, html=True, truncate=" ...")
+        return Truncator(instance.synopsis).words(
+            25, html=True, truncate=" ..."
+        )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 

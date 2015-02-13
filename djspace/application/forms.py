@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from django import forms
 
 from djspace.application.models import *
@@ -35,7 +34,7 @@ class SpecialInitiativesForm(forms.ModelForm):
             programs with significant legacy value.
         """
     )
-    source_match = forms.IntegerField(
+    source_match = forms.CharField(
         label = "Source(s) of match",
         help_text = """
             Overhead (or indirect costs) cannot exceed 0.5
