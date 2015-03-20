@@ -1,66 +1,10 @@
 from django import forms
 from django.contrib import admin
-from django.http import HttpResponse
-from django.utils.encoding import smart_str
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.forms.models import model_to_dict
 from django.contrib.auth.admin import UserAdmin
 
 from djspace.core.models import UserProfile, GenericChoice
-
-import csv
-
-PROFILE_HEADERS = [
-    'Salutation','First Name','Second Name','Last Name','Email','Phone',
-    'Address 1','Address 2','City','State','Postal Code','Date of Birth',
-    'Gender','Race','Tribe','Disability','U.S. Citizen','Registration Type'
-]
-
-def get_profile_fields(reg):
-    race = [r.name for r in reg.profile.race.all()]
-    fields = [
-        reg.profile.salutation,
-        smart_str(
-            reg.first_name,
-            encoding='utf-8', strings_only=False, errors='strict'
-        ),
-        smart_str(
-            reg.profile.second_name,
-            encoding='utf-8', strings_only=False, errors='strict'
-        ),
-        smart_str(
-            reg.last_name,
-            encoding='utf-8', strings_only=False, errors='strict'
-        ),
-        reg.email,reg.profile.phone,reg.profile.address1,
-        reg.profile.address2,reg.profile.city,reg.profile.state,
-        reg.profile.postal_code,reg.profile.date_of_birth,
-        reg.profile.gender,' '.join(race),reg.profile.tribe,
-        reg.profile.disability,reg.profile.us_citizen,
-        reg.profile.registration_type
-    ]
-    return fields
-
-def export_registrants(modeladmin, request, queryset):
-    # exclude these fields from registration data
-    exclude = ['id','user']
-    response = HttpResponse("", content_type="text/csv; charset=utf-8")
-    filename = "{}.csv".format(modeladmin)
-    response['Content-Disposition']='attachment; filename={}'.format(filename)
-    writer = csv.writer(response)
-    writer.writerow(PROFILE_HEADERS)
-    for reg in queryset:
-        fields = get_profile_fields(reg)
-        reg_data = reg.profile.get_registration()
-        if reg_data:
-            for n,v in model_to_dict(reg_data).items():
-                if n not in exclude:
-                    fields.append(v)
-        writer.writerow(fields)
-    return response
-
-export_registrants.short_description = "Export Registrants"
 
 PROFILE_LIST_DISPLAY = [
     'salutation','first_name','second_name','last_name',
@@ -185,7 +129,6 @@ class UserProfileInline(admin.StackedInline):
 
 class UserProfileAdmin(UserAdmin):
     inlines = (UserProfileInline,)
-    actions = [export_registrants]
 
 admin.site.unregister(User)
 admin.site.register(User, UserProfileAdmin)

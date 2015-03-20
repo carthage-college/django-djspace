@@ -11,10 +11,6 @@ from djspace.registration.models import *
 
 from djtools.utils.mail import send_mail
 
-import logging
-logger = logging.getLogger(__name__)
-#logger.debug("aid = {}".format(aid))
-
 @login_required
 def form(request, application_type, aid=None):
 
