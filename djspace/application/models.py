@@ -257,7 +257,10 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloonLaunch):
         verbose_name_plural = "High altitude balloon payload"
 
 
-class ClarkGraduateFellowship(BaseModel):
+class Fellowship(BaseModel):
+
+    class Meta:
+        abstract = True
 
     # core
     signed_certification = models.FileField(
@@ -361,18 +364,21 @@ class ClarkGraduateFellowship(BaseModel):
     def __unicode__(self):
         return self.project_title
 
-    def get_application_type(self):
-        return "Dr. Laurel Salton Clark Memorial Research Fellowship"
-
-    def get_slug(self):
-        return "clark-graduate-fellowship"
-
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
 
 
-class GraduateFellowship(ClarkGraduateFellowship):
+class ClarkGraduateFellowship(Fellowship):
+
+    def get_application_type(self):
+        return "Dr. Laurel Salton Clark Memorial Research Fellowship"
+
+    def get_slug(self):
+        return "clark-graduate-fellowship"
+    
+    
+class GraduateFellowship(Fellowship):
 
     def get_application_type(self):
         return "WSGC Graduate &amp; Professional Research Fellowship"
