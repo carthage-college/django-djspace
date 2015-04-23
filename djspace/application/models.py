@@ -203,7 +203,10 @@ class FirstNationsLaunchCompetition(BaseModel):
         return ('application_update', [self.get_slug(), str(self.id)])
 
 
-class HighAltitudeBalloonLaunch(BaseModel):
+class HighAltitudeBalloon(BaseModel):
+
+    class Meta:
+        abstract = True
 
     # core
     letter_interest = models.FileField(
@@ -225,6 +228,13 @@ class HighAltitudeBalloonLaunch(BaseModel):
         help_text="PDF format."
     )
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+
+class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
+
     def __unicode__(self):
         return "High Altitude Balloon Launch"
 
@@ -234,15 +244,10 @@ class HighAltitudeBalloonLaunch(BaseModel):
     def get_slug(self):
         return "high-altitude-balloon-launch"
 
-    @models.permalink
-    def get_absolute_url(self):
-        return ('application_update', [self.get_slug(), str(self.id)])
-
     class Meta:
         verbose_name_plural = "High altitude balloon launch"
 
-
-class HighAltitudeBalloonPayload(HighAltitudeBalloonLaunch):
+class HighAltitudeBalloonPayload(HighAltitudeBalloon):
 
     def __unicode__(self):
         return "High Altitude Balloon Payload"
