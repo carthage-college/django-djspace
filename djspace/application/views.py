@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
@@ -36,12 +37,14 @@ def form(request, application_type, aid=None):
 
     app = None
     if aid:
-        # prevent users from managing apps that are not theirs
-        try:
-            app = eval(app_type).objects.get(pk=aid, user=user)
-        except:
-            app = None
-
+        if request.user.is_superuser:
+            app = eval(app_type).objects.get(pk=aid)
+        else:
+            # prevent users from managing apps that are not theirs
+            try:
+                app = eval(app_type).objects.get(pk=aid, user=user)
+            except:
+                app = None
     try:
         form = eval(app_type+"Form")(instance=app)
     except:

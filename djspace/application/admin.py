@@ -1,20 +1,20 @@
+# -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib import admin
 from django.http import HttpResponse
 from django.utils.text import Truncator
+from django.utils.html import strip_tags
 from django.forms.models import model_to_dict
 
 from djspace.application.models import *
 from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
-from djspace.core.admin import PROFILE_HEADERS, get_profile_fields
+from djspace.registration.admin import PROFILE_HEADERS, get_profile_fields
 
 import csv
-import json
-import logging
-logger = logging.getLogger(__name__)
 
 def export_applications(modeladmin, request, queryset):
     """
+    Export application data to CSV
     """
 
     file_fields = [
@@ -36,13 +36,7 @@ def export_applications(modeladmin, request, queryset):
     filename = "{}.csv".format(modeladmin)
     response['Content-Disposition']='attachment; filename={}'.format(filename)
     writer = csv.writer(response)
-    logger.debug(
-        "modeladmin field names = {}".format(
-            modeladmin.model._meta.get_all_field_names()
-        )
-    )
     headers = PROFILE_HEADERS + modeladmin.model._meta.get_all_field_names()
-    logger.debug("headers = {}".format(headers))
     # remove unwanted headers
     for e in exclude:
         if e in headers:
@@ -50,10 +44,14 @@ def export_applications(modeladmin, request, queryset):
 
     writer.writerow(headers)
     for reg in queryset:
-        fields = get_profile_fields(reg.user)
+        #fields = get_profile_fields(reg.user)
+        fields = get_profile_fields(reg)
         for field in reg._meta.get_all_field_names():
             if field not in exclude:
-                val = getattr(reg, field, None)
+                if field == "synopsis":
+                    val = unicode(strip_tags(getattr(reg, field, None))).encode("utf-8", "ignore").strip()
+                else:
+                    val = unicode(getattr(reg, field, None)).encode("utf-8", "ignore")
                 if field in file_fields:
                     val = "https://{}{}{}".format(
                         settings.SERVER_URL, settings.MEDIA_URL,
@@ -115,7 +113,9 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     actions = [export_applications]
 
     def synopsis_trunk(self, instance):
-        return Truncator(instance.synopsis).words(25, html=True, truncate=" ...")
+        return Truncator(instance.synopsis).words(
+            25, html=True, truncate=" ..."
+        )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
@@ -264,7 +264,9 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     actions = [export_applications]
 
     def synopsis_trunk(self, instance):
-        return Truncator(instance.synopsis).words(25,html=True,truncate="...")
+        return Truncator(instance.synopsis).words(
+            25, html=True, truncate=" ..."
+        )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
@@ -331,7 +333,9 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     actions = [export_applications]
 
     def synopsis_trunk(self, instance):
-        return Truncator(instance.synopsis).words(25, html=True, truncate=" ...")
+        return Truncator(instance.synopsis).words(
+            25, html=True, truncate=" ..."
+        )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 

@@ -1,26 +1,102 @@
 from django.contrib import admin
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
+from django.forms.models import model_to_dict
 
-from djspace.registration.models import *
 from djspace.core.admin import GenericAdmin
+from djspace.registration.models import *
+
+import csv
+
+PROFILE_HEADERS = [
+    'Salutation','First Name','Second Name','Last Name','Email','Phone',
+    'Address 1','Address 2','City','State','Postal Code','Date of Birth',
+    'Gender','Race','Tribe','Disability','U.S. Citizen','Registration Type'
+]
+
+def get_profile_fields(obj):
+    reg = obj.user
+    race = [r.name for r in reg.profile.race.all()]
+    fields = [
+        reg.profile.salutation,
+        smart_str(
+            reg.first_name,
+            encoding='utf-8', strings_only=False, errors='strict'
+        ),
+        smart_str(
+            reg.profile.second_name,
+            encoding='utf-8', strings_only=False, errors='strict'
+        ),
+        smart_str(
+            reg.last_name,
+            encoding='utf-8', strings_only=False, errors='strict'
+        ),
+        reg.email,reg.profile.phone,reg.profile.address1,
+        reg.profile.address2,reg.profile.city,reg.profile.state,
+        reg.profile.postal_code,reg.profile.date_of_birth,
+        reg.profile.gender,' '.join(race),reg.profile.tribe,
+        reg.profile.disability,reg.profile.us_citizen,
+        reg.profile.registration_type
+    ]
+    return fields
+
+def export_registrants(modeladmin, request, queryset):
+    """
+    Export registration data to CSV
+    """
+    exclude = [
+        "user", "user_id", "updated_by", "updated_by_id", "id",
+        "date_created", "date_updated", "wsgc_school_id",
+        "wsgc_affiliate_id"
+    ]
+    response = HttpResponse("", content_type="text/csv; charset=utf-8")
+    filename = "{}.csv".format(modeladmin)
+    response['Content-Disposition']='attachment; filename={}'.format(filename)
+    writer = csv.writer(response)
+    headers = PROFILE_HEADERS[0:-1] + modeladmin.model._meta.get_all_field_names()
+    # remove unwanted headers
+    for e in exclude:
+        if e in headers:
+            headers.remove(e)
+    writer.writerow(headers)
+
+    for reg in queryset:
+        fields = get_profile_fields(reg)
+        del fields[-1]
+        for field in reg._meta.get_all_field_names():
+            if field not in exclude:
+                val = unicode(
+                    getattr(reg, field, None)
+                ).encode("utf-8", "ignore")
+                fields.append(val)
+        writer.writerow(fields)
+    return response
+
+export_registrants.short_description = "Export Registrants"
+
 
 class UndergraduateAdmin(GenericAdmin):
 
     model = Undergraduate
+    actions = [export_registrants]
 
 
 class GraduateAdmin(GenericAdmin):
 
     model = Graduate
+    actions = [export_registrants]
 
 
 class FacultyAdmin(GenericAdmin):
 
     model = Faculty
+    actions = [export_registrants]
 
 
 class ProfessionalAdmin(GenericAdmin):
 
     model = Professional
+    actions = [export_registrants]
 
 
 admin.site.register(Undergraduate, UndergraduateAdmin)
