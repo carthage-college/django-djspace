@@ -11,6 +11,22 @@ from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
 from djspace.registration.admin import PROFILE_HEADERS, get_profile_fields
 
 import csv
+import datetime
+
+def get_queryset(self, request, admin_class):
+    """
+    only show applications that were created after a certain date.
+    they wanted to see only applications for the current grant cycle.
+    so we hide old applications.
+    """
+    TODAY = datetime.date.today()
+    YEAR = int(TODAY.year)
+    MES = int(TODAY.month)
+    qs = super(admin_class, self).queryset(request)
+    if MES <= settings.GRANT_CYCLE_START_MES:
+        YEAR = YEAR - 1
+    start_date = datetime.date(YEAR, 8, 1)
+    return qs.filter(date_created__gte=start_date)
 
 def export_applications(modeladmin, request, queryset):
     """
@@ -90,10 +106,18 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     letter_interest_link.allow_tags = True
     letter_interest_link.short_description = "Letter of interest"
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, HighAltitudeBalloonLaunchAdmin)
+        return qs
+
 
 class HighAltitudeBalloonPayloadAdmin(HighAltitudeBalloonLaunchAdmin):
 
     model = HighAltitudeBalloonPayload
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, HighAltitudeBalloonPayloadAdmin)
+        return qs
 
 
 class ClarkGraduateFellowshipAdmin(GenericAdmin):
@@ -185,10 +209,18 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     recommendation_2_link.allow_tags = True
     recommendation_2_link.short_description = "Recommendation 2"
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, ClarkGraduateFellowshipAdmin)
+        return qs
+
 
 class GraduateFellowshipAdmin(ClarkGraduateFellowshipAdmin):
 
     model = GraduateFellowship
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, GraduateFellowshipAdmin)
+        return qs
 
 
 class UndergraduateAdmin(GenericAdmin):
@@ -247,6 +279,10 @@ class UndergraduateAdmin(GenericAdmin):
     recommendation_link.allow_tags = True
     recommendation_link.short_description = "Recommendation"
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, UndergraduateAdmin)
+        return qs
+
 
 class UndergraduateResearchAdmin(UndergraduateAdmin):
 
@@ -277,6 +313,10 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     proposal_link.allow_tags = True
     proposal_link.short_description = 'Proposal'
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, UndergraduateResearchAdmin)
+        return qs
+
 
 class UndergraduateScholarshipAdmin(UndergraduateAdmin):
 
@@ -298,6 +338,10 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     statement_link.allow_tags = True
     statement_link.short_description = 'Statement'
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, UndergraduateScholarshipAdmin)
+        return qs
+
 
 class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
 
@@ -316,6 +360,11 @@ class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
         )
     proposal_link.allow_tags = True
     proposal_link.short_description = 'Proposal'
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, FirstNationsLaunchCompetitionAdmin)
+        return qs
+
 
 class HigherEducationInitiativesAdmin(GenericAdmin):
 
@@ -346,20 +395,36 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     proposal_link.allow_tags = True
     proposal_link.short_description = 'Proposal file'
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, HigherEducationInitiativesAdmin)
+        return qs
+
 
 class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
 
     model = ResearchInfrastructure
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, ResearchInfrastructureAdmin)
+        return qs
 
 
 class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
 
     model = AerospaceOutreach
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, AerospaceOutreachAdmin)
+        return qs
+
 
 class SpecialInitiativesAdmin(HigherEducationInitiativesAdmin):
 
     model = SpecialInitiatives
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, SpecialInitiativesAdmin)
+        return qs
 
 
 admin.site.register(

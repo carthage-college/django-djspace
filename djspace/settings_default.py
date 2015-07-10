@@ -44,6 +44,8 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+# the month after which the new grant cycle begins
+GRANT_CYCLE_START_MES=7
 
 DATABASES = {
     'default': {
@@ -55,7 +57,6 @@ DATABASES = {
         'PASSWORD': ''
     },
 }
-
 INSTALLED_APPS = (
     # django
     'django.contrib.admin',
@@ -71,6 +72,8 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'gm2m',
+    'taggit',
     # auth providers
     # 'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.github',
@@ -79,9 +82,10 @@ INSTALLED_APPS = (
     # 'allauth.socialaccount.providers.stackexchange',
     # 'allauth.socialaccount.providers.twitter',
     # core
+    'djspace.application',
     'djspace.registration',
-    'djspace.registration.models',
-    'djtools',
+    'djspace.core',
+    'djtools'
 )
 
 MIDDLEWARE_CLASSES = (

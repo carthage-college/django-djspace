@@ -22,8 +22,9 @@ class GenericAdmin(admin.ModelAdmin):
     list_display = PROFILE_LIST_DISPLAY
     list_display_links = None
 
+    date_hierarchy = 'date_created'
     ordering = [
-        'date_created','user__last_name','user__email'
+        '-date_created','user__last_name','user__email'
     ]
 
     list_per_page = 500
