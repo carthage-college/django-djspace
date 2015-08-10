@@ -65,11 +65,20 @@ class UserProfileForm(forms.ModelForm):
         label = "United States Citizen",
         choices=BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    address1 = forms.CharField(
+    address_current_1 = forms.CharField(
         label="Address",
         max_length=128
     )
-    address2 = forms.CharField(
+    address_current_2 = forms.CharField(
+        label="",
+        max_length=128,
+        required=False
+    )
+    address_permanent_1 = forms.CharField(
+        label="Address",
+        max_length=128
+    )
+    address_permanent_2 = forms.CharField(
         label="",
         max_length=128,
         required=False
@@ -92,8 +101,9 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         exclude = ('user','salutation','second_name')
         fields = [
-            'registration_type', 'address1','address2',
-            'city','state','postal_code','phone',
+            'registration_type', 'address_current_1','address_current_2',
+            'address_permanent_1','address_permanent_2',
+            'city','state','postal_code','phone_primary','phone_mobile',
             'date_of_birth','gender','race',
             'tribe','disability','us_citizen'
         ]

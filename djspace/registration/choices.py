@@ -1,3 +1,10 @@
+YEAR_CHOICES = (
+    ('','---------'),
+    ('1','Freshman'),
+    ('2','Sophmore'),
+    ('3','Junior'),
+    ('4','Senior'),
+)
 GRADUATE_DEGREE = (
     ('M.S.','M.S.'),
     ('Ph.D','Ph.D'),

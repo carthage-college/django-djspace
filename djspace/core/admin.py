@@ -7,10 +7,13 @@ from django.contrib.auth.admin import UserAdmin
 from djspace.core.models import UserProfile, GenericChoice
 
 PROFILE_LIST_DISPLAY = [
-    'salutation','first_name','second_name','last_name',
-    'email','phone','address1','address2','city','state',
-    'postal_code','date_of_birth','gender','race','tribe',
-    'disability','us_citizen','registration_type'
+    'salutation','first_name','second_name','last_name', 'email',
+    'email_secondary', 'phone_primary','phone_mobile',
+    'address1','address2','city','state','postal_code',
+    'address1_current','address2_current', 'city_current','state_current',
+    'postal_code_current','date_of_birth','gender','race','tribe',
+    'disability','disability_specify','us_citizen','employment',
+    'military', 'registration_type'
 ]
 
 class GenericAdmin(admin.ModelAdmin):
@@ -42,8 +45,11 @@ class GenericAdmin(admin.ModelAdmin):
     def last_name(self, obj):
         return obj.user.last_name
 
-    def phone(self, obj):
-        return obj.user.profile.phone
+    def phone_primary(self, obj):
+        return obj.user.profile.phone_primary
+
+    def phone_mobile(self, obj):
+        return obj.user.profile.phone_mobile
 
     def address1(self, obj):
         return obj.user.profile.address1
@@ -60,14 +66,38 @@ class GenericAdmin(admin.ModelAdmin):
     def postal_code(self, obj):
         return obj.user.profile.postal_code
 
+    def address1_permanent(self, obj):
+        return obj.user.profile.address_permanent_1
+
+    def address2_permanent(self, obj):
+        return obj.user.profile.address_parmanent_2
+
+    def city_current(self, obj):
+        return obj.user.profile.city
+
+    def state_current(self, obj):
+        return obj.user.profile.state
+
+    def postal_code_current(self, obj):
+        return obj.user.profile.postal_code
+
     def gender(self, obj):
         return obj.user.profile.gender
 
     def disability(self, obj):
         return obj.user.profile.disability
 
+    def disability_specify(self, obj):
+        return obj.user.profile.disability_specify
+
     def us_citizen(self, obj):
         return obj.user.profile.us_citizen
+
+    def employment(self, obj):
+        return obj.user.profile.employment
+
+    def military(self, obj):
+        return obj.user.profile.military
 
     def race(self, obj):
         return "/".join([r.name for r in obj.user.profile.race.all()])

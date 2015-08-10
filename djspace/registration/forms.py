@@ -24,7 +24,7 @@ class UndergraduateForm(forms.ModelForm):
         model = Undergraduate
         exclude = ('user','status',)
         fields = [
-            'wsgc_school', 'major',
+            'wsgc_school', 'studentid', 'class_year', 'major',
             'major_other', 'secondary_major_minor',
             'secondary_major_minor_other', 'current_cumulative_gpa',
             'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
@@ -92,7 +92,7 @@ class GraduateForm(forms.ModelForm):
             'secondary_major_minor_other',
             'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
             'month_year_of_graduation', 'undergraduate_degree',
-            'wsgc_school', 'degree_program', 'degree_program_other',
+            'wsgc_school', 'studentid', 'degree_program', 'degree_program_other',
             'concentration_area', 'graduate_gpa',
             'graduate_scale', 'graduate_graduation_year',
         ]

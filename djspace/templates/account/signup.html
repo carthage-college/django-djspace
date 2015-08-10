@@ -4,10 +4,39 @@
 {% block extra_javascript %}
     <script type="text/javascript">
         $(document).ready(function(){
+            function currentAddress(state) {
+                if (state == "on") {
+                    $("#current_address").show();
+                    $("#id_address_current_1").addClass("required");
+                    $("#id_city_current").addClass("required");
+                    $("#id_state_current").addClass("required");
+                    $("#id_postal_code_current").addClass("required");
+                } else if (state == "off") {
+                    $("#current_address").hide();
+                    $("#id_address_current_1").removeClass("required");
+                    $("#id_city_current").removeClass("required");
+                    $("#id_state_current").removeClass("required");
+                    $("#id_postal_code_current").removeClass("required");
+                }
+            }
             $('label[for="id_us_citizen_0"]').closest('ul').addClass('linline');
             $('label[for="id_disability_0"]').closest('ul').addClass('linline');
             $('label[for="id_gender_0"]').closest('ul').addClass('linline');
             $("#id_date_of_birth_month").parent().parent().find('h3').addClass("required");
+            // automatically hide or show 'current address' fieldset
+            {% if form.registration_type.value == "Undergraduate" or form.registration_type.value == "Graduate" %}
+            currentAddress("on");
+            {% else %}
+            currentAddress("off");
+            {% endif %}
+            $("#id_registration_type").on('change', function(){
+                $this = $(this).find(":selected").val();
+                if ($this == "Undergraduate" || $this == "Graduate") {
+                    currentAddress("on");
+                }else{
+                    currentAddress("off");
+                }
+            });
         });
     </script>
 {% endblock %}
@@ -41,7 +70,44 @@
         {% endif %}
         <fieldset class="blockLabels">
             <ol>
-                {% for field in form %}
+                {% for field in form.visible_fields %}
+                    {% if field.name == "address_1" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Permanent Address</legend>
+                    <ol>
+                    {% endif %}
+                    {% if field.name == "address_current_1" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels" id="current_address">
+                    <legend>Current Address</legend>
+                    <ol>
+                    {% endif %}
+                    {% if field.name == "phone_primary" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Phone and Email</legend>
+                    <ol>
+                    {% endif %}
+                    {% if field.name == "password1" %}
+                        <li class="ctrlHolder">
+                        <h3>{{ form.email_secondary.label_tag }}</h3>
+                        {% if form.email_secondary.errors %}
+                        <div class="required warning">
+                            <span class="error-message">
+                                {{ field.errors|join:", "}}
+                            </span>
+                        {% else %}
+                            <div{% if field.field.required %} class="required"{% endif %}>
+                        {% endif %}
+                        {{form.email_secondary}}
+                        </li>
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Authentication</legend>
+                    <ol>
+                    {% endif %}
+                    {% if field.name != "email_secondary" %}
                     <li class="ctrlHolder">
                     <h3>{{ field.label_tag }}</h3>
                     {% if field.help_text %}
@@ -59,6 +125,7 @@
                     {{field}}
                     </div>
                     </li>
+                    {% endif %}
                 {% endfor %}
             </ol>
         </fieldset>

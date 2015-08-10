@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.dispatch import receiver
 from django.contrib.auth.models import User
+from allauth.account.signals import user_signed_up
+from allauth.account.models import EmailAddress
+
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
@@ -19,6 +23,33 @@ REG_TYPE = (
 )
 
 BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
+DISABILITY_CHOICES = (
+    ('','----select----'),
+    ("I do not have a disability", "I do not have a disability"),
+    ("I do not wish to identify my disability status",
+     "I do not wish to identify my disability status"),
+    ("Hearing", "Hearing"),
+    ("Vision", "Vision"),
+    ("Missing Extremeties", "Missing Extremeties"),
+    ("Paralysis", "Paralysis"),
+    ("Other Impairments", "Other Impairments"),
+    ("I have a disability, but it is not listed",
+     "I have a disability, but it is not listed")
+)
+EMPLOYMENT_CHOICES = (
+    ('','----select----'),
+    ("Employed with NASA/JPL", "Employed with NASA/JPL"),
+    ("Employed with an AerospaceContractor",
+     "Employed with an AerospaceContractor"),
+    ("Employed in a STEM field (Non-Aerospace field)",
+     "Employed in a STEM field (Non-Aerospace field)"),
+    ("Employed in K-12 STEM academic field",
+     "Employed in K-12 STEM academic field"),
+    ("Employed in 'Other' STEM academic field",
+     "Employed in 'Other' STEM academic field"),
+    ("Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)",
+     "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
+)
 
 class Base(models.Model):
 
@@ -141,10 +172,47 @@ class UserProfile(models.Model):
         "Zip code",
         max_length=9
     )
-    phone = models.CharField(
-        verbose_name='Phone number',
+    address1_current = models.CharField(
+        "Address",
+        max_length=128,
+        null=True, blank=True
+    )
+    address2_current = models.CharField(
+        "",
+        max_length=128,
+        null=True, blank=True
+    )
+    city_current = models.CharField(
+        "City",
+        max_length=128,
+        null=True, blank=True
+    )
+    state_current = models.CharField(
+        "State",
+        max_length=2,
+        choices=STATE_CHOICES,
+        null=True, blank=True
+    )
+    postal_code_current = models.CharField(
+        "Zip code",
+        max_length=9,
+        null=True, blank=True
+    )
+    phone_primary = models.CharField(
+        verbose_name='Primary phone',
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
+    )
+    phone_mobile = models.CharField(
+        verbose_name='Cell phone',
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        null=True, blank=True
+    )
+    email_secondary = models.CharField(
+        verbose_name='Secondary email',
+        max_length=128,
+        null=True, blank=True
     )
     date_of_birth = models.DateField(
         "Date of birth",
@@ -167,11 +235,26 @@ class UserProfile(models.Model):
     )
     disability = models.CharField(
         "Disability status",
-        max_length=16,
-        choices=YES_NO_DECLINE
+        max_length=32,
+        choices=DISABILITY_CHOICES
+    )
+    disability_specify = models.CharField(
+        "Specify if not listed",
+        max_length=255,
+        null=True, blank=True
     )
     us_citizen = models.CharField(
         "United States Citizen",
+        max_length=4,
+        choices=BINARY_CHOICES
+    )
+    employment = models.CharField(
+        "Employment status",
+        max_length=128,
+        choices=EMPLOYMENT_CHOICES
+    )
+    military = models.CharField(
+        "Have you served in the United States military?",
         max_length=4,
         choices=BINARY_CHOICES
     )
@@ -186,6 +269,7 @@ class UserProfile(models.Model):
         return "%s %s's profile" % (self.user.first_name, self.user.last_name)
 
     def get_registration(self):
+        # these imports need to be here, rather than at the top with the others
         from djspace.registration.models import Undergraduate, Graduate
         from djspace.registration.models import Faculty, Professional
 
@@ -193,3 +277,14 @@ class UserProfile(models.Model):
             return eval(self.registration_type).objects.get(user=self.user)
         except:
             return None
+
+# dispatch ID needs to be unique for each signal handler, nothing more.
+# so we can use package plus signal name.
+@receiver(user_signed_up, dispatch_uid="allauth.user_signed_up")
+def _user_signed_up(request, user, **kwargs):
+
+    # Add secondary email address for the user, and send email confirmation.
+    EmailAddress.objects.add_email(request, self.user, new_email, confirm=True)
+
+    # notify WSGC administrators of new user registration
+

@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djspace.registration.choices import WSGC_SCHOOL, MAJORS
+from djspace.registration.choices import WSGC_SCHOOL, MAJORS, YEAR_CHOICES
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 from djspace.core.models import Base, GenericChoice
 
@@ -38,7 +38,6 @@ def limit_generic_choice(tag):
 
 
 class BaseStudent(Base):
-
     # core
     major = models.CharField(
         "Primary major",
@@ -90,9 +89,12 @@ class BaseStudent(Base):
         GenericChoice,
         verbose_name="College or University",
         limit_choices_to={"id__in":limit_college_university},
-        #limit_choices_to={"id__in":limit_generic_choice("College or University")},
         help_text="FNL Participants: Choose 'OTHER.'",
         max_length=128
+    )
+    studentid = models.CharField(
+        "Student Id Number",
+        max_length=64
     )
 
     class Meta:
@@ -112,12 +114,20 @@ class Undergraduate(BaseStudent):
         max_length=2,
         choices=STATE_CHOICES
     )
-
+    class_year = models.CharField(
+        "Current Class Status",
+        max_length="24",
+        choices=YEAR_CHOICES
+    )
 
 class Graduate(BaseStudent):
     undergraduate_degree = models.CharField(
         max_length=32,
         choices=UNDERGRADUATE_DEGREE
+    )
+    college_university = models.CharField(
+        "College or university",
+        max_length=255
     )
     degree_program = models.CharField(
         max_length=32,
