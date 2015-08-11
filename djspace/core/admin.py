@@ -8,7 +8,7 @@ from djspace.core.models import UserProfile, GenericChoice
 
 PROFILE_LIST_DISPLAY = [
     'salutation','first_name','second_name','last_name', 'email',
-    'email_secondary', 'phone_primary','phone_mobile',
+    'phone_primary','phone_mobile',
     'address1','address2','city','state','postal_code',
     'address1_current','address2_current', 'city_current','state_current',
     'postal_code_current','date_of_birth','gender','race','tribe',
@@ -66,20 +66,20 @@ class GenericAdmin(admin.ModelAdmin):
     def postal_code(self, obj):
         return obj.user.profile.postal_code
 
-    def address1_permanent(self, obj):
-        return obj.user.profile.address_permanent_1
+    def address1_current(self, obj):
+        return obj.user.profile.address1_current
 
-    def address2_permanent(self, obj):
-        return obj.user.profile.address_parmanent_2
+    def address2_current(self, obj):
+        return obj.user.profile.address2_current
 
     def city_current(self, obj):
-        return obj.user.profile.city
+        return obj.user.profile.city_current
 
     def state_current(self, obj):
-        return obj.user.profile.state
+        return obj.user.profile.state_current
 
     def postal_code_current(self, obj):
-        return obj.user.profile.postal_code
+        return obj.user.profile.postal_code_current
 
     def gender(self, obj):
         return obj.user.profile.gender

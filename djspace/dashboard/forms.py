@@ -2,11 +2,11 @@
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 
-from djspace.core.models import UserProfile, GenericChoice
-from djspace.core.models import REG_TYPE, BIRTH_YEAR_CHOICES
+from djspace.core.models import UserProfile, GenericChoice, BIRTH_YEAR_CHOICES
+from djspace.core.models import REG_TYPE, EMPLOYMENT_CHOICES, DISABILITY_CHOICES
 
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
-from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE
+from djtools.fields import BINARY_CHOICES
 
 from localflavor.us.forms import USPhoneNumberField
 
@@ -57,28 +57,23 @@ class UserProfileForm(forms.ModelForm):
         max_length=128,
         required=False
     )
-    disability = forms.TypedChoiceField(
+    disability = forms.CharField(
         label="Disability status",
-        choices=YES_NO_DECLINE, widget = forms.RadioSelect()
+        widget=forms.Select(choices=DISABILITY_CHOICES)
+    )
+    disability_specify = forms.CharField(
+        label="Specify if not listed",
+        max_length=255, required=False
     )
     us_citizen = forms.TypedChoiceField(
         label = "United States Citizen",
         choices=BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    address_current_1 = forms.CharField(
+    address1 = forms.CharField(
         label="Address",
         max_length=128
     )
-    address_current_2 = forms.CharField(
-        label="",
-        max_length=128,
-        required=False
-    )
-    address_permanent_1 = forms.CharField(
-        label="Address",
-        max_length=128
-    )
-    address_permanent_2 = forms.CharField(
+    address2 = forms.CharField(
         label="",
         max_length=128,
         required=False
@@ -93,7 +88,35 @@ class UserProfileForm(forms.ModelForm):
         label="Zip code",
         max_length=10
     )
-    phone = USPhoneNumberField(
+    address1_current = forms.CharField(
+        label="Address",
+        max_length=128,
+        required=False
+    )
+    address2_current = forms.CharField(
+        label="",
+        max_length=128,
+        required=False
+    )
+    city_current = forms.CharField(
+        max_length=128,
+        required=False
+    )
+    state_current = forms.CharField(
+        widget=forms.Select(choices=STATE_CHOICES),
+        required=False
+    )
+    postal_code_current = forms.CharField(
+        label="Zip code",
+        max_length=10,
+        required=False
+    )
+    phone_primary = USPhoneNumberField(
+        label="Primary phone",
+        widget=forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'})
+    )
+    phone_mobile = USPhoneNumberField(
+        label="Cell phone",
         widget=forms.TextInput(attrs={'placeholder': 'eg. 123-456-7890'})
     )
 
@@ -101,9 +124,10 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         exclude = ('user','salutation','second_name')
         fields = [
-            'registration_type', 'address_current_1','address_current_2',
-            'address_permanent_1','address_permanent_2',
-            'city','state','postal_code','phone_primary','phone_mobile',
+            'registration_type','address1','address2',
+            'city','state','postal_code','address1_current',
+            'address2_current','city_current','state_current',
+            'postal_code_current','phone_primary','phone_mobile',
             'date_of_birth','gender','race',
-            'tribe','disability','us_citizen'
+            'tribe','disability','disability_specify','us_citizen'
         ]

@@ -7,7 +7,7 @@ from djspace.core.models import UserProfile, GenericChoice, BIRTH_YEAR_CHOICES
 from djspace.core.models import REG_TYPE, EMPLOYMENT_CHOICES, DISABILITY_CHOICES
 
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
-from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE
+from djtools.fields import BINARY_CHOICES
 
 from localflavor.us.forms import USPhoneNumberField
 
@@ -181,16 +181,20 @@ class SignupForm(forms.Form):
             gender = cd['gender'],
             tribe = cd.get('tribe'),
             disability = cd['disability'],
+            disability_specify = cd['disability_specify'],
             employment = cd['employment'],
             us_citizen = cd['us_citizen'],
             date_of_birth = cd['date_of_birth'],
-            address_current_1 = cd['address_current_1'],
-            address_current_2 = cd.get('address_current_2'),
-            address_permanent_1 = cd['address_permanent_1'],
-            address_permanent_2 = cd.get('address_permanent_2'),
+            address1 = cd['address1'],
+            address2 = cd.get('address2'),
             city = cd['city'],
             state = cd['state'],
             postal_code = cd['postal_code'],
+            address1_current = cd['address1_current'],
+            address2_current = cd.get('address2_current'),
+            city_current = cd['city_current'],
+            state_current = cd['state_current'],
+            postal_code_current = cd['postal_code_current'],
             phone_primary = cd['phone_primary'],
             phone_mobile = cd['phone_mobile']
         )

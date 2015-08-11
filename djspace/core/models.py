@@ -209,11 +209,13 @@ class UserProfile(models.Model):
         help_text="Format: XXX-XXX-XXXX",
         null=True, blank=True
     )
+    """
     email_secondary = models.CharField(
         verbose_name='Secondary email',
         max_length=128,
         null=True, blank=True
     )
+    """
     date_of_birth = models.DateField(
         "Date of birth",
         help_text="Format: mm/dd/yyyy"
