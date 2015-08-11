@@ -121,13 +121,13 @@ class Undergraduate(BaseStudent):
     )
 
 class Graduate(BaseStudent):
-    undergraduate_degree = models.CharField(
-        max_length=32,
-        choices=UNDERGRADUATE_DEGREE
-    )
     college_university = models.CharField(
         "College or university",
         max_length=255
+    )
+    undergraduate_degree = models.CharField(
+        max_length=32,
+        choices=UNDERGRADUATE_DEGREE
     )
     degree_program = models.CharField(
         max_length=32,

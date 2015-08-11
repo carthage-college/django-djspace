@@ -291,13 +291,18 @@ def _user_signed_up(request, user, **kwargs):
     )
 
     # notify WSGC administrators of new user registration
+    subject = u"[WSGC Registration] {}, {}".format(
+        unicode(user.last_name, 'utf-8'),
+        unicode(user.first_name, 'utf-8')
+    )
     if settings.DEBUG:
         TO_LIST = [settings.ADMINS[0][1],]
     else:
         TO_LIST = [settings.WSGC_APPLICATIONS,]
+    template = "account/registration_alert.html"
     send_mail(
-        request, _LIST,
-        subject, data.user.email,
-        template, data, BCC,
+        request, TO_LIST,
+        subject, user.email,
+        template, {"user":user}, settings.MANAGERS
     )
 
