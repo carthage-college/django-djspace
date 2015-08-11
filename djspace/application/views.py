@@ -23,11 +23,10 @@ def form(request, application_type, aid=None):
         return HttpResponseRedirect(reverse('dashboard_home'))
 
     if settings.DEBUG:
-        TO_LIST = ["larry@carthage.edu",]
+        TO_LIST = [settings.ADMINS[0][1],]
     else:
-        TO_LIST = ["wsgc.applications@carthage.edu",]
+        TO_LIST = [settings.WSGC_APPLICATIONS,]
     BCC = settings.MANAGERS
-
     user = request.user
     slug_list = application_type.split("-")
     app_name = slug_list.pop(0).capitalize()

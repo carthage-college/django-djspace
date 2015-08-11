@@ -11,11 +11,11 @@ from djtools.fields import BINARY_CHOICES
 
 from localflavor.us.forms import USPhoneNumberField
 
+from collections import OrderedDict
+from datetime import date
+
+DOB_YEAR = date.today().year-10
 RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("ranking")
-
-import datetime
-
-DOB_YEAR = datetime.date.today().year-10
 
 class SignupForm(forms.Form):
     """
@@ -134,6 +134,26 @@ class SignupForm(forms.Form):
         )
     )
 
+    '''
+    # not working: it is looking for fields like 'email', 'username', etc
+    def __init__(self,*args,**kwargs):
+        super(SignupForm, self).__init__(*args,**kwargs)
+
+        fields_key_order = [
+            'registration_type', 'salutation', 'first_name', 'second_name',
+            'last_name', 'date_of_birth','gender','race', 'tribe','disability',
+            'disability_specify','employment', 'us_citizen',
+            'address1_current', 'address2_current','city_current',
+            'state_current', 'postal_code_current',
+            'address1','address2', 'city','state','postal_code',
+            'phone_primary','phone_mobile', 'email_secondary'
+        ]
+        if (self.fields.has_key('keyOrder')):
+            self.fields.keyOrder = fields_key_order
+        else:
+            self.fields = OrderedDict((k, self.fields[k]) for k in fields_key_order)
+    '''
+
     def clean(self):
         cd = super(SignupForm, self).clean()
         if not cd.get("date_of_birth"):
@@ -143,8 +163,8 @@ class SignupForm(forms.Form):
         # current address is required for students
         if (cd.get("registration_type") == "Undergraduate" or \
             cd.get("registration_type") == "Graduate"):
-            if not cd.get("address_current_1"):
-                self._errors["address_current_1"] = self.error_class(
+            if not cd.get("address1_current"):
+                self._errors["address1_current"] = self.error_class(
                     ["Required field"]
                 )
             if not cd.get("city_current"):

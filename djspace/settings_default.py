@@ -174,6 +174,7 @@ EMAIL_FAIL_SILENTLY = True
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 SERVER_MAIL=""
+WSGC_APPLICATIONS=""
 # logs and logging
 USE_X_FORWARDED_HOST = True
 LOG_FILEPATH = os.path.join(os.path.dirname(__file__), "logs/")

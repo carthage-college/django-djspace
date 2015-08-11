@@ -7,13 +7,13 @@
             function currentAddress(state) {
                 if (state == "on") {
                     $("#current_address").show();
-                    $("#id_address_current_1").addClass("required");
+                    $("#id_address1_current").addClass("required");
                     $("#id_city_current").addClass("required");
                     $("#id_state_current").addClass("required");
                     $("#id_postal_code_current").addClass("required");
                 } else if (state == "off") {
                     $("#current_address").hide();
-                    $("#id_address_current_1").removeClass("required");
+                    $("#id_address1_current").removeClass("required");
                     $("#id_city_current").removeClass("required");
                     $("#id_state_current").removeClass("required");
                     $("#id_postal_code_current").removeClass("required");
@@ -71,13 +71,13 @@
         <fieldset class="blockLabels">
             <ol>
                 {% for field in form.visible_fields %}
-                    {% if field.name == "address_1" %}
+                    {% if field.name == "address1" %}
                     </ol></fieldset>
                     <fieldset class="blockLabels">
                     <legend>Permanent Address</legend>
                     <ol>
                     {% endif %}
-                    {% if field.name == "address_current_1" %}
+                    {% if field.name == "address1_current" %}
                     </ol></fieldset>
                     <fieldset class="blockLabels" id="current_address">
                     <legend>Current Address</legend>

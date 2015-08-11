@@ -11,8 +11,6 @@ from django.contrib.auth.decorators import login_required
 from djspace.registration.forms import *
 from djspace.dashboard.forms import UserForm, UserProfileForm
 
-from djtools.utils.mail import send_mail
-
 import json
 
 @login_required

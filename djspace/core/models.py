@@ -5,9 +5,9 @@ from django.contrib.auth.models import User
 from allauth.account.signals import user_signed_up
 from allauth.account.models import EmailAddress
 
-
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
+from djtools.utils.mail import send_mail
 
 from taggit.managers import TaggableManager
 from gm2m import GM2MField
@@ -237,7 +237,7 @@ class UserProfile(models.Model):
     )
     disability = models.CharField(
         "Disability status",
-        max_length=32,
+        max_length=64,
         choices=DISABILITY_CHOICES
     )
     disability_specify = models.CharField(
@@ -286,7 +286,18 @@ class UserProfile(models.Model):
 def _user_signed_up(request, user, **kwargs):
 
     # Add secondary email address for the user, and send email confirmation.
-    EmailAddress.objects.add_email(request, self.user, new_email, confirm=True)
+    EmailAddress.objects.add_email(
+        request, user, request.POST.get("email_secondary"), confirm=True
+    )
 
     # notify WSGC administrators of new user registration
+    if settings.DEBUG:
+        TO_LIST = [settings.ADMINS[0][1],]
+    else:
+        TO_LIST = [settings.WSGC_APPLICATIONS,]
+    send_mail(
+        request, _LIST,
+        subject, data.user.email,
+        template, data, BCC,
+    )
 

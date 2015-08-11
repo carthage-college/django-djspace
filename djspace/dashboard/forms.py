@@ -70,7 +70,7 @@ class UserProfileForm(forms.ModelForm):
         choices=BINARY_CHOICES, widget = forms.RadioSelect()
     )
     address1 = forms.CharField(
-        label="Address",
+        label="Street address",
         max_length=128
     )
     address2 = forms.CharField(
@@ -89,7 +89,7 @@ class UserProfileForm(forms.ModelForm):
         max_length=10
     )
     address1_current = forms.CharField(
-        label="Address",
+        label="Street address",
         max_length=128,
         required=False
     )
@@ -99,10 +99,12 @@ class UserProfileForm(forms.ModelForm):
         required=False
     )
     city_current = forms.CharField(
+        label="City",
         max_length=128,
         required=False
     )
     state_current = forms.CharField(
+        label="State",
         widget=forms.Select(choices=STATE_CHOICES),
         required=False
     )
@@ -124,10 +126,38 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         exclude = ('user','salutation','second_name')
         fields = [
-            'registration_type','address1','address2',
-            'city','state','postal_code','address1_current',
-            'address2_current','city_current','state_current',
-            'postal_code_current','phone_primary','phone_mobile',
-            'date_of_birth','gender','race',
-            'tribe','disability','disability_specify','us_citizen'
+            'registration_type', 'date_of_birth','gender','race',
+            'tribe','disability','disability_specify','us_citizen','employment',
+            'address1_current', 'address2_current','city_current',
+            'state_current', 'postal_code_current',
+            'address1','address2', 'city','state','postal_code',
+            'phone_primary','phone_mobile',
         ]
+
+    def clean(self):
+        cd = super(UserProfileForm, self).clean()
+        # current address is required for students
+        if (cd.get("registration_type") == "Undergraduate" or \
+            cd.get("registration_type") == "Graduate"):
+            if not cd.get("address1_current"):
+                self._errors["address1_current"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("city_current"):
+                self._errors["city_current"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("state_current"):
+                self._errors["state_current"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("postal_code_current"):
+                self._errors["postal_code_current"] = self.error_class(
+                    ["Required field"]
+                )
+        if cd.get("disability") == "I have a disability, but it is not listed"\
+          and cd.get("disability_specify") == "":
+            self._errors["disability_specify"] = self.error_class(
+                ["Please describe your disability"]
+            )
+        return cd
