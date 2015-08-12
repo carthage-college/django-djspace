@@ -71,6 +71,10 @@ class SignupForm(forms.Form):
         label="Employment status",
         widget=forms.Select(choices=EMPLOYMENT_CHOICES)
     )
+    military = forms.TypedChoiceField(
+        label = "Have you served in the United States military?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
     us_citizen = forms.TypedChoiceField(
         label = "United States Citizen",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -105,10 +109,12 @@ class SignupForm(forms.Form):
         required=False
     )
     city_current = forms.CharField(
+        label="City",
         max_length=128,
         required=False
     )
     state_current = forms.CharField(
+        label="State",
         widget=forms.Select(choices=STATE_CHOICES),
         required=False
     )
