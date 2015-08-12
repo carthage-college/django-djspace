@@ -9,9 +9,13 @@ from djspace.registration.models import *
 import csv
 
 PROFILE_HEADERS = [
-    'Salutation','First Name','Second Name','Last Name','Email','Phone',
-    'Address 1','Address 2','City','State','Postal Code','Date of Birth',
-    'Gender','Race','Tribe','Disability','U.S. Citizen','Registration Type'
+    'Salutation','First Name','Second Name','Last Name',
+    'Email', 'Email auxiliary', 'Phone Primary', 'Phone Mobile',
+    'Perminent Address 1','Address 2','City','State','Postal Code',
+    'Current Address 1','Address 2','City','State','Postal Code',
+    'Date of Birth', 'Gender','Race','Tribe',
+    'Disability','Disability Specifics', 'Employment','Military',
+    'U.S. Citizen','Registration Type'
 ]
 
 def get_profile_fields(obj):
@@ -31,11 +35,17 @@ def get_profile_fields(obj):
             reg.last_name,
             encoding='utf-8', strings_only=False, errors='strict'
         ),
-        reg.email,reg.profile.phone,reg.profile.address1,
-        reg.profile.address2,reg.profile.city,reg.profile.state,
-        reg.profile.postal_code,reg.profile.date_of_birth,
-        reg.profile.gender,' '.join(race),reg.profile.tribe,
-        reg.profile.disability,reg.profile.us_citizen,
+        reg.email,reg.profile.email_auxiliary,
+        reg.profile.phone_primary,reg.profile.phone_mobile,
+        reg.profile.address1,reg.profile.address2,reg.profile.city,
+        reg.profile.state,reg.profile.postal_code,
+        reg.profile.address1_current,reg.profile.address2_current,
+        reg.profile.city_current,reg.profile.state_current,
+        reg.profile.postal_code_current,
+        reg.profile.date_of_birth,reg.profile.gender,
+        ' '.join(race),reg.profile.tribe,
+        reg.profile.disability,reg.profile.disability_specify,
+        reg.profile.employment,reg.profile.military,reg.profile.us_citizen,
         reg.profile.registration_type
     ]
     return fields
