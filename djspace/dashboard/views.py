@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from django.utils.safestring import mark_safe
@@ -9,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 
 from djspace.registration.forms import *
+from djspace.core.utils import get_profile_status
 from djspace.dashboard.forms import UserForm, UserProfileForm
 
 import json
@@ -30,8 +30,9 @@ def home(request):
     except:
         apps = None
 
+    status = get_profile_status(request.user)
     return render_to_response(
-        "dashboard/home.html", {"reg":reg,},
+        "dashboard/home.html", {"reg":reg,"status":status},
         context_instance=RequestContext(request)
     )
 
