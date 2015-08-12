@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from allauth.account.signals import user_signed_up
@@ -139,7 +140,6 @@ class UserProfile(models.Model):
     date_updated = models.DateTimeField(
         "Date Updated", auto_now=True
     )
-
     # core
     salutation = models.CharField(
         max_length=16,
@@ -209,13 +209,6 @@ class UserProfile(models.Model):
         help_text="Format: XXX-XXX-XXXX",
         null=True, blank=True
     )
-    """
-    email_secondary = models.CharField(
-        verbose_name='Secondary email',
-        max_length=128,
-        null=True, blank=True
-    )
-    """
     date_of_birth = models.DateField(
         "Date of birth",
         help_text="Format: mm/dd/yyyy"
@@ -268,7 +261,9 @@ class UserProfile(models.Model):
 
 
     def __unicode__(self):
-        return "%s %s's profile" % (self.user.first_name, self.user.last_name)
+        return u"{} {}'s profile".format(
+            self.user.first_name, self.user.last_name
+        )
 
     def get_registration(self):
         # these imports need to be here, rather than at the top with the others
@@ -287,19 +282,18 @@ def _user_signed_up(request, user, **kwargs):
 
     # Add secondary email address for the user, and send email confirmation.
     EmailAddress.objects.add_email(
-        request, user, request.POST.get("email_secondary"), confirm=True
+        request, user, request.POST.get("email_secondary"), confirm=False
     )
 
     # notify WSGC administrators of new user registration
     subject = u"[WSGC Registration] {}, {}".format(
-        unicode(user.last_name, 'utf-8'),
-        unicode(user.first_name, 'utf-8')
+        user.last_name, user.first_name
     )
     if settings.DEBUG:
         TO_LIST = [settings.ADMINS[0][1],]
     else:
         TO_LIST = [settings.WSGC_APPLICATIONS,]
-    template = "account/registration_alert.html"
+    template = "account/registration_alert_email.html"
     send_mail(
         request, TO_LIST,
         subject, user.email,
