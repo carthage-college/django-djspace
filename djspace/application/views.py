@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 
 from djspace.application.forms import *
 from djspace.registration.models import *
+from djspace.core.utils import get_profile_status
 
 from djtools.utils.mail import send_mail
 
@@ -19,6 +20,11 @@ def form(request, application_type, aid=None):
     try:
         reg = eval(reg_type).objects.get(user=request.user)
     except:
+        # redirect to dashboard
+        return HttpResponseRedirect(reverse('dashboard_home'))
+
+    # verify that the user has an up to date registration
+    if not get_profile_status(request.user):
         # redirect to dashboard
         return HttpResponseRedirect(reverse('dashboard_home'))
 
