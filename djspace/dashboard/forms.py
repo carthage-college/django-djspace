@@ -69,6 +69,10 @@ class UserProfileForm(forms.ModelForm):
         label = "United States Citizen",
         choices=BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    military = forms.TypedChoiceField(
+        label = "Have you served in the United States military?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
     address1 = forms.CharField(
         label="Street address",
         max_length=128
@@ -127,7 +131,8 @@ class UserProfileForm(forms.ModelForm):
         exclude = ('user','salutation','second_name')
         fields = [
             'registration_type', 'date_of_birth','gender','race',
-            'tribe','disability','disability_specify','us_citizen','employment',
+            'tribe','disability','disability_specify',
+            'employment','military','us_citizen',
             'address1_current', 'address2_current','city_current',
             'state_current', 'postal_code_current',
             'address1','address2', 'city','state','postal_code',
