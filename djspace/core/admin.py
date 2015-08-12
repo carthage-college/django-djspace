@@ -6,14 +6,16 @@ from django.contrib.auth.admin import UserAdmin
 
 from djspace.core.models import UserProfile, GenericChoice
 
+from allauth.account.models import EmailAddress
+
 PROFILE_LIST_DISPLAY = [
     'salutation','first_name','second_name','last_name', 'email',
-    'phone_primary','phone_mobile',
+    'email_auxiliary', 'phone_primary','phone_mobile',
     'address1','address2','city','state','postal_code',
     'address1_current','address2_current', 'city_current','state_current',
     'postal_code_current','date_of_birth','gender','race','tribe',
-    'disability','disability_specify','us_citizen','employment',
-    'military', 'registration_type'
+    'disability','disability_specify','employment','military','us_citizen',
+    'registration_type'
 ]
 
 class GenericAdmin(admin.ModelAdmin):
@@ -112,6 +114,11 @@ class GenericAdmin(admin.ModelAdmin):
         )
     email.allow_tags = True
     email.short_description = 'Profile (view/edit)'
+
+    def email_auxiliary(self, obj):
+        e = EmailAddress.objects.filter(user=obj.user).\
+            filter(primary=False).order_by("-id")
+        return e
 
     def registration_type(self, obj):
         try:
