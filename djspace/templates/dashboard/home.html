@@ -83,9 +83,9 @@
     {% endif %}
         <p>
             <h4>
-                {% if not reg %}
+                {% if not reg or not status %}
                 <i class="fa fa-times red"></i>
-                You must complete your
+                You must update your
                 <a href="{% url 'dashboard_profile' %}"
                     style="color:blue;">
                     registration profile
