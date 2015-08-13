@@ -23,7 +23,7 @@ def get_queryset(self, request, admin_class):
     YEAR = int(TODAY.year)
     MES = int(TODAY.month)
     qs = super(admin_class, self).queryset(request)
-    if MES < settings.GRANT_CYCLE_START_MES:
+    if MES <= settings.GRANT_CYCLE_START_MES:
         YEAR = YEAR - 1
     start_date = datetime.date(YEAR, settings.GRANT_CYCLE_START_MES, 1)
     return qs.filter(date_created__gte=start_date)
