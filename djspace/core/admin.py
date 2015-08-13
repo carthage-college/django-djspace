@@ -5,8 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.admin import UserAdmin
 
 from djspace.core.models import UserProfile, GenericChoice
-
-from allauth.account.models import EmailAddress
+from djspace.core.utils import get_email_auxiliary
 
 PROFILE_LIST_DISPLAY = [
     'salutation','first_name','second_name','last_name', 'email',
@@ -116,9 +115,7 @@ class GenericAdmin(admin.ModelAdmin):
     email.short_description = 'Profile (view/edit)'
 
     def email_auxiliary(self, obj):
-        e = EmailAddress.objects.filter(user=obj.user).\
-            filter(primary=False).order_by("-id")
-        return e
+        return get_email_auxiliary(obj)
 
     def registration_type(self, obj):
         try:
