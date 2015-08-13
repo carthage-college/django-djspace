@@ -3,10 +3,10 @@
 {% load i18n %}
 {% autoescape off %}
 {% blocktrans with current_site.name as site_name %}
-Your registration with WSGC is nearly complete. Please visit
+Please visit
 {{ activate_url }}
-to activate your account. You can safely ignore this message
-if you did not initiate a registration with
+to confirm your E-mail address. You can safely ignore this message
+if you did not initiate a registration with the
 Wisconsin Space Grant Consortium.
 {% endblocktrans %}
 {% endautoescape %}

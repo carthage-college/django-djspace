@@ -209,6 +209,7 @@ class SignupForm(forms.Form):
             disability = cd['disability'],
             disability_specify = cd['disability_specify'],
             employment = cd['employment'],
+            military = cd['military'],
             us_citizen = cd['us_citizen'],
             date_of_birth = cd['date_of_birth'],
             address1 = cd['address1'],

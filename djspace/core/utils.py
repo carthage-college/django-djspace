@@ -1,7 +1,8 @@
 from django.conf import settings
+from allauth.account.models import EmailAddress
 
 from djtools.fields import NOW
-from allauth.account.models import EmailAddress
+from djtools.utils.mail import send_mail
 
 from datetime import datetime
 
@@ -19,6 +20,20 @@ def get_profile_status(user):
     if user.profile.date_updated > grant_cycle_start_date:
         status = True
     return status
+
+def registration_notify(request, action, user):
+    subject = u"[WSGC Profile Registration: {}D] {}, {}".format(
+        action.upper(), user.last_name, user.first_name
+    )
+    if settings.DEBUG:
+        TO_LIST = [settings.ADMINS[0][1],]
+    else:
+        TO_LIST = [settings.WSGC_APPLICATIONS,]
+    template = "account/registration_alert_email.html"
+    send_mail(
+        request, TO_LIST, subject, user.email,
+        template, {"user":user,"action":action}, settings.MANAGERS
+    )
 
 def get_email_auxiliary(user):
     e = EmailAddress.objects.filter(user=user).\

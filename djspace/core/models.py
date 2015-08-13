@@ -5,13 +5,13 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from allauth.account.signals import user_signed_up
 from allauth.account.models import EmailAddress
+from taggit.managers import TaggableManager
+from gm2m import GM2MField
+
+from djspace.core.utils import registration_notify
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
-from djtools.utils.mail import send_mail
-
-from taggit.managers import TaggableManager
-from gm2m import GM2MField
 
 from datetime import date
 
@@ -275,6 +275,13 @@ class UserProfile(models.Model):
         except:
             return None
 
+    def save(self, *args, **kwargs):
+        if self.id:
+            # notify WSGC administrators of registration update
+            request = None
+            registration_notify(request, "update", self.user)
+        super(UserProfile, self).save()
+
 # dispatch ID needs to be unique for each signal handler, nothing more.
 # so we can use package plus signal name.
 @receiver(user_signed_up, dispatch_uid="allauth.user_signed_up")
@@ -282,21 +289,8 @@ def _user_signed_up(request, user, **kwargs):
 
     # Add secondary email address for the user, and send email confirmation.
     EmailAddress.objects.add_email(
-        request, user, request.POST.get("email_secondary"), confirm=False
+        request, user, request.POST.get("email_secondary"), confirm=True
     )
 
     # notify WSGC administrators of new user registration
-    subject = u"[WSGC Registration] {}, {}".format(
-        user.last_name, user.first_name
-    )
-    if settings.DEBUG:
-        TO_LIST = [settings.ADMINS[0][1],]
-    else:
-        TO_LIST = [settings.WSGC_APPLICATIONS,]
-    template = "account/registration_alert_email.html"
-    send_mail(
-        request, TO_LIST,
-        subject, user.email,
-        template, {"user":user}, settings.MANAGERS
-    )
-
+    registration_notify(request, "create", user)
