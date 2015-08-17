@@ -7,7 +7,6 @@ from djspace.registration.models import Professional
 from djspace.registration.models import Undergraduate, Graduate, Faculty
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
-from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE
 from djtools.fields.validators import month_year_validator
 
 try:
