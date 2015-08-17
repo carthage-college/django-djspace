@@ -54,18 +54,23 @@ class GenericAdmin(admin.ModelAdmin):
 
     def address1(self, obj):
         return obj.user.profile.address1
+    address1.short_description = "Address1 permanent"
 
     def address2(self, obj):
         return obj.user.profile.address2
+    address2.short_description = "Address2 permanent"
 
     def city(self, obj):
         return obj.user.profile.city
+    city.short_description = "City permanent"
 
     def state(self, obj):
         return obj.user.profile.state
+    state.short_description = "State permanent"
 
     def postal_code(self, obj):
         return obj.user.profile.postal_code
+    postal_code.short_description = "Postal code permanent"
 
     def address1_current(self, obj):
         return obj.user.profile.address1_current
