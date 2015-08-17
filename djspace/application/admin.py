@@ -373,11 +373,11 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     list_display  = PROFILE_LIST_DISPLAY + [
         'project_title', 'time_frame',
         'funds_requested', 'funds_authorized',
-        'proposed_match', 'source_match', 'location',
+        'proposed_match', 'authorized_match', 'source_match', 'location',
         'synopsis_trunk', 'proposal_link',
         'date_created','date_updated','status'
     ]
-    list_editable = ['funds_authorized','status']
+    list_editable = ['funds_authorized','authorized_match', 'status']
     list_display_links = ['project_title']
     actions = [export_applications]
 
