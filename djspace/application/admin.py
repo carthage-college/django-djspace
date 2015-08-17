@@ -28,7 +28,7 @@ def get_queryset(self, request, admin_class):
     start_date = datetime.date(YEAR, settings.GRANT_CYCLE_START_MES, 1)
     return qs.filter(date_created__gte=start_date)
 
-def export_applications(modeladmin, request, queryset):
+def export_applications(modeladmin, request, queryset, reg_type=None):
     """
     Export application data to CSV
     """
@@ -77,7 +77,14 @@ def export_applications(modeladmin, request, queryset):
         writer.writerow(fields)
     return response
 
-export_applications.short_description = "Export Applications"
+def export_all_applications(modeladmin, request, queryset):
+    """
+    Export application data to CSV for all registration types
+    """
+
+    return export_applications(modeladmin, request, queryset)
+
+export_all_applications.short_description = "Export All Applications"
 
 
 class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
@@ -90,7 +97,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
         'status'
     ]
     list_editable = ['status']
-    actions = [export_applications]
+    actions = [export_all_applications]
 
     def cv_link(self, instance):
         return '<a href="{}" target="_blank">CV</a>'.format(
@@ -134,7 +141,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
-    actions = [export_applications]
+    actions = [export_all_applications]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -297,7 +304,7 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
-    actions = [export_applications]
+    actions = [export_all_applications]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -329,7 +336,7 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'date_created','date_updated','status'
     ]
     list_editable = ['status']
-    actions = [export_applications]
+    actions = [export_all_applications]
 
     def statement_link(self, instance):
         return '<a href="{}" target="_blank">Statement</a>'.format(
@@ -352,7 +359,7 @@ class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
         'date_created','date_updated','status'
     ]
     list_editable = ['status']
-    actions = [export_applications]
+    actions = [export_all_applications]
 
     def proposal_link(self, instance):
         return '<a href="{}" target="_blank">Proposal</a>'.format(
@@ -379,7 +386,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','authorized_match', 'status']
     list_display_links = ['project_title']
-    actions = [export_applications]
+    actions = [export_all_applications]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
