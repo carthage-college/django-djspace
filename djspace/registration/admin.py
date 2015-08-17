@@ -11,7 +11,7 @@ import csv
 PROFILE_HEADERS = [
     'Salutation','First Name','Second Name','Last Name',
     'Email', 'Email auxiliary', 'Phone Primary', 'Phone Mobile',
-    'Perminent Address 1','Address 2','City','State','Postal Code',
+    'Permanent Address 1','Address 2','City','State','Postal Code',
     'Current Address 1','Address 2','City','State','Postal Code',
     'Date of Birth', 'Gender','Race','Tribe',
     'Disability','Disability Specifics', 'Employment','Military',
@@ -35,7 +35,7 @@ def get_profile_fields(obj):
             reg.last_name,
             encoding='utf-8', strings_only=False, errors='strict'
         ),
-        reg.email,reg.profile.email_auxiliary,
+        reg.email,reg.profile.email_auxiliary(),
         reg.profile.phone_primary,reg.profile.phone_mobile,
         reg.profile.address1,reg.profile.address2,reg.profile.city,
         reg.profile.state,reg.profile.postal_code,
