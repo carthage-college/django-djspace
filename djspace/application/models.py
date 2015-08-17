@@ -62,7 +62,7 @@ class EducationInitiatives(BaseModel):
         "Proposed match (1:1 mimimum)(in $)",
     )
     authorized_match = models.IntegerField(
-        "Authorized match",
+        null=True,blank=True
     )
     source_match = models.CharField(
         "Source(s) of match", max_length=255
