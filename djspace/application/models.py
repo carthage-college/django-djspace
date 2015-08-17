@@ -61,13 +61,14 @@ class EducationInitiatives(BaseModel):
     proposed_match = models.IntegerField(
         "Proposed match (1:1 mimimum)(in $)",
     )
+    authorized_match = models.IntegerField(
+        "Authorized match",
+    )
     source_match = models.CharField(
         "Source(s) of match", max_length=255
     )
-    time_frame = models.CharField(
+    time_frame = models.DateField(
         "Time frame that best suits your project",
-        max_length=128,
-        choices=TIME_FRAME
     )
     location = models.CharField(
         "Location of project", max_length=255

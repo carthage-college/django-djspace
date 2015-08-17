@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 
 from djspace.application.models import *
+from djtools.fields.widgets import MonthYearWidget
 
 class HigherEducationInitiativesForm(forms.ModelForm):
 
@@ -18,6 +20,8 @@ class ResearchInfrastructureForm(forms.ModelForm):
 
 
 class AerospaceOutreachForm(forms.ModelForm):
+
+    time_frame = forms.DateField(widget=MonthYearWidget)
 
     class Meta:
         model = AerospaceOutreach
