@@ -14,6 +14,7 @@ $(function() {
     });
     $("input[id$='clear_id']").css({ float: "right" });
     $("label[for$='clear_id']").css({ float: "right", marginRight:"7px" });
+    $('label[for="id_other_funding_0"]').closest('ul').addClass('linline');
 });
 </script>
 {% endblock %}
@@ -24,6 +25,7 @@ $(function() {
 <style type="text/css" media="screen, projection">
     .form h3, .h3back {background-color: #efefef; padding: 0 5px; }
     .help {margin:5px 0 9px 9px;}
+    #id_time_frame_month, #id_time_frame_year {width:120px;}
     label[for=id_synopsis]:after {
         font-family: FontAwesome;
         /*content: "\f069";*/
