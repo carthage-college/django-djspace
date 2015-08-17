@@ -33,6 +33,28 @@ TIME_FRAME = (
     ('Fall and spring','Fall and spring')
 )
 
+PROJECT_CATEGORIES = (
+    (
+        'Pre-College Program (Formal Education Outreach - K-12)',
+        'Pre-College Program (Formal Education Outreach - K-12)'
+    ),
+    (
+        'Informal Education Program (Museums, Planetariums, etc.)',
+        'Informal Education Program (Museums, Planetariums, etc.)'
+    )
+)
+
+ACADEMIC_INSTITUTIONS = (
+    (
+        'Two-year Academic Institution Opportunity (Fall)',
+        'Two-year Academic Institution Opportunity (Fall)'
+    ),
+    (
+        'All Academic Institution Opportunity (Spring)',
+        'All Academic Institution Opportunity (Spring)'
+    )
+)
+
 def upload_to_path(self, filename):
     """
     Generates the path as a string for file field.
@@ -133,6 +155,21 @@ class ResearchInfrastructure(EducationInitiatives):
 
 class AerospaceOutreach(EducationInitiatives):
 
+    project_category = models.CharField(
+        max_length=128,
+        choices=PROJECT_CATEGORIES
+    )
+    other_funding = models.CharField(
+        "Are you seeking other WSGC funding for this project?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_funding_explain = models.CharField(
+        "If yes, please explain",
+        max_length=255,
+        null=True, blank=True
+    )
+
     def __unicode__(self):
         return "Aerospace Outreach"
 
@@ -151,6 +188,21 @@ class AerospaceOutreach(EducationInitiatives):
 
 
 class SpecialInitiatives(EducationInitiatives):
+
+    project_category = models.CharField(
+        max_length=128,
+        choices=PROJECT_CATEGORIES
+    )
+    other_funding = models.CharField(
+        "Are you seeking other WSGC funding for this project?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_funding_explain = models.CharField(
+        "If yes, please explain",
+        max_length=255,
+        null=True, blank=True
+    )
 
     def __unicode__(self):
         return "Special Initiatives"
@@ -410,6 +462,10 @@ class UndergraduateResearch(BaseModel):
     )
     project_title = models.CharField(
         "Title of project", max_length=255
+    )
+    academic_institution = models.CharField(
+        "Application submitted for", max_length=128,
+        choices=ACADEMIC_INSTITUTIONS
     )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
