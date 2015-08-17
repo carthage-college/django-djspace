@@ -37,9 +37,9 @@ def registration_notify(request, action, user):
 
 def get_email_auxiliary(user):
     e = EmailAddress.objects.filter(user=user).\
-        filter(primary=False).order_by("-id")
+        filter(primary=False).order_by("-id")[:1]
     if e:
-        # we really only need the first one
-        return e[0]
+        # we really only need the one
+        return e[1].email
     else:
         return None

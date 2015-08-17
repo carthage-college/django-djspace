@@ -8,12 +8,12 @@ from allauth.account.models import EmailAddress
 from taggit.managers import TaggableManager
 from gm2m import GM2MField
 
-from djspace.core.utils import registration_notify
+from djspace.core.utils import registration_notify, get_email_auxiliary
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 
-from datetime import date
+from datetime import date, datetime
 
 REG_TYPE = (
     ('','----select----'),
@@ -264,6 +264,9 @@ class UserProfile(models.Model):
         return u"{} {}'s profile".format(
             self.user.first_name, self.user.last_name
         )
+
+    def email_auxiliary(self):
+        return get_email_auxiliary(self.user)
 
     def get_registration(self):
         # these imports need to be here, rather than at the top with the others

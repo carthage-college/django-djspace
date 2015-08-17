@@ -100,6 +100,7 @@ def profile_form(request):
             pro = pro_form.save(commit=False)
             pro.salutation = usr["salutation"]
             pro.second_name = usr["second_name"]
+            pro.updated_by = user
             pro.user = user
             pro.save()
             reg = reg_form.save(commit=False)
