@@ -153,6 +153,10 @@ class ProfileAdmin(admin.ModelAdmin):
         'user__last_name','user__first_name','user__email','user__username'
     )
 
+    def save_model(self, request, obj, form, change):
+        obj.updated_by = request.user
+        obj.save()
+
 admin.site.register(UserProfile, ProfileAdmin)
 
 # override django admin user display
