@@ -168,6 +168,16 @@ class AerospaceOutreach(EducationInitiatives):
         "If yes, please explain",
         max_length=255,
         null=True, blank=True
+    finance_officer_name = models.CharField(
+        "Name",
+        max_length=128
+    )
+    finance_officer_address = models.TextField("Address")
+    finance_officer_email = models.EmailField("Email")
+    finance_officer_phone = models.CharField(
+        verbose_name='Phone number',
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX"
     )
 
     def __unicode__(self):
@@ -202,6 +212,16 @@ class SpecialInitiatives(EducationInitiatives):
         "If yes, please explain",
         max_length=255,
         null=True, blank=True
+    finance_officer_name = models.CharField(
+        "Name",
+        max_length=128
+    )
+    finance_officer_address = models.TextField("Address")
+    finance_officer_email = models.EmailField("Email")
+    finance_officer_phone = models.CharField(
+        verbose_name='Phone number', 
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX"
     )
 
     def __unicode__(self):

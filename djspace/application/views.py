@@ -80,6 +80,7 @@ def form(request, application_type, aid=None):
             # email confirmation
             template = "application/email/%s.html" % application_type
             if not settings.DEBUG:
+                # send confirmation email to WSGC staff and applicant
                 TO_LIST.append(data.user.email)
                 if aid:
                     app_name += " (UPDATED)"

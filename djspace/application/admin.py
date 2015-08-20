@@ -358,6 +358,7 @@ class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
         'team_name','role','date_created','date_updated','proposal_link',
         'date_created','date_updated','status'
     ]
+    list_display_links = ['team_name']
     list_editable = ['status']
     actions = [export_all_applications]
 

@@ -66,27 +66,33 @@ $(function() {
     <fieldset class="blockLabels">
         <ol>
             {% for field in form.visible_fields %}
-            <li class="form-group ctrlHolder">
-                <h3>
-                    {{ field.label_tag }}
-                </h3>
-                {% if field.errors %}
-                <div class="required warning clear">
-                    <span class="error-message">
-                        {{ field.errors|join:", "}}
-                    </span>
-                {% else %}
-                <div class="clear{% if field.field.required %} required{% endif %}">
+                {% if field.name == "finance_officer_name" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Business/Finance Officer</legend>
+                    <h4>The Individual responsible for submitting all required financial forms to WSGC</h4>
+                    <ol>
                 {% endif %}
-                {{field}}
-                <!-- <i class="fa fa-info-circle green" id="{{field.name}}_qtip"></i> -->
-                {% if field.help_text %}
-                    <div class="help" id="{{field.name}}_qtip_help">
-                        {{field.help_text}}
+                <li class="form-group ctrlHolder">
+                    <h3>
+                        {{ field.label_tag }}
+                    </h3>
+                    {% if field.errors %}
+                    <div class="required warning clear">
+                        <span class="error-message">
+                            {{ field.errors|join:", "}}
+                        </span>
+                    {% else %}
+                    <div class="clear{% if field.field.required %} required{% endif %}">
+                    {% endif %}
+                    {{field}}
+                    {% if field.help_text %}
+                        <div class="help" id="{{field.name}}_qtip_help">
+                            {{field.help_text}}
+                        </div>
+                    {% endif %}
                     </div>
-                {% endif %}
-                </div>
-            </li>
+                </li>
             {% endfor %}
         </ol>
     </fieldset>
