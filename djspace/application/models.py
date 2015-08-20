@@ -133,6 +133,18 @@ class ResearchInfrastructure(EducationInitiatives):
 
 class AerospaceOutreach(EducationInitiatives):
 
+    finance_officer_name = models.CharField(
+        "Name",
+        max_length=128
+    )
+    finance_officer_address = models.TextField("Address")
+    finance_officer_email = models.EmailField("Email")
+    finance_officer_phone = models.CharField(
+        verbose_name='Phone number',
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX"
+    )
+
     def __unicode__(self):
         return "Aerospace Outreach"
 
@@ -151,6 +163,18 @@ class AerospaceOutreach(EducationInitiatives):
 
 
 class SpecialInitiatives(EducationInitiatives):
+
+    finance_officer_name = models.CharField(
+        "Name",
+        max_length=128
+    )
+    finance_officer_address = models.TextField("Address")
+    finance_officer_email = models.EmailField("Email")
+    finance_officer_phone = models.CharField(
+        verbose_name='Phone number', 
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX"
+    )
 
     def __unicode__(self):
         return "Special Initiatives"
