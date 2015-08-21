@@ -162,6 +162,18 @@ class Graduate(BaseStudent):
 class Faculty(Base):
 
     # core
+    wsgc_affiliate = models.ForeignKey(
+        GenericChoice,
+        limit_choices_to={"id__in":limit_affiliation},
+        verbose_name="WSGC Affiliate",
+        related_name="faculty_wsgc_affiliate",
+        on_delete=models.SET_NULL,
+        null=True,
+        help_text = """
+            You must be associated with a WSGC commercial, government, or
+            nonprofit affiliate in order to proceed
+        """
+    )
     department_program = models.CharField(
         "Department / Program",
         max_length=128

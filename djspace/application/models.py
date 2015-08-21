@@ -168,6 +168,7 @@ class AerospaceOutreach(EducationInitiatives):
         "If yes, please explain",
         max_length=255,
         null=True, blank=True
+    )
     finance_officer_name = models.CharField(
         "Name",
         max_length=128
@@ -212,6 +213,7 @@ class SpecialInitiatives(EducationInitiatives):
         "If yes, please explain",
         max_length=255,
         null=True, blank=True
+    )
     finance_officer_name = models.CharField(
         "Name",
         max_length=128

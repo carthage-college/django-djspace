@@ -58,7 +58,7 @@ def registration_type(request):
         c = RequestContext(
             request, {"reg_form":reg_form,'reg_type':reg_type}
         )
-        data = {'form':t.render(c),'reg':reggie}
+        data = {'form':t.render(c),'reg':reggie,'reg_type':reg_type}
         response = HttpResponse(
             json.dumps(data),
             content_type="application/json; charset=utf-8"

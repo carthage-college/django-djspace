@@ -39,7 +39,7 @@ WSGC_SCHOOL = (
     ('UW Platteville','UW Platteville'),
     ('UW River Falls','UW River Falls'),
     ('UW Sheboygan','UW Sheboygan'),
-    ('UW Stephens Point','UW Stevens Point'),
+    ('UW Stevens Point','UW Stevens Point'),
     ('UW Stout','UW Stout'),
     ('UW Superior','UW Superior'),
     ('UW Washington County','UW Washington County'),

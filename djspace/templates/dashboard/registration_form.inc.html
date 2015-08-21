@@ -5,7 +5,22 @@
         <li><h3>Undergraduate information</h3></li>
         {% endif %}
         {% for field in reg_form %}
-            {% include "form_field.inc.html" %}
+            <li class="form-group ctrlHolder">
+                <h3>{{ field.label_tag }}</h3>
+                {% if field.errors %}
+                <div class="required warning">
+                    <span class="error-message">
+                        {{ field.errors|join:", "}}
+                    </span>
+                {% else %}
+                <div{% if field.field.required %} class="required"{% endif %}>
+                {% endif %}
+                {{field}}
+                {% if field.help_text and reg_type != "Graduate" %}
+                    <p class="help">{{field.help_text}}</p>
+                {% endif %}
+                </div>
+            </li>
             {% if field.name == "undergraduate_degree" %}
             <li><h3>Graduate information</h3></li>
             {% endif %}

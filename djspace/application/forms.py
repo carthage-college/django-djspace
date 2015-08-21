@@ -43,7 +43,9 @@ class AerospaceOutreachForm(forms.ModelForm):
             'project_title','project_category','location','time_frame',
             'funds_requested','proposed_match','source_match',
             'other_funding','other_funding_explain',
-            'synopsis', 'proposal'
+            'synopsis', 'proposal',
+            'finance_officer_name','finance_officer_address',
+            'finance_officer_email','finance_officer_phone'
         ]
         exclude = ('user','status','funds_authorized','authorized_match')
 
@@ -80,7 +82,9 @@ class SpecialInitiativesForm(forms.ModelForm):
         fields = [
             'project_title','project_category','location','time_frame',
             'funds_requested','proposed_match','source_match',
-            'other_funding','other_funding_explain', 'synopsis', 'proposal'
+            'other_funding','other_funding_explain', 'synopsis', 'proposal',
+            'finance_officer_name','finance_officer_address',
+            'finance_officer_email','finance_officer_phone'
         ]
         exclude = ('user','status','funds_authorized','authorized_match')
 

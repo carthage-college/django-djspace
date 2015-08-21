@@ -10,7 +10,9 @@ from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 from djtools.fields.validators import month_year_validator
 
 try:
-    AFFILIATES = GenericChoice.objects.filter(tags__name__in=["WSGC Affiliates"]).order_by("name")
+    AFFILIATES = GenericChoice.objects.filter(
+        tags__name__in=["WSGC Affiliates","College or University"]
+    ).order_by("name")
 except:
     AFFILIATES = GenericChoice.objects.none()
 
@@ -151,6 +153,8 @@ class FacultyForm(forms.ModelForm):
     """
     A form to collect faculty information
     """
+
+    wsgc_affiliate = forms.ModelChoiceField(queryset=AFFILIATES)
 
     class Meta:
         model = Faculty
