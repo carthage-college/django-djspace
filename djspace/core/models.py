@@ -9,6 +9,7 @@ from taggit.managers import TaggableManager
 from gm2m import GM2MField
 
 from djspace.core.utils import registration_notify, get_email_auxiliary
+from djspace.core.utils import get_profile_status
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
@@ -279,7 +280,7 @@ class UserProfile(models.Model):
             return None
 
     def save(self, *args, **kwargs):
-        if self.id:
+        if self.id and not get_profile_status(self.user):
             # notify WSGC administrators of registration update
             request = None
             registration_notify(request, "update", self.user)
