@@ -12,7 +12,7 @@ from djtools.fields.validators import *
 def limit_affiliation():
     ids = [
         g.id for g in GenericChoice.objects.filter(
-            tags__name__in=["WSGC Affiliates"]
+            tags__name__in=["WSGC Affiliates","College or University"]
         ).order_by("name")
     ]
     return ids
