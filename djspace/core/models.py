@@ -170,7 +170,7 @@ class UserProfile(models.Model):
     )
     postal_code = models.CharField(
         "Zip code",
-        max_length=9
+        max_length=10
     )
     address1_current = models.CharField(
         "Address",
@@ -195,7 +195,7 @@ class UserProfile(models.Model):
     )
     postal_code_current = models.CharField(
         "Zip code",
-        max_length=9,
+        max_length=10,
         null=True, blank=True
     )
     phone_primary = models.CharField(

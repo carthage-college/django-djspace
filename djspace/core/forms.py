@@ -9,7 +9,7 @@ from djspace.core.models import REG_TYPE, EMPLOYMENT_CHOICES, DISABILITY_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES
 
-from localflavor.us.forms import USPhoneNumberField
+from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 
 from collections import OrderedDict
 from datetime import date
@@ -94,8 +94,9 @@ class SignupForm(forms.Form):
     state = forms.CharField(
         widget=forms.Select(choices=STATE_CHOICES)
     )
-    postal_code = forms.CharField(
-        label="Zip code",
+    postal_code = USZipCodeField(
+        label="Zip Code",
+        help_text="Format: 99999 or 99999-9999",
         max_length=10
     )
     address1_current = forms.CharField(
@@ -118,8 +119,9 @@ class SignupForm(forms.Form):
         widget=forms.Select(choices=STATE_CHOICES),
         required=False
     )
-    postal_code_current = forms.CharField(
-        label="Zip code",
+    postal_code_current = USZipCodeField(
+        label="Zip Code",
+        help_text="Format: 99999 or 99999-9999",
         max_length=10,
         required=False
     )
