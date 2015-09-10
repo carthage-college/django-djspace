@@ -3,7 +3,7 @@
 cd /d2/django_projects/djspace/static/
 
 mkdir -p files/applications/clark-graduate-fellowship/
-mkdir -p files/applications/first-nations-launch-competition/
+mkdir -p files/applications/first-nations-rocket-competition/
 mkdir -p files/applications/graduate-fellowship/
 mkdir -p files/applications/high-altitude-balloon-launch/
 mkdir -p files/applications/high-altitude-balloon-payload/

@@ -10,6 +10,7 @@ from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
 from djtools.fields.validators import MimetypeValidator
 
+from taggit.managers import TaggableManager
 from uuid import uuid4
 
 import os
@@ -18,12 +19,10 @@ GRAVITY_TRAVEL = (
     ('gravity','Reduced Gravity'),
     ('travel','Student Travel')
 )
-
-ROLE = (
-    ('Faculty Advisor','Faculty Advisor'),
-    ('Team leader','Team Leader'),
+FIRST_NATIONS_ROCKET_COMPETITIONS = (
+    ('Tribal','Tribal'),
+    ('AISES','AISES'),
 )
-
 TIME_FRAME = (
     ('Summer','Summer'),
     ('Summer and fall','Summer and fall'),
@@ -32,7 +31,6 @@ TIME_FRAME = (
     ('Summer, fall, and spring','Summer, fall, and spring'),
     ('Fall and spring','Fall and spring')
 )
-
 PROJECT_CATEGORIES = (
     (
         'Pre-College Program (Formal Education Outreach - K-12)',
@@ -43,7 +41,6 @@ PROJECT_CATEGORIES = (
         'Informal Education Program (Museums, Planetariums, etc.)'
     )
 )
-
 ACADEMIC_INSTITUTIONS = (
     (
         'Two-year Academic Institution Opportunity (Fall)',
@@ -54,6 +51,12 @@ ACADEMIC_INSTITUTIONS = (
         'All Academic Institution Opportunity (Spring)'
     )
 )
+ROCKET_COMPETITIONS = [
+        "Collegiate Rocket Competition",
+        "First Nations Rocket Competition",
+        "Midwest High-Powered Rocket Competition"
+]
+
 
 def upload_to_path(self, filename):
     """
@@ -75,7 +78,7 @@ class EducationInitiatives(BaseModel):
     project_title = models.CharField(
         "Title of project", max_length=255
     )
-    funds_requested = models.IntegerField(help_text="In Dollars")
+    funds_requested = models.IntegerField(help_text="In dollars")
     funds_authorized = models.IntegerField(
         null=True,blank=True,
         help_text="In Dollars"
@@ -108,7 +111,7 @@ class EducationInitiatives(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
 
     class Meta:
@@ -243,35 +246,153 @@ class SpecialInitiatives(EducationInitiatives):
         verbose_name_plural = "Special Initiatives"
 
 
-class FirstNationsLaunchCompetition(BaseModel):
+class RocketLaunchTeam(BaseModel):
 
     # core
-    team_name = models.CharField(
+    name = models.CharField(
+        "Team name",
         max_length=255
     )
-    role = models.CharField(
-        "Your Role",
-        max_length=128,
-        choices=ROLE
+    academic_institution = models.CharField(
+        "Application submitted for", max_length=128,
+        choices=ACADEMIC_INSTITUTIONS
     )
-    proposal = models.FileField(
-        "Proposal",
+    leader = models.ForeignKey(
+        User,
+        related_name="rocket_launch_team_leader",
+        null=True, blank=True
+    )
+    members = models.ManyToManyField(
+        User, related_name="rocket_launch_team_members",
+        null=True, blank=True
+    )
+    industry_mentor_name = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+    industry_mentor_email = models.EmailField(
+        max_length=75,
+        null=True, blank=True
+    )
+    intent_compete = models.TextField(
+        "Notification of Intent to Compete"
+    )
+    wsgc_acknowledgement = models.FileField(
+        "WSGC institutional representative acknowledgement",
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="""
-            PDF format.
-        """
+        help_text="PDF format"
+    )
+    budget = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="Rocket supplies and travel [PDF format]"
+    )
+    # meta
+    tags = TaggableManager()
+
+    class Meta:
+        ordering = ['name']
+
+    def __unicode__(self):
+        return self.name
+
+    def get_application_type(self):
+        return "Rocket Launch Team"
+
+    def get_slug(self):
+        return "rocket-launch-team"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+
+class MidwestHighPoweredRocketCompetition(BaseModel):
+
+    # core
+    team = models.ForeignKey(RocketLaunchTeam)
+    cv = models.FileField(
+        "Résumé",
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="PDF format"
+    )
+    prior_experience = models.TextField(
+        "Prior Rocket Experience"
     )
 
     def __unicode__(self):
-        return "First Nations Launch Competition"
+        return "Midwest High-Powered Rocket Competition"
 
     def get_application_type(self):
-        return "First Nations Launch Competition"
+        return "Midwest High-Powered Rocket Competition"
 
     def get_slug(self):
-        return "first-nations-launch-competition"
+        return "midwest-high-powered-rocket-competition"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+
+class CollegiateRocketCompetition(BaseModel):
+
+    # core
+    team = models.ForeignKey(RocketLaunchTeam)
+    cv = models.FileField(
+        "Résumé",
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="PDF format"
+    )
+
+    def __unicode__(self):
+        return "Collegiate Rocket Competition"
+
+    def get_application_type(self):
+        return "Collegiate Rocket Competition"
+
+    def get_slug(self):
+        return "collegiate-rocket-competition"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+
+class FirstNationsRocketCompetition(BaseModel):
+
+    # core
+    team = models.ForeignKey(RocketLaunchTeam)
+    competition = models.CharField(
+        "Rocket Competition",
+        max_length=128,
+        choices=FIRST_NATIONS_ROCKET_COMPETITIONS
+    )
+    cv = models.FileField(
+        "Résumé",
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="PDF format"
+    )
+
+    def __unicode__(self):
+        return "First Nations Rocket Competition"
+
+    def get_application_type(self):
+        return "First Nations Rocket Competition"
+
+    def get_slug(self):
+        return "first-nations-Rocket-competition"
+
+    def team_name(self):
+        return self.team.name
 
     @models.permalink
     def get_absolute_url(self):
@@ -292,7 +413,7 @@ class HighAltitudeBalloon(BaseModel):
         help_text="""
             Letter must include two faculty members' names, emails,
             and phone numbers, who can be contacted as references.
-            PDF format.
+            [PDF format]
         """
     )
     cv = models.FileField(
@@ -300,7 +421,7 @@ class HighAltitudeBalloon(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
 
     @models.permalink
@@ -387,32 +508,32 @@ class Fellowship(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     cv = models.FileField(
         "Résumé",
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     budget = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     undergraduate_transcripts = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     graduate_transcripts = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     recommendation_1 = models.FileField(
         "Recommendation letter 1",
@@ -424,7 +545,7 @@ class Fellowship(BaseModel):
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
+            [PDF format]
         ''')
     )
     recommendation_2 = models.FileField(
@@ -437,7 +558,7 @@ class Fellowship(BaseModel):
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
+            [PDF format]
         ''')
     )
 
@@ -505,27 +626,27 @@ class UndergraduateResearch(BaseModel):
             (no more than 200 characters) outlining its purpose
             in terms understandable by the general reader.
             If your project is selected for funding, this
-            wording will be used on our website. PDF format.
+            wording will be used on our website. [PDF format]
         '''
     )
     proposal = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     high_school_transcripts = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
-        help_text="First and second year students only. PDF format."
+        help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
@@ -537,7 +658,7 @@ class UndergraduateResearch(BaseModel):
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
+            [PDF format]
         ''')
     )
     recommendation = models.FileField(
@@ -553,7 +674,7 @@ class UndergraduateResearch(BaseModel):
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
+            [PDF format]
         ''')
     )
 
@@ -603,7 +724,7 @@ class UndergraduateScholarship(BaseModel):
             space sciences</li>
             <li>a description of the program of space-related
             studies you plan to pursue during the period of this
-             award.</li></ol> PDF format.
+             award.</li></ol> [PDF format]
         ''')
     )
     high_school_transcripts = models.FileField(
@@ -611,13 +732,13 @@ class UndergraduateScholarship(BaseModel):
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
-        help_text="First and second year students only. PDF format."
+        help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format."
+        help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
@@ -629,7 +750,7 @@ class UndergraduateScholarship(BaseModel):
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
+            [PDF format]
         ''')
     )
     recommendation = models.FileField(
@@ -645,7 +766,7 @@ class UndergraduateScholarship(BaseModel):
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-            PDF format.
+            [PDF format]
         ''')
     )
 

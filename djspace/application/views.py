@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
+from django.db.models import Count
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
@@ -7,42 +8,76 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 
 from djspace.application.forms import *
+from djspace.application.models import RocketLaunchTeam, ROCKET_COMPETITIONS
 from djspace.registration.models import *
 from djspace.core.utils import get_profile_status
 
 from djtools.utils.mail import send_mail
 
+import logging
+logger = logging.getLogger(__name__)
+#logger.debug("limit = {}".format(data.limit))
+
+
 @login_required
-def form(request, application_type, aid=None):
+def application_form(request, application_type, aid=None):
+
+    # our user
+    user = request.user
 
     # verify that the user has completed registration
-    reg_type = request.user.profile.registration_type
+    reg_type = user.profile.registration_type
     try:
-        reg = eval(reg_type).objects.get(user=request.user)
+        reg = eval(reg_type).objects.get(user=user)
     except:
         # redirect to dashboard
         return HttpResponseRedirect(reverse('dashboard_home'))
 
     # verify that the user has an up to date registration
-    if not get_profile_status(request.user):
+    if not get_profile_status(user):
         # redirect to dashboard
         return HttpResponseRedirect(reverse('dashboard_home'))
 
-    if settings.DEBUG:
-        TO_LIST = [settings.ADMINS[0][1],]
-    else:
-        TO_LIST = [settings.WSGC_APPLICATIONS,]
-    BCC = settings.MANAGERS
-    user = request.user
+    # munge the application type
     slug_list = application_type.split("-")
     app_name = slug_list.pop(0).capitalize()
     for n in slug_list:
         app_name += " %s" % n.capitalize()
     app_type = "".join(app_name.split(" "))
 
+    # check rocket competition teams and member limits.
+    # currently, only midwest high-powered has a limit
+    # so we can exclude on the original statement
+    if "rocket-competition" in application_type:
+        teams = RocketLaunchTeam.objects.filter(
+            tags__name__in=[app_name]
+        )
+
+        if application_type == "midwest-high-powered-rocket-competition":
+            teams.annotate(
+                count=Count('members')
+            ).exclude(
+                count__gte=settings.MIDWEST_HIGHPOWERED_COMPETITION_TEAM_LIMIT
+            ).order_by("name")
+
+        if not teams:
+            return render_to_response(
+                "application/form.html",
+                {"form": None,"app_name":app_name},
+                context_instance=RequestContext(request)
+            )
+
+    # email distribution
+    if settings.DEBUG:
+        TO_LIST = [settings.ADMINS[0][1],]
+    else:
+        TO_LIST = [settings.WSGC_APPLICATIONS,]
+    BCC = settings.MANAGERS
+
+    # fetch object if update
     app = None
     if aid:
-        if request.user.is_superuser:
+        if user.is_superuser:
             app = eval(app_type).objects.get(pk=aid)
         else:
             # prevent users from managing apps that are not theirs
@@ -50,16 +85,23 @@ def form(request, application_type, aid=None):
                 app = eval(app_type).objects.get(pk=aid, user=user)
             except:
                 app = None
+
+    # fetch form
     try:
-        form = eval(app_type+"Form")(instance=app)
+        initial = {}
+        if app and application_type == "rocket-launch-team":
+            initial = {"tags": [t.id for t in app.tags.all()]}
+        form = eval(app_type+"Form")(instance=app, initial=initial)
     except:
         # app_type does not match an existing form
         raise Http404
 
+    # GET or POST
     if request.method == 'POST':
         try:
             form = eval(app_type+"Form")(
-                instance=app, data=request.POST, files=request.FILES
+                instance=app, data=request.POST, files=request.FILES,
+                request=request
             )
         except:
             # app_type does not match an existing form
@@ -70,6 +112,20 @@ def form(request, application_type, aid=None):
             data.user = user
             data.updated_by = user
             data.save()
+            if application_type == "rocket-launch-team":
+                # first remove all tags
+                for t in data.tags.all():
+                    data.tags.remove(t)
+                # then add tags
+                for item in form.cleaned_data['tags']:
+                    data.tags.add(item)
+                # limit number of team members if need be
+                if "Midwest High-Powered Rocket Competition" \
+                in [t.name for t in form.cleaned_data['tags']]:
+                    data.limit = 6
+                else:
+                    data.limit = 0
+                data.save()
             # if not update add generic many-to-many relationship (gm2m)
             if not aid:
                 date = data.date_created
@@ -104,7 +160,10 @@ def form(request, application_type, aid=None):
                 )
 
             return HttpResponseRedirect(reverse('application_success'))
-
+    else:
+        # set session values to null for GET requests
+        request.session["leader_id"] = ""
+        request.session["leader_name"] = ""
     return render_to_response(
         "application/form.html",
         {"form": form,"app_name":app_name},

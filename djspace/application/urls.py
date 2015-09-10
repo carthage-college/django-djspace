@@ -20,10 +20,10 @@ urlpatterns = patterns('djspace.application.views',
     ),
     url(
         r'^(?P<application_type>[a-zA-Z0-9_-]+)/(?P<aid>\d+)/update/$',
-        'form', name="application_update"
+        'application_form', name="application_update"
     ),
     url(
         r'^(?P<application_type>[a-zA-Z0-9_-]+)/$',
-        'form', name="application_create"
+        'application_form', name="application_create"
     ),
 )
