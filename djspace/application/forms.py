@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.conf import settings
+from django.db.models import Count
+from django.contrib.auth.models import User
 from django.forms.extras.widgets import SelectDateWidget
 
 from djspace.application.models import *
 from djtools.fields.widgets import MonthYearWidget
 from djtools.fields import BINARY_CHOICES
+
+from taggit.models import Tag
 
 class HigherEducationInitiativesForm(forms.ModelForm):
 
@@ -96,6 +101,7 @@ class UndergraduateScholarshipForm(forms.ModelForm):
         widget = forms.RadioSelect(),
         choices=ACADEMIC_INSTITUTIONS
     )
+
     class Meta:
         model = UndergraduateScholarship
         exclude = ('user','status')
@@ -121,11 +127,13 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
         model = ClarkGraduateFellowship
         exclude = ('user','status','funds_authorized')
 
+
 class HighAltitudeBalloonPayloadForm(forms.ModelForm):
 
     class Meta:
         model = HighAltitudeBalloonPayload
         exclude = ('user','status')
+
 
 class HighAltitudeBalloonLaunchForm(forms.ModelForm):
 
@@ -133,9 +141,93 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
         model = HighAltitudeBalloonLaunch
         exclude = ('user','status')
 
-class FirstNationsLaunchCompetitionForm(forms.ModelForm):
+
+class RocketLaunchTeamForm(forms.ModelForm):
+    """
+    Form that handles the create/update for Rocket Launch Teams
+    """
+
+    academic_institution = forms.TypedChoiceField(
+        widget = forms.RadioSelect(),
+        choices=ACADEMIC_INSTITUTIONS
+    )
+    leader = forms.CharField(
+        help_text = '''
+            Start typing the last name to see results. If you do not find the
+            team leader or if the team leader has not yet registered with WSGC,
+            you can leave this field blank for now.
+        ''',
+        required = False
+    )
+    '''
+    tags = forms.MultipleChoiceField(
+        label="In which WSGC rocket competitions will your team compete?",
+        choices=ROCKET_COMPETITIONS, widget=forms.CheckboxSelectMultiple()
+    )
+    '''
+    tags = forms.ModelMultipleChoiceField(
+        label="In which WSGC rocket competitions will your team compete?",
+        queryset=Tag.objects.filter(name__in=ROCKET_COMPETITIONS),
+        widget=forms.CheckboxSelectMultiple()
+    )
 
     class Meta:
-        model = FirstNationsLaunchCompetition
+        model = RocketLaunchTeam
+        exclude = ('user','members','status',)
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(RocketLaunchTeamForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        """
+        Assign a User object to leader
+        """
+        cd = self.cleaned_data
+        lid = cd.get("leader")
+        if lid:
+            try:
+                user = User.objects.get(pk=lid)
+                cd["leader"] = user
+                self.request.session["leader_id"] = user.id
+                self.request.session["leader_name"] = u"{}, {}".format(
+                    user.last_name, user.first_name
+                )
+            except:
+                cd["leader"] = None
+        else:
+            cd["leader"] = None
+
+        return cd
+
+
+class FirstNationsRocketCompetitionForm(forms.ModelForm):
+
+    class Meta:
+        model = FirstNationsRocketCompetition
+        exclude = ('user','status')
+
+
+class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
+
+    class Meta:
+        model = MidwestHighPoweredRocketCompetition
+        exclude = ('user','status')
+
+    def __init__(self, *args, **kwargs):
+        super(MidwestHighPoweredRocketCompetitionForm, self).__init__(
+            *args,**kwargs
+        )
+        self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
+            count=Count('members')
+        ).exclude(
+            count__gte=settings.MIDWEST_HIGHPOWERED_COMPETITION_TEAM_LIMIT
+        ).order_by("name")
+
+
+class CollegiateRocketCompetitionForm(forms.ModelForm):
+
+    class Meta:
+        model = CollegiateRocketCompetition
         exclude = ('user','status')
 

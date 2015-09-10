@@ -1,0 +1,34 @@
+{% extends "application/email/base.html" %}
+{% block title %}Rocket Launch Team{% endblock %}
+{% block data %}
+<h4>Team Name</h4>
+<p>{{data.name}}</p>
+<h4>Academic Institution</h4>
+<p>{{data.academic_institution}}</p>
+<h4>Leader</h4>
+<p>{{data.leader.last_name}}, {{data.leader.first_name}}</p>
+{% if data.industry_mentor_name %}
+<h4>Industry mentor</h4>
+<p>
+    {% if data.industry_mentor_email %}
+    <a href="mailto:{{data.industry_mentor_email}}">
+        {{data.industry_mentor_name}}
+    </a>
+    {% else %}
+    {{data.industry_mentor_name}}
+    {% endif %}
+</p>
+{% endif %}
+<hr>
+<h4>Files</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_acknowledgement}}">
+        WSGC Acknowledgement
+    </a>
+</p>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
+        Budget
+    </a>
+</p>
+{% endblock %}

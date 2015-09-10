@@ -1,15 +1,22 @@
 <h2>{% block title %}{% endblock %}</h2>
-<pre style="font-size:1.4em;">
 {% block profile %}
-Name........................ {{data.user.profile.salutation}} {{data.user.first_name}} {{data.user.profile.second_name}} {{data.user.last_name}}
+<h4>Registrant</h4>
+<p>
+    <a href="mailto:{{data.user.email}}">
+        {{data.user.profile.salutation}}
+        {{data.user.first_name}}
+        {{data.user.profile.second_name}}
+        {{data.user.last_name}}
+    </a>
+</p>
+<pre style="font-size:1.4em;">
 Registration type........... {{data.user.profile.registration_type}}
 Date created................ {{data.date_created}}
 Date updated................ {{data.date_updated}}
-Email....................... {{data.user.email}}
 Phone....................... {{data.user.profile.phone_primary}}
 Phone mobile................ {{data.user.profile.phone_mobile}}
-{% endblock %}
 </pre>
+{% endblock %}
 {% block data %}
 <h4>Are you anticipating other funding this year?</h4>
 <p>{{data.anticipating_funding}}</p>

@@ -1,3 +1,5 @@
+from django.db.models import Q
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from django.utils.safestring import mark_safe
@@ -36,8 +38,42 @@ def home(request):
         context_instance=RequestContext(request)
     )
 
+
+@csrf_exempt
+def get_users(request):
+    """
+    AJAX GET for retrieving users via auto-complete
+    """
+
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+
+        users = User.objects.filter(
+            Q( first_name__icontains = q ) |
+            Q( last_name__icontains = q ) |
+            Q( username__icontains = q ) ).order_by( 'last_name' )
+
+        #users = User.objects.filter(last_name__icontains = q )[:20]
+        results = []
+        for u in users:
+            user_json = {}
+            name = u"{}, {}".format(u.last_name, u.first_name)
+            user_json['id'] = u.id
+            user_json['label'] = name
+            user_json['value'] = name
+            results.append(user_json)
+
+    return HttpResponse(
+        json.dumps(results),
+        content_type="application/json; charset=utf-8"
+    )
+
+
 @csrf_exempt
 def registration_type(request):
+    """
+    AJAX post for retrieving registration forms based on type
+    """
     if request.method == 'POST':
         reg_type = request.POST.get("registration_type")
         try:

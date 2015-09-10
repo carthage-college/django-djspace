@@ -43,7 +43,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     exclude = [
         "user", "user_id", "updated_by_id", "id",
         "aerospaceoutreach", "clarkgraduatefellowship",
-        "firstnationslaunchcompetition", "graduatefellowship",
+        "firstnationsrocketcompetition", "graduatefellowship",
         "highaltitudeballoonpayload","highaltitudeballoonlaunch",
         "researchinfrastructure", "specialinitiatives",
         "undergraduateresearch", "undergraduatescholarship"
@@ -349,28 +349,55 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         qs = get_queryset(self, request, UndergraduateScholarshipAdmin)
         return qs
 
+class RocketLaunchTeamAdmin(GenericAdmin):
 
-class FirstNationsLaunchCompetitionAdmin(GenericAdmin):
-
-    model = FirstNationsLaunchCompetition
+    model = RocketLaunchTeam
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'team_name','role','date_created','date_updated','proposal_link',
-        'date_created','date_updated','status'
+        'name','academic_institution','leader',
+        'industry_mentor_name','industry_mentor_email',
+        'date_created','date_updated',
+        'wsgc_acknowledgement_link','budget_link','tags','status'
+    ]
+    list_display_links = ['name']
+    list_editable = ['status','tags']
+    raw_id_fields = ("leader","members",)
+
+    def wsgc_acknowledgement_link(self, instance):
+        return '<a href="{}" target="_blank">WSGC Acknowledgement</a>'.format(
+            instance.wsgc_acknowledgement.url
+        )
+    wsgc_acknowledgement_link.allow_tags = True
+    wsgc_acknowledgement_link.short_description = "WSGC Acknowledgement"
+
+    def budget_link(self, instance):
+        return '<a href="{}" target="_blank">Budget</a>'.format(
+            instance.budget.url
+        )
+    budget_link.allow_tags = True
+    budget_link.short_description = "Budget"
+
+
+class FirstNationsRocketCompetitionAdmin(GenericAdmin):
+
+    model = FirstNationsRocketCompetition
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'team_name','date_created','date_updated','cv_link','status'
     ]
     list_display_links = ['team_name']
     list_editable = ['status']
     actions = [export_all_applications]
 
-    def proposal_link(self, instance):
-        return '<a href="{}" target="_blank">Proposal</a>'.format(
-            instance.proposal.url
+    def cv_link(self, instance):
+        return '<a href="{}" target="_blank">CV</a>'.format(
+            instance.cv.url
         )
-    proposal_link.allow_tags = True
-    proposal_link.short_description = 'Proposal'
+    cv_link.allow_tags = True
+    cv_link.short_description = "CV"
 
     def queryset(self, request):
-        qs = get_queryset(self, request, FirstNationsLaunchCompetitionAdmin)
+        qs = get_queryset(self, request, FirstNationsRocketCompetitionAdmin)
         return qs
 
 
@@ -448,7 +475,10 @@ admin.site.register(
     SpecialInitiatives, SpecialInitiativesAdmin
 )
 admin.site.register(
-    FirstNationsLaunchCompetition, FirstNationsLaunchCompetitionAdmin
+    RocketLaunchTeam, RocketLaunchTeamAdmin
+)
+admin.site.register(
+    FirstNationsRocketCompetition, FirstNationsRocketCompetitionAdmin
 )
 admin.site.register(
     HighAltitudeBalloonLaunch, HighAltitudeBalloonLaunchAdmin

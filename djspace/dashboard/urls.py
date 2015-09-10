@@ -3,6 +3,10 @@ from django.conf.urls import patterns, url
 
 urlpatterns = patterns('djspace.dashboard.views',
     url(
+        r'^get-users/$',
+        'get_users', name="get_users"
+    ),
+    url(
         r'^registration-type/$',
         'registration_type', name="registration_type"
     ),

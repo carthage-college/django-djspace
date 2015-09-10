@@ -1,7 +1,10 @@
 {% extends "dashboard/home.html" %}
 {% block title %}WSGC {{app_name}} Application &mdash; Carthage College{% endblock %}
 {% block extra_javascript %}
-<script src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
+<script type="text/javascript"
+    src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
+<script type="text/javascript"
+    src="//www.carthage.edu/static/vendor/jquery/ui/current/jquery-ui.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function() {
     $("textarea").htmlarea({
@@ -15,12 +18,34 @@ $(function() {
     $("input[id$='clear_id']").css({ float: "right" });
     $("label[for$='clear_id']").css({ float: "right", marginRight:"7px" });
     $('label[for="id_other_funding_0"]').closest('ul').addClass('linline');
+    // leader field (FK to user)
+    {% if request.session.leader_id %}
+    document.valueSelectedForAutocomplete = {{request.session.leader_id}}
+    $('#id_leader').val("{{request.session.leader_name}}");
+    {% endif %}
+    $('#id_leader').autocomplete({
+        source: '{% url "get_users" %}',
+        minLength: 3,
+        select: function (event, ui) {
+            var lid = ui.item.id;
+            //store in session
+            document.valueSelectedForAutocomplete = lid
+        }
+    });
+    $('form#profile').submit(function(){
+        // set leader field to selected User's ID
+        $('#id_leader').val(document.valueSelectedForAutocomplete);
+        // disable submit button after users clicks it
+        $(this).children('input[type=submit]').attr('disabled', 'disabled');
+    });
 });
 </script>
 {% endblock %}
 {% block extra_style %}
 {{block.super}}
 <link href="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea.css"
+    rel="stylesheet" type="text/css" />
+<link href="//www.carthage.edu/static/vendor/jquery/ui/current/jquery-ui.min.css"
     rel="stylesheet" type="text/css" />
 <style type="text/css" media="screen, projection">
     .form h3, .h3back {background-color: #efefef; padding: 0 5px; }
@@ -42,6 +67,7 @@ $(function() {
 {% endblock %}
 {% block content_head %}
     <h1 id="page_title">
+        <span class="large-10 small-12">
         {% if app_name == "Clark Graduate Fellowship" %}
             Dr. Laurel Salton Clark Memorial<br>Research Fellowship
         {% else %}{% if app_name == "Graduate Fellowship" %}
@@ -49,7 +75,7 @@ $(function() {
         {% else %}
             {{app_name}}
         {% endif %}{% endif %}
-        Application
+        </span>
         <small class="fright" style="margin-right:20px;">
             <a href="{% url 'dashboard_home' %}">
                 <i class="fa fa-globe fa-2x"></i>
@@ -60,8 +86,10 @@ $(function() {
 {% endblock %}
 {% block content %}
 {% include "application/intro_instructions.inc.html" %}
-<div class="forms-container">
-    <form class="form" enctype="multipart/form-data" action="." method="post">
+<div class="forms-container clear">
+    {% if form %}
+    <form class="form" enctype="multipart/form-data" action="."
+        id="profile" method="post">
     {% csrf_token %}
     <fieldset class="blockLabels">
         <ol>
@@ -98,5 +126,13 @@ $(function() {
     </fieldset>
     {% include "form_submit.inc.html" %}
     </form>
+    {% else %}
+        <h2>No teams</h2>
+        <p class="intro">
+        There are no teams yet for this competition. Please ask
+        your faculty advisor to create a team so that you can
+        join it and submit your application.
+        </p>
+    {% endif %}
 </div>
 {% endblock %}
