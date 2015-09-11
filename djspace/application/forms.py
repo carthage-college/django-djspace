@@ -147,10 +147,6 @@ class RocketLaunchTeamForm(forms.ModelForm):
     Form that handles the create/update for Rocket Launch Teams
     """
 
-    academic_institution = forms.TypedChoiceField(
-        widget = forms.RadioSelect(),
-        choices=ACADEMIC_INSTITUTIONS
-    )
     leader = forms.CharField(
         help_text = '''
             Start typing the last name to see results. If you do not find the
@@ -159,21 +155,16 @@ class RocketLaunchTeamForm(forms.ModelForm):
         ''',
         required = False
     )
-    '''
-    tags = forms.MultipleChoiceField(
-        label="In which WSGC rocket competitions will your team compete?",
-        choices=ROCKET_COMPETITIONS, widget=forms.CheckboxSelectMultiple()
-    )
-    '''
     tags = forms.ModelMultipleChoiceField(
         label="In which WSGC rocket competitions will your team compete?",
-        queryset=Tag.objects.filter(name__in=ROCKET_COMPETITIONS),
+        queryset=Tag.objects.filter(name__in=ROCKET_COMPETITIONS).order_by("name"),
         widget=forms.CheckboxSelectMultiple()
     )
 
     class Meta:
         model = RocketLaunchTeam
         exclude = ('user','members','status',)
+        #fields = ['name','academic_institution_name'
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)

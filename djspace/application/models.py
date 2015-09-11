@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 
 from djspace.core.models import BaseModel
+from djspace.registration.choices import WSGC_SCHOOL
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
@@ -12,6 +13,8 @@ from djtools.fields.validators import MimetypeValidator
 
 from taggit.managers import TaggableManager
 from uuid import uuid4
+
+WSGC_SCHOOL_OTHER = WSGC_SCHOOL + (('Other','Other'),)
 
 import os
 
@@ -52,9 +55,9 @@ ACADEMIC_INSTITUTIONS = (
     )
 )
 ROCKET_COMPETITIONS = [
-        "Collegiate Rocket Competition",
-        "First Nations Rocket Competition",
-        "Midwest High-Powered Rocket Competition"
+    "Collegiate Rocket Competition",
+    "First Nations Rocket Competition",
+    "Midwest High Powered Rocket Competition"
 ]
 
 
@@ -253,9 +256,19 @@ class RocketLaunchTeam(BaseModel):
         "Team name",
         max_length=255
     )
-    academic_institution = models.CharField(
-        "Application submitted for", max_length=128,
-        choices=ACADEMIC_INSTITUTIONS
+    academic_institution_name = models.CharField(
+        "Academic institution",
+        choices=WSGC_SCHOOL_OTHER,
+        max_length=128,
+    )
+    academic_institution_other = models.CharField(
+        "Other",
+        max_length=128,
+        help_text="""
+            If your academic institution does not appear in the list above,
+            please provide it here.
+        """,
+        null=True, blank=True
     )
     leader = models.ForeignKey(
         User,
@@ -282,13 +295,47 @@ class RocketLaunchTeam(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="PDF format"
+        help_text="""
+            [PDF format]<br>
+            NOTE: Only required for the Collegiate Rocket Competition<br>
+            and the Midwest High-Powered Rocket Competition.
+        """,
+        null=True, blank=True
     )
     budget = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        help_text="Rocket supplies and travel [PDF format]"
+        help_text="""
+            Rocket supplies and travel. [PDF format]<br>
+            NOTE: Only required for the
+            Midwest High-Powered Rocket Competition.
+        """,
+        null=True, blank=True
+    )
+    member_1 = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+    member_2 = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+    member_3 = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+    member_4 = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+    member_5 = models.CharField(
+        max_length=128,
+        null=True, blank=True
+    )
+    member_6 = models.CharField(
+        max_length=128,
+        null=True, blank=True
     )
     # meta
     tags = TaggableManager()
@@ -389,7 +436,7 @@ class FirstNationsRocketCompetition(BaseModel):
         return "First Nations Rocket Competition"
 
     def get_slug(self):
-        return "first-nations-Rocket-competition"
+        return "first-nations-rocket-competition"
 
     def team_name(self):
         return self.team.name

@@ -53,11 +53,11 @@ def application_form(request, application_type, aid=None):
             tags__name__in=[app_name]
         )
 
-        if application_type == "midwest-high-powered-rocket-competition":
+        if application_type != "first-nations-rocket-competition":
             teams.annotate(
                 count=Count('members')
             ).exclude(
-                count__gte=settings.MIDWEST_HIGHPOWERED_COMPETITION_TEAM_LIMIT
+                count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
             ).order_by("name")
 
         if not teams:
@@ -126,6 +126,10 @@ def application_form(request, application_type, aid=None):
                 else:
                     data.limit = 0
                 data.save()
+            # add user to RocketLaunchTeam member m2m
+            if "rocket-competition" in application_type:
+                data.team.members.add(data.user)
+
             # if not update add generic many-to-many relationship (gm2m)
             if not aid:
                 date = data.date_created
