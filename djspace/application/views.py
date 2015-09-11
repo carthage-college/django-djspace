@@ -99,10 +99,16 @@ def application_form(request, application_type, aid=None):
     # GET or POST
     if request.method == 'POST':
         try:
-            form = eval(app_type+"Form")(
-                instance=app, data=request.POST, files=request.FILES,
-                request=request
-            )
+            # only rocket launch team form needs request context
+            if application_type == "rocket-launch-team":
+                form = eval(app_type+"Form")(
+                    instance=app, data=request.POST, files=request.FILES,
+                    request=request
+                )
+            else:
+                form = eval(app_type+"Form")(
+                    instance=app, data=request.POST, files=request.FILES
+                )
         except:
             # app_type does not match an existing form
             raise Http404
