@@ -211,8 +211,8 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).exclude(
-            count__gte=settings.MIDWEST_HIGHPOWERED_COMPETITION_TEAM_LIMIT
+        ).filter(tags__name__in=["Midwest High Powered Rocket Competition"]).exclude(
+            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
 
 
@@ -221,4 +221,15 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
     class Meta:
         model = CollegiateRocketCompetition
         exclude = ('user','status')
+
+    def __init__(self, *args, **kwargs):
+        super(CollegiateRocketCompetitionForm, self).__init__(
+            *args,**kwargs
+        )
+        self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
+            count=Count('members')
+        ).filter(tags__name__in=["Collegiate Rocket Competition"]).exclude(
+            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+        ).order_by("name")
+
 
