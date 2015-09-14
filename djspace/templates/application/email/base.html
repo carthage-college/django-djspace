@@ -37,16 +37,15 @@ Zip......................... {{data.user.profile.postal_code}}
 {% if data.user.profile.address1_current %}
 <h4>Current Address</h4>
 <pre style="font-size:1.4em;">
-Address current............. {{data.user.profile.address1_current}} {{data.user.profile.address2_current}}
-City current................ {{data.user.profile.city_current}}
-State current............... {{data.user.profile.state_current}}
+Address .................... {{data.user.profile.address1_current}} {{data.user.profile.address2_current}}
+City ....................... {{data.user.profile.city_current}}
+State ...................... {{data.user.profile.state_current}}
 Zip......................... {{data.user.profile.postal_code_current}}
 </pre>
 {% endif %}
 <h3>{{data.user.profile.registration_type}} Information</h3>
-<pre style="font-size:1.4em;">
-Date created................ {{data.date_created}}
-Date updated................ {{data.date_updated}}
+Date created................ {{data.user.profile.date_created}}
+Date updated................ {{data.user.profile.date_updated}}
 </pre>
 {% if data.user.profile.registration_type == "Professional" %}
 <pre style="font-size:1.4em;">
@@ -68,4 +67,5 @@ Web site.................... {{data.user.profile.get_registration.web_site}}
     {% include "application/email/undergraduate.inc.html" %}
 {% endif %}
 {% endblock %}
+<h3>Application Information</h3>
 {% block data %}{% endblock %}
