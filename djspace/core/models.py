@@ -276,6 +276,9 @@ class UserProfile(models.Model):
     def email_auxiliary(self):
         return get_email_auxiliary(self.user)
 
+    def get_race(self):
+        return [race for race in self.race.all()]
+
     def get_registration(self):
         # these imports need to be here, rather than at the top with the others
         from djspace.registration.models import Undergraduate, Graduate
