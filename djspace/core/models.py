@@ -277,7 +277,10 @@ class UserProfile(models.Model):
         return get_email_auxiliary(self.user)
 
     def get_race(self):
-        return [race for race in self.race.all()]
+        race = ""
+        for r in self.race.all():
+            race += "{},".format(r)
+        return race[:-1]
 
     def get_registration(self):
         # these imports need to be here, rather than at the top with the others
