@@ -1,6 +1,6 @@
 <h2>{% block title %}{% endblock %}</h2>
 {% block profile %}
-<h4>Registrant</h4>
+<h3>Demographics</h3>
 <p>
     <a href="mailto:{{data.user.email}}">
         {{data.user.profile.salutation}}
@@ -10,56 +10,62 @@
     </a>
 </p>
 <pre style="font-size:1.4em;">
-Registration type........... {{data.user.profile.registration_type}}
-Date created................ {{data.date_created}}
-Date updated................ {{data.date_updated}}
+Birthday.................... {{data.user.profile.date_of_birth}}
+Gender...................... {{data.user.profile.gender}}
+Disability.................. {{data.user.profile.disability}}
+Disability specifiy......... {{data.user.profile.disability_specify}}
+Race........................ {{data.user.profile.race}}
+Tribe....................... {{data.user.profile.tribe}}
+Citizen..................... {{data.user.profile.us_citizen}}
+Employment.................. {{data.user.profile.employment}}
+Military.................... {{data.user.profile.military}}
+</pre>
+<h3>Contact Information</h3>
+<pre style="font-size:1.4em;">
+Email....................... {{data.user.email}}
+Email secondary............. {{data.user.profile.email_auxiliary}}
 Phone....................... {{data.user.profile.phone_primary}}
 Phone mobile................ {{data.user.profile.phone_mobile}}
 </pre>
+<h4>Permanent Address</h4>
+<pre style="font-size:1.4em;">
+Address..................... {{data.user.profile.address1}} {{data.user.profile.address2}}
+City........................ {{data.user.profile.city}}
+State....................... {{data.user.profile.state}}
+Zip......................... {{data.user.profile.postal_code}}
+</pre>
+{% if data.user.profile.address1_current %}
+<h4>Current Address</h4>
+<pre style="font-size:1.4em;">
+Address current............. {{data.user.profile.address1_current}} {{data.user.profile.address2_current}}
+City current................ {{data.user.profile.city_current}}
+State current............... {{data.user.profile.state_current}}
+Zip......................... {{data.user.profile.postal_code_current}}
+</pre>
+{% endif %}
+<h3>{{data.user.profile.registration_type}} Information</h3>
+<pre style="font-size:1.4em;">
+Date created................ {{data.date_created}}
+Date updated................ {{data.date_updated}}
+</pre>
+{% if data.user.profile.registration_type == "Professional" %}
+<pre style="font-size:1.4em;">
+WSGC affiliate.............. {{data.user.profile.get_registration.wsgc_affiliate}}
+</pre>
+{% endif %}
+{% if data.user.profile.registration_type == "Faculty" %}
+<pre style="font-size:1.4em;">
+Title....................... {{data.user.profile.get_registration.title}}
+WSGC affiliate.............. {{data.user.profile.get_registration.wsgc_affiliate}}
+Department program.......... {{data.user.profile.get_registration.department_program}}
+Web site.................... {{data.user.profile.get_registration.web_site}}
+</pre>
+{% endif %}
+{% if data.user.profile.registration_type == "Graduate" %}
+    {% include "application/email/graduate.inc.html" %}
+{% endif %}
+{% if data.user.profile.registration_type == "Undergraduate" %}
+    {% include "application/email/undergraduate.inc.html" %}
+{% endif %}
 {% endblock %}
-{% block data %}
-<h4>Are you anticipating other funding this year?</h4>
-<p>{{data.anticipating_funding}}</p>
-<h4>Title of project</h4>
-<p>{{data.project_title}}</p>
-<h4>Time frame that best suits your project</h4>
-<p>{{data.time_frame}}</p>
-<h4>Synopsis</h4>
-<p>{{data.synopsis}}</p>
-<h4>Files</h4>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}">
-        Proposal
-    </a>
-</p>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.cv}}">
-        Résumé
-    </a>
-</p>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
-        Budget
-    </a>
-</p>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.undergraduate_transcripts}}">
-        Undergraduate transcripts
-    </a>
-</p>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.graduate_transcripts}}">
-        Graduate transcripts
-    </a>
-</p>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.recomendation}}">
-        Recommendation
-    </a>
-</p>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.signed_certification}}">
-        Signed certification
-    </a>
-</p>
-{% endblock %}
+{% block data %}{% endblock %}
