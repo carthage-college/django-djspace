@@ -54,6 +54,9 @@ EMPLOYMENT_CHOICES = (
 )
 
 class Base(models.Model):
+    """
+    Abstract model that forms the basis for all registration types
+    """
 
     # meta
     user = models.ForeignKey(User)
@@ -74,6 +77,10 @@ class Base(models.Model):
 
 
 class BaseModel(Base):
+    """
+    Abstract model that forms the basis for all applications.
+    Inherts from Base() class.
+    """
 
     status = models.BooleanField(default=False, verbose_name="Funded")
 
