@@ -354,7 +354,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     model = RocketLaunchTeam
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'name','academic_institution','leader',
+        'name','academic_institution_name','leader',
         'industry_mentor_name','industry_mentor_email',
         'date_created','date_updated',
         'wsgc_acknowledgement_link','budget_link','tags','status'
@@ -364,18 +364,71 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     raw_id_fields = ("leader","members",)
 
     def wsgc_acknowledgement_link(self, instance):
-        return '<a href="{}" target="_blank">WSGC Acknowledgement</a>'.format(
-            instance.wsgc_acknowledgement.url
-        )
+        if instance.wsgc_acknowledgement:
+            return '<a href="{}" target="_blank">WSGC Acknowledgement</a>'.format(
+                instance.wsgc_acknowledgement.url
+            )
+        else:
+            return None
+
     wsgc_acknowledgement_link.allow_tags = True
     wsgc_acknowledgement_link.short_description = "WSGC Acknowledgement"
 
     def budget_link(self, instance):
-        return '<a href="{}" target="_blank">Budget</a>'.format(
-            instance.budget.url
-        )
+        if instance.budget:
+            return '<a href="{}" target="_blank">Budget</a>'.format(
+                instance.budget.url
+            )
+        else:
+            return None
     budget_link.allow_tags = True
     budget_link.short_description = "Budget"
+
+
+class CollegiateRocketCompetitionAdmin(GenericAdmin):
+
+    model = CollegiateRocketCompetition
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'team','date_created','date_updated','cv_link','status'
+    ]
+    list_display_links = ['team']
+    list_editable = ['status']
+    actions = [export_all_applications]
+
+    def cv_link(self, instance):
+        return '<a href="{}" target="_blank">CV</a>'.format(
+            instance.cv.url
+        )
+    cv_link.allow_tags = True
+    cv_link.short_description = "CV"
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, CollegiateRocketCompetitionAdmin)
+        return qs
+
+
+class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
+
+    model = MidwestHighPoweredRocketCompetition
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'team','date_created','date_updated','cv_link','status'
+    ]
+    list_display_links = ['team']
+    list_editable = ['status']
+    actions = [export_all_applications]
+
+    def cv_link(self, instance):
+        return '<a href="{}" target="_blank">CV</a>'.format(
+            instance.cv.url
+        )
+    cv_link.allow_tags = True
+    cv_link.short_description = "CV"
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, MidwestHighPoweredRocketCompetitionAdmin)
+        return qs
 
 
 class FirstNationsRocketCompetitionAdmin(GenericAdmin):
@@ -383,9 +436,9 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     model = FirstNationsRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'team_name','date_created','date_updated','cv_link','status'
+        'team','date_created','date_updated','cv_link','status'
     ]
-    list_display_links = ['team_name']
+    list_display_links = ['team']
     list_editable = ['status']
     actions = [export_all_applications]
 
@@ -479,6 +532,12 @@ admin.site.register(
 )
 admin.site.register(
     FirstNationsRocketCompetition, FirstNationsRocketCompetitionAdmin
+)
+admin.site.register(
+    CollegiateRocketCompetition, CollegiateRocketCompetitionAdmin
+)
+admin.site.register(
+    MidwestHighPoweredRocketCompetition, MidwestHighPoweredRocketCompetitionAdmin
 )
 admin.site.register(
     HighAltitudeBalloonLaunch, HighAltitudeBalloonLaunchAdmin
