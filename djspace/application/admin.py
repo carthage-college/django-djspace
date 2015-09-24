@@ -354,14 +354,14 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     model = RocketLaunchTeam
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'name','academic_institution','leader',
+        'name','academic_institution_name','leader',
         'industry_mentor_name','industry_mentor_email',
         'date_created','date_updated',
         'wsgc_acknowledgement_link','budget_link','tags','status'
     ]
     list_display_links = ['name']
     list_editable = ['status','tags']
-    raw_id_fields = ("leader","members",)
+    raw_id_fields = ("user","leader","members",)
 
     def wsgc_acknowledgement_link(self, instance):
         return '<a href="{}" target="_blank">WSGC Acknowledgement</a>'.format(
