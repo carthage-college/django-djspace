@@ -44,7 +44,12 @@ class GenericAdmin(admin.ModelAdmin):
         return obj.user.profile.second_name
 
     def last_name(self, obj):
-        return obj.user.last_name
+        return '<a href="{}">{}</a>'.format(
+            reverse("application_print", args=(obj.get_slug(),obj.id)),
+            obj.user.last_name
+        )
+    last_name.allow_tags = True
+    last_name.short_description = 'Last Name (print)'
 
     def phone_primary(self, obj):
         return obj.user.profile.phone_primary
