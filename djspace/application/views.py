@@ -46,8 +46,7 @@ def application_form(request, application_type, aid=None):
     app_type = "".join(app_name.split(" "))
 
     # check rocket competition teams and member limits.
-    # currently, only midwest high-powered has a limit
-    # so we can exclude on the original statement
+    # currently, FNL does not have a limit so we can exclude it.
     if "rocket-competition" in application_type:
         teams = RocketLaunchTeam.objects.filter(
             tags__name__in=[app_name]
