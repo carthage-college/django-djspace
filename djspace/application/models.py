@@ -342,6 +342,8 @@ class RocketLaunchTeam(BaseModel):
 
     class Meta:
         ordering = ['name']
+        verbose_name = 'Rocket Launch Team (NOI)'
+        verbose_name_plural = 'Rocket Launch Team (NOI)'
 
     def __unicode__(self):
         return self.name
