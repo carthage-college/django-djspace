@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
+from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.application.forms import *
 from djspace.application.models import RocketLaunchTeam, ROCKET_COMPETITIONS
@@ -13,6 +14,7 @@ from djspace.registration.models import *
 from djspace.core.utils import get_profile_status
 
 from djtools.utils.mail import send_mail
+from djtools.utils.convert import str_to_class
 
 import logging
 logger = logging.getLogger(__name__)
@@ -71,7 +73,6 @@ def application_form(request, application_type, aid=None):
         TO_LIST = [settings.ADMINS[0][1],]
     else:
         TO_LIST = [settings.WSGC_APPLICATIONS,]
-    BCC = settings.MANAGERS
 
     # fetch object if update
     app = None
@@ -143,20 +144,20 @@ def application_form(request, application_type, aid=None):
                 date = data.date_updated
 
             # email confirmation
-            template = "application/email/%s.html" % application_type
+            template = "application/email/{}.html".format(application_type)
             if not settings.DEBUG:
                 # send confirmation email to WSGC staff and applicant
                 TO_LIST.append(data.user.email)
                 if aid:
                     app_name += " (UPDATED)"
-                subject = "[%s] %s: %s, %s" % (
+                subject = "{} {}: {}, {}".format(
                     app_name, date,
-                    data.user.last_name, data.user.first_name,
+                    data.user.last_name, data.user.first_name
                 )
                 send_mail(
                     request, TO_LIST,
                     subject, data.user.email,
-                    template, data, BCC,
+                    template, data, settings.MANAGERS
                 )
                 return HttpResponseRedirect(reverse('application_success'))
             else:
@@ -179,3 +180,23 @@ def application_form(request, application_type, aid=None):
         context_instance=RequestContext(request)
     )
 
+@staff_member_required
+def application_print(request, application_type, aid):
+
+    # munge the application type
+    slug_list = application_type.split("-")
+    app_name = slug_list.pop(0).capitalize()
+    for n in slug_list:
+        app_name += " %s" % n.capitalize()
+    app_type = "".join(app_name.split(" "))
+
+    obj = str_to_class(
+        "djspace.application.models", app_type
+    )
+    data = get_object_or_404(obj, pk=aid)
+
+    return render_to_response(
+        "application/email/{}.html".format(application_type),
+        {'data': data,},
+        context_instance=RequestContext(request)
+    )

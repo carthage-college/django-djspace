@@ -4,7 +4,7 @@
 <h4>Team Name</h4>
 <p>{{data.name}}</p>
 <h4>Academic Institution</h4>
-<p>{{data.academic_institution}}</p>
+<p>{{data.academic_institution_name}}</p>
 <h4>Leader</h4>
 <p>{{data.leader.last_name}}, {{data.leader.first_name}}</p>
 {% if data.industry_mentor_name %}
@@ -19,16 +19,41 @@
     {% endif %}
 </p>
 {% endif %}
+<h4>Team Members</h4>
+<ol>
+    <li>
+        {{data.member_1}}
+    </li>
+    <li>
+        {{data.member_2}}
+    </li>
+    <li>
+        {{data.member_3}}
+    </li>
+    <li>
+        {{data.member_4}}
+    </li>
+    <li>
+        {{data.member_5}}
+    </li>
+    <li>
+        {{data.member_6}}
+    </li>
+</ol>
 <hr>
 <h4>Files</h4>
+{% if data.wsgc_acknowledgement %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_acknowledgement}}">
         WSGC Acknowledgement
     </a>
 </p>
+{% endif %}
+{% if data.budget %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
         Budget
     </a>
 </p>
+{% endif %}
 {% endblock %}
