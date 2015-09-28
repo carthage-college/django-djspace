@@ -13,7 +13,7 @@
     {% if data.industry_mentor_email %}
     <a href="mailto:{{data.industry_mentor_email}}">
         {{data.industry_mentor_name}}
-    </a>
+    </a> [{{data.industry_mentor_email}}]
     {% else %}
     {{data.industry_mentor_name}}
     {% endif %}
@@ -46,14 +46,16 @@
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_acknowledgement}}">
         WSGC Acknowledgement
-    </a>
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_acknowledgement}}
 </p>
 {% endif %}
 {% if data.budget %}
 <p>
     <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
         Budget
-    </a>
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.budget}}
 </p>
 {% endif %}
 {% endblock %}
