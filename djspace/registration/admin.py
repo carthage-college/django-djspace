@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponse
 from django.utils.encoding import smart_str
+from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 
 from djspace.core.admin import GenericAdmin
@@ -90,11 +91,27 @@ class UndergraduateAdmin(GenericAdmin):
     model = Undergraduate
     actions = [export_registrants]
 
+    def last_name(self, obj):
+        return u'<a href="{}">{}</a>'.format(
+            reverse("registration_print", args=[obj.user.id]),
+            obj.user.last_name
+        )
+    last_name.allow_tags = True
+    last_name.short_description = 'Last Name (print)'
+
 
 class GraduateAdmin(GenericAdmin):
 
     model = Graduate
     actions = [export_registrants]
+
+    def last_name(self, obj):
+        return u'<a href="{}">{}</a>'.format(
+            reverse("registration_print", args=[obj.user.id]),
+            obj.user.last_name
+        )
+    last_name.allow_tags = True
+    last_name.short_description = 'Last Name (print)'
 
 
 class FacultyAdmin(GenericAdmin):
@@ -102,11 +119,27 @@ class FacultyAdmin(GenericAdmin):
     model = Faculty
     actions = [export_registrants]
 
+    def last_name(self, obj):
+        return u'<a href="{}">{}</a>'.format(
+            reverse("registration_print", args=[obj.user.id]),
+            obj.user.last_name
+        )
+    last_name.allow_tags = True
+    last_name.short_description = 'Last Name (print)'
+
 
 class ProfessionalAdmin(GenericAdmin):
 
     model = Professional
     actions = [export_registrants]
+
+    def last_name(self, obj):
+        return u'<a href="{}">{}</a>'.format(
+            reverse("registration_print", args=[obj.user.id]),
+            obj.user.last_name
+        )
+    last_name.allow_tags = True
+    last_name.short_description = 'Last Name (print)'
 
 
 admin.site.register(Undergraduate, UndergraduateAdmin)

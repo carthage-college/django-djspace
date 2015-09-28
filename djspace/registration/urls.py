@@ -11,6 +11,10 @@ urlpatterns = patterns('djspace.registration.views',
         name='registration_success'
     ),
     url(
+        r'^(?P<uid>\d+)/print/$',
+        'registration_print', name="registration_print"
+    ),
+    url(
         r'^(?P<reg_type>[a-zA-Z0-9_-]+)/$',
         'form', name="registration_form"
     ),
