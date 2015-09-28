@@ -1,8 +1,10 @@
 from django.template import RequestContext
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render_to_response, get_object_or_404
+from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.registration.forms import *
 
@@ -41,3 +43,13 @@ def form(request, reg_type):
         context_instance=RequestContext(request)
     )
 
+@staff_member_required
+def registration_print(request, uid):
+
+    user = get_object_or_404(User, pk=uid)
+    user = user
+    return render_to_response(
+        "application/email/base.html",
+        {'data': {'user':user,},},
+        context_instance=RequestContext(request)
+    )
