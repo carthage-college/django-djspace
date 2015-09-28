@@ -28,8 +28,11 @@ class GenericAdmin(admin.ModelAdmin):
 
     date_hierarchy = 'date_created'
     ordering = [
-        '-date_created','user__last_name','user__email'
+        'user__last_name','user__first_name'
     ]
+    search_fields = (
+        'user__last_name','user__first_name','user__email','user__username'
+    )
 
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
@@ -125,7 +128,7 @@ class GenericAdmin(admin.ModelAdmin):
     email.short_description = 'Profile (view/edit)'
 
     def email_auxiliary(self, obj):
-        return get_email_auxiliary(obj)
+        return get_email_auxiliary(obj.user)
 
     def registration_type(self, obj):
         try:
