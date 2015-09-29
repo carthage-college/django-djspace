@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
+from django.db.models.signals import pre_delete
 
 from djspace.core.models import BaseModel
 from djspace.registration.choices import WSGC_SCHOOL
@@ -626,8 +628,8 @@ class ClarkGraduateFellowship(Fellowship):
 
     def get_slug(self):
         return "clark-graduate-fellowship"
-    
-    
+
+
 class GraduateFellowship(Fellowship):
 
     def get_application_type(self):
@@ -832,3 +834,16 @@ class UndergraduateScholarship(BaseModel):
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
 
+
+'''
+"""
+Signals
+"""
+
+def remove_member(sender, instance, *args, **kwargs):
+    instance.team.members.remove(instance.user)
+
+pre_delete.connect(remove_member, sender=MidwestHighPoweredRocketCompetition)
+pre_delete.connect(remove_member, sender=CollegiateRocketCompetition)
+pre_delete.connect(remove_member, sender=FirstNationsRocketCompetition)
+'''
