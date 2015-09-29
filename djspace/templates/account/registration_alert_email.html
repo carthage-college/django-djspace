@@ -1,6 +1,7 @@
 <h1>Registration Profile {{data.action|capfirst}}d</h1>
 <p>
-    <a href="https://spacegrant.carthage.edu/forms/admin/auth/user/{{data.user.id}}/">
+    <a href="https://spacegrant.carthage.edu/forms/registration/{{data.user.id}}/print/">
         Registration Details
     </a>
 </p>
+{% include "application/email/base.html" %}
