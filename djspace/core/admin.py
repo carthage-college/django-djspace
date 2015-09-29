@@ -8,13 +8,13 @@ from djspace.core.models import UserProfile, GenericChoice
 from djspace.core.utils import get_email_auxiliary
 
 PROFILE_LIST_DISPLAY = [
-    'salutation','first_name','second_name','last_name', 'email',
-    'email_auxiliary', 'phone_primary','phone_mobile',
+    'salutation','first_name','second_name','last_name',
+    'date_created','date_updated','registration_type',
+    'email','email_auxiliary', 'phone_primary','phone_mobile',
     'address1','address2','city','state','postal_code',
     'address1_current','address2_current', 'city_current','state_current',
     'postal_code_current','date_of_birth','gender','race','tribe',
     'disability','disability_specify','employment','military','us_citizen',
-    'registration_type'
 ]
 
 class GenericAdmin(admin.ModelAdmin):
@@ -47,7 +47,7 @@ class GenericAdmin(admin.ModelAdmin):
         return obj.user.profile.second_name
 
     def last_name(self, obj):
-        return '<a href="{}">{}</a>'.format(
+        return u'<a href="{}">{}</a>'.format(
             reverse("application_print", args=(obj.get_slug(),obj.id)),
             obj.user.last_name
         )
