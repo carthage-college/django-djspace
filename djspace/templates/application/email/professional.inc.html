@@ -1,0 +1,18 @@
+<pre style="font-size:1.4em;">
+WSGC affiliate.............. {{data.user.profile.get_registration.wsgc_affiliate}}
+</pre>
+{% if data.user.profile.get_registration.wsgc_affiliate.name == "Other" %}
+<h3>Sponsoring Organization</h3>
+<pre style="font-size:1.4em;">
+Name........................ {{data.user.profile.get_registration.sponsoring_organization_name}}
+Address..................... {{data.user.profile.get_registration.sponsoring_organization_address1}} {{data.user.profile.get_registration.sponsoring_organization_address2}}
+City........................ {{data.user.profile.get_registration.sponsoring_organization_city}}
+State....................... {{data.user.profile.get_registration.sponsoring_organization_state}}
+Postal code................. {{data.user.profile.get_registration.sponsoring_organization_postal_code}}
+Contact..................... {{data.user.profile.get_registration.sponsoring_organization_contact}}
+</pre>
+{% endif %}
+{% if data.user.profile.get_registration.sponsoring_organization_description %}
+<h3>Description</h3>
+{{data.user.profile.get_registration.sponsoring_organization_description}}
+{% endif %}
