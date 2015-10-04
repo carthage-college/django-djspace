@@ -7,7 +7,10 @@ from djspace.registration.models import Professional
 from djspace.registration.models import Undergraduate, Graduate, Faculty
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
+from djtools.fields import STATE_CHOICES
 from djtools.fields.validators import month_year_validator
+
+from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 
 try:
     AFFILIATES = GenericChoice.objects.filter(
@@ -15,6 +18,7 @@ try:
     ).order_by("name")
 except:
     AFFILIATES = GenericChoice.objects.none()
+
 
 class UndergraduateForm(forms.ModelForm):
     """
@@ -143,10 +147,58 @@ class ProfessionalForm(forms.ModelForm):
     """
 
     wsgc_affiliate = forms.ModelChoiceField(queryset=AFFILIATES)
+    sponsoring_organization_state = forms.CharField(
+        required=False,
+        widget=forms.Select(choices=STATE_CHOICES)
+    )
+    sponsoring_organization_postal_code = USZipCodeField(
+        label="Zip Code",
+        help_text="Format: 99999 or 99999-9999",
+        required=False,
+        max_length=10
+    )
 
     class Meta:
         model = Professional
         exclude = ('user','status',)
+
+    def clean(self):
+        cd = super(ProfessionalForm, self).clean()
+        # sponsoring organisation data are required if wsgc affiliate
+        # is "Other" (id = 49)
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.debug(
+            "wsgc affiliate = '{}'".format(
+                cd.get("wsgc_affiliate").__dict__
+            )
+        )
+        if cd.get("wsgc_affiliate").id == 49:
+            if not cd.get("sponsoring_organization_name"):
+                self._errors["sponsoring_organization_name"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("sponsoring_organization_address1"):
+                self._errors["sponsoring_organization_address1"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("sponsoring_organization_city"):
+                self._errors["sponsoring_organization_city"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("sponsoring_organization_state"):
+                self._errors["sponsoring_organization_state"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("sponsoring_organization_postal_code"):
+                self._errors["sponsoring_organization_postal_code"] = self.error_class(
+                    ["Required field"]
+                )
+            if not cd.get("sponsoring_organization_contact"):
+                self._errors["sponsoring_organization_contact"] = self.error_class(
+                    ["Required field"]
+                )
+        return cd
 
 
 class FacultyForm(forms.ModelForm):

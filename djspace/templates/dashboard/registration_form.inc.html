@@ -5,6 +5,12 @@
         <li><h3>Undergraduate information</h3></li>
         {% endif %}
         {% for field in reg_form %}
+            {% if field.name == "sponsoring_organization_name" %}
+            </ol></fieldset>
+            <fieldset id="sponsoring-organization">
+            <legend>Sponsoring Organization Info</legend>
+            <ol>
+            {% endif %}
             <li class="form-group ctrlHolder">
                 <h3>{{ field.label_tag }}</h3>
                 {% if field.errors %}

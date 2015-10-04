@@ -53,6 +53,12 @@
         <fieldset>
             <ol>
             {% for field in form.visible_fields %}
+                {% if field.name == "sponsoring_organization_name" %}
+                </ol></fieldset>
+                <fieldset>
+                <legend>Sponsoring Organization Information</legend>
+                <ol>
+                {% endif %}
                 <li class="form-group ctrlHolder">
                     <h3>{{ field.label_tag }}</h3>
                     {% if field.errors %}

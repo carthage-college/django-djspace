@@ -49,9 +49,7 @@ Date created................ {{data.user.profile.date_created}}
 Date updated................ {{data.user.profile.date_updated}}
 </pre>
 {% if data.user.profile.registration_type == "Professional" %}
-<pre style="font-size:1.4em;">
-WSGC affiliate.............. {{data.user.profile.get_registration.wsgc_affiliate}}
-</pre>
+    {% include "application/email/professional.inc.html" %}
 {% endif %}
 {% if data.user.profile.registration_type == "Faculty" %}
 <pre style="font-size:1.4em;">

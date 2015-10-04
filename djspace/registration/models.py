@@ -208,3 +208,44 @@ class Professional(Base):
             nonprofit affiliate in order to proceed
         """
     )
+    sponsoring_organization_name = models.CharField(
+        "Name",
+        max_length=128,
+        null=True, blank=True
+    )
+    sponsoring_organization_address1 = models.CharField(
+        "Address",
+        max_length=128,
+        null=True, blank=True
+    )
+    sponsoring_organization_address2 = models.CharField(
+        "",
+        max_length=128,
+        null=True, blank=True
+    )
+    sponsoring_organization_city = models.CharField(
+        "City",
+        max_length=128,
+        null=True, blank=True
+    )
+    sponsoring_organization_state = models.CharField(
+        "State",
+        max_length=2,
+        choices=STATE_CHOICES,
+        null=True, blank=True
+    )
+    sponsoring_organization_postal_code = models.CharField(
+        "Zip code",
+        max_length=10,
+        null=True, blank=True
+    )
+    sponsoring_organization_contact = models.CharField(
+        "Contact",
+        max_length=128,
+        null=True, blank=True
+    )
+    sponsoring_organization_description = models.TextField(
+        "Description",
+        null=True, blank=True
+    )
+

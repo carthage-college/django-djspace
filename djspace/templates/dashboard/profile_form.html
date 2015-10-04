@@ -12,31 +12,65 @@
 </style>
 {% endblock %}
 {% block extra_javascript %}
-<script src="//www.carthage.edu/static/vendor/js/spin.min.js" type="text/javascript"></script>
+<script src="//www.carthage.edu/static/vendor/js/spin.min.js"
+    type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
     function currentAddress(state) {
         if (state == "on") {
-            $("#current_address").show();
+            $("#current-address").show();
             $("#id_pro-address1_current").addClass("required");
             $("#id_pro-city_current").addClass("required");
             $("#id_pro-state_current").addClass("required");
             $("#id_pro-postal_code_current").addClass("required");
         } else if (state == "off") {
-            $("#current_address").hide();
+            $("#current-address").hide();
             $("#id_pro-address1_current").removeClass("required");
             $("#id_pro-city_current").removeClass("required");
             $("#id_pro-state_current").removeClass("required");
             $("#id_pro-postal_code_current").removeClass("required");
         }
     }
-    // automatically hide or show 'current address' fieldset
+    function sponsoringOrganization(state) {
+        if (state == "on") {
+            $("#sponsoring-organization").show();
+            $("#id_reg-sponsoring_organization_name").addClass("required");
+            $("#id_reg-sponsoring_organization_address1").addClass("required");
+            $("#id_reg-sponsoring_organization_city").addClass("required");
+            $("#id_reg-sponsoring_organization_state").addClass("required");
+            $("#id_reg-sponsoring_organization_postal_code").addClass("required");
+            $("#id_reg-sponsoring_organization_contact").addClass("required");
+        } else if (state == "off") {
+            $("#sponsoring-organization").hide();
+            $("#id_reg-sponsoring_organization_name").removeClass("required");
+            $("#id_reg-sponsoring_organization_address1").removeClass("required");
+            $("#id_reg-sponsoring_organization_city").removeClass("required");
+            $("#id_reg-sponsoring_organization_state").removeClass("required");
+            $("#id_reg-sponsoring_organization_postal_code").removeClass("required");
+            $("#id_reg-sponsoring_organization_contact").removeClass("required");
+        }
+    }
+    // automatically hide or show 'current address' fieldset for students
     {% if pro_form.registration_type.value == "Undergraduate" or pro_form.registration_type.value == "Graduate" %}
     currentAddress("on");
     {% else %}
     currentAddress("off");
     {% endif %}
-
+    // automatically hide or show 'sponsoring organization' fieldset
+    // for professionals
+    {% if reg_form.wsgc_affiliate.value == "49" or reg_form.wsgc_affiliate.value == 49 %}
+    sponsoringOrganization("on");
+    {% else %}
+    sponsoringOrganization("off");
+    {% endif %}
+    $('#id_reg-wsgc_affiliate').on('change',function(){
+        $this = $(this).find(":selected").val();
+        if ($this == "49") {
+            sponsoringOrganization("on");
+        }else{
+            sponsoringOrganization("off");
+        }
+    });
     $('label[for="id_pro-us_citizen_0"]').closest('ul').addClass('linline');
     $('label[for="id_pro-disability_0"]').closest('ul').addClass('linline');
     $('label[for="id_pro-gender_0"]').closest('ul').addClass('linline');
@@ -196,7 +230,7 @@ $(document).ready(function(){
                     {% endif %}
                     {% if field.name == "address1_current" %}
                     </ol></fieldset>
-                    <fieldset class="blockLabels" id="current_address">
+                    <fieldset class="blockLabels" id="current-address">
                     <legend>Current Address</legend>
                     <ol>
                     {% endif %}
