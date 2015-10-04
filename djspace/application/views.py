@@ -16,10 +16,6 @@ from djspace.core.utils import get_profile_status
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
 
-import logging
-logger = logging.getLogger(__name__)
-#logger.debug("limit = {}".format(data.limit))
-
 
 @login_required
 def application_form(request, application_type, aid=None):
