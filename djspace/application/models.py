@@ -56,6 +56,27 @@ ACADEMIC_INSTITUTIONS = (
         'All Academic Institution Opportunity (Spring)'
     )
 )
+INDUSTRY_AWARD_TYPES = (
+    (
+        'Industry Internship: $5000 award with a required 1:1 match'
+        'Industry Internship: $5000 award with a required 1:1 match'
+    ),
+    (
+        'Industry Internship: $5000 award with an optional match'
+        'Industry Internship: $5000 award with an optional match'
+    ),
+    (
+        'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
+        'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
+    ),
+)
+DISCIPLINES = (
+    ('Engineering','Engineering'),
+    ('Biology','Biology'),
+    ('Technical (2 year)','Technical (2 year)'),
+    ('Other','Other')
+)
+# Correspond to Tags
 ROCKET_COMPETITIONS = [
     "Collegiate Rocket Competition",
     "First Nations Rocket Competition",
@@ -829,6 +850,136 @@ class UndergraduateScholarship(BaseModel):
 
     def get_slug(self):
         return "undergraduate-scholarship"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+
+class WorkPlan(models.Model):
+    title
+    description
+    hours_percent
+    expected_outcome
+
+
+class IndustryInternship(BaseModel):
+
+    award_type = models.CharField(
+        "Award",
+        max_length = 128,
+        choices = INDUSTRY_AWARD_TYPES,
+        help_text = """
+            Select the opportunity to which the proposal is being submitted.
+            <br><strong>NOTE</strong>:
+            The $5000 award with optional match is only available to
+            first time applicants.
+        """
+    )
+    # Internship opportunity
+    discipline = models.CharField(
+        max_length = 128,
+        choices = DISCIPLINES,
+        help_text = """
+            Select the discipline within which the opportunity falls.
+        """
+    )
+    discipline_other = models.Charfield(
+        max_length = 128
+        null = True, blank = True
+    )
+    educational_background = models.TextField(
+        # 500 character limit
+        help_text = """
+            Provide additional information and its relevancy
+            in terms of its relationship to the internship opportunity.
+        """
+    )
+    # Intern Supervisor
+    intern_supervisor_name = models.Charfield(
+        "Name",
+        max_length = 128
+    )
+    intern_supervisor_job_title = models.Charfield(
+        "Job title",
+        max_length = 128
+    )
+    intern_supervisor_cv = models.FileField(
+        "Résumé",
+        upload_to = upload_to_path,
+        validators = [MimetypeValidator('application/pdf')],
+        max_length = 768,
+        help_text = "PDF format"
+    )
+    # Work description
+    objective_technical_approach = models.TextField(
+        # 2500 character limit
+    )
+    background = models.TextField(
+        # 2500 character limit
+    )
+    background_photo = models.ImageField(
+        "Photo",
+        upload_to = upload_to_path,
+        validators = [MimetypeValidator('image/jpeg')],
+        max_length = 768,
+        blank = True, null = True,
+        help_text = "JPEG only"
+    )
+    # Work Plan (add another, up to 10)
+    work_plan = models.ManyToManyField(
+        WorkPlan,
+        related_name = "industry_internship_work_plan",
+    )
+    task_schedule = models.FileField(
+        upload_to = upload_to_path,
+        max_length = 768,
+        help_text = """
+            You must include milestones and the file format must be:
+            Excel, Word, or Project.
+        """
+    )
+    wsgc_goal = models.TextField(
+        # 500 character limit
+        help_text = '''
+            How does this internship opportunity address the WSGC goal of
+            "Career placements within the aerospace industry in Wisconsin".
+        '''
+    )
+    nasa_mission_relationship = models.TextField(
+        # 1250 character limit
+        help_text = '''
+            How does this internship opportunity relate to NASAs mission?
+            Can the work be related to a specific NASA center?
+        '''
+    )
+    intern_biography = models.TextField(
+        # 1250 character limit
+        blank = True, null = True,
+        help_text = '''
+            If a candidate student has been identified, provide a brief
+            biosketch of the company intern and his or her career goals,
+            if available. Though this information is not part of the proposal
+            evaluation, it is important to assure that all internships are
+            filled with students qualified to be funded through the WSGC.
+        '''
+    )
+    budget = models.FileField(
+        upload_to = upload_to_path,
+        validators = [MimetypeValidator('application/pdf')],
+        max_length = 768,
+        help_text = "PDF format",
+        null = True, blank = True
+    )
+
+    def __unicode__(self):
+        return "{}, {}".format(self.user.last_name, self.user.first_name)
+
+    def get_application_type(self):
+        return "Industry Internship"
+
+    def get_slug(self):
+        return "industry-internship"
 
     @models.permalink
     def get_absolute_url(self):

@@ -233,3 +233,9 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         ).order_by("name")
 
 
+class IndustryInternshipForm(forms.ModelForm):
+
+    class Meta:
+        model = IndustryInternship
+        exclude = ('user','status')
+
