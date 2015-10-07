@@ -58,15 +58,15 @@ ACADEMIC_INSTITUTIONS = (
 )
 INDUSTRY_AWARD_TYPES = (
     (
-        'Industry Internship: $5000 award with a required 1:1 match'
+        'Industry Internship: $5000 award with a required 1:1 match',
         'Industry Internship: $5000 award with a required 1:1 match'
     ),
     (
-        'Industry Internship: $5000 award with an optional match'
+        'Industry Internship: $5000 award with an optional match',
         'Industry Internship: $5000 award with an optional match'
     ),
     (
-        'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
+        'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match',
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
     ),
 )
@@ -106,14 +106,14 @@ class EducationInitiatives(BaseModel):
     )
     funds_requested = models.IntegerField(help_text="In dollars")
     funds_authorized = models.IntegerField(
-        null=True,blank=True,
+        null = True, blank = True,
         help_text="In Dollars"
     )
     proposed_match = models.IntegerField(
         "Proposed match (1:1 mimimum)(in $)",
     )
     authorized_match = models.IntegerField(
-        null=True,blank=True
+        null = True, blank = True
     )
     source_match = models.CharField(
         "Source(s) of match", max_length=255
@@ -196,7 +196,7 @@ class AerospaceOutreach(EducationInitiatives):
     other_funding_explain = models.CharField(
         "If yes, please explain",
         max_length=255,
-        null=True, blank=True
+        null = True, blank = True
     )
     finance_officer_name = models.CharField(
         "Name",
@@ -241,7 +241,7 @@ class SpecialInitiatives(EducationInitiatives):
     other_funding_explain = models.CharField(
         "If yes, please explain",
         max_length=255,
-        null=True, blank=True
+        null = True, blank = True
     )
     finance_officer_name = models.CharField(
         "Name",
@@ -250,7 +250,7 @@ class SpecialInitiatives(EducationInitiatives):
     finance_officer_address = models.TextField("Address")
     finance_officer_email = models.EmailField("Email")
     finance_officer_phone = models.CharField(
-        verbose_name='Phone number', 
+        verbose_name='Phone number',
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
     )
@@ -287,28 +287,28 @@ class RocketLaunchTeam(BaseModel):
     academic_institution_other = models.CharField(
         "Other",
         max_length=128,
+        null = True, blank = True,
         help_text="""
             If your academic institution does not appear in the list above,
             please provide it here.
-        """,
-        null=True, blank=True
+        """
     )
     leader = models.ForeignKey(
         User,
         related_name="rocket_launch_team_leader",
-        null=True, blank=True
+        null = True, blank = True
     )
     members = models.ManyToManyField(
         User, related_name="rocket_launch_team_members",
-        null=True, blank=True
+        null = True, blank = True
     )
     industry_mentor_name = models.CharField(
         max_length=128,
-        null=True, blank=True
+        null = True, blank = True
     )
     industry_mentor_email = models.EmailField(
         max_length=75,
-        null=True, blank=True
+        null = True, blank = True
     )
     intent_compete = models.TextField(
         "Notification of Intent to Compete"
@@ -318,47 +318,47 @@ class RocketLaunchTeam(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
+        null = True, blank = True,
         help_text="""
             [PDF format]<br>
             NOTE: Only required for the Collegiate Rocket Competition<br>
             and the Midwest High-Powered Rocket Competition.
-        """,
-        null=True, blank=True
+        """
     )
     budget = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
+        null = True, blank = True,
         help_text="""
             Rocket supplies and travel. [PDF format]<br>
             NOTE: Only required for the
             Midwest High-Powered Rocket Competition.
-        """,
-        null=True, blank=True
+        """
     )
     member_1 = models.CharField(
         max_length=128,
-        null=True, blank=True
+        null = True, blank = True
     )
     member_2 = models.CharField(
         max_length=128,
-        null=True, blank=True
+        null = True, blank = True
     )
     member_3 = models.CharField(
         max_length=128,
-        null=True, blank=True
+        null = True, blank = True
     )
     member_4 = models.CharField(
         max_length=128,
-        null=True, blank=True
+        null = True, blank = True
     )
     member_5 = models.CharField(
         max_length=128,
-        null=True, blank=True
+        null = True, blank = True
     )
     member_6 = models.CharField(
         max_length=128,
-        null=True, blank=True
+        null = True, blank = True
     )
     # meta
     tags = TaggableManager()
@@ -369,7 +369,7 @@ class RocketLaunchTeam(BaseModel):
         verbose_name_plural = 'Rocket Launch Team (NOI)'
 
     def __unicode__(self):
-        return self.name
+        return u"{}".format(self.name)
 
     def get_application_type(self):
         return "Rocket Launch Team"
@@ -564,7 +564,7 @@ class Fellowship(BaseModel):
     )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
-        null=True,blank=True,
+        null = True, blank = True,
         help_text="In Dollars"
     )
     synopsis = models.TextField(
@@ -616,7 +616,8 @@ class Fellowship(BaseModel):
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
-            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            <a href="mailto:spacegrant@carthage.edu">
+                spacegrant@carthage.edu</a>.
             [PDF format]
         ''')
     )
@@ -625,17 +626,18 @@ class Fellowship(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null=True,blank=True,
+        null = True, blank = True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
-            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            <a href="mailto:spacegrant@carthage.edu">
+                spacegrant@carthage.edu</a>.
             [PDF format]
         ''')
     )
 
     def __unicode__(self):
-        return self.project_title
+        return u"{}".format(self.project_title)
 
     @models.permalink
     def get_absolute_url(self):
@@ -684,7 +686,7 @@ class UndergraduateResearch(BaseModel):
     )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
-        null=True,blank=True,
+        null = True, blank = True,
         help_text="In Dollars"
     )
     time_frame = models.CharField(
@@ -711,7 +713,7 @@ class UndergraduateResearch(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null=True,blank=True,
+        null = True, blank = True,
         help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
@@ -725,7 +727,7 @@ class UndergraduateResearch(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null=True,blank=True,
+        null = True, blank = True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
@@ -741,17 +743,18 @@ class UndergraduateResearch(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null=True,blank=True,
+        null = True, blank = True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
-            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            <a href="mailto:spacegrant@carthage.edu">
+                spacegrant@carthage.edu</a>.
             [PDF format]
         ''')
     )
 
     def __unicode__(self):
-        return self.project_title
+        return u"{}".format(self.project_title)
 
     def get_application_type(self):
         return "Undergraduate Research Fellowship"
@@ -803,7 +806,7 @@ class UndergraduateScholarship(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null=True,blank=True,
+        null = True, blank = True,
         help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
@@ -817,7 +820,7 @@ class UndergraduateScholarship(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null=True,blank=True,
+        null = True, blank = True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
@@ -833,7 +836,7 @@ class UndergraduateScholarship(BaseModel):
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null=True,blank=True,
+        null = True, blank = True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
@@ -856,11 +859,24 @@ class UndergraduateScholarship(BaseModel):
         return ('application_update', [self.get_slug(), str(self.id)])
 
 
-class WorkPlan(models.Model):
-    title
-    description
-    hours_percent
-    expected_outcome
+class WorkPlanTask(models.Model):
+    title = models.CharField(
+        max_length = 128,
+        null = True, blank = True
+    )
+    description = models.TextField(
+        null = True, blank = True
+    )
+    hours_percent = models.CharField(
+        max_length = 32,
+        null = True, blank = True
+    )
+    expected_outcome = models.TextField(
+        null = True, blank = True
+    )
+
+    def __unicode__(self):
+        return u"{}".format(self.title)
 
 
 class IndustryInternship(BaseModel):
@@ -869,6 +885,7 @@ class IndustryInternship(BaseModel):
         "Award",
         max_length = 128,
         choices = INDUSTRY_AWARD_TYPES,
+        null = True, blank = True,
         help_text = """
             Select the opportunity to which the proposal is being submitted.
             <br><strong>NOTE</strong>:
@@ -880,60 +897,73 @@ class IndustryInternship(BaseModel):
     discipline = models.CharField(
         max_length = 128,
         choices = DISCIPLINES,
+        null = True, blank = True,
         help_text = """
             Select the discipline within which the opportunity falls.
         """
     )
-    discipline_other = models.Charfield(
-        max_length = 128
-        null = True, blank = True
+    discipline_other = models.CharField(
+        max_length = 128,
+        null = True, blank = True,
+        help_text = '''
+            If you have choosen "Other" in the field above,
+            please provide the Discipline name here.
+        '''
     )
     educational_background = models.TextField(
         # 500 character limit
+        null = True, blank = True,
         help_text = """
             Provide additional information and its relevancy
             in terms of its relationship to the internship opportunity.
         """
     )
     # Intern Supervisor
-    intern_supervisor_name = models.Charfield(
+    intern_supervisor_name = models.CharField(
         "Name",
-        max_length = 128
+        max_length = 128,
+        null = True, blank = True
     )
-    intern_supervisor_job_title = models.Charfield(
+    intern_supervisor_job_title = models.CharField(
         "Job title",
-        max_length = 128
+        max_length = 128,
+        null = True, blank = True
     )
     intern_supervisor_cv = models.FileField(
         "Résumé",
         upload_to = upload_to_path,
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
+        null = True, blank = True,
         help_text = "PDF format"
     )
     # Work description
     objective_technical_approach = models.TextField(
         # 2500 character limit
+        null = True, blank = True
     )
     background = models.TextField(
         # 2500 character limit
+        null = True, blank = True
     )
     background_photo = models.ImageField(
         "Photo",
         upload_to = upload_to_path,
         validators = [MimetypeValidator('image/jpeg')],
         max_length = 768,
-        blank = True, null = True,
+        null = True, blank = True,
         help_text = "JPEG only"
     )
     # Work Plan (add another, up to 10)
     work_plan = models.ManyToManyField(
-        WorkPlan,
+        WorkPlanTask,
         related_name = "industry_internship_work_plan",
+        null = True, blank = True
     )
     task_schedule = models.FileField(
         upload_to = upload_to_path,
         max_length = 768,
+        null = True, blank = True,
         help_text = """
             You must include milestones and the file format must be:
             Excel, Word, or Project.
@@ -941,6 +971,7 @@ class IndustryInternship(BaseModel):
     )
     wsgc_goal = models.TextField(
         # 500 character limit
+        null = True, blank = True,
         help_text = '''
             How does this internship opportunity address the WSGC goal of
             "Career placements within the aerospace industry in Wisconsin".
@@ -948,6 +979,7 @@ class IndustryInternship(BaseModel):
     )
     nasa_mission_relationship = models.TextField(
         # 1250 character limit
+        null = True, blank = True,
         help_text = '''
             How does this internship opportunity relate to NASAs mission?
             Can the work be related to a specific NASA center?
@@ -955,7 +987,7 @@ class IndustryInternship(BaseModel):
     )
     intern_biography = models.TextField(
         # 1250 character limit
-        blank = True, null = True,
+        null = True, blank = True,
         help_text = '''
             If a candidate student has been identified, provide a brief
             biosketch of the company intern and his or her career goals,
@@ -968,12 +1000,12 @@ class IndustryInternship(BaseModel):
         upload_to = upload_to_path,
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
-        help_text = "PDF format",
-        null = True, blank = True
+        null = True, blank = True,
+        help_text = "PDF format"
     )
 
     def __unicode__(self):
-        return "{}, {}".format(self.user.last_name, self.user.first_name)
+        return u"{}, {}".format(self.user.last_name, self.user.first_name)
 
     def get_application_type(self):
         return "Industry Internship"

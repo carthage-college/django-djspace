@@ -1,12 +1,46 @@
 {% extends "dashboard/home.html" %}
 {% block title %}WSGC {{app_name}} Application &mdash; Carthage College{% endblock %}
 {% block extra_javascript %}
+{% if app_name == "Industry Internship" %}
+<script type="text/javascript"
+    src="//www.carthage.edu/static/vendor/jquery/plugins/jquery.word-and-character-counter.min.js"></script>
+{% else %}
 <script type="text/javascript"
     src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
+{% endif %}
 <script type="text/javascript"
     src="//www.carthage.edu/static/vendor/jquery/ui/current/jquery-ui.min.js"></script>
+<script src="https://malsup.github.io/min/jquery.blockUI.min.js"
+    type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8">
 $(function() {
+    {% if app_name == "Industry Internship" %}
+    $("#id_educational_background").counter({
+        count: 'up',
+        goal: 500
+    });
+    $("#id_objective_technical_approach").counter({
+        count: 'up',
+        goal: 2500
+    });
+    $("#id_background").counter({
+        count: 'up',
+        goal: 2500
+    });
+    $("#id_wsgc_goal").counter({
+        count: 'up',
+        goal: 500
+    });
+    $("#id_nasa_mission_relationship").counter({
+        count: 'up',
+        goal: 1250
+    });
+    $("#id_intern_biography").counter({
+        count: 'up',
+        goal: 1250
+    });
+    $("div[id$='_counter']").css({ fontSize: ".9em", color: "red"});
+    {% else %}
     $("textarea").htmlarea({
         toolbar: [
             "html","bold", "italic", "underline", "superscript",
@@ -15,26 +49,56 @@ $(function() {
             "unlink", "|", "orderedList", "unorderedList"
         ]
     });
+    {% endif %}
     $("input[id$='clear_id']").css({ float: "right" });
     $("label[for$='clear_id']").css({ float: "right", marginRight:"7px" });
     $('label[for="id_other_funding_0"]').closest('ul').addClass('linline');
-    // leader field (FK to user)
-    {% if request.session.leader_id %}
-    document.valueSelectedForAutocomplete = {{request.session.leader_id}}
-    $('#id_leader').val("{{request.session.leader_name}}");
+    {% if app_name == "Rocket Launch Team" %}
+        // leader field (FK to user)
+        {% if request.session.leader_id %}
+        document.valueSelectedForAutocomplete = {{request.session.leader_id}}
+        $('#id_leader').val("{{request.session.leader_name}}");
+        {% endif %}
+        $('#id_leader').autocomplete({
+            source: '{% url "get_users" %}',
+            minLength: 3,
+            select: function (event, ui) {
+                var lid = ui.item.id;
+                //store in session
+                document.valueSelectedForAutocomplete = lid
+            }
+        });
     {% endif %}
-    $('#id_leader').autocomplete({
-        source: '{% url "get_users" %}',
-        minLength: 3,
-        select: function (event, ui) {
-            var lid = ui.item.id;
-            //store in session
-            document.valueSelectedForAutocomplete = lid
+    // number of work plan tasks
+    var tasks = {{tasks|length}};
+    console.log("{{tasks|length}}");
+    $(".clone").click(function () {
+        if (tasks < 10) {
+            tasks++;
+            newId = "doop-" + tasks;
+            $("#doop-master").clone().attr("id",newId).appendTo("#duplicates");
+            $('<h3 class="fleft"><label>Task</label></h3>').prependTo("#" + newId);
+            $.growlUI('Work Plan Tasks: ', tasks);
+        }else{
+            $.growlUI('Warning', 'Task Limit: 10');
         }
     });
+    // remove task
+    $('#duplicates').on("click", ".destroy-task", function() {
+        if (tasks > 1) {
+            tasks--;
+            $(this).parent().remove();
+            $.growlUI('Work Plan Tasks: ', tasks);
+        }else{
+            $.growlUI('Warning', 'No tasks to delete');
+        }
+    });
+
     $('form#profile').submit(function(){
-        // set leader field to selected User's ID
-        $('#id_leader').val(document.valueSelectedForAutocomplete);
+        {% if app_name == "Rocket Launch Team" %}
+            // set leader field to selected User's ID
+            $('#id_leader').val(document.valueSelectedForAutocomplete);
+        {% endif %}
         // disable submit button after users clicks it
         $(this).children('input[type=submit]').attr('disabled', 'disabled');
     });
@@ -60,6 +124,10 @@ $(function() {
         margin-left:5px;
     }
     .clear {font-weight:bold;}
+    #doop-master{display:none;}
+    .work-plan-task{float:left; border: 2px solid #cacaca;margin:5px;padding:5px;background-color:#efefef;}
+    .work-plan-task textarea {width:325px;}
+    .ctrlcx { float: right; width: 25px; }
 </style>
 {% endblock %}
 {% block page_header %}
@@ -98,7 +166,37 @@ $(function() {
                     </ol></fieldset>
                     <fieldset class="blockLabels">
                     <legend>Business/Finance Officer</legend>
-                    <h4>The Individual responsible for submitting all required financial forms to WSGC</h4>
+                    <h4>
+                        The Individual responsible for submitting
+                        all required financial forms to WSGC
+                    </h4>
+                    <ol>
+                {% endif %}
+                {% if field.name == "intern_supervisor_name" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Intern Supervisor</legend>
+                    <ol>
+                {% endif %}
+                {% if field.name == "objective_technical_approach" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Work description</legend>
+                    <ol>
+                {% endif %}
+                {% if field.name == "task_schedule" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Work Plan</legend>
+                    <ol>
+                        <li class="form-group ctrlHolder">
+                        {% include "application/industry_internship_workplan.inc.html" %}
+                        </li>
+                {% endif %}
+                {% if field.name == "wsgc_goal" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>WSGC and NASA</legend>
                     <ol>
                 {% endif %}
                 <li class="form-group ctrlHolder">
@@ -126,6 +224,26 @@ $(function() {
     </fieldset>
     {% include "form_submit.inc.html" %}
     </form>
+    <div id="doop-master-container">
+        <div class="work-plan-task" id="doop-master">
+            <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
+                src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+            <ul>
+                <li>
+                    <input type="text" name="title[]" maxlength="128" placeholder="Title">
+                </li>
+                <li>
+                    <textarea rows="10" name="description[]" cols="40" placeholder="Description"></textarea>
+                </li>
+                <li>
+                    <input type="text" name="hours_percent[]" maxlength="128" placeholder="Percentage of total internship hours">
+                </li>
+                <li>
+                    <textarea rows="10" name="expected_outcome[]" cols="40" placeholder="Expected outcome"></textarea>
+                </li>
+            </ul>
+        </div>
+    </div>
     {% else %}
         <h2>No teams</h2>
         <p class="intro">

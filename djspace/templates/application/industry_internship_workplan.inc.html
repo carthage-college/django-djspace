@@ -1,0 +1,57 @@
+<p class="fleft">
+    Click on the
+    <img src="//www.carthage.edu/assets/img/ico/silk/icons/add.png"
+        class="clone" style="margin-bottom:-3px;">
+    symbol to add more tasks. Click on the
+    <img src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png"
+        class="destroy-task" style="margin-bottom:-3px;">
+    icon to remove tasks.
+</p>
+<div class="ctrlcx">
+    <img class="clone" src="//www.carthage.edu/assets/img/ico/silk/icons/add.png">
+</div>
+<div id="duplicates">
+{% if form.instance.work_plan.all %}
+    {% for task in form.instance.work_plan.all %}
+    <div class="work-plan-task" data-tid="{{task.id}}">
+        <h3 class="fleft"><label>Task</label></h3>
+        <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
+            src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+        <ul>
+            <li>
+                <input type="text" name="title[]" maxlength="128" value="{{ task.title }}" placeholder="Title">
+            </li>
+            <li>
+                <textarea rows="10" name="description[]" cols="40" placeholder="Description">{{task.description}}</textarea>
+            </li>
+            <li>
+                <input type="text" name="hours_percent[]" maxlength="128" placeholder="Percentage of total internship hours" value="{{task.hours_percent}}">
+            </li>
+            <li>
+                <textarea rows="10" name="expected_outcome[]" cols="40" placeholder="Expected outcome">{{task.expected_outcome}}</textarea>
+            </li>
+        </ul>
+    </div>
+    {% endfor %}
+{% else %}
+<div class="work-plan-task" data-tid="">
+    <h3 class="fleft"><label>Task</label></h3>
+    <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
+        src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+    <ul>
+        <li>
+            <input type="text" name="title[]" maxlength="128" placeholder="Title">
+        </li>
+        <li>
+            <textarea rows="10" name="description[]" cols="40" placeholder="Description"></textarea>
+        </li>
+        <li>
+            <input type="text" name="hours_percent[]" maxlength="128" placeholder="Percentage of total internship hours">
+        </li>
+        <li>
+            <textarea rows="10" name="expected_outcome[]" cols="40" placeholder="Expected outcome"></textarea>
+        </li>
+    </ul>
+</div>
+{% endif %}
+</div>

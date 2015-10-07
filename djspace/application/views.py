@@ -72,6 +72,8 @@ def application_form(request, application_type, aid=None):
 
     # fetch object if update
     app = None
+    # initialise work plan tasks for industry internship
+    tasks = None
     if aid:
         if user.is_superuser:
             app = eval(app_type).objects.get(pk=aid)
@@ -79,8 +81,11 @@ def application_form(request, application_type, aid=None):
             # prevent users from managing apps that are not theirs
             try:
                 app = eval(app_type).objects.get(pk=aid, user=user)
+                # check industry internship for work plan tasks
             except:
                 app = None
+        if application_type == "industry-internship" and app:
+            tasks = app.work_plan.all()
 
     # fetch form
     try:
@@ -172,7 +177,7 @@ def application_form(request, application_type, aid=None):
         request.session["leader_name"] = ""
     return render_to_response(
         "application/form.html",
-        {"form": form,"app_name":app_name},
+        {"form": form,"app_name":app_name,"tasks":tasks},
         context_instance=RequestContext(request)
     )
 

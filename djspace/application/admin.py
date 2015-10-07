@@ -515,6 +515,16 @@ class SpecialInitiativesAdmin(HigherEducationInitiativesAdmin):
         return qs
 
 
+class IndustryInternshipAdmin(GenericAdmin):
+
+    model = IndustryInternship
+
+
+class WorkPlanTaskAdmin(admin.ModelAdmin):
+
+    model = WorkPlanTask
+
+
 admin.site.register(
     HigherEducationInitiatives, HigherEducationInitiativesAdmin
 )
@@ -556,4 +566,10 @@ admin.site.register(
 )
 admin.site.register(
     UndergraduateResearch, UndergraduateResearchAdmin
+)
+admin.site.register(
+    IndustryInternship, IndustryInternshipAdmin
+)
+admin.site.register(
+    WorkPlanTask, WorkPlanTaskAdmin
 )

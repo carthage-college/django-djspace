@@ -28,6 +28,13 @@
         </a>
     </li>
     {% endif %}
+    {% if user.profile.registration_type == "Professional" %}
+    <li>
+        <a href="{% url 'application_create' 'industry-internship' %}">
+            Industry Internship
+        </a>
+    </li>
+    {% endif %}
     {% if user.profile.registration_type == "Faculty" %}
     <li>
         <a href="{% url 'application_create' 'rocket-launch-team' %}">
