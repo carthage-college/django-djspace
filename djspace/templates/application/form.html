@@ -70,8 +70,8 @@ $(function() {
         });
     {% endif %}
     // number of work plan tasks
-    var tasks = {{tasks|length}};
-    console.log("{{tasks|length}}");
+    var tasks = {{tasks|length|default:1}};
+    console.log("{{tasks|length|default:1}}");
     $(".clone").click(function () {
         if (tasks < 10) {
             tasks++;
@@ -226,6 +226,7 @@ $(function() {
     </form>
     <div id="doop-master-container">
         <div class="work-plan-task" id="doop-master">
+            <input type="hidden" name="tid[]" value="">
             <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
                 src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
             <ul>

@@ -16,6 +16,9 @@ from djspace.core.utils import get_profile_status
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -26,7 +29,10 @@ def application_form(request, application_type, aid=None):
     # verify that the user has completed registration
     reg_type = user.profile.registration_type
     try:
-        reg = eval(reg_type).objects.get(user=user)
+        mod = str_to_class(
+            "djspace.registration.models", reg_type
+        )
+        reg = mod.objects.get(user=user)
     except:
         # redirect to dashboard
         return HttpResponseRedirect(reverse('dashboard_home'))
@@ -75,24 +81,32 @@ def application_form(request, application_type, aid=None):
     # initialise work plan tasks for industry internship
     tasks = None
     if aid:
+        mod = str_to_class(
+            "djspace.application.models", app_type
+        )
+
         if user.is_superuser:
-            app = eval(app_type).objects.get(pk=aid)
+            app = get_object_or_404(mod, pk=aid)
         else:
             # prevent users from managing apps that are not theirs
             try:
-                app = eval(app_type).objects.get(pk=aid, user=user)
-                # check industry internship for work plan tasks
+                app = mod.objects.get(pk=aid, user=user)
             except:
                 app = None
+        # fetch industry internship work plan tasks
         if application_type == "industry-internship" and app:
             tasks = app.work_plan.all()
 
-    # fetch form
+    # fetch the form class
+    FormClass = str_to_class(
+        "djspace.application.forms", (app_type+"Form")
+    )
+    # fetch the form instance
     try:
         initial = {}
         if app and application_type == "rocket-launch-team":
             initial = {"tags": [t.id for t in app.tags.all()]}
-        form = eval(app_type+"Form")(instance=app, initial=initial)
+        form = FormClass(instance=app, initial=initial)
     except:
         # app_type does not match an existing form
         raise Http404
@@ -102,12 +116,12 @@ def application_form(request, application_type, aid=None):
         try:
             # only rocket launch team form needs request context
             if application_type == "rocket-launch-team":
-                form = eval(app_type+"Form")(
+                form = FormClass(
                     instance=app, data=request.POST, files=request.FILES,
                     request=request
                 )
             else:
-                form = eval(app_type+"Form")(
+                form = FormClass(
                     instance=app, data=request.POST, files=request.FILES
                 )
         except:
@@ -136,6 +150,37 @@ def application_form(request, application_type, aid=None):
             # add user to RocketLaunchTeam member m2m
             if "rocket-competition" in application_type:
                 data.team.members.add(data.user)
+
+            # add work plan tasks for industry internship
+            if application_type == "industry-internship":
+                tid = request.POST.getlist('tid[]')
+                title = request.POST.getlist('title[]')
+                description = request.POST.getlist('description[]')
+                percent = request.POST.getlist('hours_percent[]')
+                expected_outcome = request.POST.getlist('expected_outcome[]')
+
+                # remove deleted tasks
+                task_list = [unicode(t.id) for t in data.work_plan.all()]
+                dif = set(task_list).difference(tid)
+                if len(dif) > 0:
+                    for t in list(dif):
+                        task = WorkPlanTask.objects.get(pk=int(t))
+                        data.work_plan.remove(task)
+                        task.delete()
+                # add or update tasks
+                # len could use any of the above 4 lists
+                for i in range (0,len(title)):
+                    try:
+                        task = WorkPlanTask.objects.get(pk=tid[i])
+                    except:
+                        task = WorkPlanTask()
+                    task.title = title[i]
+                    task.description = description[i]
+                    task.hours_percent = percent[i]
+                    task.expected_outcome = expected_outcome[i]
+                    task.save()
+                    if not tid[i]:
+                        data.work_plan.add(task)
 
             # if not update add generic many-to-many relationship (gm2m)
             if not aid:
@@ -191,10 +236,10 @@ def application_print(request, application_type, aid):
         app_name += " %s" % n.capitalize()
     app_type = "".join(app_name.split(" "))
 
-    obj = str_to_class(
+    mod = str_to_class(
         "djspace.application.models", app_type
     )
-    data = get_object_or_404(obj, pk=aid)
+    data = get_object_or_404(mod, pk=aid)
 
     return render_to_response(
         "application/email/{}.html".format(application_type),

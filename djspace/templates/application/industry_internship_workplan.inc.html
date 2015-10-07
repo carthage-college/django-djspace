@@ -13,7 +13,8 @@
 <div id="duplicates">
 {% if form.instance.work_plan.all %}
     {% for task in form.instance.work_plan.all %}
-    <div class="work-plan-task" data-tid="{{task.id}}">
+    <div class="work-plan-task">
+        <input type="hidden" name="tid[]" value="{{task.id}}">
         <h3 class="fleft"><label>Task</label></h3>
         <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
             src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
@@ -34,7 +35,8 @@
     </div>
     {% endfor %}
 {% else %}
-<div class="work-plan-task" data-tid="">
+<div class="work-plan-task">
+    <input type="hidden" name="tid[]" value="">
     <h3 class="fleft"><label>Task</label></h3>
     <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
         src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">

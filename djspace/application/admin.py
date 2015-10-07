@@ -523,6 +523,7 @@ class IndustryInternshipAdmin(GenericAdmin):
 class WorkPlanTaskAdmin(admin.ModelAdmin):
 
     model = WorkPlanTask
+    list_display = ['title']
 
 
 admin.site.register(

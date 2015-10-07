@@ -1,6 +1,6 @@
-<h2>{% block title %}{% endblock %}</h2>
+<h1>{% block title %}{% endblock %}</h1>
 {% block profile %}
-<h3>Demographics</h3>
+<h2>Demographics</h2>
 <p>
     <a href="mailto:{{data.user.email}}">
         {{data.user.profile.salutation}}
@@ -20,14 +20,14 @@ Citizen..................... {{data.user.profile.us_citizen}}
 Employment.................. {{data.user.profile.employment}}
 Military.................... {{data.user.profile.military}}
 </pre>
-<h3>Contact Information</h3>
+<h2>Contact Information</h2>
 <pre style="font-size:1.4em;">
 Email....................... {{data.user.email}}
 Email secondary............. {{data.user.profile.email_auxiliary}}
 Phone....................... {{data.user.profile.phone_primary}}
 Phone mobile................ {{data.user.profile.phone_mobile}}
 </pre>
-<h4>Permanent Address</h4>
+<h3>Permanent Address</h3>
 <pre style="font-size:1.4em;">
 Address..................... {{data.user.profile.address1}} {{data.user.profile.address2}}
 City........................ {{data.user.profile.city}}
@@ -35,7 +35,7 @@ State....................... {{data.user.profile.state}}
 Zip......................... {{data.user.profile.postal_code}}
 </pre>
 {% if data.user.profile.address1_current %}
-<h4>Current Address</h4>
+<h3>Current Address</h3>
 <pre style="font-size:1.4em;">
 Address .................... {{data.user.profile.address1_current}} {{data.user.profile.address2_current}}
 City ....................... {{data.user.profile.city_current}}
@@ -43,7 +43,7 @@ State ...................... {{data.user.profile.state_current}}
 Zip......................... {{data.user.profile.postal_code_current}}
 </pre>
 {% endif %}
-<h3>{{data.user.profile.registration_type}} Information</h3>
+<h2>{{data.user.profile.registration_type}} Information</h2>
 <pre>
 Date created................ {{data.user.profile.date_created}}
 Date updated................ {{data.user.profile.date_updated}}
@@ -66,5 +66,5 @@ Web site.................... {{data.user.profile.get_registration.web_site}}
     {% include "application/email/undergraduate.inc.html" %}
 {% endif %}
 {% endblock %}
-<h3>Application Information</h3>
+<h2>Application Information</h2>
 {% block data %}{% endblock %}

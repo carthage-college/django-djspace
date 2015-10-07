@@ -166,13 +166,6 @@ class ProfessionalForm(forms.ModelForm):
         cd = super(ProfessionalForm, self).clean()
         # sponsoring organisation data are required if wsgc affiliate
         # is "Other" (id = 49)
-        import logging
-        logger = logging.getLogger(__name__)
-        logger.debug(
-            "wsgc affiliate = '{}'".format(
-                cd.get("wsgc_affiliate").__dict__
-            )
-        )
         if cd.get("wsgc_affiliate").id == 49:
             if not cd.get("sponsoring_organization_name"):
                 self._errors["sponsoring_organization_name"] = self.error_class(

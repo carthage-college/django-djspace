@@ -862,6 +862,7 @@ class UndergraduateScholarship(BaseModel):
 class WorkPlanTask(models.Model):
     title = models.CharField(
         max_length = 128,
+        default = "Task title",
         null = True, blank = True
     )
     description = models.TextField(
@@ -877,7 +878,6 @@ class WorkPlanTask(models.Model):
 
     def __unicode__(self):
         return u"{}".format(self.title)
-
 
 class IndustryInternship(BaseModel):
 

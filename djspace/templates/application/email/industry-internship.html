@@ -1,0 +1,84 @@
+{% extends "application/email/base.html" %}
+{% block title %}Industry Internship{% endblock %}
+{% block data %}
+<h4>Award</h4>
+<p>{{data.award_type}}</p>
+
+<h4>The discipline within which the opportunity falls</h4>
+<p>{{data.award_type}}</p>
+
+{% if data.discipline_other %}
+<h4>Other discipline</h4>
+<p>{{data.discipline_other}}</p>
+{% endif %}
+
+<h4>Educational Background</h4>
+<p>{{data.educational_background}}</p>
+
+<h3>Intern Supervisor</h3>
+<h4>Name</h4>
+<p>{{data.intern_supervisor_name}}</p>
+<h4>Title</h4>
+<p>{{data.intern_supervisor_job_title}}</p>
+{% if data.intern_supervisor_cv %}
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.intern_supervisor_cv}}">
+        Résumé
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.intern_supervisor_cv}}
+</p>
+{% endif %}
+
+<h3>Work description</h3>
+<h4>Objective / technical approach</h4>
+<p>{{data.objective_technical_approach}}</p>
+<h4>Background</h4>
+<p>{{data.background}}</p>
+{% if data.background_photo %}
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.background_photo}}">
+        Photo
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.background_photo}}
+</p>
+{% endif %}
+
+<h3>Work plan</h3>
+{% for task in data.work_plan.all %}
+<h4>Task {{forloop.counter}}</h4>
+<p>{{task.title}}</p>
+<h4>Description</h4>
+<p>{{task.description}}</p>
+<h4>Percentage of total internship hours</h4>
+<p>{{task.hours_percent}}</p>
+<h4>Expected outcome</h4>
+<p>{{task.expected_outcome}}</p>
+{% endfor %}
+{% if data.task_schedule %}
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.task_schedule}}">
+        Task schedule
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.task_schedule}}
+</p>
+{% endif %}
+
+<h3>WSGC and NASA</h3>
+<h4>WSGC goal</h4>
+<p>{{data.wsgc_goal}}</p>
+<h4>NASA Mission Relationship</h4>
+<p>{{data.nasa_mission_relationship}}</p>
+
+<h3>Intern Biography</h3>
+<p>{{data.intern_biography}}</p>
+
+<h3>Budget</h3>
+{% if data.budget %}
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
+        Budget
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.budget}}
+</p>
+{% endif %}
+{% endblock %}
