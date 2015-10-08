@@ -519,10 +519,17 @@ class SpecialInitiativesAdmin(HigherEducationInitiativesAdmin):
         return qs
 
 
+class WorkPlanTaskInline(admin.TabularInline):
+    model = WorkPlanTask
+    fields = ('title', 'description', 'hours_percent','expected_outcome')
+
+
 class IndustryInternshipAdmin(GenericAdmin):
 
     model = IndustryInternship
     list_display_links = ['first_name']
+
+    inlines = (WorkPlanTaskInline,)
 
     def queryset(self, request):
         qs = get_queryset(self, request, IndustryInternshipAdmin)

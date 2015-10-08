@@ -1002,7 +1002,6 @@ class WorkPlanTask(models.Model):
     )
     title = models.CharField(
         max_length = 128,
-        default = "Task title",
         null = True, blank = True
     )
     description = models.TextField(
