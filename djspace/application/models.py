@@ -859,26 +859,6 @@ class UndergraduateScholarship(BaseModel):
         return ('application_update', [self.get_slug(), str(self.id)])
 
 
-class WorkPlanTask(models.Model):
-    title = models.CharField(
-        max_length = 128,
-        default = "Task title",
-        null = True, blank = True
-    )
-    description = models.TextField(
-        null = True, blank = True
-    )
-    hours_percent = models.CharField(
-        max_length = 32,
-        null = True, blank = True
-    )
-    expected_outcome = models.TextField(
-        null = True, blank = True
-    )
-
-    def __unicode__(self):
-        return u"{}".format(self.title)
-
 class IndustryInternship(BaseModel):
 
     award_type = models.CharField(
@@ -954,12 +934,9 @@ class IndustryInternship(BaseModel):
         null = True, blank = True,
         help_text = "JPEG only"
     )
-    # Work Plan (add another, up to 10)
-    work_plan = models.ManyToManyField(
-        WorkPlanTask,
-        related_name = "industry_internship_work_plan",
-        null = True, blank = True
-    )
+    # WorkPlanTask model has a foreign key the references
+    # an instance of this model. we can obtain all tasks for
+    # an instance with the related name "work_plan_tasks"
     task_schedule = models.FileField(
         upload_to = upload_to_path,
         max_length = 768,
@@ -1016,6 +993,31 @@ class IndustryInternship(BaseModel):
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
+
+
+class WorkPlanTask(models.Model):
+    industry_internship = models.ForeignKey(
+        IndustryInternship,
+        related_name="work_plan_tasks",
+    )
+    title = models.CharField(
+        max_length = 128,
+        default = "Task title",
+        null = True, blank = True
+    )
+    description = models.TextField(
+        null = True, blank = True
+    )
+    hours_percent = models.CharField(
+        max_length = 32,
+        null = True, blank = True
+    )
+    expected_outcome = models.TextField(
+        null = True, blank = True
+    )
+
+    def __unicode__(self):
+        return u"{}".format(self.title)
 
 
 '''

@@ -11,8 +11,8 @@
     <img class="clone" src="//www.carthage.edu/assets/img/ico/silk/icons/add.png">
 </div>
 <div id="duplicates">
-{% if form.instance.work_plan.all %}
-    {% for task in form.instance.work_plan.all %}
+{% if form.instance.work_plan_tasks.all %}
+    {% for task in form.instance.work_plan_tasks.all %}
     <div class="work-plan-task">
         <input type="hidden" name="tid[]" value="{{task.id}}">
         <h3 class="fleft"><label>Task</label></h3>

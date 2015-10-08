@@ -44,7 +44,7 @@
 {% endif %}
 
 <h3>Work plan</h3>
-{% for task in data.work_plan.all %}
+{% for task in data.work_plan_tasks.all %}
 <h4>Task {{forloop.counter}}</h4>
 <p>{{task.title}}</p>
 <h4>Description</h4>

@@ -69,9 +69,9 @@ $(function() {
             }
         });
     {% endif %}
+    {% if app_name == "Industry Internship" %}
     // number of work plan tasks
-    var tasks = {{tasks|length|default:1}};
-    console.log("{{tasks|length|default:1}}");
+    var tasks = {{form.instance.work_plan_tasks.all|length|default:1}};
     $(".clone").click(function () {
         if (tasks < 10) {
             tasks++;
@@ -93,7 +93,7 @@ $(function() {
             $.growlUI('Warning', 'No tasks to delete');
         }
     });
-
+    {% endif %}
     $('form#profile').submit(function(){
         {% if app_name == "Rocket Launch Team" %}
             // set leader field to selected User's ID

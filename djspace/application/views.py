@@ -93,9 +93,6 @@ def application_form(request, application_type, aid=None):
                 app = mod.objects.get(pk=aid, user=user)
             except:
                 app = None
-        # fetch industry internship work plan tasks
-        if application_type == "industry-internship" and app:
-            tasks = app.work_plan.all()
 
     # fetch the form class
     FormClass = str_to_class(
@@ -160,27 +157,25 @@ def application_form(request, application_type, aid=None):
                 expected_outcome = request.POST.getlist('expected_outcome[]')
 
                 # remove deleted tasks
-                task_list = [unicode(t.id) for t in data.work_plan.all()]
+                task_list = [unicode(t.id) for t in data.work_plan_tasks.all()]
                 dif = set(task_list).difference(tid)
                 if len(dif) > 0:
                     for t in list(dif):
                         task = WorkPlanTask.objects.get(pk=int(t))
-                        data.work_plan.remove(task)
                         task.delete()
                 # add or update tasks
-                # len could use any of the above 4 lists
-                for i in range (0,len(title)):
+                # len could use any of the above 5 lists from POST
+                for i in range (0,len(tid)):
                     try:
                         task = WorkPlanTask.objects.get(pk=tid[i])
                     except:
                         task = WorkPlanTask()
+                        task.industry_internship = data
                     task.title = title[i]
                     task.description = description[i]
                     task.hours_percent = percent[i]
                     task.expected_outcome = expected_outcome[i]
                     task.save()
-                    if not tid[i]:
-                        data.work_plan.add(task)
 
             # if not update add generic many-to-many relationship (gm2m)
             if not aid:
@@ -222,7 +217,7 @@ def application_form(request, application_type, aid=None):
         request.session["leader_name"] = ""
     return render_to_response(
         "application/form.html",
-        {"form": form,"app_name":app_name,"tasks":tasks},
+        {"form": form,"app_name":app_name,},
         context_instance=RequestContext(request)
     )
 

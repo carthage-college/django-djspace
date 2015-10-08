@@ -384,6 +384,10 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     budget_link.allow_tags = True
     budget_link.short_description = "Budget"
 
+    def queryset(self, request):
+        qs = get_queryset(self, request, RocketLaunchTeamAdmin)
+        return qs
+
 
 class CollegiateRocketCompetitionAdmin(GenericAdmin):
 
@@ -518,12 +522,18 @@ class SpecialInitiativesAdmin(HigherEducationInitiativesAdmin):
 class IndustryInternshipAdmin(GenericAdmin):
 
     model = IndustryInternship
+    list_display_links = ['first_name']
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, IndustryInternshipAdmin)
+        return qs
 
 
 class WorkPlanTaskAdmin(admin.ModelAdmin):
 
     model = WorkPlanTask
-    list_display = ['title']
+    list_display = ['title','industry_internship',]
+    raw_id_fields = ("industry_internship",)
 
 
 admin.site.register(
