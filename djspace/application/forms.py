@@ -18,7 +18,10 @@ class HigherEducationInitiativesForm(forms.ModelForm):
     class Meta:
         model = HigherEducationInitiatives
         exclude = ('user','status','funds_authorized','authorized_match')
-
+        fields = [
+            'project_title','award_type','funds_requested','proposed_match',
+            'source_match','time_frame','location','synopsis','proposal'
+        ]
 
 class ResearchInfrastructureForm(forms.ModelForm):
 
@@ -27,6 +30,10 @@ class ResearchInfrastructureForm(forms.ModelForm):
     class Meta:
         model = ResearchInfrastructure
         exclude = ('user','status','funds_authorized','authorized_match')
+        fields = [
+            'project_title','award_type','funds_requested','proposed_match',
+            'source_match','time_frame','location','synopsis','proposal'
+        ]
 
 
 class AerospaceOutreachForm(forms.ModelForm):

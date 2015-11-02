@@ -74,6 +74,10 @@ INDUSTRY_AWARD_TYPES = (
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
     ),
 )
+EDUCATION_INITIATIVES_AWARD_TYPES = (
+    ('Major Award: $5000-$10000','Major Award: $5000-$10000'),
+    ('Minor Award:  Up to $5000','Minor Award:  Up to $5000')
+)
 DISCIPLINES = (
     ('Engineering','Engineering'),
     ('Biology','Biology'),
@@ -150,6 +154,15 @@ class EducationInitiatives(BaseModel):
 
 class HigherEducationInitiatives(EducationInitiatives):
 
+    award_type = models.CharField(
+        "Award",
+        max_length = 128,
+        choices = EDUCATION_INITIATIVES_AWARD_TYPES,
+        help_text = """
+            Select the opportunity to which the proposal is being submitted.
+        """
+    )
+
     def __unicode__(self):
         return "Higher Education Initiatives"
 
@@ -168,6 +181,15 @@ class HigherEducationInitiatives(EducationInitiatives):
 
 
 class ResearchInfrastructure(EducationInitiatives):
+
+    award_type = models.CharField(
+        "Award",
+        max_length = 128,
+        choices = EDUCATION_INITIATIVES_AWARD_TYPES,
+        help_text = """
+            Select the opportunity to which the proposal is being submitted.
+        """
+    )
 
     def __unicode__(self):
         return "Research Infrastructure"

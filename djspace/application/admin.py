@@ -465,7 +465,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'time_frame',
+        'project_title', 'time_frame', 'award_type',
         'funds_requested', 'funds_authorized',
         'proposed_match', 'authorized_match', 'source_match', 'location',
         'synopsis_trunk', 'proposal_link',
