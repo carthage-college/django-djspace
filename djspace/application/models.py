@@ -66,6 +66,10 @@ INDUSTRY_AWARD_TYPES = (
         'Industry Internship: $5000 award with an optional match'
     ),
     (
+        'Internship/Apprenticeship: $0.00 Award with full match',
+        'Internship/Apprenticeship:  $0.00 Award with full match'
+    ),
+    (
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match',
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
     ),
@@ -879,7 +883,8 @@ class IndustryInternship(BaseModel):
         choices = DISCIPLINES,
         null = True, blank = True,
         help_text = """
-            Select the discipline within which the opportunity falls.
+            Select the discipline within which the
+            internship opportunity falls.
         """
     )
     discipline_other = models.CharField(
@@ -894,8 +899,8 @@ class IndustryInternship(BaseModel):
         # 500 character limit
         null = True, blank = True,
         help_text = """
-            Provide additional information and its relevancy
-            in terms of its relationship to the internship opportunity.
+            Provide additional information related to the required educational
+            background for the internship opportunity.
         """
     )
     # Intern Supervisor
@@ -910,7 +915,7 @@ class IndustryInternship(BaseModel):
         null = True, blank = True
     )
     intern_supervisor_cv = models.FileField(
-        "Résumé",
+        "Brief Résumé",
         upload_to = upload_to_path,
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
@@ -919,6 +924,7 @@ class IndustryInternship(BaseModel):
     )
     # Work description
     objective_technical_approach = models.TextField(
+        "Objective and Technical Approach",
         # 2500 character limit
         null = True, blank = True
     )
