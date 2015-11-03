@@ -244,5 +244,7 @@ class IndustryInternshipForm(forms.ModelForm):
 
     class Meta:
         model = IndustryInternship
-        exclude = ('user','status','work_plan')
+        exclude = (
+            'user','status','work_plan','funds_authorized','authorized_match'
+        )
 

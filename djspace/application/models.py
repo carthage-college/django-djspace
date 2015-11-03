@@ -891,13 +891,26 @@ class IndustryInternship(BaseModel):
         "Award",
         max_length = 128,
         choices = INDUSTRY_AWARD_TYPES,
-        null = True, blank = True,
         help_text = """
             Select the opportunity to which the proposal is being submitted.
             <br><strong>NOTE</strong>:
             The $5000 award with optional match is only available to
             first time applicants.
         """
+    )
+    funds_requested = models.IntegerField(help_text="In dollars")
+    funds_authorized = models.IntegerField(
+        null = True, blank = True,
+        help_text="In Dollars"
+    )
+    proposed_match = models.IntegerField(
+        "Proposed match (1:1 mimimum)(in $)",
+    )
+    authorized_match = models.IntegerField(
+        null = True, blank = True
+    )
+    source_match = models.CharField(
+        "Source(s) of match", max_length=255
     )
     # Internship opportunity
     discipline = models.CharField(
