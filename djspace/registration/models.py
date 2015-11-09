@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from djspace.registration.choices import WSGC_SCHOOL, MAJORS, YEAR_CHOICES
+from djspace.registration.choices import MAJORS, YEAR_CHOICES
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 from djspace.core.models import Base, GenericChoice
 

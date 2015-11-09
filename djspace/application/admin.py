@@ -43,8 +43,10 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     exclude = [
         "user", "user_id", "updated_by_id", "id",
         "aerospaceoutreach", "clarkgraduatefellowship",
-        "firstnationsrocketcompetition", "graduatefellowship",
+        "firstnationsrocketcompetition", "collegiaterocketcompetition",
+        "midwesthighpoweredrocketcompetition", "graduatefellowship",
         "highaltitudeballoonpayload","highaltitudeballoonlaunch",
+        "highereducationinitiatives", "industryinternship",
         "researchinfrastructure", "specialinitiatives",
         "undergraduateresearch", "undergraduatescholarship"
     ]
@@ -463,7 +465,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'time_frame',
+        'project_title', 'time_frame', 'award_type',
         'funds_requested', 'funds_authorized',
         'proposed_match', 'authorized_match', 'source_match', 'location',
         'synopsis_trunk', 'proposal_link',
@@ -505,12 +507,23 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
 
     model = AerospaceOutreach
 
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'project_title', 'time_frame', 'project_category',
+        'other_funding', 'other_funding_explain',
+        'time_frame', 'funds_requested', 'funds_authorized',
+        'proposed_match', 'authorized_match', 'source_match', 'location',
+        'synopsis_trunk', 'proposal_link',
+        'finance_officer_name', 'finance_officer_address',
+        'finance_officer_email', 'finance_officer_phone',
+        'date_created','date_updated','status'
+    ]
+
     def queryset(self, request):
         qs = get_queryset(self, request, AerospaceOutreachAdmin)
         return qs
 
 
-class SpecialInitiativesAdmin(HigherEducationInitiativesAdmin):
+class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
 
     model = SpecialInitiatives
 

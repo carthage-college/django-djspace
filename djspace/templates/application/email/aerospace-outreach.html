@@ -1,2 +1,40 @@
-{% extends "application/email/higher-education-initiatives.html" %}
+{% extends "application/email/base.html" %}
 {% block title %}Aerospace Outreach{% endblock %}
+{% block data %}
+<h4>Title of project</h4>
+<p>{{data.project_title}}</p>
+<h4>Time frame that best suits your project</h4>
+<p>{{data.time_frame}}</p>
+<h4>Project category</h4>
+<p>{{data.project_category}}</p>
+<h4>Funds requested</h4>
+<p>{{data.funds_requested}}</p>
+<h4>Proposed match</h4>
+<p>{{data.proposed_match}}</p>
+<h4>Source(s) of match</h4>
+<p>{{data.source_match}}</p>
+<h4>Are you seeking other WSGC funding for this project?</h4>
+<p>{{data.other_funding}}</p>
+<h4>If 'Yes', please explain</h4>
+<p>{{data.other_funding_explain}}</p>
+<h4>Location</h4>
+<p>{{data.location}}</p>
+<h4>Synopsis</h4>
+<div>{{data.synopsis|safe}}</div>
+<h4>Files</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}">
+        Proposal
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}
+</p>
+<h3>Business/Finance Officer</h3>
+<h4>Name</h4>
+<p>{{data.finance_officer_name}}</p>
+<h4>Address</h4>
+<p>{{data.finance_officer_address|striptags}}</p>
+<h4>Email</h4>
+<p>{{data.finance_officer_email}}</p>
+<h4>Phone</h4>
+<p>{{data.finance_officer_phone}}</p>
+{% endblock %}

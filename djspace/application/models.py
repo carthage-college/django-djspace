@@ -66,6 +66,10 @@ INDUSTRY_AWARD_TYPES = (
         'Industry Internship: $5000 award with an optional match'
     ),
     (
+        'Internship/Apprenticeship: $0.00 Award with full match',
+        'Internship/Apprenticeship:  $0.00 Award with full match'
+    ),
+    (
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match',
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
     ),
@@ -79,6 +83,10 @@ UNDERGRADUATE_RESEARCH_AWARD_TYPES = (
         'Academic-Year Research:  Up to $4000',
         'Academic-Year Research:  Up to $4000'
     )
+)
+EDUCATION_INITIATIVES_AWARD_TYPES = (
+    ('Major Award: $5000-$10000','Major Award: $5000-$10000'),
+    ('Minor Award:  Up to $5000','Minor Award:  Up to $5000')
 )
 DISCIPLINES = (
     ('Engineering','Engineering'),
@@ -156,6 +164,15 @@ class EducationInitiatives(BaseModel):
 
 class HigherEducationInitiatives(EducationInitiatives):
 
+    award_type = models.CharField(
+        "Award",
+        max_length = 128,
+        choices = EDUCATION_INITIATIVES_AWARD_TYPES,
+        help_text = """
+            Select the opportunity to which the proposal is being submitted.
+        """
+    )
+
     def __unicode__(self):
         return "Higher Education Initiatives"
 
@@ -174,6 +191,15 @@ class HigherEducationInitiatives(EducationInitiatives):
 
 
 class ResearchInfrastructure(EducationInitiatives):
+
+    award_type = models.CharField(
+        "Award",
+        max_length = 128,
+        choices = EDUCATION_INITIATIVES_AWARD_TYPES,
+        help_text = """
+            Select the opportunity to which the proposal is being submitted.
+        """
+    )
 
     def __unicode__(self):
         return "Research Infrastructure"
@@ -887,13 +913,28 @@ class IndustryInternship(BaseModel):
             first time applicants.
         """
     )
+    funds_requested = models.IntegerField(help_text="In dollars")
+    funds_authorized = models.IntegerField(
+        null = True, blank = True,
+        help_text="In Dollars"
+    )
+    proposed_match = models.IntegerField(
+        "Proposed match (1:1 mimimum)(in $)",
+    )
+    authorized_match = models.IntegerField(
+        null = True, blank = True
+    )
+    source_match = models.CharField(
+        "Source(s) of match", max_length=255
+    )
     # Internship opportunity
     discipline = models.CharField(
         max_length = 128,
         choices = DISCIPLINES,
         null = True, blank = True,
         help_text = """
-            Select the discipline within which the opportunity falls.
+            Select the discipline within which the
+            internship opportunity falls.
         """
     )
     discipline_other = models.CharField(
@@ -908,8 +949,8 @@ class IndustryInternship(BaseModel):
         # 500 character limit
         null = True, blank = True,
         help_text = """
-            Provide additional information and its relevancy
-            in terms of its relationship to the internship opportunity.
+            Provide additional information related to the required educational
+            background for the internship opportunity.
         """
     )
     # Intern Supervisor
@@ -924,7 +965,7 @@ class IndustryInternship(BaseModel):
         null = True, blank = True
     )
     intern_supervisor_cv = models.FileField(
-        "Résumé",
+        "Brief Résumé",
         upload_to = upload_to_path,
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
@@ -933,6 +974,7 @@ class IndustryInternship(BaseModel):
     )
     # Work description
     objective_technical_approach = models.TextField(
+        "Objective and Technical Approach",
         # 2500 character limit
         null = True, blank = True
     )
