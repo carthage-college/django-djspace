@@ -716,10 +716,6 @@ class UndergraduateResearch(BaseModel):
     project_title = models.CharField(
         "Title of project", max_length=255
     )
-    academic_institution = models.CharField(
-        "Application submitted for", max_length=128,
-        choices=ACADEMIC_INSTITUTIONS
-    )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
         null = True, blank = True,
@@ -884,6 +880,10 @@ class UndergraduateScholarship(BaseModel):
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
             [PDF format]
         ''')
+    )
+    academic_institution = models.CharField(
+        "Application submitted for", max_length=128,
+        choices=ACADEMIC_INSTITUTIONS
     )
 
     def __unicode__(self):
