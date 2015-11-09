@@ -70,6 +70,16 @@ INDUSTRY_AWARD_TYPES = (
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
     ),
 )
+UNDERGRADUATE_RESEARCH_AWARD_TYPES = (
+    (
+        'Summer Research:  Up to $4000',
+        'Summer Research:  Up to $4000'
+    ),
+    (
+        'Academic-Year Research:  Up to $4000',
+        'Academic-Year Research:  Up to $4000'
+    )
+)
 DISCIPLINES = (
     ('Engineering','Engineering'),
     ('Biology','Biology'),
@@ -689,6 +699,11 @@ class UndergraduateResearch(BaseModel):
         null = True, blank = True,
         help_text="In Dollars"
     )
+    award_type = models.CharField(
+        "Award",
+        max_length = 128,
+        choices = UNDERGRADUATE_RESEARCH_AWARD_TYPES
+    )
     time_frame = models.CharField(
         "Time frame that best suits your project",
         max_length=128,
@@ -865,7 +880,6 @@ class IndustryInternship(BaseModel):
         "Award",
         max_length = 128,
         choices = INDUSTRY_AWARD_TYPES,
-        null = True, blank = True,
         help_text = """
             Select the opportunity to which the proposal is being submitted.
             <br><strong>NOTE</strong>:
