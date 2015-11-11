@@ -11,6 +11,7 @@ from djtools.fields import BINARY_CHOICES
 
 from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 
+from allauth.account.models import EmailAddress
 from collections import OrderedDict
 from datetime import date
 
@@ -164,6 +165,7 @@ class SignupForm(forms.Form):
 
     def clean(self):
         cd = super(SignupForm, self).clean()
+        # dob is required for this form
         if not cd.get("date_of_birth"):
             self._errors["date_of_birth"] = self.error_class(
                 ["Required field"]
@@ -187,11 +189,21 @@ class SignupForm(forms.Form):
                 self._errors["postal_code_current"] = self.error_class(
                     ["Required field"]
                 )
+        # check disability and description
         if cd.get("disability") == "I have a disability, but it is not listed"\
           and cd.get("disability_specify") == "":
             self._errors["disability_specify"] = self.error_class(
                 ["Please describe your disability"]
             )
+        # check if secondary email already exists in the system
+        if cd.get("email_secondary"):
+            try:
+                EmailAddress.objects.get(email= cd.get("email_secondary"))
+                self._errors["email_secondary"] = self.error_class(
+                    ["That email already exists in the system"]
+                )
+            except:
+                pass
         return cd
 
 
