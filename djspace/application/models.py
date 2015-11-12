@@ -996,7 +996,6 @@ class NasaCompetition(BaseModel):
         upload_to = upload_to_path,
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
-        null = True, blank = True,
         help_text = "PDF format"
     )
     finance_officer_name = models.CharField(
