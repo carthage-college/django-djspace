@@ -601,6 +601,8 @@ admin.site.register(
 admin.site.register(
     IndustryInternship, IndustryInternshipAdmin
 )
+'''
 admin.site.register(
     WorkPlanTask, WorkPlanTaskAdmin
 )
+'''
