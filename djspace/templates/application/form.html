@@ -53,22 +53,25 @@ $(function() {
     $("input[id$='clear_id']").css({ float: "right" });
     $("label[for$='clear_id']").css({ float: "right", marginRight:"7px" });
     $('label[for="id_other_funding_0"]').closest('ul').addClass('linline');
+    $('label[for="id_program_acceptance_0"]').closest('ul').addClass('linline');
     {% if app_name == "Rocket Launch Team" %}
-        // leader field (FK to user)
-        {% if request.session.leader_id %}
-        document.valueSelectedForAutocomplete = {{request.session.leader_id}}
-        $('#id_leader').val("{{request.session.leader_name}}");
-        {% endif %}
-        $('#id_leader').autocomplete({
-            source: '{% url "get_users" %}',
-            minLength: 3,
-            select: function (event, ui) {
-                var lid = ui.item.id;
-                //store in session
-                document.valueSelectedForAutocomplete = lid
-            }
-        });
+    /* Rocket Launch Team Leader */
+    {% if request.session.leader_id %}
+    document.valueSelectedForAutocomplete = {{request.session.leader_id}}
+    $('#id_leader').val("{{request.session.leader_name}}");
     {% endif %}
+    $('#id_leader').autocomplete({
+        source: '{% url "get_users" %}',
+        minLength: 3,
+        select: function (event, ui) {
+            var lid = ui.item.id;
+            //store in session
+            document.valueSelectedForAutocomplete = lid
+        }
+    });
+    /* End Rocket Launch Team Leader */
+    {% endif %}
+    /* Industry Internship Work Plans */
     {% if app_name == "Industry Internship" %}
     // number of work plan tasks
     var tasks = {{form.instance.work_plan_tasks.all|length|default:1}};
@@ -80,7 +83,7 @@ $(function() {
             $('<h3 class="fleft"><label>Task</label></h3>').prependTo("#" + newId);
             $.growlUI('Work Plan Tasks: ', tasks);
         }else{
-            $.growlUI('Warning', 'Task Limit: 10');
+            $.growlUI('Warning', 'Task Limit is 10');
         }
     });
     // remove task
@@ -93,6 +96,45 @@ $(function() {
             $.growlUI('Warning', 'No tasks to delete');
         }
     });
+    /* End Industry Internship Work Plans */
+    {% endif %}
+    {% if app_name == "Nasa Competition" %}
+    /* NASA Competition Team Members */
+    var members = 1;
+    $('input[id^="id_member_"]').each(function(index) {
+        dis = $(this);
+        container = dis.closest('li');
+        if ( dis.val() != "" ) {
+            container.slideDown(200);
+            members++;
+        } else {
+            if (index != 0) {
+                container.slideUp(200);
+            }
+        }
+    });
+    $(".clone-member").click(function () {
+        if (members < 10) {
+            members++;
+            field = $("#id_member_" + members);
+            field.closest('li').slideDown(200);
+            $.growlUI('Team Members: ', members);
+        }else{
+            $.growlUI('Warning', 'Team Member Limit is 10');
+        }
+    });
+    $(".destroy-member").click(function () {
+        if (members > 1) {
+            field = $("#id_member_" + members);
+            field.closest('li').slideUp(200);
+            field.val("");
+            members--;
+            $.growlUI('Team Members: ', members);
+        }else{
+            $.growlUI('Warning', 'You need at least one team member');
+        }
+    });
+    /* End NASA Competition Team Members */
     {% endif %}
     $('form#profile').submit(function(){
         {% if app_name == "Rocket Launch Team" %}
@@ -184,10 +226,10 @@ $(function() {
                     <legend>Work description</legend>
                     <ol>
                 {% endif %}
-                {% if field.name == "task_schedule" %}
+                {% if app_name == "Industry Internship" and field.name == "task_schedule" %}
                     </ol></fieldset>
                     <fieldset class="blockLabels">
-                    <legend>Work Plan</legend>
+                    <legend>Work plan</legend>
                     <ol>
                         <li class="form-group ctrlHolder">
                         {% include "application/industry_internship_workplan.inc.html" %}
@@ -198,6 +240,21 @@ $(function() {
                     <fieldset class="blockLabels">
                     <legend>WSGC and NASA</legend>
                     <ol>
+                {% endif %}
+                {% if app_name == "Nasa Competition" and field.name == "member_1" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Team members</legend>
+                    <ol>
+                    <li>
+                        Add or remove team members with the following icons:
+                        <p>
+                            <img class="clone-member" style="margin-bottom:-3px;"
+                                src="//www.carthage.edu/assets/img/ico/silk/icons/add.png">
+                            <img class="destroy-member" style="margin-bottom:-3px;"
+                                src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+                        </p>
+                    </li>
                 {% endif %}
                 <li class="form-group ctrlHolder">
                     <h3>
@@ -224,27 +281,29 @@ $(function() {
     </fieldset>
     {% include "form_submit.inc.html" %}
     </form>
-    <div id="doop-master-container">
-        <div class="work-plan-task" id="doop-master">
-            <input type="hidden" name="tid[]" value="">
-            <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
-                src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
-            <ul>
-                <li>
-                    <input type="text" name="title[]" maxlength="128" placeholder="Title">
-                </li>
-                <li>
-                    <textarea rows="10" name="description[]" cols="40" placeholder="Description"></textarea>
-                </li>
-                <li>
-                    <input type="text" name="hours_percent[]" maxlength="128" placeholder="Percentage of total internship hours">
-                </li>
-                <li>
-                    <textarea rows="10" name="expected_outcome[]" cols="40" placeholder="Expected outcome"></textarea>
-                </li>
-            </ul>
+        {% if app_name == "Industry Internship" %}
+        <div id="doop-master-container">
+            <div class="work-plan-task" id="doop-master">
+                <input type="hidden" name="tid[]" value="">
+                <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
+                    src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+                <ul>
+                    <li>
+                        <input type="text" name="title[]" maxlength="128" placeholder="Title">
+                    </li>
+                    <li>
+                        <textarea rows="10" name="description[]" cols="40" placeholder="Description"></textarea>
+                    </li>
+                    <li>
+                        <input type="text" name="hours_percent[]" maxlength="128" placeholder="Percentage of total internship hours">
+                    </li>
+                    <li>
+                        <textarea rows="10" name="expected_outcome[]" cols="40" placeholder="Expected outcome"></textarea>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
+        {% endif %}
     {% else %}
         <h2>No teams</h2>
         <p class="intro">

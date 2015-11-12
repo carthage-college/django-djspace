@@ -94,6 +94,32 @@ DISCIPLINES = (
     ('Technical (2 year)','Technical (2 year)'),
     ('Other','Other')
 )
+NASA_COMPETITION_TYPES = (
+    ('HASP','HASP'),
+    ('Micro-G/NExT','Micro-G/NExT'),
+    ('Robotic Mining','Robotic Mining'),
+    ('RockSat','RockSat'),
+    ('XHab','XHab'),
+    ('Other','Other')
+)
+NASA_CENTER_CHOICES = (
+    ('Ames Research Center','Ames Research Center'),
+    ('Armstrong Flight Research Center','Armstrong Flight Research Center'),
+    ('Glenn Research Center','Glenn Research Center'),
+    ('Goddard Space Flight Center','Goddard Space Flight Center'),
+    ('Jet Propulsion Laboratory','Jet Propulsion Laboratory'),
+    ('Johnson Space Center','Johnson Space Center'),
+    ('Kennedy Space Center','Kennedy Space Center'),
+    ('Langley Research Center','Langley Research Center'),
+    ('Marshall Space Flight Center','Marshall Space Flight Center'),
+    ('Stennis Space Center','Stennis Space Center'),
+    ('Wallops Flight Facility','Wallops Flight Facility'),
+    ('Other','Other')
+)
+NASA_COMPETITION_AWARD_TYPES = (
+    ('Project award','Project award'),
+    ('Travel award','Travel award')
+)
 # Correspond to Tags
 ROCKET_COMPETITIONS = [
     "Collegiate Rocket Competition",
@@ -894,6 +920,148 @@ class UndergraduateScholarship(BaseModel):
 
     def get_slug(self):
         return "undergraduate-scholarship"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+
+class NasaCompetition(BaseModel):
+
+    competition_type = models.CharField(
+        "Type of NASA competition",
+        max_length = 128,
+        choices = NASA_COMPETITION_TYPES
+    )
+    competition_type_other = models.CharField(
+        "Other",
+        max_length = 128,
+        null = True, blank = True,
+        help_text = '''
+            If you have choosen "Other" in the field above,
+            please identify the NASA Competition in which you are
+            requesting funds to participate
+        '''
+    )
+    facility_name = models.CharField(
+        "NASA center",
+        max_length = 128,
+        choices = NASA_CENTER_CHOICES
+    )
+    facility_name_other = models.CharField(
+        "Other",
+        max_length = 128,
+        null = True, blank = True,
+        help_text = '''
+            If you have choosen "Other" in the field above,
+            please identify the competition location"
+        '''
+    )
+    program_acceptance = models.CharField(
+        "Has your team applied and been accepted into the program?",
+        max_length = 4,
+        choices = BINARY_CHOICES
+    )
+    award_type = models.CharField(
+        "Award type",
+        max_length = 128,
+        choices = NASA_COMPETITION_AWARD_TYPES
+    )
+    funds_requested = models.IntegerField(help_text="In dollars")
+    funds_authorized = models.IntegerField(
+        null = True, blank = True,
+        help_text = "In Dollars"
+    )
+    proposed_match = models.IntegerField(
+        "Proposed match (25% mimimum)(in $)"
+    )
+    authorized_match = models.IntegerField(
+        null = True, blank = True
+    )
+    source_match = models.CharField(
+        "Source(s) of match", max_length = 255
+    )
+    time_frame = models.CharField(
+        "Time frame that best suits your project",
+        max_length = 128,
+        choices = TIME_FRAME
+    )
+    statement = models.FileField(
+        upload_to = upload_to_path,
+        validators = [MimetypeValidator('application/pdf')],
+        max_length = 768,
+        help_text = "1 to 2 paragraphs"
+    )
+    budget = models.FileField(
+        upload_to = upload_to_path,
+        validators = [MimetypeValidator('application/pdf')],
+        max_length = 768,
+        null = True, blank = True,
+        help_text = "PDF format"
+    )
+    finance_officer_name = models.CharField(
+        "Name",
+        max_length = 128
+    )
+    finance_officer_address = models.TextField("Address")
+    finance_officer_email = models.EmailField("Email")
+    finance_officer_phone = models.CharField(
+        verbose_name = 'Phone number',
+        max_length = 12,
+        help_text = "Format: XXX-XXX-XXXX"
+    )
+    # this is crazy and should be m2m but for now they do not
+    # want to require members to be registered with the site
+    member_1 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_2 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_3 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_4 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_5 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_6 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_7 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_8 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_9 = models.CharField(
+        max_length=128,
+        null = True, blank = True
+    )
+    member_10 = models.CharField(
+        "Member 10",
+        max_length=128,
+        null = True, blank = True
+    )
+
+    def __unicode__(self):
+        return "NASA Competition"
+
+    def get_application_type(self):
+        return "NASA Competition"
+
+    def get_slug(self):
+        return "nasa-competition"
 
     @models.permalink
     def get_absolute_url(self):

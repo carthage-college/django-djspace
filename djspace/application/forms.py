@@ -240,6 +240,20 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         ).order_by("name")
 
 
+class NasaCompetitionForm(forms.ModelForm):
+
+    program_acceptance = forms.TypedChoiceField(
+        label = "Has your team applied and been accepted into the program?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
+    class Meta:
+        model = NasaCompetition
+        exclude = (
+            'user','status','funds_authorized','authorized_match'
+        )
+
+
 class IndustryInternshipForm(forms.ModelForm):
 
     class Meta:
