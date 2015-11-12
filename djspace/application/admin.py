@@ -46,7 +46,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         "firstnationsrocketcompetition", "collegiaterocketcompetition",
         "midwesthighpoweredrocketcompetition", "graduatefellowship",
         "highaltitudeballoonpayload","highaltitudeballoonlaunch",
-        "highereducationinitiatives", "industryinternship",
+        "highereducationinitiatives", "industryinternship","nasacompetition",
         "researchinfrastructure", "specialinitiatives",
         "undergraduateresearch", "undergraduatescholarship"
     ]
@@ -523,6 +523,47 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         return qs
 
 
+class NasaCompetitionAdmin(GenericAdmin):
+
+    model = NasaCompetition
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        "competition_type", "competition_type_other",
+        "facility_name", "facility_name_other",
+        "program_acceptance", "award_type",
+        'time_frame', 'funds_requested', 'funds_authorized',
+        'proposed_match', 'authorized_match', 'source_match',
+        'statement_link', 'budget_link',
+        'finance_officer_name', 'finance_officer_address',
+        'finance_officer_email', 'finance_officer_phone',
+        'date_created','date_updated','status'
+    ]
+    list_display_links = ['date_created']
+    #date_created.short_description = 'Created (edit)'
+    actions = [export_all_applications]
+
+    def budget_link(self, instance):
+        if instance.budget:
+            return '<a href="{}" target="_blank">Budget</a>'.format(
+                instance.budget.url
+            )
+        else:
+            return None
+    budget_link.allow_tags = True
+    budget_link.short_description = "Budget"
+
+    def statement_link(self, instance):
+        return '<a href="{}" target="_blank">Statement</a>'.format(
+            instance.statement.url
+        )
+    statement_link.allow_tags = True
+    statement_link.short_description = 'Statement'
+
+    def queryset(self, request):
+        qs = get_queryset(self, request, NasaCompetitionAdmin)
+        return qs
+
+
 class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
 
     model = SpecialInitiatives
@@ -591,6 +632,9 @@ admin.site.register(
 )
 admin.site.register(
     GraduateFellowship, GraduateFellowshipAdmin
+)
+admin.site.register(
+    NasaCompetition, NasaCompetitionAdmin
 )
 admin.site.register(
     UndergraduateScholarship, UndergraduateScholarshipAdmin
