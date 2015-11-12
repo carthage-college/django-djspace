@@ -254,6 +254,26 @@ class NasaCompetitionForm(forms.ModelForm):
         )
 
 
+    def clean(self):
+        """
+        Check "other" fields if need be
+        """
+        cd = self.cleaned_data
+
+        if cd.get("competition_type") == "Other":
+            if cd.get("competition_type_other") == "":
+                self._errors["competition_type_other"] = self.error_class(
+                    ["Required field"]
+                )
+
+        if cd.get("facility_name") == "Other":
+            if cd.get("facility_name_other") == "":
+                self._errors["facility_name_other"] = self.error_class(
+                    ["Required field"]
+                )
+
+        return cd
+
 class IndustryInternshipForm(forms.ModelForm):
 
     class Meta:
