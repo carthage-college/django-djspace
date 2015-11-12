@@ -548,13 +548,13 @@ class IndustryInternshipAdmin(GenericAdmin):
         qs = get_queryset(self, request, IndustryInternshipAdmin)
         return qs
 
-
+'''
 class WorkPlanTaskAdmin(admin.ModelAdmin):
 
     model = WorkPlanTask
     list_display = ['title','industry_internship',]
     raw_id_fields = ("industry_internship",)
-
+'''
 
 admin.site.register(
     HigherEducationInitiatives, HigherEducationInitiativesAdmin
