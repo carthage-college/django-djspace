@@ -100,7 +100,7 @@ $(function() {
     {% endif %}
     {% if app_name == "Nasa Competition" %}
     /* NASA Competition Team Members */
-    var members = 1;
+    var members = 0;
     $('input[id^="id_member_"]').each(function(index) {
         dis = $(this);
         container = dis.closest('li');
@@ -110,9 +110,12 @@ $(function() {
         } else {
             if (index != 0) {
                 container.slideUp(200);
+            }else{
+                members++;
             }
         }
     });
+    console.log(members);
     $(".clone-member").click(function () {
         if (members < 10) {
             members++;
