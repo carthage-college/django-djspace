@@ -1,0 +1,87 @@
+{% extends "application/email/base.html" %}
+{% block title %}NASA Competition{% endblock %}
+{% block data %}
+
+<h4>Type of NASA competition</h4>
+<p>{{data.competition_type}}</p>
+{% if data.competition_type_other %}
+<h4>Other competition</h4>
+<p>{{data.competition_type_other}}</p>
+{% endif %}
+
+<h4>NASA Center</h4>
+<p>{{data.facility_name}}</p>
+{% if data.facility_name_other %}
+<h4>Other facility</h4>
+<p>{{data.facility_name_other}}</p>
+{% endif %}
+<h4>Has your team applied and been accepted into the program?</h4>
+<p>{{data.program_acceptance}}</p>
+<h4>Award Type</h4>
+<p>{{data.award_type}}</p>
+<h4>Funds requested</h4>
+<p>{{data.funds_requested}}</p>
+<h4>Proposed Match</h4>
+<p>{{data.proposed_match}}</p>
+<h4>Source(s) of the Match</h4>
+<p>{{data.source_match}}</p>
+<h4>Time Frame</h4>
+<p>{{data.time_frame}}</p>
+<h4>Statement</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.statement}}"> 
+        Statement
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.statement}}
+</p>
+<h4>Budget</h4>
+<p>
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
+        Budget
+    </a><br>
+    https://spacegrant.carthage.edu/static/djspace/{{data.budget}}
+</p>
+<h3>Business/Finance Officer</h3>
+<h4>Name</h4>
+<p>{{data.finance_officer_name}}</p>
+<h4>Address</h4>
+<p>{{data.finance_officer_address|striptags}}</p>
+<h4>Email</h4>
+<p>{{data.finance_officer_email}}</p>
+<h4>Phone</h4>
+<p>{{data.finance_officer_phone}}</p>
+<h3>Team Members</h3>
+<ol>
+{% if data.member_1 %}
+<li>{{data.member_1}}</li>
+{% endif %}
+{% if data.member_2 %}
+<li>{{data.member_2}}</li>
+{% endif %}
+{% if data.member_3 %}
+<li>{{data.member_3}}</li>
+{% endif %}
+{% if data.member_4 %}
+<li>{{data.member_4}}</li>
+{% endif %}
+{% if data.member_5 %}
+<li>{{data.member_5}}</li>
+{% endif %}
+{% if data.member_6 %}
+<li>{{data.member_6}}</li>
+{% endif %}
+{% if data.member_7 %}
+<li>{{data.member_7}}</li>
+{% endif %}
+{% if data.member_8 %}
+<li>{{data.member_8}}</li>
+{% endif %}
+{% if data.member_9 %}
+<li>{{data.member_9}}</li>
+{% endif %}
+{% if data.member_10 %}
+<li>{{data.member_10}}</li>
+{% endif %}
+<ol>
+
+{% endblock %}
