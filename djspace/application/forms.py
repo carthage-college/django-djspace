@@ -6,33 +6,30 @@ from django.contrib.auth.models import User
 from django.forms.extras.widgets import SelectDateWidget
 
 from djspace.application.models import *
-from djtools.fields.widgets import MonthYearWidget
 from djtools.fields import BINARY_CHOICES
 
 from taggit.models import Tag
 
 class HigherEducationInitiativesForm(forms.ModelForm):
 
-    time_frame = forms.DateField(widget=MonthYearWidget)
-
     class Meta:
         model = HigherEducationInitiatives
         exclude = ('user','status','funds_authorized','authorized_match')
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
-            'source_match','time_frame','location','synopsis','proposal'
+            'source_match','begin_date', 'end_date', 'location','synopsis',
+            'proposal'
         ]
 
 class ResearchInfrastructureForm(forms.ModelForm):
-
-    time_frame = forms.DateField(widget=MonthYearWidget)
 
     class Meta:
         model = ResearchInfrastructure
         exclude = ('user','status','funds_authorized','authorized_match')
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
-            'source_match','time_frame','location','synopsis','proposal'
+            'source_match','begin_date', 'end_date', 'location','synopsis',
+            'proposal'
         ]
 
 
@@ -40,9 +37,6 @@ class AerospaceOutreachForm(forms.ModelForm):
 
     project_category = forms.TypedChoiceField(
         choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
-    )
-    time_frame = forms.DateField(
-        widget=MonthYearWidget
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
@@ -52,8 +46,8 @@ class AerospaceOutreachForm(forms.ModelForm):
     class Meta:
         model = AerospaceOutreach
         fields = [
-            'project_title','project_category','location','time_frame',
-            'funds_requested','proposed_match','source_match',
+            'project_title','project_category','location','begin_date',
+            'end_date', 'funds_requested','proposed_match','source_match',
             'other_funding','other_funding_explain',
             'synopsis', 'proposal',
             'finance_officer_name','finance_officer_address',
@@ -67,7 +61,6 @@ class SpecialInitiativesForm(forms.ModelForm):
     project_category = forms.TypedChoiceField(
         choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
     )
-    time_frame = forms.DateField(widget=MonthYearWidget)
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -92,8 +85,8 @@ class SpecialInitiativesForm(forms.ModelForm):
     class Meta:
         model = SpecialInitiatives
         fields = [
-            'project_title','project_category','location','time_frame',
-            'funds_requested','proposed_match','source_match',
+            'project_title','project_category','location','begin_date',
+            'end_date', 'funds_requested','proposed_match','source_match',
             'other_funding','other_funding_explain', 'synopsis', 'proposal',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone'

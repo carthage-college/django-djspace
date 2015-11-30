@@ -625,6 +625,8 @@ class Fellowship(BaseModel):
         choices=TIME_FRAME
     )
     '''
+    begin_date = models.DateField()
+    end_date = models.DateField()
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
         null = True, blank = True,
@@ -760,6 +762,8 @@ class UndergraduateResearch(BaseModel):
         choices=TIME_FRAME
     )
     '''
+    begin_date = models.DateField()
+    end_date = models.DateField()
     synopsis = models.TextField(
         help_text = '''
             Please include a short synopsis of your project

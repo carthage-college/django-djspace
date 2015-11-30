@@ -8,6 +8,8 @@
 <script type="text/javascript"
     src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
 {% endif %}
+<script src="//www.carthage.edu/static/vendor/jquery/ui/datepicker/js/jquery-ui-1.10.4.custom.min.js"
+    type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript"
     src="//www.carthage.edu/static/vendor/jquery/ui/current/jquery-ui.min.js"></script>
 <script src="https://malsup.github.io/min/jquery.blockUI.min.js"
@@ -48,6 +50,13 @@ $(function() {
             "|", "indent", "outdent", "horizontalrule", "link",
             "unlink", "|", "orderedList", "unorderedList"
         ]
+    });
+    $("[id^=id_][id$=_date]").datepicker({
+        firstDay:1,appendText:"(format yyyy-mm-dd)",
+        changeFirstDay:false,dateFormat:"yy-mm-dd",
+        showOn:"both",
+        buttonImage:"//www.carthage.edu/themes/shared/img/ico/calendar.gif",
+        buttonImageOnly:true
     });
     {% endif %}
     $("input[id$='clear_id']").css({ float: "right" });
@@ -152,6 +161,8 @@ $(function() {
 {% endblock %}
 {% block extra_style %}
 {{block.super}}
+<link href="//www.carthage.edu/static/vendor/jquery/ui/datepicker/css/smoothness/jquery-ui-1.10.4.custom.min.css"
+    rel="stylesheet" type="text/css" />
 <link href="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea.css"
     rel="stylesheet" type="text/css" />
 <link href="//www.carthage.edu/static/vendor/jquery/ui/current/jquery-ui.min.css"
@@ -159,7 +170,6 @@ $(function() {
 <style type="text/css" media="screen, projection">
     .form h3, .h3back {background-color: #efefef; padding: 0 5px; }
     .help {margin:5px 0 9px 9px;}
-    #id_time_frame_month, #id_time_frame_year {width:120px;}
     label[for=id_synopsis]:after {
         font-family: FontAwesome;
         /*content: "\f069";*/
