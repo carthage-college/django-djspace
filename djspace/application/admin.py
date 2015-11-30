@@ -134,7 +134,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     model = ClarkGraduateFellowship
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'time_frame',
+        'project_title', 'begin_date', 'end_date',
         'anticipating_funding', 'funds_requested', 'funds_authorized',
         'synopsis_trunk', 'signed_certification_link', 'proposal_link',
         'cv_link', 'budget_link', 'undergraduate_transcripts_link',
@@ -298,7 +298,8 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     model = UndergraduateResearch
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title','time_frame','funds_requested','funds_authorized',
+        'project_title', 'begin_date', 'end_date',
+        'funds_requested','funds_authorized',
         'synopsis_trunk','signed_certification_link','proposal_link',
         'high_school_transcripts_link','undergraduate_transcripts_link',
         'wsgc_advisor_recommendation_link','recommendation_link',
@@ -465,7 +466,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'time_frame', 'award_type',
+        'project_title', 'begin_date', 'end_date', 'award_type',
         'funds_requested', 'funds_authorized',
         'proposed_match', 'authorized_match', 'source_match', 'location',
         'synopsis_trunk', 'proposal_link',
@@ -508,14 +509,14 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
     model = AerospaceOutreach
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'time_frame', 'project_category',
+        'project_title', 'begin_date', 'end_date', 'project_category',
         'other_funding', 'other_funding_explain',
-        'time_frame', 'funds_requested', 'funds_authorized',
+        'funds_requested', 'funds_authorized',
         'proposed_match', 'authorized_match', 'source_match', 'location',
         'synopsis_trunk', 'proposal_link',
         'finance_officer_name', 'finance_officer_address',
         'finance_officer_email', 'finance_officer_phone',
-        'date_created','date_updated','status'
+        'status'
     ]
 
     def queryset(self, request):
@@ -531,7 +532,7 @@ class NasaCompetitionAdmin(GenericAdmin):
         "competition_type", "competition_type_other",
         "facility_name", "facility_name_other",
         "program_acceptance", "award_type",
-        'time_frame', 'funds_requested', 'funds_authorized',
+        'begin_date', 'end_date', 'funds_requested', 'funds_authorized',
         'proposed_match', 'authorized_match', 'source_match',
         'statement_link', 'budget_link',
         'finance_officer_name', 'finance_officer_address',
