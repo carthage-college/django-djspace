@@ -162,9 +162,8 @@ class EducationInitiatives(BaseModel):
     source_match = models.CharField(
         "Source(s) of match", max_length=255
     )
-    time_frame = models.DateField(
-        "Time frame that best suits your project",
-    )
+    begin_date = models.DateField()
+    end_date = models.DateField()
     location = models.CharField(
         "Location of project", max_length=255
     )
@@ -619,11 +618,13 @@ class Fellowship(BaseModel):
     project_title = models.CharField(
         "Title of project", max_length=255
     )
+    '''
     time_frame = models.CharField(
         "Time frame that best suits your project",
         max_length=128,
         choices=TIME_FRAME
     )
+    '''
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
         null = True, blank = True,
@@ -752,11 +753,13 @@ class UndergraduateResearch(BaseModel):
         max_length = 128,
         choices = UNDERGRADUATE_RESEARCH_AWARD_TYPES
     )
+    '''
     time_frame = models.CharField(
         "Time frame that best suits your project",
         max_length=128,
         choices=TIME_FRAME
     )
+    '''
     synopsis = models.TextField(
         help_text = '''
             Please include a short synopsis of your project
