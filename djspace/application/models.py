@@ -988,11 +988,8 @@ class NasaCompetition(BaseModel):
     source_match = models.CharField(
         "Source(s) of match", max_length = 255
     )
-    time_frame = models.CharField(
-        "Time frame that best suits your project",
-        max_length = 128,
-        choices = TIME_FRAME
-    )
+    begin_date = models.DateField()
+    end_date = models.DateField()
     statement = models.FileField(
         upload_to = upload_to_path,
         validators = [MimetypeValidator('application/pdf')],
