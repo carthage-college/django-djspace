@@ -994,7 +994,7 @@ class NasaCompetition(BaseModel):
         upload_to = upload_to_path,
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
-        help_text = "1 to 2 paragraphs"
+        help_text = "1 to 2 pages"
     )
     budget = models.FileField(
         upload_to = upload_to_path,
