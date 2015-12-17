@@ -198,6 +198,18 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         model = FirstNationsRocketCompetition
         exclude = ('user','status')
 
+    def __init__(self, *args, **kwargs):
+        super(FirstNationsRocketCompetitionForm, self).__init__(
+            *args,**kwargs
+        )
+        #tags_list = ["First Nations AISES","First Nations Tribal"]
+        #).filter(tags__name__in=["First Nations AISES","First Nations Tribal"]).exclude(
+        self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
+            count=Count('members')
+        ).filter(tags__name__contains="First Nations").exclude(
+            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+        ).order_by("name")
+
 
 class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
 

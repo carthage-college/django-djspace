@@ -53,16 +53,17 @@ def application_form(request, application_type, aid=None):
     # currently, FNL does not have a limit so we can exclude it.
     if "rocket-competition" in application_type:
         teams = RocketLaunchTeam.objects.filter(
-            tags__name__in=[app_name]
+            tags__name__contains=app_name[:12]
         )
 
+        '''
         if application_type != "first-nations-rocket-competition":
             teams.annotate(
                 count=Count('members')
             ).exclude(
                 count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
             ).order_by("name")
-
+        '''
         if not teams:
             return render_to_response(
                 "application/form.html",

@@ -25,8 +25,8 @@ GRAVITY_TRAVEL = (
     ('travel','Student Travel')
 )
 FIRST_NATIONS_ROCKET_COMPETITIONS = (
-    ('Tribal','Tribal'),
-    ('AISES','AISES'),
+    ('Tribal Challenge','Tribal Challenge'),
+    ('AISES Challenge','AISES Challenge'),
 )
 TIME_FRAME = (
     ('Summer','Summer'),
@@ -123,7 +123,8 @@ NASA_COMPETITION_AWARD_TYPES = (
 # Correspond to Tags
 ROCKET_COMPETITIONS = [
     "Collegiate Rocket Competition",
-    "First Nations Rocket Competition",
+    "First Nations AISES",
+    "First Nations Tribal",
     "Midwest High Powered Rocket Competition"
 ]
 
@@ -507,12 +508,8 @@ class FirstNationsRocketCompetition(BaseModel):
         max_length=128,
         choices=FIRST_NATIONS_ROCKET_COMPETITIONS
     )
-    cv = models.FileField(
-        "Résumé",
-        upload_to=upload_to_path,
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format"
+    prior_experience = models.TextField(
+        "Prior Rocket Experience"
     )
 
     def __unicode__(self):
