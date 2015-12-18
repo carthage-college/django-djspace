@@ -16,9 +16,6 @@ from djspace.core.utils import get_profile_status
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
 
-import logging
-logger = logging.getLogger(__name__)
-
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -56,14 +53,13 @@ def application_form(request, application_type, aid=None):
             tags__name__contains=app_name[:12]
         )
 
-        '''
         if application_type != "first-nations-rocket-competition":
-            teams.annotate(
+            teams = teams.annotate(
                 count=Count('members')
             ).exclude(
                 count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
             ).order_by("name")
-        '''
+
         if not teams:
             return render_to_response(
                 "application/form.html",
