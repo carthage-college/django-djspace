@@ -4,7 +4,11 @@
 <h4>Team Name</h4>
 <p>{{data.name}}</p>
 <h4>Academic Institution</h4>
-<p>{{data.academic_institution_name}}</p>
+<p>{{data.academic_institution_name}}
+{% if data.academic_institution_other %}&mdash;
+{{data.academic_institution_other}}
+{% endif %}
+</p>
 <h4>Leader</h4>
 <p>{{data.leader.last_name}}, {{data.leader.first_name}}</p>
 {% if data.industry_mentor_name %}
@@ -19,6 +23,14 @@
     {% endif %}
 </p>
 {% endif %}
+<h4>Notification of Intent to Compete</h4>
+{{data.intent_compete|safe}}
+<h4>Competitions<h4>
+<ul>
+{% for t in data.tags.all %}
+    <li>{{t}}</li>
+{% endfor %}
+</ul>
 <h4>Team Members</h4>
 <ol>
     <li>
