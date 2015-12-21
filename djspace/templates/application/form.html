@@ -125,7 +125,6 @@ $(function() {
             }
         }
     });
-    console.log(members);
     $(".clone-member").click(function () {
         if (members < 10) {
             members++;
@@ -154,6 +153,12 @@ $(function() {
             // set leader field to selected User's ID
             $('#id_leader').val(document.valueSelectedForAutocomplete);
         {% endif %}
+        /* check textarea for just br tag */
+        $("textarea").each(function(){
+            if (this.value == "<br>") {
+                this.value = "";
+            }
+        });
         // disable submit button after users clicks it
         $(this).children('input[type=submit]').attr('disabled', 'disabled');
     });
