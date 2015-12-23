@@ -25,12 +25,8 @@
 {% endif %}
 <h4>Notification of Intent to Compete</h4>
 {{data.intent_compete|safe}}
-<h4>Competitions<h4>
-<ul>
-{% for t in data.tags.all %}
-    <li>{{t}}</li>
-{% endfor %}
-</ul>
+<h4>Competition<h4>
+<p>{{data.competition}}</p>
 <h4>Team Members</h4>
 <ol>
     <li>

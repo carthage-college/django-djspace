@@ -1,4 +1,9 @@
+{% load livewhale_api %}
 <p class="intro clear">
+    {% if app_name == "First Nations Rocket Competition" %}
+        {% get_lw_content as media_release blurbs 2155 %}
+        {{media_release.body}}
+    {% endif %}
     {% if app_name == "Undergraduate Scholarship" %}
         Before beginning the application, please read the
         <a href="/funding-programs/undergraduate/scholarship/"

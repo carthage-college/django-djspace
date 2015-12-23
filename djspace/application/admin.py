@@ -357,13 +357,13 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     model = RocketLaunchTeam
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'name','academic_institution_name','leader',
+        'name','academic_institution_name','competition','leader',
         'industry_mentor_name','industry_mentor_email',
         'date_created','date_updated',
-        'wsgc_acknowledgement_link','budget_link','tags','status'
+        'wsgc_acknowledgement_link','budget_link','status'
     ]
     list_display_links = ['name']
-    list_editable = ['status','tags']
+    list_editable = ['status']
     raw_id_fields = ("user","leader","members",)
 
     def wsgc_acknowledgement_link(self, instance):
@@ -443,18 +443,11 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     model = FirstNationsRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'team','date_created','date_updated','cv_link','status'
+        'team','date_created','date_updated','status'
     ]
     list_display_links = ['team']
     list_editable = ['status']
     actions = [export_all_applications]
-
-    def cv_link(self, instance):
-        return '<a href="{}" target="_blank">CV</a>'.format(
-            instance.cv.url
-        )
-    cv_link.allow_tags = True
-    cv_link.short_description = "CV"
 
     def queryset(self, request):
         qs = get_queryset(self, request, FirstNationsRocketCompetitionAdmin)

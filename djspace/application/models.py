@@ -13,7 +13,6 @@ from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES
 from djtools.fields.validators import MimetypeValidator
 
-from taggit.managers import TaggableManager
 from uuid import uuid4
 
 WSGC_SCHOOL_OTHER = WSGC_SCHOOL + (('Other','Other'),)
@@ -120,13 +119,15 @@ NASA_COMPETITION_AWARD_TYPES = (
     ('Project award','Project award'),
     ('Travel award','Travel award')
 )
-# Correspond to Tags
-ROCKET_COMPETITIONS = [
-    "Collegiate Rocket Competition",
-    "First Nations AISES",
-    "First Nations Tribal",
-    "Midwest High Powered Rocket Competition"
-]
+ROCKET_COMPETITIONS = (
+    ("Collegiate Rocket Competition", "Collegiate Rocket Competition"),
+    ("First Nations AISES", "First Nations AISES"),
+    ("First Nations Tribal", "First Nations Tribal"),
+    (
+        "Midwest High Powered Rocket Competition",
+        "Midwest High Powered Rocket Competition"
+    )
+)
 
 
 def upload_to_path(self, filename):
@@ -423,7 +424,10 @@ class RocketLaunchTeam(BaseModel):
         null = True, blank = True
     )
     # meta
-    tags = TaggableManager()
+    competition = models.CharField(
+        choices =  ROCKET_COMPETITIONS,
+        max_length=128
+    )
 
     class Meta:
         ordering = ['name']
@@ -510,6 +514,12 @@ class FirstNationsRocketCompetition(BaseModel):
     )
     prior_experience = models.TextField(
         "Prior Rocket Experience"
+    )
+    media_release = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="PDF format"
     )
 
     def __unicode__(self):

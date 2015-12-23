@@ -50,7 +50,7 @@ def application_form(request, application_type, aid=None):
     # currently, FNL does not have a limit so we can exclude it.
     if "rocket-competition" in application_type:
         teams = RocketLaunchTeam.objects.filter(
-            tags__name__contains=app_name[:12]
+            competition__name__contains=app_name[:12]
         )
 
         if application_type != "first-nations-rocket-competition":
@@ -97,10 +97,7 @@ def application_form(request, application_type, aid=None):
     )
     # fetch the form instance
     try:
-        initial = {}
-        if app and application_type == "rocket-launch-team":
-            initial = {"tags": [t.id for t in app.tags.all()]}
-        form = FormClass(instance=app, initial=initial)
+        form = FormClass(instance=app)
     except:
         # app_type does not match an existing form
         raise Http404
@@ -128,15 +125,8 @@ def application_form(request, application_type, aid=None):
             data.updated_by = user
             data.save()
             if application_type == "rocket-launch-team":
-                # first remove all tags
-                for t in data.tags.all():
-                    data.tags.remove(t)
-                # then add tags
-                for item in form.cleaned_data['tags']:
-                    data.tags.add(item)
                 # limit number of team members if need be
-                if "Midwest High-Powered Rocket Competition" \
-                in [t.name for t in form.cleaned_data['tags']]:
+                if data.competition == "Midwest High-Powered Rocket Competition":
                     data.limit = 6
                 else:
                     data.limit = 0
@@ -188,7 +178,7 @@ def application_form(request, application_type, aid=None):
                 TO_LIST.append(data.user.email)
                 if aid:
                     app_name += " (UPDATED)"
-                subject = "{} {}: {}, {}".format(
+                subject = u"{} {}: {}, {}".format(
                     app_name, date,
                     data.user.last_name, data.user.first_name
                 )

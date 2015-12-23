@@ -155,11 +155,13 @@ class RocketLaunchTeamForm(forms.ModelForm):
         ''',
         required = False
     )
-    tags = forms.ModelMultipleChoiceField(
+    '''
+    competition = forms.ModelChoiceField(
         label="In which WSGC rocket competitions will your team compete?",
         queryset=Tag.objects.filter(name__in=ROCKET_COMPETITIONS).order_by("name"),
-        widget=forms.CheckboxSelectMultiple()
+        widget=forms.Select()
     )
+    '''
 
     class Meta:
         model = RocketLaunchTeam

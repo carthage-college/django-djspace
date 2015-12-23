@@ -4,12 +4,5 @@
 <h4>Team</h4>
 <p>{{data.team.name}}</p>
 <h4>Prior Experience</h4>
-<div>{{data.prior_experience}}</div>
-<h4>Files</h4>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.cv}}">
-        CV
-    </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.cv}}
-</p>
+<div>{{data.prior_experience|safe}}</div>
 {% endblock %}

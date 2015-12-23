@@ -1,5 +1,4 @@
 {% extends "dashboard/home.html" %}
-{% load livewhale_api %}
 {% block title %}WSGC {{app_name}} Application &mdash; Carthage College{% endblock %}
 {% block extra_javascript %}
 {% if app_name == "Industry Internship" %}
@@ -298,12 +297,6 @@ $(function() {
             {% endfor %}
         </ol>
     </fieldset>
-        {% if app_name == "First Nations Rocket Competition" %}
-        <fieldset>
-            {% get_lw_content as media_release blurbs 2155 %}
-            {{media_release.body}}
-        </fieldset>
-        {% endif %}
     {% include "form_submit.inc.html" %}
     </form>
         {% if app_name == "Industry Internship" %}
