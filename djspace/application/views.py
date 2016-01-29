@@ -16,6 +16,9 @@ from djspace.core.utils import get_profile_status
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -50,7 +53,7 @@ def application_form(request, application_type, aid=None):
     # currently, FNL does not have a limit so we can exclude it.
     if "rocket-competition" in application_type:
         teams = RocketLaunchTeam.objects.filter(
-            competition__name__contains=app_name[:12]
+            competition__contains=app_name[:12]
         )
 
         if application_type != "first-nations-rocket-competition":
