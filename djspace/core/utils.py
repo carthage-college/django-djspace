@@ -13,8 +13,11 @@ def get_profile_status(user):
     current year and the settings value for the month and the first
     day of the month.
     """
+    year = NOW.year
+    if NOW.month < settings.GRANT_CYCLE_START_MES:
+        year = NOW.year - 1
     grant_cycle_start_date = datetime(
-        NOW.year, settings.GRANT_CYCLE_START_MES, 1
+        year, settings.GRANT_CYCLE_START_MES, 1
     )
     status = False
     if user.profile.date_updated > grant_cycle_start_date:
