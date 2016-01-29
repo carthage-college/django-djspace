@@ -204,11 +204,9 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         super(FirstNationsRocketCompetitionForm, self).__init__(
             *args,**kwargs
         )
-        #tags_list = ["First Nations AISES","First Nations Tribal"]
-        #).filter(tags__name__in=["First Nations AISES","First Nations Tribal"]).exclude(
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).filter(tags__name__contains="First Nations").exclude(
+        ).filter(competition__contains="First Nations").exclude(
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
 
@@ -225,7 +223,7 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).filter(tags__name__in=["Midwest High Powered Rocket Competition"]).exclude(
+        ).filter(competition__in=["Midwest High Powered Rocket Competition"]).exclude(
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
 
@@ -242,7 +240,7 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).filter(tags__name__in=["Collegiate Rocket Competition"]).exclude(
+        ).filter(competition__in=["Collegiate Rocket Competition"]).exclude(
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
 
