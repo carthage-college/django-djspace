@@ -162,9 +162,36 @@ class GenericChoiceAdmin(admin.ModelAdmin):
 admin.site.register(GenericChoice, GenericChoiceAdmin)
 
 class ProfileAdmin(admin.ModelAdmin):
+
+    list_display = [
+        'last_name','first_name','email','username','id'
+    ]
+
+    ordering = [
+        'user__last_name','user__first_name','id'
+    ]
     search_fields = (
-        'user__last_name','user__first_name','user__email','user__username'
+        'user__last_name','user__first_name',
+        'user__email','user__username','user__id'
     )
+
+    date_hierarchy = 'date_created'
+
+    list_per_page = 500
+    raw_id_fields = ("user","updated_by",)
+
+
+    def last_name(self, instance):
+        return instance.user.last_name
+
+    def first_name(self, instance):
+        return instance.user.first_name
+
+    def email(self, instance):
+        return instance.user.email
+
+    def username(self, instance):
+        return instance.user.username
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user

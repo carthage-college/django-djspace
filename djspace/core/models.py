@@ -299,6 +299,7 @@ class UserProfile(models.Model):
             registration_notify(request, "update", self.user)
         super(UserProfile, self).save()
 
+
 # dispatch ID needs to be unique for each signal handler, nothing more.
 # so we can use package plus signal name.
 @receiver(user_signed_up, dispatch_uid="allauth.user_signed_up")
@@ -311,3 +312,16 @@ def _user_signed_up(request, user, **kwargs):
 
     # notify WSGC administrators of new user registration
     registration_notify(request, "create", user)
+
+
+"""
+class GenericManyToMany(models.Model):
+    from django.contrib.contenttypes.models import ContentType
+    gm2m_src = models.ForeignKey(UserProfile)
+    gm2m_ct = models.ForeignKey(ContentType)
+    gm2m_pk = models.CharField(max_length=16)
+
+    class Meta:
+        db_table = 'core_userprofile_applications'
+"""
+
