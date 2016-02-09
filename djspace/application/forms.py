@@ -155,13 +155,6 @@ class RocketLaunchTeamForm(forms.ModelForm):
         ''',
         required = False
     )
-    '''
-    competition = forms.ModelChoiceField(
-        label="In which WSGC rocket competitions will your team compete?",
-        queryset=Tag.objects.filter(name__in=ROCKET_COMPETITIONS).order_by("name"),
-        widget=forms.Select()
-    )
-    '''
 
     class Meta:
         model = RocketLaunchTeam
@@ -206,9 +199,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).filter(competition__contains="First Nations").exclude(
-            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
-        ).order_by("name")
+        ).filter(competition__contains="First Nations").order_by("name")
 
 
 class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
