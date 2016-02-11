@@ -361,10 +361,6 @@ class RocketLaunchTeam(BaseModel):
         related_name="rocket_launch_team_leader",
         null = True, blank = True
     )
-    members = models.ManyToManyField(
-        User, related_name="rocket_launch_team_members",
-        null = True, blank = True
-    )
     industry_mentor_name = models.CharField(
         max_length=128,
         null = True, blank = True
@@ -451,7 +447,10 @@ class RocketLaunchTeam(BaseModel):
 class MidwestHighPoweredRocketCompetition(BaseModel):
 
     # core
-    team = models.ForeignKey(RocketLaunchTeam)
+    team = models.ForeignKey(
+        RocketLaunchTeam,
+        related_name="midwest-high-powered-competition"
+    )
     cv = models.FileField(
         "Résumé",
         upload_to=upload_to_path,
@@ -480,7 +479,10 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
 class CollegiateRocketCompetition(BaseModel):
 
     # core
-    team = models.ForeignKey(RocketLaunchTeam)
+    team = models.ForeignKey(
+        RocketLaunchTeam,
+        related_name="collegiate-rocket-competition"
+    )
     cv = models.FileField(
         "Résumé",
         upload_to=upload_to_path,

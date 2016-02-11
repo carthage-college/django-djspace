@@ -48,7 +48,10 @@ def application_form(request, application_type, aid=None):
     for n in slug_list:
         app_name += " %s" % n.capitalize()
     app_type = "".join(app_name.split(" "))
-
+    # we need the application model now
+    mod = str_to_class(
+        "djspace.application.models", app_type
+    )
     # check rocket competition teams and member limits.
     # currently, FNL does not have a limit so we can exclude it.
     if "rocket-competition" in application_type:
@@ -58,7 +61,7 @@ def application_form(request, application_type, aid=None):
 
         if application_type != "first-nations-rocket-competition":
             teams = teams.annotate(
-                count=Count('members')
+                count=Count(application_type)
             ).exclude(
                 count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
             ).order_by("name")
@@ -81,9 +84,6 @@ def application_form(request, application_type, aid=None):
     # initialise work plan tasks for industry internship
     tasks = None
     if aid:
-        mod = str_to_class(
-            "djspace.application.models", app_type
-        )
 
         if user.is_superuser:
             app = get_object_or_404(mod, pk=aid)
