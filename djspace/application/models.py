@@ -449,7 +449,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
-        related_name="midwest-high-powered-competition"
+        related_name="midwest_high_powered_competition"
     )
     cv = models.FileField(
         "Résumé",
@@ -481,7 +481,7 @@ class CollegiateRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
-        related_name="collegiate-rocket-competition"
+        related_name="collegiate_rocket_competition"
     )
     cv = models.FileField(
         "Résumé",
@@ -508,7 +508,10 @@ class CollegiateRocketCompetition(BaseModel):
 class FirstNationsRocketCompetition(BaseModel):
 
     # core
-    team = models.ForeignKey(RocketLaunchTeam)
+    team = models.ForeignKey(
+        RocketLaunchTeam,
+        related_name="first_nations_rocket_competition"
+    )
     competition = models.CharField(
         "Rocket Competition",
         max_length=128,

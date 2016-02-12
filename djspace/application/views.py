@@ -60,8 +60,9 @@ def application_form(request, application_type, aid=None):
         )
 
         if application_type != "first-nations-rocket-competition":
+            related_name = application_type.replace('-','_')
             teams = teams.annotate(
-                count=Count(application_type)
+                count=Count(related_name)
             ).exclude(
                 count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
             ).order_by("name")
