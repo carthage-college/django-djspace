@@ -135,9 +135,6 @@ def application_form(request, application_type, aid=None):
                 else:
                     data.limit = 0
                 data.save()
-            # add user to RocketLaunchTeam member m2m
-            if "rocket-competition" in application_type:
-                data.team.members.add(data.user)
 
             # add work plan tasks for industry internship
             if application_type == "industry-internship":
