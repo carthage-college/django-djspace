@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django import forms
 from django.conf import settings
 from django.contrib import admin
 from django.http import HttpResponse
@@ -352,9 +353,46 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         qs = get_queryset(self, request, UndergraduateScholarshipAdmin)
         return qs
 
-class RocketLaunchTeamAdmin(GenericAdmin):
 
+class CollegiateRocketCompetitionInline(admin.TabularInline):
+    model = CollegiateRocketCompetition
+    extra = 0
+    max_num = 0
+    fields = ('lastname','firstname')
+    readonly_fields = [
+        'lastname', 'firstname'
+    ]
+    #can_delete = False
+
+    def lastname(self, instance):
+        return instance.user.last_name
+    lastname.short_description = 'Last name'
+
+    def firstname(self, instance):
+        return instance.user.first_name
+    firstname.short_description = 'First name'
+
+class MidwestHighPoweredRocketCompetitionInline(CollegiateRocketCompetitionInline):
+    model = MidwestHighPoweredRocketCompetition
+
+class FirstNationsRocketCompetitionInline(CollegiateRocketCompetitionInline):
+    model = FirstNationsRocketCompetition
+
+
+class RocketLaunchTeamAdmin(GenericAdmin):
+    '''
+    def __init__(self, *args, **kwargs):
+        if .fields['competition'] == "Collegiate Rocket Competition":
+            inlines = CollegiateRocketCompetitionInline
+        super(RocketLaunchTeamAdmin, self).__init__(*args, **kwargs)
+    '''
+    #form = RocketLaunchTeamAdminForm
     model = RocketLaunchTeam
+    inlines = (
+        CollegiateRocketCompetitionInline,
+        MidwestHighPoweredRocketCompetitionInline,
+        FirstNationsRocketCompetitionInline,
+    )
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'name','academic_institution_name','competition','leader',

@@ -439,6 +439,15 @@ class RocketLaunchTeam(BaseModel):
     def get_slug(self):
         return "rocket-launch-team"
 
+    def get_team_members(self):
+        if self.competition == "Collegiate Rocket Competition":
+            team = self.collegiate_rocket_competition
+        elif self.competition == "Midwest High Powered Rocket Competition":
+            team = self.midwest_high_powered_rocket_competition
+        elif "First Nations" in self.competition:
+            team = self.first_nations_rocket_competition
+        return team
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -449,7 +458,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
-        related_name="midwest_high_powered_competition"
+        related_name="midwest_high_powered_rocket_competition"
     )
     cv = models.FileField(
         "Résumé",
@@ -1257,16 +1266,3 @@ class WorkPlanTask(models.Model):
     def __unicode__(self):
         return u"{}".format(self.title)
 
-
-'''
-"""
-Signals
-"""
-
-def remove_member(sender, instance, *args, **kwargs):
-    instance.team.members.remove(instance.user)
-
-pre_delete.connect(remove_member, sender=MidwestHighPoweredRocketCompetition)
-pre_delete.connect(remove_member, sender=CollegiateRocketCompetition)
-pre_delete.connect(remove_member, sender=FirstNationsRocketCompetition)
-'''

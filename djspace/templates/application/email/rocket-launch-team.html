@@ -48,12 +48,15 @@
         {{data.member_6}}
     </li>
 </ol>
-<!--
+
 <h4>Confirmed Team Members</h4>
 <p>These students have submitted their application to participate on this team.</p>
 <ol>
+{% for m in data.get_team_members.all %}
+<li>{{m.user.last_name}}, {{m.user.first_name}}</li>
+{% endfor %}
 </ol>
--->
+
 <hr>
 <h4>Files</h4>
 {% if data.wsgc_acknowledgement %}

@@ -105,7 +105,6 @@ def application_form(request, application_type, aid=None):
     except:
         # app_type does not match an existing form
         raise Http404
-
     # GET or POST
     if request.method == 'POST':
         try:

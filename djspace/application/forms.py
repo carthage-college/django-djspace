@@ -213,7 +213,7 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
             *args,**kwargs
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
-            count=Count('midwest-high-powered-rocket-competition')
+            count=Count('midwest_high_powered_rocket_competition')
         ).filter(competition="Midwest High Powered Rocket Competition").exclude(
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
@@ -230,7 +230,7 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
             *args,**kwargs
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
-            count=Count('collegiate-rocket-competition')
+            count=Count('collegiate_rocket_competition')
         ).filter(competition="Collegiate Rocket Competition").exclude(
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
