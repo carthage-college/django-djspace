@@ -354,7 +354,9 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         return qs
 
 
-class CollegiateRocketCompetitionInline(admin.TabularInline):
+#class RocketCompetitionInline(admin.TabularInline):
+class RocketCompetitionInline(admin.StackedInline):
+
     model = CollegiateRocketCompetition
     extra = 0
     max_num = 0
@@ -363,6 +365,7 @@ class CollegiateRocketCompetitionInline(admin.TabularInline):
         'lastname', 'firstname'
     ]
     #can_delete = False
+    list_display_links = ['lastname']
 
     def lastname(self, instance):
         return instance.user.last_name
@@ -372,27 +375,31 @@ class CollegiateRocketCompetitionInline(admin.TabularInline):
         return instance.user.first_name
     firstname.short_description = 'First name'
 
-class MidwestHighPoweredRocketCompetitionInline(CollegiateRocketCompetitionInline):
+class MidwestHighPoweredRocketCompetitionInline(RocketCompetitionInline):
     model = MidwestHighPoweredRocketCompetition
 
-class FirstNationsRocketCompetitionInline(CollegiateRocketCompetitionInline):
+class FirstNationsRocketCompetitionInline(RocketCompetitionInline):
     model = FirstNationsRocketCompetition
 
 
 class RocketLaunchTeamAdmin(GenericAdmin):
-    '''
-    def __init__(self, *args, **kwargs):
-        if .fields['competition'] == "Collegiate Rocket Competition":
-            inlines = CollegiateRocketCompetitionInline
-        super(RocketLaunchTeamAdmin, self).__init__(*args, **kwargs)
-    '''
-    #form = RocketLaunchTeamAdminForm
+
     model = RocketLaunchTeam
-    inlines = (
-        CollegiateRocketCompetitionInline,
+
+    inlines = [
+        RocketCompetitionInline,
         MidwestHighPoweredRocketCompetitionInline,
-        FirstNationsRocketCompetitionInline,
-    )
+        FirstNationsRocketCompetitionInline
+    ]
+
+    def get_formsets_with_inlines(self, request, obj=None):
+        for inline in self.get_inline_instances(request, obj):
+            # FILTER THE INLINE FORMSET TO YIELD HERE
+            #if obj is not None and obj.related_instances.count() > 0:
+            #if inline.get_queryset(request).count() > 0:
+            #if inline.get_formset(request, obj) > 0:
+            if inline.get_queryset(request).count() > 0:
+                yield inline.get_formset(request, obj), inline
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'name','academic_institution_name','competition','leader',
@@ -615,7 +622,7 @@ class IndustryInternshipAdmin(GenericAdmin):
     model = IndustryInternship
     list_display_links = ['first_name']
 
-    inlines = (WorkPlanTaskInline,)
+    inlines = [WorkPlanTaskInline,]
 
     def queryset(self, request):
         qs = get_queryset(self, request, IndustryInternshipAdmin)
