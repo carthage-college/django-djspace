@@ -184,6 +184,17 @@ class EducationInitiatives(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
+    finance_officer_name = models.CharField(
+        "Name",
+        max_length=128
+    )
+    finance_officer_address = models.TextField("Address")
+    finance_officer_email = models.EmailField("Email")
+    finance_officer_phone = models.CharField(
+        verbose_name='Phone number',
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX"
+    )
 
     class Meta:
         abstract = True
@@ -261,17 +272,6 @@ class AerospaceOutreach(EducationInitiatives):
         max_length=255,
         null = True, blank = True
     )
-    finance_officer_name = models.CharField(
-        "Name",
-        max_length=128
-    )
-    finance_officer_address = models.TextField("Address")
-    finance_officer_email = models.EmailField("Email")
-    finance_officer_phone = models.CharField(
-        verbose_name='Phone number',
-        max_length=12,
-        help_text="Format: XXX-XXX-XXXX"
-    )
 
     def __unicode__(self):
         return "Aerospace Outreach"
@@ -305,17 +305,6 @@ class SpecialInitiatives(EducationInitiatives):
         "If yes, please explain",
         max_length=255,
         null = True, blank = True
-    )
-    finance_officer_name = models.CharField(
-        "Name",
-        max_length=128
-    )
-    finance_officer_address = models.TextField("Address")
-    finance_officer_email = models.EmailField("Email")
-    finance_officer_phone = models.CharField(
-        verbose_name='Phone number',
-        max_length=12,
-        help_text="Format: XXX-XXX-XXXX"
     )
 
     def __unicode__(self):

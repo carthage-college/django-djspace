@@ -18,7 +18,9 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
             'source_match','begin_date', 'end_date', 'location','synopsis',
-            'proposal'
+            'proposal',
+            'finance_officer_name','finance_officer_address',
+            'finance_officer_email','finance_officer_phone'
         ]
 
 class ResearchInfrastructureForm(forms.ModelForm):
@@ -29,7 +31,9 @@ class ResearchInfrastructureForm(forms.ModelForm):
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
             'source_match','begin_date', 'end_date', 'location','synopsis',
-            'proposal'
+            'proposal',
+            'finance_officer_name','finance_officer_address',
+            'finance_officer_email','finance_officer_phone'
         ]
 
 
