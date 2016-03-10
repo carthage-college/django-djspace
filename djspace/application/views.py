@@ -9,15 +9,11 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.application.forms import *
-from djspace.application.models import RocketLaunchTeam, ROCKET_COMPETITIONS
 from djspace.registration.models import *
 from djspace.core.utils import get_profile_status
 
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
-
-import logging
-logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -52,27 +48,6 @@ def application_form(request, application_type, aid=None):
     mod = str_to_class(
         "djspace.application.models", app_type
     )
-    # check rocket competition teams and member limits.
-    # currently, FNL does not have a limit so we can exclude it.
-    if "rocket-competition" in application_type:
-        teams = RocketLaunchTeam.objects.filter(
-            competition__contains=app_name[:12]
-        )
-
-        if application_type != "first-nations-rocket-competition":
-            related_name = application_type.replace('-','_')
-            teams = teams.annotate(
-                count=Count(related_name)
-            ).exclude(
-                count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
-            ).order_by("name")
-
-        if not teams:
-            return render_to_response(
-                "application/form.html",
-                {"form": None,"app_name":app_name},
-                context_instance=RequestContext(request)
-            )
 
     # email distribution
     if settings.DEBUG:
@@ -127,13 +102,6 @@ def application_form(request, application_type, aid=None):
             data.user = user
             data.updated_by = user
             data.save()
-            if application_type == "rocket-launch-team":
-                # limit number of team members if need be
-                if data.competition == "Midwest High-Powered Rocket Competition":
-                    data.limit = 6
-                else:
-                    data.limit = 0
-                data.save()
 
             # add work plan tasks for industry internship
             if application_type == "industry-internship":
