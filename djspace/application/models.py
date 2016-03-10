@@ -429,6 +429,7 @@ class RocketLaunchTeam(BaseModel):
         return "rocket-launch-team"
 
     def get_team_members(self):
+        team = None
         if self.competition == "Collegiate Rocket Competition":
             team = self.collegiate_rocket_competition
         elif self.competition == "Midwest High Powered Rocket Competition":
