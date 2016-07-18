@@ -25,9 +25,6 @@ urlpatterns = patterns('',
     url(
         r'^dashboard/', include('djspace.dashboard.urls')
     ),
-    url(
-        r'^grappelli/', include('grappelli.urls')
-    ),
     # registration
     url(
         r'^registration/', include("djspace.registration.urls")
