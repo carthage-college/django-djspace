@@ -53,6 +53,9 @@ ACADEMIC_INSTITUTIONS = (
     (
         'All Academic Institution Opportunity (Spring)',
         'All Academic Institution Opportunity (Spring)'
+    ),
+    (
+        'STEM Bridge (Spring)','STEM Bridge (Spring)'
     )
 )
 INDUSTRY_AWARD_TYPES = (
@@ -897,7 +900,7 @@ class UndergraduateScholarship(BaseModel):
         help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
-        "Faculty Research Advisor Recommendation Letter",
+        "STEM Faculty/Advisor Recommendation Letter",
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
