@@ -31,7 +31,8 @@ class ResearchInfrastructureForm(forms.ModelForm):
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
             'source_match','begin_date', 'end_date', 'location','synopsis',
-            'proposal',
+            'nasa_mission_directorate',
+            'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone'
         ]
@@ -53,7 +54,8 @@ class AerospaceOutreachForm(forms.ModelForm):
             'project_title','project_category','location','begin_date',
             'end_date', 'funds_requested','proposed_match','source_match',
             'other_funding','other_funding_explain',
-            'synopsis', 'proposal',
+            'synopsis', 'nasa_mission_directorate',
+            'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone'
         ]
@@ -91,7 +93,9 @@ class SpecialInitiativesForm(forms.ModelForm):
         fields = [
             'project_title','project_category','location','begin_date',
             'end_date', 'funds_requested','proposed_match','source_match',
-            'other_funding','other_funding_explain', 'synopsis', 'proposal',
+            'other_funding','other_funding_explain', 'synopsis',
+            'nasa_mission_directorate',
+            'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone'
         ]

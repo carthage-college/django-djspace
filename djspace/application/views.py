@@ -176,6 +176,7 @@ def application_form(request, application_type, aid=None):
         context_instance=RequestContext(request)
     )
 
+
 @staff_member_required
 def application_print(request, application_type, aid):
 
@@ -189,6 +190,7 @@ def application_print(request, application_type, aid):
     mod = str_to_class(
         "djspace.application.models", app_type
     )
+    #data.reg = get_object_or_404(mod, pk=aid)
     data = get_object_or_404(mod, pk=aid)
 
     return render_to_response(

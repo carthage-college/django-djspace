@@ -19,6 +19,18 @@ WSGC_SCHOOL_OTHER = WSGC_SCHOOL + (('Other','Other'),)
 
 import os
 
+DIRECTORATE_CHOICES = (
+    (
+        'Aeronautics Research','Aeronautics Research'
+    ),
+    (
+        'Human Exploration and Operations Mission Directorate',
+        'Human Exploration and Operations Mission Directorate'
+    ),
+    ('Science','Science'),
+    ('Space Technology','Space Technology'),
+    ('Other','Other')
+)
 GRAVITY_TRAVEL = (
     ('gravity','Reduced Gravity'),
     ('travel','Student Travel')
@@ -241,6 +253,26 @@ class ResearchInfrastructure(EducationInitiatives):
             Select the opportunity to which the proposal is being submitted.
         """
     )
+    nasa_mission_directorate = models.CharField(
+        max_length=128,
+        choices=DIRECTORATE_CHOICES,
+        help_text='''
+            See NASA's
+            <a href="https://www.nasa.gov/offices/education/missions/">
+                Mission Directorates Education and Outreach
+            </a> page for more information.
+        '''
+    )
+    nasa_mission_directorate_other = models.CharField(
+        "Other",
+        max_length = 128,
+        null = True, blank = True,
+        help_text = '''
+            If you have choosen "Other" in the field above,
+            please identify the NASA Mission Directorate in which you are
+            requesting funds to participate.
+        '''
+    )
 
     def __unicode__(self):
         return "Research Infrastructure"
@@ -275,6 +307,26 @@ class AerospaceOutreach(EducationInitiatives):
         max_length=255,
         null = True, blank = True
     )
+    nasa_mission_directorate = models.CharField(
+        max_length=128,
+        choices=DIRECTORATE_CHOICES,
+        help_text='''
+            See NASA's
+            <a href="https://www.nasa.gov/offices/education/missions/">
+                Mission Directorates Education and Outreach
+            </a> page for more information.
+        '''
+    )
+    nasa_mission_directorate_other = models.CharField(
+        "Other",
+        max_length = 128,
+        null = True, blank = True,
+        help_text = '''
+            If you have choosen "Other" in the field above,
+            please identify the NASA Mission Directorate in which you are
+            requesting funds to participate.
+        '''
+    )
 
     def __unicode__(self):
         return "Aerospace Outreach"
@@ -308,6 +360,26 @@ class SpecialInitiatives(EducationInitiatives):
         "If yes, please explain",
         max_length=255,
         null = True, blank = True
+    )
+    nasa_mission_directorate = models.CharField(
+        max_length=128,
+        choices=DIRECTORATE_CHOICES,
+        help_text='''
+            See NASA's
+            <a href="https://www.nasa.gov/offices/education/missions/">
+                Mission Directorates Education and Outreach
+            </a> page for more information.
+        '''
+    )
+    nasa_mission_directorate_other = models.CharField(
+        "Other",
+        max_length = 128,
+        null = True, blank = True,
+        help_text = '''
+            If you have choosen "Other" in the field above,
+            please identify the NASA Mission Directorate in which you are
+            requesting funds to participate.
+        '''
     )
 
     def __unicode__(self):
@@ -653,6 +725,26 @@ class Fellowship(BaseModel):
             in terms understandable by the general reader.
             If your project is selected for funding, this
             wording will be used on our website.
+        '''
+    )
+    nasa_mission_directorate = models.CharField(
+        max_length=128,
+        choices=DIRECTORATE_CHOICES,
+        help_text='''
+            See NASA's
+            <a href="http://www.nasa.gov/offices/education/missions/">
+                Mission Directorates Education and Outreach
+            </a> page for more information.
+        '''
+    )
+    nasa_mission_directorate_other = models.CharField(
+        "Other",
+        max_length = 128,
+        null = True, blank = True,
+        help_text = '''
+            If you have choosen "Other" in the field above,
+            please identify the NASA Mission Directorate in which you are
+            requesting funds to participate.
         '''
     )
     proposal = models.FileField(
