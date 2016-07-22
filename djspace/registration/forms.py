@@ -25,6 +25,13 @@ class UndergraduateForm(forms.ModelForm):
     A form to collect undergraduate information
     """
 
+    def __init__(self, *args, **kwargs):
+        super(UndergraduateForm, self).__init__(*args, **kwargs)
+        if self.instance.wsgc_school:
+            self.fields['wsgc_school'].queryset = GenericChoice.objects.filter(
+                tags__name__in=["College or University"]
+            ).order_by("ranking")
+
     class Meta:
         model = Undergraduate
         exclude = ('user','status',)

@@ -4,38 +4,28 @@ from django.contrib.auth.models import User
 
 from djspace.registration.choices import MAJORS, YEAR_CHOICES
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
-from djspace.core.models import Base, GenericChoice
+from djspace.core.models import GenericChoice
+from djspace.core.models import Base
 
 from djtools.fields import STATE_CHOICES
 from djtools.fields.validators import *
+
 
 def limit_affiliation():
     ids = [
         g.id for g in GenericChoice.objects.filter(
             tags__name__in=["WSGC Affiliates","College or University"]
-        ).order_by("name")
+        ).order_by("ranking")
     ]
     return ids
 
 def limit_college_university():
     ids = [
         g.id for g in GenericChoice.objects.filter(
-            tags__name__in=["College or University"]
-        ).order_by("name")
+            tags__name__in=["College or University",]
+        ).order_by("ranking")
     ]
     return ids
-
-def limit_generic_choice(tag):
-    """
-    why does this not work?
-    """
-    ids = [
-        g.id for g in GenericChoice.objects.filter(
-            tags__name__in=[tag]
-        ).order_by("name")
-    ]
-    return ids
-
 
 class BaseStudent(Base):
     # core
@@ -85,12 +75,18 @@ class BaseStudent(Base):
         max_length=7,
         validators=[month_year_validator]
     )
+    # not certain why limit_choices_to does not work here.
+    # throws: 'function' object is not iterable
+    # worked in django 1.8 but not 1.9.
     wsgc_school = models.ForeignKey(
         GenericChoice,
+        #limit_choices_to={"id__in":limit_college_university},
         verbose_name="College or University",
-        limit_choices_to={"id__in":limit_college_university},
+        related_name="student_wsgc_affiliate",
         help_text="FNL Participants: Choose 'OTHER.'",
-        max_length=128
+        max_length=128,
+        on_delete=models.SET_NULL,
+        null=True,
     )
     studentid = models.CharField(
         "Student Id Number",
