@@ -15,7 +15,7 @@ from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 try:
     AFFILIATES = GenericChoice.objects.filter(
         tags__name__in=["WSGC Affiliates","College or University"]
-    ).order_by("name")
+    ).order_by("ranking")
 except:
     AFFILIATES = GenericChoice.objects.none()
 
