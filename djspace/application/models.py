@@ -161,6 +161,9 @@ def upload_to_path(self, filename):
 
 class EducationInitiatives(BaseModel):
 
+    class Meta:
+        abstract = True
+
     # core
     project_title = models.CharField(
         "Title of project", max_length=255
@@ -210,9 +213,6 @@ class EducationInitiatives(BaseModel):
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
     )
-
-    class Meta:
-        abstract = True
 
 
 class HigherEducationInitiatives(EducationInitiatives):
