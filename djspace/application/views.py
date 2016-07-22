@@ -217,25 +217,25 @@ def application_export(request, application_type):
                     exports.append({"user":user,"app":a})
                     program = a.get_application_type()
 
-    '''
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(
-        application_type
-    )
+    if settings.DEBUG:
+        response = render_to_response(
+            "application/export.html",
+            {'exports': exports,'program':program,'year':TODAY.year},
+            context_instance=RequestContext(request),
+            content_type="text/plain; charset=utf-8"
+        )
+    else:
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(
+            application_type
+        )
 
-    t = loader.get_template('application/export.html')
-    c = Context({
-        'exports': exports,
-        'program':program,
-    })
-    response.write(t.render(c))
+        t = loader.get_template('application/export.html')
+        c = Context({
+            'exports': exports,
+            'program':program,
+            'year':TODAY.year
+        })
+        response.write(t.render(c))
 
     return response
-    '''
-
-    return render_to_response(
-        "application/export.html",
-        {'exports': exports,'program':program,'year':TODAY.year},
-        context_instance=RequestContext(request),
-        content_type="text/plain; charset=utf-8"
-    )
