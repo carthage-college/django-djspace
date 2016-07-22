@@ -13,6 +13,7 @@ from djspace.core.utils import get_profile_status
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
+from djtools.utils.convert import str_to_class
 
 from datetime import date, datetime
 
@@ -265,8 +266,24 @@ class UserProfile(models.Model):
         max_length=32,
         choices=REG_TYPE
     )
-    applications = GM2MField()
-
+    applications = GM2MField(
+        'application.HigherEducationInitiatives',
+        'application.ResearchInfrastructure',
+        'application.AerospaceOutreach',
+        'application.SpecialInitiatives',
+        'application.RocketLaunchTeam',
+        'application.MidwestHighPoweredRocketCompetition',
+        'application.CollegiateRocketCompetition',
+        'application.FirstNationsRocketCompetition',
+        'application.HighAltitudeBalloonLaunch',
+        'application.HighAltitudeBalloonPayload',
+        'application.ClarkGraduateFellowship',
+        'application.GraduateFellowship',
+        'application.UndergraduateResearch',
+        'application.UndergraduateScholarship',
+        'application.NasaCompetition',
+        'application.IndustryInternship'
+    )
 
     def __unicode__(self):
         return u"{} {}'s profile".format(
@@ -288,7 +305,10 @@ class UserProfile(models.Model):
         from djspace.registration.models import Faculty, Professional
 
         try:
-            return eval(self.registration_type).objects.get(user=self.user)
+            reg = str_to_class(
+                "djspace.registration.models", self.registration_type
+            )
+            return reg.objects.get(user=self.user)
         except:
             return None
 
