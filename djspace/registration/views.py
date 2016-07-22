@@ -7,6 +7,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.registration.forms import *
+from djspace.registration.models import *
+from djtools.utils.convert import str_to_class
+
 
 @login_required
 def form(request, reg_type):
@@ -14,20 +17,29 @@ def form(request, reg_type):
     Generic form method that handles all registration types.
     """
     user = request.user
+
     # check if someone is up to something
     if user.profile.registration_type != reg_type:
         return HttpResponseRedirect(reverse('dashboard_home'))
     try:
-        reg = eval(reg_type).objects.get(user=user)
+        mod = str_to_class(
+            "djspace.registration.models", reg_type
+        )
+        reg = mod.objects.get(user=user)
     except:
         reg = None
     try:
-        form = eval(reg_type+"Form")(instance=reg)
+        form = str_to_class(
+            "djspace.registration.forms", (reg_type+"Form")
+        )(instance=reg)
     except:
         raise Http404
+
     if request.method == 'POST':
         try:
-            form = eval(reg_type+"Form")(instance=reg, data=request.POST)
+            form = str_to_class(
+                "djspace.registration.forms", (reg_type+"Form")
+            )(instance=reg, data=request.POST)
         except:
             raise Http404
         if form.is_valid():
