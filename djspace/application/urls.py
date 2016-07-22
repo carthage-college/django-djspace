@@ -27,6 +27,10 @@ urlpatterns = patterns('djspace.application.views',
         'application_form', name="application_update"
     ),
     url(
+        r'^(?P<application_type>[a-zA-Z0-9_-]+)/export/$',
+        'application_export', name="application_export"
+    ),
+    url(
         r'^(?P<application_type>[a-zA-Z0-9_-]+)/$',
         'application_form', name="application_create"
     ),

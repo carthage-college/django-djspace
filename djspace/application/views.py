@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db.models import Count
-from django.template import RequestContext
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, Http404
+from django.template import loader, Context, RequestContext
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.application.forms import *
-from djspace.registration.models import *
 from djspace.core.utils import get_profile_status
 
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
-
+from djtools.fields import TODAY
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -197,4 +198,44 @@ def application_print(request, application_type, aid):
         "application/email/{}.html".format(application_type),
         {'data': data,},
         context_instance=RequestContext(request)
+    )
+
+
+@staff_member_required
+def application_export(request, application_type):
+    users = User.objects.all().order_by("last_name")
+
+    exports = []
+    for user in users:
+        try:
+            apps = user.profile.applications.all()
+        except:
+            apps = None
+        if apps:
+            for a in apps:
+                if a.get_slug() == application_type:
+                    exports.append({"user":user,"app":a})
+                    program = a.get_application_type()
+
+    '''
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(
+        application_type
+    )
+
+    t = loader.get_template('application/export.html')
+    c = Context({
+        'exports': exports,
+        'program':program,
+    })
+    response.write(t.render(c))
+
+    return response
+    '''
+
+    return render_to_response(
+        "application/export.html",
+        {'exports': exports,'program':program,'year':TODAY.year},
+        context_instance=RequestContext(request),
+        content_type="text/plain; charset=utf-8"
     )
