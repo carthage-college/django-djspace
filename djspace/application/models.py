@@ -945,7 +945,6 @@ class UndergraduateResearch(BaseModel):
     class Meta:
         verbose_name_plural = "Undergraduate Research"
 
-
 class UndergraduateScholarship(BaseModel):
 
     # core

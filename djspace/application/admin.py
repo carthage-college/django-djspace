@@ -5,11 +5,15 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.utils.text import Truncator
 from django.utils.html import strip_tags
+from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
+from django.shortcuts import render_to_response
+from django.template import loader, Context, RequestContext
 
 from djspace.application.models import *
 from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
 from djspace.registration.admin import PROFILE_HEADERS, get_profile_fields
+from djtools.fields import TODAY
 
 import csv
 import datetime
@@ -29,65 +33,56 @@ def get_queryset(self, request, admin_class):
     start_date = datetime.date(YEAR, settings.GRANT_CYCLE_START_MES, 1)
     return qs.filter(date_created__gte=start_date)
 
-def export_applications(modeladmin, request, queryset, reg_type=None):
+def longitudinal_tracking_csv(modeladmin, request):
     """
     Export application data to CSV
     """
 
-    file_fields = [
-        "cv", "proposal", "signed_certification", "letter_interest",
-        "budget", "undergraduate_transcripts", "graduate_transcripts",
-        "recommendation", "recommendation_1", "recommendation_2",
-        "high_school_transcripts", "wsgc_advisor_recommendation",
-        "statement"
-    ]
-    exclude = [
-        "user", "user_id", "updated_by_id", "id",
-        "aerospaceoutreach", "clarkgraduatefellowship",
-        "firstnationsrocketcompetition", "collegiaterocketcompetition",
-        "midwesthighpoweredrocketcompetition", "graduatefellowship",
-        "highaltitudeballoonpayload","highaltitudeballoonlaunch",
-        "highereducationinitiatives", "industryinternship","nasacompetition",
-        "researchinfrastructure", "specialinitiatives",
-        "undergraduateresearch", "undergraduatescholarship"
-    ]
-    response = HttpResponse("", content_type="text/csv; charset=utf-8")
-    filename = "{}.csv".format(modeladmin)
-    response['Content-Disposition']='attachment; filename={}'.format(filename)
-    writer = csv.writer(response)
-    headers = PROFILE_HEADERS + modeladmin.model._meta.get_all_field_names()
-    # remove unwanted headers
-    for e in exclude:
-        if e in headers:
-            headers.remove(e)
+    users = User.objects.all().order_by("last_name")
+    program = None
+    exports = []
+    for user in users:
+        try:
+            apps = user.profile.applications.all()
+        except:
+            apps = None
+        if apps:
+            for a in apps:
+                if a._meta.object_name == modeladmin.model._meta.object_name:
+                    exports.append({"user":user,"app":a})
+                    program = a.get_application_type()
 
-    writer.writerow(headers)
-    for reg in queryset:
-        #fields = get_profile_fields(reg.user)
-        fields = get_profile_fields(reg)
-        for field in reg._meta.get_all_field_names():
-            if field not in exclude:
-                if field == "synopsis":
-                    val = unicode(strip_tags(getattr(reg, field, None))).encode("utf-8", "ignore").strip()
-                else:
-                    val = unicode(getattr(reg, field, None)).encode("utf-8", "ignore")
-                if field in file_fields:
-                    val = "https://{}{}{}".format(
-                        settings.SERVER_URL, settings.MEDIA_URL,
-                        getattr(reg, field, None)
-                    )
-                fields.append(val)
-        writer.writerow(fields)
+    if settings.DEBUG:
+        response = render_to_response(
+            "application/export.html",
+            {'exports': exports,'program':program,'year':TODAY.year},
+            context_instance=RequestContext(request),
+            content_type="text/plain; charset=utf-8"
+        )
+    else:
+        response = HttpResponse(content_type="text/csv; charset=utf-8")
+        response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(
+            modeladmin
+        )
+
+        t = loader.get_template('application/export.html')
+        c = Context({
+            'exports': exports,
+            'program':program,
+            'year':TODAY.year
+        })
+        response.write(t.render(c))
+
     return response
 
-def export_all_applications(modeladmin, request, queryset):
+def export_longitudinal_tracking(modeladmin, request, extra_context=None):
     """
-    Export application data to CSV for all registration types
+    Export application data to CSV for NASA reporting requirements
     """
 
-    return export_applications(modeladmin, request, queryset)
+    return longitudinal_tracking_csv(modeladmin, request)
 
-export_all_applications.short_description = "Export All Applications"
+export_longitudinal_tracking.short_description = "Export Longitudinal Tracking"
 
 
 class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
@@ -100,7 +95,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
         'status'
     ]
     list_editable = ['status']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def cv_link(self, instance):
         return '<a href="{}" target="_blank">CV</a>'.format(
@@ -144,7 +139,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -308,7 +303,7 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -340,7 +335,7 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'date_created','date_updated','status'
     ]
     list_editable = ['status']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def statement_link(self, instance):
         return '<a href="{}" target="_blank">Statement</a>'.format(
@@ -446,7 +441,7 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def cv_link(self, instance):
         return '<a href="{}" target="_blank">CV</a>'.format(
@@ -469,7 +464,7 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def cv_link(self, instance):
         return '<a href="{}" target="_blank">CV</a>'.format(
@@ -492,7 +487,7 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def queryset(self, request):
         qs = get_queryset(self, request, FirstNationsRocketCompetitionAdmin)
@@ -512,7 +507,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','authorized_match', 'status']
     list_display_links = ['project_title']
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -579,7 +574,7 @@ class NasaCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['date_created']
     #date_created.short_description = 'Created (edit)'
-    actions = [export_all_applications]
+    actions = [export_longitudinal_tracking]
 
     def budget_link(self, instance):
         if instance.budget:

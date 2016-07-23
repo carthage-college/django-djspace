@@ -228,7 +228,7 @@ class UserProfile(models.Model):
     )
     race = models.ManyToManyField(
         GenericChoice,
-        limit_choices_to={"id__in":limit_race},
+        #limit_choices_to={"id__in":limit_race},
         related_name="user_profile_race",
         help_text = 'Check all that apply'
     )

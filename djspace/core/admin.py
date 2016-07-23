@@ -24,6 +24,17 @@ class GenericAdmin(admin.ModelAdmin):
     most models can use, or override in their respective classes.
     """
 
+    def changelist_view(self, request, extra_context=None):
+        if 'action' in request.POST and \
+        request.POST['action'] == 'export_longitudinal_tracking':
+            if not request.POST.getlist(admin.ACTION_CHECKBOX_NAME):
+                post = request.POST.copy()
+                post.update({admin.ACTION_CHECKBOX_NAME: str(1)})
+                request._set_post(post)
+        return super(GenericAdmin, self).changelist_view(
+            request, extra_context
+        )
+
     list_display = PROFILE_LIST_DISPLAY
     list_display_links = None
 
