@@ -421,8 +421,8 @@ class RocketLaunchTeam(BaseModel):
         """
     )
     leader = models.ForeignKey(
-        "Team Lead",
         User,
+        verbose_name="Team lead",
         related_name="rocket_launch_team_leader",
     )
     industry_mentor_name = models.CharField(
