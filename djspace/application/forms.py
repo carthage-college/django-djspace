@@ -161,7 +161,6 @@ class RocketLaunchTeamForm(forms.ModelForm):
             team leader or if the team leader has not yet registered with WSGC,
             you can leave this field blank for now.
         ''',
-        required = False
     )
 
     class Meta:

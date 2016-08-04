@@ -27,7 +27,7 @@ def get_queryset(self, request, admin_class):
     TODAY = datetime.date.today()
     YEAR = int(TODAY.year)
     MES = int(TODAY.month)
-    qs = super(admin_class, self).queryset(request)
+    qs = super(admin_class, self).get_queryset(request)
     if MES < settings.GRANT_CYCLE_START_MES:
         YEAR = YEAR - 1
     start_date = datetime.date(YEAR, settings.GRANT_CYCLE_START_MES, 1)
@@ -111,7 +111,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     letter_interest_link.allow_tags = True
     letter_interest_link.short_description = "Letter of interest"
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, HighAltitudeBalloonLaunchAdmin)
         return qs
 
@@ -120,7 +120,7 @@ class HighAltitudeBalloonPayloadAdmin(HighAltitudeBalloonLaunchAdmin):
 
     model = HighAltitudeBalloonPayload
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, HighAltitudeBalloonPayloadAdmin)
         return qs
 
@@ -214,7 +214,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     recommendation_2_link.allow_tags = True
     recommendation_2_link.short_description = "Recommendation 2"
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, ClarkGraduateFellowshipAdmin)
         return qs
 
@@ -223,7 +223,7 @@ class GraduateFellowshipAdmin(ClarkGraduateFellowshipAdmin):
 
     model = GraduateFellowship
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, GraduateFellowshipAdmin)
         return qs
 
@@ -284,7 +284,7 @@ class UndergraduateAdmin(GenericAdmin):
     recommendation_link.allow_tags = True
     recommendation_link.short_description = "Recommendation"
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, UndergraduateAdmin)
         return qs
 
@@ -319,7 +319,7 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     proposal_link.allow_tags = True
     proposal_link.short_description = 'Proposal'
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, UndergraduateResearchAdmin)
         return qs
 
@@ -344,7 +344,7 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     statement_link.allow_tags = True
     statement_link.short_description = 'Statement'
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, UndergraduateScholarshipAdmin)
         return qs
 
@@ -427,7 +427,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     budget_link.allow_tags = True
     budget_link.short_description = "Budget"
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, RocketLaunchTeamAdmin)
         return qs
 
@@ -450,7 +450,7 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     cv_link.allow_tags = True
     cv_link.short_description = "CV"
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, CollegiateRocketCompetitionAdmin)
         return qs
 
@@ -473,7 +473,7 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     cv_link.allow_tags = True
     cv_link.short_description = "CV"
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, MidwestHighPoweredRocketCompetitionAdmin)
         return qs
 
@@ -489,7 +489,7 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     list_editable = ['status']
     actions = [export_longitudinal_tracking]
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, FirstNationsRocketCompetitionAdmin)
         return qs
 
@@ -523,7 +523,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     proposal_link.allow_tags = True
     proposal_link.short_description = 'Proposal file'
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, HigherEducationInitiativesAdmin)
         return qs
 
@@ -532,7 +532,7 @@ class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
 
     model = ResearchInfrastructure
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, ResearchInfrastructureAdmin)
         return qs
 
@@ -552,7 +552,7 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'status'
     ]
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, AerospaceOutreachAdmin)
         return qs
 
@@ -593,7 +593,7 @@ class NasaCompetitionAdmin(GenericAdmin):
     statement_link.allow_tags = True
     statement_link.short_description = 'Statement'
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, NasaCompetitionAdmin)
         return qs
 
@@ -602,7 +602,7 @@ class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
 
     model = SpecialInitiatives
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, SpecialInitiativesAdmin)
         return qs
 
@@ -619,7 +619,7 @@ class IndustryInternshipAdmin(GenericAdmin):
 
     inlines = [WorkPlanTaskInline,]
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         qs = get_queryset(self, request, IndustryInternshipAdmin)
         return qs
 
