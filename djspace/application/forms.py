@@ -156,6 +156,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
     """
 
     leader = forms.CharField(
+    label = "Team Lead",
         help_text = '''
             Start typing the last name to see results. If you do not find the
             team leader or if the team leader has not yet registered with WSGC,
