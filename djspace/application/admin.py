@@ -48,7 +48,7 @@ def longitudinal_tracking_csv(modeladmin, request):
             apps = None
         if apps:
             for a in apps:
-                if a._meta.object_name == modeladmin.model._meta.object_name:
+                if a._meta.object_name == modeladmin.model._meta.object_name and a.status:
                     exports.append({"user":user,"app":a})
                     program = a.get_application_type()
 
