@@ -25,6 +25,10 @@ class GenericAdmin(admin.ModelAdmin):
     """
 
     def changelist_view(self, request, extra_context=None):
+        """
+        Override the action form on the listing view so that we can
+        submit the form without selecting any objects
+        """
         if 'action' in request.POST and \
         request.POST['action'] == 'export_longitudinal_tracking':
             if not request.POST.getlist(admin.ACTION_CHECKBOX_NAME):

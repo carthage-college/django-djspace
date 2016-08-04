@@ -15,8 +15,12 @@ from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
 from djspace.registration.admin import PROFILE_HEADERS, get_profile_fields
 from djtools.fields import TODAY
 
+from openpyxl import load_workbook
+from openpyxl.writer.excel import save_virtual_workbook
+
 import csv
 import datetime
+import io
 
 def get_queryset(self, request, admin_class):
     """
@@ -33,11 +37,10 @@ def get_queryset(self, request, admin_class):
     start_date = datetime.date(YEAR, settings.GRANT_CYCLE_START_MES, 1)
     return qs.filter(date_created__gte=start_date)
 
-def longitudinal_tracking_csv(modeladmin, request):
+def longitudinal_tracking(modeladmin, request):
     """
-    Export application data to CSV
+    Export application data to OpenXML file
     """
-
     users = User.objects.all().order_by("last_name")
     program = None
     exports = []
@@ -50,28 +53,31 @@ def longitudinal_tracking_csv(modeladmin, request):
             for a in apps:
                 if a._meta.object_name == modeladmin.model._meta.object_name and a.status:
                     exports.append({"user":user,"app":a})
-                    program = a.get_application_type()
+                    #program = a.get_application_type()
+                    program = a.get_slug()
 
-    if settings.DEBUG:
-        response = render_to_response(
-            "application/export.html",
-            {'exports': exports,'program':program,'year':TODAY.year},
-            context_instance=RequestContext(request),
-            content_type="text/plain; charset=utf-8"
-        )
-    else:
-        response = HttpResponse(content_type="text/csv; charset=utf-8")
-        response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(
-            modeladmin
-        )
+    wb = load_workbook(
+        '{}/application/logitudinal_tracking.xlsx'.format(settings.ROOT_DIR)
+    )
+    ws = wb.active
 
-        t = loader.get_template('application/export.html')
-        c = Context({
-            'exports': exports,
-            'program':program,
-            'year':TODAY.year
-        })
-        response.write(t.render(c))
+    t = loader.get_template('application/export.html')
+    c = Context({
+        'exports': exports,
+        'program':program,
+        'year':TODAY.year
+    })
+    data = t.render(c)
+    reader = csv.reader(io.StringIO(data), delimiter="|")
+    for row in reader:
+        ws.append(row)
+
+    # in memory response instead of save to file system
+    response = HttpResponse(save_virtual_workbook(wb), content_type='application/ms-excel')
+
+    response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(
+        program
+    )
 
     return response
 
@@ -80,7 +86,7 @@ def export_longitudinal_tracking(modeladmin, request, extra_context=None):
     Export application data to CSV for NASA reporting requirements
     """
 
-    return longitudinal_tracking_csv(modeladmin, request)
+    return longitudinal_tracking(modeladmin, request)
 
 export_longitudinal_tracking.short_description = "Export Longitudinal Tracking"
 
