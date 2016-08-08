@@ -2,12 +2,101 @@
 {% block title %}
     WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
+{% block css %}
+    <link href="//www.carthage.edu/themes/europa/assets/css/master.css"
+        type="text/css" rel="stylesheet">
+    <link href="//www.carthage.edu/themes/europa/assets/css/addons.css"
+        type="text/css" rel="stylesheet">
+    <link href="//www.carthage.edu/themes/shared/css/forms.css"
+        rel="stylesheet" type="text/css">
+    <link href="//www.carthage.edu/themes/shared/css/tables.css"
+        type="text/css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+        integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+"
+        crossorigin="anonymous" type="text/css" rel="stylesheet">
+    <!--[if lt IE 9]>
+        <script src="//www.carthage.edu/themes/shared/js/html5shiv.js"
+            type="text/javascript"></script>
+    <![endif]-->
+{% endblock %}
 {% block extra_javascript %}
-    <script type="text/javascript">
-        $(document).ready(function(){
-            //
-        });
-    </script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(':file').change(function(){
+      var $dis = $(this);
+      var file = this.files[0];
+      var $fname = $dis.attr("name");
+      var $fawe = $dis.siblings('.fa-ban');
+      name = file.name;
+      size = file.size;
+      type = file.type;
+      if(file.name.length < 1) {
+        alert("Is that a correct filename?");
+        console.log(name,size,type);
+      }
+      /*
+      else if(file.size > 100000) {
+        alert("The file is too big");
+      }
+      */
+      else if(file.type != 'image/jpg' && file.type != 'application/pdf' && file.type != 'image/jpeg' ) {
+        alert("The file does not match jpg or pdf");
+      } else {
+        var formData = new FormData($('#user-files')[0]);
+        formData.append( 'field_name', $fname );
+        var def = $.Deferred(), promise = def.promise();
+        $fawe.html('<i class="fa fa-cog fa-spin fa-fw"></i>');
+        $.ajax({
+            url: '{% url 'user_files' %}',  //server script to process data
+            type: 'POST',
+            xhr: function() {  // custom xhr
+                myXhr = jQuery.ajaxSettings.xhr();
+                if(myXhr.upload){ // if upload property exists
+                    myXhr.upload.addEventListener('progress', function(event) {
+                        var percent = 0;
+                        var position = event.loaded || event.position; /*event.position is deprecated*/
+                        var total = event.total;
+                        if (event.lengthComputable) {
+                            percent = Math.ceil(position / total * 100);
+                            def.notify(percent);
+                        }
+                    }, false);
+                }
+                return myXhr;
+            },
+            // Ajax events
+            success: completeHandler = function(data) {
+                console.log(data.url);
+                console.log(data.path);
+                /*
+                * Workaround for Chrome browser // Delete the fake path
+                */
+                if(navigator.userAgent.indexOf('Chrome')) {
+                    var catchFile = $(":file").val().replace(/C:\\fakepath\\/i, '');
+                }
+                else {
+                    var catchFile = $(":file").val();
+                }
+                //var writeFile = $(":file");
+                //writeFile.html(document.write(catchFile));
+                $dis.val("");
+                $fawe.replaceWith(data);
+            },
+            error: errorHandler = function(data) {
+                console.log(data);
+                alert("500 server error: Something went awry...");
+            },
+            // Form data
+            data: formData,
+            // Options to tell jQuery not to process data or worry about the content-type
+            cache: false,
+            contentType: false,
+            processData: false
+        }, 'json'); /* end ajax method */
+      } /* end if/then logic */
+    }); /* end :file change() method */
+  });
+</script>
 {% endblock %}
 {% block page_header %}
     Program Applications
@@ -34,7 +123,7 @@
 {% endif %}
 <div class="large-6 medium-12 small-12">
 {% if user.profile.us_citizen == "Yes" and reg %}
-    <h2>Review and edit submitted applications</h2>
+    <h2 class="red">Review and edit submitted applications</h2>
     {% for app in user.profile.applications.all %}
         {% if forloop.first %}
             <h3>{{app.get_application_type}}</h3>
@@ -60,6 +149,67 @@
         </li>
     {% endfor %}
     </ul>
+    {% if approved %}
+    <form id="user-files" class="form" enctype="multipart/form-data">
+    <fieldset>
+    <legend>Required Files</legend>
+      <ol>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_mugshot">Photo</label></h3>
+          <div>
+            <input type="file" class="profile-file"
+              name="mugshot" id="id_mugshot">
+            {% if user_files.mugshot.value %}
+              <a href="{{media_url}}{{user_files.mugshot.value}}" target="_blank">
+              <i class="fa fa-file-image-o red" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_biography">Biography</label></h3>
+          <div>
+            <input type="file" class="profile-file"
+              name="biography" id="id_biography">
+            {% if user_files.biography.value %}
+              <a href="{{media_url}}{{user_files.biography.value}}" target="_blank">
+              <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_irs_w9">W9 Form</label></h3>
+          <div>
+            <input type="file" class="profile-file"
+              name="irs_w9" id="id_irs_w9">
+            {% if user_files.irs_w9.value %}
+              <a href="{{media_url}}{{user_files.irs_w9.value}}" target="_blank">
+              <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_media_release">Media Release Form</label></h3>
+          <div>
+            <input type="file" class="profile-file"
+              name="media_release" id="id_media_release">
+            {% if user_files.media_release.value %}
+              <a href="{{media_url}}{{user_files.media_release.value}}" target="_blank">
+              <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+      </ol>
+    </fieldset>
+    </form>
+    {% endif %}
 {% else %}
     {% if not user.profile.us_citizen %}
     <div class="notice">
@@ -75,10 +225,10 @@
 </div>
 <div class="column2 large-6 medium-12 small-12">
     {% if not reg %}
-    <h2>Message Center</h2>
+    <h2 class="red">Message Center</h2>
     <div class="notice">
     {% else %}
-    <h2>Grant Application Forms</h2>
+    <h2 class="red">Grant Application Forms</h2>
     <div class="success">
     {% endif %}
         <p>

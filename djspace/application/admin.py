@@ -60,20 +60,23 @@ def longitudinal_tracking(modeladmin, request):
         '{}/application/logitudinal_tracking.xlsx'.format(settings.ROOT_DIR)
     )
     ws = wb.active
-
+    # this could all be accomplished by a list of lists but building a list
+    # for each row would be ugly. this seems more pythonic, and we can reuse
+    # for CSV export if need be.
     t = loader.get_template('application/export.html')
-    c = Context({
-        'exports': exports,
-        'program':program,
-        'year':TODAY.year
-    })
+    c = Context({ 'exports': exports, 'program':program, 'year':TODAY.year })
     data = t.render(c)
+    # reader requires an object which supports the iterator protocol and
+    # returns a string each time its next() method is called. StringIO
+    # provides an in-memory, line by line stream of the template data.
     reader = csv.reader(io.StringIO(data), delimiter="|")
     for row in reader:
         ws.append(row)
 
     # in memory response instead of save to file system
-    response = HttpResponse(save_virtual_workbook(wb), content_type='application/ms-excel')
+    response = HttpResponse(
+        save_virtual_workbook(wb), content_type='application/ms-excel'
+    )
 
     response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(
         program
@@ -410,7 +413,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     ]
     list_display_links = ['name']
     list_editable = ['status']
-    raw_id_fields = ("user","leader","members",)
+    raw_id_fields = ("user","leader",)
 
     def wsgc_acknowledgement_link(self, instance):
         if instance.wsgc_acknowledgement:

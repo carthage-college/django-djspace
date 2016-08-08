@@ -3,8 +3,9 @@ from django import forms
 from django.contrib import messages
 from django.forms.extras.widgets import SelectDateWidget
 
-from djspace.core.models import UserProfile, GenericChoice, BIRTH_YEAR_CHOICES
-from djspace.core.models import REG_TYPE, EMPLOYMENT_CHOICES, DISABILITY_CHOICES
+from djspace.core.models import UserProfile, UserFiles, GenericChoice
+from djspace.core.models import BIRTH_YEAR_CHOICES, DISABILITY_CHOICES
+from djspace.core.models import EMPLOYMENT_CHOICES, REG_TYPE
 
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES
@@ -252,3 +253,16 @@ class SignupForm(forms.Form):
                 apply for grants from NASA.
                 """
             )
+
+class UserFilesForm(forms.ModelForm):
+    """
+    Files required after funding has been approved
+    """
+
+    class Meta:
+        model = UserFiles
+        exclude = ('user','status',)
+        fields = [
+            'mugshot','biography','media_release','irs_w9'
+        ]
+

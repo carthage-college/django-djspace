@@ -55,6 +55,18 @@ def form(request, reg_type):
         context_instance=RequestContext(request)
     )
 
+@login_required
+def user_files(request):
+
+    form = UserFilesForm()
+
+    return render_to_response(
+        "registration/user_files.html",
+        {"form": form,},
+        context_instance=RequestContext(request)
+    )
+
+
 @staff_member_required
 def registration_print(request, uid):
 

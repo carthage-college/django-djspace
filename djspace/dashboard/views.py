@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
@@ -12,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 from djspace.registration.forms import *
 from djspace.core.utils import get_profile_status
 from djspace.dashboard.forms import UserForm, UserProfileForm
+from djspace.core.forms import UserFilesForm
+from djspace.core.models import UserFiles
 
 from djtools.utils.convert import str_to_class
 
@@ -25,6 +28,13 @@ def home(request):
     """
 
     user = request.user
+    try:
+        instance = UserFiles.objects.get(user=user)
+    except:
+        instance = None
+
+    user_files = UserFilesForm(instance=instance)
+
     try:
         mod = str_to_class(
             "djspace.registration.models",
@@ -40,9 +50,25 @@ def home(request):
     except:
         apps = None
 
+    approved = False
+    for a in apps.all():
+        if a.status:
+            approved = True
+
+    messages.add_message(
+        request, messages.ERROR,
+        '''
+        You have not uploaded required files. Please do so below.
+        ''',
+        extra_tags='danger'
+    )
+
     status = get_profile_status(user)
     return render_to_response(
-        "dashboard/home.html", {"reg":reg,"status":status},
+        "dashboard/home.html", {
+            "reg":reg,"status":status,"approved":approved,
+            "user_files":user_files
+        },
         context_instance=RequestContext(request)
     )
 

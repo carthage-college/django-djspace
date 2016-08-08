@@ -9,6 +9,11 @@ handler404 = 'djtools.views.errors.four_oh_four_error'
 handler500 = 'djtools.views.errors.server_error'
 
 urlpatterns = patterns('',
+    # required files after funding granted
+    url(
+        r'^account/user-files/$',
+        'djspace.core.views.user_files', name="user_files"
+    ),
     # account management
     url(
         r'^account/', include('allauth.urls')

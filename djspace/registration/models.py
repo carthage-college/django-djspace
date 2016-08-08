@@ -28,6 +28,9 @@ def limit_college_university():
     return ids
 
 class BaseStudent(Base):
+    class Meta:
+        abstract = True
+
     # core
     major = models.CharField(
         "Primary major",
@@ -75,26 +78,11 @@ class BaseStudent(Base):
         max_length=7,
         validators=[month_year_validator]
     )
-    # not certain why limit_choices_to does not work here.
-    # throws: 'function' object is not iterable
-    # worked in django 1.8 but not 1.9.
-    wsgc_school = models.ForeignKey(
-        GenericChoice,
-        #limit_choices_to={"id__in":limit_college_university},
-        verbose_name="College or University",
-        related_name="student_wsgc_affiliate",
-        help_text="FNL Participants: Choose 'OTHER.'",
-        max_length=128,
-        on_delete=models.SET_NULL,
-        null=True,
-    )
     studentid = models.CharField(
         "Student Id Number",
         max_length=64
     )
 
-    class Meta:
-        abstract = True
 
 class Undergraduate(BaseStudent):
     highschool_name = models.CharField(
@@ -112,9 +100,20 @@ class Undergraduate(BaseStudent):
     )
     class_year = models.CharField(
         "Current Class Status",
-        max_length="24",
+        max_length=24,
         choices=YEAR_CHOICES
     )
+    wsgc_school = models.ForeignKey(
+        GenericChoice,
+        #limit_choices_to={"id__in":limit_college_university},
+        verbose_name="College or University",
+        related_name="undergraduate_student_wsgc_affiliate",
+        help_text="FNL Participants: Choose 'OTHER.'",
+        max_length=128,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+
 
 class Graduate(BaseStudent):
     college_university = models.CharField(
@@ -153,7 +152,16 @@ class Graduate(BaseStudent):
         max_length=4,
         validators=[four_digit_year_validator]
     )
-
+    wsgc_school = models.ForeignKey(
+        GenericChoice,
+        #limit_choices_to={"id__in":limit_college_university},
+        verbose_name="College or University",
+        related_name="graduate_student_wsgc_affiliate",
+        help_text="FNL Participants: Choose 'OTHER.'",
+        max_length=128,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
 
 class Faculty(Base):
 

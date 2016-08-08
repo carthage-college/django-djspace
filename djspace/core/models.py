@@ -14,8 +14,11 @@ from djspace.core.utils import get_profile_status
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 from djtools.utils.convert import str_to_class
+from djtools.fields.validators import MimetypeValidator
 
 from datetime import date, datetime
+
+import os
 
 REG_TYPE = (
     ('','----select----'),
@@ -53,6 +56,23 @@ EMPLOYMENT_CHOICES = (
     ("Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)",
      "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
 )
+
+from uuid import uuid4
+
+
+def upload_to_path(self, filename):
+    """
+    Generates the path as a string for file field.
+    """
+
+    ext = filename.split('.')[-1]
+    # set filename as random string
+    filename = '{}.{}'.format(uuid4().hex, ext)
+    sendero = "{}/{}/".format(
+        self.get_file_path(), self.user.id
+    )
+    return os.path.join(sendero, filename)
+
 
 class Base(models.Model):
     """
@@ -101,7 +121,6 @@ class GenericChoice(models.Model):
     )
     ranking = models.IntegerField(
         null=True, blank=True, default=0,
-        max_length=3,
         verbose_name="Ranking",
         help_text=
         """
@@ -131,6 +150,45 @@ def limit_race():
         ).order_by("name")
     ]
     return rids
+
+class UserFiles(models.Model):
+
+    user = models.ForeignKey(
+        User,
+        related_name="user_files",
+        editable=False
+    )
+    mugshot = models.FileField(
+        upload_to=upload_to_path,
+        #validators=[MimetypeValidator('image/jpeg')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="JPEG format (.jpg)"
+    )
+    biography = models.FileField(
+        upload_to=upload_to_path,
+        #validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    media_release = models.FileField(
+        upload_to=upload_to_path,
+        #validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    irs_w9 = models.FileField(
+        upload_to=upload_to_path,
+        #validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+
+    def get_file_path(self):
+        return "files/users"
 
 class UserProfile(models.Model):
 
