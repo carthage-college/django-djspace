@@ -160,28 +160,28 @@ class UserFiles(models.Model):
     )
     mugshot = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('image/jpeg')],
+        validators=[MimetypeValidator('image/jpeg')],
         max_length=768,
         null=True, blank=True,
         help_text="JPEG format (.jpg)"
     )
     biography = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     media_release = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     irs_w9 = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -337,6 +337,7 @@ class UserProfile(models.Model):
         'application.HighAltitudeBalloonPayload',
         'application.ClarkGraduateFellowship',
         'application.GraduateFellowship',
+        'application.StemBridgeScholarship',
         'application.UndergraduateResearch',
         'application.UndergraduateScholarship',
         'application.NasaCompetition',

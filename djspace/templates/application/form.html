@@ -200,9 +200,11 @@ $(function() {
             Dr. Laurel Salton Clark Memorial<br>Research Fellowship
         {% else %}{% if app_name == "Graduate Fellowship" %}
             WSGC Graduate &amp; Professional<br>Research Fellowship
+        {% else %}{% if app_name == "Nasa Competition" %}
+            NASA Competition
         {% else %}
             {{app_name}}
-        {% endif %}{% endif %}
+        {% endif %}{% endif %}{% endif %}
         </span>
         <small class="fright" style="margin-right:20px;">
             <a href="{% url 'dashboard_home' %}">
@@ -229,6 +231,15 @@ $(function() {
                     <h4>
                         The Individual responsible for submitting
                         all required financial forms to WSGC
+                    </h4>
+                    <ol>
+                {% endif %}
+                {% if field.name == "grant_officer_name" %}
+                    </ol></fieldset>
+                    <fieldset class="blockLabels">
+                    <legend>Grant Officer</legend>
+                    <h4>
+                        The Individual responsible for grants
                     </h4>
                     <ol>
                 {% endif %}

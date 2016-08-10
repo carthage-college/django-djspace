@@ -20,7 +20,9 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'source_match','begin_date', 'end_date', 'location','synopsis',
             'proposal',
             'finance_officer_name','finance_officer_address',
-            'finance_officer_email','finance_officer_phone'
+            'finance_officer_email','finance_officer_phone',
+            'grant_officer_name','grant_officer_address',
+            'grant_officer_email','grant_officer_phone'
         ]
 
 class ResearchInfrastructureForm(forms.ModelForm):
@@ -34,7 +36,9 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
-            'finance_officer_email','finance_officer_phone'
+            'finance_officer_email','finance_officer_phone',
+            'grant_officer_name','grant_officer_address',
+            'grant_officer_email','grant_officer_phone'
         ]
 
 
@@ -57,7 +61,9 @@ class AerospaceOutreachForm(forms.ModelForm):
             'synopsis', 'nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
-            'finance_officer_email','finance_officer_phone'
+            'finance_officer_email','finance_officer_phone',
+            'grant_officer_name','grant_officer_address',
+            'grant_officer_email','grant_officer_phone'
         ]
         exclude = ('user','status','funds_authorized','authorized_match')
 
@@ -97,7 +103,9 @@ class SpecialInitiativesForm(forms.ModelForm):
             'nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
-            'finance_officer_email','finance_officer_phone'
+            'finance_officer_email','finance_officer_phone',
+            'grant_officer_name','grant_officer_address',
+            'grant_officer_email','grant_officer_phone'
         ]
         exclude = ('user','status','funds_authorized','authorized_match')
 
@@ -112,6 +120,19 @@ class UndergraduateScholarshipForm(forms.ModelForm):
 
     class Meta:
         model = UndergraduateScholarship
+        exclude = ('user','status')
+
+
+class StemBridgeScholarshipForm(forms.ModelForm):
+
+    academic_institution = forms.TypedChoiceField(
+        label = "Application submitted for",
+        widget = forms.RadioSelect(),
+        choices=ACADEMIC_INSTITUTIONS
+    )
+
+    class Meta:
+        model = StemBridgeScholarship
         exclude = ('user','status')
 
 
@@ -220,8 +241,10 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         super(MidwestHighPoweredRocketCompetitionForm, self).__init__(
             *args,**kwargs
         )
-        self.fields['team'].queryset = RocketLaunchTeam.objects.filter(
-            competition="Midwest High Powered Rocket Competition"
+        self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
+            count=Count('members')
+        ).filter(competition__in=["Midwest High Powered Rocket Competition"]).exclude(
+            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
 
 
@@ -231,12 +254,15 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         model = CollegiateRocketCompetition
         exclude = ('user','status')
 
+
     def __init__(self, *args, **kwargs):
         super(CollegiateRocketCompetitionForm, self).__init__(
             *args,**kwargs
         )
-        self.fields['team'].queryset = RocketLaunchTeam.objects.filter(
-            competition="Collegiate Rocket Competition"
+        self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
+            count=Count('members')
+        ).filter(competition__in=["Collegiate Rocket Competition"]).exclude(
+            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
 
 

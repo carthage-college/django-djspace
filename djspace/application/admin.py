@@ -358,6 +358,31 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         return qs
 
 
+class StemBridgeScholarshipAdmin(UndergraduateAdmin):
+
+    model = StemBridgeScholarship
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'signed_certification_link','statement_link',
+        'high_school_transcripts_link','undergraduate_transcripts_link',
+        'wsgc_advisor_recommendation_link','recommendation_link',
+        'date_created','date_updated','status'
+    ]
+    list_editable = ['status']
+    actions = [export_longitudinal_tracking]
+
+    def statement_link(self, instance):
+        return '<a href="{}" target="_blank">Statement</a>'.format(
+            instance.statement.url
+        )
+    statement_link.allow_tags = True
+    statement_link.short_description = 'Statement'
+
+    def get_queryset(self, request):
+        qs = get_queryset(self, request, StemBridgeScholarshipAdmin)
+        return qs
+
+
 #class RocketCompetitionInline(admin.TabularInline):
 class RocketCompetitionInline(admin.StackedInline):
 
@@ -512,6 +537,10 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
         'funds_requested', 'funds_authorized',
         'proposed_match', 'authorized_match', 'source_match', 'location',
         'synopsis_trunk', 'proposal_link',
+        'finance_officer_name', 'finance_officer_address',
+        'finance_officer_email', 'finance_officer_phone',
+        'grant_officer_name','grant_officer_address',
+        'grant_officer_email','grant_officer_phone',
         'date_created','date_updated','status'
     ]
     list_editable = ['funds_authorized','authorized_match', 'status']
@@ -558,7 +587,9 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'synopsis_trunk', 'proposal_link',
         'finance_officer_name', 'finance_officer_address',
         'finance_officer_email', 'finance_officer_phone',
-        'status'
+        'grant_officer_name','grant_officer_address',
+        'grant_officer_email','grant_officer_phone',
+        'date_created','date_updated','status'
     ]
 
     def get_queryset(self, request):
@@ -579,6 +610,8 @@ class NasaCompetitionAdmin(GenericAdmin):
         'statement_link', 'budget_link',
         'finance_officer_name', 'finance_officer_address',
         'finance_officer_email', 'finance_officer_phone',
+        'grant_officer_name','grant_officer_address',
+        'grant_officer_email','grant_officer_phone',
         'date_created','date_updated','status'
     ]
     list_display_links = ['date_created']
@@ -678,6 +711,9 @@ admin.site.register(
 )
 admin.site.register(
     NasaCompetition, NasaCompetitionAdmin
+)
+admin.site.register(
+    StemBridgeScholarship, StemBridgeScholarshipAdmin
 )
 admin.site.register(
     UndergraduateScholarship, UndergraduateScholarshipAdmin

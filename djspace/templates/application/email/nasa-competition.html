@@ -29,9 +29,13 @@
 <p>{{data.begin_date}}</p>
 <h4>End date</h4>
 <p>{{data.end_date}}</p>
+<h4>Mentor name</h4>
+<p>{{data.mentor_name}}</p>
+<h4>Mentor email</h4>
+<p>{{data.mentor_email}}</p>
 <h4>Statement</h4>
 <p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.statement}}"> 
+    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.statement}}">
         Statement
     </a><br>
     https://spacegrant.carthage.edu/static/djspace/{{data.statement}}
@@ -52,6 +56,15 @@
 <p>{{data.finance_officer_email}}</p>
 <h4>Phone</h4>
 <p>{{data.finance_officer_phone}}</p>
+<h3>Grant Officer</h3>
+<h4>Name</h4>
+<p>{{data.grant_officer_name}}</p>
+<h4>Address</h4>
+<p>{{data.grant_officer_address|striptags}}</p>
+<h4>Email</h4>
+<p>{{data.grant_officer_email}}</p>
+<h4>Phone</h4>
+<p>{{data.grant_officer_phone}}</p>
 <h3>Team Members</h3>
 <ol>
 {% if data.member_1 %}
