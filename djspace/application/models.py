@@ -35,10 +35,6 @@ GRAVITY_TRAVEL = (
     ('gravity','Reduced Gravity'),
     ('travel','Student Travel')
 )
-FIRST_NATIONS_ROCKET_COMPETITIONS = (
-    ('Tribal Challenge','Tribal Challenge'),
-    ('AISES Challenge','AISES Challenge'),
-)
 TIME_FRAME = (
     ('Summer','Summer'),
     ('Summer and fall','Summer and fall'),
@@ -134,6 +130,10 @@ NASA_COMPETITION_AWARD_TYPES = (
     ('Project award','Project award'),
     ('Travel award','Travel award')
 )
+FIRST_NATIONS_ROCKET_COMPETITIONS = (
+    ('Tribal Challenge','Tribal Challenge'),
+    ('AISES Challenge','AISES Challenge'),
+)
 ROCKET_COMPETITIONS = (
     ("Collegiate Rocket Competition", "Collegiate Rocket Competition"),
     ("First Nations AISES", "First Nations AISES"),
@@ -143,6 +143,11 @@ ROCKET_COMPETITIONS = (
         "Midwest High Powered Rocket Competition"
     )
 )
+ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
+    "Midwest High Powered Rocket Competition",
+    "Collegiate Rocket Competition"
+]
+ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT = 6
 
 
 def upload_to_path(self, filename):
@@ -467,6 +472,10 @@ class RocketLaunchTeam(BaseModel):
         User,
         verbose_name="Team lead",
         related_name="rocket_launch_team_leader",
+    )
+    members = models.ManyToManyField(
+        User, related_name="rocket_launch_team_members",
+        null = True, blank = True
     )
     industry_mentor_name = models.CharField(
         max_length=128,

@@ -438,7 +438,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     ]
     list_display_links = ['name']
     list_editable = ['status']
-    raw_id_fields = ("user","leader",)
+    raw_id_fields = ("user","leader","members",)
 
     def wsgc_acknowledgement_link(self, instance):
         if instance.wsgc_acknowledgement:

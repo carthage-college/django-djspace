@@ -10,12 +10,17 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
+from djspace.application.models import ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
 from djspace.application.forms import *
 from djspace.core.utils import get_profile_status
 
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
 from djtools.fields import TODAY
+
+import logging
+logger = logging.getLogger(__name__)
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -45,6 +50,29 @@ def application_form(request, application_type, aid=None):
     for n in slug_list:
         app_name += " %s" % n.capitalize()
     app_type = "".join(app_name.split(" "))
+
+
+    # check rocket competition teams and member limits.
+    # currently, FNL does not have a limit so we can exclude it.
+    if "rocket-competition" in application_type:
+        teams = RocketLaunchTeam.objects.filter(
+            competition__contains=app_name[:12]
+        )
+
+        if application_type != "first-nations-rocket-competition":
+            teams = teams.annotate(
+                count=Count('members')
+            ).exclude(
+                count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+            ).order_by("name")
+
+        if not teams:
+            return render_to_response(
+                "application/form.html",
+                {"form": None,"app_name":app_name},
+                context_instance=RequestContext(request)
+            )
+
     # we need the application model now
     mod = str_to_class(
         "djspace.application.models", app_type
@@ -75,12 +103,18 @@ def application_form(request, application_type, aid=None):
     FormClass = str_to_class(
         "djspace.application.forms", (app_type+"Form")
     )
+    logger.debug("form = {}".format(FormClass))
     # fetch the form instance
+
+    # debugging
+    form = FormClass(instance=app)
+    '''
     try:
         form = FormClass(instance=app)
     except:
         # app_type does not match an existing form
         raise Http404
+    '''
     # GET or POST
     if request.method == 'POST':
         try:
@@ -102,7 +136,18 @@ def application_form(request, application_type, aid=None):
             data = form.save(commit=False)
             data.user = user
             data.updated_by = user
+
+            if application_type == "rocket-launch-team":
+                # limit number of team members if need be
+                if data.competition in ROCKET_LAUNCH_COMPETITION_WITH_LIMIT:
+                    data.limit = 6
+                else:
+                    data.limit = 0
             data.save()
+
+            # add user to RocketLaunchTeam member m2m
+            if "rocket-competition" in application_type:
+                data.team.members.add(data.user)
 
             # add work plan tasks for industry internship
             if application_type == "industry-internship":
