@@ -19,8 +19,6 @@ from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
 from djtools.fields import TODAY
 
-import logging
-logger = logging.getLogger(__name__)
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -103,18 +101,14 @@ def application_form(request, application_type, aid=None):
     FormClass = str_to_class(
         "djspace.application.forms", (app_type+"Form")
     )
-    logger.debug("form = {}".format(FormClass))
     # fetch the form instance
 
     # debugging
-    form = FormClass(instance=app)
-    '''
     try:
         form = FormClass(instance=app)
     except:
         # app_type does not match an existing form
         raise Http404
-    '''
     # GET or POST
     if request.method == 'POST':
         try:
