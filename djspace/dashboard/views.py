@@ -55,7 +55,7 @@ def home(request):
         if a.status:
             approved = True
 
-    '''
+    """
     messages.add_message(
         request, messages.ERROR,
         '''
@@ -63,7 +63,7 @@ def home(request):
         ''',
         extra_tags='danger'
     )
-    '''
+    """
 
     status = get_profile_status(user)
     return render_to_response(
