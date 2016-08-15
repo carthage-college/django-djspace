@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 
+
+from djspace.application.forms import *
 from djspace.registration.forms import *
 from djspace.core.utils import get_profile_status
 from djspace.dashboard.forms import UserForm, UserProfileForm
@@ -19,7 +21,28 @@ from djspace.core.models import UserFiles
 from djtools.utils.convert import str_to_class
 
 import json
+import django
 
+
+UPLOAD_FORMS = {
+  "highereducationinitiatives": HigherEducationInitiativesUploadsForm,
+  "researchinfrastructure": ResearchInfrastructureUploadsForm,
+  "aerospaceoutreach": AerospaceOutreachUploadsForm,
+  "specialinititatives": SpecialInitiativesUploadsForm,
+  "undergraduatescholarship": UndergraduateScholarshipUploadsForm,
+  "stembridgescholarship": StemBridgeScholarshipUploadsForm,
+  "undergraduateresearch": UndergraduateResearchUploadsForm,
+  "graduatefellowship": GraduateFellowshipUploadsForm,
+  "clarkgraduatefellowship": ClarkGraduateFellowshipUploadsForm,
+  "highaltitudeballoonpayload": HighAltitudeBalloonPayloadUploadsForm,
+  "highaltitudeballoonlaunch": HighAltitudeBalloonLaunchUploadsForm,
+  "rocketlaunchteam": RocketLaunchTeamUploadsForm,
+  "firstnationsrocketcompetition": FirstNationsRocketCompetitionUploadsForm,
+  "midwesthighpoweredrocketcompetition": MidwestHighPoweredRocketCompetitionUploadsForm,
+  "collegiaterocketcompetition": CollegiateRocketCompetitionUploadsForm,
+  "nasacompetition": NasaCompetitionUploadsForm,
+  "industryinternship": IndustryInternshipUploadsForm
+}
 
 @login_required
 def home(request):
@@ -34,11 +57,9 @@ def home(request):
         instance = None
 
     user_files = UserFilesForm(instance=instance)
-
     try:
-        mod = str_to_class(
-            "djspace.registration.models",
-            user.profile.registration_type
+        mod = django.apps.apps.get_model(
+            app_label='registration', model_name=user.profile.registration_type
         )
         reg = mod.objects.get(user=user)
     except:
@@ -50,20 +71,19 @@ def home(request):
     except:
         apps = None
 
-    approved = False
+    approved = []
     for a in apps.all():
         if a.status:
-            approved = True
+            approved.append(a)
 
-    """
-    messages.add_message(
-        request, messages.ERROR,
-        '''
-        You have not uploaded required files. Please do so below.
-        ''',
-        extra_tags='danger'
-    )
-    """
+    if approved:
+        messages.add_message(
+            request, messages.ERROR,
+            '''
+            You have not uploaded required files. Please do so below.
+            ''',
+            extra_tags='danger'
+        )
 
     status = get_profile_status(user)
     return render_to_response(
@@ -113,8 +133,8 @@ def registration_type(request):
     if request.method == 'POST':
         reg_type = request.POST.get("registration_type")
         try:
-            mod = str_to_class(
-                "djspace.registration.models", reg_type
+            mod = django.apps.apps.get_model(
+                app_label='registration', model_name=reg_type
             )
             reg = mod.objects.get(user=request.user)
         except:
@@ -155,8 +175,8 @@ def profile_form(request):
     if request.method == 'POST' and reg_type != request.POST.get("pro-registration_type"):
         reg_type = request.POST.get("pro-registration_type")
     try:
-        mod = str_to_class(
-            "djspace.registration.models", reg_type
+        mod = django.apps.apps.get_model(
+            app_label='registration', model_name=reg_type
         )
         reg = mod.objects.get(user=user)
     except:

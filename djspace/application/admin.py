@@ -383,52 +383,9 @@ class StemBridgeScholarshipAdmin(UndergraduateAdmin):
         return qs
 
 
-#class RocketCompetitionInline(admin.TabularInline):
-class RocketCompetitionInline(admin.StackedInline):
-
-    model = CollegiateRocketCompetition
-    extra = 0
-    max_num = 0
-    fields = ('lastname','firstname')
-    readonly_fields = [
-        'lastname', 'firstname'
-    ]
-    #can_delete = False
-    list_display_links = ['lastname']
-
-    def lastname(self, instance):
-        return instance.user.last_name
-    lastname.short_description = 'Last name'
-
-    def firstname(self, instance):
-        return instance.user.first_name
-    firstname.short_description = 'First name'
-
-class MidwestHighPoweredRocketCompetitionInline(RocketCompetitionInline):
-    model = MidwestHighPoweredRocketCompetition
-
-class FirstNationsRocketCompetitionInline(RocketCompetitionInline):
-    model = FirstNationsRocketCompetition
-
-
 class RocketLaunchTeamAdmin(GenericAdmin):
 
     model = RocketLaunchTeam
-
-    inlines = [
-        RocketCompetitionInline,
-        MidwestHighPoweredRocketCompetitionInline,
-        FirstNationsRocketCompetitionInline
-    ]
-
-    def get_formsets_with_inlines(self, request, obj=None):
-        for inline in self.get_inline_instances(request, obj):
-            # FILTER THE INLINE FORMSET TO YIELD HERE
-            #if obj is not None and obj.related_instances.count() > 0:
-            #if inline.get_queryset(request).count() > 0:
-            #if inline.get_formset(request, obj) > 0:
-            if inline.get_queryset(request).count() > 0:
-                yield inline.get_formset(request, obj), inline
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'name','academic_institution_name','competition','leader',

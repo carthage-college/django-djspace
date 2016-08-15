@@ -10,6 +10,8 @@ from djspace.registration.forms import *
 from djspace.registration.models import *
 from djtools.utils.convert import str_to_class
 
+import django
+
 
 @login_required
 def form(request, reg_type):
@@ -22,8 +24,8 @@ def form(request, reg_type):
     if user.profile.registration_type != reg_type:
         return HttpResponseRedirect(reverse('dashboard_home'))
     try:
-        mod = str_to_class(
-            "djspace.registration.models", reg_type
+        mod = django.apps.apps.get_model(
+            app_label='registration', model_name=reg_type
         )
         reg = mod.objects.get(user=user)
     except:

@@ -143,11 +143,11 @@ ROCKET_COMPETITIONS = (
         "Midwest High Powered Rocket Competition"
     )
 )
+ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT = 6
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     "Midwest High Powered Rocket Competition",
     "Collegiate Rocket Competition"
 ]
-ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT = 6
 
 
 def upload_to_path(self, filename):
@@ -203,7 +203,7 @@ class EducationInitiatives(BaseModel):
     )
     proposal = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -248,6 +248,20 @@ class EducationInitiatives(BaseModel):
         verbose_name='Phone number',
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
+    )
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
     )
 
 
@@ -491,7 +505,7 @@ class RocketLaunchTeam(BaseModel):
     wsgc_acknowledgement = models.FileField(
         "WSGC institutional representative acknowledgement",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="""
@@ -502,7 +516,7 @@ class RocketLaunchTeam(BaseModel):
     )
     budget = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="""
@@ -515,6 +529,20 @@ class RocketLaunchTeam(BaseModel):
     competition = models.CharField(
         choices =  ROCKET_COMPETITIONS,
         max_length=128
+    )
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
     )
 
     class Meta:
@@ -541,6 +569,9 @@ class RocketLaunchTeam(BaseModel):
             team = self.first_nations_rocket_competition
         return team
 
+    def get_file_path(self):
+        return "files/applications"
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -556,7 +587,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -595,7 +626,7 @@ class CollegiateRocketCompetition(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -641,7 +672,7 @@ class FirstNationsRocketCompetition(BaseModel):
     )
     media_release = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -675,7 +706,7 @@ class HighAltitudeBalloon(BaseModel):
     letter_interest = models.FileField(
         "Letter of interest",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="""
             Letter must include two faculty members' names, emails,
@@ -686,8 +717,22 @@ class HighAltitudeBalloon(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
+        help_text="PDF format"
+    )
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
         help_text="PDF format"
     )
 
@@ -740,7 +785,7 @@ class Fellowship(BaseModel):
     # core
     signed_certification = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
             Before beginning the application process,
@@ -804,39 +849,39 @@ class Fellowship(BaseModel):
     )
     proposal = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     cv = models.FileField(
         "Résumé",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     budget = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     undergraduate_transcripts = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     graduate_transcripts = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     recommendation_1 = models.FileField(
         "Recommendation letter 1",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
         help_text=mark_safe('''
@@ -850,7 +895,7 @@ class Fellowship(BaseModel):
     recommendation_2 = models.FileField(
         "Recommendation letter 2",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -866,6 +911,20 @@ class Fellowship(BaseModel):
         max_length = 128
     )
     mentor_email = models.EmailField("Mentor's Email")
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
 
     def __unicode__(self):
         return u"{}".format(self.project_title)
@@ -898,7 +957,7 @@ class UndergraduateResearch(BaseModel):
     # core
     signed_certification = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
             Before beginning the application process,
@@ -934,27 +993,27 @@ class UndergraduateResearch(BaseModel):
     )
     proposal = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     high_school_transcripts = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -970,7 +1029,7 @@ class UndergraduateResearch(BaseModel):
             (faculty member or other professional reference)
         """,
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -986,6 +1045,20 @@ class UndergraduateResearch(BaseModel):
         max_length = 128
     )
     mentor_email = models.EmailField("Mentor's Email")
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
 
     def __unicode__(self):
         return u"{}".format(self.project_title)
@@ -995,6 +1068,10 @@ class UndergraduateResearch(BaseModel):
 
     def get_slug(self):
         return "undergraduate-research"
+
+    def form(self):
+        from djspace.application.forms import UndergraduateResearchForm
+        return UndergraduateResearchForm
 
     @models.permalink
     def get_absolute_url(self):
@@ -1012,7 +1089,7 @@ class Scholarship(BaseModel):
     # core
     signed_certification = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
             Before beginning the application process,
@@ -1024,7 +1101,7 @@ class Scholarship(BaseModel):
     )
     statement = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''Maximum two-page statement containing the following:
             <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">
@@ -1041,21 +1118,21 @@ class Scholarship(BaseModel):
     )
     high_school_transcripts = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "STEM Faculty/Advisor Recommendation Letter",
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1071,7 +1148,7 @@ class Scholarship(BaseModel):
             (faculty member or other professional reference)
         """,
         upload_to=upload_to_path,
-        #validators=[MimetypeValidator('application/pdf')],
+        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1084,6 +1161,20 @@ class Scholarship(BaseModel):
     academic_institution = models.CharField(
         "Application submitted for", max_length=128,
         choices=ACADEMIC_INSTITUTIONS
+    )
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
     )
 
 
@@ -1182,13 +1273,13 @@ class NasaCompetition(BaseModel):
     end_date = models.DateField()
     statement = models.FileField(
         upload_to = upload_to_path,
-        #validators = [MimetypeValidator('application/pdf')],
+        validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         help_text = "1 to 2 pages"
     )
     budget = models.FileField(
         upload_to = upload_to_path,
-        #validators = [MimetypeValidator('application/pdf')],
+        validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         help_text = "PDF format"
     )
@@ -1256,6 +1347,20 @@ class NasaCompetition(BaseModel):
         "Member 10",
         max_length=128,
         null = True, blank = True
+    )
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
     )
 
     class Meta:
@@ -1343,7 +1448,7 @@ class IndustryInternship(BaseModel):
     intern_supervisor_cv = models.FileField(
         "Brief Résumé",
         upload_to = upload_to_path,
-        #validators = [MimetypeValidator('application/pdf')],
+        validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         null = True, blank = True,
         help_text = "PDF format"
@@ -1361,7 +1466,7 @@ class IndustryInternship(BaseModel):
     background_photo = models.ImageField(
         "Photo",
         upload_to = upload_to_path,
-        #validators = [MimetypeValidator('image/jpeg')],
+        validators = [MimetypeValidator('image/jpeg')],
         max_length = 768,
         null = True, blank = True,
         help_text = "JPEG only"
@@ -1407,10 +1512,24 @@ class IndustryInternship(BaseModel):
     )
     budget = models.FileField(
         upload_to = upload_to_path,
-        #validators = [MimetypeValidator('application/pdf')],
+        validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         null = True, blank = True,
         help_text = "PDF format"
+    )
+    interim_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
     )
 
     def __unicode__(self):

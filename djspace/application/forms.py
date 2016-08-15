@@ -10,11 +10,16 @@ from djtools.fields import BINARY_CHOICES
 
 from taggit.models import Tag
 
+
 class HigherEducationInitiativesForm(forms.ModelForm):
 
     class Meta:
         model = HigherEducationInitiatives
-        exclude = ('user','status','funds_authorized','authorized_match')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
             'source_match','begin_date', 'end_date', 'location','synopsis',
@@ -25,11 +30,24 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'grant_officer_email','grant_officer_phone'
         ]
 
+
+class HigherEducationInitiativesUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = HigherEducationInitiatives
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
+
+
 class ResearchInfrastructureForm(forms.ModelForm):
 
     class Meta:
         model = ResearchInfrastructure
-        exclude = ('user','status','funds_authorized','authorized_match')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
             'source_match','begin_date', 'end_date', 'location','synopsis',
@@ -40,6 +58,15 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'grant_officer_name','grant_officer_address',
             'grant_officer_email','grant_officer_phone'
         ]
+
+
+class ResearchInfrastructureUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = ResearchInfrastructure
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class AerospaceOutreachForm(forms.ModelForm):
@@ -65,7 +92,20 @@ class AerospaceOutreachForm(forms.ModelForm):
             'grant_officer_name','grant_officer_address',
             'grant_officer_email','grant_officer_phone'
         ]
-        exclude = ('user','status','funds_authorized','authorized_match')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class AerospaceOutreachUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = AerospaceOutreach
+
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class SpecialInitiativesForm(forms.ModelForm):
@@ -107,7 +147,19 @@ class SpecialInitiativesForm(forms.ModelForm):
             'grant_officer_name','grant_officer_address',
             'grant_officer_email','grant_officer_phone'
         ]
-        exclude = ('user','status','funds_authorized','authorized_match')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class SpecialInitiativesUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = SpecialInitiatives
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class UndergraduateScholarshipForm(forms.ModelForm):
@@ -120,7 +172,19 @@ class UndergraduateScholarshipForm(forms.ModelForm):
 
     class Meta:
         model = UndergraduateScholarship
-        exclude = ('user','status')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class UndergraduateScholarshipUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = UndergraduateScholarship
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class StemBridgeScholarshipForm(forms.ModelForm):
@@ -133,42 +197,113 @@ class StemBridgeScholarshipForm(forms.ModelForm):
 
     class Meta:
         model = StemBridgeScholarship
-        exclude = ('user','status')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+class StemBridgeScholarshipUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = StemBridgeScholarship
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class UndergraduateResearchForm(forms.ModelForm):
 
     class Meta:
         model = UndergraduateResearch
-        exclude = ('user','status','funds_authorized')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class UndergraduateResearchUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = UndergraduateResearch
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class GraduateFellowshipForm(forms.ModelForm):
 
     class Meta:
         model = GraduateFellowship
-        exclude = ('user','status','funds_authorized')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class GraduateFellowshipUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = GraduateFellowship
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class ClarkGraduateFellowshipForm(forms.ModelForm):
 
     class Meta:
         model = ClarkGraduateFellowship
-        exclude = ('user','status','funds_authorized')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class ClarkGraduateFellowshipUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = ClarkGraduateFellowship
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class HighAltitudeBalloonPayloadForm(forms.ModelForm):
 
     class Meta:
         model = HighAltitudeBalloonPayload
-        exclude = ('user','status')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class HighAltitudeBalloonPayloadUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = HighAltitudeBalloonPayload
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class HighAltitudeBalloonLaunchForm(forms.ModelForm):
 
     class Meta:
         model = HighAltitudeBalloonLaunch
-        exclude = ('user','status')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
+
+
+class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = HighAltitudeBalloonLaunch
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
 
 
 class RocketLaunchTeamForm(forms.ModelForm):
@@ -177,18 +312,19 @@ class RocketLaunchTeamForm(forms.ModelForm):
     """
 
     leader = forms.CharField(
-    label = "Team Lead",
+        label = "Team Lead",
         help_text = '''
-            Start typing the last name to see results. If you do not find the
-            team leader or if the team leader has not yet registered with WSGC,
-            you can leave this field blank for now.
+            Start typing the last name of the team leader to see results
+            from which to choose.
         ''',
     )
 
     class Meta:
         model = RocketLaunchTeam
-        exclude = ('user','status',)
-        #fields = ['name','academic_institution_name'
+        exclude = (
+            'user','status','funds_authorized','authorized_match','members',
+            'award_acceptance','final_report','interim_report'
+        )
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -216,11 +352,23 @@ class RocketLaunchTeamForm(forms.ModelForm):
         return cd
 
 
+class RocketLaunchTeamUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = RocketLaunchTeam
+        fields = (
+            'award_acceptance','final_report','interim_report'
+        )
+
+
 class FirstNationsRocketCompetitionForm(forms.ModelForm):
 
     class Meta:
         model = FirstNationsRocketCompetition
-        exclude = ('user','status')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
 
     def __init__(self, *args, **kwargs):
         super(FirstNationsRocketCompetitionForm, self).__init__(
@@ -231,11 +379,23 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         ).order_by("name")
 
 
+class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = FirstNationsRocketCompetition
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
+
+
 class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
 
     class Meta:
         model = MidwestHighPoweredRocketCompetition
-        exclude = ('user','status')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
 
     def __init__(self, *args, **kwargs):
         super(MidwestHighPoweredRocketCompetitionForm, self).__init__(
@@ -248,11 +408,23 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         ).order_by("name")
 
 
+class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = MidwestHighPoweredRocketCompetition
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
+
+
 class CollegiateRocketCompetitionForm(forms.ModelForm):
 
     class Meta:
         model = CollegiateRocketCompetition
-        exclude = ('user','status')
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
+        )
 
 
     def __init__(self, *args, **kwargs):
@@ -266,6 +438,15 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         ).order_by("name")
 
 
+class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = CollegiateRocketCompetition
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
+
+
 class NasaCompetitionForm(forms.ModelForm):
 
     program_acceptance = forms.TypedChoiceField(
@@ -276,7 +457,8 @@ class NasaCompetitionForm(forms.ModelForm):
     class Meta:
         model = NasaCompetition
         exclude = (
-            'user','status','funds_authorized','authorized_match'
+            'user','status','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
         )
 
 
@@ -300,11 +482,30 @@ class NasaCompetitionForm(forms.ModelForm):
 
         return cd
 
+
+class NasaCompetitionUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = NasaCompetition
+        exclude = (
+            'user','status','funds_authorized','authorized_match',
+        )
+
+
 class IndustryInternshipForm(forms.ModelForm):
 
     class Meta:
         model = IndustryInternship
         exclude = (
-            'user','status','work_plan','funds_authorized','authorized_match'
+            'user','status','work_plan','funds_authorized','authorized_match',
+            'award_acceptance','final_report','interim_report'
         )
 
+
+class IndustryInternshipUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = IndustryInternship
+        exclude = (
+            'user','status','work_plan','funds_authorized','authorized_match',
+        )

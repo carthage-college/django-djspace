@@ -10,14 +10,16 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
+from djspace.application.forms import *
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
-from djspace.application.forms import *
 from djspace.core.utils import get_profile_status
 
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
 from djtools.fields import TODAY
+
+import django
 
 
 @login_required
@@ -29,8 +31,8 @@ def application_form(request, application_type, aid=None):
     # verify that the user has completed registration
     reg_type = user.profile.registration_type
     try:
-        mod = str_to_class(
-            "djspace.registration.models", reg_type
+        mod = django.apps.apps.get_model(
+            app_label='registration', model_name=reg_type
         )
         reg = mod.objects.get(user=user)
     except:
@@ -72,8 +74,8 @@ def application_form(request, application_type, aid=None):
             )
 
     # we need the application model now
-    mod = str_to_class(
-        "djspace.application.models", app_type
+    mod = django.apps.apps.get_model(
+        app_label='application', model_name=app_type
     )
 
     # email distribution
@@ -104,11 +106,14 @@ def application_form(request, application_type, aid=None):
     # fetch the form instance
 
     # debugging
+    form = FormClass(instance=app)
+    '''
     try:
         form = FormClass(instance=app)
     except:
         # app_type does not match an existing form
         raise Http404
+    '''
     # GET or POST
     if request.method == 'POST':
         try:
@@ -227,8 +232,8 @@ def application_print(request, application_type, aid):
         app_name += " %s" % n.capitalize()
     app_type = "".join(app_name.split(" "))
 
-    mod = str_to_class(
-        "djspace.application.models", app_type
+    mod = django.apps.apps.get_model(
+        app_label='application', model_name=app_type
     )
     #data.reg = get_object_or_404(mod, pk=aid)
     data = get_object_or_404(mod, pk=aid)

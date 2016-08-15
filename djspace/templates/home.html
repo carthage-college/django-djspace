@@ -11,7 +11,7 @@
     .column2 {padding-top: 0;}
     .red, .glyphicon {color:#800;}
     .green, .glyphicon-ok {color:#880;}
-    .short-date {color:#880;}
+    .short-date {color:#880;font-weight:bold;}
     span.error-message{font-weight:bold;}
     .help{font-weight:bold;}
     .form .blockLabels label { font-weight: bold; color:#008000;}
@@ -21,18 +21,33 @@
     #id_reg-sponsoring_organization_description {width:325px;}
     .column2 { padding-top: 0; }
     .notice h2 {padding-top: 10px;padding-left:3px;}
+    .info h2 {margin-bottom: 4px;}
     label[for=id_confirmation_key] {display:none !important;}
     #user-files legend {
     background: #fff6bf none repeat scroll 0 0;
     border-color: #ffd324;
-    color: #514721;margin:0; width:100%;
+    margin:0; width:100%;
+    font-size:1.2em;color:black;
+    }
+    #user-files ol, #user-files p {margin-left:7px;}
+    #page-content-wrap .page-content {
+    padding: 60px 20px;
     }
     #main-content h2{color:#003c4b;}
+    #page-content-wrap .page-content h3 {font-size: 1em; text-transform: none;}
+    .grant-list {
+      background-color: #fcffff; border: 2px solid #ddf3f3; border-radius: 3px;
+      margin-bottom: 10px; margin-top: 10px; padding: 6px;
+    }
+    .grant-list a {color:green;}
+    #main-content #user-files .application-type {font-size:1.2em;}
+    hr { margin-top: 25px; height:2px;}
 </style>
 {% endblock %}
 {% block page_header %}
     Wisconsin Space Grant Consortium
 {% endblock %}
+{% block page_content %}large-9-half small-12"{% endblock %}>
 {% block left_nav %}
     <h3>
         <a href="{% url 'dashboard_home' %}">Account</a>
@@ -41,7 +56,9 @@
         <ul>
             {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url 'dashboard_home' %}">Manage grant applications</a>
+                    <a href="{% url 'dashboard_home' %}">
+                      Manage applications
+                    </a>
                 </li>
                 <li>
                     <a href="{% url 'dashboard_profile' %}">Manage profile</a>
@@ -69,8 +86,8 @@
             {% endif %}
         </ul>
     </div>
-    {{ block.super }}
 {% endblock %}
+{% block left_audience %}{% endblock %}
 {% block content_head %}
     <h1 id="page_title">
     {% if user.is_authenticated %}

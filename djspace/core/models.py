@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from allauth.account.signals import user_signed_up
 from allauth.account.models import EmailAddress
 from taggit.managers import TaggableManager
@@ -13,12 +14,12 @@ from djspace.core.utils import get_profile_status
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
-from djtools.utils.convert import str_to_class
 from djtools.fields.validators import MimetypeValidator
 
 from datetime import date, datetime
 
 import os
+import django
 
 REG_TYPE = (
     ('','----select----'),
@@ -59,6 +60,8 @@ EMPLOYMENT_CHOICES = (
 
 from uuid import uuid4
 
+import logging
+logger = logging.getLogger(__name__)
 
 def upload_to_path(self, filename):
     """
@@ -71,6 +74,7 @@ def upload_to_path(self, filename):
     sendero = "{}/{}/".format(
         self.get_file_path(), self.user.id
     )
+    logger.debug("path = {}".format(sendero))
     return os.path.join(sendero, filename)
 
 
@@ -78,6 +82,9 @@ class Base(models.Model):
     """
     Abstract model that forms the basis for all registration types
     """
+
+    class Meta:
+        abstract = True
 
     # meta
     user = models.ForeignKey(User)
@@ -93,8 +100,8 @@ class Base(models.Model):
         editable=False
     )
 
-    class Meta:
-        abstract = True
+    def get_content_type(self):
+        return ContentType.objects.get_for_model(self)
 
 
 class BaseModel(Base):
@@ -103,10 +110,17 @@ class BaseModel(Base):
     Inherts from Base() class.
     """
 
-    status = models.BooleanField(default=False, verbose_name="Funded")
-
     class Meta:
         abstract = True
+
+    status = models.BooleanField(default=False, verbose_name="Funded")
+    award_acceptance = models.FileField(
+        #upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
 
 
 class GenericChoice(models.Model):
@@ -364,10 +378,11 @@ class UserProfile(models.Model):
         from djspace.registration.models import Faculty, Professional
 
         try:
-            reg = str_to_class(
-                "djspace.registration.models", self.registration_type
+
+            mod = django.apps.apps.get_model(
+                app_label='registration', model_name=self.registration_type
             )
-            return reg.objects.get(user=self.user)
+            return mod.objects.get(user=self.user)
         except:
             return None
 

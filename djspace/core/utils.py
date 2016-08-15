@@ -6,6 +6,7 @@ from djtools.utils.mail import send_mail
 
 from datetime import datetime
 
+
 def get_profile_status(user):
     """
     simple function that compares the user's profile updated datetime
@@ -45,3 +46,4 @@ def get_email_auxiliary(user):
         return e[0].email
     else:
         return None
+

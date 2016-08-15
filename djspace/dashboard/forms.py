@@ -12,6 +12,7 @@ from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 
 RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("name")
 
+
 class UserForm(forms.Form):
     """
     Django User data plus salutation and second_name from profile
