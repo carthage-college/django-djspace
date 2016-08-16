@@ -20,7 +20,8 @@ from djtools.utils.convert import str_to_class
 from djtools.fields import TODAY
 
 import django
-
+import logging
+logger = logging.getLogger(__name__)
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -216,8 +217,9 @@ def application_form(request, application_type, aid=None):
         request.session["leader_id"] = ""
         request.session["leader_name"] = ""
     return render_to_response(
-        "application/form.html",
-        {"form": form,"app_name":app_name,},
+        "application/form.html", {
+            "form": form,"app_name":app_name,"obj":app,
+        },
         context_instance=RequestContext(request)
     )
 

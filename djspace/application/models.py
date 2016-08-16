@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.db.models.signals import pre_delete
 
-from djspace.core.models import BaseModel
+from djspace.core.models import BaseModel, upload_to_path
 from djspace.registration.choices import WSGC_SCHOOL
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
@@ -15,10 +15,9 @@ from djtools.fields.validators import MimetypeValidator
 
 from uuid import uuid4
 
-WSGC_SCHOOL_OTHER = WSGC_SCHOOL + (('Other','Other'),)
-
 import os
 
+WSGC_SCHOOL_OTHER = WSGC_SCHOOL + (('Other','Other'),)
 DIRECTORATE_CHOICES = (
     (
         'Aeronautics Research','Aeronautics Research'
@@ -148,21 +147,15 @@ ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     "Midwest High Powered Rocket Competition",
     "Collegiate Rocket Competition"
 ]
-
-
-def upload_to_path(self, filename):
-    """
-    Generates the path as a string for file field.
-    """
-    ext = filename.split('.')[-1]
-    # set filename as random string
-    filename = '{}.{}'.format(uuid4().hex, ext)
-    ts = self.date_created.strftime("%Y%m%d%H%M%S%f")
-    path = "files/applications/{}/{}/{}/".format(
-        self.get_slug(), self.user.id, ts
-    )
-    return os.path.join(path, filename)
-
+PROFESSIONAL_PROGRAMS = [
+    "aerospaceoutreach",
+    "highereducationinitiatives",
+    "industryinternship",
+    "nasacompetition",
+    "researchinfrastructure",
+    "specialinitiatives",
+    "rocketlaunchteam"
+]
 
 class EducationInitiatives(BaseModel):
 
@@ -257,6 +250,20 @@ class EducationInitiatives(BaseModel):
         help_text="PDF format"
     )
     final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    invoice = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    program_match = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -544,6 +551,20 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
+    invoice = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    program_match = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
 
     class Meta:
         ordering = ['name']
@@ -568,9 +589,6 @@ class RocketLaunchTeam(BaseModel):
         elif "First Nations" in self.competition:
             team = self.first_nations_rocket_competition
         return team
-
-    def get_file_path(self):
-        return "files/applications"
 
     @models.permalink
     def get_absolute_url(self):
@@ -1362,6 +1380,20 @@ class NasaCompetition(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
+    invoice = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    program_match = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
 
     class Meta:
         verbose_name_plural = "NASA Competitions"
@@ -1525,6 +1557,20 @@ class IndustryInternship(BaseModel):
         help_text="PDF format"
     )
     final_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    invoice = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    program_match = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,

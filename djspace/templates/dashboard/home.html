@@ -6,7 +6,7 @@
     <link href="//www.carthage.edu/themes/europa/assets/css/master.css"
         type="text/css" rel="stylesheet">
     <link href="//www.carthage.edu/themes/europa/assets/css/addons.css"
-        type="text/css" rel="stylesheet">
+       type="text/css" rel="stylesheet">
     <link href="//www.carthage.edu/themes/shared/css/forms.css"
         rel="stylesheet" type="text/css">
     <link href="//www.carthage.edu/themes/shared/css/tables.css"
@@ -14,12 +14,25 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
         integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+"
         crossorigin="anonymous" type="text/css" rel="stylesheet">
+    <link href="//www.carthage.edu/static/vendor/jquery/ui/datepicker/css/smoothness/jquery-ui-1.10.4.custom.min.css"
+        rel="stylesheet" type="text/css" />
     <!--[if lt IE 9]>
         <script src="//www.carthage.edu/themes/shared/js/html5shiv.js"
             type="text/javascript"></script>
     <![endif]-->
+{% endblock css %}
+{% block extra_style %}
+{{block.super}}
+<link rel="stylesheet"
+    href="//www.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.css"
+    type="text/css" media="screen" />
 {% endblock %}
 {% block extra_javascript %}
+<script src="//www.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript"
+    src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://malsup.github.io/min/jquery.blockUI.min.js"
+    type="text/javascript"></script>
 <script type="text/javascript">
   $(document).ready(function(){
     $('.upload-file').change(function(){
@@ -28,19 +41,18 @@
       var $fname = $dis.attr("name");
       var $content_type = $dis.attr("data-content-type");
       var $oid = $dis.attr("data-oid");
-      var $fawe = $dis.siblings('.fa-ban');
+      var $fawe = $dis.next('.fa-ban');
+      console.log($fawe.html());
       var name = file.name;
       var size = file.size;
       var type = file.type;
-      console.log(name,size,type);
+      /* console.log(name,size,type); */
       if(file.name.length < 1) {
-        alert("Is that a correct filename?");
+        alert("Is that a proper filename?");
       }
-      /*
-      else if(file.size > 100000) {
-        alert("The file is too big");
+      else if(file.size > 50000000) {
+        alert("That file is too big");
       }
-      */
       else if(file.type != 'image/jpg' && file.type != 'application/pdf' && file.type != 'image/jpeg' ) {
         alert("The file does not match jpg or pdf");
       } else {
@@ -72,8 +84,6 @@
             },
             // Ajax events
             success: completeHandler = function(data) {
-                console.log(data.url);
-                console.log(data.path);
                 /*
                 * Workaround for Chrome browser // Delete the fake path
                 */
@@ -85,16 +95,23 @@
                 }
                 //var writeFile = $(":file");
                 //writeFile.html(document.write(catchFile));
-                $dis.val("");
+                if (data == "Fail") {
+                  $.fancybox.open([{
+                    href : '#file-fail'
+                  }]);
+                } else {
+                  $.growlUI('Success', "File uploaded.");
+                  $dis.val("");
+                }
                 $fawe.replaceWith(data);
             },
             error: errorHandler = function(data) {
-                console.log(data);
                 alert("500 server error: Something went awry...");
             },
             // Form data
             data: formData,
-            // Options to tell jQuery not to process data or worry about the content-type
+            // Options to tell jQuery not to process data
+            // or worry about the content-type
             cache: false,
             contentType: false,
             processData: false
@@ -171,7 +188,7 @@
                         name="award_acceptance" id="id_award_acceptance">
                       {% if app.award_acceptance %}
                         <a href="{{media_url}}{{app.award_acceptance}}" target="_blank">
-                          <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
                       {% else %}
                         <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
                       {% endif %}
@@ -188,7 +205,7 @@
                         name="interim_report" id="id_interim_report">
                       {% if app.interim_report %}
                         <a href="{{media_url}}{{app.interim_report}}" target="_blank">
-                          <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+                          <i class="fa fan-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
                       {% else %}
                         <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
                       {% endif %}
@@ -203,13 +220,13 @@
                         name="final_report" id="id_final_report">
                       {% if app.final_report %}
                         <a href="{{media_url}}{{app.final_report}}" target="_blank">
-                          <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
                       {% else %}
                         <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
                       {% endif %}
                     </div>
                   </li>
-                  {% if user.profile.registration_type != "Undergraduate" or user.profile.registration_type != "Graduate" %}
+                  {% if app.get_content_type.model in professional_programs %}
                   <li class="form-group ctrlHolder">
                     <h3><label for="id_invoice">Invoice</label></h3>
                     <div>
@@ -217,17 +234,27 @@
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="invoice" id="id_invoice">
-                      <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+                      {% if app.invoice %}
+                        <a href="{{media_url}}{{app.invoice}}" target="_blank">
+                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
+                      {% else %}
+                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+                      {% endif %}
                     </div>
                   </li>
                   <li class="form-group ctrlHolder">
-                    <h3><label for="id_final_report">Final Report</label></h3>
+                    <h3><label for="id_program_match">Program Match</label></h3>
                     <div>
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="program_match" id="id_program_match">
-                      <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+                      {% if app.program_match %}
+                        <a href="{{media_url}}{{app.program_match}}" target="_blank">
+                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
+                      {% else %}
+                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+                      {% endif %}
                     </div>
                   </li>
                   {% endif %}
@@ -239,12 +266,13 @@
     </ul>
     {% if approved %}
     <hr>
-    <fieldset>
-    <legend>Requisite Profile Files</legend>
-      <p>
+    <p>
+      <strong>NOTE:</strong>
         The following files will serve all programs to which you have
         submitted an application.
-      </p>
+    </p>
+    <fieldset>
+      <legend>Requisite Profile Files</legend>
       <ol>
         <li class="form-group ctrlHolder">
           <h3><label for="id_mugshot">Photo</label></h3>
@@ -253,7 +281,7 @@
               name="mugshot" id="id_mugshot">
             {% if user_files.mugshot.value %}
               <a href="{{media_url}}{{user_files.mugshot.value}}" target="_blank">
-              <i class="fa fa-file-image-o red" aria-hidden="true"></i></a>
+              <i class="fa fa-ban fa-file-image-o red" aria-hidden="true"></i></a>
             {% else %}
               <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
             {% endif %}
@@ -266,7 +294,7 @@
               name="biography" id="id_biography">
             {% if user_files.biography.value %}
               <a href="{{media_url}}{{user_files.biography.value}}" target="_blank">
-              <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+              <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
             {% else %}
               <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
             {% endif %}
@@ -279,7 +307,7 @@
               name="irs_w9" id="id_irs_w9">
             {% if user_files.irs_w9.value %}
               <a href="{{media_url}}{{user_files.irs_w9.value}}" target="_blank">
-              <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+              <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
             {% else %}
               <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
             {% endif %}
@@ -292,7 +320,7 @@
               name="media_release" id="id_media_release">
             {% if user_files.media_release.value %}
               <a href="{{media_url}}{{user_files.media_release.value}}" target="_blank">
-              <i class="fa fa-file-pdf-o red" aria-hidden="true"></i></a>
+              <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
             {% else %}
               <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
             {% endif %}
@@ -325,22 +353,28 @@
     </div>
     <div class="grant-list">
     {% endif %}
-        <p>
-            <h4>
-                {% if not reg or not status %}
-                <i class="fa fa-times red"></i>
-                You must update your
-                <a href="{% url 'dashboard_profile' %}"
-                    style="color:blue;">
-                    registration profile
-                </a> before applying for grants from NASA.
-                {% else %}
-                <div style="margin-left:9px;">
-                    {% include "dashboard/applications.inc.html" %}
-                </div>
-                {% endif %}
-            </h4>
-        </p>
+    {% if not reg or not status %}
+    <i class="fa fa-times red"></i>
+    You must update your
+    <a href="{% url 'dashboard_profile' %}"
+        style="color:blue;">
+        registration profile
+    </a> before applying for grants from NASA.
+    {% else %}
+    <div style="margin-left:9px;">
+        {% include "dashboard/applications.inc.html" %}
     </div>
+    {% endif %}
+    </div>
+</div> <!-- /.column2 -->
+<!-- file fail modal -->
+<div id="file-fail" style="display:none;width:500px;">
+    <h2>Your file was not uploaded</h2>
+    <p>
+      Verify that the file is a PDF for documents and JPEG for images.
+    </p>
+    <p>
+        <a href="javascript:$.fancybox.close();">Close</a>
+    </p>
 </div>
 {% endblock %}

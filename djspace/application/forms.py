@@ -94,7 +94,8 @@ class AerospaceOutreachForm(forms.ModelForm):
         ]
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance','final_report','interim_report',
+            'invoice','program_match'
         )
 
 
@@ -225,8 +226,8 @@ class UndergraduateResearchUploadsForm(forms.ModelForm):
 
     class Meta:
         model = UndergraduateResearch
-        exclude = (
-            'user','status','funds_authorized','authorized_match',
+        fields = (
+            'award_acceptance','final_report','interim_report',
         )
 
 
@@ -323,7 +324,8 @@ class RocketLaunchTeamForm(forms.ModelForm):
         model = RocketLaunchTeam
         exclude = (
             'user','status','funds_authorized','authorized_match','members',
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance','final_report','interim_report',
+            'invoice','program_match'
         )
 
     def __init__(self, *args, **kwargs):
@@ -357,7 +359,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
     class Meta:
         model = RocketLaunchTeam
         fields = (
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance','final_report','interim_report',
+            'invoice','program_match'
         )
 
 

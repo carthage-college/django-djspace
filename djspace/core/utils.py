@@ -5,6 +5,21 @@ from djtools.fields import NOW
 from djtools.utils.mail import send_mail
 
 from datetime import datetime
+import os
+
+
+def upload_to_path(self, filename):
+    """
+    Generates the path as a string for file field.
+    """
+
+    ext = filename.split('.')[-1]
+    # set filename as random string
+    filename = '{}.{}'.format(self.get_file_name(), ext)
+    path = "{}/{}/{}/".format(
+        self.get_file_path(), self.get_slug(), self.user.id
+    )
+    return os.path.join(path, filename)
 
 
 def get_profile_status(user):

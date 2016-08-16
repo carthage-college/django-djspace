@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from djspace.application.forms import *
 from djspace.registration.forms import *
 from djspace.core.utils import get_profile_status
+from djspace.application.models import PROFESSIONAL_PROGRAMS
 from djspace.dashboard.forms import UserForm, UserProfileForm
 from djspace.core.forms import UserFilesForm
 from djspace.core.models import UserFiles
@@ -22,7 +23,6 @@ from djtools.utils.convert import str_to_class
 
 import json
 import django
-
 
 UPLOAD_FORMS = {
   "highereducationinitiatives": HigherEducationInitiativesUploadsForm,
@@ -44,6 +44,7 @@ UPLOAD_FORMS = {
   "industryinternship": IndustryInternshipUploadsForm
 }
 
+
 @login_required
 def home(request):
     """
@@ -64,6 +65,7 @@ def home(request):
         reg = mod.objects.get(user=user)
     except:
         reg = None
+
     # if the user does not have any applications, the gm2m
     # field will throw an error
     try:
@@ -89,7 +91,8 @@ def home(request):
     return render_to_response(
         "dashboard/home.html", {
             "reg":reg,"status":status,"approved":approved,
-            "user_files":user_files
+            "user_files":user_files,
+            "professional_programs":PROFESSIONAL_PROGRAMS
         },
         context_instance=RequestContext(request)
     )

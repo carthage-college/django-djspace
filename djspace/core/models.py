@@ -10,15 +10,15 @@ from taggit.managers import TaggableManager
 from gm2m import GM2MField
 
 from djspace.core.utils import registration_notify, get_email_auxiliary
-from djspace.core.utils import get_profile_status
+from djspace.core.utils import get_profile_status, upload_to_path
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 from djtools.fields.validators import MimetypeValidator
 
 from datetime import date, datetime
+from uuid import uuid4
 
-import os
 import django
 
 REG_TYPE = (
@@ -58,25 +58,6 @@ EMPLOYMENT_CHOICES = (
      "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
 )
 
-from uuid import uuid4
-
-import logging
-logger = logging.getLogger(__name__)
-
-def upload_to_path(self, filename):
-    """
-    Generates the path as a string for file field.
-    """
-
-    ext = filename.split('.')[-1]
-    # set filename as random string
-    filename = '{}.{}'.format(uuid4().hex, ext)
-    sendero = "{}/{}/".format(
-        self.get_file_path(), self.user.id
-    )
-    logger.debug("path = {}".format(sendero))
-    return os.path.join(sendero, filename)
-
 
 class Base(models.Model):
     """
@@ -103,6 +84,9 @@ class Base(models.Model):
     def get_content_type(self):
         return ContentType.objects.get_for_model(self)
 
+    def get_file_name(self):
+        return uuid4().hex
+
 
 class BaseModel(Base):
     """
@@ -115,12 +99,15 @@ class BaseModel(Base):
 
     status = models.BooleanField(default=False, verbose_name="Funded")
     award_acceptance = models.FileField(
-        #upload_to=upload_to_path,
+        upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
+
+    def get_file_path(self):
+        return "files/applications"
 
 
 class GenericChoice(models.Model):
@@ -202,7 +189,14 @@ class UserFiles(models.Model):
     )
 
     def get_file_path(self):
-        return "files/users"
+        return "files"
+
+    def get_slug(self):
+        return "users"
+
+    def get_file_name(self):
+        return uuid4().hex
+
 
 class UserProfile(models.Model):
 

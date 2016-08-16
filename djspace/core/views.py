@@ -12,44 +12,6 @@ from djspace.core.forms import UserFilesForm
 from djspace.core.models import UserFiles
 from djspace.application.models import *
 
-"""
-@csrf_exempt
-def user_files(request):
-
-    user = request.user
-    response = None
-    valid="get"
-    if request.method == "POST":
-        valid="no"
-        ct = request.POST.get("ct")
-        ct = ContentType.objects.get(pk=ct)
-        mod = ct.model_class()
-        obj = mod.objects.get(pk=request.POST.get("oid"))
-        form = UPLOAD_FORMS[ct.model](data=request.POST, files=request.FILES, instance=obj)
-        if form.is_valid():
-            form.save()
-            valid='yes'
-        else:
-            valid=form.errors
-        return render_to_response(
-                "dashboard/test.done.html", {
-                "form":form,"valid":valid
-            },
-            context_instance=RequestContext(request)
-        )
-    else:
-        ct = request.GET.get("ct")
-        ct = ContentType.objects.get(pk=ct)
-        mod = ct.model_class()
-        obj = mod.objects.get(pk=request.GET.get("oid"))
-        form = UPLOAD_FORMS[ct.model](instance=obj)
-    return render_to_response(
-        "dashboard/test.html", {
-            "form":form,"valid":valid
-        },
-        context_instance=RequestContext(request)
-    )
-"""
 
 @csrf_exempt
 @login_required
@@ -104,5 +66,38 @@ def user_files(request):
         response = HttpResponse(
             msg, content_type="text/plain; charset=utf-8"
         )
-
     return response
+
+@csrf_exempt
+def user_files_test(request):
+
+    user = request.user
+    response = None
+    valid="get"
+    if request.method == "POST":
+        valid="no"
+        ct = request.POST.get("ct")
+        ct = ContentType.objects.get(pk=ct)
+        mod = ct.model_class()
+        obj = mod.objects.get(pk=request.POST.get("oid"))
+        form = UPLOAD_FORMS[ct.model](
+            data=request.POST, files=request.FILES, instance=obj
+        )
+        if form.is_valid():
+            form.save()
+            valid='yes'
+        else:
+            valid=form.errors
+    else:
+        ct = request.GET.get("ct")
+        ct = ContentType.objects.get(pk=ct)
+        mod = ct.model_class()
+        obj = mod.objects.get(pk=request.GET.get("oid"))
+        form = UPLOAD_FORMS[ct.model](instance=obj)
+    return render_to_response(
+        "dashboard/test.html", {
+            "form":form,"valid":valid
+        },
+        context_instance=RequestContext(request)
+    )
+

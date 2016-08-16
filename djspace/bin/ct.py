@@ -19,7 +19,7 @@ print form.as_p()
 ct = ContentType.objects.get(pk=32)
 print ct
 mod = ct.model_class()
-print mod
+print "name = {}".format( mod.model)
 obj = mod.objects.get(pk=55)
 print obj
 form = UPLOAD_FORMS[ct.model](instance=obj)
