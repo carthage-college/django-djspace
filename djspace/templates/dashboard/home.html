@@ -194,6 +194,7 @@
                       {% endif %}
                     </div>
                   </li>
+                  {% if app.get_content_type.model not in rocket_competitions %}
                   <li class="form-group ctrlHolder">
                     <h3>
                       <label for="id_interim_report">Interim Report</label>
@@ -226,7 +227,25 @@
                       {% endif %}
                     </div>
                   </li>
-                  {% if app.get_content_type.model in professional_programs %}
+                  {% endif %}
+                  {% if app.get_content_type.model in professional_programs and  user.profile.registration_type != "Undergraduate" or user.profile.registration_type != "Graduate" %}
+                  {% if app.get_content_type.model in rocket_competitions %}
+                  <li class="form-group ctrlHolder">
+                    <h3><label for="id_invoice">Report 1</label></h3>
+                    <div>
+                      <input type="file" class="upload-file"
+                        data-content-type="{{app.get_content_type.id}}"
+                        data-oid="{{app.id}}"
+                        name="report_1" id="id_report_1">
+                      {% if app.report_1 %}
+                        <a href="{{media_url}}{{app.report_1}}" target="_blank">
+                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
+                      {% else %}
+                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+                      {% endif %}
+                    </div>
+                  </li>
+                  {% else %}
                   <li class="form-group ctrlHolder">
                     <h3><label for="id_invoice">Invoice</label></h3>
                     <div>
@@ -257,6 +276,7 @@
                       {% endif %}
                     </div>
                   </li>
+                  {% endif %}
                   {% endif %}
                 </ol>
               </fieldset>

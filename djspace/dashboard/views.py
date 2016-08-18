@@ -15,6 +15,7 @@ from djspace.application.forms import *
 from djspace.registration.forms import *
 from djspace.core.utils import get_profile_status
 from djspace.application.models import PROFESSIONAL_PROGRAMS
+from djspace.application.models import ROCKET_COMPETITIONS_EXCLUDE
 from djspace.dashboard.forms import UserForm, UserProfileForm
 from djspace.core.forms import UserFilesForm
 from djspace.core.models import UserFiles
@@ -92,7 +93,8 @@ def home(request):
         "dashboard/home.html", {
             "reg":reg,"status":status,"approved":approved,
             "user_files":user_files,
-            "professional_programs":PROFESSIONAL_PROGRAMS
+            "professional_programs":PROFESSIONAL_PROGRAMS,
+            "rocket_competitions":ROCKET_COMPETITIONS_EXCLUDE
         },
         context_instance=RequestContext(request)
     )

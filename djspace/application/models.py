@@ -156,6 +156,11 @@ PROFESSIONAL_PROGRAMS = [
     "specialinitiatives",
     "rocketlaunchteam"
 ]
+ROCKET_COMPETITIONS_EXCLUDE = [
+    "midwesthighpoweredrocketcompetition",
+    "collegiaterocketcompetition",
+    "firstnationsrocketcompetition"
+]
 
 class EducationInitiatives(BaseModel):
 
@@ -314,11 +319,13 @@ class ResearchInfrastructure(EducationInitiatives):
         """
     )
     nasa_mission_directorate = models.CharField(
+        "NASA Mission directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
             See NASA's
-            <a href="https://www.nasa.gov/offices/education/missions/">
+            <a href="https://www.nasa.gov/offices/education/missions/"
+              target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
         '''
@@ -371,11 +378,13 @@ class AerospaceOutreach(EducationInitiatives):
         null = True, blank = True
     )
     nasa_mission_directorate = models.CharField(
+        "NASA Mission directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
             See NASA's
-            <a href="https://www.nasa.gov/offices/education/missions/">
+            <a href="https://www.nasa.gov/offices/education/missions/"
+              target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
         '''
@@ -428,11 +437,13 @@ class SpecialInitiatives(EducationInitiatives):
         null = True, blank = True
     )
     nasa_mission_directorate = models.CharField(
+        "NASA Mission directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
             See NASA's
-            <a href="https://www.nasa.gov/offices/education/missions/">
+            <a href="https://www.nasa.gov/offices/education/missions/"
+              target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
         '''
@@ -537,6 +548,7 @@ class RocketLaunchTeam(BaseModel):
         choices =  ROCKET_COMPETITIONS,
         max_length=128
     )
+    # reports
     interim_report = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
@@ -846,11 +858,13 @@ class Fellowship(BaseModel):
         '''
     )
     nasa_mission_directorate = models.CharField(
+        "NASA Mission directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
             See NASA's
-            <a href="http://www.nasa.gov/offices/education/missions/">
+            <a href="http://www.nasa.gov/offices/education/missions/"
+              target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
         '''
@@ -1020,7 +1034,7 @@ class UndergraduateResearch(BaseModel):
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
-        help_text="First and second year students only. [PDF format]"
+        help_text="High School Senior and Freshman students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to=upload_to_path,
@@ -1213,6 +1227,21 @@ class UndergraduateScholarship(Scholarship):
 
 
 class StemBridgeScholarship(Scholarship):
+
+
+    signed_certification = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text=mark_safe('''
+            Before beginning the application process,
+            please print, obtain signatures, and scan the<br>
+            <a href="/live/files/2911-ugp17certification-form-pdf" target="_blank">
+            signed certification document
+            </a>
+        ''')
+    )
+
 
     def __unicode__(self):
         return u"{}".format(self.project_title)
@@ -1524,6 +1553,7 @@ class IndustryInternship(BaseModel):
         '''
     )
     nasa_mission_relationship = models.TextField(
+        "NASA Mission directorate",
         # 1250 character limit
         null = True, blank = True,
         help_text = '''
