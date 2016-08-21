@@ -190,6 +190,15 @@ class UndergraduateScholarshipUploadsForm(forms.ModelForm):
 
 class StemBridgeScholarshipForm(forms.ModelForm):
 
+    signed_certification = forms.FileField(
+        help_text=mark_safe('''
+            Before beginning the application process,
+            please print, obtain signatures, and scan the<br>
+            <a href="/live/files/2911-ugp17certification-form-pdf" target="_blank">
+            signed certification document
+            </a>
+        ''')
+    )
     academic_institution = forms.TypedChoiceField(
         label = "Application submitted for",
         widget = forms.RadioSelect(),
@@ -203,12 +212,13 @@ class StemBridgeScholarshipForm(forms.ModelForm):
             'award_acceptance','final_report','interim_report'
         )
 
+
 class StemBridgeScholarshipUploadsForm(forms.ModelForm):
 
     class Meta:
         model = StemBridgeScholarship
-        exclude = (
-            'user','status','funds_authorized','authorized_match',
+        fields = (
+            'award_acceptance','final_report','interim_report'
         )
 
 
@@ -324,8 +334,12 @@ class RocketLaunchTeamForm(forms.ModelForm):
         model = RocketLaunchTeam
         exclude = (
             'user','status','funds_authorized','authorized_match','members',
-            'award_acceptance','final_report','interim_report',
-            'invoice','program_match'
+            'award_acceptance','interim_progress_report',
+            'preliminary_design_report','final_design_report','team_roster',
+            'flight_demo','final_motor_selection','lodging_list',
+            'critical_design_report','oral_presentation',
+            'post_flight_performance_report','education_outreach',
+            'flight_readiness_report','proceeding_paper'
         )
 
     def __init__(self, *args, **kwargs):
@@ -359,8 +373,12 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
     class Meta:
         model = RocketLaunchTeam
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'invoice','program_match'
+            'award_acceptance','interim_progress_report',
+            'preliminary_design_report','final_design_report','team_roster',
+            'budget','flight_demo','final_motor_selection','lodging_list',
+            'critical_design_report','oral_presentation',
+            'post_flight_performance_report','education_outreach',
+            'flight_readiness_report','proceeding_paper'
         )
 
 
@@ -370,7 +388,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         model = FirstNationsRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance'
         )
 
     def __init__(self, *args, **kwargs):
@@ -386,8 +404,8 @@ class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
 
     class Meta:
         model = FirstNationsRocketCompetition
-        exclude = (
-            'user','status','funds_authorized','authorized_match',
+        fields = (
+            'award_acceptance',
         )
 
 
@@ -397,7 +415,7 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         model = MidwestHighPoweredRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance'
         )
 
     def __init__(self, *args, **kwargs):
@@ -415,8 +433,8 @@ class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
 
     class Meta:
         model = MidwestHighPoweredRocketCompetition
-        exclude = (
-            'user','status','funds_authorized','authorized_match',
+        fields = (
+            'award_acceptance',
         )
 
 
@@ -426,7 +444,7 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         model = CollegiateRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance',
         )
 
 
@@ -447,6 +465,9 @@ class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
         model = CollegiateRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
+        )
+        fields = (
+            'award_acceptance',
         )
 
 

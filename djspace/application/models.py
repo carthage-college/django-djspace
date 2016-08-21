@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -14,8 +15,6 @@ from djtools.fields import GENDER_CHOICES
 from djtools.fields.validators import MimetypeValidator
 
 from uuid import uuid4
-
-import os
 
 WSGC_SCHOOL_OTHER = WSGC_SCHOOL + (('Other','Other'),)
 DIRECTORATE_CHOICES = (
@@ -147,6 +146,7 @@ ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     "Midwest High Powered Rocket Competition",
     "Collegiate Rocket Competition"
 ]
+# only used at UI level
 PROFESSIONAL_PROGRAMS = [
     "aerospaceoutreach",
     "highereducationinitiatives",
@@ -154,13 +154,14 @@ PROFESSIONAL_PROGRAMS = [
     "nasacompetition",
     "researchinfrastructure",
     "specialinitiatives",
-    "rocketlaunchteam"
 ]
+# only used at UI level
 ROCKET_COMPETITIONS_EXCLUDE = [
     "midwesthighpoweredrocketcompetition",
     "collegiaterocketcompetition",
     "firstnationsrocketcompetition"
 ]
+
 
 class EducationInitiatives(BaseModel):
 
@@ -520,6 +521,12 @@ class RocketLaunchTeam(BaseModel):
     intent_compete = models.TextField(
         "Notification of Intent to Compete"
     )
+    # meta
+    competition = models.CharField(
+        choices = ROCKET_COMPETITIONS,
+        max_length=128
+    )
+    # files
     wsgc_acknowledgement = models.FileField(
         "WSGC institutional representative acknowledgement",
         upload_to=upload_to_path,
@@ -543,40 +550,102 @@ class RocketLaunchTeam(BaseModel):
             Midwest High-Powered Rocket Competition.
         """
     )
-    # meta
-    competition = models.CharField(
-        choices =  ROCKET_COMPETITIONS,
-        max_length=128
-    )
-    # reports
-    interim_report = models.FileField(
+    interim_progress_report = models.FileField(
+        "Interim progress report",
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
-    final_report = models.FileField(
+    preliminary_design_report = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
-    invoice = models.FileField(
+    final_design_report = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
-    program_match = models.FileField(
+    team_roster = models.FileField(
+        "Final team roster",
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
+    budget = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    flight_demo = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_motor_selection = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    lodging_list = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    critical_design_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    oral_presentation = models.FileField(
+        upload_to=upload_to_path,
+        validators=[
+            MimetypeValidator('application/vnd.ms-powerpoint')
+        ],
+        max_length=768,
+        null=True, blank=True,
+        help_text="Power point"
+    )
+    post_flight_performance_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    education_outreach = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    flight_readiness_report = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    proceeding_paper = models.DateField(null=True, blank=True)
 
     class Meta:
         ordering = ['name']
@@ -605,6 +674,49 @@ class RocketLaunchTeam(BaseModel):
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
+
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
+
+    def interim_progress_report_timestamp(self):
+        return self.get_file_timestamp("interim_progress_report")
+
+    def preliminary_design_report_timestamp(self):
+        return self.get_file_timestamp("preliminary_design_report")
+
+    def final_design_report_timestamp(self):
+        return self.get_file_timestamp("final_design_report")
+
+    def team_roster_timestamp(self):
+        return self.get_file_timestamp("team_roster")
+
+    def flight_demo_timestamp(self):
+        return self.get_file_timestamp("flight_demo")
+
+    def final_motor_selection_timestamp(self):
+        return self.get_file_timestamp("final_motor_selection")
+
+    def lodging_list_timestamp(self):
+        return self.get_file_timestamp("lodging_list")
+
+    def critical_design_report_timestamp(self):
+        return self.get_file_timestamp("critical_design_report")
+
+    def oral_presentation_timestamp(self):
+        return self.get_file_timestamp("oral_presentation")
+
+    def post_flight_performance_report_timestamp(self):
+        return self.get_file_timestamp("post_flight_performance_report")
+
+    def education_outreach_timestamp(self):
+        return self.get_file_timestamp("education_outreach")
+
+    def flight_readiness_report_timestamp(self):
+        return self.get_file_timestamp("flight_readiness_report")
+
+    def proceeding_paper_timestamp(self):
+        return self.get_file_timestamp("proceeding_paper")
 
 
 class MidwestHighPoweredRocketCompetition(BaseModel):
@@ -1227,21 +1339,6 @@ class UndergraduateScholarship(Scholarship):
 
 
 class StemBridgeScholarship(Scholarship):
-
-
-    signed_certification = models.FileField(
-        upload_to=upload_to_path,
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text=mark_safe('''
-            Before beginning the application process,
-            please print, obtain signatures, and scan the<br>
-            <a href="/live/files/2911-ugp17certification-form-pdf" target="_blank">
-            signed certification document
-            </a>
-        ''')
-    )
-
 
     def __unicode__(self):
         return u"{}".format(self.project_title)

@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.forms.models import model_to_dict
 from allauth.account.models import EmailAddress
 
 from djtools.fields import NOW
@@ -22,7 +23,45 @@ def upload_to_path(self, filename):
     return os.path.join(path, filename)
 
 
-def get_profile_status(user):
+def files_status(user):
+
+    status = True
+
+    # check for user profile files
+    data=model_to_dict(user.user_files)
+    for k,v in data.items():
+        if not v:
+            return False
+
+    # check for application files
+    for app in user.profile.applications.all():
+
+        data=model_to_dict(app)
+
+        # all programs
+        if not app.award_acceptance:
+            return False
+
+        # program specific
+        m = app.get_content_type().model
+        # professional programs
+        if m in PROFESSIONAL_PROGRAMS:
+            if not data["interim_report"] or not data["final_report"]:
+                return False
+
+        # rocket launch team files
+        if m == "rocketlaunchteam":
+            if app.competition == "Collegiate Rocket Competition":
+                pass
+            elif app.competition == "Midwest High Powered Rocket Competition":
+                pass
+            else:
+                pass
+
+    return status
+
+
+def profile_status(user):
     """
     simple function that compares the user's profile updated datetime
     against the grant cycle start date, which is comprised of the

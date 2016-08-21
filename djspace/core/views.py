@@ -45,12 +45,12 @@ def user_files(request):
             form = UserFilesForm(
                 data=request.POST, files=request.FILES, instance=instance
             )
+        field_name = request.POST.get("field_name")
         if form.is_valid():
             phile = form.save(commit=False)
             if not ct:
                 phile.user = user
             phile.save()
-            field_name = request.POST.get("field_name")
             earl = getattr(phile,field_name)
             response = render_to_response(
                 "dashboard/view_file.ajax.html", {
@@ -59,8 +59,7 @@ def user_files(request):
                 context_instance=RequestContext(request)
             )
         else:
-            msg = "Fail"
-            #msg = form.errors
+            msg = "Fail: {}".format(form[field_name].errors)
 
     if not response:
         response = HttpResponse(

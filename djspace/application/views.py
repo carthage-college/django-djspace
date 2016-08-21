@@ -13,7 +13,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from djspace.application.forms import *
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
-from djspace.core.utils import get_profile_status
+from djspace.core.utils import profile_status
 
 from djtools.utils.mail import send_mail
 from djtools.utils.convert import str_to_class
@@ -41,7 +41,7 @@ def application_form(request, application_type, aid=None):
         return HttpResponseRedirect(reverse('dashboard_home'))
 
     # verify that the user has an up to date registration
-    if not get_profile_status(user):
+    if not profile_status(user):
         # redirect to dashboard
         return HttpResponseRedirect(reverse('dashboard_home'))
 

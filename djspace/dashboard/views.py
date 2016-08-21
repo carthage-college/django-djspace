@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 
 from djspace.application.forms import *
 from djspace.registration.forms import *
-from djspace.core.utils import get_profile_status
+from djspace.core.utils import profile_status, files_status
 from djspace.application.models import PROFESSIONAL_PROGRAMS
 from djspace.application.models import ROCKET_COMPETITIONS_EXCLUDE
 from djspace.dashboard.forms import UserForm, UserProfileForm
@@ -80,19 +80,21 @@ def home(request):
             approved.append(a)
 
     if approved:
-        messages.add_message(
-            request, messages.ERROR,
-            '''
-            You have not uploaded required files. Please do so below.
-            ''',
-            extra_tags='danger'
-        )
+        user_files_status = files_status(user)
+        if not user_files_status:
+            messages.add_message(
+                request, messages.ERROR,
+                '''
+                You have not uploaded required files. Please do so below.
+                ''',
+                extra_tags='danger'
+            )
 
-    status = get_profile_status(user)
+    status = profile_status(user)
     return render_to_response(
         "dashboard/home.html", {
             "reg":reg,"status":status,"approved":approved,
-            "user_files":user_files,
+            "user_files":user_files,"user_files_status":user_files_status,
             "professional_programs":PROFESSIONAL_PROGRAMS,
             "rocket_competitions":ROCKET_COMPETITIONS_EXCLUDE
         },

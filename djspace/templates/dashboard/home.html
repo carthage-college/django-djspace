@@ -42,19 +42,16 @@
       var $content_type = $dis.attr("data-content-type");
       var $oid = $dis.attr("data-oid");
       var $fawe = $dis.next('.fa-ban');
-      console.log($fawe.html());
+      var $fawe_error = '<i class="fa fa-ban fa-exclamation-triangle red" aria-hidden="true"></i>';
       var name = file.name;
       var size = file.size;
       var type = file.type;
       /* console.log(name,size,type); */
-      if(file.name.length < 1) {
+      if(file.name.length < 5) {
         alert("Is that a proper filename?");
       }
       else if(file.size > 50000000) {
         alert("That file is too big");
-      }
-      else if(file.type != 'image/jpg' && file.type != 'application/pdf' && file.type != 'image/jpeg' ) {
-        alert("The file does not match jpg or pdf");
       } else {
         var formData = new FormData($('#user-files')[0]);
         formData.append( 'field_name', $fname );
@@ -93,17 +90,17 @@
                 else {
                     var catchFile = $(":file").val();
                 }
-                //var writeFile = $(":file");
-                //writeFile.html(document.write(catchFile));
-                if (data == "Fail") {
+                if (data.substr(0,4) == "Fail") {
+                  $("#file-fail-error").html(data);
                   $.fancybox.open([{
                     href : '#file-fail'
                   }]);
+                  $fawe.replaceWith($fawe_error);
                 } else {
                   $.growlUI('Success', "File uploaded.");
                   $dis.val("");
+                  $fawe.replaceWith(data);
                 }
-                $fawe.replaceWith(data);
             },
             error: errorHandler = function(data) {
                 alert("500 server error: Something went awry...");
@@ -144,13 +141,13 @@
     </div>
     {% endfor %}
 {% endif %}
-<div class="large-7 medium-12 small-12">
+<form id="user-files" method="post" action="{% url 'user_files' %}"
+  class="form" enctype="multipart/form-data">
+<div class="large-6 medium-12 small-12">
 {% if user.profile.us_citizen == "Yes" and reg %}
     <div class="info">
       <h2>Your Applications</h2>
     </div>
-    <form id="user-files" method="post" action="{% url 'user_files' %}"
-      class="form" enctype="multipart/form-data">
     {% for app in user.profile.applications.all %}
         {% if forloop.first %}
             <h3 class="application-type">{{app.get_application_type}}</h3>
@@ -179,7 +176,7 @@
                 <ol>
                   <li class="form-group ctrlHolder">
                     <h3>
-                      <label for="id_award_acceptance">Award Acceptance</label>
+                      <label for="id_award_acceptance">Award Acceptance [PDF]</label>
                     </h3>
                     <div>
                       <input type="file" class="upload-file"
@@ -188,16 +185,52 @@
                         name="award_acceptance" id="id_award_acceptance">
                       {% if app.award_acceptance %}
                         <a href="{{media_url}}{{app.award_acceptance}}" target="_blank">
-                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
+                          <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
                       {% else %}
                         <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
                       {% endif %}
                     </div>
                   </li>
-                  {% if app.get_content_type.model not in rocket_competitions %}
+                  {# RocketLaunchTeam creator and student leader can upload requisite files #}
+                  {% if app.get_content_type.model == "rocketlaunchteam" or app.get_content_type.model in rocket_competitions and app.leader.id == user.id %}
+                    {% include "dashboard/rocket_launch_team_files.inc.html" %}
+                  {% endif %}
+                  {% if app.get_content_type.model in professional_programs %}
+                  <li class="form-group ctrlHolder">
+                    <h3><label for="id_invoice">Invoice [PDF]</label></h3>
+                    <div>
+                      <input type="file" class="upload-file"
+                        data-content-type="{{app.get_content_type.id}}"
+                        data-oid="{{app.id}}"
+                        name="invoice" id="id_invoice">
+                      {% if app.invoice %}
+                        <a href="{{media_url}}{{app.invoice}}" target="_blank">
+                          <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                      {% else %}
+                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+                      {% endif %}
+                    </div>
+                  </li>
+                  <li class="form-group ctrlHolder">
+                    <h3><label for="id_program_match">Program Match [PDF]</label></h3>
+                    <div>
+                      <input type="file" class="upload-file"
+                        data-content-type="{{app.get_content_type.id}}"
+                        data-oid="{{app.id}}"
+                        name="program_match" id="id_program_match">
+                      {% if app.program_match %}
+                        <a href="{{media_url}}{{app.program_match}}" target="_blank">
+                          <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                      {% else %}
+                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+                      {% endif %}
+                    </div>
+                  </li>
+                  {% endif %}
+                  {% if app.get_content_type.model not in rocket_competitions and app.get_content_type.model != "rocketlaunchteam" %}
                   <li class="form-group ctrlHolder">
                     <h3>
-                      <label for="id_interim_report">Interim Report</label>
+                      <label for="id_interim_report">Interim Report [PDF]</label>
                     </h3>
                     <div>
                       <input type="file" class="upload-file"
@@ -206,14 +239,14 @@
                         name="interim_report" id="id_interim_report">
                       {% if app.interim_report %}
                         <a href="{{media_url}}{{app.interim_report}}" target="_blank">
-                          <i class="fa fan-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
+                          <i class="fa fan-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
                       {% else %}
                         <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
                       {% endif %}
                     </div>
                   </li>
                   <li class="form-group ctrlHolder">
-                    <h3><label for="id_final_report">Final Report</label></h3>
+                    <h3><label for="id_final_report">Final Report [PDF]</label></h3>
                     <div>
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
@@ -221,62 +254,12 @@
                         name="final_report" id="id_final_report">
                       {% if app.final_report %}
                         <a href="{{media_url}}{{app.final_report}}" target="_blank">
-                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
+                          <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
                       {% else %}
                         <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
                       {% endif %}
                     </div>
                   </li>
-                  {% endif %}
-                  {% if app.get_content_type.model in professional_programs and  user.profile.registration_type != "Undergraduate" or user.profile.registration_type != "Graduate" %}
-                  {% if app.get_content_type.model in rocket_competitions %}
-                  <li class="form-group ctrlHolder">
-                    <h3><label for="id_invoice">Report 1</label></h3>
-                    <div>
-                      <input type="file" class="upload-file"
-                        data-content-type="{{app.get_content_type.id}}"
-                        data-oid="{{app.id}}"
-                        name="report_1" id="id_report_1">
-                      {% if app.report_1 %}
-                        <a href="{{media_url}}{{app.report_1}}" target="_blank">
-                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
-                    </div>
-                  </li>
-                  {% else %}
-                  <li class="form-group ctrlHolder">
-                    <h3><label for="id_invoice">Invoice</label></h3>
-                    <div>
-                      <input type="file" class="upload-file"
-                        data-content-type="{{app.get_content_type.id}}"
-                        data-oid="{{app.id}}"
-                        name="invoice" id="id_invoice">
-                      {% if app.invoice %}
-                        <a href="{{media_url}}{{app.invoice}}" target="_blank">
-                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
-                    </div>
-                  </li>
-                  <li class="form-group ctrlHolder">
-                    <h3><label for="id_program_match">Program Match</label></h3>
-                    <div>
-                      <input type="file" class="upload-file"
-                        data-content-type="{{app.get_content_type.id}}"
-                        data-oid="{{app.id}}"
-                        name="program_match" id="id_program_match">
-                      {% if app.program_match %}
-                        <a href="{{media_url}}{{app.program_match}}" target="_blank">
-                          <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
-                    </div>
-                  </li>
-                  {% endif %}
                   {% endif %}
                 </ol>
               </fieldset>
@@ -284,72 +267,6 @@
         </li>
     {% endfor %}
     </ul>
-    {% if approved %}
-    <hr>
-    <p>
-      <strong>NOTE:</strong>
-        The following files will serve all programs to which you have
-        submitted an application.
-    </p>
-    <fieldset>
-      <legend>Requisite Profile Files</legend>
-      <ol>
-        <li class="form-group ctrlHolder">
-          <h3><label for="id_mugshot">Photo</label></h3>
-          <div>
-            <input type="file" class="upload-file"
-              name="mugshot" id="id_mugshot">
-            {% if user_files.mugshot.value %}
-              <a href="{{media_url}}{{user_files.mugshot.value}}" target="_blank">
-              <i class="fa fa-ban fa-file-image-o red" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
-          </div>
-        </li>
-        <li class="form-group ctrlHolder">
-          <h3><label for="id_biography">Biography</label></h3>
-          <div>
-            <input type="file" class="upload-file"
-              name="biography" id="id_biography">
-            {% if user_files.biography.value %}
-              <a href="{{media_url}}{{user_files.biography.value}}" target="_blank">
-              <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
-          </div>
-        </li>
-        <li class="form-group ctrlHolder">
-          <h3><label for="id_irs_w9">W9 Form</label></h3>
-          <div>
-            <input type="file" class="upload-file"
-              name="irs_w9" id="id_irs_w9">
-            {% if user_files.irs_w9.value %}
-              <a href="{{media_url}}{{user_files.irs_w9.value}}" target="_blank">
-              <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
-          </div>
-        </li>
-        <li class="form-group ctrlHolder">
-          <h3><label for="id_media_release">Media Release Form</label></h3>
-          <div>
-            <input type="file" class="upload-file"
-              name="media_release" id="id_media_release">
-            {% if user_files.media_release.value %}
-              <a href="{{media_url}}{{user_files.media_release.value}}" target="_blank">
-              <i class="fa fa-ban fa-file-pdf-o red" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
-          </div>
-        </li>
-      </ol>
-    </fieldset>
-    </form>
-    {% endif %}
 {% else %}
     {% if not user.profile.us_citizen %}
     <div class="notice">
@@ -363,7 +280,76 @@
     {% endif %}
 {% endif %}
 </div>
-<div class="column2 large-5 medium-12 small-12">
+<div class="column2 large-6 medium-12 small-12">
+    {% if approved %}
+    <div class="info">
+      <h2>Personal Profile Files</h2>
+    </div>
+    <p>
+      <strong>NOTE:</strong>
+        The following files will serve all programs to which you have
+        submitted an application.
+    </p>
+    <ol><li>
+    <fieldset>
+      <legend>All Program Files</legend>
+      <ol>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_mugshot">Photo [JPG]</label></h3>
+          <div>
+            <input type="file" class="upload-file"
+              name="mugshot" id="id_mugshot">
+            {% if user_files.mugshot.value %}
+              <a href="{{media_url}}{{user_files.mugshot.value}}" target="_blank">
+              <i class="fa fa-ban fa-file-image-o blue" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_biography">Biography [PDF]</label></h3>
+          <div>
+            <input type="file" class="upload-file"
+              name="biography" id="id_biography">
+            {% if user_files.biography.value %}
+              <a href="{{media_url}}{{user_files.biography.value}}" target="_blank">
+              <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_irs_w9">W9 Form [PDF]</label></h3>
+          <div>
+            <input type="file" class="upload-file"
+              name="irs_w9" id="id_irs_w9">
+            {% if user_files.irs_w9.value %}
+              <a href="{{media_url}}{{user_files.irs_w9.value}}" target="_blank">
+              <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+        <li class="form-group ctrlHolder">
+          <h3><label for="id_media_release">Media Release Form [PDF]</label></h3>
+          <div>
+            <input type="file" class="upload-file"
+              name="media_release" id="id_media_release">
+            {% if user_files.media_release.value %}
+              <a href="{{media_url}}{{user_files.media_release.value}}" target="_blank">
+              <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+            {% endif %}
+          </div>
+        </li>
+      </ol>
+    </fieldset>
+    </li></ol>
+    {% endif %}
     {% if not reg %}
     <h2>Message Center</h2>
     <div class="notice">
@@ -387,10 +373,11 @@
     {% endif %}
     </div>
 </div> <!-- /.column2 -->
+</form>
 <!-- file fail modal -->
 <div id="file-fail" style="display:none;width:500px;">
     <h2>Your file was not uploaded</h2>
-    <p>
+    <p id="file-fail-error" style="font-weight:bold;" class="red">
       Verify that the file is a PDF for documents and JPEG for images.
     </p>
     <p>

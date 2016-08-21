@@ -10,14 +10,16 @@ from taggit.managers import TaggableManager
 from gm2m import GM2MField
 
 from djspace.core.utils import registration_notify, get_email_auxiliary
-from djspace.core.utils import get_profile_status, upload_to_path
+from djspace.core.utils import profile_status, upload_to_path
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 from djtools.fields.validators import MimetypeValidator
 
+from os.path import join, getmtime, getctime
 from datetime import date, datetime
 from uuid import uuid4
+import time
 
 import django
 
@@ -87,6 +89,17 @@ class Base(models.Model):
     def get_file_name(self):
         return uuid4().hex
 
+    def get_file_timestamp(self, field):
+        phile = getattr(self, field, None)
+        path = join(settings.MEDIA_ROOT, phile.name)
+        # ctime() does not refer to creation time on *nix systems,
+        # but rather the last time the inode data changed
+        #return time.ctime(getctime(path))
+        # time.gmtime() returns the time in UTC so we use time.localtime()
+        return time.strftime(
+            '%Y-%m-%d %H:%M:%S', time.localtime(getmtime(path))
+        )
+
 
 class BaseModel(Base):
     """
@@ -154,7 +167,7 @@ def limit_race():
 
 class UserFiles(models.Model):
 
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         User,
         related_name="user_files",
         editable=False

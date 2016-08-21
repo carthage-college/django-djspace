@@ -11,6 +11,10 @@ handler500 = 'djtools.views.errors.server_error'
 urlpatterns = patterns('',
     # required files after funding granted
     url(
+        r'^account/user-files-test/$',
+        'djspace.core.views.user_files_test', name="user_files_test"
+    ),
+    url(
         r'^account/user-files/$',
         'djspace.core.views.user_files', name="user_files"
     ),
