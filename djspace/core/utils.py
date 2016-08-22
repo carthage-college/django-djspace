@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.forms.models import model_to_dict
+
 from allauth.account.models import EmailAddress
 
 from djtools.fields import NOW
@@ -8,6 +9,32 @@ from djtools.utils.mail import send_mail
 from datetime import datetime
 import os
 
+PROFESSIONAL_PROGRAMS = [
+    "aerospaceoutreach",
+    "highereducationinitiatives",
+    "industryinternship",
+    "nasacompetition",
+    "researchinfrastructure",
+    "specialinitiatives",
+]
+
+# rocket launch required files by competition. this will do until
+# we change the data model to have a separate table for their files
+MRL_REQUIRED_FILES = [
+    "team_roster","preliminary_design_report","flight_readiness_report",
+    "education_outreach","post_flight_performance_report",
+    "proceeding_paper"
+]
+FNL_REQUIRED_FILES = [
+    "team_roster","budget","flight_demo","preliminary_design_report",
+    "final_motor_selection","lodging_list","critical_design_report",
+    "oral_presentation","post_flight_performance_report"
+]
+CRL_REQUIRED_FILES = [
+    "budget","flight_demo","interim_progress_report","team_roster",
+    "final_design_report","education_outreach","oral_presentation",
+    "post_flight_performance_report","proceeding_paper"
+]
 
 def upload_to_path(self, filename):
     """
@@ -50,13 +77,20 @@ def files_status(user):
                 return False
 
         # rocket launch team files
+        # (not very elegant but waiting on new data model)
         if m == "rocketlaunchteam":
             if app.competition == "Collegiate Rocket Competition":
-                pass
+                for field in CRL_REQUIRED_FILES:
+                    if not getattr(app,field):
+                        return False
             elif app.competition == "Midwest High Powered Rocket Competition":
-                pass
+                for field in MRL_REQUIRED_FILES:
+                    if not getattr(app,field):
+                        return False
             else:
-                pass
+                for field in FNL_REQUIRED_FILES:
+                    if not getattr(app,field):
+                        return False
 
     return status
 

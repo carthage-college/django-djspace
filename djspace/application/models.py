@@ -146,7 +146,6 @@ ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     "Midwest High Powered Rocket Competition",
     "Collegiate Rocket Competition"
 ]
-# only used at UI level
 PROFESSIONAL_PROGRAMS = [
     "aerospaceoutreach",
     "highereducationinitiatives",

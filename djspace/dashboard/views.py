@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from djspace.application.forms import *
 from djspace.registration.forms import *
 from djspace.core.utils import profile_status, files_status
-from djspace.application.models import PROFESSIONAL_PROGRAMS
+from djspace.core.utils import PROFESSIONAL_PROGRAMS
 from djspace.application.models import ROCKET_COMPETITIONS_EXCLUDE
 from djspace.dashboard.forms import UserForm, UserProfileForm
 from djspace.core.forms import UserFilesForm
