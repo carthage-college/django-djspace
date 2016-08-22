@@ -7,8 +7,9 @@ from django.utils.safestring import mark_safe
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib.contenttypes.models import ContentType
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 
 from djspace.application.forms import *
@@ -103,6 +104,7 @@ def home(request):
 
 
 @csrf_exempt
+@login_required
 def get_users(request):
     """
     AJAX GET for retrieving users via auto-complete
@@ -133,6 +135,7 @@ def get_users(request):
 
 
 @csrf_exempt
+@login_required
 def registration_type(request):
     """
     AJAX post for retrieving registration forms based on type
@@ -229,3 +232,45 @@ def profile_form(request):
             "reg_type":reg_type,"message":message
         }, context_instance=RequestContext(request)
     )
+
+
+@csrf_exempt
+@login_required
+def set_val(request):
+    """
+    AJAX POST for setting arbitrary values to an object
+    """
+
+    msg = "fail"
+    obj = None
+    if request.method != "POST":
+        msg = "POST required"
+    else:
+
+        cid = request.POST.get("cid")
+        oid = request.POST.get("oid")
+        field = request.POST.get("field")
+        value = request.POST.get("value")
+
+        try:
+            ct = ContentType.objects.get(pk=int(cid))
+            mod = ct.model_class()
+            obj = mod.objects.get(pk=int(oid))
+        except:
+            msg = """
+                Could not retrieve ContentType ({}) or object ({})
+            """.format(cid, oid)
+
+        if obj:
+
+            if obj.user != request.user:
+                msg =  "Something is rotten in Denmark"
+            else:
+                setattr(obj, field, value)
+                msg = "success"
+            obj.save()
+
+    return HttpResponse(
+        msg, content_type="text/plain; charset=utf-8"
+    )
+

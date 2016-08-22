@@ -245,16 +245,20 @@
     <label for="id_proceeding_paper">Proceeding Paper [PDF]</label>
   </h3>
   <div>
-    <input type="input" name="proceeding_paper"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}" id="id_proceeding_paper">
     {% if app.proceeding_paper %}
-      <a href="{{media_url}}{{app.proceeding_paper}}" target="_blank">
-        <i class="fa fa-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <input type="input" name="proceeding_paper" class="fleft"
+      data-content-type="{{app.get_content_type.id}}"
+      data-oid="{{app.id}}" id="id_proceeding_paper" style="margin-right:9px;"
+      value="{{app.proceeding_paper|date:"m/d/Y"}}">
+        <i class="fa fa-ban fa-thumbs-o-up blue" aria-hidden="true"></i>
     {% else %}
-      <i class="fa fa-ban red" aria-hidden="true" title="Missing file"></i>
+    <input type="input" name="proceeding_paper" class="fleft"
+      data-content-type="{{app.get_content_type.id}}"
+      data-oid="{{app.id}}" id="id_proceeding_paper" style="margin-right:9px;">
+      <i class="fa fa-ban red" aria-hidden="true"
+        id="proceeding-missing" title="Missing file"></i>
     {% endif %}
-    <p class="help">Provide the date on which you presented the paper</p>
+    <p class="help fleft">Provide the date on which you presented the paper</p>
   </div>
 </li>
 {% endif %}

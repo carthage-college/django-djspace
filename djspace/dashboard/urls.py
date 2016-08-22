@@ -7,6 +7,10 @@ urlpatterns = patterns('djspace.dashboard.views',
         'get_users', name="get_users"
     ),
     url(
+        r'^set-val/$',
+        'set_val', name="set_val"
+    ),
+    url(
         r'^registration-type/$',
         'registration_type', name="registration_type"
     ),

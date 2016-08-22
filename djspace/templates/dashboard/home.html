@@ -28,6 +28,8 @@
     type="text/css" media="screen" />
 {% endblock %}
 {% block extra_javascript %}
+<script src="//www.carthage.edu/static/vendor/jquery/ui/datepicker/js/jquery-ui-1.10.4.custom.min.js"
+    type="text/javascript" charset="utf-8"></script>
 <script src="//www.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.pack.js"></script>
 <script type="text/javascript"
     src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
@@ -80,7 +82,7 @@
                 return myXhr;
             },
             // Ajax events
-            success: completeHandler = function(data) {
+            success: function(data) {
                 /*
                 * Workaround for Chrome browser // Delete the fake path
                 */
@@ -115,6 +117,45 @@
         }, 'json'); /* end ajax method */
       } /* end if/then logic */
     }); /* end :file change() method */
+    $("#id_proceeding_paper").datepicker({
+      firstDay:1,
+      changeFirstDay:false,dateFormat:"yy-mm-dd",
+      showOn:"both",
+      buttonImage:"//www.carthage.edu/themes/shared/img/ico/calendar.gif",
+      buttonImageOnly:true,
+      onSelect: function(date, instance) {
+        var $dis = $(this);
+        var $field = $dis.attr("name");
+        var $cid = $dis.attr("data-content-type");
+        var $oid = $dis.attr("data-oid");
+        var $fawe = $('#proceeding-missing');
+        var $fawe_done = '<i class="fa fa-check blue" aria-hidden="true"></i>';
+        var $data = {
+            'cid':$cid,
+            'oid':$oid,
+            'field':$field,
+            'value':date
+        };
+        $.ajax ({
+          type: "POST",
+          async: true,
+          dataType: "html",
+          url: "{% url 'set_val' %}",
+          data: $data,
+          success: function(data) {
+            if (data == "success") {
+              $fawe.replaceWith($fawe_done);
+              $.growlUI('Success', "Date saved.");
+            }else{
+              $.growlUI('Fail', "Please select your date again.");
+            }
+          },
+          error: function(data) {
+            alert("500 server error: Something went awry...");
+          }
+        });
+      }
+    });
   });
 </script>
 {% endblock %}
