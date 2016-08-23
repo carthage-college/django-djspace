@@ -275,6 +275,13 @@ class EducationInitiatives(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
+    payment_information = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
 
 
 class HigherEducationInitiatives(EducationInitiatives):
@@ -299,6 +306,9 @@ class HigherEducationInitiatives(EducationInitiatives):
 
     def get_code(self):
         return "HEI"
+
+    #def get_file_name(self):
+    #   code = "HEI"
 
     @models.permalink
     def get_absolute_url(self):
@@ -1697,6 +1707,13 @@ class IndustryInternship(BaseModel):
         help_text="PDF format"
     )
     program_match = models.FileField(
+        upload_to=upload_to_path,
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    payment_information = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
