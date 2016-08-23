@@ -18,7 +18,7 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         exclude = (
             'user','status','funds_authorized','authorized_match',
             'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'invoice','program_match','payment_information'
         )
 
         fields = [
@@ -38,7 +38,7 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
         model = HigherEducationInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'invoice','program_match','payment_information'
         )
 
 
@@ -69,7 +69,7 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
         model = ResearchInfrastructure
         fields = (
             'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'invoice','program_match','payment_information'
         )
 
 
@@ -155,7 +155,7 @@ class SpecialInitiativesForm(forms.ModelForm):
         exclude = (
             'user','status','funds_authorized','authorized_match',
             'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'invoice','program_match','payment_information'
         )
 
 
@@ -165,7 +165,7 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
         model = SpecialInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'invoice','program_match','payment_information'
         )
 
 
@@ -485,7 +485,8 @@ class NasaCompetitionForm(forms.ModelForm):
         model = NasaCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance','final_report','interim_report','invoice',
+            'program_match'
         )
 
 
@@ -515,7 +516,8 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
     class Meta:
         model = NasaCompetition
         fields = (
-            'award_acceptance','final_report','interim_report'
+            'award_acceptance','final_report','interim_report','invoice',
+            'program_match'
         )
 
 
@@ -526,7 +528,7 @@ class IndustryInternshipForm(forms.ModelForm):
         exclude = (
             'user','status','work_plan','funds_authorized','authorized_match',
             'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'invoice','program_match','payment_information'
         )
 
 
@@ -535,6 +537,6 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
     class Meta:
         model = IndustryInternship
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'budget','award_acceptance','final_report','interim_report',
+            'invoice','program_match','payment_information'
         )
