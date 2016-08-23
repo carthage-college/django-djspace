@@ -589,13 +589,6 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    budget = models.FileField(
-        upload_to=upload_to_path,
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
     flight_demo = models.FileField(
         upload_to=upload_to_path,
         validators=[MimetypeValidator('application/pdf')],
