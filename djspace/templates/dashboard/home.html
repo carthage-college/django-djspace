@@ -233,7 +233,10 @@
                     </div>
                   </li>
                   {# RocketLaunchTeam creator and student leader can upload requisite files #}
-                  {% if app.get_content_type.model == "rocketlaunchteam" or app.get_content_type.model in rocket_competitions and app.leader.id == user.id %}
+                  {% if app.get_content_type.model == "rocketlaunchteam" %}
+                    {% include "dashboard/rocket_launch_team_files.inc.html" %}
+                  {% endif %}
+                  {% if app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id %}
                     {% include "dashboard/rocket_launch_team_files.inc.html" %}
                   {% endif %}
                   {% if app.get_content_type.model in professional_programs %}
@@ -261,6 +264,25 @@
                         name="program_match" id="id_program_match">
                       {% if app.program_match %}
                         <a href="{{media_url}}{{app.program_match}}" target="_blank">
+                          <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                      {% else %}
+                        <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
+                      {% endif %}
+                    </div>
+                  </li>
+                  <li class="form-group ctrlHolder">
+                    <h3>
+                      <label for="id_payment_information">
+                        Payment Information Form [PDF]
+                      </label>
+                    </h3>
+                    <div>
+                      <input type="file" class="upload-file"
+                        data-content-type="{{app.get_content_type.id}}"
+                        data-oid="{{app.id}}"
+                        name="payment_information" id="id_payment_information">
+                      {% if app.payment_information %}
+                        <a href="{{media_url}}{{app.payment_information}}" target="_blank">
                           <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
                       {% else %}
                         <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
