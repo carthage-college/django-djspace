@@ -55,7 +55,11 @@ def files_status(user):
     status = True
 
     # check for user profile files
-    data=model_to_dict(user.user_files)
+    try:
+        data=model_to_dict(user.user_files)
+    except:
+        # UserFiles() instance does not exist
+        return False
     for k,v in data.items():
         if not v:
             return False
@@ -73,7 +77,7 @@ def files_status(user):
         m = app.get_content_type().model
         # professional programs
         if m in PROFESSIONAL_PROGRAMS:
-            if not data["interim_report"] or not data["final_report"]:
+            if not data["payment_information"]:
                 return False
 
         # rocket launch team files
