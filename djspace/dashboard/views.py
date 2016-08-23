@@ -95,7 +95,7 @@ def home(request):
     return render_to_response(
         "dashboard/home.html", {
             "reg":reg,"status":status,"approved":approved,
-            "user_files":user_files,"user_files_status":user_files_status,
+            "user_files":user_files,
             "professional_programs":PROFESSIONAL_PROGRAMS,
             "rocket_competitions":ROCKET_COMPETITIONS_EXCLUDE
         },
