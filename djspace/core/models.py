@@ -64,6 +64,7 @@ EMPLOYMENT_CHOICES = (
 class Base(models.Model):
     """
     Abstract model that forms the basis for all registration types
+    program applications (BaseModel)
     """
 
     class Meta:
@@ -394,7 +395,7 @@ class UserProfile(models.Model):
             return None
 
     def save(self, *args, **kwargs):
-        if self.id and not get_profile_status(self.user):
+        if self.id and not profile_status(self.user):
             # notify WSGC administrators of registration update
             request = None
             registration_notify(request, "update", self.user)
@@ -410,19 +411,9 @@ def _user_signed_up(request, user, **kwargs):
     EmailAddress.objects.add_email(
         request, user, request.POST.get("email_secondary"), confirm=True
     )
-
+    # create UserFiles() obj for storing uploaded files after grant approval
+    uf = UserFiles(user=user)
+    uf.save()
     # notify WSGC administrators of new user registration
     registration_notify(request, "create", user)
-
-
-"""
-class GenericManyToMany(models.Model):
-    from django.contrib.contenttypes.models import ContentType
-    gm2m_src = models.ForeignKey(UserProfile)
-    gm2m_ct = models.ForeignKey(ContentType)
-    gm2m_pk = models.CharField(max_length=16)
-
-    class Meta:
-        db_table = 'core_userprofile_applications'
-"""
 
