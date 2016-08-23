@@ -16,7 +16,9 @@ from djspace.application.models import *
 @csrf_exempt
 @login_required
 def user_files(request):
-
+    """
+    update user files via ajax post
+    """
     user = request.user
     response = None
     if request.method != "POST":
