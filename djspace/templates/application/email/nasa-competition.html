@@ -33,20 +33,6 @@
 <p>{{data.mentor_name}}</p>
 <h4>Mentor email</h4>
 <p>{{data.mentor_email}}</p>
-<h4>Statement</h4>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.statement}}">
-        Statement
-    </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.statement}}
-</p>
-<h4>Budget</h4>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
-        Budget
-    </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.budget}}
-</p>
 <h3>Business/Finance Officer</h3>
 <h4>Name</h4>
 <p>{{data.finance_officer_name}}</p>
@@ -98,5 +84,49 @@
 <li>{{data.member_10}}</li>
 {% endif %}
 <ol>
-
+<h4>Files</h4>
+<ul>
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.statement}}" target="_blank">
+      Statement
+    </a><br>
+    https://{{server_url}}{{media_url}}{{data.statement}}
+  </li>
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.budget}}" target="_blank">
+      Budget
+    </a><br>
+    https://{{server_url}}{{media_url}}{{data.budget}}
+  </li>
+  {% if data.award_acceptance %}
+    <li>
+      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
+      Award Acceptance
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.interim_report %}
+    <li>
+      <a href="{{media_url}}{{data.interim_report}}" target="_blank">
+        Interim Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.interim_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Interim Report: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.final_report %}
+    <li>
+      <a href="{{media_url}}{{data.final_report}}" target="_blank">
+        Final Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.final_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Final Report: Missing</li>{% endif %}
+  {% endif %}
+</ul>
 {% endblock %}

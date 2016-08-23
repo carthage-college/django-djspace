@@ -5,4 +5,17 @@
 <p>{{data.team.name}}</p>
 <h4>Prior Experience</h4>
 <div>{{data.prior_experience|safe}}</div>
+<h4>Files</h4>
+<ul>
+  {% if data.award_acceptance %}
+    <li>
+      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
+        Award Acceptance
+      </a><br>
+      https://spacegrant.carthage.edu/static/djspace/{{data.award_acceptance}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
+  {% endif %}
+</ul>
 {% endblock %}

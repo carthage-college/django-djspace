@@ -56,11 +56,21 @@
 <ul>
 {% if data.wsgc_acknowledgement %}
 <li>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_acknowledgement}}">
+    <a href="https://{{server_url}}{{media_url}}{{data.wsgc_acknowledgement}}">
         WSGC Acknowledgement
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_acknowledgement}}
+    https://{{server_url}}{{media_url}}{{data.wsgc_acknowledgement}}
 </li>
+{% endif %}
+{% if data.award_acceptance %}
+  <li>
+    <a href="{{media_url}}{{data.award_acceptance}}">
+      Award Acceptance
+    </a><br>
+    https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+  </li>
+{% else %}
+  {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
 {% endif %}
 {% if data.competition != "Midwest High Powered Rocket Competition" %}
   {% if data.budget %}
@@ -71,7 +81,7 @@
       <ul>
         <li>Created: {{data.budget_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.budget}}
+          https://{{server_url}}{{media_url}}{{data.budget}}
         </li>
       </ul>
     </li>
@@ -88,7 +98,7 @@
       <ul>
         <li>Created: {{data.interim_progress_report_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.interim_progress_report}}
+          https://{{server_url}}{{media_url}}{{data.interim_progress_report}}
         </li>
       </ul>
     </li>
@@ -105,7 +115,7 @@
       <ul>
         <li>Created: {{data.preliminary_design_report_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.preliminary_design_report}}
+          https://{{server_url}}{{media_url}}{{data.preliminary_design_report}}
         </li>
       </ul>
     </li>
@@ -122,7 +132,7 @@
       <ul>
         <li>Created: {{data.final_design_report_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.final_design_report}}
+          https://{{server_url}}{{media_url}}{{data.final_design_report}}
         </li>
       </ul>
     </li>
@@ -138,7 +148,7 @@
     <ul>
       <li>Created: {{data.team_roster_timestamp}}</li>
       <li>
-        https://spacegrant.carthage.edu/static/djspace/{{data.team_roster}}
+        https://{{server_url}}{{media_url}}{{data.team_roster}}
       </li>
     </ul>
   </li>
@@ -154,7 +164,7 @@
       <ul>
         <li>Created: {{data.flight_demo_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.flight_demo}}
+          https://{{server_url}}{{media_url}}{{data.flight_demo}}
         </li>
       </ul>
     </li>
@@ -171,7 +181,7 @@
       <ul>
         <li>Created: {{data.final_motor_selection_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.final_motor_selection}}
+          https://{{server_url}}{{media_url}}{{data.final_motor_selection}}
         </li>
       </ul>
     </li>
@@ -186,7 +196,7 @@
       <ul>
         <li>Created: {{data.lodging_list_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.lodging_list}}
+          https://{{server_url}}{{media_url}}{{data.lodging_list}}
         </li>
       </ul>
     </li>
@@ -201,7 +211,7 @@
       <ul>
         <li>Created: {{data.critical_design_report_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.critical_design_report}}
+          https://{{server_url}}{{media_url}}{{data.critical_design_report}}
         </li>
       </ul>
     </li>
@@ -218,7 +228,7 @@
       <ul>
         <li>Created: {{data.oral_presentation_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.oral_presentation}}
+          https://{{server_url}}{{media_url}}{{data.oral_presentation}}
         </li>
       </ul>
     </li>
@@ -234,7 +244,7 @@
     <ul>
       <li>Created: {{data.post_flight_performance_report_timestamp}}</li>
       <li>
-        https://spacegrant.carthage.edu/static/djspace/{{data.post_flight_performance_report}}
+        https://{{server_url}}{{media_url}}{{data.post_flight_performance_report}}
       </li>
     </ul>
   </li>
@@ -250,7 +260,7 @@
       <ul>
         <li>Created: {{data.education_outreach_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.education_outreach}}
+          https://{{server_url}}{{media_url}}{{data.education_outreach}}
         </li>
       </ul>
     </li>
@@ -267,7 +277,7 @@
       <ul>
         <li>Created: {{data.flight_readiness_report_timestamp}}</li>
         <li>
-          https://spacegrant.carthage.edu/static/djspace/{{data.flight_readiness_report}}
+          https://{{server_url}}{{media_url}}{{data.flight_readiness_report}}
         </li>
       </ul>
     </li>

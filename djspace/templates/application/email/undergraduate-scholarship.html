@@ -2,46 +2,78 @@
 {% block title %}Undergraduate Scholarship{% endblock %}
 {% block data %}
 <h4>Files</h4>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.statement}}">
+<ul>
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.statement}}" target="_blank">
         Statement
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.statement}}
-</p>
-{% if data.high_school_transcripts %}
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.high_school_transcripts}}">
+    https://{{server_url}}{{media_url}}{{data.statement}}
+  </li>
+  {% if data.high_school_transcripts %}
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.high_school_transcripts}}" target="_blank">
         High school transcripts
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.high_school_transcripts}}
-</p>
-{% endif %}
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.undergraduate_transcripts}}">
+    https://{{server_url}}{{media_url}}{{data.high_school_transcripts}}
+  </li>
+  {% endif %}
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.undergraduate_transcripts}}" target="_blank">
         Undergraduate transcripts
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.undergraduate_transcripts}}
-</p>
-{% if data.wsgc_advisor_recommendation %}
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_advisor_recommendation}}">
+    https://{{server_url}}{{media_url}}{{data.undergraduate_transcripts}}
+  </li>
+  {% if data.wsgc_advisor_recommendation %}
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.wsgc_advisor_recommendation}}" target="_blank">
         WSGC Advisor recommendation
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.wsgc_advisor_recommendation}}
-</p>
-{% endif %}
-{% if data.recommendation %}
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.recommendation}}">
+    https://{{server_url}}{{media_url}}{{data.wsgc_advisor_recommendation}}
+  </li>
+  {% endif %}
+  {% if data.recommendation %}
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.recommendation}}" target="_blank">
         Recommendation
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.recommendation}}
-</p>
-{% endif %}
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.signed_certification}}">
+    https://{{server_url}}{{media_url}}{{data.recommendation}}
+  </li>
+  {% endif %}
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.signed_certification}}" target="_blank">
         Signed certification
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.signed_certification}}
-</p>
+    https://{{server_url}}{{media_url}}{{data.signed_certification}}
+  </li>
+  {% if data.award_acceptance %}
+    <li>
+      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
+      Award Acceptance
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.interim_report %}
+    <li>
+      <a href="{{media_url}}{{data.interim_report}}" target="_blank">
+        Interim Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.interim_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Interim Report: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.final_report %}
+    <li>
+      <a href="{{media_url}}{{data.final_report}}" target="_blank">
+        Final Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.final_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Final Report: Missing</li>{% endif %}
+  {% endif %}
+</ul>
 {% endblock %}

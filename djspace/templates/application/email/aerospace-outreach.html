@@ -45,13 +45,6 @@
 {% if data.nasa_mission_directorate_other %}<h4>NASA Mission Directorate Other
 </h4>
 <p>{{data.nasa_mission_directorate_other}}</p>{% endif %}
-<h4>Files</h4>
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}">
-        Proposal
-    </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.proposal}}
-</p>
 <h3>Business/Finance Officer</h3>
 <h4>Name</h4>
 <p>{{data.finance_officer_name}}</p>
@@ -70,4 +63,73 @@
 <p>{{data.grant_officer_email}}</p>
 <h4>Phone</h4>
 <p>{{data.grant_officer_phone}}</p>
+<h4>Files</h4>
+<ul>
+  {% if data.award_acceptance %}
+    <li>
+      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
+        Award Acceptance
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
+  {% endif %}
+  <li>
+    <a href="https://{{server_url}}{{media_url}}{{data.proposal}}" target="_blank">
+        Proposal
+    </a><br>
+    https://{{server_url}}{{media_url}}{{data.proposal}}
+  </li>
+  {% if data.interim_report %}
+    <li>
+      <a href="{{media_url}}{{data.interim_report}}" target="_blank">
+        Interim Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.interim_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Interim Report: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.final_report %}
+    <li>
+      <a href="{{media_url}}{{data.final_report}}" target="_blank">
+        Final Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.final_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Final Report: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.invoice %}
+    <li>
+      <a href="{{media_url}}{{data.invoice}}" target="_blank">
+        Invoice
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.invoice}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Invoice: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.program_match %}
+    <li>
+      <a href="{{media_url}}{{data.program_match}}" target="_blank">
+        Program Match
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.program_match}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Program Match: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.payment_information %}
+    <li>
+      <a href="{{media_url}}{{data.payment_information}}" target="_blank">
+        Payment Information
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.payment_information}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Payment Information: Missing</li>{% endif %}
+  {% endif %}
+</ul>
 {% endblock %}

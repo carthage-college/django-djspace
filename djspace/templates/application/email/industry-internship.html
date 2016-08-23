@@ -22,10 +22,10 @@
 <p>{{data.intern_supervisor_job_title}}</p>
 {% if data.intern_supervisor_cv %}
 <p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.intern_supervisor_cv}}">
-        Résumé
+    <a href="https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}" target="_blank">
+      CV
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.intern_supervisor_cv}}
+    https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}
 </p>
 {% endif %}
 
@@ -36,10 +36,10 @@
 <p>{{data.background}}</p>
 {% if data.background_photo %}
 <p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.background_photo}}">
+    <a href="https://{{server_url}}{{media_url}}{{data.background_photo}}" target="_blank">
         Photo
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.background_photo}}
+    https://{{server_url}}{{media_url}}{{data.background_photo}}
 </p>
 {% endif %}
 
@@ -56,10 +56,10 @@
 {% endfor %}
 {% if data.task_schedule %}
 <p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.task_schedule}}">
+    <a href="https://{{server_url}}{{media_url}}{{data.task_schedule}}" target="_blank">
         Task schedule
     </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.task_schedule}}
+    https://{{server_url}}{{media_url}}{{data.task_schedule}}
 </p>
 {% endif %}
 
@@ -72,13 +72,78 @@
 <h3>Intern Biography</h3>
 <p>{{data.intern_biography}}</p>
 
-<h3>Budget</h3>
-{% if data.budget %}
-<p>
-    <a href="https://spacegrant.carthage.edu/static/djspace/{{data.budget}}">
+<h4>Files</h4>
+<hr>
+<ul>
+  {% if data.award_acceptance %}
+    <li>
+      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
+      Award Acceptance
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.budget %}
+    <li>
+      <a href="{{media_url}}{{data.budget}}" target="_blank">
         Budget
-    </a><br>
-    https://spacegrant.carthage.edu/static/djspace/{{data.budget}}
-</p>
-{% endif %}
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.budget}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Budget: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.interim_report %}
+    <li>
+      <a href="{{media_url}}{{data.interim_report}}" target="_blank">
+        Interim Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.interim_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Interim Report: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.final_report %}
+    <li>
+      <a href="{{media_url}}{{data.final_report}}" target="_blank">
+        Final Report
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.final_report}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Final Report: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.invoice %}
+    <li>
+      <a href="{{media_url}}{{data.invoice}}" target="_blank">
+        Invoice
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.invoice}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Invoice: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.program_match %}
+    <li>
+      <a href="{{media_url}}{{data.program_match}}" target="_blank">
+        Program Match
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.program_match}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Program Match: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.payment_information %}
+    <li>
+      <a href="{{media_url}}{{data.payment_information}}" target="_blank">
+        Payment_information
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.payment_information}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Payment Information: Missing</li>{% endif %}
+  {% endif %}
+</ul>
 {% endblock %}
