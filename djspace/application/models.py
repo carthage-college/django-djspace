@@ -1343,7 +1343,7 @@ class UndergraduateScholarship(Scholarship):
 class StemBridgeScholarship(Scholarship):
 
     def __unicode__(self):
-        return u"{}".format(self.project_title)
+        return "STEM Bridge Scholarship"
 
     def get_application_type(self):
         return "STEM Bridge Scholarship"
