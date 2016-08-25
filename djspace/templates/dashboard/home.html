@@ -38,15 +38,20 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('.upload-file').change(function(){
+    //$('#user-files').on( 'change', '.upload-file', function () {
       var $dis = $(this);
       var file = this.files[0];
       var $fname = $dis.attr("name");
       var $content_type = $dis.attr("data-content-type");
       var $oid = $dis.attr("data-oid");
       var $fawe = $dis.next('.fa-times');
+      var $update = false;
       if ($fawe.length == 0) {
-        // replace file manoeuvre
-        $fawe = $dis.next('a').find('.fa-times');
+        // we have a replace file manoeuvre
+        $update = true;
+        console.log('dis next a html = ' + $dis.next('a').html());
+        //$fawe = $dis.next('a').find('.fa-times');
+        $fawe = $dis.next('a');
       }
       var $fawe_error = '<i class="fa fa-times fa-exclamation-triangle red" aria-hidden="true"></i>';
       var name = file.name;
@@ -66,7 +71,7 @@
             formData.append( 'oid', $oid );
         }
         var def = $.Deferred(), promise = def.promise();
-        $fawe.html('<i class="fa fa-cog fa-spin fa-fw"></i>');
+        $fawe.html('<i class="fa fa-times fa-cog fa-spin fa-fw"></i>');
         $.ajax({
             url: '{% url 'user_files' %}',  //server script to process data
             type: 'POST',
@@ -101,12 +106,15 @@
                   $.fancybox.open([{
                     href : '#file-fail'
                   }]);
-                  $fawe.replaceWith($fawe_error);
+                  $fawe.html($fawe_error);
                 } else {
                   $.growlUI('Success', "File uploaded.");
                   $dis.val("");
-                  $fawe.replaceWith(data);
-                  //$fawe.replaceWith('<i class="fa fa-cog fa-spin fa-fw"></i>');
+                  if ($update == false){
+                    $fawe.replaceWith(data);
+                  }else{
+                    $fawe.replaceWith(data);
+                  }
                 }
             },
             error: errorHandler = function(data) {
