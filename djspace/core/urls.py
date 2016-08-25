@@ -27,7 +27,7 @@ urlpatterns = patterns('',
         r'^application/', include('djspace.application.urls')
     ),
     # admin tools
-    url(r'^admin_tools/', include('admin_tools.urls')),
+    #url(r'^admin_tools/', include('admin_tools.urls')),
     # django admin
     url(
         r'^admin/', include(admin.site.urls)
