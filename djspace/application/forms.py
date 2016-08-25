@@ -486,7 +486,7 @@ class NasaCompetitionForm(forms.ModelForm):
         exclude = (
             'user','status','funds_authorized','authorized_match',
             'award_acceptance','final_report','interim_report','invoice',
-            'program_match'
+            'program_match','payment_information'
         )
 
 
@@ -517,7 +517,7 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
         model = NasaCompetition
         fields = (
             'award_acceptance','final_report','interim_report','invoice',
-            'program_match'
+            'program_match','payment_information'
         )
 
 

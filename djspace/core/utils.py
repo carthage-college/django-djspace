@@ -36,16 +36,15 @@ CRL_REQUIRED_FILES = [
     "post_flight_performance_report","proceeding_paper"
 ]
 
-def upload_to_path(self, filename):
+def upload_to_path(field_name, instance, filename):
     """
     Generates the path as a string for file field.
     """
 
     ext = filename.split('.')[-1]
-    # set filename as random string
-    filename = '{}.{}'.format(self.get_file_name(), ext)
+    filename = u'{}_{}.{}'.format(instance.get_file_name(),field_name, ext)
     path = "{}/{}/{}/".format(
-        self.get_file_path(), self.get_slug(), self.user.id
+        instance.get_file_path(), instance.get_slug(), instance.user.id
     )
     return os.path.join(path, filename)
 
@@ -130,6 +129,12 @@ def registration_notify(request, action, user):
         request, TO_LIST, subject, user.email,
         template, {"user":user,"action":action}, settings.MANAGERS
     )
+
+def get_term(date):
+    term = "SP"
+    if date.month >= settings.GRANT_CYCLE_START_MES:
+        term = "FA"
+    return term
 
 def get_email_auxiliary(user):
     e = EmailAddress.objects.filter(user=user).\

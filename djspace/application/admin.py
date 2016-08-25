@@ -572,6 +572,7 @@ class NasaCompetitionAdmin(GenericAdmin):
         'date_created','date_updated','status'
     ]
     list_display_links = ['date_created']
+    list_editable = ['status']
     #date_created.short_description = 'Created (edit)'
     actions = [export_longitudinal_tracking]
 

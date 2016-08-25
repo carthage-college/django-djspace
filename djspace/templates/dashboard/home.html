@@ -44,6 +44,10 @@
       var $content_type = $dis.attr("data-content-type");
       var $oid = $dis.attr("data-oid");
       var $fawe = $dis.next('.fa-times');
+      if ($fawe.length == 0) {
+        // replace file manoeuvre
+        $fawe = $dis.next('a').find('.fa-times');
+      }
       var $fawe_error = '<i class="fa fa-times fa-exclamation-triangle red" aria-hidden="true"></i>';
       var name = file.name;
       var size = file.size;
@@ -102,6 +106,7 @@
                   $.growlUI('Success', "File uploaded.");
                   $dis.val("");
                   $fawe.replaceWith(data);
+                  //$fawe.replaceWith('<i class="fa fa-cog fa-spin fa-fw"></i>');
                 }
             },
             error: errorHandler = function(data) {

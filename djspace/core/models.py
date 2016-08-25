@@ -18,10 +18,13 @@ from djtools.fields.validators import MimetypeValidator
 
 from os.path import join, getmtime, getctime
 from datetime import date, datetime
+from functools import partial
 from uuid import uuid4
-import time
 
+import time
 import django
+
+import re
 
 REG_TYPE = (
     ('','----select----'),
@@ -113,7 +116,7 @@ class BaseModel(Base):
 
     status = models.BooleanField(default=False, verbose_name="Funded")
     award_acceptance = models.FileField(
-        upload_to=upload_to_path,
+        upload_to = partial(upload_to_path, 'award_acceptance'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -122,6 +125,11 @@ class BaseModel(Base):
 
     def get_file_path(self):
         return "files/applications"
+
+    def get_file_name(self):
+        return u"{}_{}.{}".format(
+            self.get_code(),self.user.last_name,self.user.first_name
+        )
 
 
 class GenericChoice(models.Model):
@@ -174,28 +182,28 @@ class UserFiles(models.Model):
         editable=False
     )
     mugshot = models.FileField(
-        upload_to=upload_to_path,
+        upload_to = partial(upload_to_path, 'mugshot'),
         validators=[MimetypeValidator('image/jpeg')],
         max_length=768,
         null=True, blank=True,
         help_text="JPEG format (.jpg)"
     )
     biography = models.FileField(
-        upload_to=upload_to_path,
+        upload_to = partial(upload_to_path, 'biography'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     media_release = models.FileField(
-        upload_to=upload_to_path,
+        upload_to = partial(upload_to_path, 'media_release'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     irs_w9 = models.FileField(
-        upload_to=upload_to_path,
+        upload_to = partial(upload_to_path, 'irs_w9'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
