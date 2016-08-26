@@ -20,28 +20,12 @@
 <p>{{data.intern_supervisor_name}}</p>
 <h4>Title</h4>
 <p>{{data.intern_supervisor_job_title}}</p>
-{% if data.intern_supervisor_cv %}
-<p>
-    <a href="https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}" target="_blank">
-      CV
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}
-</p>
-{% endif %}
 
 <h3>Work description</h3>
 <h4>Objective / technical approach</h4>
 <p>{{data.objective_technical_approach}}</p>
 <h4>Background</h4>
 <p>{{data.background}}</p>
-{% if data.background_photo %}
-<p>
-    <a href="https://{{server_url}}{{media_url}}{{data.background_photo}}" target="_blank">
-        Photo
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.background_photo}}
-</p>
-{% endif %}
 
 <h3>Work plan</h3>
 {% for task in data.work_plan_tasks.all %}
@@ -54,15 +38,6 @@
 <h4>Expected outcome</h4>
 <p>{{task.expected_outcome}}</p>
 {% endfor %}
-{% if data.task_schedule %}
-<p>
-    <a href="https://{{server_url}}{{media_url}}{{data.task_schedule}}" target="_blank">
-        Task schedule
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.task_schedule}}
-</p>
-{% endif %}
-
 <h3>WSGC and NASA</h3>
 <h4>WSGC goal</h4>
 <p>{{data.wsgc_goal}}</p>
@@ -75,6 +50,30 @@
 <h4>Files</h4>
 <hr>
 <ul>
+  {% if data.background_photo %}
+    <li>
+      <a href="https://{{server_url}}{{media_url}}{{data.background_photo}}" target="_blank">
+        Photo
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.background_photo}}
+    </li>
+  {% endif %}
+  {% if data.intern_supervisor_cv %}
+    <li>
+      <a href="https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}" target="_blank">
+        CV
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}
+    </li>
+  {% endif %}
+  {% if data.task_schedule %}
+    <li>
+      <a href="https://{{server_url}}{{media_url}}{{data.task_schedule}}" target="_blank">
+        Task schedule
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.task_schedule}}
+    </li>
+  {% endif %}
   {% if data.award_acceptance %}
     <li>
       <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">

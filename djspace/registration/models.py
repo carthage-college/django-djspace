@@ -202,7 +202,7 @@ class Professional(Base):
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        limit_choices_to={"id__in":limit_affiliation},
+        #limit_choices_to={"id__in":limit_affiliation},
         verbose_name="WSGC Affiliate",
         related_name="professional_wsgc_affiliate",
         on_delete=models.SET_NULL,

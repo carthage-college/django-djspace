@@ -614,8 +614,16 @@ class WorkPlanTaskInline(admin.TabularInline):
 
 class IndustryInternshipAdmin(GenericAdmin):
 
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'award_type',
+        'funds_requested', 'funds_authorized',
+        'proposed_match', 'authorized_match', 'source_match',
+        'date_created','date_updated','status'
+    ]
+
     model = IndustryInternship
     list_display_links = ['first_name']
+    list_editable = ['status']
 
     inlines = [WorkPlanTaskInline,]
 

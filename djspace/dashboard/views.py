@@ -30,7 +30,7 @@ UPLOAD_FORMS = {
   "highereducationinitiatives": HigherEducationInitiativesUploadsForm,
   "researchinfrastructure": ResearchInfrastructureUploadsForm,
   "aerospaceoutreach": AerospaceOutreachUploadsForm,
-  "specialinititatives": SpecialInitiativesUploadsForm,
+  "specialinitiatives": SpecialInitiativesUploadsForm,
   "undergraduatescholarship": UndergraduateScholarshipUploadsForm,
   "stembridgescholarship": StemBridgeScholarshipUploadsForm,
   "undergraduateresearch": UndergraduateResearchUploadsForm,

@@ -432,9 +432,9 @@ class AerospaceOutreach(EducationInitiatives):
 
     def get_code(self):
         project_category = "IE"
-        if "K-12" in self.award_type:
-            award_type = "K12"
-        return "AOP{}_{}".format(YEAR_2,project_category)
+        if "K-12" in self.project_category:
+            project_category = "K12"
+        return "AOP{}_{}".format(YEAR_2, project_category)
 
     @models.permalink
     def get_absolute_url(self):
@@ -494,8 +494,8 @@ class SpecialInitiatives(EducationInitiatives):
 
     def get_code(self):
         project_category = "IE"
-        if "K-12" in self.award_type:
-            award_type = "K12"
+        if "K-12" in self.project_category:
+            project_category = "K12"
         return "SIP{}_{}".format(YEAR_2,project_category)
 
     @models.permalink
@@ -1822,7 +1822,7 @@ class IndustryInternship(BaseModel):
         return "industry-internship"
 
     def get_code(self):
-        return "IIP{}_".format(YEAR_2)
+        return "IIP{}".format(YEAR_2)
 
     @models.permalink
     def get_absolute_url(self):
