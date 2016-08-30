@@ -217,7 +217,9 @@ class UserFiles(models.Model):
         return "users"
 
     def get_file_name(self):
-        return uuid4().hex
+        return u"{}.{}".format(
+            self.user.last_name,self.user.first_name
+        )
 
 
 class UserProfile(models.Model):
