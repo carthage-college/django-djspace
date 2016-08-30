@@ -44,12 +44,12 @@
       var $fname = $dis.attr("name");
       var $content_type = $dis.attr("data-content-type");
       var $oid = $dis.attr("data-oid");
-      var $fawe = $dis.next('.fa-times');
+      var $fawe = $dis.parent().next('.fa-times');
       var $update = false;
       if ($fawe.length == 0) {
         // we have a replace file manoeuvre
         $update = true;
-        $fawe = $dis.next('a');
+        $fawe = $dis.parent().next('a');
       }
       var $fawe_error = '<i class="fa fa-times fa-exclamation-triangle red" aria-hidden="true"></i>';
       var name = file.name;
@@ -167,6 +167,11 @@
         });
       }
     });
+
+    $('.filebutt').click(function () {
+      $(this).siblings('.upload-file').trigger('click');
+    })
+
   });
 </script>
 {% endblock %}
@@ -230,18 +235,20 @@
                     <h3>
                       <label for="id_award_acceptance">Award Acceptance [PDF]</label>
                     </h3>
-                    <div>
+                    <div class="filewrap fleft">
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="award_acceptance" id="id_award_acceptance">
-                      {% if app.award_acceptance %}
-                        <a href="{{media_url}}{{app.award_acceptance}}" target="_blank">
-                          <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
+                      <span class='filebutt'>Select File</span>
+                      <span class='filevalu'></span>
                     </div>
+                    {% if app.award_acceptance %}
+                      <a class="fa-wrap" href="{{media_url}}{{app.award_acceptance}}" target="_blank">
+                        <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                    {% else %}
+                      <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+                    {% endif %}
                   </li>
                   {# RocketLaunchTeam creator and student leader can upload requisite files #}
                   {% if app.get_content_type.model == "rocketlaunchteam" %}
@@ -253,33 +260,37 @@
                   {% if app.get_content_type.model in professional_programs %}
                   <li class="form-group ctrlHolder">
                     <h3><label for="id_invoice">Invoice [PDF]</label></h3>
-                    <div>
+                    <div class="filewrap fleft">
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="invoice" id="id_invoice">
-                      {% if app.invoice %}
-                        <a href="{{media_url}}{{app.invoice}}" target="_blank">
-                          <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
+                      <span class='filebutt'>Select File</span>
+                      <span class='filevalu'></span>
                     </div>
+                    {% if app.invoice %}
+                      <a class="fa-wrap" href="{{media_url}}{{app.invoice}}" target="_blank">
+                        <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                    {% else %}
+                      <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+                    {% endif %}
                   </li>
                   <li class="form-group ctrlHolder">
                     <h3><label for="id_program_match">Program Match [PDF]</label></h3>
-                    <div>
+                    <div class="filewrap fleft">
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="program_match" id="id_program_match">
-                      {% if app.program_match %}
-                        <a href="{{media_url}}{{app.program_match}}" target="_blank">
-                          <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
+                      <span class='filebutt'>Select File</span>
+                      <span class='filevalu'></span>
                     </div>
+                    {% if app.program_match %}
+                      <a class="fa-wrap" href="{{media_url}}{{app.program_match}}" target="_blank">
+                        <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                    {% else %}
+                      <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+                    {% endif %}
                   </li>
                   <li class="form-group ctrlHolder">
                     <h3>
@@ -287,18 +298,20 @@
                         Payment Information Form [PDF]
                       </label>
                     </h3>
-                    <div>
+                    <div class="filewrap fleft">
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="payment_information" id="id_payment_information">
-                      {% if app.payment_information %}
-                        <a href="{{media_url}}{{app.payment_information}}" target="_blank">
-                          <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
+                      <span class='filebutt'>Select File</span>
+                      <span class='filevalu'></span>
                     </div>
+                    {% if app.payment_information %}
+                      <a class="fa-wrap" href="{{media_url}}{{app.payment_information}}" target="_blank">
+                        <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                    {% else %}
+                      <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+                    {% endif %}
                   </li>
                   {% endif %}
                   {% if app.get_content_type.model not in rocket_competitions and app.get_content_type.model != "rocketlaunchteam" %}
@@ -306,33 +319,37 @@
                     <h3>
                       <label for="id_interim_report">Interim Report [PDF]</label>
                     </h3>
-                    <div>
+                    <div class="filewrap fleft">
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="interim_report" id="id_interim_report">
-                      {% if app.interim_report %}
-                        <a href="{{media_url}}{{app.interim_report}}" target="_blank">
-                          <i class="fa fan-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
+                      <span class='filebutt'>Select File</span>
+                      <span class='filevalu'></span>
                     </div>
+                    {% if app.interim_report %}
+                      <a class="fa-wrap" href="{{media_url}}{{app.interim_report}}" target="_blank">
+                        <i class="fa fan-ban fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                    {% else %}
+                      <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+                    {% endif %}
                   </li>
                   <li class="form-group ctrlHolder">
                     <h3><label for="id_final_report">Final Report [PDF]</label></h3>
-                    <div>
+                    <div class="filewrap fleft">
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
                         name="final_report" id="id_final_report">
-                      {% if app.final_report %}
-                        <a href="{{media_url}}{{app.final_report}}" target="_blank">
-                          <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
+                      <span class='filebutt'>Select File</span>
+                      <span class='filevalu'></span>
                     </div>
+                    {% if app.final_report %}
+                      <a class="fa-wrap" href="{{media_url}}{{app.final_report}}" target="_blank">
+                        <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                    {% else %}
+                      <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+                    {% endif %}
                   </li>
                   {% endif %}
                 </ol>
@@ -370,55 +387,69 @@
       <ol>
         <li class="form-group ctrlHolder">
           <h3><label for="id_mugshot">Photo [JPG]</label></h3>
-          <div>
+          <div class="filewrap fleft">
             <input type="file" class="upload-file"
               name="mugshot" id="id_mugshot">
-            {% if user_files.mugshot.value %}
-              <a href="{{media_url}}{{user_files.mugshot.value}}" target="_blank">
-              <i class="fa fa-times fa-file-image-o blue" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
+            <span class='filevalu'></span>
+            <span class='filebutt'>Select File</span>
           </div>
+          {% if user_files.mugshot.value %}
+            <a class="fa-wrap" href="{{media_url}}{{user_files.mugshot.value}}"
+              target="_blank">
+            <i class="fa fa-times fa-file-image-o blue" aria-hidden="true"></i></a>
+          {% else %}
+            <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+          {% endif %}
         </li>
         <li class="form-group ctrlHolder">
           <h3><label for="id_biography">Biography [PDF]</label></h3>
-          <div>
+          <div class="filewrap fleft">
             <input type="file" class="upload-file"
               name="biography" id="id_biography">
-            {% if user_files.biography.value %}
-              <a href="{{media_url}}{{user_files.biography.value}}" target="_blank">
-              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
+            <span class='filevalu'></span>
+            <span class='filebutt'>Select File</span>
           </div>
+          {% if user_files.biography.value %}
+            <a class="fa-wrap" href="{{media_url}}{{user_files.biography.value}}"
+              target="_blank">
+            <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+          {% else %}
+            <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+          {% endif %}
         </li>
         <li class="form-group ctrlHolder">
           <h3><label for="id_irs_w9">W9 Form [PDF]</label></h3>
-          <div>
+          <div class="filewrap fleft">
             <input type="file" class="upload-file"
               name="irs_w9" id="id_irs_w9">
-            {% if user_files.irs_w9.value %}
-              <a href="{{media_url}}{{user_files.irs_w9.value}}" target="_blank">
-              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
+            <span class='filevalu'></span>
+            <span class='filebutt'>Select File</span>
           </div>
+          {% if user_files.irs_w9.value %}
+            <a class="fa-wrap" href="{{media_url}}{{user_files.irs_w9.value}}"
+              target="_blank">
+            <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+          {% else %}
+            <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+          {% endif %}
         </li>
         <li class="form-group ctrlHolder">
-          <h3><label for="id_media_release">Media Release Form [PDF]</label></h3>
-          <div>
+          <h3>
+            <label for="id_media_release">Media Release Form [PDF]</label>
+          </h3>
+          <div class="filewrap fleft">
             <input type="file" class="upload-file"
               name="media_release" id="id_media_release">
-            {% if user_files.media_release.value %}
-              <a href="{{media_url}}{{user_files.media_release.value}}" target="_blank">
-              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-times red" aria-hidden="true" title="Missing file"></i>
-            {% endif %}
+            <span class='filevalu'></span>
+            <span class='filebutt'>Select File</span>
           </div>
+          {% if user_files.media_release.value %}
+            <a class="fa-wrap" href="{{media_url}}{{user_files.media_release.value}}"
+              target="_blank">
+              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+          {% else %}
+            <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+          {% endif %}
         </li>
       </ol>
     </fieldset>
