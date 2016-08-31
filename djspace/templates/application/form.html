@@ -45,6 +45,7 @@ $(function() {
     });
     $("div[id$='_counter']").css({ fontSize: ".9em", color: "red"});
     {% else %}
+    /*
     $("textarea").htmlarea({
         toolbar: [
             "html","bold", "italic", "underline", "superscript",
@@ -53,6 +54,7 @@ $(function() {
             "unlink", "|", "orderedList", "unorderedList"
         ]
     });
+    */
     $("[id^=id_][id$=_date]").datepicker({
         firstDay:1,appendText:"(format yyyy-mm-dd)",
         changeFirstDay:false,dateFormat:"yy-mm-dd",
