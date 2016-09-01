@@ -171,6 +171,10 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
 
 class UndergraduateScholarshipForm(forms.ModelForm):
 
+    other_funding = forms.TypedChoiceField(
+        label="Are you seeking other WSGC funding for this project?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
     academic_institution = forms.TypedChoiceField(
         label = "Application submitted for",
         widget = forms.RadioSelect(),
@@ -196,6 +200,10 @@ class UndergraduateScholarshipUploadsForm(forms.ModelForm):
 
 class StemBridgeScholarshipForm(forms.ModelForm):
 
+    other_funding = forms.TypedChoiceField(
+        label="Are you seeking other WSGC funding for this project?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
     signed_certification = forms.FileField(
         help_text=mark_safe('''
             Before beginning the application process,
@@ -229,6 +237,11 @@ class StemBridgeScholarshipUploadsForm(forms.ModelForm):
 
 
 class UndergraduateResearchForm(forms.ModelForm):
+
+    other_funding = forms.TypedChoiceField(
+        label="Are you seeking other WSGC funding for this project?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
 
     class Meta:
         model = UndergraduateResearch

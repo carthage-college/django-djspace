@@ -1,6 +1,12 @@
 {% extends "application/email/base.html" %}
 {% block title %}Undergraduate Scholarship{% endblock %}
 {% block data %}
+<h4>Application submitted for</h4>
+<p>{{data.academic_institution}}
+<h4>Are you seeking other WSGC funding for this project?</h4>
+<p>{{data.other_funding}}</p>
+<h4>If 'Yes', please explain</h4>
+<p>{{data.other_funding_explain}}</p>
 <h4>Files</h4>
 <ul>
   <li>

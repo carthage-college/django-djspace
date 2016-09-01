@@ -305,9 +305,11 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     list_display  = PROFILE_LIST_DISPLAY + [
         'project_title', 'begin_date', 'end_date',
         'funds_requested','funds_authorized',
+        'other_funding', 'other_funding_explain',
         'synopsis_trunk','signed_certification_link','proposal_link',
         'high_school_transcripts_link','undergraduate_transcripts_link',
         'wsgc_advisor_recommendation_link','recommendation_link',
+        'other_funding', 'other_funding_explain',
         'date_created','date_updated','status'
     ]
     list_editable = ['funds_authorized','status']
@@ -341,6 +343,8 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'signed_certification_link','statement_link',
         'high_school_transcripts_link','undergraduate_transcripts_link',
         'wsgc_advisor_recommendation_link','recommendation_link',
+        'academic_institution',
+        'other_funding', 'other_funding_explain',
         'date_created','date_updated','status'
     ]
     list_editable = ['status']
@@ -358,25 +362,9 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         return qs
 
 
-class StemBridgeScholarshipAdmin(UndergraduateAdmin):
+class StemBridgeScholarshipAdmin(UndergraduateScholarshipAdmin):
 
     model = StemBridgeScholarship
-
-    list_display  = PROFILE_LIST_DISPLAY + [
-        'signed_certification_link','statement_link',
-        'high_school_transcripts_link','undergraduate_transcripts_link',
-        'wsgc_advisor_recommendation_link','recommendation_link',
-        'date_created','date_updated','status'
-    ]
-    list_editable = ['status']
-    actions = [export_longitudinal_tracking]
-
-    def statement_link(self, instance):
-        return '<a href="{}" target="_blank">Statement</a>'.format(
-            instance.statement.url
-        )
-    statement_link.allow_tags = True
-    statement_link.short_description = 'Statement'
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, StemBridgeScholarshipAdmin)
@@ -538,8 +526,8 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'project_title', 'begin_date', 'end_date', 'project_category',
-        'other_funding', 'other_funding_explain',
         'funds_requested', 'funds_authorized',
+        'other_funding', 'other_funding_explain',
         'proposed_match', 'authorized_match', 'source_match', 'location',
         'synopsis_trunk', 'proposal_link',
         'finance_officer_name', 'finance_officer_address',

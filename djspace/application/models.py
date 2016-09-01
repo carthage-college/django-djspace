@@ -1180,6 +1180,16 @@ class UndergraduateResearch(BaseModel):
         null = True, blank = True,
         help_text="In Dollars"
     )
+    other_funding = models.CharField(
+        "Are you seeking other WSGC funding for this project?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_funding_explain = models.CharField(
+        "If yes, please explain",
+        max_length=255,
+        null = True, blank = True
+    )
     award_type = models.CharField(
         "Award",
         max_length = 128,
@@ -1369,6 +1379,16 @@ class Scholarship(BaseModel):
     academic_institution = models.CharField(
         "Application submitted for", max_length=128,
         choices=ACADEMIC_INSTITUTIONS
+    )
+    other_funding = models.CharField(
+        "Are you seeking other WSGC funding for this project?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_funding_explain = models.CharField(
+        "If yes, please explain",
+        max_length=255,
+        null = True, blank = True
     )
     interim_report = models.FileField(
         upload_to = partial(upload_to_path, 'interim_report'),
