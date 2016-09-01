@@ -36,6 +36,19 @@ CRL_REQUIRED_FILES = [
     "post_flight_performance_report","proceeding_paper"
 ]
 
+
+def get_start_date():
+
+    year = NOW.year
+    if NOW.month < settings.GRANT_CYCLE_START_MES:
+        year = NOW.year - 1
+    start_date = datetime(
+        year, settings.GRANT_CYCLE_START_MES, 1
+    )
+
+    return start_date
+
+
 def upload_to_path(field_name, instance, filename):
     """
     Generates the path as a string for file field.
@@ -105,14 +118,8 @@ def profile_status(user):
     current year and the settings value for the month and the first
     day of the month.
     """
-    year = NOW.year
-    if NOW.month < settings.GRANT_CYCLE_START_MES:
-        year = NOW.year - 1
-    grant_cycle_start_date = datetime(
-        year, settings.GRANT_CYCLE_START_MES, 1
-    )
     status = False
-    if user.profile.date_updated > grant_cycle_start_date:
+    if user.profile.date_updated > get_start_date():
         status = True
     return status
 

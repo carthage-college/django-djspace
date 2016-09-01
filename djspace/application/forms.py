@@ -5,6 +5,7 @@ from django.db.models import Count
 from django.contrib.auth.models import User
 from django.forms.extras.widgets import SelectDateWidget
 
+from djspace.core.utils import get_start_date
 from djspace.application.models import *
 from djtools.fields import BINARY_CHOICES
 
@@ -416,7 +417,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.filter(
             competition__contains="First Nations"
-        ).order_by("name")
+        ).filter(date_created__gte=get_start_date()).order_by("name")
 
 
 class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
@@ -443,9 +444,9 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).filter(competition__in=["Midwest High Powered Rocket Competition"]).exclude(
-            count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
-        ).order_by("name")
+        ).filter(competition__in=["Midwest High Powered Rocket Competition"]).filter(
+            date_created__gte=get_start_date()
+        ).exclude(count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
 
 
 class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
@@ -473,9 +474,9 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).filter(competition__in=["Collegiate Rocket Competition"]).exclude(
-            count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
-        ).order_by("name")
+        ).filter(competition__in=["Collegiate Rocket Competition"]).filter(
+            date_created__gte=get_start_date()
+        ).exclude(count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
 
 
 class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):

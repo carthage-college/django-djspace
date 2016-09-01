@@ -11,6 +11,7 @@ from django.shortcuts import render_to_response
 from django.template import loader, Context, RequestContext
 
 from djspace.application.models import *
+from djspace.core.utils import get_start_date
 from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
 from djspace.registration.admin import PROFILE_HEADERS, get_profile_fields
 from djtools.fields import TODAY
@@ -19,7 +20,6 @@ from openpyxl import load_workbook
 from openpyxl.writer.excel import save_virtual_workbook
 
 import csv
-import datetime
 import io
 
 def get_queryset(self, request, admin_class):
@@ -28,14 +28,8 @@ def get_queryset(self, request, admin_class):
     they wanted to see only applications for the current grant cycle.
     so we hide old applications.
     """
-    TODAY = datetime.date.today()
-    YEAR = int(TODAY.year)
-    MES = int(TODAY.month)
     qs = super(admin_class, self).get_queryset(request)
-    if MES < settings.GRANT_CYCLE_START_MES:
-        YEAR = YEAR - 1
-    start_date = datetime.date(YEAR, settings.GRANT_CYCLE_START_MES, 1)
-    return qs.filter(date_created__gte=start_date)
+    return qs.filter(date_created__gte=get_start_date())
 
 def longitudinal_tracking(modeladmin, request):
     """
