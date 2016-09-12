@@ -207,14 +207,14 @@
     </div>
     {% for app in user.profile.applications.all %}
         {% if forloop.first %}
-            <h3 class="application-type">{{app.get_application_type}}</h3>
-            <ul>
+          <h3 class="application-type">{{app.get_application_type}}</h3>
+          <ul>
         {% else %}
-        {% ifchanged app.get_application_type and not forloop.first %}
-            </ul>
-            <h3 class="application-type">{{app.get_application_type}}</h3>
-            <ul>
-        {% endifchanged %}
+          {% ifchanged app.get_application_type and not forloop.first %}
+          </ul>
+          <h3 class="application-type">{{app.get_application_type}}</h3>
+          <ul>
+          {% endifchanged %}
         {% endif %}
         <li>
             <span class="short-date">
@@ -228,6 +228,7 @@
             </a>
             </span>
             {% if app.status %}
+              {% if app.get_content_type.model != "firstnationsrocketcompetition" %}
               <fieldset>
                 <legend>Requisite Files</legend>
                 <ol>
@@ -351,10 +352,11 @@
                       <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
                     {% endif %}
                   </li>
-                  {% endif %}
                 </ol>
               </fieldset>
-            {% endif %}
+              {% endif %}{# firstnationslaunch exception #}
+            {% endif %}{# appstatus #}
+          {% endif %}
         </li>
     {% endfor %}
     </ul>
