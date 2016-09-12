@@ -228,7 +228,6 @@
             </a>
             </span>
             {% if app.status %}
-              {% if app.get_content_type.model != "firstnationsrocketcompetition" %}
               <fieldset>
                 <legend>Requisite Files</legend>
                 <ol>
@@ -314,7 +313,7 @@
                       <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
                     {% endif %}
                   </li>
-                  {% endif %}
+                  {% endif %} {# end professional programs files #}
                   {% if app.get_content_type.model not in rocket_competitions and app.get_content_type.model != "rocketlaunchteam" %}
                   <li class="form-group ctrlHolder">
                     <h3>
@@ -352,11 +351,10 @@
                       <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
                     {% endif %}
                   </li>
+                  {% endif %}{# rocket exceptions #}
                 </ol>
               </fieldset>
-              {% endif %}{# firstnationslaunch exception #}
             {% endif %}{# appstatus #}
-          {% endif %}
         </li>
     {% endfor %}
     </ul>
