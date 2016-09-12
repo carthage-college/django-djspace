@@ -882,6 +882,9 @@ class FirstNationsRocketCompetition(BaseModel):
             team_name
         )
 
+    def get_media_release(self):
+        return self.user.user_files.media_release
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
