@@ -66,23 +66,33 @@ def files_status(user):
 
     status = True
 
-    # check for user profile files
-    try:
-        data=model_to_dict(user.user_files)
-    except:
-        # UserFiles() instance does not exist
-        return False
-    for k,v in data.items():
-        if not v:
+    # fetch all user application submissions
+    apps = user.profile.applications.all()
+    # First Nations Competition exception
+    fnl = False
+    for app in apps:
+        if app.get_content_type().model == "firstnationsrocketcompetition":
+            fnl = True
+
+    # ignore FNL altogether for personal files
+    if not fnl:
+        # check for user profile files
+        try:
+            data=model_to_dict(user.user_files)
+        except:
+            # UserFiles() instance does not exist
             return False
+        for k,v in data.items():
+            if not v:
+                return False
 
     # check for application files
-    for app in user.profile.applications.all():
+    for app in apps:
 
         data=model_to_dict(app)
 
-        # all programs
-        if not app.award_acceptance:
+        # all programs except FNL
+        if not app.award_acceptance and not fnl:
             return False
 
         # program specific
