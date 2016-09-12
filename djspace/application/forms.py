@@ -7,6 +7,7 @@ from django.forms.extras.widgets import SelectDateWidget
 
 from djspace.core.utils import get_start_date
 from djspace.application.models import *
+from djtools.fields.validators import MimetypeValidator
 from djtools.fields import BINARY_CHOICES
 
 from taggit.models import Tag
@@ -403,6 +404,11 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
 
 
 class FirstNationsRocketCompetitionForm(forms.ModelForm):
+    media_release = forms.FileField(
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="PDF format"
+    )
 
     class Meta:
         model = FirstNationsRocketCompetition
@@ -421,6 +427,11 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
 
 
 class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
+    """
+    WSGC have removed the requirement for Award Acceptance letter but
+    we will keep this form class in place for when they decide to go
+    back to requiring it.
+    """
 
     class Meta:
         model = FirstNationsRocketCompetition
