@@ -418,9 +418,15 @@ class UserProfile(models.Model):
 def _user_signed_up(request, user, **kwargs):
 
     # Add secondary email address for the user, and send email confirmation.
-    EmailAddress.objects.add_email(
-        request, user, request.POST.get("email_secondary"), confirm=True
-    )
+    # try/except for the rare cases when someone tries to register after they
+    # have already done so and the email they are attempting to use somehow
+    # slipped past our form clean() method.
+    try:
+        EmailAddress.objects.add_email(
+            request, user, request.POST.get("email_secondary"), confirm=True
+        )
+    except:
+        pass
     # create UserFiles() obj for storing uploaded files after grant approval
     uf = UserFiles(user=user)
     uf.save()
