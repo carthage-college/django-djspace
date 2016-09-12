@@ -13,15 +13,16 @@ from django.contrib.admin.views.decorators import staff_member_required
 from djspace.application.forms import *
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
+from djspace.core.models import UserFiles
 from djspace.core.utils import profile_status
 
-from djtools.utils.mail import send_mail
+from djtools.fields.helpers import handle_uploaded_file
 from djtools.utils.convert import str_to_class
+from djtools.utils.mail import send_mail
 from djtools.fields import TODAY
 
 import django
-import logging
-logger = logging.getLogger(__name__)
+from os.path import join
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -143,6 +144,32 @@ def application_form(request, application_type, aid=None):
                     data.limit = 6
                 else:
                     data.limit = 0
+
+            # save media_release file to UserProfileFiles if first nations
+            if application_type == "first-nations-rocket-competition":
+                if request.FILES.get('media_release'):
+                    try:
+                        uf = user.user_files
+                    except:
+                        uf = UserFiles(user=user)
+                    file_root = "{}/{}/{}/".format(
+                        uf.get_file_path(),
+                        uf.get_slug(),
+                        str(user.id)
+                    )
+                    path = join(
+                        settings.MEDIA_ROOT,
+                        file_root
+                    )
+                    media_release = handle_uploaded_file(
+                        request.FILES['media_release'], path,
+                        u"{}_media_release".format(uf.get_file_name())
+                    )
+                    uf.media_release = u"{}{}".format(
+                        file_root, media_release
+                    )
+                    uf.save()
+
             data.save()
 
             # add user to RocketLaunchTeam member m2m
