@@ -1,8 +1,6 @@
 from django.conf import settings
 from django.forms.models import model_to_dict
 
-from allauth.account.models import EmailAddress
-
 from djtools.fields import NOW
 from djtools.utils.mail import send_mail
 
@@ -154,6 +152,7 @@ def get_term(date):
     return term
 
 def get_email_auxiliary(user):
+    from allauth.account.models import EmailAddress
     e = EmailAddress.objects.filter(user=user).\
         filter(primary=False).order_by("-id")[:1]
     if len(e) > 0:
