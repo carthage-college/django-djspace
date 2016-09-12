@@ -19,6 +19,7 @@ from datetime import date
 DOB_YEAR = date.today().year-10
 RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("ranking")
 
+
 class SignupForm(forms.Form):
     """
     Gathers auth and user profile data
