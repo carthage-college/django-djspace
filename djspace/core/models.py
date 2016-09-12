@@ -4,9 +4,6 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from allauth.account.signals import user_signed_up
-from allauth.account.models import EmailAddress
-from taggit.managers import TaggableManager
 from gm2m import GM2MField
 
 from djspace.core.utils import registration_notify, get_email_auxiliary
@@ -15,6 +12,9 @@ from djspace.core.utils import profile_status, upload_to_path
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 from djtools.fields.validators import MimetypeValidator
+
+from allauth.account.signals import user_signed_up
+from taggit.managers import TaggableManager
 
 from os.path import join, getmtime, getctime
 from datetime import date, datetime
@@ -164,6 +164,7 @@ class GenericChoice(models.Model):
         return self.name
 
     class Meta:
+        #app_label = "genericchoice"
         ordering = ['ranking']
 
 def limit_race():
@@ -209,6 +210,10 @@ class UserFiles(models.Model):
         null=True, blank=True,
         help_text="PDF format"
     )
+
+    class Meta:
+        #app_label = "userfiles"
+        db_table = "core_userfiles"
 
     def get_file_path(self):
         return "files"
@@ -376,6 +381,10 @@ class UserProfile(models.Model):
         'application.IndustryInternship'
     )
 
+    class Meta:
+        #app_label = "userprofile"
+        db_table = "core_userprofile"
+
     def __unicode__(self):
         return u"{} {}'s profile".format(
             self.user.first_name, self.user.last_name
@@ -417,6 +426,7 @@ class UserProfile(models.Model):
 @receiver(user_signed_up, dispatch_uid="allauth.user_signed_up")
 def _user_signed_up(request, user, **kwargs):
 
+    from allauth.account.models import EmailAddress
     # Add secondary email address for the user, and send email confirmation.
     # try/except for the rare cases when someone tries to register after they
     # have already done so and the email they are attempting to use somehow
