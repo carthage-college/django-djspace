@@ -417,6 +417,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
             'award_acceptance'
         )
 
+
     def __init__(self, *args, **kwargs):
         super(FirstNationsRocketCompetitionForm, self).__init__(
             *args,**kwargs
@@ -424,7 +425,8 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         self.fields['team'].queryset = RocketLaunchTeam.objects.filter(
             competition__contains="First Nations"
         ).filter(date_created__gte=get_start_date()).order_by("name")
-
+        instance = kwargs.get('instance', None)
+        self.fields['media_release'].initial = instance.get_media_release()
 
 class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
     """
