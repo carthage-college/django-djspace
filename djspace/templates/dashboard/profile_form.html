@@ -1,6 +1,6 @@
 {% extends "home.html" %}
 {% block title %}
-    WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
+    WSGC &mdash; {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
 {% block extra_style %}
 {{block.super}}
@@ -211,6 +211,11 @@ $(document).ready(function(){
         {{ message }}
     </div>
     {% endfor %}
+{% endif %}
+{% if usr_form.errors or pro_form.errors %}
+    <p class="error">
+        Please correct the errors below.
+    </p>
 {% endif %}
 <form method="post" action="." class="form">
     {% csrf_token %}
