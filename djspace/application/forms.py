@@ -426,7 +426,8 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
             competition__contains="First Nations"
         ).filter(date_created__gte=get_start_date()).order_by("name")
         instance = kwargs.get('instance', None)
-        self.fields['media_release'].initial = instance.get_media_release()
+        if instance:
+            self.fields['media_release'].initial = instance.get_media_release()
 
 class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
     """
