@@ -538,11 +538,19 @@ class RocketLaunchTeam(BaseModel):
     )
     industry_mentor_name = models.CharField(
         max_length=128,
-        null = True, blank = True
+        null = True, blank = True,
+        help_text="""
+            NOTE: Only required for the Collegiate Rocket Competition
+            and the Midwest High-Powered Rocket Competition
+        """
     )
     industry_mentor_email = models.EmailField(
-        max_length=75,
-        null = True, blank = True
+        max_length=128,
+        null = True, blank = True,
+        help_text="""
+            NOTE: Only required for the Collegiate Rocket Competition
+            and the Midwest High-Powered Rocket Competition
+        """
     )
     intent_compete = models.TextField(
         "Notification of Intent to Compete"
@@ -856,12 +864,6 @@ class FirstNationsRocketCompetition(BaseModel):
     )
     prior_experience = models.TextField(
         "Prior Rocket Experience"
-    )
-    media_release = models.FileField(
-        upload_to = partial(upload_to_path, 'media_release'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text="PDF format"
     )
 
     def __unicode__(self):
