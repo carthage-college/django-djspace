@@ -7,15 +7,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="interim_progress_report" id="id_interim_progress_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.interim_progress_report %}
-    <a class="fa-wrap" href="{{media_url}}{{app.interim_progress_report}}"
-      target="_blank">
+  {% if app.interim_progress_report or app.team.interim_progress_report %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.interim_progress_report %}{{app.interim_progress_report}}{% else %}{{app.team.interim_progress_report}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -31,15 +30,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="preliminary_design_report" id="id_preliminary_design_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.preliminary_design_report %}
-    <a class="fa-wrap" href="{{media_url}}{{app.preliminary_design_report}}"
-      target="_blank">
+  {% if app.preliminary_design_report or app.team.preliminary_design_report %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.preliminary_design_report %}{{app.preliminary_design_report}}{% else %}{{app.team.preliminary_design_report}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -53,15 +51,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="final_design_report" id="id_final_design_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.final_design_report %}
-    <a class="fa-wrap" href="{{media_url}}{{app.final_design_report}}"
-      target="_blank">
+  {% if app.final_design_report or app.team.final_design_report %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.final_design_report %}{{app.final_design_report}}{% else %}{{app.team.final_design_report}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -74,14 +71,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="team_roster" id="id_team_roster">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.team_roster %}
-    <a class="fa-wrap" href="{{media_url}}{{app.team_roster}}" target="_blank">
+  {% if app.team_roster or app.team.team_roster %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.team_roster %}{{app.team_roster}}{% else %}{{app.team.team_roster}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -94,14 +91,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="budget" id="id_budget">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.budget %}
-    <a class="fa-wrap" href="{{media_url}}{{app.budget}}" target="_blank">
+  {% if app.budget or app.team.budget %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.budget %}{{app.budget}}{% else %}{{app.team.budget}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -115,14 +112,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="flight_demo" id="id_flight_demo">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.flight_demo %}
-    <a class="fa-wrap" href="{{media_url}}{{app.flight_demo}}" target="_blank">
+  {% if app.flight_demo or app.team.flight_demo %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.flight_demo %}{{app.flight_demo}}{% else %}{{app.team.flight_demo}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -136,15 +133,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="final_motor_selection" id="id_final_motor_selection">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.final_motor_selection %}
-    <a class="fa-wrap" href="{{media_url}}{{app.final_motor_selection}}"
-      target="_blank">
+  {% if app.final_motor_selection or app.team.final_motor_selection %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.final_motor_selection %}{{app.final_motor_selection}}{% else %}{{app.team.final_motor_selection}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -156,15 +152,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="lodging_list" id="id_lodging_list">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.lodging_list %}
-    <a class="fa-wrap" href="{{media_url}}{{app.lodging_list}}"
-      target="_blank">
+  {% if app.lodging_list or app.team.lodging_list %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.lodging_list %}{{app.lodging_list}}{% else %}{{app.team.lodging_list}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -176,15 +171,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="critical_design_report" id="id_critical_design_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.critical_design_report %}
-    <a class="fa-wrap" href="{{media_url}}{{app.critical_design_report}}"
-      target="_blank">
+  {% if app.critical_design_report or app.team.critical_design_report %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.critical_design_report %}{{app.critical_design_report}}{% else %}{{app.team.critical_design_report}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -198,15 +192,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="oral_presentation" id="id_oral_presentation">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.oral_presentation %}
-    <a class="fa-wrap" href="{{media_url}}{{app.oral_presentation}}"
-      target="_blank">
+  {% if app.oral_presentation or app.team.oral_presentation %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.oral_presentation %}{{app.oral_presentation}}{% else %}{{app.team.oral_presentation}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -221,15 +214,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="post_flight_performance_report" id="id_post_flight_performance_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.post_flight_performance_report %}
-    <a class="fa-wrap" href="{{media_url}}{{app.post_flight_performance_report}}"
-      target="_blank">
+  {% if app.post_flight_performance_report or app.team.post_flight_performance_report %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.post_flight_performance_report %}{{app.post_flight_performance_report}}{% else %}{{app.team.post_flight_performance_report}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -242,15 +234,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="education_outreach" id="id_education_outreach">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.education_outreach %}
-    <a class="fa-wrap" href="{{media_url}}{{app.education_outreach}}"
-      target="_blank">
+  {% if app.education_outreach or app.team.education_outreach %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.education_outreach %}{{app.education_outreach}}{% else %}{{app.team.education_outreach}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -264,15 +255,14 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       name="flight_readiness_report" id="id_flight_readiness_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
   </div>
-  {% if app.flight_readiness_report %}
-    <a class="fa-wrap" href="{{media_url}}{{app.flight_readiness_report}}"
-      target="_blank">
+  {% if app.flight_readiness_report or app.team.flight_readiness_report %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.flight_readiness_report %}{{app.flight_readiness_report}}{% else %}{{app.team.flight_readiness_report}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
@@ -285,16 +275,18 @@
     <label for="id_proceeding_paper">Proceeding Paper [PDF]</label>
   </h3>
   <div>
-    {% if app.proceeding_paper %}
+  {% if app.proceeding_paper or app.team.proceeding_paper %}
     <input type="input" name="proceeding_paper" class="fleft"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}" id="id_proceeding_paper" style="margin-right:17px;"
-      value="{{app.proceeding_paper|date:"m/d/Y"}}">
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      value="{% if app.proceeding_paper %}{{app.proceeding_paper|date:"m/d/Y"}}{% else %}{{app.team.proceeding_paper|date:"m/d/Y"}}{% endif %}"
+      id="id_proceeding_paper" style="margin-right:17px;">
         <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
     {% else %}
     <input type="input" name="proceeding_paper" class="fleft"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}" id="id_proceeding_paper" style="margin-right:17px;">
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      id="id_proceeding_paper" style="margin-right:17px;">
       <i class="fa fa-times red" aria-hidden="true"
         id="proceeding-missing" title="Missing file"></i>
     {% endif %}
