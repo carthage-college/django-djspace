@@ -29,8 +29,13 @@ def user_files(request):
             ct = ContentType.objects.get(pk=ct)
             mod = ct.model_class()
             obj = mod.objects.get(pk=request.POST.get("oid"))
+            # team leaders can upload files for rocket launch teams
+            leader = False
+            if ct.model == "rocketlaunchteam":
+                if obj.leader.id == user.id:
+                    leader = True
             # is someone being naughty?
-            if obj.user != user:
+            if obj.user != user and not leader:
                 return HttpResponse(
                     "Something is rotten in Denmark",
                     content_type="text/plain; charset=utf-8"
@@ -68,6 +73,7 @@ def user_files(request):
             msg, content_type="text/plain; charset=utf-8"
         )
     return response
+
 
 @csrf_exempt
 def user_files_test(request):
