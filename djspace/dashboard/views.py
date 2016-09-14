@@ -76,9 +76,15 @@ def home(request):
         apps = None
 
     approved = []
+    # we need the content type ID for rocket launch team only
+    # since team leaders can upload file for that model
+    team = {}
     for a in apps.all():
         if a.status:
             approved.append(a)
+        if "rocketcompetition" in a.get_content_type().model and a.team.leader.id == user.id:
+            team['ct'] = a.team.get_content_type().id
+            team['id'] = a.team.id
 
     if approved:
         user_files_status = files_status(user)
@@ -95,7 +101,7 @@ def home(request):
     return render_to_response(
         "dashboard/home.html", {
             "reg":reg,"status":status,"approved":approved,
-            "user_files":user_files,
+            "user_files":user_files,"team":team,
             "professional_programs":PROFESSIONAL_PROGRAMS,
             "rocket_competitions":ROCKET_COMPETITIONS_EXCLUDE
         },
@@ -171,6 +177,7 @@ def registration_type(request):
     else:
         raise Http404
 
+
 @login_required
 def profile_form(request):
     """
@@ -241,6 +248,7 @@ def set_val(request):
     AJAX POST for setting arbitrary values to an object
     """
 
+    user = request.user
     msg = "fail"
     obj = None
     if request.method != "POST":
@@ -262,8 +270,13 @@ def set_val(request):
             """.format(cid, oid)
 
         if obj:
-
-            if obj.user != request.user:
+            # team leaders can upload files for rocket launch teams
+            leader = False
+            if ct.model == "rocketlaunchteam":
+                if obj.leader.id == user.id:
+                    leader = True
+            # is someone being naughty?
+            if obj.user != user and not leader:
                 msg =  "Something is rotten in Denmark"
             else:
                 setattr(obj, field, value)
