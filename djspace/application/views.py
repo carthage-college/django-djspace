@@ -15,6 +15,7 @@ from djspace.application.models import ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
 from djspace.core.models import UserFiles
 from djspace.core.utils import profile_status
+from djspace.core.utils import get_start_date
 
 from djtools.fields.helpers import handle_uploaded_file
 from djtools.utils.convert import str_to_class
@@ -99,23 +100,26 @@ def application_form(request, application_type, aid=None):
             try:
                 app = mod.objects.get(pk=aid, user=user)
             except:
-                app = None
+                return HttpResponseRedirect(reverse('dashboard_home'))
+
+
+        # verify that create_date is after grant cycle began
+        # otherwise redirect to dashboard home
+        if app.date_created < get_start_date():
+            # redirect to dashboard
+            return HttpResponseRedirect(reverse('dashboard_home'))
+
 
     # fetch the form class
     FormClass = str_to_class(
         "djspace.application.forms", (app_type+"Form")
     )
     # fetch the form instance
-
-    # debugging
-    form = FormClass(instance=app)
-    '''
     try:
         form = FormClass(instance=app)
     except:
         # app_type does not match an existing form
         raise Http404
-    '''
     # GET or POST
     if request.method == 'POST':
         try:
