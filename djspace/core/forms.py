@@ -145,26 +145,6 @@ class SignupForm(forms.Form):
         )
     )
 
-    '''
-    # not working: it is looking for fields like 'email', 'username', etc
-    def __init__(self,*args,**kwargs):
-        super(SignupForm, self).__init__(*args,**kwargs)
-
-        fields_key_order = [
-            'registration_type', 'salutation', 'first_name', 'second_name',
-            'last_name', 'date_of_birth','gender','race', 'tribe','disability',
-            'disability_specify','employment', 'us_citizen',
-            'address1_current', 'address2_current','city_current',
-            'state_current', 'postal_code_current',
-            'address1','address2', 'city','state','postal_code',
-            'phone_primary','phone_mobile', 'email_secondary'
-        ]
-        if (self.fields.has_key('keyOrder')):
-            self.fields.keyOrder = fields_key_order
-        else:
-            self.fields = OrderedDict((k, self.fields[k]) for k in fields_key_order)
-    '''
-
     def clean(self):
         cd = super(SignupForm, self).clean()
         # dob is required for this form
@@ -197,6 +177,7 @@ class SignupForm(forms.Form):
             self._errors["disability_specify"] = self.error_class(
                 ["Please describe your disability"]
             )
+
         # check if secondary email already exists in the system
         if cd.get("email_secondary"):
             try:
@@ -204,10 +185,16 @@ class SignupForm(forms.Form):
                 self._errors["email_secondary"] = self.error_class(
                     ["That email already exists in the system"]
                 )
+                raise forms.ValidationError(
+                    """
+                        You have submitted an email that already exists
+                        in the system. Please provide a different email.
+                    """
+                )
             except:
                 pass
-        return cd
 
+        return cd
 
     def signup(self, request, user):
         cd = self.cleaned_data
@@ -254,6 +241,18 @@ class SignupForm(forms.Form):
                 apply for grants from NASA.
                 """
             )
+
+    class Meta:
+        fields = [
+            'registration_type', 'salutation', 'first_name', 'second_name',
+            'last_name', 'date_of_birth','gender','race', 'tribe','disability',
+            'disability_specify','employment', 'military', 'us_citizen',
+            'address1_current', 'address2_current','city_current',
+            'state_current', 'postal_code_current',
+            'address1','address2', 'city','state','postal_code',
+            'phone_primary','phone_mobile', 'email_secondary'
+        ]
+
 
 class UserFilesForm(forms.ModelForm):
     """
