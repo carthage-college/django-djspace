@@ -95,12 +95,13 @@
                         {% if form.email_secondary.errors %}
                         <div class="required warning">
                             <span class="error-message">
-                                {{ field.errors|join:", "}}
+                                {{ form.email_secondary.errors|join:", "}}
                             </span>
                         {% else %}
-                            <div{% if field.field.required %} class="required"{% endif %}>
+                            <div{% if form.email_secondary.required %} class="required"{% endif %}>
                         {% endif %}
                         {{form.email_secondary}}
+                        </div>
                         </li>
                     </ol></fieldset>
                     <fieldset class="blockLabels">
