@@ -14,6 +14,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from djspace.application.forms import *
 from djspace.registration.forms import *
+from djspace.core.utils import get_start_date
 from djspace.core.utils import profile_status, files_status
 from djspace.core.utils import PROFESSIONAL_PROGRAMS
 from djspace.application.models import ROCKET_COMPETITIONS_EXCLUDE
@@ -75,21 +76,27 @@ def home(request):
     except:
         apps = None
 
+    # all applications
+    applications = []
+    # only approved, which we can eventually use to display list
     approved = []
     # we need the content type ID for rocket launch team only
     # since team leaders can upload file for that model
     team = {}
+    start_date = get_start_date()
     for a in apps.all():
-        if a.status:
-            approved.append(a)
-        if "rocketcompetition" in a.get_content_type().model:
-            # in case the team has no leader, somehow.
-            try:
-                if a.team.leader.id == user.id:
-                    team['ct'] = a.team.get_content_type().id
-                    team['id'] = a.team.id
-            except:
-                pass
+        if a.date_created >= start_date:
+            applications.append(a)
+            if a.status:
+                approved.append(a)
+            if "rocketcompetition" in a.get_content_type().model:
+                # in case the team has no leader, somehow.
+                try:
+                    if a.team.leader.id == user.id:
+                        team['ct'] = a.team.get_content_type().id
+                        team['id'] = a.team.id
+                except:
+                    pass
 
     if approved:
         user_files_status = files_status(user)
@@ -106,7 +113,7 @@ def home(request):
     return render_to_response(
         "dashboard/home.html", {
             "reg":reg,"status":status,"approved":approved,
-            "user_files":user_files,"team":team,
+            "user_files":user_files,"team":team,"applications":applications,
             "professional_programs":PROFESSIONAL_PROGRAMS,
             "rocket_competitions":ROCKET_COMPETITIONS_EXCLUDE
         },
