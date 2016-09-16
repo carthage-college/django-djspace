@@ -82,9 +82,14 @@ def home(request):
     for a in apps.all():
         if a.status:
             approved.append(a)
-        if "rocketcompetition" in a.get_content_type().model and a.team.leader.id == user.id:
-            team['ct'] = a.team.get_content_type().id
-            team['id'] = a.team.id
+        if "rocketcompetition" in a.get_content_type().model:
+            # in case the team has no leader, somehow.
+            try:
+                if a.team.leader.id == user.id:
+                    team['ct'] = a.team.get_content_type().id
+                    team['id'] = a.team.id
+            except:
+                pass
 
     if approved:
         user_files_status = files_status(user)
