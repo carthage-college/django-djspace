@@ -49,6 +49,7 @@ class GenericAdmin(admin.ModelAdmin):
     search_fields = (
         'user__last_name','user__first_name','user__email','user__username'
     )
+    list_filter   = ('status',)
 
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
