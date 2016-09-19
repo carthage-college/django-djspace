@@ -1,0 +1,49 @@
+{% if data.status %}
+  <h2>Profile Files</h2>
+  <ul>
+    {% if data.user.user_files.mugshot %}
+      <li>
+        <a href="{{media_url}}{{data.user.user_files.mugshot}}"
+          target="_blank">
+          Head shot
+        </a><br>
+        https://{{server_url}}{{media_url}}{{data.user.user_files.mugshot}}
+      </li>
+    {% else %}
+      <li>Head shot: Missing</li>
+    {% endif %}
+    {% if data.user.user_files.biography %}
+      <li>
+        <a href="{{media_url}}{{data.user.user_files.biography}}"
+          target="_blank">
+          Biography
+        </a><br>
+        https://{{server_url}}{{media_url}}{{data.user.user_files.biography}}
+      </li>
+    {% else %}
+      <li>Biography: Missing</li>
+    {% endif %}
+    {% if data.user.user_files.media_release %}
+      <li>
+        <a href="{{media_url}}{{data.user.user_files.media_release}}"
+          target="_blank">
+          Media release
+        </a><br>
+        https://{{server_url}}{{media_url}}{{data.user.user_files.media_release}}
+      </li>
+    {% else %}
+      <li>Media release form: Missing</li>
+    {% endif %}
+    {% if data.user.user_files.irs_w9 %}
+      <li>
+        <a href="{{media_url}}{{data.user.user_files.irs_w9}}" target="_blank">
+          IRS W9 form
+        </a><br>
+        https://{{server_url}}{{media_url}}{{data.user.user_files.irs_w9}}
+      </li>
+    {% else %}
+      <li>IRS W9 form: Missing</li>
+    {% endif %}
+
+  </ul>
+{% endif %}
