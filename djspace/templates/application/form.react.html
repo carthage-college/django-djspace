@@ -7,8 +7,210 @@
 <script type="text/javascript"
     src="//www.carthage.edu/static/vendor/jquery/plugins/jquery.word-and-character-counter.min.js"></script>
 {% else %}
-<script type="text/javascript"
-    src="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea-0.8.min.js"></script>
+<script src="https://unpkg.com/react@15.3.1/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15.3.1/dist/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/immutable/3.8.1/immutable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.4/es6-sham.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/draft-js/0.9.0/Draft.min.js"></script>
+<script type="text/babel">
+      'use strict';
+
+      const {Editor, EditorState, RichUtils} = Draft;
+
+      class RichEditorExample extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {editorState: EditorState.createEmpty()};
+
+          this.focus = () => this.refs.editor.focus();
+          this.onChange = (editorState) => this.setState({editorState});
+
+          this.handleKeyCommand = (command) => this._handleKeyCommand(command);
+          this.onTab = (e) => this._onTab(e);
+          this.toggleBlockType = (type) => this._toggleBlockType(type);
+          this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+        }
+
+        _handleKeyCommand(command) {
+          const {editorState} = this.state;
+          const newState = RichUtils.handleKeyCommand(editorState, command);
+          if (newState) {
+            this.onChange(newState);
+            return true;
+          }
+          return false;
+        }
+
+        _onTab(e) {
+          const maxDepth = 4;
+          this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+        }
+
+        _toggleBlockType(blockType) {
+          this.onChange(
+            RichUtils.toggleBlockType(
+              this.state.editorState,
+              blockType
+            )
+          );
+        }
+
+        _toggleInlineStyle(inlineStyle) {
+          this.onChange(
+            RichUtils.toggleInlineStyle(
+              this.state.editorState,
+              inlineStyle
+            )
+          );
+        }
+
+        render() {
+          const {editorState} = this.state;
+
+          // If the user changes block type before entering any text, we can
+          // either style the placeholder or hide it. Let's just hide it now.
+          let className = 'RichEditor-editor';
+          var contentState = editorState.getCurrentContent();
+          if (!contentState.hasText()) {
+            if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+              className += ' RichEditor-hidePlaceholder';
+            }
+          }
+
+          return (
+            <div className="RichEditor-root">
+              <BlockStyleControls
+                editorState={editorState}
+                onToggle={this.toggleBlockType}
+              />
+              <InlineStyleControls
+                editorState={editorState}
+                onToggle={this.toggleInlineStyle}
+              />
+              <div className={className} onClick={this.focus}>
+                <Editor
+                  blockStyleFn={getBlockStyle}
+                  customStyleMap={styleMap}
+                  editorState={editorState}
+                  handleKeyCommand={this.handleKeyCommand}
+                  onChange={this.onChange}
+                  onTab={this.onTab}
+                  placeholder="Tell a story..."
+                  ref="editor"
+                  spellCheck={true}
+                />
+              </div>
+            </div>
+          );
+        }
+      }
+
+      // Custom overrides for "code" style.
+      const styleMap = {
+        CODE: {
+          backgroundColor: 'rgba(0, 0, 0, 0.05)',
+          fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+          fontSize: 16,
+          padding: 2,
+        },
+      };
+
+      function getBlockStyle(block) {
+        switch (block.getType()) {
+          case 'blockquote': return 'RichEditor-blockquote';
+          default: return null;
+        }
+      }
+
+      class StyleButton extends React.Component {
+        constructor() {
+          super();
+          this.onToggle = (e) => {
+            e.preventDefault();
+            this.props.onToggle(this.props.style);
+          };
+        }
+
+        render() {
+          let className = 'RichEditor-styleButton';
+          if (this.props.active) {
+            className += ' RichEditor-activeButton';
+          }
+
+          return (
+            <span className={className} onMouseDown={this.onToggle}>
+              {this.props.label}
+            </span>
+          );
+        }
+      }
+
+      const BLOCK_TYPES = [
+        {label: 'H1', style: 'header-one'},
+        {label: 'H2', style: 'header-two'},
+        {label: 'H3', style: 'header-three'},
+        {label: 'H4', style: 'header-four'},
+        {label: 'H5', style: 'header-five'},
+        {label: 'H6', style: 'header-six'},
+        {label: 'Blockquote', style: 'blockquote'},
+        {label: 'UL', style: 'unordered-list-item'},
+        {label: 'OL', style: 'ordered-list-item'},
+        {label: 'Code Block', style: 'code-block'},
+      ];
+
+      const BlockStyleControls = (props) => {
+        const {editorState} = props;
+        const selection = editorState.getSelection();
+        const blockType = editorState
+          .getCurrentContent()
+          .getBlockForKey(selection.getStartKey())
+          .getType();
+
+        return (
+          <div className="RichEditor-controls">
+            {BLOCK_TYPES.map((type) =>
+              <StyleButton
+                key={type.label}
+                active={type.style === blockType}
+                label={type.label}
+                onToggle={props.onToggle}
+                style={type.style}
+              />
+            )}
+          </div>
+        );
+      };
+
+      var INLINE_STYLES = [
+        {label: 'Bold', style: 'BOLD'},
+        {label: 'Italic', style: 'ITALIC'},
+        {label: 'Underline', style: 'UNDERLINE'},
+        {label: 'Monospace', style: 'CODE'},
+      ];
+
+      const InlineStyleControls = (props) => {
+        var currentStyle = props.editorState.getCurrentInlineStyle();
+        return (
+          <div className="RichEditor-controls">
+            {INLINE_STYLES.map(type =>
+              <StyleButton
+                key={type.label}
+                active={currentStyle.has(type.style)}
+                label={type.label}
+                onToggle={props.onToggle}
+                style={type.style}
+              />
+            )}
+          </div>
+        );
+      };
+
+      ReactDOM.render(
+        <RichEditorExample />,
+        document.getElementById('target')
+      );
+</script>
 {% endif %}
 <script src="//www.carthage.edu/static/vendor/jquery/ui/datepicker/js/jquery-ui-1.10.4.custom.min.js"
     type="text/javascript" charset="utf-8"></script>
@@ -45,14 +247,6 @@ $(function() {
     });
     $("div[id$='_counter']").css({ fontSize: ".9em", color: "red"});
     {% else %}
-    $("textarea").htmlarea({
-        toolbar: [
-            "html","bold", "italic", "underline", "superscript",
-            "subscript", "|", "h1", "h2", "h3", "h4", "h5", "h6",
-            "|", "indent", "outdent", "horizontalrule", "link",
-            "unlink", "|", "orderedList", "unorderedList"
-        ]
-    });
     $("[id^=id_][id$=_date]").datepicker({
         firstDay:1,appendText:"(format yyyy-mm-dd)",
         changeFirstDay:false,dateFormat:"yy-mm-dd",
@@ -170,10 +364,11 @@ $(function() {
 {{block.super}}
 <link href="//www.carthage.edu/static/vendor/jquery/ui/datepicker/css/smoothness/jquery-ui-1.10.4.custom.min.css"
     rel="stylesheet" type="text/css" />
-<link href="//www.carthage.edu/static/vendor/jquery/plugins/jHtmlArea/jHtmlArea.css"
-    rel="stylesheet" type="text/css" />
 <link href="//www.carthage.edu/static/vendor/jquery/ui/current/jquery-ui.min.css"
     rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/draft-js/0.9.0/Draft.css" />
+<link rel="stylesheet" href="/static/djspace/css/RichEditor.css" />
 <style type="text/css" media="screen, projection">
     .form h3, .h3back {background-color: #efefef; padding: 0 5px; }
     .help {margin:5px 0 9px 9px;}
@@ -218,6 +413,7 @@ $(function() {
 {% endblock %}
 {% block content %}
 {% include "application/intro_instructions.inc.html" %}
+<div id="target"></div>
 <div class="forms-container clear">
     {% if form %}
     <form class="form" enctype="multipart/form-data" action="."
