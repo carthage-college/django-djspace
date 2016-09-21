@@ -11,7 +11,7 @@ from django.shortcuts import render_to_response
 from django.template import loader, Context, RequestContext
 
 from djspace.application.models import *
-from djspace.core.utils import get_start_date
+from djspace.core.utils import admin_display_file, get_start_date
 from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
 from djspace.registration.admin import PROFILE_HEADERS, get_profile_fields
 from djtools.fields import TODAY
@@ -21,6 +21,7 @@ from openpyxl.writer.excel import save_virtual_workbook
 
 import csv
 import io
+
 
 def get_queryset(self, request, admin_class):
     """
@@ -93,26 +94,22 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     model = HighAltitudeBalloonLaunch
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'cv_link', 'letter_interest_link',
+        'cv_file', 'letter_interest_file',
         'date_created','date_updated',
         'status'
     ]
     list_editable = ['status']
     actions = [export_longitudinal_tracking]
 
-    def cv_link(self, instance):
-        return '<a href="{}" target="_blank">CV</a>'.format(
-            instance.cv.url
-        )
-    cv_link.allow_tags = True
-    cv_link.short_description = "CV"
+    def cv_file(self, instance):
+        return admin_display_file(instance,"cv")
+    cv_file.allow_tags = True
+    cv_file.short_description = "CV"
 
-    def letter_interest_link(self, instance):
-        return '<a href="{}" target="_blank">Letter</a>'.format(
-            instance.letter_interest.url
-        )
-    letter_interest_link.allow_tags = True
-    letter_interest_link.short_description = "Letter of interest"
+    def letter_interest_file(self, instance):
+        return admin_display_file(instance,"letter_interest")
+    letter_interest_file.allow_tags = True
+    letter_interest_file.short_description = "Interest"
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, HighAltitudeBalloonLaunchAdmin)
@@ -133,12 +130,12 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     model = ClarkGraduateFellowship
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'begin_date', 'end_date',
-        'anticipating_funding', 'funds_requested', 'funds_authorized',
-        'synopsis_trunk', 'signed_certification_link', 'proposal_link',
-        'cv_link', 'budget_link', 'undergraduate_transcripts_link',
-        'graduate_transcripts_link', 'recommendation_1_link',
-        'recommendation_2_link', 'date_created','date_updated','status'
+        'signed_certification_file','proposal_file','cv_file', 'budget_file',
+        'undergraduate_transcripts_file','graduate_transcripts_file',
+        'recommendation_1_file','recommendation_2_file',
+        'project_title','begin_date','end_date',
+        'anticipating_funding','funds_requested','funds_authorized',
+        'synopsis_trunk','date_created','date_updated','status'
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
@@ -151,71 +148,45 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
-    def signed_certification_link(self, instance):
-        return '<a href="{}" target="_blank">Signed Certification</a>'.format(
-            instance.signed_certification.url
-        )
-    signed_certification_link.allow_tags = True
-    signed_certification_link.short_description = "Signed Certification"
+    def signed_certification_file(self, instance):
+        return admin_display_file(instance,"signed_certification")
+    signed_certification_file.allow_tags = True
+    signed_certification_file.short_description = "Signed Cert"
 
-    def proposal_link(self, instance):
-        return '<a href="{}" target="_blank">Proposal</a>'.format(
-            instance.proposal.url
-        )
-    proposal_link.allow_tags = True
-    proposal_link.short_description = 'Proposal file'
+    def proposal_file(self, instance):
+        return admin_display_file(instance,"proposal")
+    proposal_file.allow_tags = True
+    proposal_file.short_description = 'Proposal'
 
-    def cv_link(self, instance):
-        return '<a href="{}" target="_blank">CV</a>'.format(
-            instance.cv.url
-        )
-    cv_link.allow_tags = True
-    cv_link.short_description = "CV"
+    def cv_file(self, instance):
+        return admin_display_file(instance,"cv")
+    cv_file.allow_tags = True
+    cv_file.short_description = "CV"
 
-    def budget_link(self, instance):
-        return '<a href="{}" target="_blank">Budget</a>'.format(
-            instance.budget.url
-        )
-    budget_link.allow_tags = True
-    budget_link.short_description = "Budget"
+    def budget_file(self, instance):
+        return admin_display_file(instance,"budget")
+    budget_file.allow_tags = True
+    budget_file.short_description = "Budget"
 
-    def undergraduate_transcripts_link(self, instance):
-        return '<a href="{}" target="_blank">Undergraduate Transcripts</a>'.format(
-            instance.undergraduate_transcripts.url
-        )
-    undergraduate_transcripts_link.allow_tags = True
-    undergraduate_transcripts_link.short_description = "Undergraduate Transcripts"
+    def undergraduate_transcripts_file(self, instance):
+        return admin_display_file(instance,"undergraduate_transcripts")
+    undergraduate_transcripts_file.allow_tags = True
+    undergraduate_transcripts_file.short_description = "UG Trans"
 
-    def graduate_transcripts_link(self, instance):
-        return '<a href="{}" target="_blank">Graduate Transcripts</a>'.format(
-            instance.graduate_transcripts.url
-        )
-    graduate_transcripts_link.allow_tags = True
-    graduate_transcripts_link.short_description = "Graduate Transcripts"
+    def graduate_transcripts_file(self, instance):
+        return admin_display_file(instance,"graduate_transcripts")
+    graduate_transcripts_file.allow_tags = True
+    graduate_transcripts_file.short_description = "GR Trans"
 
-    def recommendation_1_link(self, instance):
-        try:
-            code = '<a href="{}" target="_blank">Rec. 1</a>'.format(
-                instance.recommendation_1.url
-            )
-        except:
-            code = None
-        return code
+    def recommendation_1_file(self, instance):
+        return admin_display_file(instance,"recommendation_1")
+    recommendation_1_file.allow_tags = True
+    recommendation_1_file.short_description = "Recom 1"
 
-    recommendation_1_link.allow_tags = True
-    recommendation_1_link.short_description = "Recommendation 1"
-
-    def recommendation_2_link(self, instance):
-        try:
-            code = '<a href="{}" target="_blank">Rec. 2</a>'.format(
-                instance.recommendation_2.url
-            )
-        except:
-            code = None
-        return code
-
-    recommendation_2_link.allow_tags = True
-    recommendation_2_link.short_description = "Recommendation 2"
+    def recommendation_2_file(self, instance):
+        return admin_display_file(instance,"recommendation_2")
+    recommendation_2_file.allow_tags = True
+    recommendation_2_file.short_description = "Recom 2"
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, ClarkGraduateFellowshipAdmin)
@@ -236,56 +207,30 @@ class UndergraduateAdmin(GenericAdmin):
     base admin class for the various undergrad applications
     """
 
-    def signed_certification_link(self, instance):
-        return '<a href="{}" target="_blank">Signed Certification</a>'.format(
-            instance.signed_certification.url
-        )
-    signed_certification_link.allow_tags = True
-    signed_certification_link.short_description = "Signed Certification"
+    def signed_certification_file(self, instance):
+        return admin_display_file(instance,"signed_certification")
+    signed_certification_file.allow_tags = True
+    signed_certification_file.short_description = "Signed Cert"
 
-    def high_school_transcripts_link(self, instance):
-        try:
-            code ='<a href="{}" target="_blank">High School Transcripts</a>'.format(
-                instance.high_school_transcripts.url
-            )
-        except:
-            code = None
-        return code
-    high_school_transcripts_link.allow_tags = True
-    high_school_transcripts_link.short_description = "High School Transcripts"
+    def high_school_transcripts_file(self, instance):
+        return admin_display_file(instance,"high_school_transcripts")
+    high_school_transcripts_file.allow_tags = True
+    high_school_transcripts_file.short_description = "HS Trans"
 
-    def undergraduate_transcripts_link(self, instance):
-        return '<a href="{}" target="_blank">Undergraduate Transcripts</a>'.format(
-            instance.undergraduate_transcripts.url
-        )
-    undergraduate_transcripts_link.allow_tags = True
-    undergraduate_transcripts_link.short_description = """
-        Undergraduate Transcripts
-    """
+    def undergraduate_transcripts_file(self, instance):
+        return admin_display_file(instance,"undergraduate_transcripts")
+    undergraduate_transcripts_file.allow_tags = True
+    undergraduate_transcripts_file.short_description = "UG Trans"
 
-    def wsgc_advisor_recommendation_link(self, instance):
-        try:
-            code = '<a href="{}" target="_blank">WSGC Advisor Rec.</a>'.format(
-                instance.wsgc_advisor_recommendation.url
-            )
-        except:
-            code = None
-        return code
-    wsgc_advisor_recommendation_link.allow_tags = True
-    wsgc_advisor_recommendation_link.short_description = """
-        WSGC Advisor Recommendation
-    """
+    def wsgc_advisor_recommendation_file(self, instance):
+        return admin_display_file(instance,"wsgc_advisor_recommendation")
+    wsgc_advisor_recommendation_file.allow_tags = True
+    wsgc_advisor_recommendation_file.short_description = "WSGC Advisor Recom"
 
-    def recommendation_link(self, instance):
-        try:
-            code = '<a href="{}" target="_blank">Recommendation</a>'.format(
-                instance.recommendation.url
-            )
-        except:
-            code = None
-        return code
-    recommendation_link.allow_tags = True
-    recommendation_link.short_description = "Recommendation"
+    def recommendation_file(self, instance):
+        return admin_display_file(instance,"recommendation")
+    recommendation_file.allow_tags = True
+    recommendation_file.short_description = "Recommendation"
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, UndergraduateAdmin)
@@ -297,12 +242,13 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     model = UndergraduateResearch
 
     list_display  = PROFILE_LIST_DISPLAY + [
+        'signed_certification_file','proposal_file',
+        'high_school_transcripts_file','undergraduate_transcripts_file',
+        'wsgc_advisor_recommendation_file','recommendation_file',
         'project_title', 'begin_date', 'end_date',
         'funds_requested','funds_authorized',
         'other_funding', 'other_funding_explain',
-        'synopsis_trunk','signed_certification_link','proposal_link',
-        'high_school_transcripts_link','undergraduate_transcripts_link',
-        'wsgc_advisor_recommendation_link','recommendation_link',
+        'synopsis_trunk',
         'other_funding', 'other_funding_explain',
         'date_created','date_updated','status'
     ]
@@ -317,12 +263,10 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
-    def proposal_link(self, instance):
-        return '<a href="{}" target="_blank">Proposal</a>'.format(
-            instance.proposal.url
-        )
-    proposal_link.allow_tags = True
-    proposal_link.short_description = 'Proposal'
+    def proposal_file(self, instance):
+        return admin_display_file(instance,"proposal")
+    proposal_file.allow_tags = True
+    proposal_file.short_description = 'Proposal'
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, UndergraduateResearchAdmin)
@@ -334,9 +278,9 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     model = UndergraduateScholarship
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'signed_certification_link','statement_link',
-        'high_school_transcripts_link','undergraduate_transcripts_link',
-        'wsgc_advisor_recommendation_link','recommendation_link',
+        'signed_certification_file','statement_file',
+        'high_school_transcripts_file','undergraduate_transcripts_file',
+        'wsgc_advisor_recommendation_file','recommendation_file',
         'academic_institution',
         'other_funding', 'other_funding_explain',
         'date_created','date_updated','status'
@@ -344,12 +288,10 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     list_editable = ['status']
     actions = [export_longitudinal_tracking]
 
-    def statement_link(self, instance):
-        return '<a href="{}" target="_blank">Statement</a>'.format(
-            instance.statement.url
-        )
-    statement_link.allow_tags = True
-    statement_link.short_description = 'Statement'
+    def statement_file(self, instance):
+        return admin_display_file(instance,"statement")
+    statement_file.allow_tags = True
+    statement_file.short_description = 'Statement'
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, UndergraduateScholarshipAdmin)
@@ -370,39 +312,105 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     model = RocketLaunchTeam
 
     list_display  = PROFILE_LIST_DISPLAY + [
+        'wsgc_acknowledgement_file','budget_file',
+        'interim_progress_report_file','preliminary_design_report_file',
+        'final_design_report_file','team_roster_file','flight_demo_file',
+        'final_motor_selection_file','lodging_list_file',
+        'critical_design_report_file','post_flight_performance_report_file',
+        'education_outreach_file','flight_readiness_report_file',
+        'proceeding_paper_file',
         'name','academic_institution_name','competition','leader',
         'industry_mentor_name','industry_mentor_email',
-        'date_created','date_updated',
-        'wsgc_acknowledgement_link','budget_link','status'
+        'date_created','date_updated','status'
     ]
     list_display_links = ['name']
     list_editable = ['status']
     raw_id_fields = ("user","leader","members",)
 
-    def wsgc_acknowledgement_link(self, instance):
-        if instance.wsgc_acknowledgement:
-            return '<a href="{}" target="_blank">WSGC Acknowledgement</a>'.format(
-                instance.wsgc_acknowledgement.url
-            )
-        else:
-            return None
-
-    wsgc_acknowledgement_link.allow_tags = True
-    wsgc_acknowledgement_link.short_description = "WSGC Acknowledgement"
-
-    def budget_link(self, instance):
-        if instance.budget:
-            return '<a href="{}" target="_blank">Budget</a>'.format(
-                instance.budget.url
-            )
-        else:
-            return None
-    budget_link.allow_tags = True
-    budget_link.short_description = "Budget"
-
     def get_queryset(self, request):
         qs = get_queryset(self, request, RocketLaunchTeamAdmin)
         return qs
+
+    # files
+    def wsgc_acknowledgement_file(self, instance):
+        return admin_display_file(instance,"wsgc_acknowledgement")
+    wsgc_acknowledgement_file.allow_tags = True
+    wsgc_acknowledgement_file.short_description = "WSGC Ack"
+
+    def budget_file(self, instance):
+        return admin_display_file(instance,"budget")
+    budget_file.allow_tags = True
+    budget_file.short_description = "Budget"
+
+    def interim_progress_report_file(self, instance):
+        return admin_display_file(instance,"interim_progress_report")
+    interim_progress_report_file.allow_tags = True
+    interim_progress_report_file.short_description = "Interim Rpt"
+
+    def preliminary_design_report_file(self, instance):
+        return admin_display_file(instance,"preliminary_design_report")
+    preliminary_design_report_file.allow_tags = True
+    preliminary_design_report_file.short_description = "Prelim Design Rpt"
+
+    def final_design_report_file(self, instance):
+        return admin_display_file(instance,"final_design_report")
+    final_design_report_file.allow_tags = True
+    final_design_report_file.short_description = "Final Design Rpt"
+
+    def team_roster_file(self, instance):
+        return admin_display_file(instance,"team_roster")
+    team_roster_file.allow_tags = True
+    team_roster_file.short_description = "Roster"
+
+    def flight_demo_file(self, instance):
+        return admin_display_file(instance,"flight_demo")
+    flight_demo_file.allow_tags = True
+    flight_demo_file.short_description = "Flight Demo"
+
+    def final_motor_selection_file(self, instance):
+        return admin_display_file(instance,"final_motor_selection")
+    final_motor_selection_file.allow_tags = True
+    final_motor_selection_file.short_description = "Final Motor"
+
+    def lodging_list_file(self, instance):
+        return admin_display_file(instance,"lodging_list")
+    lodging_list_file.allow_tags = True
+    lodging_list_file.short_description = "Lodging"
+
+    def critical_design_report_file(self, instance):
+        return admin_display_file(instance,"critical_design_report")
+    critical_design_report_file.allow_tags = True
+    critical_design_report_file.short_description = "Critical design"
+
+    def oral_presentation_file(self, instance):
+        return admin_display_file(instance,"oral_presentation")
+    oral_presentation_file.allow_tags = True
+    oral_presentation_file.short_description = "Oral Pres."
+
+    def post_flight_performance_report_file(self, instance):
+        return admin_display_file(instance,"post_flight_performance_report")
+    post_flight_performance_report_file.allow_tags = True
+    post_flight_performance_report_file.short_description = "Post flight"
+
+    def education_outreach_file(self, instance):
+        return admin_display_file(instance,"education_outreach")
+    education_outreach_file.allow_tags = True
+    education_outreach_file.short_description = "Edu. Outreach"
+
+    def flight_readiness_report_file(self, instance):
+        return admin_display_file(instance,"flight_readiness_report")
+    flight_readiness_report_file.allow_tags = True
+    flight_readiness_report_file.short_description = "Flight Ready"
+
+    def proceeding_paper_file(self, instance):
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        if instance.proceeding_paper:
+            icon = '''
+              <i class="fa fa-check green" aria-hidden="true" title="{}"></i>
+            '''.format(instance.proceeding_paper)
+        return icon
+    proceeding_paper_file.allow_tags = True
+    proceeding_paper_file.short_description = "Proceeding PPT"
 
 
 class CollegiateRocketCompetitionAdmin(GenericAdmin):
@@ -410,18 +418,16 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     model = CollegiateRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'team','date_created','date_updated','cv_link','status'
+        'cv_file','team','date_created','date_updated','status'
     ]
     list_display_links = ['team']
     list_editable = ['status']
     actions = [export_longitudinal_tracking]
 
-    def cv_link(self, instance):
-        return '<a href="{}" target="_blank">CV</a>'.format(
-            instance.cv.url
-        )
-    cv_link.allow_tags = True
-    cv_link.short_description = "CV"
+    def cv_file(self, instance):
+        return admin_display_file(instance,"cv")
+    cv_file.allow_tags = True
+    cv_file.short_description = "CV"
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, CollegiateRocketCompetitionAdmin)
@@ -433,21 +439,21 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     model = MidwestHighPoweredRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'team','date_created','date_updated','cv_link','status'
+        'team','date_created','date_updated','cv_file','status'
     ]
     list_display_links = ['team']
     list_editable = ['status']
     actions = [export_longitudinal_tracking]
 
-    def cv_link(self, instance):
-        return '<a href="{}" target="_blank">CV</a>'.format(
-            instance.cv.url
-        )
-    cv_link.allow_tags = True
-    cv_link.short_description = "CV"
+    def cv_file(self, instance):
+        return admin_display_file(instance,"cv")
+    cv_file.allow_tags = True
+    cv_file.short_description = "CV"
 
     def get_queryset(self, request):
-        qs = get_queryset(self, request, MidwestHighPoweredRocketCompetitionAdmin)
+        qs = get_queryset(
+            self,request,MidwestHighPoweredRocketCompetitionAdmin
+        )
         return qs
 
 
@@ -472,12 +478,13 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'begin_date', 'end_date', 'award_type',
-        'funds_requested', 'funds_authorized',
-        'proposed_match', 'authorized_match', 'source_match', 'location',
-        'synopsis_trunk', 'proposal_link',
-        'finance_officer_name', 'finance_officer_address',
-        'finance_officer_email', 'finance_officer_phone',
+        'invoice_file','program_match_file','payment_information_file',
+        'project_title','begin_date','end_date','award_type',
+        'funds_requested','funds_authorized',
+        'proposed_match','authorized_match','source_match','location',
+        'synopsis_trunk','proposal_file',
+        'finance_officer_name','finance_officer_address',
+        'finance_officer_email','finance_officer_phone',
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
         'date_created','date_updated','status'
@@ -493,16 +500,29 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
-    def proposal_link(self, instance):
-        return '<a href="{}" target="_blank">Proposal</a>'.format(
-            instance.proposal.url
-        )
-    proposal_link.allow_tags = True
-    proposal_link.short_description = 'Proposal file'
+    def proposal_file(self, instance):
+        return admin_display_file(instance,"proposal")
+    proposal_file.allow_tags = True
+    proposal_file.short_description = 'Proposal'
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, HigherEducationInitiativesAdmin)
         return qs
+
+    def invoice_file(self, instance):
+        return admin_display_file(instance,"invoice")
+    invoice_file.allow_tags = True
+    invoice_file.short_description = "Invoice"
+
+    def program_match_file(self, instance):
+        return admin_display_file(instance,"program_match")
+    program_match_file.allow_tags = True
+    program_match_file.short_description = "Program match"
+
+    def payment_information_file(self, instance):
+        return admin_display_file(instance,"payment_information")
+    payment_information_file.allow_tags = True
+    payment_information_file.short_description = "Payment information"
 
 
 class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
@@ -519,13 +539,14 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
     model = AerospaceOutreach
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'project_title', 'begin_date', 'end_date', 'project_category',
-        'funds_requested', 'funds_authorized',
-        'other_funding', 'other_funding_explain',
-        'proposed_match', 'authorized_match', 'source_match', 'location',
-        'synopsis_trunk', 'proposal_link',
-        'finance_officer_name', 'finance_officer_address',
-        'finance_officer_email', 'finance_officer_phone',
+        'invoice_file','program_match_file','payment_information_file',
+        'project_title','begin_date','end_date','project_category',
+        'proposal_file','funds_requested','funds_authorized',
+        'other_funding','other_funding_explain',
+        'proposed_match','authorized_match','source_match','location',
+        'synopsis_trunk',
+        'finance_officer_name','finance_officer_address',
+        'finance_officer_email','finance_officer_phone',
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
         'date_created','date_updated','status'
@@ -541,14 +562,15 @@ class NasaCompetitionAdmin(GenericAdmin):
     model = NasaCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        "competition_type", "competition_type_other",
-        "facility_name", "facility_name_other",
-        "program_acceptance", "award_type",
-        'begin_date', 'end_date', 'funds_requested', 'funds_authorized',
-        'proposed_match', 'authorized_match', 'source_match',
-        'statement_link', 'budget_link',
-        'finance_officer_name', 'finance_officer_address',
-        'finance_officer_email', 'finance_officer_phone',
+        'invoice_file','program_match_file','payment_information_file',
+        'statement_file','budget_file',
+        'competition_type','competition_type_other',
+        'facility_name','facility_name_other',
+        'program_acceptance','award_type',
+        'begin_date','end_date','funds_requested','funds_authorized',
+        'proposed_match','authorized_match','source_match',
+        'finance_officer_name','finance_officer_address',
+        'finance_officer_email','finance_officer_phone',
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
         'date_created','date_updated','status'
@@ -558,26 +580,34 @@ class NasaCompetitionAdmin(GenericAdmin):
     #date_created.short_description = 'Created (edit)'
     actions = [export_longitudinal_tracking]
 
-    def budget_link(self, instance):
-        if instance.budget:
-            return '<a href="{}" target="_blank">Budget</a>'.format(
-                instance.budget.url
-            )
-        else:
-            return None
-    budget_link.allow_tags = True
-    budget_link.short_description = "Budget"
-
-    def statement_link(self, instance):
-        return '<a href="{}" target="_blank">Statement</a>'.format(
-            instance.statement.url
-        )
-    statement_link.allow_tags = True
-    statement_link.short_description = 'Statement'
-
     def get_queryset(self, request):
         qs = get_queryset(self, request, NasaCompetitionAdmin)
         return qs
+
+    def budget_file(self, instance):
+        return admin_display_file(instance,"budget")
+    budget_file.allow_tags = True
+    budget_file.short_description = "Budget"
+
+    def statement_file(self, instance):
+        return admin_display_file(instance,"statement")
+    statement_file.allow_tags = True
+    statement_file.short_description = 'Statement'
+
+    def invoice_file(self, instance):
+        return admin_display_file(instance,"invoice")
+    invoice_file.allow_tags = True
+    invoice_file.short_description = "Invoice"
+
+    def program_match_file(self, instance):
+        return admin_display_file(instance,"program_match")
+    program_match_file.allow_tags = True
+    program_match_file.short_description = "Program match"
+
+    def payment_information_file(self, instance):
+        return admin_display_file(instance,"payment_information")
+    payment_information_file.allow_tags = True
+    payment_information_file.short_description = "Payment information"
 
 
 class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
@@ -597,9 +627,10 @@ class WorkPlanTaskInline(admin.TabularInline):
 class IndustryInternshipAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'award_type',
-        'funds_requested', 'funds_authorized',
-        'proposed_match', 'authorized_match', 'source_match',
+        'budget_file','invoice_file','program_match_file',
+        'payment_information_file','award_type',
+        'funds_requested','funds_authorized',
+        'proposed_match','authorized_match','source_match',
         'date_created','date_updated','status'
     ]
 
@@ -612,6 +643,26 @@ class IndustryInternshipAdmin(GenericAdmin):
     def get_queryset(self, request):
         qs = get_queryset(self, request, IndustryInternshipAdmin)
         return qs
+
+    def budget_file(self, instance):
+        return admin_display_file(instance,"budget")
+    budget_file.allow_tags = True
+    budget_file.short_description = "Budget"
+
+    def invoice_file(self, instance):
+        return admin_display_file(instance,"invoice")
+    invoice_file.allow_tags = True
+    invoice_file.short_description = "Invoice"
+
+    def program_match_file(self, instance):
+        return admin_display_file(instance,"program_match")
+    program_match_file.allow_tags = True
+    program_match_file.short_description = "Program match"
+
+    def payment_information_file(self, instance):
+        return admin_display_file(instance,"payment_information")
+    payment_information_file.allow_tags = True
+    payment_information_file.short_description = "Payment information"
 
 '''
 class WorkPlanTaskAdmin(admin.ModelAdmin):

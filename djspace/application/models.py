@@ -255,20 +255,6 @@ class EducationInitiatives(BaseModel):
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
     )
-    interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'interim_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
-    final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'final_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),
         validators=[MimetypeValidator('application/pdf')],
@@ -914,20 +900,6 @@ class HighAltitudeBalloon(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
-    interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'interim_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
-    final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'final_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
 
     @models.permalink
     def get_absolute_url(self):
@@ -1112,20 +1084,6 @@ class Fellowship(BaseModel):
         max_length = 128
     )
     mentor_email = models.EmailField("Mentor's Email")
-    interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'interim_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
-    final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'final_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
 
     def __unicode__(self):
         return u"{}".format(self.project_title)
@@ -1265,20 +1223,6 @@ class UndergraduateResearch(BaseModel):
         max_length = 128
     )
     mentor_email = models.EmailField("Mentor's Email")
-    interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'interim_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
-    final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'final_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
 
     def __unicode__(self):
         return u"{}".format(self.project_title)
@@ -1395,20 +1339,6 @@ class Scholarship(BaseModel):
         max_length=255,
         null = True, blank = True
     )
-    interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'interim_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
-    final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'final_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
 
     def get_academic_institution(self):
         term = "FA"
@@ -1518,6 +1448,7 @@ class NasaCompetition(BaseModel):
     )
     begin_date = models.DateField()
     end_date = models.DateField()
+    # files
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'statement'),
         validators = [MimetypeValidator('application/pdf')],
@@ -1530,6 +1461,7 @@ class NasaCompetition(BaseModel):
         max_length = 768,
         help_text = "PDF format"
     )
+    # finance officer
     finance_officer_name = models.CharField(
         "Name",
         max_length = 128
@@ -1541,6 +1473,7 @@ class NasaCompetition(BaseModel):
         max_length = 12,
         help_text = "Format: XXX-XXX-XXXX"
     )
+    # grant officer
     grant_officer_name = models.CharField(
         "Name",
         max_length=128
@@ -1595,20 +1528,7 @@ class NasaCompetition(BaseModel):
         max_length=128,
         null = True, blank = True
     )
-    interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'interim_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
-    final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'final_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
+    # files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),
         validators=[MimetypeValidator('application/pdf')],
@@ -1794,26 +1714,13 @@ class IndustryInternship(BaseModel):
             filled with students qualified to be funded through the WSGC.
         '''
     )
+    # files
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         null = True, blank = True,
         help_text = "PDF format"
-    )
-    interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'interim_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
-    final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'final_report'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
     )
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),

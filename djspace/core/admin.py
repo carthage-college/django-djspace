@@ -5,17 +5,17 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.admin import UserAdmin
 
 from djspace.core.models import UserProfile, GenericChoice
-from djspace.core.utils import get_email_auxiliary
+from djspace.core.utils import admin_display_file, get_email_auxiliary
 
 PROFILE_LIST_DISPLAY = [
     'salutation','last_name','first_name','date_of_birth',
-    'email',
-    'date_created','date_updated','registration_type',
-    'email_auxiliary', 'phone_primary','phone_mobile',
+    'email','date_created','date_updated','registration_type',
+    'email_auxiliary','phone_primary','phone_mobile',
     'address1','address2','city','state','postal_code',
-    'address1_current','address2_current', 'city_current','state_current',
+    'address1_current','address2_current','city_current','state_current',
     'postal_code_current','gender','race','tribe',
     'disability','disability_specify','employment','military','us_citizen',
+    'award_acceptance_file','interim_report_file','final_report_file'
 ]
 
 class GenericAdmin(admin.ModelAdmin):
@@ -56,6 +56,14 @@ class GenericAdmin(admin.ModelAdmin):
 
     # user/profile data
     salutation =  lambda s, o: o.user.profile.salutation
+
+    class Media:
+        css = {
+             'all': (
+                'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css',
+                '/static/djspace/css/admin.css'
+            )
+        }
 
     def first_name(self, obj):
         return obj.user.first_name
@@ -167,6 +175,21 @@ class GenericAdmin(admin.ModelAdmin):
 
     def date_of_birth(self, obj):
         return obj.user.profile.date_of_birth
+
+    def award_acceptance_file(self, instance):
+        return admin_display_file(instance, "award_acceptance")
+    award_acceptance_file.allow_tags = True
+    award_acceptance_file.short_description = "Award Accpt"
+
+    def interim_report_file(self, instance):
+        return admin_display_file(instance, "interim_report")
+    interim_report_file.allow_tags = True
+    interim_report_file.short_description = "Interim Rpt"
+
+    def final_report_file(self, instance):
+        return admin_display_file(instance, "final_report")
+    final_report_file.allow_tags = True
+    final_report_file.short_description = "Final Rpt"
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user

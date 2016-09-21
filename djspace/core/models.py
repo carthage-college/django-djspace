@@ -122,6 +122,20 @@ class BaseModel(Base):
         null=True, blank=True,
         help_text="PDF format"
     )
+    interim_report = models.FileField(
+        upload_to = partial(upload_to_path, 'interim_report'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    final_report = models.FileField(
+        upload_to = partial(upload_to_path, 'final_report'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
 
     def get_file_path(self):
         return "files/applications"

@@ -160,3 +160,12 @@ def get_email_auxiliary(user):
     else:
         return None
 
+def admin_display_file(instance, field):
+    icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+    attr = getattr(instance, field)
+    if attr:
+        icon = '''<a href="{}" target="_blank">
+          <i class="fa fa-check green" aria-hidden="true"></i>
+        </a>'''.format(attr.url)
+    return icon
+
