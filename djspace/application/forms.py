@@ -414,7 +414,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         model = FirstNationsRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance'
+            'award_acceptance','interim_report','final_report'
         )
 
 
@@ -449,7 +449,7 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         model = MidwestHighPoweredRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance'
+            'award_acceptance','interim_report','final_report'
         )
 
     def __init__(self, *args, **kwargs):
@@ -478,7 +478,7 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         model = CollegiateRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'award_acceptance',
+            'award_acceptance','interim_report','final_report'
         )
 
 
