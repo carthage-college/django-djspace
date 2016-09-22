@@ -7,7 +7,8 @@ from django.contrib.auth.admin import UserAdmin
 from djspace.core.models import UserProfile, GenericChoice
 from djspace.core.utils import admin_display_file, get_email_auxiliary
 
-PROFILE_LIST_DISPLAY = [
+# base list that all registration types and program applications can use
+PROFILE_LIST = [
     'salutation','last_name','first_name','date_of_birth',
     'email','date_created','date_updated','registration_type',
     'email_auxiliary','phone_primary','phone_mobile',
@@ -15,6 +16,9 @@ PROFILE_LIST_DISPLAY = [
     'address1_current','address2_current','city_current','state_current',
     'postal_code_current','gender','race','tribe',
     'disability','disability_specify','employment','military','us_citizen',
+]
+# program applications all have the following files in common
+PROFILE_LIST_DISPLAY = PROFILE_LIST + [
     'award_acceptance_file','interim_report_file','final_report_file'
 ]
 
@@ -49,7 +53,6 @@ class GenericAdmin(admin.ModelAdmin):
     search_fields = (
         'user__last_name','user__first_name','user__email','user__username'
     )
-    list_filter   = ('status',)
 
     list_per_page = 500
     raw_id_fields = ("user","updated_by",)
