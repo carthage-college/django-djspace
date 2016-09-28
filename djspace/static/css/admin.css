@@ -1,0 +1,22 @@
+.red{color:red;}
+.green{color:green;}
+
+thead th {
+    text-transform: none;
+}
+.field-award_acceptance_file,.field-wsgc_acknowledgement_file,
+.field-budget_file,.field-interim_progress_report_file,
+.field-preliminary_design_report_file,.field-final_design_report_file,
+.field-team_roster_file,.field-flight_demo_file,
+.field-final_motor_selection_file,.field-lodging_list_file,
+.field-critical_design_report_file,.field-post_flight_performance_report_file,
+.field-education_outreach_file,.field-flight_readiness_report_file,
+.field-proceeding_paper_file,.field-interim_report_file,
+.field-final_report_file,.field-invoice_file,.field-program_match_file,
+.field-payment_information_file,.field-letter_interest_file,.field-cv_file,
+.field-signed_certification_file,.field-proposal_file,
+.field-undergraduate_transcripts_file,.field-graduate_transcripts_file,
+.field-recommendation_1_file,.field-recommendation_2_file,
+.field-high_school_transcripts_file,.field-wsgc_advisor_recommendation_file,
+.field-recommendation_file,.field-statement_file
+{text-align:center;}
