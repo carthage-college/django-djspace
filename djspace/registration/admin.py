@@ -4,7 +4,7 @@ from django.utils.encoding import smart_str
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 
-from djspace.core.admin import GenericAdmin
+from djspace.core.admin import GenericAdmin, PROFILE_LIST
 from djspace.registration.models import *
 
 import csv
@@ -90,6 +90,8 @@ class UndergraduateAdmin(GenericAdmin):
 
     model = Undergraduate
     actions = [export_registrants]
+    list_display = PROFILE_LIST
+    list_filter   = ()
 
     def last_name(self, obj):
         return u'<a href="{}">{}</a>'.format(
@@ -104,6 +106,8 @@ class GraduateAdmin(GenericAdmin):
 
     model = Graduate
     actions = [export_registrants]
+    list_display = PROFILE_LIST
+    list_filter   = ()
 
     def last_name(self, obj):
         return u'<a href="{}">{}</a>'.format(
@@ -118,6 +122,8 @@ class FacultyAdmin(GenericAdmin):
 
     model = Faculty
     actions = [export_registrants]
+    list_display = PROFILE_LIST
+    list_filter   = ()
 
     def last_name(self, obj):
         return u'<a href="{}">{}</a>'.format(
@@ -132,6 +138,8 @@ class ProfessionalAdmin(GenericAdmin):
 
     model = Professional
     actions = [export_registrants]
+    list_display = PROFILE_LIST
+    list_filter   = ()
 
     def last_name(self, obj):
         return u'<a href="{}">{}</a>'.format(
