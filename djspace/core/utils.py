@@ -3,6 +3,7 @@ from django.forms.models import model_to_dict
 
 from djtools.fields import NOW
 from djtools.utils.mail import send_mail
+from djtools.utils.cypher import AESCipher
 
 from datetime import datetime
 import os
@@ -52,10 +53,12 @@ def upload_to_path(field_name, instance, filename):
     Generates the path as a string for file field.
     """
 
+    cipher = AESCipher(bs=16)
+    cid = cipher.encrypt(str(instance.user.id))
     ext = filename.split('.')[-1]
     filename = u'{}_{}.{}'.format(instance.get_file_name(),field_name, ext)
     path = "{}/{}/{}/".format(
-        instance.get_file_path(), instance.get_slug(), instance.user.id
+        instance.get_file_path(), instance.get_slug(), cid
     )
     return os.path.join(path, filename)
 
