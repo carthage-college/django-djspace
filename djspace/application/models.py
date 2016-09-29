@@ -282,6 +282,12 @@ class EducationInitiatives(BaseModel):
         help_text="PDF format"
     )
 
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return ['proposal']
+
 
 class HigherEducationInitiatives(EducationInitiatives):
 
@@ -725,6 +731,14 @@ class RocketLaunchTeam(BaseModel):
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
 
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return [
+            'wsgc_acknowledgement','budget'
+        ]
+
     # timestamp methods are for UI level display
     def budget_timestamp(self):
         return self.get_file_timestamp("budget")
@@ -807,6 +821,12 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
             YEAR_2,self.user.last_name,self.user.first_name,
             team_name
         )
+
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return ['cv']
 
     @models.permalink
     def get_absolute_url(self):
