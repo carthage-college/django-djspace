@@ -18,6 +18,11 @@ urlpatterns = patterns('',
         r'^account/user-files/$',
         'djspace.core.views.user_files', name="user_files"
     ),
+    # check files status
+    url(
+        r'^account/files-status/$',
+        'djspace.core.views.check_files_status', name="files_status"
+    ),
     # account management
     url(
         r'^account/', include('allauth.urls')

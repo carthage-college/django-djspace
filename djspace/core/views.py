@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 from djspace.dashboard.views import UPLOAD_FORMS
 from djspace.core.forms import UserFilesForm
 from djspace.core.models import UserFiles
+from djspace.core.utils import files_status
 from djspace.application.models import *
 
 
@@ -73,6 +74,26 @@ def user_files(request):
             msg, content_type="text/plain; charset=utf-8"
         )
     return response
+
+
+@csrf_exempt
+@login_required
+def check_files_status(request):
+    """
+    Determine if the user has all of her files uploaded or not.
+    Method: ajax post
+    Return: True or False
+    """
+    user = request.user
+    response = None
+    if request.method != "POST":
+        status = "POST required"
+    else:
+        status = files_status(request.user)
+
+    return HttpResponse(
+        status, content_type="text/plain; charset=utf-8"
+    )
 
 
 @csrf_exempt

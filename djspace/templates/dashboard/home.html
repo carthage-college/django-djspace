@@ -37,8 +37,25 @@
     type="text/javascript"></script>
 <script type="text/javascript">
   $(document).ready(function(){
+
+    function FilesStatus() {
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'files_status' %}",
+            dataType: "html",
+            success: function(response) {
+                if ( response == "True") {
+                    console.log(response);
+                    $("#messages").remove();
+                }
+            },
+            error: function(response) {
+                alert(response);
+            }
+        });
+    }
+
     $('.upload-file').change(function(){
-    //$('#user-files').on( 'change', '.upload-file', function () {
       var $dis = $(this);
       var file = this.files[0];
       var $fname = $dis.attr("name");
@@ -71,11 +88,12 @@
         var def = $.Deferred(), promise = def.promise();
         $fawe.html('<i class="fa fa-times fa-cog fa-spin fa-fw"></i>');
         $.ajax({
-            url: '{% url 'user_files' %}',  //server script to process data
+            url: '{% url 'user_files' %}',
             type: 'POST',
-            xhr: function() {  // custom xhr
+            xhr: function() {
                 myXhr = jQuery.ajaxSettings.xhr();
-                if(myXhr.upload){ // if upload property exists
+                // if upload property exists
+                if(myXhr.upload){
                     myXhr.upload.addEventListener('progress', function(event) {
                         var percent = 0;
                         var position = event.loaded || event.position; /*event.position is deprecated*/
@@ -90,6 +108,9 @@
             },
             // Ajax events
             success: function(data) {
+                /* determine if we can remove warning message
+                   about missing files */
+                FilesStatus();
                 /*
                 * Workaround for Chrome browser // Delete the fake path
                 */
@@ -157,6 +178,9 @@
             if (data == "success") {
               $fawe.replaceWith($fawe_done);
               $.growlUI('Success', "Date saved.");
+              /* determine if we can remove warning message
+                 about missing files */
+              FilesStatus();
             }else{
               $.growlUI('Fail', "Please select your date again.");
             }
@@ -185,7 +209,8 @@
         {{user.profile.second_name}}
         {{user.last_name}}
         <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x"></i></a>
+            <a href="{% url 'dashboard_home' %}">
+                <i class="fa fa-globe fa-2x"></i></a>
         </small>
         <span id="secondary-dropdown"></span>
     </h1>
@@ -193,7 +218,7 @@
 {% block content %}
 {% if messages %}
     {% for message in messages %}
-    <div{% if message.tags %} class="{{ message.tags }} large-12 medium-12 small-12"{% endif %}>
+    <div id="messages" class="{{ message.tags }} large-12 medium-12 small-12">
         {{ message }}
     </div>
     {% endfor %}
@@ -244,8 +269,12 @@
                       <span class='filevalu'></span>
                     </div>
                     {% if app.award_acceptance or app.team.award_acceptance %}
+                      {% if app.team.award_acceptance and app.team.leader == user or app.award_acceptance %}
                       <a class="fa-wrap" href="{{media_url}}{% if app.award_acceptance %}{{app.award_acceptance}}{% else %}{{app.team.award_acceptance}}{% endif %}" target="_blank">
                         <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+                      {% else %}
+                        <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+                      {% endif %}
                     {% else %}
                       <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
                     {% endif %}
