@@ -346,7 +346,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
     leader = forms.CharField(
         label = "Team Lead",
         help_text = '''
-            Start typing the last name of the team leader to see results
+            Enter the last name or first name of the team leader to see results
             from which to choose.
         ''',
     )
