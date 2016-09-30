@@ -133,8 +133,7 @@ def get_users(request):
 
         users = User.objects.filter(
             Q( first_name__icontains = q ) |
-            Q( last_name__icontains = q ) |
-            Q( username__icontains = q ) ).order_by( 'last_name' )
+            Q( last_name__icontains = q ) ).order_by( 'last_name' )
 
         #users = User.objects.filter(last_name__icontains = q )[:20]
         results = []
