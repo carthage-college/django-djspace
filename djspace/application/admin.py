@@ -89,6 +89,69 @@ def export_longitudinal_tracking(modeladmin, request, extra_context=None):
 export_longitudinal_tracking.short_description = "Export Longitudinal Tracking"
 
 
+def export_applications(modeladmin, request, queryset, reg_type=None):
+    """
+    Export application data to CSV
+    """
+
+    file_fields = [
+        "cv", "proposal", "signed_certification", "letter_interest",
+        "budget", "undergraduate_transcripts", "graduate_transcripts",
+        "recommendation", "recommendation_1", "recommendation_2",
+        "high_school_transcripts", "wsgc_advisor_recommendation",
+        "statement","wsgc_acknowledgement"
+    ]
+    exclude = [
+        "user", "user_id", "updated_by_id", "id",
+        "aerospaceoutreach", "clarkgraduatefellowship",
+        "firstnationsrocketcompetition", "collegiaterocketcompetition",
+        "midwesthighpoweredrocketcompetition", "graduatefellowship",
+        "highaltitudeballoonpayload","highaltitudeballoonlaunch",
+        "highereducationinitiatives", "industryinternship","nasacompetition",
+        "researchinfrastructure", "specialinitiatives",
+        "undergraduateresearch", "undergraduatescholarship"
+    ]
+    response = HttpResponse("", content_type="text/csv; charset=utf-8")
+    filename = "{}.csv".format(modeladmin)
+    response['Content-Disposition']='attachment; filename={}'.format(filename)
+    writer = csv.writer(response, delimiter="|")
+    field_names = [f.name for f in modeladmin.model._meta.get_fields()]
+    headers = PROFILE_HEADERS + field_names
+    # remove unwanted headers
+    for e in exclude:
+        if e in headers:
+            headers.remove(e)
+
+    writer.writerow(headers)
+    for reg in queryset:
+        #fields = get_profile_fields(reg.user)
+        fields = get_profile_fields(reg)
+        field_names = [f.name for f in reg._meta.get_fields()]
+        for field in field_names:
+            if field and field not in exclude:
+                if field == "synopsis":
+                    val = unicode(strip_tags(getattr(reg, field, None))).encode("utf-8", "ignore").strip()
+                else:
+                    val = unicode(getattr(reg, field, None)).encode("utf-8", "ignore")
+                if field in file_fields:
+                    val = "https://{}{}{}".format(
+                        settings.SERVER_URL, settings.MEDIA_URL,
+                        getattr(reg, field, None)
+                    )
+                fields.append(val)
+        writer.writerow(fields)
+    return response
+
+def export_all_applications(modeladmin, request, queryset):
+    """
+    Export application data to CSV for all registration types
+    """
+
+    return export_applications(modeladmin, request, queryset)
+
+export_all_applications.short_description = "Export All Applications"
+
+
 class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
 
     model = HighAltitudeBalloonLaunch
@@ -99,7 +162,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
         'status'
     ]
     list_editable = ['status']
-    actions = [export_longitudinal_tracking]
+    actions = [export_longitudinal_tracking,export_all_applications]
 
     def cv_file(self, instance):
         return admin_display_file(instance,"cv")
@@ -139,7 +202,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
-    actions = [export_longitudinal_tracking]
+    actions = [export_longitudinal_tracking,export_all_applications]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -207,6 +270,8 @@ class UndergraduateAdmin(GenericAdmin):
     base admin class for the various undergrad applications
     """
 
+    actions = [export_longitudinal_tracking,export_all_applications]
+
     def signed_certification_file(self, instance):
         return admin_display_file(instance,"signed_certification")
     signed_certification_file.allow_tags = True
@@ -254,7 +319,6 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
-    actions = [export_longitudinal_tracking]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -286,7 +350,6 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'date_created','date_updated','status'
     ]
     list_editable = ['status']
-    actions = [export_longitudinal_tracking]
 
     def statement_file(self, instance):
         return admin_display_file(instance,"statement")
@@ -422,7 +485,7 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_longitudinal_tracking]
+    actions = [export_longitudinal_tracking,export_all_applications]
 
     def cv_file(self, instance):
         return admin_display_file(instance,"cv")
@@ -443,7 +506,7 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_longitudinal_tracking]
+    actions = [export_longitudinal_tracking,export_all_applications]
 
     def cv_file(self, instance):
         return admin_display_file(instance,"cv")
@@ -466,7 +529,7 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_longitudinal_tracking]
+    actions = [export_longitudinal_tracking,export_all_applications]
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, FirstNationsRocketCompetitionAdmin)
@@ -491,7 +554,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','authorized_match', 'status']
     list_display_links = ['project_title']
-    actions = [export_longitudinal_tracking]
+    actions = [export_longitudinal_tracking,export_all_applications]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -578,7 +641,7 @@ class NasaCompetitionAdmin(GenericAdmin):
     list_display_links = ['date_created']
     list_editable = ['status']
     #date_created.short_description = 'Created (edit)'
-    actions = [export_longitudinal_tracking]
+    actions = [export_longitudinal_tracking,export_all_applications]
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, NasaCompetitionAdmin)
