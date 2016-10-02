@@ -872,6 +872,12 @@ class CollegiateRocketCompetition(BaseModel):
             team_name
         )
 
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return ['cv']
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -912,6 +918,12 @@ class FirstNationsRocketCompetition(BaseModel):
     def get_media_release(self):
         return self.user.user_files.media_release
 
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return ['media_release']
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -943,6 +955,12 @@ class HighAltitudeBalloon(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
+
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return ['letter_interest','cv']
 
     @models.permalink
     def get_absolute_url(self):
@@ -1139,6 +1157,16 @@ class Fellowship(BaseModel):
     def __unicode__(self):
         return u"{}".format(self.project_title)
 
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return [
+            'signed_certification','proposal','cv','budget',
+            'undergraduate_transcripts','graduate_transcripts',
+            'recommendation_1', 'recommendation_2'
+        ]
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -1297,6 +1325,16 @@ class UndergraduateResearch(BaseModel):
         from djspace.application.forms import UndergraduateResearchForm
         return UndergraduateResearchForm
 
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return [
+            'signed_certification','proposal','high_school_transcripts',
+            'undergraduate_transcripts','wsgc_advisor_recommendation',
+            'recommendation'
+        ]
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -1408,6 +1446,16 @@ class Scholarship(BaseModel):
         if "Spring" in self.academic_institution:
             term = "SP"
         return term
+
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return [
+            'signed_certification','statement','high_school_transcripts',
+            'undergraduate_transcripts','wsgc_advisor_recommendation',
+            'recommendation'
+        ]
 
 
 class UndergraduateScholarship(Scholarship):
@@ -1593,7 +1641,7 @@ class NasaCompetition(BaseModel):
         max_length=128,
         null = True, blank = True
     )
-    # files
+    # approved files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),
         storage=OverwriteStorage(),
@@ -1646,6 +1694,12 @@ class NasaCompetition(BaseModel):
         return "OPP{}_{}_{}".format(
             YEAR_2, get_term(self.date_created), program
         )
+
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return [ 'statement','budget' ]
 
     @models.permalink
     def get_absolute_url(self):
@@ -1785,7 +1839,7 @@ class IndustryInternship(BaseModel):
             filled with students qualified to be funded through the WSGC.
         '''
     )
-    # files
+    # approved files
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
         storage=OverwriteStorage(),
@@ -1830,6 +1884,12 @@ class IndustryInternship(BaseModel):
 
     def get_code(self):
         return "IIP{}".format(YEAR_2)
+
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return ['intern_supervisor_cv','task_schedule']
 
     @models.permalink
     def get_absolute_url(self):

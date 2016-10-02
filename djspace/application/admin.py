@@ -2,12 +2,16 @@
 from django import forms
 from django.conf import settings
 from django.contrib import admin
+from django.contrib import messages
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.utils.text import Truncator
 from django.utils.html import strip_tags
+from django.utils.encoding import smart_bytes
 from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse_lazy
 from django.template import loader, Context, RequestContext
 
 from djspace.application.models import *
@@ -19,8 +23,11 @@ from djtools.fields import TODAY
 from openpyxl import load_workbook
 from openpyxl.writer.excel import save_virtual_workbook
 
+import tarfile
+import glob
 import csv
 import io
+import os
 
 
 def get_queryset(self, request, admin_class):
@@ -31,6 +38,51 @@ def get_queryset(self, request, admin_class):
     """
     qs = super(admin_class, self).get_queryset(request)
     return qs.filter(date_created__gte=get_start_date())
+
+def required_files(modeladmin, request, queryset):
+    """
+    export required program files for all applicants to a tarball
+    """
+    if not queryset:
+        messages.add_message(
+            request, messages.ERROR,
+            '''
+                Currently, there are no applications for this program.
+            ''',
+            extra_tags='danger'
+        )
+        return HttpResponseRedirect(
+            reverse_lazy(
+                "admin:application_{}_changelist".format(object_name.lower())
+            )
+        )
+    else:
+        object_name = modeladmin.model._meta.object_name
+        response = HttpResponse(content_type='application/x-gzip')
+        response['Content-Disposition'] = 'attachment; filename={}.tar.gz'.format(
+            object_name
+        )
+        tar_ball = tarfile.open(fileobj=response, mode='w:gz')
+        for obj in queryset:
+            for field in obj.required_files():
+                phile = getattr(obj, field)
+                if phile:
+                    path = phile.path
+                    path_list = path.split('/')
+                    name = path_list[-1]
+                    tar_ball.add(path, arcname=name)
+        tar_ball.close()
+        return response
+
+def export_required_files(modeladmin, request, queryset):
+    """
+    Export required files
+    """
+
+    return required_files(modeladmin, request, queryset)
+
+export_required_files.short_description = "Export Required Files"
+
 
 def longitudinal_tracking(modeladmin, request):
     """
@@ -60,11 +112,14 @@ def longitudinal_tracking(modeladmin, request):
     # for CSV export if need be.
     t = loader.get_template('application/export.html')
     c = Context({ 'exports': exports, 'program':program, 'year':TODAY.year })
-    data = t.render(c)
+    data = smart_bytes(
+        t.render(c), encoding='utf-8', strings_only=False, errors='strict'
+    )
     # reader requires an object which supports the iterator protocol and
     # returns a string each time its next() method is called. StringIO
     # provides an in-memory, line by line stream of the template data.
-    reader = csv.reader(io.StringIO(data), delimiter="|")
+    #reader = csv.reader(io.StringIO(data), delimiter="|")
+    reader = csv.reader(io.BytesIO(data), delimiter="|")
     for row in reader:
         ws.append(row)
 
@@ -485,7 +540,10 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_longitudinal_tracking,export_all_applications]
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files
+    ]
 
     def cv_file(self, instance):
         return admin_display_file(instance,"cv")
