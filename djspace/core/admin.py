@@ -45,7 +45,7 @@ class GenericAdmin(admin.ModelAdmin):
 
     list_display = PROFILE_LIST_DISPLAY
     list_display_links = None
-
+    list_filter   = ('status',)
     date_hierarchy = 'date_created'
     ordering = [
         'user__last_name','user__first_name'
