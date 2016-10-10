@@ -64,7 +64,8 @@ def export_registrants(modeladmin, request, queryset):
     filename = "{}.csv".format(modeladmin)
     response['Content-Disposition']='attachment; filename={}'.format(filename)
     writer = csv.writer(response)
-    headers = PROFILE_HEADERS[0:-1] + modeladmin.model._meta.get_all_field_names()
+    field_names = [f.name for f in modeladmin.model._meta.get_fields()]
+    headers = PROFILE_HEADERS[0:-1] + field_names
     # remove unwanted headers
     for e in exclude:
         if e in headers:
@@ -74,11 +75,14 @@ def export_registrants(modeladmin, request, queryset):
     for reg in queryset:
         fields = get_profile_fields(reg)
         del fields[-1]
-        for field in reg._meta.get_all_field_names():
+        for field in field_names:
             if field not in exclude:
-                val = unicode(
-                    getattr(reg, field, None)
-                ).encode("utf-8", "ignore")
+                try:
+                    val = unicode(
+                        getattr(reg, field, None)
+                    ).encode("utf-8", "ignore")
+                except:
+                    val = ''
                 fields.append(val)
         writer.writerow(fields)
     return response
