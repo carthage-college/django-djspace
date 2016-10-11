@@ -12,11 +12,13 @@ from django.contrib.auth.models import User
 from django.forms.models import model_to_dict
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.admin.helpers import ActionForm
 from django.template import loader, Context, RequestContext
 
 from djspace.application.models import *
 from djspace.core.utils import admin_display_file, get_start_date
 from djspace.core.admin import GenericAdmin, PROFILE_LIST_DISPLAY
+from djspace.core.models import UserFiles
 from djspace.registration.admin import PROFILE_HEADERS, get_profile_fields
 from djtools.fields import TODAY
 
@@ -29,6 +31,18 @@ import csv
 import io
 import os
 
+FUNDED_FILES = (
+    ('','---Select---'),
+    ('irs_w9','IRS W9'),
+    ('mugshot','Mugshot'),
+    ('biography','Biography'),
+    ('media_release','Media Release'),
+    ('interim_report','Interim Report'),
+    ('final_report','Final Report'),
+    ('payment_information','Payment Information'),
+    #('',''),
+
+)
 
 def get_queryset(self, request, admin_class):
     """
@@ -185,9 +199,13 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         for field in field_names:
             if field and field not in exclude:
                 if field == "synopsis":
-                    val = unicode(strip_tags(getattr(reg, field, None))).encode("utf-8", "ignore").strip()
+                    val = unicode(
+                        strip_tags(getattr(reg, field, None))
+                    ).encode("utf-8", "ignore").strip()
                 else:
-                    val = unicode(getattr(reg, field, None)).encode("utf-8", "ignore")
+                    val = unicode(
+                        getattr(reg, field, None)
+                    ).encode("utf-8", "ignore")
                 if field in file_fields:
                     val = "https://{}{}{}".format(
                         settings.SERVER_URL, settings.MEDIA_URL,
@@ -207,6 +225,70 @@ def export_all_applications(modeladmin, request, queryset):
 export_all_applications.short_description = "Export All Applications"
 
 
+def _build_tarball(queryset, object_name, field, userfiles=False):
+
+    response = HttpResponse(content_type='application/x-gzip')
+    response['Content-Disposition'] = 'attachment; filename={}_{}.tar.gz'.format(
+        object_name, field
+    )
+
+    tar_ball = tarfile.open(fileobj=response, mode='w:gz')
+    for obj in queryset:
+        if userfiles:
+            # some users might not have a user_files relationship
+            try:
+                obj = obj.user.user_files
+            except:
+                continue
+        phile = getattr(obj, field, None)
+        if phile:
+            path = phile.path
+            path_list = path.split('/')
+            name = path_list[-1]
+            tar_ball.add(path, arcname=name)
+    tar_ball.close()
+
+    return response
+
+def tar_funded_files(modeladmin, request, queryset):
+    """
+    Generate a tarball of files for funded programs
+    """
+    phile = request.POST['phile']
+    if not phile:
+        messages.add_message(
+            request, messages.ERROR,
+            'You must choose a file type.',
+            extra_tags='danger'
+        )
+    else:
+        object_name = modeladmin.model._meta.object_name
+        if phile in [f.name for f in modeladmin.model._meta.get_fields()]:
+            response = _build_tarball(queryset, object_name, phile)
+            return response
+        elif phile in [f.name for f in UserFiles._meta.get_fields()]:
+            response = _build_tarball(
+                queryset, object_name, phile, userfiles=True
+            )
+            return response
+        else:
+            messages.add_message(
+                request, messages.ERROR,
+                'The file you requested is not in the current program.',
+                extra_tags='danger'
+            )
+
+tar_funded_files.short_description = "Export Funded Files"
+
+
+class TarballActionForm(ActionForm):
+    phile = forms.CharField(
+        label="File name",
+        required=False,
+        widget=forms.Select(choices=FUNDED_FILES)
+    )
+
+
 class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
 
     model = HighAltitudeBalloonLaunch
@@ -217,7 +299,11 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
         'status'
     ]
     list_editable = ['status']
-    actions = [export_longitudinal_tracking,export_all_applications]
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     def cv_file(self, instance):
         return admin_display_file(instance,"cv")
@@ -257,7 +343,11 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','status']
     list_display_links = ['project_title']
-    actions = [export_longitudinal_tracking,export_all_applications]
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -325,7 +415,11 @@ class UndergraduateAdmin(GenericAdmin):
     base admin class for the various undergrad applications
     """
 
-    actions = [export_longitudinal_tracking,export_all_applications]
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     def signed_certification_file(self, instance):
         return admin_display_file(instance,"signed_certification")
@@ -428,6 +522,12 @@ class StemBridgeScholarshipAdmin(UndergraduateScholarshipAdmin):
 class RocketLaunchTeamAdmin(GenericAdmin):
 
     model = RocketLaunchTeam
+
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'wsgc_acknowledgement_file','budget_file',
@@ -540,9 +640,11 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
+
+    action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files
+        export_required_files, tar_funded_files
     ]
 
     def cv_file(self, instance):
@@ -564,7 +666,12 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_longitudinal_tracking,export_all_applications]
+
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     def cv_file(self, instance):
         return admin_display_file(instance,"cv")
@@ -587,7 +694,12 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['status']
-    actions = [export_longitudinal_tracking,export_all_applications]
+
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, FirstNationsRocketCompetitionAdmin)
@@ -612,7 +724,12 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     ]
     list_editable = ['funds_authorized','authorized_match', 'status']
     list_display_links = ['project_title']
-    actions = [export_longitudinal_tracking,export_all_applications]
+
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
@@ -699,7 +816,12 @@ class NasaCompetitionAdmin(GenericAdmin):
     list_display_links = ['date_created']
     list_editable = ['status']
     #date_created.short_description = 'Created (edit)'
-    actions = [export_longitudinal_tracking,export_all_applications]
+
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, NasaCompetitionAdmin)
@@ -758,6 +880,12 @@ class IndustryInternshipAdmin(GenericAdmin):
     model = IndustryInternship
     list_display_links = ['first_name']
     list_editable = ['status']
+
+    action_form = TarballActionForm
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, tar_funded_files
+    ]
 
     inlines = [WorkPlanTaskInline,]
 
