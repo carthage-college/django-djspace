@@ -33,13 +33,29 @@ import os
 
 FUNDED_FILES = (
     ('','---Select---'),
-    ('irs_w9','IRS W9'),
-    ('mugshot','Mugshot'),
     ('biography','Biography'),
-    ('media_release','Media Release'),
-    ('interim_report','Interim Report'),
+    ('critical_design_report','Critical Design Report'),
+    ('cv','CV'),
+    ('education_outreach','Education Outreach'),
+    ('final_design_report','Final Design Report'),
+    ('final_motor_selection','Final Motor Selection'),
     ('final_report','Final Report'),
+    ('flight_demo','Flight Demo'),
+    ('flight_readiness_report','Flight Readiness Report'),
+    ('interim_progress_report','Interim Progress Report'),
+    ('interim_report','Interim Report'),
+    ('invoice','Invoice'),
+    ('lodging_list','Lodging List'),
+    ('media_release','Media Release'),
+    ('mugshot','Mugshot'),
+    ('oral_presentation','Oral Presentation'),
     ('payment_information','Payment Information'),
+    ('post_flight_performance_report','Post Flight Performance Report'),
+    ('preliminary_design_report','Preliminary Design Report'),
+    ('program_match','Program Match'),
+    ('proposal','Proposal'),
+    ('team_roster','Team Roster'),
+    ('irs_w9','W9'),
     #('',''),
 
 )
@@ -250,7 +266,7 @@ def _build_tarball(queryset, object_name, field, userfiles=False):
 
     return response
 
-def tar_funded_files(modeladmin, request, queryset):
+def export_funded_files(modeladmin, request, queryset):
     """
     Generate a tarball of files for funded programs
     """
@@ -258,7 +274,7 @@ def tar_funded_files(modeladmin, request, queryset):
     if not phile:
         messages.add_message(
             request, messages.ERROR,
-            'You must choose a file type.',
+            'You must choose a file name.',
             extra_tags='danger'
         )
     else:
@@ -278,7 +294,7 @@ def tar_funded_files(modeladmin, request, queryset):
                 extra_tags='danger'
             )
 
-tar_funded_files.short_description = "Export Funded Files"
+export_funded_files.short_description = "Export Funded Files"
 
 
 class TarballActionForm(ActionForm):
@@ -302,7 +318,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def cv_file(self, instance):
@@ -346,7 +362,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def synopsis_trunk(self, instance):
@@ -418,7 +434,7 @@ class UndergraduateAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def signed_certification_file(self, instance):
@@ -526,7 +542,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     list_display  = PROFILE_LIST_DISPLAY + [
@@ -644,7 +660,7 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def cv_file(self, instance):
@@ -670,7 +686,7 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def cv_file(self, instance):
@@ -698,7 +714,7 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def get_queryset(self, request):
@@ -728,7 +744,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def synopsis_trunk(self, instance):
@@ -820,7 +836,7 @@ class NasaCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     def get_queryset(self, request):
@@ -884,7 +900,7 @@ class IndustryInternshipAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, tar_funded_files
+        export_required_files, export_funded_files
     ]
 
     inlines = [WorkPlanTaskInline,]
