@@ -148,12 +148,11 @@ class GenericAdmin(admin.ModelAdmin):
         return obj.user.profile.tribe
 
     def email(self, obj):
-        return '<a href="%s">%s</a>' % (
-            reverse("admin:auth_user_change", args=(obj.user.id,)),
-            obj.user.email
+        return '<a href="mailto:{}">{}</a>'.format(
+            obj.user.email, obj.user.email
         )
     email.allow_tags = True
-    email.short_description = 'Profile (view/edit)'
+    email.short_description = 'Email'
 
     def email_auxiliary(self, obj):
         return get_email_auxiliary(obj.user)
