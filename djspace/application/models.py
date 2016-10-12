@@ -150,7 +150,6 @@ ROCKET_COMPETITIONS = (
         "Midwest High Powered Rocket Competition"
     )
 )
-ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT = 6
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     "Midwest High Powered Rocket Competition",
     "Collegiate Rocket Competition"

@@ -11,7 +11,6 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.application.forms import *
-from djspace.application.models import ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
 from djspace.core.models import UserFiles
 from djspace.core.utils import profile_status
@@ -66,7 +65,7 @@ def application_form(request, application_type, aid=None):
             teams = teams.annotate(
                 count=Count('members')
             ).exclude(
-                count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+                count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
             ).order_by("name")
 
         if not teams:
@@ -145,7 +144,7 @@ def application_form(request, application_type, aid=None):
             if application_type == "rocket-launch-team":
                 # limit number of team members if need be
                 if data.competition in ROCKET_LAUNCH_COMPETITION_WITH_LIMIT:
-                    data.limit = 6
+                    data.limit = settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
                 else:
                     data.limit = 0
 

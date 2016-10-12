@@ -460,7 +460,7 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
             count=Count('members')
         ).filter(competition__in=["Midwest High Powered Rocket Competition"]).filter(
             date_created__gte=get_start_date()
-        ).exclude(count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
+        ).exclude(count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
 
 
 class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
@@ -490,7 +490,7 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
             count=Count('members')
         ).filter(competition__in=["Collegiate Rocket Competition"]).filter(
             date_created__gte=get_start_date()
-        ).exclude(count__gte=ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
+        ).exclude(count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
 
 
 class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
