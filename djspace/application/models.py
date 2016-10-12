@@ -25,7 +25,6 @@ YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
-WSGC_SCHOOL_OTHER = WSGC_SCHOOL + (('Other','Other'),)
 DIRECTORATE_CHOICES = (
     (
         'Aeronautics Research','Aeronautics Research'
@@ -511,7 +510,7 @@ class RocketLaunchTeam(BaseModel):
     )
     academic_institution_name = models.CharField(
         "Academic institution",
-        choices=WSGC_SCHOOL_OTHER,
+        choices=WSGC_SCHOOL,
         max_length=128,
     )
     academic_institution_other = models.CharField(

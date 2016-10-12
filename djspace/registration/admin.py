@@ -57,7 +57,7 @@ def export_registrants(modeladmin, request, queryset):
     """
     exclude = [
         "user", "user_id", "updated_by", "updated_by_id", "id",
-        "date_created", "date_updated", "wsgc_school_id",
+        "date_created", "date_updated", "wsgc_affiliate_id",
         "wsgc_affiliate_id"
     ]
     response = HttpResponse("", content_type="text/csv; charset=utf-8")

@@ -56,7 +56,8 @@ WSGC_SCHOOL = (
     ('UW Whitewater','UW Whitewater'),
     ('Utah State University-Eastern Blanding','Utah State University-Eastern Blanding'),
     ('Western Technical College','Western Technical College'),
-    ('Wisconsin Lutheran College','Wisconsin Lutheran College')
+    ('Wisconsin Lutheran College','Wisconsin Lutheran College'),
+    ('Other','Other'),
 )
 
 MAJORS = (

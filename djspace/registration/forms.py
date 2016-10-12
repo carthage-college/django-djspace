@@ -27,16 +27,15 @@ class UndergraduateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UndergraduateForm, self).__init__(*args, **kwargs)
-        if self.instance.wsgc_school:
-            self.fields['wsgc_school'].queryset = GenericChoice.objects.filter(
-                tags__name__in=["College or University"]
-            ).order_by("ranking")
+        self.fields['wsgc_affiliate'].queryset = GenericChoice.objects.filter(
+            tags__name__in=["College or University"]
+        ).order_by("ranking")
 
     class Meta:
         model = Undergraduate
         exclude = ('user','status',)
         fields = [
-            'wsgc_school', 'studentid', 'class_year', 'major',
+            'wsgc_affiliate', 'studentid', 'class_year', 'major',
             'major_other', 'secondary_major_minor',
             'secondary_major_minor_other', 'current_cumulative_gpa',
             'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
@@ -78,6 +77,13 @@ class GraduateForm(forms.ModelForm):
     A form to collect graduate information
     """
 
+    def __init__(self, *args, **kwargs):
+        super(GraduateForm, self).__init__(*args, **kwargs)
+        self.fields['wsgc_affiliate'].queryset = GenericChoice.objects.filter(
+            tags__name__in=["College or University"]
+        ).order_by("ranking")
+
+
     cumulative_college_credits = forms.CharField(
         label = "Total credits"
     )
@@ -100,13 +106,13 @@ class GraduateForm(forms.ModelForm):
         exclude = ('user','status',)
         fields = [
             'major',
-            'major_other', 'secondary_major_minor',
+            'major_other','secondary_major_minor',
             'secondary_major_minor_other',
-            'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
-            'month_year_of_graduation', 'undergraduate_degree',
-            'wsgc_school', 'studentid', 'degree_program', 'degree_program_other',
-            'concentration_area', 'graduate_gpa',
-            'graduate_scale', 'graduate_graduation_year',
+            'gpa_in_major','gpa_scale','cumulative_college_credits',
+            'month_year_of_graduation','undergraduate_degree',
+            'wsgc_affiliate','studentid','degree_program','degree_program_other',
+            'concentration_area','graduate_gpa',
+            'graduate_scale','graduate_graduation_year',
         ]
         widgets = {
             # undergraduate

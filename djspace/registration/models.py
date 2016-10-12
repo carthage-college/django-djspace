@@ -103,7 +103,7 @@ class Undergraduate(BaseStudent):
         max_length=24,
         choices=YEAR_CHOICES
     )
-    wsgc_school = models.ForeignKey(
+    wsgc_affiliate = models.ForeignKey(
         GenericChoice,
         #limit_choices_to={"id__in":limit_college_university},
         verbose_name="College or University",
@@ -152,7 +152,7 @@ class Graduate(BaseStudent):
         max_length=4,
         validators=[four_digit_year_validator]
     )
-    wsgc_school = models.ForeignKey(
+    wsgc_affiliate = models.ForeignKey(
         GenericChoice,
         #limit_choices_to={"id__in":limit_college_university},
         verbose_name="College or University",
