@@ -510,7 +510,7 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'signed_certification_file','statement_file',
         'high_school_transcripts_file','undergraduate_transcripts_file',
         'wsgc_advisor_recommendation_file','recommendation_file',
-        'academic_institution',
+        'academic_institution','wsgc_affiliate',
         'other_funding', 'other_funding_explain',
         'date_created','date_updated','status'
     ]

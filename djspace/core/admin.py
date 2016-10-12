@@ -123,6 +123,9 @@ class GenericAdmin(admin.ModelAdmin):
     def postal_code_current(self, obj):
         return obj.user.profile.postal_code_current
 
+    def date_of_birth(self, obj):
+        return obj.user.profile.date_of_birth
+
     def gender(self, obj):
         return obj.user.profile.gender
 
@@ -174,9 +177,9 @@ class GenericAdmin(admin.ModelAdmin):
     registration_type.allow_tags = True
     registration_type.short_description = 'Reg Type (view/edit)'
 
-
-    def date_of_birth(self, obj):
-        return obj.user.profile.date_of_birth
+    def wsgc_affiliate(self, obj):
+        return obj.user.profile.get_registration().wsgc_affiliate
+    wsgc_affiliate.short_description = "Institution Name"
 
     def award_acceptance_file(self, instance):
         return admin_display_file(instance, "award_acceptance")
