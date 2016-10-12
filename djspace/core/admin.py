@@ -16,8 +16,9 @@ PROFILE_LIST = [
     'address1_current','address2_current','city_current','state_current',
     'postal_code_current','gender','race','tribe',
     'disability','disability_specify','employment','military','us_citizen',
+    'wsgc_affiliate',
 ]
-# program applications all have the following files in common
+# program applications all have the following fields in common
 PROFILE_LIST_DISPLAY = PROFILE_LIST + [
     'award_acceptance_file','interim_report_file','final_report_file'
 ]
