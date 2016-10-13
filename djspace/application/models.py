@@ -89,6 +89,10 @@ INDUSTRY_AWARD_TYPES = (
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match',
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
     ),
+    (
+        'Technical Apprenticeship:  $2500 for two-year schools with an optional match.',
+        'Technical Apprenticeship:  $2500 for two-year schools with an optional match.'
+    ),
 )
 UNDERGRADUATE_RESEARCH_AWARD_TYPES = (
     (
