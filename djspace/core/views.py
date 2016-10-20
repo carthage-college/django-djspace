@@ -42,12 +42,10 @@ def sendmail(request, redirect):
         sub = "WSGC: Information about your {} application".format(
             data['title']
         )
-        #BCC = [request.user.email]
-        BCC = ['plungerman@gmail.com']
+        BCC = [request.user.email]
         for pid in pids:
             obj = ct.get_object_for_this_type(pk=pid)
-            #to = [obj.user.email]
-            to = [request.user.email]
+            to = [obj.user.email]
             send_mail(
                 request, to, sub, settings.SERVER_EMAIL,
                 "admin/email_data.html",
