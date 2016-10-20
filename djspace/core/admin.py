@@ -1,11 +1,21 @@
 from django import forms
 from django.contrib import admin
+from django.contrib import messages
+from django.shortcuts import render
+from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.auth.admin import UserAdmin
+from django.shortcuts import render_to_response
 
+from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
+
+from djspace.core.forms import EmailApplicantsForm
 from djspace.core.models import UserProfile, GenericChoice
 from djspace.core.utils import admin_display_file, get_email_auxiliary
+
+from functools import update_wrapper
+
 
 # base list that all registration types and program applications can use
 PROFILE_LIST = [
@@ -23,19 +33,88 @@ PROFILE_LIST_DISPLAY = PROFILE_LIST + [
     'award_acceptance_file','interim_report_file','final_report_file'
 ]
 
+POST_NO_OBJECTS = ['export_longitudinal_tracking']
+
+
 class GenericAdmin(admin.ModelAdmin):
     """
     Base admin class that represents the shared elements that
     most models can use, or override in their respective classes.
     """
 
+    change_form_template = 'admin/change_form.html'
+
+    def get_urls(self):
+        from django.conf.urls import patterns, url
+
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                return self.admin_site.admin_view(view)(*args, **kwargs)
+            return update_wrapper(wrapper, view)
+
+        info = self.model._meta.app_label, self.model._meta.model_name
+
+        urls = patterns('',
+            url(r'^(.+)/email/$',
+                wrap(self.email_applicants),
+                name='%s_%s_email' % info),
+        )
+
+        super_urls = super(GenericAdmin, self).get_urls()
+
+        return urls + super_urls
+
+    def email_applicants(self, request, queryset, form_url='', extra_context=None):
+        action = queryset[0].status
+        title = self.model._meta.verbose_name_plural
+        opts = self.model._meta
+
+        preserved_filters = self.get_preserved_filters(request)
+        form_url = add_preserved_filters(
+            {'preserved_filters': preserved_filters, 'opts': opts}, form_url
+        )
+
+        if 'content' in request.method=='POST':
+            form = EmailApplicantsForm(request.POST)
+            if form.is_valid():
+                form_data = form.cleaned_data
+                if "execute" in request.POST:
+                    sub = "WSGC: Information about your {} application".format(
+                        title
+                    )
+                    send_mail (
+                        request, TO_LIST, sub,
+                        settings.SERVER_EMAIL, "admin/email_data.html",
+                        data, BCC
+                    )
+                    return
+                else:
+                    return render_to_response (
+                        "admin/email_applicants.html", {
+                            'form': form,'action':action,'title':title,
+                            'opts': opts,'form_url':form_url
+                        },
+                        context_instance=RequestContext(request)
+                    )
+        else:
+            form = EmailApplicantsForm()
+
+        return render_to_response (
+            'admin/email_applicants.html', {
+                'form': form,'action':action,'title':title,'opts': opts,
+                'form_url':form_url
+            },
+            context_instance=RequestContext(request)
+        )
+
+    email_applicants.short_description = u'Email selected applicants'
+
     def changelist_view(self, request, extra_context=None):
         """
         Override the action form on the listing view so that we can
         submit the form without selecting any objects
         """
-        if 'action' in request.POST and \
-        request.POST['action'] == 'export_longitudinal_tracking':
+        if 'action' in request.POST and request.POST['action'] in POST_NO_OBJECTS:
             if not request.POST.getlist(admin.ACTION_CHECKBOX_NAME):
                 post = request.POST.copy()
                 post.update({admin.ACTION_CHECKBOX_NAME: str(1)})
@@ -64,10 +143,12 @@ class GenericAdmin(admin.ModelAdmin):
     class Media:
         css = {
              'all': (
+                'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
                 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css',
                 '/static/djspace/css/admin.css'
             )
         }
+        js = ('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',)
 
     def first_name(self, obj):
         return obj.user.first_name

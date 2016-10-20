@@ -1,0 +1,77 @@
+{% extends "admin/base_site.html" %}
+{% block title %}
+    Email {{title}} Applicants Form &mdash;
+{% endblock %}
+
+{% block extrahead %}
+    <script src="/static/djspace/assets/admin/js/vendor/jquery/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <script src="//www.carthage.edu/static/vendor/summernote/summernote.min.js"
+        type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#id_content').summernote({height: 300});
+        });
+    </script>
+{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//www.carthage.edu/static/vendor/summernote/summernote.css"
+        rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .note-editor{
+        width:500px;background: #fff;
+        border: solid 1px #ccc;
+    }
+    ol {list-style-type: none;}
+    </style>
+{% endblock %}
+{% block content %}
+    <h4>Email {{title}} Applicants</h4>
+    {% if data %}
+        <div class="notice">
+        <p>
+            If you are satisfied with the content below, click on the
+            "execute" button, and your email will be sent.
+        </p>
+        <p>
+            If you would like to update the content, click on the "edit" button.
+        </p>
+        </div>
+        <div class="buffer" style="background-color:#efefef;">
+        {{data.content}}
+        </div>
+        <form method="post" action="." class="form"
+            id="profile"{% block extra_form_tag %}{% endblock%}>
+        {% csrf_token %}
+        <div style="display:none;">
+        <table>
+        {{form}}
+        </table>
+        </div>
+        <p>
+            <br />
+            <input type="button" name="update" value="Edit"
+                class="button fleft" onclick="javascript:history.go(-1)" />
+            &nbsp;
+            <input type="submit" name="execute" value="Execute"
+                class="button fright" />
+        </p>
+        </form>
+    {% else %}
+        <form method="post" action="." class="form" id="profile">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="email_applicants" />
+            <fieldset class="blockLabels">
+            <ol>
+                <li class="ctrlHolder">
+                    <div class="span-12">
+                    <textarea id="id_content" rows="10" cols="40" name="content">{% if action %}approved{% elif not action%}rejected{% else %}{% endif %}</textarea>
+                    </div>
+                </li>
+            </ol>
+            </fieldset>
+            {% include "form_submit.inc.html" %}
+        </form>
+    {% endif %}
+{% endblock %}

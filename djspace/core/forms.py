@@ -20,6 +20,21 @@ DOB_YEAR = date.today().year-10
 RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("ranking")
 
 
+class EmailApplicantsForm(forms.Form):
+    content = forms.CharField(
+        required=True, widget=forms.Textarea, label="Email content"
+    )
+
+    def clean_content(self):
+        content = self.cleaned_data['content']
+
+        self._errors["content"] = self.error_class(
+            ["Please provide the content of the email"]
+        )
+
+        return content
+
+
 class SignupForm(forms.Form):
     """
     Gathers auth and user profile data

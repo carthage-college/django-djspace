@@ -318,7 +318,8 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def cv_file(self, instance):
@@ -362,7 +363,8 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def synopsis_trunk(self, instance):
@@ -434,7 +436,8 @@ class UndergraduateAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def signed_certification_file(self, instance):
@@ -542,7 +545,8 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     list_display  = PROFILE_LIST_DISPLAY + [
@@ -660,7 +664,8 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def cv_file(self, instance):
@@ -686,7 +691,8 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def cv_file(self, instance):
@@ -714,7 +720,8 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def get_queryset(self, request):
@@ -744,7 +751,8 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def synopsis_trunk(self, instance):
@@ -836,7 +844,8 @@ class NasaCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     def get_queryset(self, request):
@@ -900,7 +909,8 @@ class IndustryInternshipAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files
+        export_required_files, export_funded_files,
+        'email_applicants'
     ]
 
     inlines = [WorkPlanTaskInline,]
