@@ -5,9 +5,9 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.contrib.auth.admin import UserAdmin
 from django.shortcuts import render_to_response
-
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 
 from djspace.core.forms import EmailApplicantsForm
@@ -35,6 +35,9 @@ PROFILE_LIST_DISPLAY = PROFILE_LIST + [
 
 POST_NO_OBJECTS = ['export_longitudinal_tracking']
 
+
+import logging
+logger = logging.getLogger(__name__)
 
 class GenericAdmin(admin.ModelAdmin):
     """
@@ -64,45 +67,39 @@ class GenericAdmin(admin.ModelAdmin):
 
         return urls + super_urls
 
-    def email_applicants(self, request, queryset, form_url='', extra_context=None):
+    def email_applicants(self, request, queryset):
         action = queryset[0].status
         title = self.model._meta.verbose_name_plural
-        opts = self.model._meta
+        logger.debug("outside POST logic")
 
-        preserved_filters = self.get_preserved_filters(request)
-        form_url = add_preserved_filters(
-            {'preserved_filters': preserved_filters, 'opts': opts}, form_url
-        )
-
-        if 'content' in request.method=='POST':
+        if 'action' in request.POST:
             form = EmailApplicantsForm(request.POST)
             if form.is_valid():
                 form_data = form.cleaned_data
-                if "execute" in request.POST:
-                    sub = "WSGC: Information about your {} application".format(
-                        title
-                    )
-                    send_mail (
-                        request, TO_LIST, sub,
-                        settings.SERVER_EMAIL, "admin/email_data.html",
-                        data, BCC
-                    )
-                    return
-                else:
-                    return render_to_response (
-                        "admin/email_applicants.html", {
-                            'form': form,'action':action,'title':title,
-                            'opts': opts,'form_url':form_url
-                        },
-                        context_instance=RequestContext(request)
-                    )
+                sub = "WSGC: Information about your {} application".format(
+                    title
+                )
+                '''
+                send_mail (
+                    request, TO_LIST, sub,
+                    settings.SERVER_EMAIL, "admin/email_data.html",
+                    data, BCC
+                )
+                '''
+                messages.add_message(
+                    request, messages.SUCCESS,
+                    'The message was sent successfully.',
+                    extra_tags='success'
+                )
+                self.message_user(request,'The message was sent successfully.')
+                return HttpResponseRedirect(request.get_full_path())
         else:
             form = EmailApplicantsForm()
 
         return render_to_response (
             'admin/email_applicants.html', {
-                'form': form,'action':action,'title':title,'opts': opts,
-                'form_url':form_url
+                'form': form,'action':action,'title':title,
+                'objs':queryset
             },
             context_instance=RequestContext(request)
         )

@@ -1,10 +1,6 @@
 {% extends "admin/change_form.html" %}
 {% load i18n admin_urls admin_static admin_modify %}
 {% block object-tools-items %}
-<li>opts={{opts}}
-    {% url opts|admin_urlname:'email' as email_url %}
-    <a href="{% add_preserved_filters email_url %}" class="historylink">{% trans "Manage" %}</a>
-</li>
 <li>
     {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
     <a href="{% add_preserved_filters history_url %}" class="historylink">{% trans "History" %}</a>
