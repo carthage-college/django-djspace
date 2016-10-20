@@ -28,50 +28,22 @@
 {% endblock %}
 {% block content %}
     <h4>Email {{title}} Applicants</h4>
-    {% if data %}
-        <div class="notice">
-        <p>
-            If you are satisfied with the content below, click on the
-            "execute" button, and your email will be sent.
-        </p>
-        <p>
-            If you would like to update the content, click on the "edit" button.
-        </p>
-        </div>
-        <div class="buffer" style="background-color:#efefef;">
-        {{data.content}}
-        </div>
-        <form method="post" action="." class="form"
-            id="profile"{% block extra_form_tag %}{% endblock%}>
+    <form method="post" action="sendmail/" class="form" id="profile">
         {% csrf_token %}
-        <div style="display:none;">
-        <table>
-        {{form}}
-        </table>
-        </div>
-        <p>
-            <br />
-            <input type="button" name="update" value="Edit"
-                class="button fleft" onclick="javascript:history.go(-1)" />
-            &nbsp;
-            <input type="submit" name="execute" value="Execute"
-                class="button fright" />
-        </p>
-        </form>
-    {% else %}
-        <form method="post" action="." class="form" id="profile">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="email_applicants">
-            <fieldset class="blockLabels">
-            <ol>
-                <li class="ctrlHolder">
-                    <div class="span-12">
-                    <textarea id="id_content" rows="10" cols="40" name="content">{% if action %}approved{% elif not action%}rejected{% else %}{% endif %}</textarea>
-                    </div>
-                </li>
-            </ol>
-            </fieldset>
-            {% include "form_submit.inc.html" %}
-        </form>
-    {% endif %}
+        <input type="hidden" name="content_type" value="{{content_type}}">
+        <input type="hidden" name="title" value="{{title}}">
+        {% for o in objs %}
+        <input type="hidden" name="pids[]" value="{{o.id}}">
+        {% endfor %}
+        <fieldset class="blockLabels">
+        <ol>
+            <li class="ctrlHolder">
+                <div class="span-12">
+                <textarea id="id_content" rows="10" cols="40" name="content">{% if action %}approved{% elif not action%}rejected{% else %}{% endif %}</textarea>
+                </div>
+            </li>
+        </ol>
+        </fieldset>
+        {% include "form_submit.inc.html" %}
+    </form>
 {% endblock %}

@@ -24,6 +24,8 @@ class EmailApplicantsForm(forms.Form):
     content = forms.CharField(
         required=True, widget=forms.Textarea, label="Email content"
     )
+    title = forms.CharField(max_length=50, widget=forms.HiddenInput())
+    content_type = forms.CharField(max_length=8, widget=forms.HiddenInput())
 
     def clean_content(self):
         content = self.cleaned_data['content']

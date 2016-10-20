@@ -5,9 +5,9 @@ from django.shortcuts import render
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
 from django.contrib.auth.admin import UserAdmin
 from django.shortcuts import render_to_response
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 
 from djspace.core.forms import EmailApplicantsForm
@@ -36,74 +36,30 @@ PROFILE_LIST_DISPLAY = PROFILE_LIST + [
 POST_NO_OBJECTS = ['export_longitudinal_tracking']
 
 
-import logging
-logger = logging.getLogger(__name__)
-
 class GenericAdmin(admin.ModelAdmin):
     """
     Base admin class that represents the shared elements that
     most models can use, or override in their respective classes.
     """
 
-    change_form_template = 'admin/change_form.html'
-
-    def get_urls(self):
-        from django.conf.urls import patterns, url
-
-        def wrap(view):
-            def wrapper(*args, **kwargs):
-                return self.admin_site.admin_view(view)(*args, **kwargs)
-            return update_wrapper(wrapper, view)
-
-        info = self.model._meta.app_label, self.model._meta.model_name
-
-        urls = patterns('',
-            url(r'^(.+)/email/$',
-                wrap(self.email_applicants),
-                name='%s_%s_email' % info),
-        )
-
-        super_urls = super(GenericAdmin, self).get_urls()
-
-        return urls + super_urls
-
     def email_applicants(self, request, queryset):
-        action = queryset[0].status
-        title = self.model._meta.verbose_name_plural
-        logger.debug("outside POST logic")
+        """
+        admin action that displays a textarea for email input
+        and then sends the data off to another view for sending
+        of said email to all selected applicants
+        """
 
-        if 'action' in request.POST:
-            form = EmailApplicantsForm(request.POST)
-            if form.is_valid():
-                form_data = form.cleaned_data
-                sub = "WSGC: Information about your {} application".format(
-                    title
-                )
-                '''
-                send_mail (
-                    request, TO_LIST, sub,
-                    settings.SERVER_EMAIL, "admin/email_data.html",
-                    data, BCC
-                )
-                '''
-                messages.add_message(
-                    request, messages.SUCCESS,
-                    'The message was sent successfully.',
-                    extra_tags='success'
-                )
-                self.message_user(request,'The message was sent successfully.')
-                return HttpResponseRedirect(request.get_full_path())
-        else:
-            form = EmailApplicantsForm()
+        title = self.model._meta.verbose_name_plural
+        form = EmailApplicantsForm()
+        ct = ContentType.objects.get_for_model(queryset.model)
 
         return render_to_response (
             'admin/email_applicants.html', {
-                'form': form,'action':action,'title':title,
-                'objs':queryset
+                'form':form,'title':title,'objs':queryset,
+                'content_type':ct.pk
             },
             context_instance=RequestContext(request)
         )
-
     email_applicants.short_description = u'Email selected applicants'
 
     def changelist_view(self, request, extra_context=None):
@@ -257,7 +213,11 @@ class GenericAdmin(admin.ModelAdmin):
     registration_type.short_description = 'Reg Type (view/edit)'
 
     def wsgc_affiliate(self, obj):
-        return obj.user.profile.get_registration().wsgc_affiliate
+        try:
+            wsgc_affiliate = obj.user.profile.get_registration().wsgc_affiliate
+        except:
+            wsgc_affiliate = None
+        return wsgc_affiliate
     wsgc_affiliate.short_description = "Institution Name"
 
     def award_acceptance_file(self, instance):

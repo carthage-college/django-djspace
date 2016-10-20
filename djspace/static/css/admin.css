@@ -1,8 +1,18 @@
 .red{color:red;}
 .green{color:green;}
-
+#changelist-filter{width:100px;}
 thead th {
     text-transform: none;
+}
+.change-list .filtered .results, .change-list .filtered .paginator, .filtered #toolbar, .filtered div.xfull {
+    margin-right: 0;
+}
+#changelist-filter ul {
+    padding: 0 0 0 15px;
+}
+#changelist .actions .button {
+    color: #fff;
+    background-color: #417690;
 }
 .field-award_acceptance_file,.field-wsgc_acknowledgement_file,
 .field-budget_file,.field-interim_progress_report_file,

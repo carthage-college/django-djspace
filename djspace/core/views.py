@@ -1,17 +1,66 @@
+from django.contrib import messages
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 
 from djspace.dashboard.views import UPLOAD_FORMS
 from djspace.core.forms import UserFilesForm
+from djspace.core.forms import EmailApplicantsForm
 from djspace.core.models import UserFiles
 from djspace.core.utils import files_status
 from djspace.application.models import *
+
+from djtools.utils.mail import send_mail
+
+
+@staff_member_required
+def sendmail(request, redirect):
+    """
+    Send emails to program applicants.
+    POST from admin action email_applicants.
+    """
+
+    redirect = "{}/{}".format(settings.ROOT_URL, redirect)
+    if request.POST:
+        # form stuff
+        form = EmailApplicantsForm(request.POST)
+        form.is_valid()
+        data = form.cleaned_data
+        # content type
+        ct = ContentType.objects.get_for_id(data['content_type'])
+        # program ids
+        pids = request.POST.getlist('pids[]')
+        # email subject
+        sub = "WSGC: Information about your {} application".format(
+            data['title']
+        )
+        #BCC = [request.user.email]
+        BCC = ['plungerman@gmail.com']
+        for pid in pids:
+            obj = ct.get_object_for_this_type(pk=pid)
+            #to = [obj.user.email]
+            to = [request.user.email]
+            send_mail(
+                request, to, sub, settings.SERVER_EMAIL,
+                "admin/email_data.html",
+                {'obj':obj,'content':data['content']},BCC
+            )
+        messages.add_message(
+            request, messages.SUCCESS,
+            'Your message was sent successfully.',
+            extra_tags='success'
+        )
+        return HttpResponseRedirect(redirect)
+    else:
+        return HttpResponseRedirect(redirect)
 
 
 @csrf_exempt

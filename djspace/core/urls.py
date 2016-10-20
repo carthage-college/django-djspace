@@ -31,8 +31,11 @@ urlpatterns = patterns('',
     url(
         r'^application/', include('djspace.application.urls')
     ),
-    # admin tools
-    #url(r'^admin_tools/', include('admin_tools.urls')),
+    # admin actions
+    url(
+        r'^(.+)/sendmail/$',
+        'djspace.core.views.sendmail', name="sendmail"
+    ),
     # django admin
     url(
         r'^admin/', include(admin.site.urls)
