@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
 from django.template import RequestContext
@@ -42,7 +44,7 @@ def sendmail(request, redirect):
         sub = "WSGC: Information about your {} application".format(
             data['title']
         )
-        BCC = [request.user.email]
+        BCC = [request.user.email,settings.SERVER_MAIL]
         for pid in pids:
             obj = ct.get_object_for_this_type(pk=pid)
             to = [obj.user.email]
