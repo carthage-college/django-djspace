@@ -95,7 +95,10 @@ def required_files(modeladmin, request, queryset):
         tar_ball = tarfile.open(fileobj=response, mode='w:gz')
         for obj in queryset:
             for field in obj.required_files():
-                phile = getattr(obj, field)
+                if field != "media_release":
+                    phile = getattr(obj, field)
+                else:
+                    phile = obj.user.user_files.media_release
                 if phile:
                     path = phile.path
                     path_list = path.split('/')
