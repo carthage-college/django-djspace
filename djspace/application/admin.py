@@ -24,6 +24,7 @@ from djtools.fields import TODAY
 
 from openpyxl import load_workbook
 from openpyxl.writer.excel import save_virtual_workbook
+from io import BytesIO
 
 import tarfile
 import glob
@@ -137,13 +138,13 @@ def longitudinal_tracking(modeladmin, request):
                     program = a.get_slug()
 
     wb = load_workbook(
-        '{}/application/logitudinal_tracking.xlsx'.format(settings.ROOT_DIR)
+        '{}/application/longitudinal_tracking.xlsx'.format(settings.ROOT_DIR)
     )
     ws = wb.active
     # this could all be accomplished by a list of lists but building a list
     # for each row would be ugly. this seems more pythonic, and we can reuse
     # for CSV export if need be.
-    t = loader.get_template('application/export.html')
+    t = loader.get_template('application/export.longitudinal.html')
     c = Context({ 'exports': exports, 'program':program, 'year':TODAY.year })
     data = smart_bytes(
         t.render(c), encoding='utf-8', strings_only=False, errors='strict'
@@ -152,7 +153,7 @@ def longitudinal_tracking(modeladmin, request):
     # returns a string each time its next() method is called. StringIO
     # provides an in-memory, line by line stream of the template data.
     #reader = csv.reader(io.StringIO(data), delimiter="|")
-    reader = csv.reader(io.BytesIO(data), delimiter="|")
+    reader = csv.reader(BytesIO(data), delimiter="|")
     for row in reader:
         ws.append(row)
 
@@ -190,19 +191,16 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         "statement","wsgc_acknowledgement"
     ]
     exclude = [
-        "user", "user_id", "updated_by_id", "id",
+        "user", "userprofile", "user_id", "updated_by_id", "id",
         "aerospaceoutreach", "clarkgraduatefellowship",
-        "firstnationsrocketcompetition", "collegiaterocketcompetition",
-        "midwesthighpoweredrocketcompetition", "graduatefellowship",
+        "first_nations_rocket_competition", "collegiate_rocket_competition",
+        "midwest_high_powered_rocket_competition", "graduatefellowship",
         "highaltitudeballoonpayload","highaltitudeballoonlaunch",
         "highereducationinitiatives", "industryinternship","nasacompetition",
         "researchinfrastructure", "specialinitiatives",
         "undergraduateresearch", "undergraduatescholarship"
     ]
-    response = HttpResponse("", content_type="text/csv; charset=utf-8")
-    filename = "{}.csv".format(modeladmin)
-    response['Content-Disposition']='attachment; filename={}'.format(filename)
-    writer = csv.writer(response, delimiter="|")
+
     field_names = [f.name for f in modeladmin.model._meta.get_fields()]
     headers = PROFILE_HEADERS + field_names
     # remove unwanted headers
@@ -210,28 +208,51 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         if e in headers:
             headers.remove(e)
 
+    bi = BytesIO()
+    csv.register_dialect('pipes', delimiter='|')
+    writer = csv.writer(bi, dialect='pipes')
     writer.writerow(headers)
+
     for reg in queryset:
-        #fields = get_profile_fields(reg.user)
         fields = get_profile_fields(reg)
         field_names = [f.name for f in reg._meta.get_fields()]
         for field in field_names:
             if field and field not in exclude:
-                if field == "synopsis":
-                    val = unicode(
-                        strip_tags(getattr(reg, field, None))
-                    ).encode("utf-8", "ignore").strip()
-                else:
-                    val = unicode(
-                        getattr(reg, field, None)
-                    ).encode("utf-8", "ignore")
-                if field in file_fields:
-                    val = "https://{}{}{}".format(
-                        settings.SERVER_URL, settings.MEDIA_URL,
-                        getattr(reg, field, None)
-                    )
-                fields.append(val)
+                value = getattr(reg, field, None)
+                if value != '':
+                    if field == 'synopsis':
+                        value = unicode(
+                            strip_tags(value)
+                        ).encode('utf-8', 'ignore').strip()
+                    elif field in file_fields:
+                        earl = 'https://{}{}{}'.format(
+                            settings.SERVER_URL, settings.MEDIA_URL, value
+                        )
+                        value = '=HYPERLINK("{}","{}")'.format(earl, field)
+                    else:
+                        value = unicode(value).encode('utf-8', 'ignore')
+                fields.append(value)
         writer.writerow(fields)
+
+    wb = load_workbook(
+        '{}/application/applications.xlsx'.format(settings.ROOT_DIR)
+    )
+    ws = wb.active
+
+    reader = csv.reader(BytesIO(bi.getvalue()), dialect='pipes')
+
+    for row in reader:
+        ws.append(row)
+
+    # in memory response instead of save to file system
+    response = HttpResponse(
+        save_virtual_workbook(wb), content_type='application/ms-excel'
+    )
+
+    response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(
+        reg.get_slug()
+    )
+
     return response
 
 def export_all_applications(modeladmin, request, queryset):
