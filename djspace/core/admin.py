@@ -101,7 +101,13 @@ class GenericAdmin(admin.ModelAdmin):
                 '/static/djspace/css/admin.css'
             )
         }
-        js = ('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',)
+        js = (
+            'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
+            'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+            'https://www.carthage.edu/static/vendor/jquery/plugins/jqDoubleScroll/jquery.doubleScroll.js',
+            '/static/djspace/js/admin.js'
+        )
+
 
     def first_name(self, obj):
         return obj.user.first_name
