@@ -14,7 +14,8 @@ thead th {
     color: #fff;
     background-color: #417690;
 }
-.field-award_acceptance_file,.field-wsgc_acknowledgement_file,
+.field-mugshot_file,.field-biography_file,.field-media_release,
+.field-irs_w9,.field-award_acceptance_file,.field-wsgc_acknowledgement_file,
 .field-budget_file,.field-interim_progress_report_file,
 .field-preliminary_design_report_file,.field-final_design_report_file,
 .field-team_roster_file,.field-flight_demo_file,
