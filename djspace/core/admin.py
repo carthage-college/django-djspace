@@ -235,17 +235,17 @@ class GenericAdmin(admin.ModelAdmin):
     def biography_file(self, instance):
         return admin_display_file(instance.user.user_files, "biography")
     biography_file.allow_tags = True
-    biography_file.short_description = "Photo"
+    biography_file.short_description = "Bio"
 
     def media_release_file(self, instance):
         return admin_display_file(instance.user.user_files, "media_release")
     media_release_file.allow_tags = True
-    media_release_file.short_description = "Photo"
+    media_release_file.short_description = "Media"
 
     def irs_w9_file(self, instance):
         return admin_display_file(instance.user.user_files, "irs_w9")
     irs_w9_file.allow_tags = True
-    irs_w9_file.short_description = "Photo"
+    irs_w9_file.short_description = "W9"
 
     def award_acceptance_file(self, instance):
         return admin_display_file(instance, "award_acceptance")
