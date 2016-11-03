@@ -30,6 +30,7 @@ PROFILE_LIST = [
 ]
 # program applications all have the following fields in common
 PROFILE_LIST_DISPLAY = PROFILE_LIST + [
+    'mugshot_file','biography_file','media_release_file','irs_w9_file',
     'award_acceptance_file','interim_report_file','final_report_file'
 ]
 
@@ -87,7 +88,7 @@ class GenericAdmin(admin.ModelAdmin):
         'user__last_name','user__first_name','user__email','user__username'
     )
 
-    list_per_page = 500
+    list_per_page = 20
     raw_id_fields = ("user","updated_by",)
 
     # user/profile data
@@ -225,6 +226,26 @@ class GenericAdmin(admin.ModelAdmin):
             wsgc_affiliate = None
         return wsgc_affiliate
     wsgc_affiliate.short_description = "Institution Name"
+
+    def mugshot_file(self, instance):
+        return admin_display_file(instance.user.user_files, "mugshot")
+    mugshot_file.allow_tags = True
+    mugshot_file.short_description = "Photo"
+
+    def biography_file(self, instance):
+        return admin_display_file(instance.user.user_files, "biography")
+    biography_file.allow_tags = True
+    biography_file.short_description = "Photo"
+
+    def media_release_file(self, instance):
+        return admin_display_file(instance.user.user_files, "media_release")
+    media_release_file.allow_tags = True
+    media_release_file.short_description = "Photo"
+
+    def irs_w9_file(self, instance):
+        return admin_display_file(instance.user.user_files, "irs_w9")
+    irs_w9_file.allow_tags = True
+    irs_w9_file.short_description = "Photo"
 
     def award_acceptance_file(self, instance):
         return admin_display_file(instance, "award_acceptance")
