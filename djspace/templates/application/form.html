@@ -153,7 +153,7 @@ $(function() {
             }
         });
         // disable submit button after users clicks it
-        $(this).children('input[type=submit]').attr('disabled', 'disabled');
+        $('form#profile input[type=submit]').prop('disabled', true);
     });
 });
 </script>
