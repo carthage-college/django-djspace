@@ -12,7 +12,6 @@ from djspace.core.utils import profile_status, upload_to_path
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 from djtools.fields.validators import MimetypeValidator
-from djtools.fields.storage import OverwriteStorage
 
 from allauth.account.signals import user_signed_up
 from taggit.managers import TaggableManager
@@ -118,7 +117,6 @@ class BaseModel(Base):
     status = models.BooleanField(default=False, verbose_name="Funded")
     award_acceptance = models.FileField(
         upload_to = partial(upload_to_path, 'award_acceptance'),
-        storage=OverwriteStorage(),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -126,7 +124,6 @@ class BaseModel(Base):
     )
     interim_report = models.FileField(
         upload_to = partial(upload_to_path, 'interim_report'),
-        storage=OverwriteStorage(),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -134,7 +131,6 @@ class BaseModel(Base):
     )
     final_report = models.FileField(
         upload_to = partial(upload_to_path, 'final_report'),
-        storage=OverwriteStorage(),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -202,7 +198,6 @@ class UserFiles(models.Model):
     )
     mugshot = models.FileField(
         upload_to = partial(upload_to_path, 'mugshot'),
-        storage=OverwriteStorage(),
         validators=[MimetypeValidator('image/jpeg')],
         max_length=768,
         null=True, blank=True,
@@ -210,7 +205,6 @@ class UserFiles(models.Model):
     )
     biography = models.FileField(
         upload_to = partial(upload_to_path, 'biography'),
-        storage=OverwriteStorage(),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -218,7 +212,6 @@ class UserFiles(models.Model):
     )
     media_release = models.FileField(
         upload_to = partial(upload_to_path, 'media_release'),
-        storage=OverwriteStorage(),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -226,7 +219,6 @@ class UserFiles(models.Model):
     )
     irs_w9 = models.FileField(
         upload_to = partial(upload_to_path, 'irs_w9'),
-        storage=OverwriteStorage(),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
