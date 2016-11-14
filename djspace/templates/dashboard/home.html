@@ -262,19 +262,15 @@
                     </h3>
                     <div class="filewrap fleft">
                       <input type="file" class="upload-file"
-                        data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-                        data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+                        data-content-type="{{app.get_content_type.id}}"
+                        data-oid="{{app.id}}"
                         name="award_acceptance" id="id_award_acceptance">
                       <span class='filebutt'>Select File</span>
                       <span class='filevalu'></span>
                     </div>
-                    {% if app.award_acceptance or app.team.award_acceptance %}
-                      {% if app.team.award_acceptance and app.team.leader == user or app.award_acceptance %}
-                      <a class="fa-wrap" href="{{media_url}}{% if app.award_acceptance %}{{app.award_acceptance}}{% else %}{{app.team.award_acceptance}}{% endif %}" target="_blank">
+                    {% if app.award_acceptance %}
+                      <a class="fa-wrap" href="{{media_url}}{{app.award_acceptance}}" target="_blank">
                         <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-                      {% else %}
-                        <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
-                      {% endif %}
                     {% else %}
                       <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
                     {% endif %}
