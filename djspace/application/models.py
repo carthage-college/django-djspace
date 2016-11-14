@@ -211,7 +211,7 @@ class EducationInitiatives(BaseModel):
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'proposal'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -259,21 +259,21 @@ class EducationInitiatives(BaseModel):
     )
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     program_match = models.FileField(
         upload_to = partial(upload_to_path, 'program_match'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     payment_information = models.FileField(
         upload_to = partial(upload_to_path, 'payment_information'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -558,7 +558,7 @@ class RocketLaunchTeam(BaseModel):
     wsgc_acknowledgement = models.FileField(
         "WSGC institutional representative acknowledgement",
         upload_to = partial(upload_to_path, 'wsgc_acknowledgement'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="""
@@ -569,7 +569,7 @@ class RocketLaunchTeam(BaseModel):
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="""
@@ -581,21 +581,21 @@ class RocketLaunchTeam(BaseModel):
     interim_progress_report = models.FileField(
         "Interim progress report",
         upload_to = partial(upload_to_path, 'interim_progress'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     preliminary_design_report = models.FileField(
         upload_to = partial(upload_to_path, 'preliminary_design_report'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     final_design_report = models.FileField(
         upload_to = partial(upload_to_path, 'final_design_report'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -603,65 +603,65 @@ class RocketLaunchTeam(BaseModel):
     team_roster = models.FileField(
         "Final team roster",
         upload_to = partial(upload_to_path, 'team_roster'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     flight_demo = models.FileField(
         upload_to = partial(upload_to_path, 'flight_demo'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     final_motor_selection = models.FileField(
         upload_to = partial(upload_to_path, 'final_motor_selection'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     lodging_list = models.FileField(
         upload_to = partial(upload_to_path, 'lodging_list'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     critical_design_report = models.FileField(
         upload_to = partial(upload_to_path, 'critical_design_report'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     oral_presentation = models.FileField(
         upload_to = partial(upload_to_path, 'oral_presentation'),
-        validators=[
-            MimetypeValidator('application/vnd.ms-powerpoint')
-        ],
+        #validators=[
+        #    MimetypeValidator('application/vnd.ms-powerpoint')
+        #],
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
     )
     post_flight_performance_report = models.FileField(
         upload_to = partial(upload_to_path, 'post_flight_performance'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     education_outreach = models.FileField(
         upload_to = partial(upload_to_path, 'education_outreach'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     flight_readiness_report = models.FileField(
         upload_to = partial(upload_to_path, 'flight_readiness_report'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -776,7 +776,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'cv'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -825,7 +825,7 @@ class CollegiateRocketCompetition(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'cv'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -919,7 +919,7 @@ class HighAltitudeBalloon(BaseModel):
     letter_interest = models.FileField(
         "Letter of interest",
         upload_to = partial(upload_to_path, 'letter_interest'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="""
             Letter must include two faculty members' names, emails,
@@ -930,7 +930,7 @@ class HighAltitudeBalloon(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'cv'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
@@ -996,7 +996,7 @@ class Fellowship(BaseModel):
     # core
     signed_certification = models.FileField(
         upload_to = partial(upload_to_path, 'signed_certification'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
             Before beginning the application process,
@@ -1062,39 +1062,39 @@ class Fellowship(BaseModel):
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'proposal'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'cv'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     undergraduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'undergraduate_transcripts'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     graduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'graduate_transcripts'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     recommendation_1 = models.FileField(
         "Recommendation letter 1",
         upload_to = partial(upload_to_path, 'recommendation_1'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True,blank=True,
         help_text=mark_safe('''
@@ -1108,7 +1108,7 @@ class Fellowship(BaseModel):
     recommendation_2 = models.FileField(
         "Recommendation letter 2",
         upload_to = partial(upload_to_path, 'recommendation_2'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1175,7 +1175,7 @@ class UndergraduateResearch(BaseModel):
     # core
     signed_certification = models.FileField(
         upload_to = partial(upload_to_path, 'signed_certification'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
             Before beginning the application process,
@@ -1221,27 +1221,27 @@ class UndergraduateResearch(BaseModel):
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'proposal'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     high_school_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'high_school_transcripts'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="High School Senior and Freshman students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'undergraduate_transcripts'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
         upload_to = partial(upload_to_path, 'wsgc_advisor_recommendation'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1257,7 +1257,7 @@ class UndergraduateResearch(BaseModel):
             (faculty member or other professional reference)
         """,
         upload_to = partial(upload_to_path, 'recommendation'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1316,7 +1316,7 @@ class Scholarship(BaseModel):
     # core
     signed_certification = models.FileField(
         upload_to = partial(upload_to_path, 'signed_certification'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''
             Before beginning the application process,
@@ -1328,7 +1328,7 @@ class Scholarship(BaseModel):
     )
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'statement'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text=mark_safe('''Maximum two-page statement containing the following:
             <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">
@@ -1345,21 +1345,21 @@ class Scholarship(BaseModel):
     )
     high_school_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'high_school_transcripts'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'undergraduate_transcripts'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "STEM Faculty/Advisor Recommendation Letter",
         upload_to = partial(upload_to_path, 'wsgc_advisor_recommendation'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1375,7 +1375,7 @@ class Scholarship(BaseModel):
             (faculty member or other professional reference)
         """,
         upload_to = partial(upload_to_path, 'recommendation'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1521,13 +1521,13 @@ class NasaCompetition(BaseModel):
     # files
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'statement'),
-        validators = [MimetypeValidator('application/pdf')],
+        #validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         help_text = "1 to 2 pages"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
-        validators = [MimetypeValidator('application/pdf')],
+        #validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         help_text = "PDF format"
     )
@@ -1601,21 +1601,21 @@ class NasaCompetition(BaseModel):
     # approved files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     program_match = models.FileField(
         upload_to = partial(upload_to_path, 'program_match'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     payment_information = models.FileField(
         upload_to = partial(upload_to_path, 'payment_information'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -1727,7 +1727,7 @@ class IndustryInternship(BaseModel):
     intern_supervisor_cv = models.FileField(
         "Brief Résumé",
         upload_to = partial(upload_to_path, 'cv'),
-        validators = [MimetypeValidator('application/pdf')],
+        #validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         null = True, blank = True,
         help_text = "PDF format"
@@ -1745,7 +1745,7 @@ class IndustryInternship(BaseModel):
     background_photo = models.ImageField(
         "Photo",
         upload_to = partial(upload_to_path, 'background_photo'),
-        validators = [MimetypeValidator('image/jpeg')],
+        #validators = [MimetypeValidator('image/jpeg')],
         max_length = 768,
         null = True, blank = True,
         help_text = "JPEG only"
@@ -1793,28 +1793,28 @@ class IndustryInternship(BaseModel):
     # approved files
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
-        validators = [MimetypeValidator('application/pdf')],
+        #validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         null = True, blank = True,
         help_text = "PDF format"
     )
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     program_match = models.FileField(
         upload_to = partial(upload_to_path, 'program_match'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     payment_information = models.FileField(
         upload_to = partial(upload_to_path, 'payment_information'),
-        validators=[MimetypeValidator('application/pdf')],
+        #validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
