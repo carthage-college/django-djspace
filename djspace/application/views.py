@@ -75,10 +75,14 @@ def application_form(request, application_type, aid=None):
                 context_instance=RequestContext(request)
             )
 
-    # we need the application model now
-    mod = django.apps.apps.get_model(
-        app_label='application', model_name=app_type
-    )
+    # we need the application model now and if it barfs
+    # we throw a 404
+    try:
+        mod = django.apps.apps.get_model(
+            app_label='application', model_name=app_type
+        )
+    except:
+        raise Http404
 
     # email distribution
     if settings.DEBUG:
