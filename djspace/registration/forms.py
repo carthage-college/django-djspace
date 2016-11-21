@@ -177,9 +177,10 @@ class ProfessionalForm(forms.ModelForm):
 
     def clean(self):
         cd = super(ProfessionalForm, self).clean()
+        wa = cd.get("wsgc_affiliate")
         # sponsoring organisation data are required if wsgc affiliate
         # is "Other" (id = 49)
-        if cd.get("wsgc_affiliate").id == 49:
+        if wa and wa.id == 49:
             if not cd.get("sponsoring_organization_name"):
                 self._errors["sponsoring_organization_name"] = self.error_class(
                     ["Required field"]
