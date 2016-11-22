@@ -1001,7 +1001,7 @@ class Fellowship(BaseModel):
         help_text=mark_safe('''
             Before beginning the application process,
             please print, obtain signatures, and scan the<br>
-            <a href="/live/files/1808-pdf" target="_blank">
+            <a href="/live/files/3146-pdf" target="_blank">
             signed certification document
             </a>.
         ''')
