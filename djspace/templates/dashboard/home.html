@@ -121,6 +121,7 @@
                     var catchFile = $(":file").val();
                 }
                 if (data.substr(0,4) == "Fail") {
+                  //console.log("error = " + data);
                   $("#file-fail-error").html(data);
                   $.fancybox.open([{
                     href : '#file-fail'
