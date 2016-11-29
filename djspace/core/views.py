@@ -116,7 +116,7 @@ def user_files(request):
                 context_instance=RequestContext(request)
             )
         else:
-            msg = "Fail: {}".format(form[field_name].errors)
+            msg = "Fail: {}".format(form.errors)
 
     if not response:
         response = HttpResponse(
