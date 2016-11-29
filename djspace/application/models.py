@@ -7,8 +7,9 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.db.models.signals import pre_delete
 
-from djspace.core.models import BaseModel, upload_to_path
+from djspace.core.models import BaseModel
 from djspace.registration.choices import WSGC_SCHOOL
+from djspace.core.utils import upload_to_path
 from djspace.core.utils import get_term
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
