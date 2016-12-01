@@ -862,7 +862,7 @@ class NasaCompetitionAdmin(GenericAdmin):
         'date_created','date_updated','status'
     ]
     list_display_links = ['date_created']
-    list_editable = ['status']
+    list_editable = ['funds_authorized','authorized_match', 'status']
     #date_created.short_description = 'Created (edit)'
 
     action_form = TarballActionForm
@@ -928,7 +928,7 @@ class IndustryInternshipAdmin(GenericAdmin):
 
     model = IndustryInternship
     list_display_links = ['first_name']
-    list_editable = ['status']
+    list_editable = ['funds_authorized','authorized_match', 'status']
 
     action_form = TarballActionForm
     actions = [
