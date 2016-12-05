@@ -196,6 +196,19 @@ class EducationInitiatives(BaseModel):
     source_match = models.CharField(
         "Source(s) of match", max_length=255
     )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
+    )
     begin_date = models.DateField()
     end_date = models.DateField()
     location = models.CharField(
@@ -550,6 +563,19 @@ class RocketLaunchTeam(BaseModel):
     intent_compete = models.TextField(
         "Notification of Intent to Compete"
     )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
+    )
     # meta
     competition = models.CharField(
         choices = ROCKET_COMPETITIONS,
@@ -788,6 +814,19 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
             project experience, hands on experience.
         """
     )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
+    )
 
     def __unicode__(self):
         return "Midwest High-Powered Rocket Competition"
@@ -836,6 +875,19 @@ class CollegiateRocketCompetition(BaseModel):
             Team experience, leadership experience,
             project experience, hands on experience.
         """
+    )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
     )
 
     def __unicode__(self):
@@ -934,6 +986,19 @@ class HighAltitudeBalloon(BaseModel):
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
+    )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
     )
 
     def required_files(self):
@@ -1060,6 +1125,19 @@ class Fellowship(BaseModel):
             please identify the NASA Mission Directorate in which you are
             requesting funds to participate.
         '''
+    )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'proposal'),
@@ -1201,6 +1279,19 @@ class UndergraduateResearch(BaseModel):
     )
     other_funding_explain = models.CharField(
         "If yes, please explain",
+        max_length=255,
+        null = True, blank = True
+    )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
         max_length=255,
         null = True, blank = True
     )
@@ -1400,6 +1491,19 @@ class Scholarship(BaseModel):
         max_length=255,
         null = True, blank = True
     )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
+    )
 
     def get_academic_institution(self):
         term = "FA"
@@ -1516,6 +1620,19 @@ class NasaCompetition(BaseModel):
     )
     source_match = models.CharField(
         "Source(s) of match", max_length = 255
+    )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
     )
     begin_date = models.DateField()
     end_date = models.DateField()
@@ -1687,6 +1804,19 @@ class IndustryInternship(BaseModel):
     )
     source_match = models.CharField(
         "Source(s) of match", max_length=255
+    )
+    other_fellowship = models.CharField(
+        "Do you currently hold another Federal fellowship or traineeship?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+    )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255,
+        null = True, blank = True
     )
     # Internship opportunity
     discipline = models.CharField(

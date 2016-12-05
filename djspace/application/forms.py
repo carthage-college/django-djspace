@@ -15,6 +15,13 @@ from taggit.models import Tag
 
 class HigherEducationInitiativesForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = HigherEducationInitiatives
         exclude = (
@@ -26,7 +33,7 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
             'source_match','begin_date', 'end_date', 'location','synopsis',
-            'proposal',
+            'proposal','other_fellowship','other_fellowship_explain',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone',
             'grant_officer_name','grant_officer_address',
@@ -46,6 +53,13 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
 
 class ResearchInfrastructureForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = ResearchInfrastructure
         exclude = (
@@ -55,7 +69,9 @@ class ResearchInfrastructureForm(forms.ModelForm):
         )
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
-            'source_match','begin_date', 'end_date', 'location','synopsis',
+            'source_match',
+            'other_fellowship','other_fellowship_explain',
+            'begin_date', 'end_date', 'location','synopsis',
             'nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
@@ -84,6 +100,12 @@ class AerospaceOutreachForm(forms.ModelForm):
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
 
     class Meta:
         model = AerospaceOutreach
@@ -91,6 +113,7 @@ class AerospaceOutreachForm(forms.ModelForm):
             'project_title','project_category','location','begin_date',
             'end_date', 'funds_requested','proposed_match','source_match',
             'other_funding','other_funding_explain',
+            'other_fellowship','other_fellowship_explain',
             'synopsis', 'nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
@@ -107,10 +130,18 @@ class AerospaceOutreachForm(forms.ModelForm):
 
 class AerospaceOutreachUploadsForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = AerospaceOutreach
         fields = (
             'award_acceptance','final_report','interim_report',
+            'other_fellowship','other_fellowship_explain',
             'invoice','program_match','payment_information'
         )
 
@@ -124,7 +155,12 @@ class SpecialInitiativesForm(forms.ModelForm):
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
-
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
     proposed_match = forms.IntegerField(
         label = "Proposed match (1:1 mimimum)(in $)",
         help_text = """
@@ -146,8 +182,9 @@ class SpecialInitiativesForm(forms.ModelForm):
         fields = [
             'project_title','project_category','location','begin_date',
             'end_date', 'funds_requested','proposed_match','source_match',
-            'other_funding','other_funding_explain', 'synopsis',
-            'nasa_mission_directorate',
+            'other_funding','other_funding_explain',
+            'other_fellowship','other_fellowship_explain',
+            'synopsis','nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone',
@@ -167,6 +204,7 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
         model = SpecialInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
+            'other_fellowship','other_fellowship_explain',
             'invoice','program_match','payment_information'
         )
 
@@ -175,6 +213,12 @@ class UndergraduateScholarshipForm(forms.ModelForm):
 
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
     academic_institution = forms.TypedChoiceField(
@@ -187,6 +231,7 @@ class UndergraduateScholarshipForm(forms.ModelForm):
         model = UndergraduateScholarship
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -204,6 +249,12 @@ class StemBridgeScholarshipForm(forms.ModelForm):
 
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
     signed_certification = forms.FileField(
@@ -225,6 +276,7 @@ class StemBridgeScholarshipForm(forms.ModelForm):
         model = StemBridgeScholarship
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -244,11 +296,18 @@ class UndergraduateResearchForm(forms.ModelForm):
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
 
     class Meta:
         model = UndergraduateResearch
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -264,10 +323,18 @@ class UndergraduateResearchUploadsForm(forms.ModelForm):
 
 class GraduateFellowshipForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = GraduateFellowship
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -283,10 +350,18 @@ class GraduateFellowshipUploadsForm(forms.ModelForm):
 
 class ClarkGraduateFellowshipForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = ClarkGraduateFellowship
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -302,10 +377,18 @@ class ClarkGraduateFellowshipUploadsForm(forms.ModelForm):
 
 class HighAltitudeBalloonPayloadForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = HighAltitudeBalloonPayload
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -321,10 +404,18 @@ class HighAltitudeBalloonPayloadUploadsForm(forms.ModelForm):
 
 class HighAltitudeBalloonLaunchForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = HighAltitudeBalloonLaunch
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -349,6 +440,12 @@ class RocketLaunchTeamForm(forms.ModelForm):
             Enter the last name or first name of the team leader to see results
             from which to choose.
         ''',
+    )
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
 
     class Meta:
@@ -445,10 +542,18 @@ class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
 
 class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = MidwestHighPoweredRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','interim_report','final_report'
         )
 
@@ -474,10 +579,18 @@ class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
 
 class CollegiateRocketCompetitionForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = CollegiateRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','interim_report','final_report'
         )
 
@@ -504,6 +617,12 @@ class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
 
 class NasaCompetitionForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
     program_acceptance = forms.TypedChoiceField(
         label = "Has your team applied and been accepted into the program?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -513,6 +632,7 @@ class NasaCompetitionForm(forms.ModelForm):
         model = NasaCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report','invoice',
             'program_match','payment_information'
         )
@@ -551,10 +671,18 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
 
 class IndustryInternshipForm(forms.ModelForm):
 
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+
     class Meta:
         model = IndustryInternship
         exclude = (
             'user','status','work_plan','funds_authorized','authorized_match',
+            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report',
             'invoice','program_match','payment_information'
         )
