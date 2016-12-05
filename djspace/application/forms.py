@@ -231,7 +231,6 @@ class UndergraduateScholarshipForm(forms.ModelForm):
         model = UndergraduateScholarship
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -276,7 +275,6 @@ class StemBridgeScholarshipForm(forms.ModelForm):
         model = StemBridgeScholarship
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -307,7 +305,6 @@ class UndergraduateResearchForm(forms.ModelForm):
         model = UndergraduateResearch
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -334,7 +331,6 @@ class GraduateFellowshipForm(forms.ModelForm):
         model = GraduateFellowship
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -361,7 +357,6 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
         model = ClarkGraduateFellowship
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -388,7 +383,6 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
         model = HighAltitudeBalloonPayload
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -415,7 +409,6 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
         model = HighAltitudeBalloonLaunch
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report'
         )
 
@@ -553,7 +546,6 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         model = MidwestHighPoweredRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','interim_report','final_report'
         )
 
@@ -590,7 +582,6 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         model = CollegiateRocketCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','interim_report','final_report'
         )
 
@@ -632,7 +623,6 @@ class NasaCompetitionForm(forms.ModelForm):
         model = NasaCompetition
         exclude = (
             'user','status','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report','invoice',
             'program_match','payment_information'
         )
@@ -682,7 +672,6 @@ class IndustryInternshipForm(forms.ModelForm):
         model = IndustryInternship
         exclude = (
             'user','status','work_plan','funds_authorized','authorized_match',
-            'other_fellowship','other_fellowship_explain',
             'award_acceptance','final_report','interim_report',
             'invoice','program_match','payment_information'
         )
