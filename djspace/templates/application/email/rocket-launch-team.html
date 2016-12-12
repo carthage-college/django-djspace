@@ -106,22 +106,20 @@
     {% if data.status %}<li>Interim Progress Report: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.competition != "Collegiate Rocket Competition" %}
-  {% if data.preliminary_design_report %}
-    <li>
-      <a href="{{media_url}}{{data.preliminary_design_report}}" target="_blank">
-        Preliminary Design Report
-      </a>
-      <ul>
-        <li>Created: {{data.preliminary_design_report_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.preliminary_design_report}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Preliminary Design Report: Missing</li>{% endif %}
-  {% endif %}
+{% if data.preliminary_design_report %}
+  <li>
+    <a href="{{media_url}}{{data.preliminary_design_report}}" target="_blank">
+      Preliminary Design Report
+    </a>
+    <ul>
+      <li>Created: {{data.preliminary_design_report_timestamp}}</li>
+      <li>
+         https://{{server_url}}{{media_url}}{{data.preliminary_design_report}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Preliminary Design Report: Missing</li>{% endif %}
 {% endif %}
 {% if data.competition == "Collegiate Rocket Competition" %}
   {% if data.final_design_report %}
