@@ -1,4 +1,4 @@
-{% if app.competition == "Collegiate Rocket Competition" %}
+{% if app.competition == "Collegiate Rocket Competition" or app.team.competition == "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_interim_progress_report">
@@ -21,7 +21,6 @@
   {% endif %}
 </li>
 {% endif %}
-{% if app.competition != "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_preliminary_design_report">
@@ -43,8 +42,7 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
-{% endif %}
-{% if app.competition == "Collegiate Rocket Competition" %}
+{% if app.competition == "Collegiate Rocket Competition" or app.team.competition == "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_final_design_report">Final Design Report [PDF]</label>
