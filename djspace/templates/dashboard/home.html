@@ -227,11 +227,12 @@
 <form id="user-files" method="post" action="{% url 'user_files' %}"
   class="form" enctype="multipart/form-data">
 <div class="large-6 medium-12 small-12">
-{% if user.profile.us_citizen == "Yes" and reg %}
+{% if reg %}
     <div class="info">
       <h2>Your Applications</h2>
     </div>
     {% for app in applications %}
+        <p>status='{{app.status}}'</p>
         {% if forloop.first %}
           <h3 class="application-type">{{app.get_application_type}}</h3>
           <ul>
@@ -276,6 +277,7 @@
                       <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
                     {% endif %}
                   </li>
+                    <li>ct='{{app.get_content_type.model}}'</li>
                   {# RocketLaunchTeam creator and student leader can upload requisite files #}
                   {% if app.get_content_type.model == "rocketlaunchteam" %}
                     {% include "dashboard/rocket_launch_team_files.inc.html" %}
@@ -384,17 +386,6 @@
         </li>
     {% endfor %}
     </ul>
-{% else %}
-    {% if not user.profile.us_citizen %}
-    <div class="notice">
-        <p>
-            <h4>
-                You must be a United States citizen to apply
-                for grants from NASA.
-            </h4>
-        </p>
-    </div>
-    {% endif %}
 {% endif %}
 </div>
 <div class="column2 large-6 medium-12 small-12">
