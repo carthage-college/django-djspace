@@ -232,7 +232,6 @@
       <h2>Your Applications</h2>
     </div>
     {% for app in applications %}
-        <p>status='{{app.status}}'</p>
         {% if forloop.first %}
           <h3 class="application-type">{{app.get_application_type}}</h3>
           <ul>
