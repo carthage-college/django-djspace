@@ -14,4 +14,7 @@
     https://spacegrant.carthage.edu/static/djspace/{{data.get_media_release}}
   </li>
 </ul>
+{% if data.team.leader.id == data.user.id %}
+    {% include "application/email/rocket-launch-team.files.inc.html" %}
+{% endif %}
 {% endblock %}

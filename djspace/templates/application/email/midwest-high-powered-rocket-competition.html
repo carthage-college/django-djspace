@@ -13,15 +13,20 @@
     </a><br>
     https://{{server_url}}{{media_url}}{{data.cv}}
   </li>
-  {% if data.award_acceptance %}
+  {% if data.team.leader.id == data.user.id %}
+    </ul>
+    {% include "application/email/rocket-launch-team.files.inc.html" %}
+  {% else %}
+    {% if data.award_acceptance %}
     <li>
       <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
         Award Acceptance
       </a><br>
       https://{{server_url}}{{media_url}}{{data.award_acceptance}}
     </li>
-  {% else %}
+    {% else %}
     {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
+    {% endif %}
   {% endif %}
 </ul>
 {% endblock %}
