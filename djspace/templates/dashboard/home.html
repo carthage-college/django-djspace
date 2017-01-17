@@ -276,7 +276,6 @@
                       <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
                     {% endif %}
                   </li>
-                    <li>ct='{{app.get_content_type.model}}'</li>
                   {# RocketLaunchTeam creator and student leader can upload requisite files #}
                   {% if app.get_content_type.model == "rocketlaunchteam" %}
                     {% include "dashboard/rocket_launch_team_files.inc.html" %}
