@@ -45,7 +45,7 @@
             dataType: "html",
             success: function(response) {
                 if ( response == "True") {
-                    console.log(response);
+                    //console.log(response);
                     $("#messages").remove();
                 }
             },
@@ -127,6 +127,7 @@
                     href : '#file-fail'
                   }]);
                   $fawe.html($fawe_error);
+                  $dis.val("");
                 } else {
                   $.growlUI('Success', "File uploaded.");
                   $dis.val("");
@@ -136,6 +137,7 @@
                     $fawe.replaceWith(data);
                   }
                 }
+                data = "";
             },
             error: errorHandler = function(data) {
                 alert("500 server error: Something went awry...");
@@ -192,11 +194,9 @@
         });
       }
     });
-
     $('.filebutt').click(function () {
       $(this).siblings('.upload-file').trigger('click');
     })
-
   });
 </script>
 {% endblock %}
