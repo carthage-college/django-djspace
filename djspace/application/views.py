@@ -112,14 +112,19 @@ def application_form(request, application_type, aid=None):
             # redirect to dashboard
             return HttpResponseRedirect(reverse('dashboard_home'))
 
-    # for autocomplete form field at the UI level
+    # rocket launch team co-advisor
+    coa_orig = None
     if app:
+        # for autocomplete form field at the UI level
         request.session['co_advisor_name'] = u'{}, {}'.format(
             app.co_advisor.last_name, app.co_advisor.first_name
         )
         request.session['leader_name'] = u'{}, {}'.format(
             app.leader.last_name, app.leader.first_name
         )
+        # we want to remove the old advisor if a new one is submitted
+        # and add the new one to the application gm2m relationship
+        coa_orig = app.co_advisor
 
     # fetch the form class
     FormClass = str_to_class(
@@ -226,6 +231,25 @@ def application_form(request, application_type, aid=None):
                 user.profile.applications.add(data)
             else:
                 date = data.date_updated
+
+            # if we have a rocket launch team application
+            # add co-advisor to generic many-to-many relationsip (gm2m) if new
+            # and remove the old one if need be
+            if application_type == "rocket-launch-team":
+                coa = data.co_advisor
+                # we have a co-advisor, check if the old matches new
+                if (coa_orig and coa) and coa.id != coa_orig.id:
+                    # update
+                    coa.profile.applications.add(data)
+                    # delete the old co-advisor
+                    coa_orig.profile.applications.delete(data)
+                elif coa_orig and not coa:
+                    # delete the old co-advisor because they removed
+                    # the co-advisor from the field
+                    coa_orig.profile.applications.delete(data)
+                elif coa and not coa_orig:
+                    # new application or new co-advisor on update
+                    coa.profile.applications.add(data)
 
             # email confirmation
             template = "application/email/{}.html".format(application_type)
