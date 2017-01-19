@@ -127,9 +127,11 @@
                     href : '#file-fail'
                   }]);
                   $fawe.html($fawe_error);
+                  // prevents subsequent errors
                   $dis.val("");
                 } else {
                   $.growlUI('Success', "File uploaded.");
+                  // removes the file name from display
                   $dis.val("");
                   if ($update == false){
                     $fawe.replaceWith(data);

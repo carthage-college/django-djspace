@@ -535,6 +535,12 @@ class RocketLaunchTeam(BaseModel):
             please provide it here.
         """
     )
+    co_advisor = models.ForeignKey(
+        User,
+        null = True, blank = True,
+        verbose_name="Co-Advisor",
+        related_name="rocket_launch_team_co_advisor",
+    )
     leader = models.ForeignKey(
         User,
         verbose_name="Team lead",

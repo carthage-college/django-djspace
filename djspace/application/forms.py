@@ -423,16 +423,24 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
 
 
 class RocketLaunchTeamForm(forms.ModelForm):
-    """
+    '''
     Form that handles the create/update for Rocket Launch Teams
-    """
+    '''
 
-    leader = forms.CharField(
-        label = "Team Lead",
+    co_advisor = forms.CharField(
+        label = "Co-Advisor",
+        required = False,
         help_text = '''
-            Enter the last name or first name of the team leader to see results
+            Enter the last name or first name of the Co-Advisor to see results
             from which to choose.
         ''',
+    )
+    leader = forms.CharField(
+        label = "Team Lead",
+        help_text = """
+            Enter the last name or first name of the team leader to see results
+            from which to choose.
+        """,
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
@@ -457,24 +465,40 @@ class RocketLaunchTeamForm(forms.ModelForm):
         self.request = kwargs.pop('request', None)
         super(RocketLaunchTeamForm, self).__init__(*args, **kwargs)
 
+
     def clean(self):
-        """
-        Assign a User object to leader
-        """
+        '''
+        Assign a User object to co-advisor and leader
+        '''
+
         cd = self.cleaned_data
-        lid = cd.get("leader")
-        if lid:
+        cid = cd.get('co_advisor')
+        lid = cd.get('leader')
+
+        if cid:
             try:
-                user = User.objects.get(pk=lid)
-                cd["leader"] = user
-                self.request.session["leader_id"] = user.id
-                self.request.session["leader_name"] = u"{}, {}".format(
+                user = User.objects.get(pk=cid)
+                cd['co_advisor'] = user
+                self.request.session['co_advisor_name'] = u'{}, {}'.format(
                     user.last_name, user.first_name
                 )
             except:
-                cd["leader"] = None
+                cd['co_advisor'] = None
         else:
-            cd["leader"] = None
+            cd['co_advisor'] = None
+
+        if lid:
+            try:
+                user = User.objects.get(pk=lid)
+                cd['leader'] = user
+                self.request.session['leader_name'] = u'{}, {}'.format(
+                    user.last_name, user.first_name
+                )
+            except:
+                cd['leader'] = None
+        else:
+            cd['leader'] = None
+
 
         return cd
 

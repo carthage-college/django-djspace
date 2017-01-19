@@ -112,6 +112,14 @@ def application_form(request, application_type, aid=None):
             # redirect to dashboard
             return HttpResponseRedirect(reverse('dashboard_home'))
 
+    # for autocomplete form field at the UI level
+    if app:
+        request.session['co_advisor_name'] = u'{}, {}'.format(
+            app.co_advisor.last_name, app.co_advisor.first_name
+        )
+        request.session['leader_name'] = u'{}, {}'.format(
+            app.leader.last_name, app.leader.first_name
+        )
 
     # fetch the form class
     FormClass = str_to_class(
@@ -247,12 +255,15 @@ def application_form(request, application_type, aid=None):
 
             return HttpResponseRedirect(reverse('application_success'))
     else:
-        # set session values to null for GET requests
-        request.session["leader_id"] = ""
-        request.session["leader_name"] = ""
+        if not app:
+            # set session values to null for GET requests that are not updates
+            request.session["leader_id"] = ""
+            request.session["leader_name"] = ""
+            request.session["co_advisor_id"] = ""
+            request.session["co_advisor_name"] = ""
     return render_to_response(
-        "application/form.html", {
-            "form": form,"app_name":app_name,"obj":app,
+        'application/form.html', {
+            'form': form,'app_name':app_name,'obj':app,
         },
         context_instance=RequestContext(request)
     )

@@ -60,19 +60,33 @@ $(function() {
     {% if app_name == "Rocket Launch Team" %}
     /* Rocket Launch Team Leader */
     {% if form.leader.value %}
-    document.valueSelectedForAutocomplete = {{form.leader.value}}
-    $('#id_leader').val("{{obj.leader.last_name}}, {{obj.leader.first_name}}");
+    document.leaderAutocomplete = {{form.leader.value}}
+    $('#id_leader').val("{{request.session.leader_name}}");
     {% endif %}
     $('#id_leader').autocomplete({
         source: '{% url "get_users" %}',
         minLength: 3,
-        select: function (event, ui) {
-            var lid = ui.item.id;
+        select: function (event, uil) {
+            var lid = uil.item.id;
             //store in session
-            document.valueSelectedForAutocomplete = lid
+            document.leaderAutocomplete = lid
         }
     });
-    /* End Rocket Launch Team Leader */
+    /* Rocket Launch Co-Advisor */
+    {% if form.co_advisor.value %}
+    document.coAdvisorAutocomplete = {{form.co_advisor.value}}
+    $('#id_co_advisor').val("{{request.session.co_advisor_name}}");
+    {% endif %}
+    $('#id_co_advisor').autocomplete({
+        source: '{% url "get_users" %}',
+        minLength: 3,
+        select: function (event, uic) {
+            var cid = uic.item.id;
+            // store in session
+            document.coAdvisorAutocomplete = cid
+        }
+    });
+    /* End Rocket Launch Team Co-advisor */
     {% endif %}
     /* Industry Internship Work Plans */
     {% if app_name == "Industry Internship" %}
@@ -144,7 +158,9 @@ $(function() {
     $('form#profile').submit(function(){
         {% if app_name == "Rocket Launch Team" %}
             // set leader field to selected User's ID
-            $('#id_leader').val(document.valueSelectedForAutocomplete);
+            $('#id_leader').val(document.leaderAutocomplete);
+            // set co_advisor field to selected User's ID
+            $('#id_co_advisor').val(document.coAdvisorAutocomplete);
         {% endif %}
         /* check textarea for just br tag */
         $("textarea").each(function(){

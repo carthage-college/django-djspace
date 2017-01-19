@@ -581,13 +581,13 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file','flight_readiness_report_file',
         'proceeding_paper_file',
-        'name','academic_institution_name','competition','leader',
+        'name','academic_institution_name','competition','co_advisor','leader',
         'industry_mentor_name','industry_mentor_email',
         'date_created','date_updated','status'
     ]
     list_display_links = ['name']
     list_editable = ['status']
-    raw_id_fields = ("user","leader","members",)
+    raw_id_fields = ('user','co_advisor','leader','members',)
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, RocketLaunchTeamAdmin)
@@ -595,72 +595,72 @@ class RocketLaunchTeamAdmin(GenericAdmin):
 
     # files
     def wsgc_acknowledgement_file(self, instance):
-        return admin_display_file(instance,"wsgc_acknowledgement")
+        return admin_display_file(instance,'wsgc_acknowledgement')
     wsgc_acknowledgement_file.allow_tags = True
     wsgc_acknowledgement_file.short_description = "WSGC Ack"
 
     def budget_file(self, instance):
-        return admin_display_file(instance,"budget")
+        return admin_display_file(instance,'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def interim_progress_report_file(self, instance):
-        return admin_display_file(instance,"interim_progress_report")
+        return admin_display_file(instance,'interim_progress_report')
     interim_progress_report_file.allow_tags = True
     interim_progress_report_file.short_description = "Interim Rpt"
 
     def preliminary_design_report_file(self, instance):
-        return admin_display_file(instance,"preliminary_design_report")
+        return admin_display_file(instance,'preliminary_design_report')
     preliminary_design_report_file.allow_tags = True
     preliminary_design_report_file.short_description = "Prelim Design Rpt"
 
     def final_design_report_file(self, instance):
-        return admin_display_file(instance,"final_design_report")
+        return admin_display_file(instance,'final_design_report')
     final_design_report_file.allow_tags = True
     final_design_report_file.short_description = "Final Design Rpt"
 
     def team_roster_file(self, instance):
-        return admin_display_file(instance,"team_roster")
+        return admin_display_file(instance,'team_roster')
     team_roster_file.allow_tags = True
     team_roster_file.short_description = "Roster"
 
     def flight_demo_file(self, instance):
-        return admin_display_file(instance,"flight_demo")
+        return admin_display_file(instance,'flight_demo')
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo"
 
     def final_motor_selection_file(self, instance):
-        return admin_display_file(instance,"final_motor_selection")
+        return admin_display_file(instance,'final_motor_selection')
     final_motor_selection_file.allow_tags = True
     final_motor_selection_file.short_description = "Final Motor"
 
     def lodging_list_file(self, instance):
-        return admin_display_file(instance,"lodging_list")
+        return admin_display_file(instance,'lodging_list')
     lodging_list_file.allow_tags = True
     lodging_list_file.short_description = "Lodging"
 
     def critical_design_report_file(self, instance):
-        return admin_display_file(instance,"critical_design_report")
+        return admin_display_file(instance,'critical_design_report')
     critical_design_report_file.allow_tags = True
     critical_design_report_file.short_description = "Critical design"
 
     def oral_presentation_file(self, instance):
-        return admin_display_file(instance,"oral_presentation")
+        return admin_display_file(instance,'oral_presentation')
     oral_presentation_file.allow_tags = True
     oral_presentation_file.short_description = "Oral Pres."
 
     def post_flight_performance_report_file(self, instance):
-        return admin_display_file(instance,"post_flight_performance_report")
+        return admin_display_file(instance,'post_flight_performance_report')
     post_flight_performance_report_file.allow_tags = True
     post_flight_performance_report_file.short_description = "Post flight"
 
     def education_outreach_file(self, instance):
-        return admin_display_file(instance,"education_outreach")
+        return admin_display_file(instance,'education_outreach')
     education_outreach_file.allow_tags = True
     education_outreach_file.short_description = "Edu. Outreach"
 
     def flight_readiness_report_file(self, instance):
-        return admin_display_file(instance,"flight_readiness_report")
+        return admin_display_file(instance,'flight_readiness_report')
     flight_readiness_report_file.allow_tags = True
     flight_readiness_report_file.short_description = "Flight Ready"
 
