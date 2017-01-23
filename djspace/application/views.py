@@ -114,7 +114,7 @@ def application_form(request, application_type, aid=None):
 
     # rocket launch team co-advisor
     coa_orig = None
-    if app:
+    if app and application_type == "rocket-launch-team":
         # for autocomplete form field at the UI level
         request.session['co_advisor_name'] = u'{}, {}'.format(
             app.co_advisor.last_name, app.co_advisor.first_name
