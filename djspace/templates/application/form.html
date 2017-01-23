@@ -218,6 +218,13 @@ $(function() {
 {% endblock %}
 {% block content %}
 {% include "application/intro_instructions.inc.html" %}
+{% if messages %}
+    {% for message in messages %}
+    <div id="messages" class="{{ message.tags }} large-12 medium-12 small-12">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
 <div class="forms-container clear">
     {% if form %}
     <form class="form" enctype="multipart/form-data" action="."
