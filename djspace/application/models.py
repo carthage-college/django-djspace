@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.db.models.signals import pre_delete
+from django.core.validators import URLValidator
 
 from djspace.core.models import BaseModel
 from djspace.registration.choices import WSGC_SCHOOL
@@ -641,12 +642,11 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    flight_demo = models.FileField(
-        upload_to = partial(upload_to_path, 'flight_demo'),
-        validators=[MimetypeValidator('application/pdf')],
+    flight_demo = models.URLField(
         max_length=768,
         null=True, blank=True,
-        help_text="PDF format"
+        validators=[URLValidator()],
+        help_text="URL where your video is located"
     )
     final_motor_selection = models.FileField(
         upload_to = partial(upload_to_path, 'final_motor_selection'),

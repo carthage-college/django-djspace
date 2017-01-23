@@ -101,13 +101,13 @@
 {% if data.competition != "Midwest High Powered Rocket Competition" %}
   {% if data.flight_demo %}
     <li>
-      <a href="{{media_url}}{{data.flight_demo}}" target="_blank">
+      <a href="{{data.flight_demo}}" target="_blank">
         Flight Demo
       </a>
       <ul>
         <li>Created: {{data.flight_demo_timestamp}}</li>
         <li>
-          https://{{server_url}}{{media_url}}{{data.flight_demo}}
+          {{data.flight_demo}}
         </li>
       </ul>
     </li>

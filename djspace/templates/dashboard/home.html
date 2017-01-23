@@ -154,6 +154,41 @@
         }, 'json'); /* end ajax method */
       } /* end if/then logic */
     }); /* end :file change() method */
+    $("#id_flight_demo").blur(function() {
+        var $dis = $(this);
+        var $field = $dis.attr("name");
+        var $cid = $dis.attr("data-content-type");
+        var $oid = $dis.attr("data-oid");
+        var $fawe = $('#flight-demo-missing');
+        var $fawe_done = '<i class="fa fa-thumbs-o-up blue" aria-hidden="true"></i>';
+        var $data = {
+            'cid':$cid,
+            'oid':$oid,
+            'field':$field,
+            'value':$dis.val()
+        };
+        $.ajax ({
+          type: "POST",
+          async: true,
+          dataType: "html",
+          url: "{% url 'set_val' %}",
+          data: $data,
+          success: function(data) {
+            if (data == "success") {
+              $fawe.replaceWith($fawe_done);
+              $.growlUI('Success', "Flight Demo URL saved.");
+              // determine if we can remove warning message about
+              // missing files
+              FilesStatus();
+            }else{
+              $.growlUI('Fail', "Please input your URL again.");
+            }
+          },
+          error: function(data) {
+            alert("500 server error: Something went awry...");
+          }
+        });
+    });
     $("#id_proceeding_paper").datepicker({
       firstDay:1,
       changeFirstDay:false,dateFormat:"yy-mm-dd",
@@ -235,12 +270,16 @@
     </div>
     {% for app in applications %}
         {% if forloop.first %}
-          <h3 class="application-type">{{app.get_application_type}}</h3>
+          <h3 class="application-type">
+            {{app.get_application_type}}{% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}} {% endif %}
+          </h3>
           <ul>
         {% else %}
           {% ifchanged app.get_application_type and not forloop.first %}
           </ul>
-          <h3 class="application-type">{{app.get_application_type}}</h3>
+          <h3 class="application-type">
+            {{app.get_application_type}}{% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}} {% endif %}
+          </h3>
           <ul>
           {% endifchanged %}
         {% endif %}

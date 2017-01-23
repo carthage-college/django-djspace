@@ -625,9 +625,14 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     team_roster_file.short_description = "Roster"
 
     def flight_demo_file(self, instance):
-        return admin_display_file(instance,'flight_demo')
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        if instance.flight_demo:
+            icon = '''
+              <i class="fa fa-check green" aria-hidden="true" title="{}"></i>
+            '''.format(instance.flight_demo)
+        return icon
     flight_demo_file.allow_tags = True
-    flight_demo_file.short_description = "Flight Demo"
+    flight_demo_file.short_description = "Flight Demo URL"
 
     def final_motor_selection_file(self, instance):
         return admin_display_file(instance,'final_motor_selection')
@@ -672,7 +677,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
             '''.format(instance.proceeding_paper)
         return icon
     proceeding_paper_file.allow_tags = True
-    proceeding_paper_file.short_description = "Proceeding PPT"
+    proceeding_paper_file.short_description = "Proceeding Paper Date"
 
 
 class CollegiateRocketCompetitionAdmin(GenericAdmin):

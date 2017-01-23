@@ -3,6 +3,7 @@ from django import forms
 from django.conf import settings
 from django.db.models import Count
 from django.contrib.auth.models import User
+from django.core.validators import URLValidator
 from django.forms.extras.widgets import SelectDateWidget
 
 from djspace.core.utils import get_start_date
@@ -505,6 +506,12 @@ class RocketLaunchTeamForm(forms.ModelForm):
 
 class RocketLaunchTeamUploadsForm(forms.ModelForm):
 
+    flight_demo = forms.URLField(
+        max_length=768,
+        validators=[URLValidator()],
+        help_text="URL where your video is located"
+    )
+
     class Meta:
         model = RocketLaunchTeam
         fields = (
@@ -515,6 +522,20 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'post_flight_performance_report','education_outreach',
             'flight_readiness_report','proceeding_paper'
         )
+
+    def clean(self):
+        """
+        Validate flight demo URL
+        """
+        cd = self.cleaned_data
+
+        #if not cd.get('flight_demo'):
+        self._errors["flight_demo"] = self.error_class(
+            ["Required field"]
+        )
+        cd['flight_demo'] = "boo!"
+
+        return cd
 
 
 class FirstNationsRocketCompetitionForm(forms.ModelForm):
