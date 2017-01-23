@@ -523,20 +523,6 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'flight_readiness_report','proceeding_paper'
         )
 
-    def clean(self):
-        """
-        Validate flight demo URL
-        """
-        cd = self.cleaned_data
-
-        #if not cd.get('flight_demo'):
-        self._errors["flight_demo"] = self.error_class(
-            ["Required field"]
-        )
-        cd['flight_demo'] = "boo!"
-
-        return cd
-
 
 class FirstNationsRocketCompetitionForm(forms.ModelForm):
     media_release = forms.FileField(

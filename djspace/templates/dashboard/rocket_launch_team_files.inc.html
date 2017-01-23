@@ -110,7 +110,7 @@
   </h3>
   <div>
     {% if app.flight_demo or app.team.flight_demo %}
-    <input type="input" name="flight_demo" class="fleft"
+    <input type="url" name="flight_demo" class="fleft"
       data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       value="{% if app.flight_demo %}{{app.flight_demo}}{% else %}{{app.team.flight_demo}}{% endif %}"

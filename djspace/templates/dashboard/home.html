@@ -38,6 +38,10 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
+    function validateURL(textval) {
+      var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+      return regexp.test(textval);
+    }
     function FilesStatus() {
         $.ajax({
             type: "POST",
@@ -156,6 +160,7 @@
     }); /* end :file change() method */
     $("#id_flight_demo").blur(function() {
         var $dis = $(this);
+        var $val = $dis.val();
         var $field = $dis.attr("name");
         var $cid = $dis.attr("data-content-type");
         var $oid = $dis.attr("data-oid");
@@ -165,29 +170,33 @@
             'cid':$cid,
             'oid':$oid,
             'field':$field,
-            'value':$dis.val()
+            'value':$val
         };
-        $.ajax ({
-          type: "POST",
-          async: true,
-          dataType: "html",
-          url: "{% url 'set_val' %}",
-          data: $data,
-          success: function(data) {
-            if (data == "success") {
-              $fawe.replaceWith($fawe_done);
-              $.growlUI('Success', "Flight Demo URL saved.");
-              // determine if we can remove warning message about
-              // missing files
-              FilesStatus();
-            }else{
-              $.growlUI('Fail', "Please input your URL again.");
+        if ($val != '' && validateURL($val)) {
+          $.ajax ({
+            type: "POST",
+            async: true,
+            dataType: "html",
+            url: "{% url 'set_val' %}",
+            data: $data,
+            success: function(data) {
+              if (data == "success") {
+                $fawe.replaceWith($fawe_done);
+                $.growlUI('Success', "Flight Demo URL saved.");
+                // determine if we can remove warning message about
+                // missing files
+                FilesStatus();
+              }else{
+                $.growlUI('Fail', "Please input your URL again.");
+              }
+            },
+            error: function(data) {
+              alert("500 server error: Something went awry...");
             }
-          },
-          error: function(data) {
-            alert("500 server error: Something went awry...");
-          }
-        });
+          });
+        } else {
+          $.growlUI('Fail', "Please input your URL again.");
+        }
     });
     $("#id_proceeding_paper").datepicker({
       firstDay:1,
