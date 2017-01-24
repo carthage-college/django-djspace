@@ -115,16 +115,17 @@ def application_form(request, application_type, aid=None):
     # rocket launch team co-advisor
     coa_orig = None
     if app and application_type == "rocket-launch-team":
-        # for autocomplete form field at the UI level
-        request.session['co_advisor_name'] = u'{}, {}'.format(
-            app.co_advisor.last_name, app.co_advisor.first_name
-        )
-        request.session['leader_name'] = u'{}, {}'.format(
-            app.leader.last_name, app.leader.first_name
-        )
-        # we want to remove the old advisor if a new one is submitted
-        # and add the new one to the application gm2m relationship
-        coa_orig = app.co_advisor
+        if app.co_advisor:
+            # for autocomplete form field at the UI level
+            request.session['co_advisor_name'] = u'{}, {}'.format(
+                app.co_advisor.last_name, app.co_advisor.first_name
+            )
+            request.session['leader_name'] = u'{}, {}'.format(
+                app.leader.last_name, app.leader.first_name
+            )
+            # we want to remove the old advisor if a new one is submitted
+            # and add the new one to the application gm2m relationship
+            coa_orig = app.co_advisor
 
     # fetch the form class
     FormClass = str_to_class(
