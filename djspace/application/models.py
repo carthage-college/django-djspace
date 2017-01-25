@@ -769,9 +769,6 @@ class RocketLaunchTeam(BaseModel):
     def team_roster_timestamp(self):
         return self.get_file_timestamp("team_roster")
 
-    def flight_demo_timestamp(self):
-        return self.get_file_timestamp("flight_demo")
-
     def final_motor_selection_timestamp(self):
         return self.get_file_timestamp("final_motor_selection")
 
@@ -792,9 +789,6 @@ class RocketLaunchTeam(BaseModel):
 
     def flight_readiness_report_timestamp(self):
         return self.get_file_timestamp("flight_readiness_report")
-
-    def proceeding_paper_timestamp(self):
-        return self.get_file_timestamp("proceeding_paper")
 
 
 class MidwestHighPoweredRocketCompetition(BaseModel):
