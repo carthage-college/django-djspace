@@ -105,7 +105,6 @@
         Flight Demo
       </a>
       <ul>
-        <li>Created: {{data.flight_demo_timestamp}}</li>
         <li>
           {{data.flight_demo}}
         </li>
@@ -115,7 +114,7 @@
     {% if data.status %}<li>Flight Demo: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.competition == "First Nations AISES" or data.competiton == "First Nations Tribal" %}
+{% if "First Nations" in data.competition %}
   {% if data.final_motor_selection %}
     <li>
       <a href="{{media_url}}{{data.final_motor_selection}}" target="_blank">

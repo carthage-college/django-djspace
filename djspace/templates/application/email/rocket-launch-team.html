@@ -9,8 +9,10 @@
 {{data.academic_institution_other}}
 {% endif %}
 </p>
+{% if data.co_advisor %}
 <h4>Co-Advisor</h4>
 <p>{{data.co_advisor.last_name}}, {{data.co_advisor.first_name}}</p>
+{% endif %}
 <h4>Leader</h4>
 <p>{{data.leader.last_name}}, {{data.leader.first_name}}</p>
 {% if data.industry_mentor_name %}
