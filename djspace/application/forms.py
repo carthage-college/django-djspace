@@ -131,13 +131,6 @@ class AerospaceOutreachForm(forms.ModelForm):
 
 class AerospaceOutreachUploadsForm(forms.ModelForm):
 
-    other_fellowship = forms.TypedChoiceField(
-        label="""
-            Do you currently hold another Federal fellowship or traineeship?
-        """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
-    )
-
     class Meta:
         model = AerospaceOutreach
         fields = (
@@ -505,12 +498,6 @@ class RocketLaunchTeamForm(forms.ModelForm):
 
 
 class RocketLaunchTeamUploadsForm(forms.ModelForm):
-
-    flight_demo = forms.URLField(
-        max_length=768,
-        validators=[URLValidator()],
-        help_text="URL where your video is located"
-    )
 
     class Meta:
         model = RocketLaunchTeam
