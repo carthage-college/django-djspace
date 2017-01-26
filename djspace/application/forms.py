@@ -135,7 +135,6 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
         model = AerospaceOutreach
         fields = (
             'award_acceptance','final_report','interim_report',
-            'other_fellowship','other_fellowship_explain',
             'invoice','program_match','payment_information'
         )
 
