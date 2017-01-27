@@ -3,6 +3,7 @@ from django import forms
 from django.conf import settings
 from django.db.models import Count
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 from django.core.validators import URLValidator
 from django.forms.extras.widgets import SelectDateWidget
 
@@ -451,7 +452,8 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'team_roster','flight_demo','final_motor_selection','lodging_list',
             'critical_design_report','oral_presentation','proceeding_paper',
             'flight_readiness_report','post_flight_performance_report',
-            'education_outreach'
+            'education_outreach','verified_budget','payment_information_form',
+            'invoice','charges_certification','institutional_w9'
         )
 
     def __init__(self, *args, **kwargs):
@@ -506,7 +508,9 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'budget','flight_demo','final_motor_selection','lodging_list',
             'critical_design_report','oral_presentation',
             'post_flight_performance_report','education_outreach',
-            'flight_readiness_report','proceeding_paper'
+            'flight_readiness_report','proceeding_paper',
+            'verified_budget','payment_information_form',
+            'invoice','charges_certification','institutional_w9'
         )
 
 

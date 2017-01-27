@@ -611,6 +611,41 @@ class RocketLaunchTeam(BaseModel):
             Midwest High-Powered Rocket Competition.
         """
     )
+    verified_budget = models.FileField(
+        upload_to = partial(upload_to_path, 'verified_budget'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    invoice = models.FileField(
+        upload_to = partial(upload_to_path, 'invoice'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    payment_information_form = models.FileField(
+        upload_to = partial(upload_to_path, 'payment_information_form'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    charges_certification = models.FileField(
+        upload_to = partial(upload_to_path, 'charges_certification'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    institutional_w9 = models.FileField(
+        upload_to = partial(upload_to_path, 'institutional_w9'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
     interim_progress_report = models.FileField(
         "Interim progress report",
         upload_to = partial(upload_to_path, 'interim_progress'),

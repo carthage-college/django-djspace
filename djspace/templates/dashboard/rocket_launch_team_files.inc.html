@@ -270,6 +270,105 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
+
+
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_verified_budget">Verified Budget [PDF]</label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      name="verified_budget" id="id_verified_budget">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.verified_budget or app.team.verified_budget %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.verified_budget %}{{app.verified_budget}}{% else %}{{app.team.verified_budget}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_payment_information_form">
+        Payment Information Form [PDF]
+    </label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      name="payment_information_form" id="id_payment_information_form">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.payment_information_form or app.team.payment_information_form %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.payment_information_form %}{{app.payment_information_form}}{% else %}{{app.team.payment_information_form}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_invoice">Invoice [PDF]</label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      name="invoice" id="id_invoice">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.invoice or app.team.invoice %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.invoice %}{{app.invoice}}{% else %}{{app.team.invoice}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_charges_certification">Charges Certification [PDF]</label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      name="charges_certification" id="id_charges_certification">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.charges_certification or app.team.charges_certification %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.charges_certification %}{{app.charges_certification}}{% else %}{{app.team.charges_certification}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_institutional_w9">Institutional W9 [PDF]</label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      name="institutional_w9" id="id_institutional_w9">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.institutional_w9 or app.team.institutional_w9 %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.institutional_w9 %}{{app.institutional_w9}}{% else %}{{app.team.institutional_w9}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
 {% endif %}
 {% if app.competition != "First Nations AISES" or app.competiton != "First Nations Tribal" %}
 <li class="form-group ctrlHolder">

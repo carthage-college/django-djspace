@@ -226,4 +226,79 @@
   {% else %}
     {% if data.status %}<li>Flight Readiness Report: Missing</li>{% endif %}
   {% endif %}
+  {% if data.verified_budget %}
+    <li>
+      <a href="{{media_url}}{{data.verified_budget}}" target="_blank">
+        Verified Budget
+      </a>
+      <ul>
+        <li>Created: {{data.verified_budget_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.verified_budget}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    {% if data.status %}<li>Verified Budget: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.payment_information_form %}
+    <li>
+      <a href="{{media_url}}{{data.payment_information_form}}" target="_blank">
+        Payment Information Form
+      </a>
+      <ul>
+        <li>Created: {{data.payment_information_form_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.payment_information_form}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    {% if data.status %}<li>Payment Information Form: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.invoice %}
+    <li>
+      <a href="{{media_url}}{{data.invoice}}" target="_blank">
+        Invoice
+      </a>
+      <ul>
+        <li>Created: {{data.invoice_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.invoice}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    {% if data.status %}<li>Invoice: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.charges_certification %}
+    <li>
+      <a href="{{media_url}}{{data.charges_certification}}" target="_blank">
+        Charges Certification
+      </a>
+      <ul>
+        <li>Created: {{data.charges_certification_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.charges_certification}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    {% if data.status %}<li>Charges Certification: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.institutional_w9 %}
+    <li>
+      <a href="{{media_url}}{{data.institutional_w9}}" target="_blank">
+        Institutional W9
+      </a>
+      <ul>
+        <li>Created: {{data.institutional_w9_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.institutional_w9}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    {% if data.status %}<li>Institutional W9: Missing</li>{% endif %}
+  {% endif %}
 {% endif %}
