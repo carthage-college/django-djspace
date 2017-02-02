@@ -65,7 +65,12 @@ Web site.................... {{data.user.profile.get_registration.web_site}}
 {% if data.user.profile.registration_type == "Undergraduate" %}
     {% include "application/email/undergraduate.inc.html" %}
 {% endif %}
-{% include "application/email/user_files.inc.html" %}
+{% if data.status %}
+  <h2>Profile Files</h2>
+  {% with data.user as user %}
+    {% include "application/email/user_files.inc.html" %}
+  {% endwith %}
+{% endif %}
 {% endblock %}
 <h2>Application Information</h2>
 {% block data %}{% endblock %}
