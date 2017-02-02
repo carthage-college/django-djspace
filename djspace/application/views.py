@@ -243,11 +243,11 @@ def application_form(request, application_type, aid=None):
                     # update
                     coa.profile.applications.add(data)
                     # delete the old co-advisor
-                    coa_orig.profile.applications.delete(data)
+                    coa_orig.profile.applications.remove(data)
                 elif coa_orig and not coa:
                     # delete the old co-advisor because they removed
                     # the co-advisor from the field
-                    coa_orig.profile.applications.delete(data)
+                    coa_orig.profile.applications.remove(data)
                 elif coa and not coa_orig:
                     # new application or new co-advisor on update
                     coa.profile.applications.add(data)

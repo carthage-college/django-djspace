@@ -78,13 +78,22 @@ $(function() {
     $('#id_co_advisor').val("{{request.session.co_advisor_name}}");
     {% endif %}
     $('#id_co_advisor').autocomplete({
+        autoFocus: true,
         source: '{% url "get_users" %}',
         minLength: 3,
         select: function (event, uic) {
             var cid = uic.item.id;
+            console.log('cid=' + cid);
             // store in session
             document.coAdvisorAutocomplete = cid
-        }
+        },
+        change: function (event, ui) {
+          if (ui.item === null) {
+              $(this).val('');
+              $('#id_co_advisor').val('');
+              document.coAdvisorAutocomplete = ""
+          }
+       }
     });
     /* End Rocket Launch Team Co-advisor */
     {% endif %}
@@ -230,6 +239,11 @@ $(function() {
     <form class="form" enctype="multipart/form-data" action="."
         id="profile" method="post">
     {% csrf_token %}
+    {% if form.errors %}
+        <p class="error">
+            There were errors with the data submitted, see below.
+        </p>
+    {% endif %}
     <fieldset class="blockLabels">
         <ol>
             {% for field in form.visible_fields %}

@@ -1914,7 +1914,7 @@ class IndustryInternship(BaseModel):
         null = True, blank = True,
         help_text = "JPEG only"
     )
-    # WorkPlanTask model has a foreign key the references
+    # WorkPlanTask model has a foreign key that references
     # an instance of this model. we can obtain all tasks for
     # an instance with the related name "work_plan_tasks"
     task_schedule = models.FileField(

@@ -416,11 +416,14 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
         )
 
 
+import logging
+logger = logging.getLogger(__name__)
+
+
 class RocketLaunchTeamForm(forms.ModelForm):
     '''
     Form that handles the create/update for Rocket Launch Teams
     '''
-
     co_advisor = forms.CharField(
         label = "Co-Advisor",
         required = False,
@@ -431,10 +434,11 @@ class RocketLaunchTeamForm(forms.ModelForm):
     )
     leader = forms.CharField(
         label = "Team Lead",
-        help_text = """
+        required = True,
+        help_text = '''
             Enter the last name or first name of the team leader to see results
             from which to choose.
-        """,
+        ''',
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
@@ -460,15 +464,13 @@ class RocketLaunchTeamForm(forms.ModelForm):
         self.request = kwargs.pop('request', None)
         super(RocketLaunchTeamForm, self).__init__(*args, **kwargs)
 
-
-    def clean(self):
+    def clean_co_advisor(self):
         '''
-        Assign a User object to co-advisor and leader
+        Assign a User object to co-advisor
         '''
 
         cd = self.cleaned_data
         cid = cd.get('co_advisor')
-        lid = cd.get('leader')
 
         if cid:
             try:
@@ -478,10 +480,23 @@ class RocketLaunchTeamForm(forms.ModelForm):
                     user.last_name, user.first_name
                 )
             except:
-                cd['co_advisor'] = None
+                self._errors["co_advisor"] = self.error_class(
+                    ["That User does not exist in the system"]
+                )
         else:
             cd['co_advisor'] = None
 
+        return cd['co_advisor']
+
+    def clean_leader(self):
+        '''
+        Assign a User object to co-advisor
+        '''
+
+        cd = self.cleaned_data
+        lid = cd.get('leader')
+
+        logger.debug("lid = {}".format(lid))
         if lid:
             try:
                 user = User.objects.get(pk=lid)
@@ -490,12 +505,15 @@ class RocketLaunchTeamForm(forms.ModelForm):
                     user.last_name, user.first_name
                 )
             except:
-                cd['leader'] = None
+                self._errors["leader"] = self.error_class(
+                    ["That User does not exist in the system"]
+                )
         else:
-            cd['leader'] = None
+            self._errors["leader"] = self.error_class(
+                ["Required field"]
+            )
 
-
-        return cd
+        return cd['leader']
 
 
 class RocketLaunchTeamUploadsForm(forms.ModelForm):
