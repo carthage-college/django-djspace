@@ -276,21 +276,11 @@
     <div class="info">
       <h2>Your Applications</h2>
     </div>
+    <ul>
     {% for app in applications %}
-        {% if forloop.first %}
-          <h3 class="application-type">
+        <h3 class="application-type">
             {{app.get_application_type}}{% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}} {% endif %}
-          </h3>
-          <ul>
-        {% else %}
-          {% ifchanged app.get_application_type and not forloop.first %}
-          </ul>
-          <h3 class="application-type">
-            {{app.get_application_type}}{% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}} {% endif %}
-          </h3>
-          <ul>
-          {% endifchanged %}
-        {% endif %}
+        </h3>
         <li>
             <span class="short-date">
                 {{app.date_created|date:"SHORT_DATE_FORMAT"}}
