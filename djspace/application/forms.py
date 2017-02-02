@@ -416,10 +416,6 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
         )
 
 
-import logging
-logger = logging.getLogger(__name__)
-
-
 class RocketLaunchTeamForm(forms.ModelForm):
     '''
     Form that handles the create/update for Rocket Launch Teams
@@ -496,7 +492,6 @@ class RocketLaunchTeamForm(forms.ModelForm):
         cd = self.cleaned_data
         lid = cd.get('leader')
 
-        logger.debug("lid = {}".format(lid))
         if lid:
             try:
                 user = User.objects.get(pk=lid)
