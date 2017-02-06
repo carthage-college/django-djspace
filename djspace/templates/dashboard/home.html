@@ -157,13 +157,14 @@
         }, 'json'); /* end ajax method */
       } /* end if/then logic */
     }); /* end :file change() method */
-    $("#id_flight_demo").blur(function() {
+    $(".flight-demo").blur(function() {
         var $dis = $(this);
+        var $did = $dis.attr('id');
         var $val = $dis.val();
         var $field = $dis.attr("name");
         var $cid = $dis.attr("data-content-type");
         var $oid = $dis.attr("data-oid");
-        var $fawe = $('#flight-demo-missing');
+        var $fawe = $('#' + $did + '_missing');
         var $fawe_done = '<i class="fa fa-thumbs-o-up blue" aria-hidden="true"></i>';
         var $data = {
             'cid':$cid,

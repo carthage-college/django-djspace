@@ -106,23 +106,23 @@
 {% if app.competition != "Midwest High Powered Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
-    <label for="id_flight_demo">Flight Demo [URL]</label>
+    <label for="id_flight_demo_{{forloop.counter}}">Flight Demo [URL]</label>
   </h3>
   <div>
     {% if app.flight_demo or app.team.flight_demo %}
-    <input type="url" name="flight_demo" class="fleft"
+    <input type="url" name="flight_demo" class="flight-demo fleft"
       data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
       value="{% if app.flight_demo %}{{app.flight_demo}}{% else %}{{app.team.flight_demo}}{% endif %}"
-      id="id_flight_demo" style="margin-right:17px;">
+      id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
     <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
     {% else %}
-    <input type="input" name="flight_demo" class="fleft"
+    <input type="input" name="flight_demo" class="flight-demo fleft"
       data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
-      id="id_flight_demo" style="margin-right:17px;">
+      id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
       <i class="fa fa-times red" aria-hidden="true"
-        id="flight-demo-missing" title="Missing file"></i>
+        id="id_flight_demo_{{forloop.counter}}_missing" title="Missing file"></i>
     {% endif %}
     <p class="help fleft">Provide the URL where video is located</p>
   </div>
