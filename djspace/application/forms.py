@@ -198,7 +198,6 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
         model = SpecialInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
-            'other_fellowship','other_fellowship_explain',
             'invoice','program_match','payment_information'
         )
 
