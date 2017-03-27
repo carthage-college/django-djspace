@@ -1,27 +1,28 @@
 from django.contrib import admin
 from django.views.generic import RedirectView
 from django.core.urlresolvers import reverse_lazy
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 
+from djspace.core import views
 from djtools.views.dashboard import responsive_switch
 
 handler404 = 'djtools.views.errors.four_oh_four_error'
 handler500 = 'djtools.views.errors.server_error'
 
-urlpatterns = patterns('',
+urlpatterns = [
     # required files after funding granted
     url(
         r'^account/user-files-test/$',
-        'djspace.core.views.user_files_test', name="user_files_test"
+        views.user_files_test, name='user_files_test'
     ),
     url(
         r'^account/user-files/$',
-        'djspace.core.views.user_files', name="user_files"
+        views.user_files, name='user_files'
     ),
     # check files status
     url(
         r'^account/files-status/$',
-        'djspace.core.views.check_files_status', name="files_status"
+        views.check_files_status, name='files_status'
     ),
     # account management
     url(
@@ -34,7 +35,7 @@ urlpatterns = patterns('',
     # admin actions
     url(
         r'^(.+)/sendmail/$',
-        'djspace.core.views.sendmail', name="sendmail"
+        views.sendmail, name='sendmail'
     ),
     # django admin
     url(
@@ -46,11 +47,11 @@ urlpatterns = patterns('',
     ),
     # registration
     url(
-        r'^registration/', include("djspace.registration.urls")
+        r'^registration/', include('djspace.registration.urls')
     ),
     # home
     url(
         r'^$',
-        RedirectView.as_view(url=reverse_lazy("dashboard_home"))
+        RedirectView.as_view(url=reverse_lazy('dashboard_home'))
     )
-)
+]
