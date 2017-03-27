@@ -321,7 +321,7 @@ class HigherEducationInitiatives(EducationInitiatives):
     )
 
     def __unicode__(self):
-        return "Higher Education Initiatives"
+        return self.project_title
 
     def get_application_type(self):
         return "Higher Education Initiatives"
@@ -383,7 +383,7 @@ class ResearchInfrastructure(EducationInitiatives):
         return "RIP{}_{}".format(YEAR_2,award_type)
 
     def __unicode__(self):
-        return "Research Infrastructure"
+        return self.project_title
 
     def get_application_type(self):
         return "Research Infrastructure"
@@ -439,7 +439,7 @@ class AerospaceOutreach(EducationInitiatives):
     )
 
     def __unicode__(self):
-        return "Aerospace Outreach"
+        return self.project_title
 
     def get_application_type(self):
         return "Aerospace Outreach"
@@ -501,7 +501,7 @@ class SpecialInitiatives(EducationInitiatives):
     )
 
     def __unicode__(self):
-        return "Special Initiatives"
+        return self.project_title
 
     def get_application_type(self):
         return "Special Initiatives"
@@ -1785,7 +1785,9 @@ class NasaCompetition(BaseModel):
         verbose_name = "NASA Competition"
 
     def __unicode__(self):
-        return "NASA Competition"
+        return u"{}, {} [{}]".format(
+            self.user.last_name, self.user.first_name, self.id
+        )
 
     def get_application_type(self):
         return "NASA Competition"
@@ -1993,7 +1995,9 @@ class IndustryInternship(BaseModel):
     )
 
     def __unicode__(self):
-        return u"{}, {}".format(self.user.last_name, self.user.first_name)
+        return u"{}, {} [{}]".format(
+            self.user.last_name, self.user.first_name, self.id
+        )
 
     def get_application_type(self):
         return "Industry Internship"

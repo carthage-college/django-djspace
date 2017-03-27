@@ -974,7 +974,7 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
     model = ProfessionalProgramStudent
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'program','program_application_link','mentor',
+        'program_link','program_application_link','mentor',
         'date_created','date_updated', 'status'
     ]
     list_editable = ['status']
@@ -983,6 +983,18 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
         return instance.program_application_link()
     program_application_link.allow_tags = True
     program_application_link.short_description = "Program Application"
+
+    def program_link(self, obj):
+        link = '<a href="{}">{}</a>'.format(
+            reverse(
+                "admin:application_professionalprogramstudent_change",
+                args=(obj.id,)
+            ),
+            obj.program
+        )
+        return link
+    program_link.allow_tags = True
+    program_link.short_description = 'Program Name (view/edit)'
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, ProfessionalProgramStudentAdmin)
