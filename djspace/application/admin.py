@@ -974,43 +974,15 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
     model = ProfessionalProgramStudent
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'program','program_application','mentor',
-        'biography_file', 'media_release_file', 'mugshot_file',
+        'program','program_application_link','mentor',
         'date_created','date_updated', 'status'
     ]
     list_editable = ['status']
 
-    def _admin_display_file(url, field):
-        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
-        if url:
-            icon = '''<a href="{}" target="_blank">
-                <i class="fa fa-check green" aria-hidden="true"></i>
-            </a>'''.format(url)
-        return icon
-
-    def biography_file(self, instance):
-        url = None
-        if instance.user.user_files.biography:
-            url = instance.user.user_files.biography.url
-        return self._admin_display_file(url)
-    biography_file.allow_tags = True
-    biography_file.short_description = "Bio"
-
-    def media_release_file(self, instance):
-        url = None
-        if instance.user.user_files.media_release:
-            url = instance.user.user_files.media_release.url
-        return self._admin_display_file(url)
-    media_release_file.allow_tags = True
-    media_release_file.short_description = "Media"
-
-    def mugshot_file(self, instance):
-        url = None
-        if instance.user.user_files.mugshot:
-            url = instance.user.user_files.mugshot.url
-        return self._admin_display_file(url)
-    mugshot_file.allow_tags = True
-    mugshot_file.short_description = "Photo"
+    def program_application_link(self, instance):
+        return instance.program_application_link()
+    program_application_link.allow_tags = True
+    program_application_link.short_description = "Program Application"
 
     def get_queryset(self, request):
         qs = get_queryset(self, request, ProfessionalProgramStudentAdmin)

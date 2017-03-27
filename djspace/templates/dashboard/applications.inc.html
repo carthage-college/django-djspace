@@ -77,6 +77,11 @@
     {% endif %}
     {% if user.profile.registration_type == "Undergraduate" or user.profile.registration_type == "Graduate" %}
     <li>
+        <a href="{% url 'application_create' 'professional-program-student' %}">
+            Professional Program Student Participation
+        </a>
+    </li>
+    <li>
         <a href="{% url 'application_create' 'stem-bridge-scholarship' %}">
             STEM Bridge Scholarship
         </a>

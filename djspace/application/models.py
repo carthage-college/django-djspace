@@ -165,6 +165,15 @@ PROFESSIONAL_PROGRAMS = [
     "researchinfrastructure",
     "specialinitiatives",
 ]
+STUDENT_PROFESSIONAL_PROGRAMS = (
+    ('Aerospace Outreach', 'Aerospace Outreach'),
+    ('Higher Education', 'Higher Education'),
+    ('Industry Internship', 'Industry Internship'),
+    ('NASA Competition', 'NASA Competition'),
+    ('Research Infrastructure', 'Research Infrastructure'),
+    ('Special Initiatives', 'Special Initiatives')
+)
+
 # only used at UI level
 ROCKET_COMPETITIONS_EXCLUDE = [
     "midwesthighpoweredrocketcompetition",
@@ -547,8 +556,7 @@ class RocketLaunchTeam(BaseModel):
         related_name="rocket_launch_team_leader",
     )
     members = models.ManyToManyField(
-        User, related_name="rocket_launch_team_members",
-        null = True, blank = True
+        User, related_name="rocket_launch_team_members"
     )
     industry_mentor_name = models.CharField(
         max_length=128,
@@ -2007,6 +2015,115 @@ class IndustryInternship(BaseModel):
         return ('application_update', [self.get_slug(), str(self.id)])
 
 
+class ProfessionalProgramStudent(BaseModel):
+
+    program = models.CharField(
+        "Program Name",
+        max_length = 128,
+        choices=STUDENT_PROFESSIONAL_PROGRAMS,
+        help_text = '''
+            I, as a student, have been selected to participate
+            in the above program
+        '''
+    )
+    mentor = models.ForeignKey(
+        User,
+        related_name='professional_program_student'
+    )
+    aerospace_outreach = models.ForeignKey(
+        AerospaceOutreach,
+        related_name='aerospace_outreach_student',
+        null=True, blank=True
+    )
+    higher_education = models.ForeignKey(
+
+        HigherEducationInitiatives,
+        related_name='higher_education_student',
+        null=True, blank=True
+    )
+    industry_internship = models.ForeignKey(
+        IndustryInternship,
+        related_name='industry_internship_student',
+        null=True, blank=True
+    )
+    nasa_competition = models.ForeignKey(
+        NasaCompetition,
+        related_name='nasa_competition_student',
+        null=True, blank=True
+    )
+    research_infrastructure = models.ForeignKey(
+        ResearchInfrastructure,
+        related_name='research_infrastructure_student',
+        null=True, blank=True
+    )
+    special_initiatives = models.ForeignKey(
+        SpecialInitiatives,
+        related_name='special_initiatives_student',
+        null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name_plural = "Professional Program Student Participation"
+
+    def __unicode__(self):
+        return "Professional Program Student"
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+    def get_application_type(self):
+        return "Professional Program Student"
+
+    def get_slug(self):
+        return "professional-program-student"
+
+    def program_application(self):
+        obj = None
+        if self.aerospace_outreach:
+            obj = self.aerospace_outreach
+        elif self.higher_education:
+            obj = self.higher_education
+        elif self.industry_internship:
+            obj = self.industry_internship
+        elif self.nasa_competition:
+            obj = self.nasa_competition
+        elif self.research_infrastructure:
+            obj = self.research_infrastructure
+        elif self.special_initiatives:
+            obj = self.special_initiatives
+        return obj
+
+    def program_application_link(self):
+        app = self.program_application()
+        link = None
+        if app:
+            # two programs do not have a title so we use app name instead
+            try:
+                title = app.project_title
+            except:
+                #title = app.__class__.__name__
+                title = self.program
+            url = reverse(
+                'application_print',
+                kwargs={'application_type':app.get_slug(),'aid': app.id},
+            )
+            link = u'<a href="{}">{}</a>'.format(url, title)
+        return link
+
+    def get_code(self):
+        return "PPS{}_{}".format(YEAR_2, self.program)
+
+    def media_release(self):
+        return self.user.user_files.media_release
+
+    def biography(self):
+        return self.user.user_files.biography
+
+    def mugshot(self):
+        return self.user.user_files.mugshot
+
+
 class WorkPlanTask(models.Model):
     industry_internship = models.ForeignKey(
         IndustryInternship,
@@ -2029,4 +2146,3 @@ class WorkPlanTask(models.Model):
 
     def __unicode__(self):
         return u"{}".format(self.title)
-

@@ -392,7 +392,8 @@ class UserProfile(models.Model):
         'application.UndergraduateResearch',
         'application.UndergraduateScholarship',
         'application.NasaCompetition',
-        'application.IndustryInternship'
+        'application.IndustryInternship',
+        'application.ProfessionalProgramStudent'
     )
 
     class Meta:

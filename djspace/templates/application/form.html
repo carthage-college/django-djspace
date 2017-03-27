@@ -57,6 +57,26 @@ $(function() {
     $("label[for$='clear_id']").css({ float: "right", marginRight:"7px" });
     $('label[for="id_other_funding_0"]').closest('ul').addClass('linline');
     $('label[for="id_program_acceptance_0"]').closest('ul').addClass('linline');
+
+    {% if app_name == "Professional Program Student" %}
+    /* Professional Program Student Mentor */
+    {% if form.mentor.value %}
+    document.mentorAutocomplete = {{form.mentor.value}}
+    $('#id_mentor').val("{{request.session.mentor_name}}");
+    {% endif %}
+    $('#id_mentor').autocomplete({
+        source: '{% url "get_users" %}',
+        minLength: 3,
+        select: function (event, uil) {
+            var lid = uil.item.id;
+            //store in session
+            document.mentorAutocomplete = lid
+        }
+    });
+    /* End Professional Program Student Mentor */
+    {% endif %}
+
+
     {% if app_name == "Rocket Launch Team" %}
     /* Rocket Launch Team Leader */
     {% if form.leader.value %}
@@ -171,6 +191,12 @@ $(function() {
             // set co_advisor field to selected User's ID
             $('#id_co_advisor').val(document.coAdvisorAutocomplete);
         {% endif %}
+
+        {% if app_name == "Professional Program Student" %}
+            // set mentor field to selected User's ID
+            $('#id_mentor').val(document.mentorAutocomplete);
+        {% endif %}
+
         /* check textarea for just br tag */
         $("textarea").each(function(){
             if (this.value == "<br>") {
@@ -331,6 +357,17 @@ $(function() {
             {% endfor %}
         </ol>
     </fieldset>
+    {% if app_name == "Professional Program Student" %}
+        <fieldset class="blockLabels">
+          <ol>
+          {% for field in form_user_files.visible_fields %}
+            {% if field.name != "irs_w9" %}
+                {% include "form_field.inc.html" %}
+            {% endif %}
+          {% endfor %}
+          </ol>
+        </fieldset>
+    {% endif %}
     {% include "form_submit.inc.html" %}
     </form>
         {% if app_name == "Industry Internship" %}

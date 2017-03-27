@@ -7,12 +7,13 @@ from django.template import loader, Context, RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.application.forms import *
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
 from djspace.core.models import UserFiles
+from djspace.core.forms import UserFilesForm
 from djspace.core.utils import profile_status
 from djspace.core.utils import get_start_date
 
@@ -29,6 +30,11 @@ def application_form(request, application_type, aid=None):
 
     # our user
     user = request.user
+    # userfiles
+    try:
+        userfiles = UserFiles.objects.get(user=user)
+    except:
+        userfiles = None
 
     # verify that the user has completed registration
     reg_type = user.profile.registration_type
@@ -69,10 +75,9 @@ def application_form(request, application_type, aid=None):
             ).order_by("name")
 
         if not teams:
-            return render_to_response(
-                "application/form.html",
-                {"form": None,"app_name":app_name},
-                context_instance=RequestContext(request)
+            return render(
+                request, "application/form.html",
+                {"form": None,"app_name":app_name}
             )
 
     # we need the application model now and if it barfs
@@ -140,8 +145,10 @@ def application_form(request, application_type, aid=None):
     # GET or POST
     if request.method == 'POST':
         try:
-            # only rocket launch team form needs request context
-            if application_type == "rocket-launch-team":
+            # rocket launch team and professional program student
+            # forms need request context
+            if application_type == "rocket-launch-team" or \
+               application_type == "professional-program-student":
                 form = FormClass(
                     instance=app, data=request.POST, files=request.FILES,
                     request=request
@@ -154,7 +161,25 @@ def application_form(request, application_type, aid=None):
             # app_type does not match an existing form
             raise Http404
 
+        # professional program student has three files from UserFiles
+        if application_type == "professional-program-student":
+            form_user_files = UserFilesForm(
+                instance=userfiles,
+                data=request.POST, files=request.FILES
+            )
         if form.is_valid():
+
+            if application_type == "professional-program-student":
+                if form_user_files.is_valid():
+                    form_user_files.save()
+                else:
+                    return render(
+                        request, 'application/form.html', {
+                            'form': form,'app_name':app_name,'obj':app,
+                            'form_user_files':form_user_files
+                        }
+                    )
+
             data = form.save(commit=False)
             data.user = user
             data.updated_by = user
@@ -270,27 +295,26 @@ def application_form(request, application_type, aid=None):
                 )
                 return HttpResponseRedirect(reverse('application_success'))
             else:
-                return render_to_response(
-                    template,
-                    {
-                        'data': data,'form':form
-                    },
-                    context_instance=RequestContext(request)
+                return render(
+                    request, template,
+                    {'data': data,'form':form}
                 )
 
             return HttpResponseRedirect(reverse('application_success'))
     else:
+        # UserFilesForm
+        form_user_files = UserFilesForm(instance=userfiles)
         if not app:
             # set session values to null for GET requests that are not updates
             request.session["leader_id"] = ""
             request.session["leader_name"] = ""
             request.session["co_advisor_id"] = ""
             request.session["co_advisor_name"] = ""
-    return render_to_response(
-        'application/form.html', {
+    return render(
+        request, 'application/form.html', {
             'form': form,'app_name':app_name,'obj':app,
-        },
-        context_instance=RequestContext(request)
+            'form_user_files':form_user_files
+        }
     )
 
 
@@ -310,10 +334,9 @@ def application_print(request, application_type, aid):
     #data.reg = get_object_or_404(mod, pk=aid)
     data = get_object_or_404(mod, pk=aid)
 
-    return render_to_response(
-        "application/email/{}.html".format(application_type),
-        {'data': data,},
-        context_instance=RequestContext(request)
+    return render(
+        request, "application/email/{}.html".format(application_type),
+        {'data': data,}
     )
 
 
@@ -334,10 +357,9 @@ def application_export(request, application_type):
                     program = a.get_application_type()
 
     if settings.DEBUG:
-        response = render_to_response(
-            "application/export.html",
+        response = render(
+            request, "application/export.html",
             {'exports': exports,'program':program,'year':TODAY.year},
-            context_instance=RequestContext(request),
             content_type="text/plain; charset=utf-8"
         )
     else:
