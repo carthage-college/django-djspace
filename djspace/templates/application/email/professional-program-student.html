@@ -1,0 +1,19 @@
+{% extends "application/email/base.html" %}
+{% block title %}Professional Program Student Participation{% endblock %}
+{% block data %}
+<h4>
+    Student has been selected to participate in the following program
+</h4>
+<p>{{data.program}}</p>
+<h4>
+    Program Application
+</h4>
+<p>{{data.program_application_link|safe}}</p>
+<h4>Mentor</h4>
+<p>
+    <a href="mailto:{{data.mentor.email}}">
+    {{data.mentor.last_name}},
+    {{data.mentor.first_name}}
+    </a>
+</p>
+{% endblock %}

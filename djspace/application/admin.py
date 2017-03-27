@@ -968,6 +968,27 @@ class IndustryInternshipAdmin(GenericAdmin):
     payment_information_file.allow_tags = True
     payment_information_file.short_description = "Payment information"
 
+
+class ProfessionalProgramStudentAdmin(GenericAdmin):
+
+    model = ProfessionalProgramStudent
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'program','program_application_link','mentor',
+        'date_created','date_updated', 'status'
+    ]
+    list_editable = ['status']
+
+    def program_application_link(self, instance):
+        return instance.program_application_link()
+    program_application_link.allow_tags = True
+    program_application_link.short_description = "Program Application"
+
+    def get_queryset(self, request):
+        qs = get_queryset(self, request, ProfessionalProgramStudentAdmin)
+        return qs
+
+
 '''
 class WorkPlanTaskAdmin(admin.ModelAdmin):
 
@@ -1026,6 +1047,9 @@ admin.site.register(
 )
 admin.site.register(
     IndustryInternship, IndustryInternshipAdmin
+)
+admin.site.register(
+    ProfessionalProgramStudent, ProfessionalProgramStudentAdmin
 )
 '''
 admin.site.register(

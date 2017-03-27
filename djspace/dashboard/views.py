@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from django.utils.safestring import mark_safe
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext, loader
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -110,14 +110,14 @@ def home(request):
             )
 
     status = profile_status(user)
-    return render_to_response(
-        "dashboard/home.html", {
+
+    return render(
+        request, "dashboard/home.html", {
             "reg":reg,"status":status,"approved":approved,
             "user_files":user_files,"team":team,"applications":applications,
             "professional_programs":PROFESSIONAL_PROGRAMS,
             "rocket_competitions":ROCKET_COMPETITIONS_EXCLUDE
-        },
-        context_instance=RequestContext(request)
+        }
     )
 
 
@@ -244,11 +244,11 @@ def profile_form(request):
             "djspace.registration.forms", (reg_type+"Form")
         )(instance=reg, prefix="reg")
         pro_form = UserProfileForm(instance=profile, prefix="pro")
-    return render_to_response(
-        "dashboard/profile_form.html", {
+    return render(
+        request, "dashboard/profile_form.html", {
             "pro_form":pro_form,"reg_form":reg_form,"usr_form":usr_form,
             "reg_type":reg_type,"message":message
-        }, context_instance=RequestContext(request)
+        }
     )
 
 

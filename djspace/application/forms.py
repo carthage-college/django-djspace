@@ -718,3 +718,53 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
             'budget','award_acceptance','final_report','interim_report',
             'invoice','program_match','payment_information'
         )
+
+
+class ProfessionalProgramStudentForm(forms.ModelForm):
+
+    mentor = forms.CharField(
+        label = "Mentor",
+        required = True,
+        help_text = '''
+            Enter the last name or first name of mentor to see results
+            from which to choose.
+        ''',
+    )
+
+    class Meta:
+        model = ProfessionalProgramStudent
+        fields = (
+            'program','mentor'
+        )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(ProfessionalProgramStudentForm, self).__init__(*args, **kwargs)
+
+    def clean_mentor(self):
+        '''
+        Assign a User object to co-advisor
+        '''
+
+        cd = self.cleaned_data
+        mid = cd.get('mentor')
+
+        if mid:
+            #try:
+            if True:
+                user = User.objects.get(pk=mid)
+                cd['mentor'] = user
+                self.request.session['mentor_name'] = u'{}, {}'.format(
+                    user.last_name, user.first_name
+                )
+            #except:
+                #self._errors["mentor"] = self.error_class(
+                    #["That User does not exist in the system"]
+                #)
+        else:
+            self._errors["mentor"] = self.error_class(
+                ["Required field"]
+            )
+
+        return cd['mentor']
+

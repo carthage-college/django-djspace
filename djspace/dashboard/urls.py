@@ -1,25 +1,27 @@
 from django.contrib import admin
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
-urlpatterns = patterns('djspace.dashboard.views',
+from djspace.dashboard import views
+
+urlpatterns = [
     url(
         r'^get-users/$',
-        'get_users', name="get_users"
+        views.get_users, name='get_users'
     ),
     url(
         r'^set-val/$',
-        'set_val', name="set_val"
+        views.set_val, name='set_val'
     ),
     url(
         r'^registration-type/$',
-        'registration_type', name="registration_type"
+        views.registration_type, name='registration_type'
     ),
     url(
         r'^profile/$',
-        'profile_form', name="dashboard_profile"
+        views.profile_form, name='dashboard_profile'
     ),
     url(
         r'^$',
-        'home', name="dashboard_home"
-    ),
-)
+        views.home, name='dashboard_home'
+    )
+]
