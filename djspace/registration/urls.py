@@ -1,8 +1,10 @@
 from django.contrib import admin
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic import TemplateView
 
-urlpatterns = patterns('djspace.registration.views',
+from djspace.registration import views
+
+urlpatterns = [
     url(
         r'^success/$',
         TemplateView.as_view(
@@ -12,10 +14,10 @@ urlpatterns = patterns('djspace.registration.views',
     ),
     url(
         r'^(?P<uid>\d+)/print/$',
-        'registration_print', name="registration_print"
+        views.registration_print, name='registration_print'
     ),
     url(
         r'^(?P<reg_type>[a-zA-Z0-9_-]+)/$',
-        'form', name="registration_form"
-    ),
-)
+        views.form, name='registration_form'
+    )
+]
