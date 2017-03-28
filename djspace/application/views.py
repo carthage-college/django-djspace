@@ -35,6 +35,8 @@ def application_form(request, application_type, aid=None):
         userfiles = UserFiles.objects.get(user=user)
     except:
         userfiles = None
+    # UserFilesForm
+    form_user_files = None
 
     # verify that the user has completed registration
     reg_type = user.profile.registration_type
