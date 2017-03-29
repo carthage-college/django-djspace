@@ -1,6 +1,10 @@
 {% extends "application/email/base.html" %}
 {% block title %}Professional Program Student Participation{% endblock %}
 {% block data %}
+<h4>Files</h4>
+    {% with data.user as user %}
+      {% include "application/email/user_files.inc.html" %}
+    {% endwith %}
 <h4>
     Student has been selected to participate in the following program
 </h4>
