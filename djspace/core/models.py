@@ -197,6 +197,7 @@ class UserFiles(models.Model):
         editable=False
     )
     mugshot = models.FileField(
+        "Photo",
         upload_to = partial(upload_to_path, 'mugshot'),
         validators=[MimetypeValidator('image/jpeg')],
         max_length=768,
