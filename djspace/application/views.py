@@ -34,7 +34,9 @@ def application_form(request, application_type, aid=None):
     try:
         userfiles = UserFiles.objects.get(user=user)
     except:
-        userfiles = None
+        userfiles = UserFiles(user=user)
+        userfiles.save()
+
     # UserFilesForm
     form_user_files = None
 
