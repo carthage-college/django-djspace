@@ -712,12 +712,12 @@ class RocketLaunchTeam(BaseModel):
     )
     oral_presentation = models.FileField(
         upload_to = partial(upload_to_path, 'oral_presentation'),
-        validators=[
-            MimetypeValidator([
-                'application/vnd.ms-powerpoint',
-                'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-            ])
-        ],
+        #validators=[
+            #MimetypeValidator([
+                #'application/vnd.ms-powerpoint',
+                #'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            #])
+        #],
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
