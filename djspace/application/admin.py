@@ -126,9 +126,9 @@ def longitudinal_tracking(modeladmin, request):
     program = None
     exports = []
     for user in users:
-        try:
+        if True:
             apps = user.profile.applications.all()
-        except:
+        else:
             apps = None
         if apps:
             for a in apps:
@@ -978,6 +978,12 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
         'date_created','date_updated', 'status'
     ]
     list_editable = ['status']
+
+    actions = [
+        export_longitudinal_tracking, export_all_applications,
+        export_required_files, export_funded_files,
+        'email_applicants'
+    ]
 
     def program_application_link(self, instance):
         return instance.program_application_link()
