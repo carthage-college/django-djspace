@@ -126,9 +126,9 @@ def longitudinal_tracking(modeladmin, request):
     program = None
     exports = []
     for user in users:
-        if True:
+        try:
             apps = user.profile.applications.all()
-        else:
+        except:
             apps = None
         if apps:
             for a in apps:
