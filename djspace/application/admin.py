@@ -9,11 +9,9 @@ from django.utils.text import Truncator
 from django.utils.html import strip_tags
 from django.utils.encoding import smart_bytes
 from django.contrib.auth.models import User
-from django.forms.models import model_to_dict
-from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.admin.helpers import ActionForm
-from django.template import loader, Context, RequestContext
+from django.template import loader
 
 from djspace.application.models import *
 from djspace.core.utils import admin_display_file, get_start_date
@@ -122,7 +120,7 @@ def longitudinal_tracking(modeladmin, request):
     """
     Export application data to OpenXML file
     """
-    users = User.objects.all().order_by("last_name")
+    users = User.objects.all().order_by('last_name')
     program = None
     exports = []
     for user in users:
@@ -133,7 +131,7 @@ def longitudinal_tracking(modeladmin, request):
         if apps:
             for a in apps:
                 if a._meta.object_name == modeladmin.model._meta.object_name and a.status:
-                    exports.append({"user":user,"app":a})
+                    exports.append({'user':user,'app':a})
                     #program = a.get_application_type()
                     program = a.get_slug()
 
@@ -145,10 +143,11 @@ def longitudinal_tracking(modeladmin, request):
     # for each row would be ugly. this seems more pythonic, and we can reuse
     # for CSV export if need be.
     t = loader.get_template('application/export.longitudinal.html')
-    c = Context({ 'exports': exports, 'program':program, 'year':TODAY.year })
+    c = { 'exports': exports, 'program':program, 'year':TODAY.year }
     data = smart_bytes(
         t.render(c), encoding='utf-8', strings_only=False, errors='strict'
     )
+
     # reader requires an object which supports the iterator protocol and
     # returns a string each time its next() method is called. StringIO
     # provides an in-memory, line by line stream of the template data.
@@ -981,7 +980,6 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
 
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
         'email_applicants'
     ]
 
