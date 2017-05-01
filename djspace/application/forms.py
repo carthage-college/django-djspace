@@ -734,7 +734,7 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
     class Meta:
         model = ProfessionalProgramStudent
         fields = (
-            'program','mentor'
+            'program','mentor','award_acceptance'
         )
 
     def __init__(self, *args, **kwargs):

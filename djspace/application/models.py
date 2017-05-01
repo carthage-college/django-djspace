@@ -167,9 +167,11 @@ PROFESSIONAL_PROGRAMS = [
 ]
 STUDENT_PROFESSIONAL_PROGRAMS = (
     ('Aerospace Outreach', 'Aerospace Outreach'),
+    ('CaNOP', 'CaNOP'),
     ('Higher Education', 'Higher Education'),
     ('Industry Internship', 'Industry Internship'),
     ('NASA Competition', 'NASA Competition'),
+    ('NASA Internship', 'NASA Internship'),
     ('Research Infrastructure', 'Research Infrastructure'),
     ('Special Initiatives', 'Special Initiatives')
 )

@@ -2,6 +2,18 @@
 {% block title %}Professional Program Student Participation{% endblock %}
 {% block data %}
 <h4>Files</h4>
+  {% if data.award_acceptance %}
+  <ul>
+    <li>
+      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
+        Award Acceptance
+      </a><br>
+      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+    </li>
+  </ul>
+  {% else %}
+    {% if data.status %}<ul><li>Award Acceptance: Missing</li></ul>{% endif %}
+  {% endif %}
     {% with data.user as user %}
       {% include "application/email/user_files.inc.html" %}
     {% endwith %}
