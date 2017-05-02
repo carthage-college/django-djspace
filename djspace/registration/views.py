@@ -1,9 +1,8 @@
-from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.registration.forms import *
@@ -51,10 +50,9 @@ def form(request, reg_type):
             data.save()
             return HttpResponseRedirect(reverse('registration_success'))
 
-    return render_to_response(
-        "registration/form.html",
-        {"form": form,"reg_type":reg_type},
-        context_instance=RequestContext(request)
+    return render(
+        request, "registration/form.html",
+        {"form": form,"reg_type":reg_type}
     )
 
 @login_required
@@ -62,10 +60,8 @@ def user_files(request):
 
     form = UserFilesForm()
 
-    return render_to_response(
-        "registration/user_files.html",
-        {"form": form,},
-        context_instance=RequestContext(request)
+    return render(
+        request, "registration/user_files.html", {"form": form,}
     )
 
 
@@ -74,8 +70,6 @@ def registration_print(request, uid):
 
     user = get_object_or_404(User, pk=uid)
     user = user
-    return render_to_response(
-        "application/email/base.html",
-        {'data': {'user':user,},},
-        context_instance=RequestContext(request)
+    return render(
+        request, "application/email/base.html", {'data': {'user':user,},}
     )

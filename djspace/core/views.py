@@ -2,7 +2,6 @@
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponse
-from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -10,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from djspace.dashboard.views import UPLOAD_FORMS
@@ -105,25 +104,24 @@ def user_files(request):
             form = UserFilesForm(
                 data=request.POST, files=request.FILES, instance=instance
             )
-        field_name = request.POST.get("field_name")
+        field_name = request.POST.get('field_name')
         if form.is_valid():
             phile = form.save(commit=False)
             if not ct:
                 phile.user = user
             phile.save()
             earl = getattr(phile,field_name)
-            response = render_to_response(
-                "dashboard/view_file.ajax.html", {
-                    "earl":earl.url,"field_name":field_name
-                },
-                context_instance=RequestContext(request)
+            response = render(
+                request, 'dashboard/view_file.ajax.html', {
+                    'earl':earl.url,'field_name':field_name
+                }
             )
         else:
-            msg = "Fail: {}".format(form.errors)
+            msg = 'Fail: {}'.format(form.errors)
 
     if not response:
         response = HttpResponse(
-            msg, content_type="text/plain; charset=utf-8"
+            msg, content_type='text/plain; charset=utf-8'
         )
     return response
 
@@ -174,10 +172,9 @@ def user_files_test(request):
         mod = ct.model_class()
         obj = mod.objects.get(pk=request.GET.get("oid"))
         form = UPLOAD_FORMS[ct.model](instance=obj)
-    return render_to_response(
-        "dashboard/test.html", {
-            "form":form,"valid":valid
-        },
-        context_instance=RequestContext(request)
+    return render(
+        request, 'dashboard/test.html', {
+            'form':form, 'valid':valid
+        }
     )
 

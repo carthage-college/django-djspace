@@ -2,11 +2,9 @@ from django import forms
 from django.contrib import admin
 from django.contrib import messages
 from django.shortcuts import render
-from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.contrib.auth.admin import UserAdmin
-from django.shortcuts import render_to_response
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 
@@ -54,12 +52,11 @@ class GenericAdmin(admin.ModelAdmin):
         form = EmailApplicantsForm()
         ct = ContentType.objects.get_for_model(queryset.model)
 
-        return render_to_response (
-            'admin/email_applicants.html', {
+        return render (
+            request, 'admin/email_applicants.html', {
                 'form':form,'title':title,'objs':queryset,
                 'content_type':ct.pk
-            },
-            context_instance=RequestContext(request)
+            }
         )
     email_applicants.short_description = u'Email selected applicants'
 
