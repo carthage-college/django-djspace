@@ -44,7 +44,8 @@ UPLOAD_FORMS = {
   "midwesthighpoweredrocketcompetition": MidwestHighPoweredRocketCompetitionUploadsForm,
   "collegiaterocketcompetition": CollegiateRocketCompetitionUploadsForm,
   "nasacompetition": NasaCompetitionUploadsForm,
-  "industryinternship": IndustryInternshipUploadsForm
+  "industryinternship": IndustryInternshipUploadsForm,
+  'professionalprogramstudent': ProfessionalProgramStudentUploadsForm
 }
 
 

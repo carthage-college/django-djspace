@@ -53,6 +53,15 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
         )
 
 
+class ProfessionalProgramStudentUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = HigherEducationInitiatives
+        fields = (
+            'award_acceptance',
+        )
+
+
 class ResearchInfrastructureForm(forms.ModelForm):
 
     other_fellowship = forms.TypedChoiceField(
