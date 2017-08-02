@@ -59,14 +59,6 @@ FUNDED_FILES = (
 
 )
 
-def get_queryset(self, request, admin_class):
-    """
-    only show applications that were created after a certain date.
-    they wanted to see only applications for the current grant cycle.
-    so we hide old applications.
-    """
-    qs = super(admin_class, self).get_queryset(request)
-    return qs.filter(date_created__gte=get_start_date())
 
 def required_files(modeladmin, request, queryset):
     """
@@ -105,6 +97,7 @@ def required_files(modeladmin, request, queryset):
                     tar_ball.add(path, arcname=name)
         tar_ball.close()
         return response
+
 
 def export_required_files(modeladmin, request, queryset):
     """
@@ -166,6 +159,7 @@ def longitudinal_tracking(modeladmin, request):
     )
 
     return response
+
 
 def export_longitudinal_tracking(modeladmin, request, extra_context=None):
     """
@@ -254,6 +248,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
 
     return response
 
+
 def export_all_applications(modeladmin, request, queryset):
     """
     Export application data to CSV for all registration types
@@ -288,6 +283,7 @@ def _build_tarball(queryset, object_name, field, userfiles=False):
     tar_ball.close()
 
     return response
+
 
 def export_funded_files(modeladmin, request, queryset):
     """
@@ -355,18 +351,10 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     letter_interest_file.allow_tags = True
     letter_interest_file.short_description = "Interest"
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, HighAltitudeBalloonLaunchAdmin)
-        return qs
-
 
 class HighAltitudeBalloonPayloadAdmin(HighAltitudeBalloonLaunchAdmin):
 
     model = HighAltitudeBalloonPayload
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, HighAltitudeBalloonPayloadAdmin)
-        return qs
 
 
 class ClarkGraduateFellowshipAdmin(GenericAdmin):
@@ -437,18 +425,10 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     recommendation_2_file.allow_tags = True
     recommendation_2_file.short_description = "Recom 2"
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, ClarkGraduateFellowshipAdmin)
-        return qs
-
 
 class GraduateFellowshipAdmin(ClarkGraduateFellowshipAdmin):
 
     model = GraduateFellowship
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, GraduateFellowshipAdmin)
-        return qs
 
 
 class UndergraduateAdmin(GenericAdmin):
@@ -488,10 +468,6 @@ class UndergraduateAdmin(GenericAdmin):
     recommendation_file.allow_tags = True
     recommendation_file.short_description = "Recommendation"
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, UndergraduateAdmin)
-        return qs
-
 
 class UndergraduateResearchAdmin(UndergraduateAdmin):
 
@@ -523,10 +499,6 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, UndergraduateResearchAdmin)
-        return qs
-
 
 class UndergraduateScholarshipAdmin(UndergraduateAdmin):
 
@@ -547,18 +519,10 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     statement_file.allow_tags = True
     statement_file.short_description = 'Statement'
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, UndergraduateScholarshipAdmin)
-        return qs
-
 
 class StemBridgeScholarshipAdmin(UndergraduateScholarshipAdmin):
 
     model = StemBridgeScholarship
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, StemBridgeScholarshipAdmin)
-        return qs
 
 
 class RocketLaunchTeamAdmin(GenericAdmin):
@@ -587,10 +551,6 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     list_display_links = ['name']
     list_editable = ['status']
     raw_id_fields = ('user','co_advisor','leader','members',)
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, RocketLaunchTeamAdmin)
-        return qs
 
     # files
     def wsgc_acknowledgement_file(self, instance):
@@ -701,10 +661,6 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, CollegiateRocketCompetitionAdmin)
-        return qs
-
 
 class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
 
@@ -728,12 +684,6 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
-    def get_queryset(self, request):
-        qs = get_queryset(
-            self,request,MidwestHighPoweredRocketCompetitionAdmin
-        )
-        return qs
-
 
 class FirstNationsRocketCompetitionAdmin(GenericAdmin):
 
@@ -751,10 +701,6 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
         export_required_files, export_funded_files,
         'email_applicants'
     ]
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, FirstNationsRocketCompetitionAdmin)
-        return qs
 
 
 class HigherEducationInitiativesAdmin(GenericAdmin):
@@ -795,10 +741,6 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, HigherEducationInitiativesAdmin)
-        return qs
-
     def invoice_file(self, instance):
         return admin_display_file(instance,"invoice")
     invoice_file.allow_tags = True
@@ -819,10 +761,6 @@ class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
 
     model = ResearchInfrastructure
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, ResearchInfrastructureAdmin)
-        return qs
-
 
 class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
 
@@ -841,10 +779,6 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'grant_officer_email','grant_officer_phone',
         'date_created','date_updated','status'
     ]
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, AerospaceOutreachAdmin)
-        return qs
 
 
 class NasaCompetitionAdmin(GenericAdmin):
@@ -876,10 +810,6 @@ class NasaCompetitionAdmin(GenericAdmin):
         'email_applicants'
     ]
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, NasaCompetitionAdmin)
-        return qs
-
     def budget_file(self, instance):
         return admin_display_file(instance,"budget")
     budget_file.allow_tags = True
@@ -910,10 +840,6 @@ class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
 
     model = SpecialInitiatives
 
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, SpecialInitiativesAdmin)
-        return qs
-
 
 class WorkPlanTaskInline(admin.TabularInline):
     model = WorkPlanTask
@@ -942,10 +868,6 @@ class IndustryInternshipAdmin(GenericAdmin):
     ]
 
     inlines = [WorkPlanTaskInline,]
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, IndustryInternshipAdmin)
-        return qs
 
     def budget_file(self, instance):
         return admin_display_file(instance,"budget")
@@ -999,10 +921,6 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
         return link
     program_link.allow_tags = True
     program_link.short_description = 'Program Name (view/edit)'
-
-    def get_queryset(self, request):
-        qs = get_queryset(self, request, ProfessionalProgramStudentAdmin)
-        return qs
 
 
 '''
