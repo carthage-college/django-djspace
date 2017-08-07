@@ -71,7 +71,6 @@ class BaseStudent(Base):
     cumulative_college_credits = models.CharField(
         "Cumulative college credits",
         max_length=6,
-        validators=[credit_gpa_validator]
     )
     month_year_of_graduation = models.CharField(
         "Expected month and year of graduation",
