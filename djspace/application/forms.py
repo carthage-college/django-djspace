@@ -644,6 +644,10 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    past_participation = forms.TypedChoiceField(
+        label = "Have you previously participated in Collegiate Rocket Launch?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
 
     class Meta:
         model = MidwestHighPoweredRocketCompetition

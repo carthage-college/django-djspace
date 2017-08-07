@@ -853,6 +853,11 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
+    past_participation = models.CharField(
+        "Have you previously participated in Collegiate Rocket Launch?",
+        max_length=4,
+        choices=BINARY_CHOICES
+    )
     prior_experience = models.TextField(
         "Prior Rocket Experience",
         help_text="""
@@ -863,7 +868,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     other_fellowship = models.CharField(
         "Do you currently hold another Federal fellowship or traineeship?",
         max_length=4,
-        choices=BINARY_CHOICES,
+        choices=BINARY_CHOICES
     )
     other_fellowship_explain = models.CharField(
         """
