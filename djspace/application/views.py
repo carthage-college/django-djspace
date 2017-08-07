@@ -142,7 +142,7 @@ def application_form(request, application_type, aid=None):
     )
     # fetch the form instance
     try:
-        form = FormClass(instance=app)
+        form = FormClass(instance=app, label_suffix='')
     except:
         # app_type does not match an existing form
         raise Http404
@@ -155,11 +155,12 @@ def application_form(request, application_type, aid=None):
                application_type == "professional-program-student":
                 form = FormClass(
                     instance=app, data=request.POST, files=request.FILES,
-                    request=request
+                    request=request, label_suffix=''
                 )
             else:
                 form = FormClass(
-                    instance=app, data=request.POST, files=request.FILES
+                    instance=app, data=request.POST, files=request.FILES,
+                    label_suffix=''
                 )
         except:
             # app_type does not match an existing form

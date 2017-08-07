@@ -1106,18 +1106,6 @@ class Fellowship(BaseModel):
         abstract = True
 
     # core
-    signed_certification = models.FileField(
-        upload_to = partial(upload_to_path, 'signed_certification'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text=mark_safe('''
-            Before beginning the application process,
-            please print, obtain signatures, and scan the<br>
-            <a href="/live/files/3146-pdf" target="_blank">
-            signed certification document
-            </a>.
-        ''')
-    )
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
         max_length=4,
@@ -1249,6 +1237,20 @@ class Fellowship(BaseModel):
         max_length = 128
     )
     mentor_email = models.EmailField("Mentor's Email")
+    signed_certification = models.BooleanField(
+        """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        default=False
+    )
 
     def __unicode__(self):
         return u"{}".format(self.project_title)
@@ -1258,7 +1260,7 @@ class Fellowship(BaseModel):
         used when building a tarball of required files
         '''
         return [
-            'signed_certification','proposal','cv','budget',
+            'proposal','cv','budget',
             'undergraduate_transcripts','graduate_transcripts',
             'recommendation_1', 'recommendation_2'
         ]
@@ -1298,18 +1300,6 @@ class GraduateFellowship(Fellowship):
 class UndergraduateResearch(BaseModel):
 
     # core
-    signed_certification = models.FileField(
-        upload_to = partial(upload_to_path, 'signed_certification'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text=mark_safe('''
-            Before beginning the application process,
-            please print, obtain signatures, and scan the<br>
-            <a href="/live/files/1827-pdf" target="_blank">
-            signed certification document
-            </a>
-        ''')
-    )
     project_title = models.CharField(
         "Title of project", max_length=255
     )
@@ -1411,6 +1401,20 @@ class UndergraduateResearch(BaseModel):
         max_length = 128
     )
     mentor_email = models.EmailField("Mentor's Email")
+    signed_certification = models.BooleanField(
+        """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        default=False
+    )
 
     def __unicode__(self):
         return u"{}".format(self.project_title)
@@ -1433,7 +1437,7 @@ class UndergraduateResearch(BaseModel):
         used when building a tarball of required files
         '''
         return [
-            'signed_certification','proposal','high_school_transcripts',
+            'proposal','high_school_transcripts',
             'undergraduate_transcripts','wsgc_advisor_recommendation',
             'recommendation'
         ]
@@ -1452,18 +1456,6 @@ class Scholarship(BaseModel):
         abstract = True
 
     # core
-    signed_certification = models.FileField(
-        upload_to = partial(upload_to_path, 'signed_certification'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        help_text=mark_safe('''
-            Before beginning the application process,
-            please print, obtain signatures, and scan the<br>
-            <a href="/live/files/1827-pdf" target="_blank">
-            signed certification document
-            </a>
-        ''')
-    )
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'statement'),
         validators=[MimetypeValidator('application/pdf')],
@@ -1550,6 +1542,20 @@ class Scholarship(BaseModel):
         max_length=255,
         null = True, blank = True
     )
+    signed_certification = models.BooleanField(
+        """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        default=False
+    )
 
     def get_academic_institution(self):
         term = "FA"
@@ -1562,7 +1568,7 @@ class Scholarship(BaseModel):
         used when building a tarball of required files
         '''
         return [
-            'signed_certification','statement','high_school_transcripts',
+            'statement','high_school_transcripts',
             'undergraduate_transcripts','wsgc_advisor_recommendation',
             'recommendation'
         ]

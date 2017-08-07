@@ -177,7 +177,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     """
 
     file_fields = [
-        "cv", "proposal", "signed_certification", "letter_interest",
+        "cv", "proposal", "letter_interest",
         "budget", "undergraduate_transcripts", "graduate_transcripts",
         "recommendation", "recommendation_1", "recommendation_2",
         "high_school_transcripts", "wsgc_advisor_recommendation",
@@ -362,7 +362,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     model = ClarkGraduateFellowship
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'signed_certification_file','proposal_file','cv_file', 'budget_file',
+        'signed_certification','proposal_file','cv_file', 'budget_file',
         'undergraduate_transcripts_file','graduate_transcripts_file',
         'recommendation_1_file','recommendation_2_file',
         'project_title','begin_date','end_date',
@@ -384,11 +384,6 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
         )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
-
-    def signed_certification_file(self, instance):
-        return admin_display_file(instance,"signed_certification")
-    signed_certification_file.allow_tags = True
-    signed_certification_file.short_description = "Signed Cert"
 
     def proposal_file(self, instance):
         return admin_display_file(instance,"proposal")
@@ -443,11 +438,6 @@ class UndergraduateAdmin(GenericAdmin):
         'email_applicants'
     ]
 
-    def signed_certification_file(self, instance):
-        return admin_display_file(instance,"signed_certification")
-    signed_certification_file.allow_tags = True
-    signed_certification_file.short_description = "Signed Cert"
-
     def high_school_transcripts_file(self, instance):
         return admin_display_file(instance,"high_school_transcripts")
     high_school_transcripts_file.allow_tags = True
@@ -474,7 +464,7 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     model = UndergraduateResearch
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'signed_certification_file','proposal_file',
+        'signed_certification','proposal_file',
         'high_school_transcripts_file','undergraduate_transcripts_file',
         'wsgc_advisor_recommendation_file','recommendation_file',
         'project_title', 'begin_date', 'end_date',
@@ -505,7 +495,7 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     model = UndergraduateScholarship
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'signed_certification_file','statement_file',
+        'signed_certification','statement_file',
         'high_school_transcripts_file','undergraduate_transcripts_file',
         'wsgc_advisor_recommendation_file','recommendation_file',
         'academic_institution','wsgc_affiliate',

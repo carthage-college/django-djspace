@@ -228,6 +228,20 @@ class UndergraduateScholarshipForm(forms.ModelForm):
         widget = forms.RadioSelect(),
         choices=ACADEMIC_INSTITUTIONS
     )
+    signed_certification = forms.BooleanField(
+        label = """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required = True
+    )
 
     class Meta:
         model = UndergraduateScholarship
@@ -258,19 +272,24 @@ class StemBridgeScholarshipForm(forms.ModelForm):
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    signed_certification = forms.FileField(
-        help_text=mark_safe('''
-            Before beginning the application process,
-            please print, obtain signatures, and scan the<br>
-            <a href="/live/files/2911-ugp17certification-form-pdf" target="_blank">
-            signed certification document
-            </a>
-        ''')
-    )
     academic_institution = forms.TypedChoiceField(
         label = "Application submitted for",
         widget = forms.RadioSelect(),
         choices=ACADEMIC_INSTITUTIONS
+    )
+    signed_certification = forms.BooleanField(
+        label = """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required = True
     )
 
     class Meta:
@@ -302,6 +321,20 @@ class UndergraduateResearchForm(forms.ModelForm):
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    signed_certification = forms.BooleanField(
+        label = """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required = True
+    )
 
     class Meta:
         model = UndergraduateResearch
@@ -328,6 +361,20 @@ class GraduateFellowshipForm(forms.ModelForm):
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    signed_certification = forms.BooleanField(
+        label = """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required = True
+    )
 
     class Meta:
         model = GraduateFellowship
@@ -353,6 +400,20 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
             Do you currently hold another Federal fellowship or traineeship?
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    signed_certification = forms.BooleanField(
+        label = """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required = True
     )
 
     class Meta:
