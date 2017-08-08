@@ -475,7 +475,13 @@
           {% endif %}
         </li>
         <li class="form-group ctrlHolder">
-          <h3><label for="id_irs_w9">W9 Form [PDF]</label></h3>
+          <h3>
+            <label for="id_irs_w9">
+            W9 Form [PDF] |
+            <a href="https://spacegrant.carthage.edu/live/files/1902"
+              target="_blank">Download</a>
+            </label>
+          </h3>
           <div class="filewrap fleft">
             <input type="file" class="upload-file"
               name="irs_w9" id="id_irs_w9">
@@ -492,7 +498,13 @@
         </li>
         <li class="form-group ctrlHolder">
           <h3>
-            <label for="id_media_release">Media Release Form [PDF]</label>
+            <label for="id_media_release">
+            Media Release Form [PDF] |
+            <a href="https://spacegrant.carthage.edu/live/files/1746"
+              target="_blank">Adult</a> |
+            <a href="https://spacegrant.carthage.edu/live/files/1747"
+              target="_blank">Minor</a>
+            </label>
           </h3>
           <div class="filewrap fleft">
             <input type="file" class="upload-file"
@@ -507,6 +519,10 @@
           {% else %}
             <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
           {% endif %}
+          <p class="help">
+            Media release forms must contain a hand-written signature to be
+            accepted by NASA.
+          </p>
         </li>
       </ol>
     </fieldset>

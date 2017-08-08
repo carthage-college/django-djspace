@@ -240,6 +240,12 @@ class EducationInitiatives(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
+    budget = models.FileField(
+        upload_to = partial(upload_to_path, 'budget'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="[PDF format]"
+    )
     student_1 = models.CharField(
         max_length=128,
         null = True, blank = True
@@ -308,7 +314,11 @@ class EducationInitiatives(BaseModel):
         '''
         used when building a tarball of required files
         '''
-        return ['proposal']
+        return ['proposal','budget']
+
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
 
 
 class HigherEducationInitiatives(EducationInitiatives):
@@ -614,12 +624,7 @@ class RocketLaunchTeam(BaseModel):
         upload_to = partial(upload_to_path, 'budget'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
-        null = True, blank = True,
-        help_text="""
-            Rocket supplies and travel. [PDF format]<br>
-            NOTE: Only required for the
-            Midwest High-Powered Rocket Competition.
-        """
+        help_text="Rocket supplies and travel. [PDF format]"
     )
     verified_budget = models.FileField(
         upload_to = partial(upload_to_path, 'verified_budget'),
@@ -1038,6 +1043,12 @@ class HighAltitudeBalloon(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
+    budget = models.FileField(
+        upload_to = partial(upload_to_path, 'budget'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="[PDF format]"
+    )
     other_fellowship = models.CharField(
         "Do you currently hold another Federal fellowship or traineeship?",
         max_length=4,
@@ -1056,7 +1067,11 @@ class HighAltitudeBalloon(BaseModel):
         '''
         used when building a tarball of required files
         '''
-        return ['letter_interest','cv']
+        return ['letter_interest','cv','budget']
+
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
 
     @models.permalink
     def get_absolute_url(self):
@@ -1270,6 +1285,10 @@ class Fellowship(BaseModel):
             'recommendation_1', 'recommendation_2'
         ]
 
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -1358,6 +1377,12 @@ class UndergraduateResearch(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
+    budget = models.FileField(
+        upload_to = partial(upload_to_path, 'budget'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="[PDF format]"
+    )
     high_school_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'high_school_transcripts'),
         validators=[MimetypeValidator('application/pdf')],
@@ -1442,10 +1467,14 @@ class UndergraduateResearch(BaseModel):
         used when building a tarball of required files
         '''
         return [
-            'proposal','high_school_transcripts',
+            'proposal','budget','high_school_transcripts',
             'undergraduate_transcripts','wsgc_advisor_recommendation',
             'recommendation'
         ]
+
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
 
     @models.permalink
     def get_absolute_url(self):
@@ -1830,7 +1859,11 @@ class NasaCompetition(BaseModel):
         '''
         used when building a tarball of required files
         '''
-        return [ 'statement','budget' ]
+        return [ 'statement','budget']
+
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
 
     @models.permalink
     def get_absolute_url(self):
@@ -1985,7 +2018,6 @@ class IndustryInternship(BaseModel):
         upload_to = partial(upload_to_path, 'budget'),
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
-        null = True, blank = True,
         help_text = "PDF format"
     )
     invoice = models.FileField(
@@ -2028,7 +2060,11 @@ class IndustryInternship(BaseModel):
         '''
         used when building a tarball of required files
         '''
-        return ['intern_supervisor_cv','task_schedule']
+        return ['intern_supervisor_cv','task_schedule','budget']
+
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
 
     @models.permalink
     def get_absolute_url(self):
@@ -2045,6 +2081,12 @@ class ProfessionalProgramStudent(BaseModel):
             I, as a student, have been selected to participate
             in the above program
         '''
+    )
+    budget = models.FileField(
+        upload_to = partial(upload_to_path, 'budget'),
+        validators=[MimetypeValidator('application/pdf')],
+        max_length=768,
+        help_text="[PDF format]"
     )
     mentor = models.ForeignKey(
         User,
@@ -2142,6 +2184,16 @@ class ProfessionalProgramStudent(BaseModel):
 
     def mugshot(self):
         return self.user.user_files.mugshot
+
+    def required_files(self):
+        '''
+        used when building a tarball of required files
+        '''
+        return ['budget',]
+
+    # timestamp methods are for UI level display
+    def budget_timestamp(self):
+        return self.get_file_timestamp("budget")
 
 
 class WorkPlanTask(models.Model):

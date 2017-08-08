@@ -216,7 +216,10 @@ class UserFiles(models.Model):
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
-        help_text="PDF format"
+        help_text="""
+            Media release forms must contain a hand-written signature to be
+            accepted by NASA. File must be in PDF format.
+        """
     )
     irs_w9 = models.FileField(
         upload_to = partial(upload_to_path, 'irs_w9'),
