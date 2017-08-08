@@ -66,7 +66,7 @@ EMPLOYMENT_CHOICES = (
 
 class Base(models.Model):
     """
-    Abstract model that forms the basis for all registration types
+    Abstract model that forms the basis for all registration types and
     program applications (BaseModel)
     """
 
@@ -115,6 +115,11 @@ class BaseModel(Base):
         abstract = True
 
     status = models.BooleanField(default=False, verbose_name="Funded")
+    funded_code = models.CharField(
+        "Funded ID",
+        max_length=24,
+        null=True, blank=True
+    )
     award_acceptance = models.FileField(
         upload_to = partial(upload_to_path, 'award_acceptance'),
         validators=[MimetypeValidator('application/pdf')],

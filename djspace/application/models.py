@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.db.models.signals import pre_delete
 
-from djspace.core.models import BaseModel
+from djspace.core.models import Base, BaseModel
 from djspace.registration.choices import WSGC_SCHOOL
 from djspace.core.utils import upload_to_path
 from djspace.core.utils import get_term
@@ -536,7 +536,6 @@ class SpecialInitiatives(EducationInitiatives):
 
 
 class RocketLaunchTeam(BaseModel):
-
     # core
     name = models.CharField(
         "Team name",
@@ -719,12 +718,6 @@ class RocketLaunchTeam(BaseModel):
     )
     oral_presentation = models.FileField(
         upload_to = partial(upload_to_path, 'oral_presentation'),
-        #validators=[
-            #MimetypeValidator([
-                #'application/vnd.ms-powerpoint',
-                #'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-            #])
-        #],
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
@@ -765,6 +758,14 @@ class RocketLaunchTeam(BaseModel):
 
     def get_slug(self):
         return "rocket-launch-team"
+
+    def get_file_path(self):
+        return "files/applications"
+
+    def get_file_name(self):
+        return u"{}_{}.{}".format(
+            self.get_code(),self.user.last_name,self.user.first_name
+        )
 
     def get_team_members(self):
         team = None

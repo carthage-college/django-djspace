@@ -27,9 +27,9 @@ class HigherEducationInitiativesForm(forms.ModelForm):
     class Meta:
         model = HigherEducationInitiatives
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match', 'award_acceptance','final_report',
+            'interim_report','invoice','program_match','payment_information'
         )
 
         fields = [
@@ -74,9 +74,9 @@ class ResearchInfrastructureForm(forms.ModelForm):
     class Meta:
         model = ResearchInfrastructure
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report',
-            'payment_information'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report','payment_information'
         )
         fields = [
             'project_title','award_type','funds_requested','proposed_match',
@@ -133,9 +133,9 @@ class AerospaceOutreachForm(forms.ModelForm):
             'grant_officer_email','grant_officer_phone'
         ]
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report','invoice','program_match','payment_information'
         )
 
 
@@ -195,9 +195,9 @@ class SpecialInitiativesForm(forms.ModelForm):
             'grant_officer_email','grant_officer_phone'
         ]
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report','invoice','program_match','payment_information'
         )
 
 
@@ -246,8 +246,9 @@ class UndergraduateScholarshipForm(forms.ModelForm):
     class Meta:
         model = UndergraduateScholarship
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report'
         )
 
 
@@ -295,8 +296,9 @@ class StemBridgeScholarshipForm(forms.ModelForm):
     class Meta:
         model = StemBridgeScholarship
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report'
         )
 
 
@@ -339,8 +341,9 @@ class UndergraduateResearchForm(forms.ModelForm):
     class Meta:
         model = UndergraduateResearch
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report'
         )
 
 
@@ -379,8 +382,9 @@ class GraduateFellowshipForm(forms.ModelForm):
     class Meta:
         model = GraduateFellowship
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report'
         )
 
 
@@ -419,8 +423,9 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
     class Meta:
         model = ClarkGraduateFellowship
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report'
         )
 
 
@@ -445,8 +450,9 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
     class Meta:
         model = HighAltitudeBalloonPayload
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report'
         )
 
 
@@ -471,8 +477,9 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
     class Meta:
         model = HighAltitudeBalloonLaunch
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report'
         )
 
 
@@ -515,8 +522,9 @@ class RocketLaunchTeamForm(forms.ModelForm):
     class Meta:
         model = RocketLaunchTeam
         exclude = (
-            'user','status','funds_authorized','authorized_match','members',
-            'award_acceptance','interim_progress_report','interim_report',
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','members','award_acceptance',
+            'interim_progress_report','interim_report',
             'preliminary_design_report','final_design_report','final_report',
             'team_roster','flight_demo','final_motor_selection','lodging_list',
             'critical_design_report','oral_presentation','proceeding_paper',
@@ -606,8 +614,9 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
     class Meta:
         model = FirstNationsRocketCompetition
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','interim_report','final_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','interim_report',
+            'final_report'
         )
 
 
@@ -645,15 +654,16 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
     past_participation = forms.TypedChoiceField(
-        label = "Have you previously participated in Collegiate Rocket Launch?",
+        label="Have you previously participated in Collegiate Rocket Launch?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
 
     class Meta:
         model = MidwestHighPoweredRocketCompetition
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','interim_report','final_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','interim_report',
+            'final_report'
         )
 
     def __init__(self, *args, **kwargs):
@@ -662,9 +672,13 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         )
         self.fields['team'].queryset = RocketLaunchTeam.objects.annotate(
             count=Count('members')
-        ).filter(competition__in=["Midwest High Powered Rocket Competition"]).filter(
+        ).filter(
+            competition__in=["Midwest High Powered Rocket Competition"]
+        ).filter(
             date_created__gte=get_start_date()
-        ).exclude(count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
+        ).exclude(
+            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+        ).order_by("name")
 
 
 class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
@@ -688,8 +702,9 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
     class Meta:
         model = CollegiateRocketCompetition
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','interim_report','final_report'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','interim_report',
+            'final_report'
         )
 
 
@@ -729,9 +744,9 @@ class NasaCompetitionForm(forms.ModelForm):
     class Meta:
         model = NasaCompetition
         exclude = (
-            'user','status','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report','invoice',
-            'program_match','payment_information'
+            'user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report','invoice','program_match','payment_information'
         )
 
 
@@ -778,9 +793,9 @@ class IndustryInternshipForm(forms.ModelForm):
     class Meta:
         model = IndustryInternship
         exclude = (
-            'user','status','work_plan','funds_authorized','authorized_match',
-            'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'user','status','funded_code','work_plan','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'interim_report','invoice','program_match','payment_information'
         )
 
 
