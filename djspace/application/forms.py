@@ -7,16 +7,31 @@ from django.utils.safestring import mark_safe
 from django.core.validators import URLValidator
 from django.forms.extras.widgets import SelectDateWidget
 
-from djspace.core.utils import get_start_date
 from djspace.application.models import *
+from djspace.core.models import PAST_FUNDING_YEAR_CHOICES
+from djspace.core.utils import get_start_date
 from djtools.fields.validators import MimetypeValidator
 from djtools.fields import BINARY_CHOICES
 
 from taggit.models import Tag
 
+'''
+UploadsForms are for the user dashboard where file uploads
+take place after the application has been approved and
+additional files are required
+'''
 
 class HigherEducationInitiativesForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -31,16 +46,16 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'authorized_match', 'award_acceptance','final_report',
             'interim_report','invoice','program_match','payment_information'
         )
-
-        fields = [
+        fields = (
             'project_title','award_type','funds_requested','proposed_match',
             'source_match','begin_date', 'end_date', 'location','synopsis',
-            'proposal','other_fellowship','other_fellowship_explain',
+            'proposal','budget','past_funding','past_funding_year',
+            'other_fellowship','other_fellowship_explain',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone',
             'grant_officer_name','grant_officer_address',
             'grant_officer_email','grant_officer_phone'
-        ]
+        )
 
 
 class HigherEducationInitiativesUploadsForm(forms.ModelForm):
@@ -64,6 +79,15 @@ class ProfessionalProgramStudentUploadsForm(forms.ModelForm):
 
 class ResearchInfrastructureForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -78,18 +102,18 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'authorized_match','award_acceptance','final_report',
             'interim_report','payment_information'
         )
-        fields = [
+        fields = (
             'project_title','award_type','funds_requested','proposed_match',
-            'source_match',
+            'source_match', 'past_funding','past_funding_year',
             'other_fellowship','other_fellowship_explain',
             'begin_date', 'end_date', 'location','synopsis',
             'nasa_mission_directorate',
-            'nasa_mission_directorate_other', 'proposal',
+            'nasa_mission_directorate_other', 'proposal','budget',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone',
             'grant_officer_name','grant_officer_address',
             'grant_officer_email','grant_officer_phone'
-        ]
+        )
 
 
 class ResearchInfrastructureUploadsForm(forms.ModelForm):
@@ -107,6 +131,15 @@ class AerospaceOutreachForm(forms.ModelForm):
     project_category = forms.TypedChoiceField(
         choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
     )
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -120,18 +153,19 @@ class AerospaceOutreachForm(forms.ModelForm):
 
     class Meta:
         model = AerospaceOutreach
-        fields = [
+        fields = (
             'project_title','project_category','location','begin_date',
             'end_date', 'funds_requested','proposed_match','source_match',
+            'past_funding','past_funding_year',
             'other_funding','other_funding_explain',
             'other_fellowship','other_fellowship_explain',
             'synopsis', 'nasa_mission_directorate',
-            'nasa_mission_directorate_other', 'proposal',
+            'nasa_mission_directorate_other', 'proposal','budget',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone',
             'grant_officer_name','grant_officer_address',
             'grant_officer_email','grant_officer_phone'
-        ]
+        )
         exclude = (
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
@@ -153,6 +187,15 @@ class SpecialInitiativesForm(forms.ModelForm):
 
     project_category = forms.TypedChoiceField(
         choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
+    )
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
@@ -182,18 +225,19 @@ class SpecialInitiativesForm(forms.ModelForm):
 
     class Meta:
         model = SpecialInitiatives
-        fields = [
+        fields = (
             'project_title','project_category','location','begin_date',
             'end_date', 'funds_requested','proposed_match','source_match',
+            'past_funding','past_funding_year',
             'other_funding','other_funding_explain',
             'other_fellowship','other_fellowship_explain',
             'synopsis','nasa_mission_directorate',
-            'nasa_mission_directorate_other', 'proposal',
+            'nasa_mission_directorate_other', 'proposal','budget',
             'finance_officer_name','finance_officer_address',
             'finance_officer_email','finance_officer_phone',
             'grant_officer_name','grant_officer_address',
             'grant_officer_email','grant_officer_phone'
-        ]
+        )
         exclude = (
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
@@ -213,6 +257,15 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
 
 class UndergraduateScholarshipForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -263,6 +316,15 @@ class UndergraduateScholarshipUploadsForm(forms.ModelForm):
 
 class StemBridgeScholarshipForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -313,6 +375,15 @@ class StemBridgeScholarshipUploadsForm(forms.ModelForm):
 
 class UndergraduateResearchForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -358,6 +429,15 @@ class UndergraduateResearchUploadsForm(forms.ModelForm):
 
 class GraduateFellowshipForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -399,6 +479,15 @@ class GraduateFellowshipUploadsForm(forms.ModelForm):
 
 class ClarkGraduateFellowshipForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -440,6 +529,15 @@ class ClarkGraduateFellowshipUploadsForm(forms.ModelForm):
 
 class HighAltitudeBalloonPayloadForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -467,6 +565,15 @@ class HighAltitudeBalloonPayloadUploadsForm(forms.ModelForm):
 
 class HighAltitudeBalloonLaunchForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -511,6 +618,15 @@ class RocketLaunchTeamForm(forms.ModelForm):
             Enter the last name or first name of the team leader to see results
             from which to choose.
         ''',
+    )
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
@@ -605,6 +721,16 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
 
 
 class FirstNationsRocketCompetitionForm(forms.ModelForm):
+
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     media_release = forms.FileField(
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -647,6 +773,15 @@ class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
 
 class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -692,6 +827,15 @@ class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
 
 class CollegiateRocketCompetitionForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -730,6 +874,15 @@ class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
 
 class NasaCompetitionForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -783,6 +936,15 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
 
 class IndustryInternshipForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
@@ -811,6 +973,15 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
 
 class ProfessionalProgramStudentForm(forms.ModelForm):
 
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
     mentor = forms.CharField(
         label = "Mentor",
         required = True,
@@ -823,7 +994,7 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
     class Meta:
         model = ProfessionalProgramStudent
         fields = (
-            'program','mentor','award_acceptance'
+            'program','mentor','award_acceptance','budget'
         )
 
     def __init__(self, *args, **kwargs):

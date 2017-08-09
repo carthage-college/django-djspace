@@ -331,7 +331,7 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'cv_file', 'letter_interest_file',
-        'date_created','date_updated',
+        'date_created','date_updated','past_funding','past_funding_year',
         'funded_code','status'
     ]
     list_editable = ['funded_code','status']
@@ -368,7 +368,8 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
         'recommendation_1_file','recommendation_2_file',
         'project_title','begin_date','end_date',
         'anticipating_funding','funds_requested','funds_authorized',
-        'synopsis_trunk','date_created','date_updated','funded_code','status'
+        'synopsis_trunk','date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_editable = ['funds_authorized','funded_code','status']
     list_display_links = ['project_title']
@@ -473,7 +474,8 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
         'other_funding', 'other_funding_explain',
         'synopsis_trunk',
         'other_funding', 'other_funding_explain',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_editable = ['funds_authorized','funded_code','status']
     list_display_links = ['project_title']
@@ -501,7 +503,8 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'wsgc_advisor_recommendation_file','recommendation_file',
         'academic_institution','wsgc_affiliate',
         'other_funding', 'other_funding_explain',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_editable = ['funded_code','status']
 
@@ -537,7 +540,8 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'proceeding_paper_file',
         'name','academic_institution_name','competition','co_advisor','leader',
         'industry_mentor_name','industry_mentor_email',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_display_links = ['name']
     list_editable = ['funded_code','status']
@@ -635,7 +639,8 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     model = CollegiateRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'cv_file','team','date_created','date_updated','funded_code','status'
+        'cv_file','team','date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_display_links = ['team']
     list_editable = ['funded_code','status']
@@ -658,7 +663,8 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     model = MidwestHighPoweredRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'team','date_created','date_updated','cv_file','funded_code','status'
+        'team','date_created','date_updated','cv_file',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_display_links = ['team']
     list_editable = ['funded_code','status']
@@ -681,7 +687,8 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     model = FirstNationsRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'team','date_created','date_updated','funded_code','status'
+        'team','date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_display_links = ['team']
     list_editable = ['funded_code','status']
@@ -708,7 +715,8 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
         'finance_officer_email','finance_officer_phone',
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_editable = [
         'funds_authorized','authorized_match','funded_code','status'
@@ -770,7 +778,8 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'finance_officer_email','finance_officer_phone',
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
 
 
@@ -790,7 +799,8 @@ class NasaCompetitionAdmin(GenericAdmin):
         'finance_officer_email','finance_officer_phone',
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_display_links = ['date_created']
     list_editable = [
@@ -848,7 +858,8 @@ class IndustryInternshipAdmin(GenericAdmin):
         'payment_information_file','award_type',
         'funds_requested','funds_authorized',
         'proposed_match','authorized_match','source_match',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
 
     model = IndustryInternship
@@ -893,7 +904,8 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'program_link','program_application_link','mentor',
-        'date_created','date_updated','funded_code','status'
+        'date_created','date_updated',
+        'past_funding','past_funding_year','funded_code','status'
     ]
     list_editable = ['funded_code','status']
 

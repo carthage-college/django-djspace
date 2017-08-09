@@ -3,7 +3,7 @@ from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 
 from djspace.core.models import UserProfile, GenericChoice, BIRTH_YEAR_CHOICES
-from djspace.core.models import REG_TYPE, EMPLOYMENT_CHOICES, DISABILITY_CHOICES
+from djspace.core.models import REG_TYPE, DISABILITY_CHOICES
 
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES

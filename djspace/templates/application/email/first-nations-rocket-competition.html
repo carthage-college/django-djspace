@@ -3,10 +3,22 @@
 {% block data %}
 <h4>Team</h4>
 <p>{{data.team.name}}</p>
+<h4>Have you received WSGC funding within the past five years?</h4>
+<p>{{data.past_funding|default_if_none:"No"}}</p>
+{% if data.past_funding == 'Yes' %}
+<h4>If 'Yes', what year?</h4>
+<p>{{data.past_funding_year}}</p>
+{% endif %}
 <h4>Prior Experience</h4>
 <div>{{data.prior_experience|safe}}</div>
 <h4>Files</h4>
 <ul>
+  <li>
+    <a href="{{media_url}}{{data.budget}}" target="_blank">
+        Budget
+    </a><br>
+    https://{{server_url}}{{media_url}}{{data.budget}}
+  </li>
   <li>
     <a href="{{media_url}}{{data.get_media_release}}" target="_blank">
       Media Release

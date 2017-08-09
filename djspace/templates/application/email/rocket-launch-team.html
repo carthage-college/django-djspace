@@ -3,6 +3,12 @@
 {% block data %}
 <h4>Team Name</h4>
 <p>{{data.name}}</p>
+<h4>Have you received WSGC funding within the past five years?</h4>
+<p>{{data.past_funding|default_if_none:"No"}}</p>
+{% if data.past_funding == 'Yes' %}
+<h4>If 'Yes', what year?</h4>
+<p>{{data.past_funding_year}}</p>
+{% endif %}
 <h4>Academic Institution</h4>
 <p>{{data.academic_institution_name}}
 {% if data.academic_institution_other %}&mdash;

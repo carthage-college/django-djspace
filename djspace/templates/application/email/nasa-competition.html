@@ -1,14 +1,18 @@
 {% extends "application/email/base.html" %}
 {% block title %}NASA Competition{% endblock %}
 {% block data %}
-
 <h4>Type of NASA competition</h4>
 <p>{{data.competition_type}}</p>
 {% if data.competition_type_other %}
 <h4>Other competition</h4>
 <p>{{data.competition_type_other}}</p>
 {% endif %}
-
+<h4>Have you received WSGC funding within the past five years?</h4>
+<p>{{data.past_funding|default_if_none:"No"}}</p>
+{% if data.past_funding == 'Yes' %}
+<h4>If 'Yes', what year?</h4>
+<p>{{data.past_funding_year}}</p>
+{% endif %}
 <h4>NASA Center</h4>
 <p>{{data.facility_name}}</p>
 {% if data.facility_name_other %}

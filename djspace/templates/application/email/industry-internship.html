@@ -1,17 +1,20 @@
 {% extends "application/email/base.html" %}
 {% block title %}Industry Internship{% endblock %}
 {% block data %}
+<h4>Have you received WSGC funding within the past five years?</h4>
+<p>{{data.past_funding|default_if_none:"No"}}</p>
+{% if data.past_funding == 'Yes' %}
+<h4>If 'Yes', what year?</h4>
+<p>{{data.past_funding_year}}</p>
+{% endif %}
 <h4>Award</h4>
 <p>{{data.award_type}}</p>
-
 <h4>The discipline within which the opportunity falls</h4>
 <p>{{data.award_type}}</p>
-
 {% if data.discipline_other %}
 <h4>Other discipline</h4>
 <p>{{data.discipline_other}}</p>
 {% endif %}
-
 <h4>Educational Background</h4>
 <p>{{data.educational_background}}</p>
 

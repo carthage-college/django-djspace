@@ -13,6 +13,12 @@
 <p>{{data.mentor_name}}</p>
 <h4>Mentor email</h4>
 <p>{{data.mentor_email}}</p>
+<h4>Have you received WSGC funding within the past five years?</h4>
+<p>{{data.past_funding|default_if_none:"No"}}</p>
+{% if data.past_funding == 'Yes' %}
+<h4>If 'Yes', what year?</h4>
+<p>{{data.past_funding_year}}</p>
+{% endif %}
 <h4>Funds requested</h4>
 <p>{{data.funds_requested}}</p>
 <h4>Synopsis</h4>

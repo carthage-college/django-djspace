@@ -35,6 +35,10 @@ REG_TYPE = (
 )
 
 BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
+PAST_FUNDING_YEAR_CHOICES = [
+    (x, x) for x in reversed(xrange(date.today().year-5,date.today().year+1))
+]
+PAST_FUNDING_YEAR_CHOICES.insert(0,('','---year---'))
 DISABILITY_CHOICES = (
     ('','----select----'),
     ("I do not have a disability", "I do not have a disability"),
@@ -118,6 +122,19 @@ class BaseModel(Base):
     funded_code = models.CharField(
         "Funded ID",
         max_length=24,
+        null=True, blank=True
+    )
+    past_funding = models.CharField(
+        "Have you received WSGC funding within the past five years?",
+        max_length=4,
+        choices=BINARY_CHOICES,
+        null=True, blank=True
+    )
+    past_funding_year = models.CharField(
+        "If 'Yes', what year?",
+        max_length=4,
+        # OJO: does not display on django admin listing if choices is set.
+        #choices=PAST_FUNDING_YEAR_CHOICES,
         null=True, blank=True
     )
     award_acceptance = models.FileField(

@@ -1505,7 +1505,7 @@ class Scholarship(BaseModel):
             space sciences</li>
             <li>a description of the program of space-related
             studies you plan to pursue during the period of this
-             award.</li></ol> [PDF format]
+             award</li></ol> [PDF format]
         ''')
     )
     high_school_transcripts = models.FileField(
@@ -2014,13 +2014,13 @@ class IndustryInternship(BaseModel):
             filled with students qualified to be funded through the WSGC.
         '''
     )
-    # approved files
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
         validators = [MimetypeValidator('application/pdf')],
         max_length = 768,
         help_text = "PDF format"
     )
+    # approved files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'invoice'),
         validators=[MimetypeValidator('application/pdf')],
