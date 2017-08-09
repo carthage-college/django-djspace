@@ -607,18 +607,6 @@ class RocketLaunchTeam(BaseModel):
         max_length=128
     )
     # files
-    wsgc_acknowledgement = models.FileField(
-        "WSGC institutional representative acknowledgement",
-        upload_to = partial(upload_to_path, 'wsgc_acknowledgement'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null = True, blank = True,
-        help_text="""
-            [PDF format]<br>
-            NOTE: Only required for the Collegiate Rocket Competition<br>
-            and the Midwest High-Powered Rocket Competition.
-        """
-    )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'budget'),
         validators=[MimetypeValidator('application/pdf')],

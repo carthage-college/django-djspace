@@ -182,7 +182,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         "budget", "undergraduate_transcripts", "graduate_transcripts",
         "recommendation", "recommendation_1", "recommendation_2",
         "high_school_transcripts", "wsgc_advisor_recommendation",
-        "statement","wsgc_acknowledgement"
+        "statement"
     ]
     exclude = [
         "user", "userprofile", "user_id", "updated_by_id", "id",
@@ -541,7 +541,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     ]
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'wsgc_acknowledgement_file','budget_file',
+        'budget_file',
         'interim_progress_report_file','preliminary_design_report_file',
         'final_design_report_file','team_roster_file','flight_demo_file',
         'final_motor_selection_file','lodging_list_file',
@@ -556,12 +556,6 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     list_display_links = ['name']
     list_editable = ['funded_code','status']
     raw_id_fields = ('user','co_advisor','leader','members',)
-
-    # files
-    def wsgc_acknowledgement_file(self, instance):
-        return admin_display_file(instance,'wsgc_acknowledgement')
-    wsgc_acknowledgement_file.allow_tags = True
-    wsgc_acknowledgement_file.short_description = "WSGC Ack"
 
     def budget_file(self, instance):
         return admin_display_file(instance,'budget')
