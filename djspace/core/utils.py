@@ -20,17 +20,17 @@ PROFESSIONAL_PROGRAMS = [
 # rocket launch required files by competition. this will do until
 # we change the data model to have a separate table for their files
 MRL_REQUIRED_FILES = [
-    "team_roster","preliminary_design_report","flight_readiness_report",
+    "preliminary_design_report","flight_readiness_report",
     "education_outreach","post_flight_performance_report",
     "proceeding_paper"
 ]
 FNL_REQUIRED_FILES = [
-    "team_roster","budget","flight_demo","preliminary_design_report",
+    "budget","flight_demo","preliminary_design_report",
     "final_motor_selection","lodging_list","critical_design_report",
     "oral_presentation","post_flight_performance_report"
 ]
 CRL_REQUIRED_FILES = [
-    "budget","flight_demo","interim_progress_report","team_roster",
+    "budget","flight_demo","interim_progress_report",
     "final_design_report","education_outreach","oral_presentation",
     "post_flight_performance_report","proceeding_paper"
 ]

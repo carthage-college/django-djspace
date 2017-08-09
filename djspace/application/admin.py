@@ -53,7 +53,6 @@ FUNDED_FILES = (
     ('preliminary_design_report','Preliminary Design Report'),
     ('program_match','Program Match'),
     ('proposal','Proposal'),
-    ('team_roster','Team Roster'),
     ('irs_w9','W9'),
     #('',''),
 
@@ -543,7 +542,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     list_display  = PROFILE_LIST_DISPLAY + [
         'budget_file',
         'interim_progress_report_file','preliminary_design_report_file',
-        'final_design_report_file','team_roster_file','flight_demo_file',
+        'final_design_report_file','flight_demo_file',
         'final_motor_selection_file','lodging_list_file',
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file','flight_readiness_report_file',
@@ -576,11 +575,6 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         return admin_display_file(instance,'final_design_report')
     final_design_report_file.allow_tags = True
     final_design_report_file.short_description = "Final Design Rpt"
-
-    def team_roster_file(self, instance):
-        return admin_display_file(instance,'team_roster')
-    team_roster_file.allow_tags = True
-    team_roster_file.short_description = "Roster"
 
     def flight_demo_file(self, instance):
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'

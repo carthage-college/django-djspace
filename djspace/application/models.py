@@ -670,25 +670,15 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    team_roster = models.FileField(
-        "Final team roster",
-        upload_to = partial(upload_to_path, 'team_roster'),
-        validators=[MimetypeValidator('application/pdf')],
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
     flight_demo = models.CharField(
         max_length=768,
         null=True, blank=True,
         help_text="URL where your video is located"
     )
-    final_motor_selection = models.FileField(
-        upload_to = partial(upload_to_path, 'final_motor_selection'),
-        validators=[MimetypeValidator('application/pdf')],
+    final_motor_selection = models.TextField(
+        "Motor Selection",
         max_length=768,
         null=True, blank=True,
-        help_text="PDF format"
     )
     lodging_list = models.FileField(
         upload_to = partial(upload_to_path, 'lodging_list'),
@@ -807,9 +797,6 @@ class RocketLaunchTeam(BaseModel):
 
     def final_design_report_timestamp(self):
         return self.get_file_timestamp("final_design_report")
-
-    def team_roster_timestamp(self):
-        return self.get_file_timestamp("team_roster")
 
     def final_motor_selection_timestamp(self):
         return self.get_file_timestamp("final_motor_selection")

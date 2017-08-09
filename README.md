@@ -23,13 +23,10 @@ Wisconsin Space Grant Consortium grant programs application infrastructure.
 
 9. update templates/application/form.html if need be
 
-
 _Faculty_
 
 Aerospace Outreach
 Create Rocket Launch Team (NOI)
-High Altitude Balloon Payload
-High Altitude Balloon Launch
 Higher Education Initiatives
 NASA Competition
 Research Infrastructure
@@ -39,14 +36,12 @@ _Professional_
 
 Aerospace Outreach
 Industry Internship
-High Altitude Balloon Payload
-High Altitude Balloon Launch
 Higher Education Initiatives
 NASA Competition
 Research Infrastructure
 Special Initiatives
 
-_Graduate_
+_UnderGraduate_
 
 Dr. Laurel Salton Clark Memorial Research Fellowship
 Collegiate Rocket Launch Competition
@@ -60,16 +55,7 @@ Undergraduate Scholarship
 Undergraduate Research Fellowship
 WSGC Graduate & Professional Research Fellowship
 
-_Undergraduate_
+_Graduate_
 
 Dr. Laurel Salton Clark Memorial Research Fellowship
-Collegiate Rocket Launch Competition
-First Nations Rocket Launch Competition
-Midwest High-Powered Rocket Launch Competition
-High Altitude Balloon Payload
-High Altitude Balloon Launch
-Professional Program Student Participation
-STEM Bridge Scholarship
-Undergraduate Scholarship
-Undergraduate Research Fellowship
 WSGC Graduate & Professional Research Fellowship

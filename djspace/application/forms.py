@@ -650,7 +650,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'authorized_match','members','award_acceptance',
             'interim_progress_report','interim_report',
             'preliminary_design_report','final_design_report','final_report',
-            'team_roster','flight_demo','final_motor_selection','lodging_list',
+            'flight_demo','lodging_list','final_motor_selection',
             'critical_design_report','oral_presentation','proceeding_paper',
             'flight_readiness_report','post_flight_performance_report',
             'education_outreach','verified_budget','payment_information_form',
@@ -718,8 +718,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
         model = RocketLaunchTeam
         fields = (
             'award_acceptance','interim_progress_report',
-            'preliminary_design_report','final_design_report','team_roster',
-            'budget','flight_demo','final_motor_selection','lodging_list',
+            'preliminary_design_report','final_design_report',
+            'budget','flight_demo','lodging_list',
             'critical_design_report','oral_presentation',
             'post_flight_performance_report','education_outreach',
             'flight_readiness_report','proceeding_paper',
