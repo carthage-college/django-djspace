@@ -529,6 +529,14 @@ class ClarkGraduateFellowshipUploadsForm(forms.ModelForm):
 
 class HighAltitudeBalloonPayloadForm(forms.ModelForm):
 
+    commit = forms.TypedChoiceField(
+        label="""
+            Will you be able to commit 32-40 hours/week
+            to this 10 week summer experience?
+        """,
+        required = True,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -584,7 +592,7 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
     class Meta:
         model = HighAltitudeBalloonLaunch
         exclude = (
-            'user','status','funded_code','funds_authorized',
+            'user','status','commit','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'interim_report'
         )

@@ -325,12 +325,12 @@ class TarballActionForm(ActionForm):
     )
 
 
-class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
+class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
 
     model = HighAltitudeBalloonLaunch
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'cv_file', 'letter_interest_file',
+        'cv_file', 'commit_short', 'letter_interest_file',
         'date_created','date_updated','past_funding','past_funding_year',
         'funded_code','status'
     ]
@@ -347,15 +347,25 @@ class HighAltitudeBalloonLaunchAdmin(GenericAdmin):
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
+    def commit_short(self, instance):
+        return instance.commit
+    commit_short.short_description = "Commitement"
+
     def letter_interest_file(self, instance):
         return admin_display_file(instance,"letter_interest")
     letter_interest_file.allow_tags = True
     letter_interest_file.short_description = "Interest"
 
 
-class HighAltitudeBalloonPayloadAdmin(HighAltitudeBalloonLaunchAdmin):
+class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
 
-    model = HighAltitudeBalloonPayload
+    model = HighAltitudeBalloonLaunch
+
+    list_display  = PROFILE_LIST_DISPLAY + [
+        'cv_file', 'letter_interest_file',
+        'date_created','date_updated','past_funding','past_funding_year',
+        'funded_code','status'
+    ]
 
 
 class ClarkGraduateFellowshipAdmin(GenericAdmin):

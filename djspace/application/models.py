@@ -1037,6 +1037,15 @@ class HighAltitudeBalloon(BaseModel):
             [PDF format]
         """
     )
+    commit = models.CharField(
+        """
+            Will you be able to commit 32-40 hours/week
+            to this 10 week summer experience?
+        """,
+        max_length=4,
+        null = True, blank = True,
+        choices=BINARY_CHOICES,
+    )
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'cv'),
