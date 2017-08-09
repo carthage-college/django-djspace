@@ -284,12 +284,13 @@
         </h3>
         <li>
             <span class="short-date" title="Date Created">
-                {{app.date_created|date:"SHORT_DATE_FORMAT"}}
-            <a href="{{app.get_absolute_url}}">
+                {{app.date_created|date:"SHORT_DATE_FORMAT"}}</span>
+            <span style="font-weight:bold" title="Update Your Application">
+            | <a href="{{app.get_absolute_url}}">
             {% if app.project_title %}
                 {{app}}
             {% else %}
-                Application
+                Update Application
             {% endif %}
             </a>
             </span>

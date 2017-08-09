@@ -37,7 +37,6 @@ FUNDED_FILES = (
     ('cv','CV'),
     ('education_outreach','Education Outreach'),
     ('final_design_report','Final Design Report'),
-    ('final_motor_selection','Final Motor Selection'),
     ('final_report','Final Report'),
     ('flight_demo','Flight Demo'),
     ('flight_readiness_report','Flight Readiness Report'),
@@ -543,7 +542,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'budget_file',
         'interim_progress_report_file','preliminary_design_report_file',
         'final_design_report_file','flight_demo_file',
-        'final_motor_selection_file','lodging_list_file',
+        'final_motor_selection_trunk','lodging_list_file',
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file','flight_readiness_report_file',
         'proceeding_paper_file',
@@ -586,10 +585,12 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo URL"
 
-    def final_motor_selection_file(self, instance):
-        return admin_display_file(instance,'final_motor_selection')
-    final_motor_selection_file.allow_tags = True
-    final_motor_selection_file.short_description = "Final Motor"
+    def final_motor_selection_trunk(self, instance):
+        return Truncator(instance.final_motor_selection).words(
+            25, html=True, truncate=" ..."
+        )
+    final_motor_selection_trunk.allow_tags = True
+    final_motor_selection_trunk.short_description = "Final Motor"
 
     def lodging_list_file(self, instance):
         return admin_display_file(instance,'lodging_list')
