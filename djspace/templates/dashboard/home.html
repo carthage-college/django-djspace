@@ -283,7 +283,7 @@
             {{app.get_application_type}}{% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}} {% endif %}
         </h3>
         <li>
-            <span class="short-date">
+            <span class="short-date" title="Date Created">
                 {{app.date_created|date:"SHORT_DATE_FORMAT"}}
             <a href="{{app.get_absolute_url}}">
             {% if app.project_title %}

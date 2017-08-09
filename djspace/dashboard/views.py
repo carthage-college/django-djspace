@@ -86,7 +86,7 @@ def home(request):
     team = {}
     start_date = get_start_date()
     for a in apps.all():
-        if a.date_created >= start_date:
+        if a.multi_year or a.date_created >= start_date:
             applications.append(a)
             if a.status:
                 approved.append(a)

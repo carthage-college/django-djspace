@@ -159,6 +159,10 @@ class BaseModel(Base):
         help_text="PDF format"
     )
 
+    def multi_year(self):
+        #return False
+        return True
+
     def get_file_path(self):
         return "files/applications"
 
