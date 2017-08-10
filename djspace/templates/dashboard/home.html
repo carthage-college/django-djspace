@@ -4,6 +4,12 @@
     WSGC {{reg_type|capfirst}} Dashboard &mdash; Carthage College
 {% endblock %}
 {% block css %}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous" rel="stylesheet">
     <link href="//www.carthage.edu/themes/europa/assets/css/master.css"
         type="text/css" rel="stylesheet">
     <link href="//www.carthage.edu/themes/europa/assets/css/addons.css"
@@ -36,8 +42,11 @@
 <script src="https://malsup.github.io/min/jquery.blockUI.min.js"
     type="text/javascript"></script>
 <script type="text/javascript">
-  $(document).ready(function(){
-
+  $(function(){
+    $('.popover-toggle').popover({
+        trigger: 'hover',
+        placement: 'left'
+    });
     function validateURL(textval) {
       var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
       return regexp.test(textval);
@@ -276,7 +285,18 @@
 <div class="large-6 medium-12 small-12">
 {% if reg %}
     <div class="info">
-      <h2>Your Applications</h2>
+      <h2>
+        Your Applications
+        <span class="fright">
+            <i tabindex="0"
+            class="fa fa-question-circle-o green popover-toggle"
+            data-html="true"
+            data-title="<b>NOTE:</b>"
+            data-trigger="focus"
+            data-content="<span class='help'>All of the applications that you have submitted for this grant cycle appear below. Some from past years will appear below if you still have outstanding files from those applications</span>."
+            aria-hidden="true"></i>
+         </span>
+      </h2>
     </div>
     <ul>
     {% for app in applications %}
@@ -297,7 +317,18 @@
             </span>
             {% if app.status %}
               <fieldset>
-                <legend>Requisite Files</legend>
+                <legend>
+                    Requisite Files
+                    <span class="fright">
+                      <i tabindex="0"
+                      class="fa fa-question-circle-o green popover-toggle"
+                      data-html="true"
+                      data-title="<b>NOTE:</b>"
+                      data-trigger="focus"
+                      data-content="<span class='help'>An X means you have not uploaded the file. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
+                      aria-hidden="true"></i>
+                  </span>
+                </legend>
                 <ol>
                   <li class="form-group ctrlHolder">
                     <h3>
@@ -433,15 +464,33 @@
 <div class="column2 large-6 medium-12 small-12">
     {% if approved %}
     <div class="info">
-      <h2>Personal Profile Files</h2>
+      <h2>
+        Personal Profile Files
+        <span class="fright">
+            <i tabindex="0"
+            class="fa fa-question-circle-o green popover-toggle"
+            data-html="true"
+            data-title="<b>NOTE:</b>"
+            data-trigger="focus"
+            data-content="<span class='help'>The following files will serve all programs to which you have submitted an application. The W9 and Media Release Forms have to be uploaded every year</span>."
+            aria-hidden="true"></i>
+         </span>
+      </h2>
     </div>
-    <p>
-        {% get_lw_content as media_release blurbs 2562 %}
-        {{media_release.body}}
-    </p>
     <ol><li>
     <fieldset>
-      <legend>All Program Files</legend>
+      <legend>
+        All Program Files
+        <span class="fright">
+          <i tabindex="0"
+          class="fa fa-question-circle-o green popover-toggle"
+          data-html="true"
+          data-title="<b>NOTE:</b>"
+          data-trigger="focus"
+          data-content="<span class='help'>An X means you have not uploaded the file. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
+          aria-hidden="true"></i>
+        </span>
+      </legend>
       <ol>
         <li class="form-group ctrlHolder">
           <h3><label for="id_mugshot">Photo [JPG]</label></h3>
@@ -535,7 +584,18 @@
     <div class="notice">
     {% else %}
     <div class="info">
-      <h2>Grant Application Forms</h2>
+      <h2>
+        Grant Application Forms
+        <span class="fright">
+            <i tabindex="0"
+            class="fa fa-question-circle-o green popover-toggle"
+            data-html="true"
+            data-title="<b>NOTE:</b>"
+            data-trigger="focus"
+            data-content="<span class='help'>Find below all of the programs for which you may submit an application</span>."
+            aria-hidden="true"></i>
+         </span>
+      </h2>
     </div>
     <div class="grant-list">
     {% endif %}
