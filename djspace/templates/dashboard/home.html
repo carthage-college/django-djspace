@@ -1,4 +1,5 @@
 {% extends "home.html" %}
+{% load livewhale_api %}
 {% block title %}
     WSGC {{reg_type|capfirst}} Dashboard &mdash; Carthage College
 {% endblock %}
@@ -435,9 +436,8 @@
       <h2>Personal Profile Files</h2>
     </div>
     <p>
-      <strong>NOTE:</strong>
-        The following files will serve all programs to which you have
-        submitted an application.
+        {% get_lw_content as media_release blurbs 2562 %}
+        {{media_release.body}}
     </p>
     <ol><li>
     <fieldset>
