@@ -6,8 +6,9 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from gm2m import GM2MField
 
-from djspace.core.utils import registration_notify, get_email_auxiliary
+from djspace.core.utils import get_email_auxiliary, get_start_date
 from djspace.core.utils import profile_status, upload_to_path
+from djspace.core.utils import registration_notify
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
@@ -67,6 +68,20 @@ EMPLOYMENT_CHOICES = (
      "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
 )
 
+def _timestamp(obj, field):
+    phile = getattr(obj, field, None)
+    #path = join(settings.MEDIA_ROOT, str(phile.name).encode('utf-8', 'ignore'))
+    path = join(settings.MEDIA_ROOT, phile.name)
+    # ctime() does not refer to creation time on *nix systems,
+    # but rather the last time the inode data changed
+    #return time.ctime(getctime(path))
+    # time.gmtime() returns the time in UTC so we use time.localtime()
+    #return time.strftime(
+        #'%Y-%m-%d %H:%M:%S', time.localtime(getmtime(path))
+    #)
+
+    return datetime.fromtimestamp(time.mktime(time.localtime(getmtime(path))))
+
 
 class Base(models.Model):
     """
@@ -98,15 +113,7 @@ class Base(models.Model):
         return uuid4().hex
 
     def get_file_timestamp(self, field):
-        phile = getattr(self, field, None)
-        path = join(settings.MEDIA_ROOT, phile.name)
-        # ctime() does not refer to creation time on *nix systems,
-        # but rather the last time the inode data changed
-        #return time.ctime(getctime(path))
-        # time.gmtime() returns the time in UTC so we use time.localtime()
-        return time.strftime(
-            '%Y-%m-%d %H:%M:%S', time.localtime(getmtime(path))
-        )
+        return _timestamp(self, field)
 
 
 class BaseModel(Base):
@@ -256,7 +263,6 @@ class UserFiles(models.Model):
     )
 
     class Meta:
-        #app_label = "userfiles"
         db_table = "core_userfiles"
 
     def get_file_path(self):
@@ -269,6 +275,16 @@ class UserFiles(models.Model):
         return u"{}.{}".format(
             self.user.last_name,self.user.first_name
         )
+
+    def get_file_timestamp(self, field):
+        return _timestamp(self, field)
+
+    def status(self, field):
+        timestamp = self.get_file_timestamp(field)
+        s = True
+        if timestamp < get_start_date():
+            s = False
+        return s
 
 
 class UserProfile(models.Model):

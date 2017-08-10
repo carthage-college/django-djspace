@@ -63,9 +63,13 @@ def upload_to_path(field_name, instance, filename):
     return os.path.join(path, filename)
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 def files_status(user):
 
     status = True
+    start_date = get_start_date()
 
     # fetch all user application submissions
     apps = user.profile.applications.all()
@@ -75,17 +79,23 @@ def files_status(user):
         if app.get_content_type().model == "firstnationsrocketcompetition":
             fnl = True
 
-    # ignore FNL altogether for personal files
+    # ignore FNL altogether for user files:
+    # bio, mugshot, media release, w9
     if not fnl:
+        files = user.user_files
         # check for user profile files
         try:
-            data=model_to_dict(user.user_files)
+            data=model_to_dict(files)
         except:
             # UserFiles() instance does not exist
             return False
         for k,v in data.items():
             if not v:
                 return False
+            # have to be renewed every year
+            if k == 'irs_w9' or k == 'media_release':
+                if not files.status(k):
+                    return False
 
     # check for application files
     for app in apps:

@@ -57,11 +57,11 @@ def home(request):
 
     user = request.user
     try:
-        instance = UserFiles.objects.get(user=user)
+        files = UserFiles.objects.get(user=user)
     except:
-        instance = None
+        files = None
 
-    user_files = UserFilesForm(instance=instance)
+    user_files = UserFilesForm(instance=files)
     try:
         mod = django.apps.apps.get_model(
             app_label='registration', model_name=user.profile.registration_type
@@ -113,11 +113,14 @@ def home(request):
     status = profile_status(user)
 
     return render(
-        request, "dashboard/home.html", {
-            "reg":reg,"status":status,"approved":approved,
-            "user_files":user_files,"team":team,"applications":applications,
-            "professional_programs":PROFESSIONAL_PROGRAMS,
-            "rocket_competitions":ROCKET_COMPETITIONS_EXCLUDE
+        request, 'dashboard/home.html', {
+            'user_files':user_files,
+            'reg':reg,'status':status,'approved':approved,
+            'irs_w9_status':files.status('irs_w9'),
+            'media_release_status':files.status('media_release'),
+            'team':team,'applications':applications,
+            'professional_programs':PROFESSIONAL_PROGRAMS,
+            'rocket_competitions':ROCKET_COMPETITIONS_EXCLUDE
         }
     )
 
