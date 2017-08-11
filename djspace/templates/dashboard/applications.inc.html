@@ -36,13 +36,6 @@
         </a>
     </li>
     {% endif %}
-    {% if user.profile.registration_type == "Faculty" %}
-    <li>
-        <a href="{% url 'application_create' 'rocket-launch-team' %}">
-            Rocket Launch Team (Create NOI)
-        </a>
-    </li>
-    {% endif %}
     <li>
         <a href="{% url 'application_create' 'high-altitude-balloon-payload' %}">
             High Altitude Balloon Payload
@@ -69,6 +62,13 @@
             Research Infrastructure
         </a>
     </li>
+    {% if user.profile.registration_type == "Faculty" %}
+    <li>
+        <a href="{% url 'application_create' 'rocket-launch-team' %}">
+            Rocket Launch Team (Create NOI)
+        </a>
+    </li>
+    {% endif %}
     <li>
         <a href="{% url 'application_create' 'special-initiatives' %}">
             Special Initiatives

@@ -601,6 +601,13 @@ class RocketLaunchTeam(BaseModel):
         max_length=255,
         null = True, blank = True
     )
+    team_roster = models.TextField(
+        "Team Roster",
+        help_text="""
+            Maximum 6 members, except for First Nations competitions, which
+            can have unlimited team members
+        """
+    )
     # meta
     competition = models.CharField(
         choices = ROCKET_COMPETITIONS,
@@ -677,8 +684,12 @@ class RocketLaunchTeam(BaseModel):
     )
     final_motor_selection = models.TextField(
         "Motor Selection",
-        max_length=768,
         null=True, blank=True,
+        help_text="""
+            If you do not have a motor selected at this time,
+            leave this field blank, and update your application
+            when you have a final motor selection.
+        """
     )
     lodging_list = models.FileField(
         upload_to = partial(upload_to_path, 'lodging_list'),

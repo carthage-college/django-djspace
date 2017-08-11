@@ -81,21 +81,6 @@
     {% if data.status %}<li>Final Design Report: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.team_roster %}
-  <li>
-    <a href="{{media_url}}{{data.team_roster}}" target="_blank">
-      Team Roster
-    </a>
-    <ul>
-      <li>Created: {{data.team_roster_timestamp}}</li>
-      <li>
-        https://{{server_url}}{{media_url}}{{data.team_roster}}
-      </li>
-    </ul>
-  </li>
-{% else %}
-  {% if data.status %}<li>Team Roster: Missing</li>{% endif %}
-{% endif %}
 {% if data.competition != "Midwest High Powered Rocket Competition" %}
   {% if data.flight_demo %}
     <li>
