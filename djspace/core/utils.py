@@ -63,9 +63,6 @@ def upload_to_path(field_name, instance, filename):
     return os.path.join(path, filename)
 
 
-import logging
-logger = logging.getLogger(__name__)
-
 def files_status(user):
 
     status = True
@@ -93,9 +90,8 @@ def files_status(user):
             if not v:
                 return False
             # have to be renewed every year
-            if k == 'irs_w9' or k == 'media_release':
-                if not files.status(k):
-                    return False
+            if not files.status(k):
+                return False
 
     # check for application files
     for app in apps:
