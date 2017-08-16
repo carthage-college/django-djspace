@@ -80,7 +80,16 @@ def _timestamp(obj, field):
         #'%Y-%m-%d %H:%M:%S', time.localtime(getmtime(path))
     #)
 
-    return datetime.fromtimestamp(time.mktime(time.localtime(getmtime(path))))
+    try:
+        ts = datetime.fromtimestamp(
+            time.mktime(time.localtime(getmtime(path)))
+        )
+    except:
+        # we might not have the files on dev/staging
+        if settings.DEBUG:
+            ts = datetime.today()
+
+    return ts
 
 
 class Base(models.Model):
