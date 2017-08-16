@@ -974,7 +974,7 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
     class Meta:
         model = IndustryInternship
         fields = (
-            'budget','award_acceptance','final_report','interim_report',
+            'award_acceptance','final_report','interim_report',
             'invoice','program_match','payment_information'
         )
 
