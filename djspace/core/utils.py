@@ -90,7 +90,7 @@ def files_status(user):
             if not v:
                 return False
             # have to be renewed every year
-            if not files.status(k):
+            if k != 'id' and not files.status(k):
                 return False
 
     # check for application files
