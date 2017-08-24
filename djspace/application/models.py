@@ -296,13 +296,13 @@ class EducationInitiatives(BaseModel):
         help_text="PDF format"
     )
     intended_program_match = models.FileField(
-        upload_to = partial(upload_to_path, 'program_match'),
+        upload_to = partial(upload_to_path, 'intended_program_match'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
-    payment_information = models.FileField(
+    close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'payment_information'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -1807,7 +1807,7 @@ class NasaCompetition(BaseModel):
         help_text="PDF format"
     )
     intended_program_match = models.FileField(
-        upload_to = partial(upload_to_path, 'program_match'),
+        upload_to = partial(upload_to_path, 'intended_program_match'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -2024,7 +2024,7 @@ class IndustryInternship(BaseModel):
         help_text="PDF format"
     )
     intended_program_match = models.FileField(
-        upload_to = partial(upload_to_path, 'program_match'),
+        upload_to = partial(upload_to_path, 'intended_program_match'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
