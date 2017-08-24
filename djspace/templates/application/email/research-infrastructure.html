@@ -122,12 +122,12 @@
   {% else %}
     {% if data.status %}<li>Invoice: Missing</li>{% endif %}
   {% endif %}
-  {% if data.program_match %}
+  {% if data.intended_program_match %}
     <li>
-      <a href="{{media_url}}{{data.program_match}}" target="_blank">
+      <a href="{{media_url}}{{data.intended_program_match}}" target="_blank">
         Program Match
       </a><br>
-      https://{{server_url}}{{media_url}}{{data.program_match}}
+      https://{{server_url}}{{media_url}}{{data.intended_program_match}}
     </li>
   {% else %}
     {% if data.status %}<li>Program Match: Missing</li>{% endif %}

@@ -295,7 +295,7 @@ class EducationInitiatives(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    program_match = models.FileField(
+    intended_program_match = models.FileField(
         upload_to = partial(upload_to_path, 'program_match'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -1806,7 +1806,7 @@ class NasaCompetition(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    program_match = models.FileField(
+    intended_program_match = models.FileField(
         upload_to = partial(upload_to_path, 'program_match'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -2023,7 +2023,7 @@ class IndustryInternship(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    program_match = models.FileField(
+    intended_program_match = models.FileField(
         upload_to = partial(upload_to_path, 'program_match'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
@@ -2094,7 +2094,6 @@ class ProfessionalProgramStudent(BaseModel):
         null=True, blank=True
     )
     higher_education = models.ForeignKey(
-
         HigherEducationInitiatives,
         related_name='higher_education_student',
         null=True, blank=True

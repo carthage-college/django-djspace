@@ -50,7 +50,7 @@ FUNDED_FILES = (
     ('payment_information','Payment Information'),
     ('post_flight_performance_report','Post Flight Performance Report'),
     ('preliminary_design_report','Preliminary Design Report'),
-    ('program_match','Program Match'),
+    ('intended_program_match','Intended Program Match'),
     ('proposal','Proposal'),
     ('irs_w9','W9'),
     #('',''),
@@ -705,7 +705,8 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'invoice_file','program_match_file','payment_information_file',
+        'invoice_file','intended_program_match_file',
+        'payment_information_file',
         'project_title','begin_date','end_date','award_type',
         'funds_requested','funds_authorized',
         'proposed_match','authorized_match','source_match','location',
@@ -746,10 +747,10 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
-    def program_match_file(self, instance):
-        return admin_display_file(instance,"program_match")
-    program_match_file.allow_tags = True
-    program_match_file.short_description = "Program match"
+    def intended_program_match_file(self, instance):
+        return admin_display_file(instance,"intended_program_match")
+    intended_program_match_file.allow_tags = True
+    intended_program_match_file.short_description = "Intended program match"
 
     def payment_information_file(self, instance):
         return admin_display_file(instance,"payment_information")
@@ -767,7 +768,8 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
     model = AerospaceOutreach
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'invoice_file','program_match_file','payment_information_file',
+        'invoice_file','intended_program_match_file',
+        'payment_information_file',
         'project_title','begin_date','end_date','project_category',
         'proposal_file','funds_requested','funds_authorized',
         'other_funding','other_funding_explain',
@@ -787,7 +789,8 @@ class NasaCompetitionAdmin(GenericAdmin):
     model = NasaCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'invoice_file','program_match_file','payment_information_file',
+        'invoice_file','intended_program_match_file',
+        'payment_information_file',
         'statement_file','budget_file',
         'competition_type','competition_type_other',
         'facility_name','facility_name_other',
@@ -829,10 +832,10 @@ class NasaCompetitionAdmin(GenericAdmin):
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
-    def program_match_file(self, instance):
-        return admin_display_file(instance,"program_match")
-    program_match_file.allow_tags = True
-    program_match_file.short_description = "Program match"
+    def intended_program_match_file(self, instance):
+        return admin_display_file(instance,"intended_program_match")
+    intended_program_match_file.allow_tags = True
+    intended_program_match_file.short_description = "Intended program match"
 
     def payment_information_file(self, instance):
         return admin_display_file(instance,"payment_information")
@@ -853,7 +856,7 @@ class WorkPlanTaskInline(admin.TabularInline):
 class IndustryInternshipAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'budget_file','invoice_file','program_match_file',
+        'budget_file','invoice_file','intended_program_match_file',
         'payment_information_file','award_type',
         'funds_requested','funds_authorized',
         'proposed_match','authorized_match','source_match',
@@ -886,10 +889,10 @@ class IndustryInternshipAdmin(GenericAdmin):
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
-    def program_match_file(self, instance):
-        return admin_display_file(instance,"program_match")
-    program_match_file.allow_tags = True
-    program_match_file.short_description = "Program match"
+    def intended_program_match_file(self, instance):
+        return admin_display_file(instance,"intended_program_match")
+    intended_program_match_file.allow_tags = True
+    intended_program_match_file.short_description = "Intended program match"
 
     def payment_information_file(self, instance):
         return admin_display_file(instance,"payment_information")

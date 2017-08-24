@@ -44,7 +44,8 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         exclude = (
             'user','status','funded_code','funds_authorized',
             'authorized_match', 'award_acceptance','final_report',
-            'interim_report','invoice','program_match','payment_information'
+            'interim_report','invoice','intended_program_match',
+            'payment_information'
         )
         fields = (
             'project_title','award_type','funds_requested','proposed_match',
@@ -64,7 +65,7 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
         model = HigherEducationInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'invoice','intended_program_match','payment_information'
         )
 
 
@@ -122,7 +123,7 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
         model = ResearchInfrastructure
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'invoice','intended_program_match','payment_information'
         )
 
 
@@ -169,7 +170,8 @@ class AerospaceOutreachForm(forms.ModelForm):
         exclude = (
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'interim_report','invoice','program_match','payment_information'
+            'interim_report','invoice','intended_program_match',
+            'payment_information'
         )
 
 
@@ -179,7 +181,7 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
         model = AerospaceOutreach
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'invoice','intended_program_match','payment_information'
         )
 
 
@@ -241,7 +243,8 @@ class SpecialInitiativesForm(forms.ModelForm):
         exclude = (
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'interim_report','invoice','program_match','payment_information'
+            'interim_report','invoice','intended_program_match',
+            'payment_information'
         )
 
 
@@ -251,7 +254,7 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
         model = SpecialInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'invoice','intended_program_match','payment_information'
         )
 
 
@@ -907,7 +910,8 @@ class NasaCompetitionForm(forms.ModelForm):
         exclude = (
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'interim_report','invoice','program_match','payment_information'
+            'interim_report','invoice','intended_program_match',
+            'payment_information'
         )
 
 
@@ -938,7 +942,7 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
         model = NasaCompetition
         fields = (
             'award_acceptance','final_report','interim_report','invoice',
-            'program_match','payment_information'
+            'intended_program_match','payment_information'
         )
 
 
@@ -965,7 +969,8 @@ class IndustryInternshipForm(forms.ModelForm):
         exclude = (
             'user','status','funded_code','work_plan','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'interim_report','invoice','program_match','payment_information'
+            'interim_report','invoice','intended_program_match',
+            'payment_information'
         )
 
 
@@ -975,7 +980,7 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
         model = IndustryInternship
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','program_match','payment_information'
+            'invoice','intended_program_match','payment_information'
         )
 
 
