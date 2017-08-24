@@ -55,7 +55,8 @@
 <ul>
   {% if data.background_photo %}
     <li>
-      <a href="https://{{server_url}}{{media_url}}{{data.background_photo}}" target="_blank">
+      <a href="https://{{server_url}}{{media_url}}{{data.background_photo}}"
+        target="_blank">
         Photo
       </a><br>
       https://{{server_url}}{{media_url}}{{data.background_photo}}
@@ -63,7 +64,8 @@
   {% endif %}
   {% if data.intern_supervisor_cv %}
     <li>
-      <a href="https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}" target="_blank">
+      <a href="https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}"
+        target="_blank">
         CV
       </a><br>
       https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}
@@ -71,7 +73,8 @@
   {% endif %}
   {% if data.task_schedule %}
     <li>
-      <a href="https://{{server_url}}{{media_url}}{{data.task_schedule}}" target="_blank">
+      <a href="https://{{server_url}}{{media_url}}{{data.task_schedule}}"
+        target="_blank">
         Task schedule
       </a><br>
       https://{{server_url}}{{media_url}}{{data.task_schedule}}
@@ -137,15 +140,16 @@
   {% else %}
     {% if data.status %}<li>Program Match: Missing</li>{% endif %}
   {% endif %}
-  {% if data.payment_information %}
+  {% if data.close_out_finance_document %}
     <li>
-      <a href="{{media_url}}{{data.payment_information}}" target="_blank">
-        Payment_information
+      <a href="{{media_url}}{{data.close_out_finance_document}}"
+        target="_blank">
+        Close Out Finance Document
       </a><br>
-      https://{{server_url}}{{media_url}}{{data.payment_information}}
+      https://{{server_url}}{{media_url}}{{data.close_out_finance_document}}
     </li>
   {% else %}
-    {% if data.status %}<li>Payment Information: Missing</li>{% endif %}
+    {% if data.status %}<li>Close Out Finance Document: Missing</li>{% endif %}
   {% endif %}
 </ul>
 {% endblock %}

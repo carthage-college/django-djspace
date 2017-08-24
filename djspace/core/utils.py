@@ -106,7 +106,7 @@ def files_status(user):
         m = app.get_content_type().model
         # professional programs
         if m in PROFESSIONAL_PROGRAMS:
-            if not data["payment_information"]:
+            if not data['close_out_finance_document']:
                 return False
 
         # rocket launch team files

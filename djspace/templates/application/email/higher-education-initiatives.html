@@ -82,7 +82,8 @@
     {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
   {% endif %}
   <li>
-    <a href="https://{{server_url}}{{media_url}}{{data.proposal}}" target="_blank">
+    <a href="https://{{server_url}}{{media_url}}{{data.proposal}}"
+      target="_blank">
         Proposal
     </a><br>
     https://{{server_url}}{{media_url}}{{data.proposal}}
@@ -127,15 +128,16 @@
   {% else %}
     {% if data.status %}<li>Program Match: Missing</li>{% endif %}
   {% endif %}
-  {% if data.payment_information %}
+  {% if data.close_out_finance_document %}
     <li>
-      <a href="{{media_url}}{{data.payment_information}}" target="_blank">
-        Payment Information
+      <a href="{{media_url}}{{data.close_out_finance_document}}"
+        target="_blank">
+        Close Out Finance Document
       </a><br>
-      https://{{server_url}}{{media_url}}{{data.payment_information}}
+      https://{{server_url}}{{media_url}}{{data.close_out_finance_document}}
     </li>
   {% else %}
-    {% if data.status %}<li>Payment Information: Missing</li>{% endif %}
+    {% if data.status %}<li>Close Out Finance Document: Missing</li>{% endif %}
   {% endif %}
 </ul>
 {% endblock %}

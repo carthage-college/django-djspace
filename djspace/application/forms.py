@@ -45,7 +45,7 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'user','status','funded_code','funds_authorized',
             'authorized_match', 'award_acceptance','final_report',
             'interim_report','invoice','intended_program_match',
-            'payment_information'
+            'close_out_finance_document'
         )
         fields = (
             'project_title','award_type','funds_requested','proposed_match',
@@ -65,7 +65,7 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
         model = HigherEducationInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','intended_program_match','payment_information'
+            'invoice','intended_program_match','close_out_finance_document'
         )
 
 
@@ -101,7 +101,7 @@ class ResearchInfrastructureForm(forms.ModelForm):
         exclude = (
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'interim_report','payment_information'
+            'interim_report','close_out_finance_document'
         )
         fields = (
             'project_title','award_type','funds_requested','proposed_match',
@@ -123,7 +123,7 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
         model = ResearchInfrastructure
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','intended_program_match','payment_information'
+            'invoice','intended_program_match','close_out_finance_document'
         )
 
 
@@ -171,7 +171,7 @@ class AerospaceOutreachForm(forms.ModelForm):
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'interim_report','invoice','intended_program_match',
-            'payment_information'
+            'close_out_finance_document'
         )
 
 
@@ -181,7 +181,7 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
         model = AerospaceOutreach
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','intended_program_match','payment_information'
+            'invoice','intended_program_match','close_out_finance_document'
         )
 
 
@@ -244,7 +244,7 @@ class SpecialInitiativesForm(forms.ModelForm):
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'interim_report','invoice','intended_program_match',
-            'payment_information'
+            'close_out_finance_document'
         )
 
 
@@ -254,7 +254,7 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
         model = SpecialInitiatives
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','intended_program_match','payment_information'
+            'invoice','intended_program_match','close_out_finance_document'
         )
 
 
@@ -656,8 +656,9 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'flight_demo','lodging_list',
             'critical_design_report','oral_presentation','proceeding_paper',
             'flight_readiness_report','post_flight_performance_report',
-            'education_outreach','verified_budget','payment_information_form',
-            'invoice','charges_certification','institutional_w9'
+            'education_outreach','verified_budget',
+            'close_out_finance_document','invoice','charges_certification',
+            'institutional_w9'
         )
 
     def __init__(self, *args, **kwargs):
@@ -726,7 +727,7 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'critical_design_report','oral_presentation',
             'post_flight_performance_report','education_outreach',
             'flight_readiness_report','proceeding_paper',
-            'verified_budget','payment_information_form',
+            'verified_budget','close_out_finance_document_form',
             'invoice','charges_certification','institutional_w9'
         )
 
@@ -911,7 +912,7 @@ class NasaCompetitionForm(forms.ModelForm):
             'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'interim_report','invoice','intended_program_match',
-            'payment_information'
+            'close_out_finance_document'
         )
 
 
@@ -942,7 +943,7 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
         model = NasaCompetition
         fields = (
             'award_acceptance','final_report','interim_report','invoice',
-            'intended_program_match','payment_information'
+            'intended_program_match','close_out_finance_document'
         )
 
 
@@ -970,7 +971,7 @@ class IndustryInternshipForm(forms.ModelForm):
             'user','status','funded_code','work_plan','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'interim_report','invoice','intended_program_match',
-            'payment_information'
+            'close_out_finance_document'
         )
 
 
@@ -980,7 +981,7 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
         model = IndustryInternship
         fields = (
             'award_acceptance','final_report','interim_report',
-            'invoice','intended_program_match','payment_information'
+            'invoice','intended_program_match','close_out_finance_document'
         )
 
 

@@ -303,7 +303,7 @@ class EducationInitiatives(BaseModel):
         help_text="PDF format"
     )
     close_out_finance_document = models.FileField(
-        upload_to = partial(upload_to_path, 'payment_information'),
+        upload_to = partial(upload_to_path, 'close_out_finance_document'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -634,8 +634,8 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    payment_information_form = models.FileField(
-        upload_to = partial(upload_to_path, 'payment_information_form'),
+    close_out_finance_document = models.FileField(
+        upload_to = partial(upload_to_path, 'close_out_finance_document'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -1813,8 +1813,8 @@ class NasaCompetition(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    payment_information = models.FileField(
-        upload_to = partial(upload_to_path, 'payment_information'),
+    close_out_finance_document = models.FileField(
+        upload_to = partial(upload_to_path, 'close_out_finance_document'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,
@@ -2030,8 +2030,8 @@ class IndustryInternship(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    payment_information = models.FileField(
-        upload_to = partial(upload_to_path, 'payment_information'),
+    close_out_finance_document = models.FileField(
+        upload_to = partial(upload_to_path, 'close_out_finance_document'),
         validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         null=True, blank=True,

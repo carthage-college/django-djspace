@@ -47,7 +47,7 @@ FUNDED_FILES = (
     ('media_release','Media Release'),
     ('mugshot','Mugshot'),
     ('oral_presentation','Oral Presentation'),
-    ('payment_information','Payment Information'),
+    ('close_out_finance_document','Close Out Finance Document'),
     ('post_flight_performance_report','Post Flight Performance Report'),
     ('preliminary_design_report','Preliminary Design Report'),
     ('intended_program_match','Intended Program Match'),
@@ -706,7 +706,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'invoice_file','intended_program_match_file',
-        'payment_information_file',
+        'close_out_finance_document_file',
         'project_title','begin_date','end_date','award_type',
         'funds_requested','funds_authorized',
         'proposed_match','authorized_match','source_match','location',
@@ -752,10 +752,10 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     intended_program_match_file.allow_tags = True
     intended_program_match_file.short_description = "Intended program match"
 
-    def payment_information_file(self, instance):
-        return admin_display_file(instance,"payment_information")
-    payment_information_file.allow_tags = True
-    payment_information_file.short_description = "Payment information"
+    def close_out_finance_document_file(self, instance):
+        return admin_display_file(instance, 'close_out_finance_document')
+    close_out_finance_document_file.allow_tags = True
+    close_out_finance_document_file.short_description = "Close Out Finance Document"
 
 
 class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
@@ -769,7 +769,7 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'invoice_file','intended_program_match_file',
-        'payment_information_file',
+        'close_out_finance_document_file',
         'project_title','begin_date','end_date','project_category',
         'proposal_file','funds_requested','funds_authorized',
         'other_funding','other_funding_explain',
@@ -790,7 +790,7 @@ class NasaCompetitionAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'invoice_file','intended_program_match_file',
-        'payment_information_file',
+        'close_out_finance_document_file',
         'statement_file','budget_file',
         'competition_type','competition_type_other',
         'facility_name','facility_name_other',
@@ -837,10 +837,10 @@ class NasaCompetitionAdmin(GenericAdmin):
     intended_program_match_file.allow_tags = True
     intended_program_match_file.short_description = "Intended program match"
 
-    def payment_information_file(self, instance):
-        return admin_display_file(instance,"payment_information")
-    payment_information_file.allow_tags = True
-    payment_information_file.short_description = "Payment information"
+    def close_out_finance_document_file(self, instance):
+        return admin_display_file(instance, 'close_out_finance_document')
+    close_out_finance_document_file.allow_tags = True
+    close_out_finance_document_file.short_description = "Close Out Finance Document"
 
 
 class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
@@ -857,7 +857,7 @@ class IndustryInternshipAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'budget_file','invoice_file','intended_program_match_file',
-        'payment_information_file','award_type',
+        'close_out_finance_document_file','award_type',
         'funds_requested','funds_authorized',
         'proposed_match','authorized_match','source_match',
         'date_created','date_updated',
@@ -894,10 +894,10 @@ class IndustryInternshipAdmin(GenericAdmin):
     intended_program_match_file.allow_tags = True
     intended_program_match_file.short_description = "Intended program match"
 
-    def payment_information_file(self, instance):
-        return admin_display_file(instance,"payment_information")
-    payment_information_file.allow_tags = True
-    payment_information_file.short_description = "Payment information"
+    def close_out_finance_document_file(self, instance):
+        return admin_display_file(instance, 'close_out_finance_document')
+    close_out_finance_document_file.allow_tags = True
+    close_out_finance_document_file.short_description = "Close Out Finance Document"
 
 
 class ProfessionalProgramStudentAdmin(GenericAdmin):

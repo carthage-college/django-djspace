@@ -209,20 +209,21 @@
   {% else %}
     {% if data.status %}<li>Verified Budget: Missing</li>{% endif %}
   {% endif %}
-  {% if data.payment_information_form %}
+  {% if data.close_out_finance_document %}
     <li>
-      <a href="{{media_url}}{{data.payment_information_form}}" target="_blank">
-        Payment Information Form
+      <a href="{{media_url}}{{data.close_out_finance_document}}"
+        target="_blank">
+        Close Out Finance Document
       </a>
       <ul>
-        <li>Created: {{data.payment_information_form_timestamp}}</li>
+        <li>Created: {{data.close_out_finance_document_timestamp}}</li>
         <li>
-          https://{{server_url}}{{media_url}}{{data.payment_information_form}}
+          https://{{server_url}}{{media_url}}{{data.close_out_finance_document}}
         </li>
       </ul>
     </li>
   {% else %}
-    {% if data.status %}<li>Payment Information Form: Missing</li>{% endif %}
+    {% if data.status %}<li>Close Out Finance Document: Missing</li>{% endif %}
   {% endif %}
   {% if data.invoice %}
     <li>

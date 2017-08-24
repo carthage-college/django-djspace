@@ -417,7 +417,7 @@
                   </li>
                   <li class="form-group ctrlHolder">
                     <h3>
-                      <label for="id_payment_information">
+                      <label for="id_close_out_finance_document">
                         Payment Information Form [PDF]
                       </label>
                     </h3>
@@ -425,13 +425,14 @@
                       <input type="file" class="upload-file"
                         data-content-type="{{app.get_content_type.id}}"
                         data-oid="{{app.id}}"
-                        name="payment_information" id="id_payment_information">
+                        name="close_out_finance_document"
+                        id="id_close_out_finance_document">
                       <span class='filebutt'>Select File</span>
                       <span class='filevalu'></span>
                     </div>
-                    {% if app.payment_information %}
+                    {% if app.close_out_finance_document %}
                       <a class="fa-wrap"
-                        href="{{media_url}}{{app.payment_information}}"
+                        href="{{media_url}}{{app.close_out_finance_document}}"
                         target="_blank">
                         <i class="fa fa-times fa-file-pdf-o blue"
                         aria-hidden="true"></i></a>
