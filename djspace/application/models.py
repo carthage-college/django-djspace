@@ -751,11 +751,6 @@ class RocketLaunchTeam(BaseModel):
     def get_file_path(self):
         return "files/applications"
 
-    def get_file_name(self):
-        return u"{}_{}.{}".format(
-            self.get_code(),self.user.last_name,self.user.first_name
-        )
-
     def get_team_members(self):
         team = None
         if self.competition == "Collegiate Rocket Competition":
@@ -767,6 +762,7 @@ class RocketLaunchTeam(BaseModel):
         return team
 
     def get_file_name(self):
+
         if self.competition == "Collegiate Rocket Competition":
             code = "CRL{}".format(YEAR_2)
         elif self.competition == "Midwest High Powered Rocket Competition":
@@ -779,9 +775,12 @@ class RocketLaunchTeam(BaseModel):
             code = "FNL{}_{}".format(YEAR_2, suffix)
         # replace anything that is not a word character with a dash
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.name)
-        return u"{}_{}.{}_{}".format(
-            code,self.leader.last_name,self.leader.first_name,
-            team_name
+        school_name = re.sub(
+            r'[^a-zA-Z0-9]', '-', self.academic_institution_name
+        )
+        return u'{}_{}_{}_{}.{}'.format(
+            code, team_name, school_name,
+            self.leader.last_name, self.leader.first_name
         )
 
     @models.permalink
@@ -882,9 +881,12 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
 
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
-        return u"MRL{}_{}.{}_{}".format(
-            YEAR_2,self.user.last_name,self.user.first_name,
-            team_name
+        school_name = re.sub(
+            r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
+        )
+        return u'MRL{}_{}_{}_{}.{}'.format(
+            YEAR_2, team_name, school_name,
+            self.leader.last_name, self.leader.first_name
         )
 
     def required_files(self):
@@ -944,9 +946,12 @@ class CollegiateRocketCompetition(BaseModel):
 
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
-        return u"CRL{}_{}.{}_{}".format(
-            YEAR_2,self.user.last_name,self.user.first_name,
-            team_name
+        school_name = re.sub(
+            r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
+        )
+        return u'CRL{}_{}_{}_{}.{}'.format(
+            YEAR_2, team_name, school_name,
+            self.leader.last_name, self.leader.first_name
         )
 
     def required_files(self):
@@ -987,9 +992,17 @@ class FirstNationsRocketCompetition(BaseModel):
 
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
-        return u"FNL{}_{}.{}_{}".format(
-            YEAR_2,self.user.last_name,self.user.first_name,
-            team_name
+        school_name = re.sub(
+            r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
+        )
+        if self.team.competition == "First Nations AISES":
+            suffix = "AISES"
+        else:
+            suffix = "Tribal"
+        code = "FNL{}_{}".format(YEAR_2, suffix)
+        return u'{}_{}_{}_{}.{}'.format(
+            code, team_name, school_name,
+            self.leader.last_name, self.leader.first_name
         )
 
     def get_media_release(self):
@@ -1637,7 +1650,7 @@ class StemBridgeScholarship(Scholarship):
         return "stem-bridge-scholarship"
 
     def get_code(self):
-        return "SBS{}_{}".format(YEAR_2, self.get_academic_institution())
+        return "SBS{}".format(YEAR_2)
 
     @models.permalink
     def get_absolute_url(self):
