@@ -1,0 +1,35 @@
+CRL17
+Collegiate Rocket Launch
+MRL17
+Midwest Rocket Launch
+FNL17
+First Nations Launch
+EBP17
+High Altitude Balloon Payload
+EBL17
+High Altitude Balloon Launch
+LSC17
+Laurel Salton Clark Research Fellowship
+RFP17
+Research Fellowship Program
+UGR17
+Undergraduate Research
+UGS17_<FA/SP>
+Undergraduate Scholarship
+SBS17
+STEM Base Scholarship
+IIP17
+Industry Internship Program
+HEI17_<MNR/MJR>
+Higher Education Incentives
+RIP17_<MNR/MJR>
+Research Infrastructure Program
+AOP17_<K12/IE>
+Aerospace Outreach Program
+SIP17_<K12/IE>
+Special Initiatives Program
+
+MNR/MJR minor/major award type
+FA/SP fall/spring [date submitted to determine season] Undergraduate scholarship/NASA Competitions
+
+K12/IE (AerospaceOutreach, SpecialInitiatives)
