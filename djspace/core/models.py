@@ -27,6 +27,9 @@ import django
 
 import re
 
+VALIDATORS = [MimetypeValidator('application/pdf')]
+#VALIDATORS = []
+
 REG_TYPE = (
     ('','----select----'),
     ('Undergraduate','Undergraduate'),
@@ -155,21 +158,21 @@ class BaseModel(Base):
     )
     award_acceptance = models.FileField(
         upload_to = partial(upload_to_path, 'Award_Acceptance'),
-        validators=[MimetypeValidator('application/pdf')],
+        validators=VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     interim_report = models.FileField(
         upload_to = partial(upload_to_path, 'Interim_Report'),
-        validators=[MimetypeValidator('application/pdf')],
+        validators=VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     final_report = models.FileField(
         upload_to = partial(upload_to_path, 'Final_Report'),
-        validators=[MimetypeValidator('application/pdf')],
+        validators=VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -241,21 +244,21 @@ class UserFiles(models.Model):
     mugshot = models.FileField(
         "Photo",
         upload_to = partial(upload_to_path, 'Photo'),
-        validators=[MimetypeValidator('image/jpeg')],
+        validators=VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="JPEG format (.jpg)"
     )
     biography = models.FileField(
         upload_to = partial(upload_to_path, 'Bio'),
-        validators=[MimetypeValidator('application/pdf')],
+        validators=VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     media_release = models.FileField(
         upload_to = partial(upload_to_path, 'Media_Release'),
-        validators=[MimetypeValidator('application/pdf')],
+        validators=VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="""
@@ -265,7 +268,7 @@ class UserFiles(models.Model):
     )
     irs_w9 = models.FileField(
         upload_to = partial(upload_to_path, 'W9'),
-        validators=[MimetypeValidator('application/pdf')],
+        validators=VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
