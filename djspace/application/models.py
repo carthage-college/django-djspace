@@ -6,8 +6,6 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from django.db.models.signals import pre_delete
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 
 from djspace.core.models import Base, BaseModel
 from djspace.registration.choices import WSGC_SCHOOL
@@ -2231,24 +2229,3 @@ class WorkPlanTask(models.Model):
 
     def __unicode__(self):
         return u"{}".format(self.title)
-
-
-class ProjectPhoto(models.Model):
-    phile = models.ImageField(
-        "Photo",
-        upload_to = partial(upload_to_path, 'Project_Photo'),
-        validators=VALIDATORS,
-        max_length = 768,
-        null = True, blank = True,
-        help_text = "JPEG only"
-    )
-    caption = models.TextField(
-        null = True, blank = True
-    )
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-
-    def __unicode__(self):
-        return u"{}".format(self.caption)
-

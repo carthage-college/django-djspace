@@ -4,7 +4,8 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from gm2m import GM2MField
+from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 from djspace.core.utils import get_email_auxiliary, get_start_date
 from djspace.core.utils import profile_status, upload_to_path
@@ -14,6 +15,7 @@ from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
 from djtools.fields.validators import MimetypeValidator
 
+from gm2m import GM2MField
 from allauth.account.signals import user_signed_up
 from taggit.managers import TaggableManager
 
@@ -23,13 +25,10 @@ from functools import partial
 from uuid import uuid4
 
 import time
-import django
-
 import re
 
 VALIDATORS = [MimetypeValidator('application/pdf')]
 #VALIDATORS = []
-
 REG_TYPE = (
     ('','----select----'),
     ('Undergraduate','Undergraduate'),
@@ -37,7 +36,6 @@ REG_TYPE = (
     ('Faculty','Faculty'),
     ('Professional','Professional')
 )
-
 BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
 PAST_FUNDING_YEAR_CHOICES = [
     (x, x) for x in reversed(xrange(date.today().year-5,date.today().year+1))
@@ -73,7 +71,9 @@ EMPLOYMENT_CHOICES = (
 
 def _timestamp(obj, field):
     phile = getattr(obj, field, None)
-    #path = join(settings.MEDIA_ROOT, str(phile.name).encode('utf-8', 'ignore'))
+    #path = join(
+    #    settings.MEDIA_ROOT, str(phile.name).encode('utf-8', 'ignore')
+    #)
     path = join(settings.MEDIA_ROOT, phile.name)
     # ctime() does not refer to creation time on *nix systems,
     # but rather the last time the inode data changed
@@ -93,6 +93,26 @@ def _timestamp(obj, field):
             ts = datetime.today()
 
     return ts
+
+
+class Photo(models.Model):
+    phile = models.ImageField(
+        "Photo",
+        upload_to = partial(upload_to_path, 'Photo'),
+        validators=VALIDATORS,
+        max_length = 768,
+        null = True, blank = True,
+        help_text = "JPEG only"
+    )
+    caption = models.TextField(
+        null = True, blank = True
+    )
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __unicode__(self):
+        return u"{}".format(self.caption)
 
 
 class Base(models.Model):
@@ -177,6 +197,7 @@ class BaseModel(Base):
         null=True, blank=True,
         help_text="PDF format"
     )
+    photos = GenericRelation(Photo)
 
     def multi_year(self):
         #return False
@@ -474,6 +495,7 @@ class UserProfile(models.Model):
 
     def get_registration(self):
         # these imports need to be here, rather than at the top with the others
+        import django
         from djspace.registration.models import Undergraduate, Graduate
         from djspace.registration.models import Faculty, Professional
 
