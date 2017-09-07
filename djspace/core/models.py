@@ -27,8 +27,10 @@ from uuid import uuid4
 import time
 import re
 
-VALIDATORS = [MimetypeValidator('application/pdf')]
-#VALIDATORS = []
+FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+#FILE_VALIDATORS = []
+PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+#PHOTO_VALIDATORS = []
 REG_TYPE = (
     ('','----select----'),
     ('Undergraduate','Undergraduate'),
@@ -99,7 +101,7 @@ class Photo(models.Model):
     phile = models.ImageField(
         "Photo",
         upload_to = partial(upload_to_path, 'Photo'),
-        validators=VALIDATORS,
+        validators = PHOTO_VALIDATORS,
         max_length = 768,
         null = True, blank = True,
         help_text = "JPEG only"
@@ -178,21 +180,21 @@ class BaseModel(Base):
     )
     award_acceptance = models.FileField(
         upload_to = partial(upload_to_path, 'Award_Acceptance'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     interim_report = models.FileField(
         upload_to = partial(upload_to_path, 'Interim_Report'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     final_report = models.FileField(
         upload_to = partial(upload_to_path, 'Final_Report'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -265,21 +267,21 @@ class UserFiles(models.Model):
     mugshot = models.FileField(
         "Photo",
         upload_to = partial(upload_to_path, 'Photo'),
-        validators=VALIDATORS,
+        validators=PHOTO_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="JPEG format (.jpg)"
     )
     biography = models.FileField(
         upload_to = partial(upload_to_path, 'Bio'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     media_release = models.FileField(
         upload_to = partial(upload_to_path, 'Media_Release'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="""
@@ -289,7 +291,7 @@ class UserFiles(models.Model):
     )
     irs_w9 = models.FileField(
         upload_to = partial(upload_to_path, 'W9'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"

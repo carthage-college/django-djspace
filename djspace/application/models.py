@@ -11,18 +11,15 @@ from djspace.core.models import Base, BaseModel
 from djspace.registration.choices import WSGC_SCHOOL
 from djspace.core.utils import upload_to_path
 from djspace.core.utils import get_term
+from djspace.core.models import FILE_VALIDATORS, PHOTO_VALIDATORS
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, TODAY
-from djtools.fields.validators import MimetypeValidator
 
 from uuid import uuid4
 from functools import partial
 
 import re
-
-VALIDATORS = [MimetypeValidator('application/pdf')]
-#VALIDATORS = []
 
 YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
@@ -239,13 +236,13 @@ class EducationInitiatives(BaseModel):
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'Proposal'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="[PDF format]"
     )
@@ -293,21 +290,21 @@ class EducationInitiatives(BaseModel):
     )
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'Invoice'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     intended_program_match = models.FileField(
         upload_to = partial(upload_to_path, 'Intended_Program_Match'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'Closeout_Finance_Document'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -619,41 +616,41 @@ class RocketLaunchTeam(BaseModel):
     # files
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="Rocket supplies and travel. [PDF format]"
     )
     verified_budget = models.FileField(
         upload_to = partial(upload_to_path, 'Verified_Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'Invoice'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'Closeout_Finance_Document'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     charges_certification = models.FileField(
         upload_to = partial(upload_to_path, 'Charges_Certification'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     institutional_w9 = models.FileField(
         upload_to = partial(upload_to_path, 'Institutional_W9'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -661,21 +658,21 @@ class RocketLaunchTeam(BaseModel):
     interim_progress_report = models.FileField(
         "Interim progress report",
         upload_to = partial(upload_to_path, 'Interim_Report'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     preliminary_design_report = models.FileField(
         upload_to = partial(upload_to_path, 'PDR'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     final_design_report = models.FileField(
         upload_to = partial(upload_to_path, 'FDR'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -696,14 +693,14 @@ class RocketLaunchTeam(BaseModel):
     )
     lodging_list = models.FileField(
         upload_to = partial(upload_to_path, 'Lodging_List'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     critical_design_report = models.FileField(
         upload_to = partial(upload_to_path, 'CDR'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -716,21 +713,21 @@ class RocketLaunchTeam(BaseModel):
     )
     post_flight_performance_report = models.FileField(
         upload_to = partial(upload_to_path, 'PFPR'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     education_outreach = models.FileField(
         upload_to = partial(upload_to_path, 'Education_Outreach'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     flight_readiness_report = models.FileField(
         upload_to = partial(upload_to_path, 'FRR'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -843,7 +840,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'CV'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
@@ -913,7 +910,7 @@ class CollegiateRocketCompetition(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'CV'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
@@ -1031,7 +1028,7 @@ class HighAltitudeBalloon(BaseModel):
     letter_interest = models.FileField(
         "Letter of interest",
         upload_to = partial(upload_to_path, 'Letter_Interest'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="""
             Letter must include two faculty members' names, emails,
@@ -1051,13 +1048,13 @@ class HighAltitudeBalloon(BaseModel):
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'CV'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="[PDF format]"
     )
@@ -1207,39 +1204,39 @@ class Fellowship(BaseModel):
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'Proposal'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'CV'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     undergraduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'Undergraduate_Transcripts'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     graduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'Graduate_Transcripts'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     recommendation_1 = models.FileField(
         "Recommendation letter 1",
         upload_to = partial(upload_to_path, 'Recommendation_1'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True,blank=True,
         help_text=mark_safe('''
@@ -1253,7 +1250,7 @@ class Fellowship(BaseModel):
     recommendation_2 = models.FileField(
         "Recommendation letter 2",
         upload_to = partial(upload_to_path, 'Recommendation_2'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1385,33 +1382,33 @@ class UndergraduateResearch(BaseModel):
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'Proposal'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="[PDF format]"
     )
     high_school_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'High_School_Transcripts'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null = True, blank = True,
         help_text="High School Senior and Freshman students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'Undergraduate_Transcripts'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "Faculty Research Advisor Recommendation Letter",
         upload_to = partial(upload_to_path, 'WSGC_Advisor_Recommendation'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1427,7 +1424,7 @@ class UndergraduateResearch(BaseModel):
             (faculty member or other professional reference)
         """,
         upload_to = partial(upload_to_path, 'Recommendation'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1504,7 +1501,7 @@ class Scholarship(BaseModel):
     # core
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'Statement'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text=mark_safe('''Maximum two-page statement containing the following:
             <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">
@@ -1521,21 +1518,21 @@ class Scholarship(BaseModel):
     )
     high_school_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'High_School_Transcripts'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null = True, blank = True,
         help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'Undergraduate_Transcripts'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="PDF format"
     )
     wsgc_advisor_recommendation = models.FileField(
         "STEM Faculty/Advisor Recommendation Letter",
         upload_to = partial(upload_to_path, 'WSGC_Advisor_Recommendation'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1551,7 +1548,7 @@ class Scholarship(BaseModel):
             (faculty member or other professional reference)
         """,
         upload_to = partial(upload_to_path, 'Recommendation'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null = True, blank = True,
         help_text=mark_safe('''
@@ -1737,13 +1734,13 @@ class NasaCompetition(BaseModel):
     # files
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'Statement'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length = 768,
         help_text = "1 to 2 pages"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length = 768,
         help_text = "PDF format"
     )
@@ -1817,21 +1814,21 @@ class NasaCompetition(BaseModel):
     # approved files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'Invoice'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     intended_program_match = models.FileField(
         upload_to = partial(upload_to_path, 'Intended_Program_Match'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'Closeout_Finance_Document'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -1962,7 +1959,7 @@ class IndustryInternship(BaseModel):
     intern_supervisor_cv = models.FileField(
         "Brief Résumé",
         upload_to = partial(upload_to_path, 'Intern_Supervisor_CV'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length = 768,
         null = True, blank = True,
         help_text = "PDF format"
@@ -1980,7 +1977,7 @@ class IndustryInternship(BaseModel):
     background_photo = models.ImageField(
         "Photo",
         upload_to = partial(upload_to_path, 'Background_Photo'),
-        validators=VALIDATORS,
+        validators=PHOTO_VALIDATORS,
         max_length = 768,
         null = True, blank = True,
         help_text = "JPEG only"
@@ -2027,28 +2024,28 @@ class IndustryInternship(BaseModel):
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length = 768,
         help_text = "PDF format"
     )
     # approved files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'Invoice'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     intended_program_match = models.FileField(
         upload_to = partial(upload_to_path, 'Intended_Program_Match'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
     )
     close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'Closeout_Finance_Document'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
@@ -2096,7 +2093,7 @@ class ProfessionalProgramStudent(BaseModel):
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
-        validators=VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         help_text="[PDF format]"
     )

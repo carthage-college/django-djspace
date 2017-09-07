@@ -99,6 +99,7 @@ def home(request):
                 except:
                     pass
 
+    # check if the user has upload all of her user files
     if approved:
         user_files_status = files_status(user)
         if not user_files_status:
@@ -116,6 +117,8 @@ def home(request):
         request, 'dashboard/home.html', {
             'user_files':user_files,
             'reg':reg,'status':status,'approved':approved,
+            'mugshot_status':files.status('mugshot'),
+            'biography_status':files.status('biography'),
             'irs_w9_status':files.status('irs_w9'),
             'media_release_status':files.status('media_release'),
             'team':team,'applications':applications,

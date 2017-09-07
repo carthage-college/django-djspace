@@ -324,15 +324,15 @@
             {% if app.status %}
               <fieldset>
                 <legend>
-                    Requisite Files
-                    <span class="fright">
-                      <i tabindex="0"
-                      class="fa fa-question-circle-o green popover-toggle"
-                      data-html="true"
-                      data-title="<b>NOTE:</b>"
-                      data-trigger="focus"
-                      data-content="<span class='help'>An X means you have not uploaded the file. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
-                      aria-hidden="true"></i>
+                  Requisite Files
+                  <span class="fright">
+                    <i tabindex="0"
+                    class="fa fa-question-circle-o green popover-toggle"
+                    data-html="true"
+                    data-title="<b>NOTE:</b>"
+                    data-trigger="focus"
+                    data-content="<span class='help'>An X means you have not uploaded the file. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
+                    aria-hidden="true"></i>
                   </span>
                 </legend>
                 <ol>
@@ -496,7 +496,30 @@
                   {% endif %}{# rocket exceptions #}
                 </ol>
               </fieldset>
-            {% endif %}{# appstatus #}
+              <fieldset>
+                <legend>
+                    Photos
+                    <span class="fright">
+                      <i tabindex="0"
+                      class="fa fa-question-circle-o green popover-toggle"
+                      data-html="true"
+                      data-trigger="focus"
+                      data-content="<span class='help'>Maximum of three photos.</span>."
+                      aria-hidden="true"></i>
+                    </span>
+                </legend>
+                <ol>
+                  <li class="form-group ctrlHolder">
+                    <div class="filewrap fleft">
+                        <input type="file" class="upload-file"
+                        name="photo" id="id_photo">
+                        <span class='filevalu'></span>
+                        <span class='filebutt'>Select File</span>
+                    </div>
+                  </li>
+                </ol>
+              </fieldset>
+            {% endif %}{# /app.status #}
         </li>
     {% endfor %}
     </ul>
@@ -541,7 +564,7 @@
             <span class='filevalu'></span>
             <span class='filebutt'>Select File</span>
           </div>
-          {% if user_files.mugshot.value %}
+          {% if user_files.mugshot.value and mugshot_status %}
             <a class="fa-wrap" href="{{media_url}}{{user_files.mugshot.value}}"
               target="_blank">
             <i class="fa fa-times fa-file-image-o blue"
@@ -559,7 +582,7 @@
             <span class='filevalu'></span>
             <span class='filebutt'>Select File</span>
           </div>
-          {% if user_files.biography.value %}
+          {% if user_files.biography.value and biography_status %}
             <a class="fa-wrap"
               href="{{media_url}}{{user_files.biography.value}}"
               target="_blank">
