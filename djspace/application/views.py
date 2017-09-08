@@ -374,11 +374,11 @@ def application_export(request, application_type):
         )
 
         t = loader.get_template('application/export.html')
-        c = Context({
+        context = {
             'exports': exports,
             'program':program,
             'year':TODAY.year
-        })
-        response.write(t.render(c))
+        }
+        response.write(t.render(context, request))
 
     return response
