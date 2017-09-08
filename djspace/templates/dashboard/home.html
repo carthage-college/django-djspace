@@ -171,7 +171,34 @@
             processData: false
         }, 'json'); /* end ajax method */
       } /* end if/then logic */
-    }); /* end :file change() method */
+    }); /* end upload-file change() method */
+
+    $(document).on('click','.photo-delete',function(e){
+        e.preventDefault();
+        $(this).parent().remove();
+        $.growlUI("Success", "Photo deleted");
+    }); /* end photo-delete change() method */
+
+    $('.photo-upload').change(function(){
+      var $dis = $(this);
+      var file = this.files[0];
+      var $phoc = $('.photo-container');
+      if ($phoc.children().length < 3) {
+        var newphoc = '' +
+            '<li>' +
+            '  <a href="#" class="fa-wrap" target="_blank">' +
+            '    <i class="fa fa-picture-o blue"' +
+            '      aria-hidden="true"></i></a>' +
+            '  <a href="#" class="photo-delete">' +
+            '    <i class="fa fa-trash-o red" style="font-size:1.1em;"' +
+            '      aria-hidden="true"></i></a>' +
+            '</li>'
+        $phoc.append(newphoc);
+      }else{
+        $.growlUI("Fail", "Maximum 3 photos");
+      }
+    }); /* end photo-upload change() method */
+
     $(".flight-demo").blur(function() {
         var $dis = $(this);
         var $did = $dis.attr('id');
@@ -256,7 +283,7 @@
       }
     });
     $('.filebutt').click(function () {
-      $(this).siblings('.upload-file').trigger('click');
+      $(this).siblings("input[class*='upload']").trigger('click');
     })
   });
 </script>
@@ -308,7 +335,7 @@
         <h3 class="application-type">
             {{app.get_application_type}}{% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}} {% endif %}
         </h3>
-        <li>
+        <li class="application-container">
             <span class="short-date popover-toggle"
               data-html="true"
               data-trigger="focus"
@@ -511,11 +538,14 @@
                 <ol>
                   <li class="form-group ctrlHolder">
                     <div class="filewrap fleft">
-                        <input type="file" class="upload-file"
+                        <input type="file" class="photo-upload"
                         name="photo" id="id_photo">
                         <span class='filevalu'></span>
                         <span class='filebutt'>Select File</span>
                     </div>
+                  </li>
+                  <li class="form-group ctrlHolder">
+                    <ul class="photo-container"></ul>
                   </li>
                 </ol>
               </fieldset>
