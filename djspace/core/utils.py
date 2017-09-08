@@ -87,43 +87,44 @@ def files_status(user):
             # UserFiles() instance does not exist
             return False
         for k,v in data.items():
-            if not v:
-                return False
-            # have to be renewed every year
-            if k != 'id' and not files.status(k):
-                return False
+            if k != 'id':
+                if not v:
+                    return False
+                # have to be renewed every year
+                if not files.status(k):
+                    return False
 
     # check for application files
     for app in apps:
+        if app.status:
+            data=model_to_dict(app)
 
-        data=model_to_dict(app)
-
-        # all programs except FNL
-        if not app.award_acceptance and not fnl:
-            return False
-
-        # program specific
-        m = app.get_content_type().model
-        # professional programs
-        if m in PROFESSIONAL_PROGRAMS:
-            if not data['close_out_finance_document']:
+            # all programs except FNL
+            if not app.award_acceptance and not fnl:
                 return False
 
-        # rocket launch team files
-        # (not very elegant but waiting on new data model)
-        if m == "rocketlaunchteam":
-            if app.competition == "Collegiate Rocket Competition":
-                for field in CRL_REQUIRED_FILES:
-                    if not getattr(app,field):
-                        return False
-            elif app.competition == "Midwest High Powered Rocket Competition":
-                for field in MRL_REQUIRED_FILES:
-                    if not getattr(app,field):
-                        return False
-            else:
-                for field in FNL_REQUIRED_FILES:
-                    if not getattr(app,field):
-                        return False
+            # program specific
+            m = app.get_content_type().model
+            # professional programs
+            if m in PROFESSIONAL_PROGRAMS:
+                if not data['close_out_finance_document']:
+                    return False
+
+            # rocket launch team files
+            # (not very elegant but waiting on new data model)
+            if m == "rocketlaunchteam":
+                if app.competition == "Collegiate Rocket Competition":
+                    for field in CRL_REQUIRED_FILES:
+                        if not getattr(app,field):
+                            return False
+                elif app.competition == "Midwest High Powered Rocket Competition":
+                    for field in MRL_REQUIRED_FILES:
+                        if not getattr(app,field):
+                            return False
+                else:
+                    for field in FNL_REQUIRED_FILES:
+                        if not getattr(app,field):
+                            return False
 
     return status
 
