@@ -135,9 +135,10 @@ def longitudinal_tracking(modeladmin, request):
     # for each row would be ugly. this seems more pythonic, and we can reuse
     # for CSV export if need be.
     t = loader.get_template('application/export.longitudinal.html')
-    c = { 'exports': exports, 'program':program, 'year':TODAY.year }
+    c = {'exports': exports, 'program':program, 'year':TODAY.year}
     data = smart_bytes(
-        t.render(c), encoding='utf-8', strings_only=False, errors='strict'
+        t.render(c, request), encoding='utf-8',
+        strings_only=False, errors='strict'
     )
 
     # reader requires an object which supports the iterator protocol and
