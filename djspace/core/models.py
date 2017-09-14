@@ -134,6 +134,9 @@ class Photo(models.Model):
     def get_file_timestamp(self):
         return _timestamp(self, 'phile')
 
+    def get_content_type(self):
+        return ContentType.objects.get_for_model(self)
+
 
 class Base(models.Model):
     """

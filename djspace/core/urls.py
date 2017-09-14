@@ -54,6 +54,11 @@ urlpatterns = [
     url(
         r'^registration/', include('djspace.registration.urls')
     ),
+    # delete an object
+    url(
+        r'^object-delete/$',
+        views.object_delete, name='object_delete'
+    ),
     # home
     url(
         r'^$',

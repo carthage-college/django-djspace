@@ -151,10 +151,35 @@
       } /* end if/then logic */
     }); /* end upload-file change() method */
 
-    $(document).on('click','.photo-delete',function(e){
+    $(document).on('click','.object-delete',function(e){
         e.preventDefault();
-        $(this).parent().remove();
-        $.growlUI("Success", "Photo deleted");
+        var $dis = $(this);
+        var $oid = $dis.attr('data-oid');
+        var $cid = $dis.attr('data-content-type-id');
+        var $ctn = $dis.attr('data-content-type-name');
+        var $data = {
+            'oid':$oid,
+            'cid':$cid
+        };
+        $.ajax({
+          url: "{% url 'object_delete' %}",
+          type: 'POST',
+          // Form data
+          data: $data,
+          success: function(data) {
+            if (data.substr(0,4) == "Fail") {
+              $.growlUI("Error", data);
+            } else {
+              $dis.parent().remove();
+              $.growlUI("Success", $ctn + " Deleted");
+            }
+          },
+          error: errorHandler = function(data) {
+            alert("500 server error: Something went awry...");
+            console.log(data);
+          }
+        }, 'json'); /* end ajax method */
+
     }); /* end photo-delete change() method */
 
     $('.photo-upload').change(function(){

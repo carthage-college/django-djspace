@@ -305,4 +305,3 @@ def set_val(request):
     return HttpResponse(
         msg, content_type="text/plain; charset=utf-8"
     )
-

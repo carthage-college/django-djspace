@@ -62,9 +62,6 @@ def sendmail(request, redirect):
         return HttpResponseRedirect(redirect)
 
 
-import logging
-logger = logging.getLogger(__name__)
-
 @csrf_exempt
 @login_required
 def photo_upload(request):
@@ -78,15 +75,13 @@ def photo_upload(request):
         form = PhotoForm(
             data=request.POST, files=request.FILES
         )
-        logger.debug("files = {}".format(request.FILES))
         if form.is_valid():
             ct = request.POST.get('content_type')
             oid = request.POST.get('oid')
             if ct and oid:
                 ct = ContentType.objects.get(pk=ct)
                 mod = ct.model_class()
-                #try:
-                if True:
+                try:
                     obj = mod.objects.get(pk=oid)
                     phile = form.save(commit=False)
                     phile.content_object = obj
@@ -96,10 +91,8 @@ def photo_upload(request):
                             'photo':phile,'ct':ct,'oid':oid
                         }
                     )
-                #except Exception, e:
-                else:
-                    #msg = "Fail: {}".format(str(e))
-                    msg = "Fail"
+                except Exception, e:
+                    msg = "Fail: {}".format(str(e))
             else:
                 msg = "Fail: No Content Type or Object ID Provided"
         else:
@@ -232,3 +225,50 @@ def user_files_test(request):
         }
     )
 
+
+import logging
+logger = logging.getLogger(__name__)
+
+@csrf_exempt
+@login_required
+def object_delete(request):
+    """
+    AJAX POST for deleting arbitrary objects
+    """
+    user = request.user
+    response = None
+    if request.is_ajax() and request.method == 'POST':
+        try:
+            # object ID
+            oid = int(request.POST.get('oid'))
+            # content type ID
+            cid = int(request.POST.get('cid'))
+            try:
+                ct = ContentType.objects.get(pk=cid)
+                mod = ct.model_class()
+                try:
+                    obj = mod.objects.get(pk=oid)
+                    # user id might come from object.user.id or from
+                    # a custom method that returns the user object
+                    try:
+                        uid = obj.user.id
+                    except:
+                        uid = obj.user().id
+                    # is someone doing something nefarious?
+                    if oid == user.id or user.is_superuser:
+                        obj.delete()
+                        msg = "Success"
+                    else:
+                        msg = "Fail: Inadequate Permissions"
+                except Exception, e:
+                    msg = "Fail: {}".format(str(e))
+            except Exception, e:
+                    msg = "Fail: {}".format(str(e))
+        except Exception, e:
+            msg = "Fail: {}".format(str(e))
+    else:
+        msg = "AJAX POST required"
+
+    return HttpResponse(
+        msg, content_type="text/plain; charset=utf-8"
+    )
