@@ -54,7 +54,11 @@ def upload_to_path(field_name, instance, filename):
     """
 
     cipher = AESCipher(bs=16)
-    cid = cipher.encrypt(str(instance.user.id))
+    try:
+        uid = str(instance.user.id)
+    except:
+        uid = str(instance.user().id)
+    cid = cipher.encrypt(uid)
     ext = filename.split('.')[-1]
     filename = u'{}_{}.{}'.format(instance.get_file_name(),field_name, ext)
     path = "{}/{}/{}/".format(

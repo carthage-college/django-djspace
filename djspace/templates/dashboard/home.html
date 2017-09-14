@@ -87,10 +87,6 @@
         $fawe = $dis.parent().next('a');
       }
       var $fawe_error = '<i class="fa fa-times fa-exclamation-triangle red" aria-hidden="true"></i>';
-      var name = file.name;
-      var size = file.size;
-      var type = file.type;
-      /* console.log(name,size,type); */
       if(file.name.length < 5) {
         alert("Is that a proper filename?");
       }
@@ -103,28 +99,17 @@
             formData.append( 'content_type', $content_type );
             formData.append( 'oid', $oid );
         }
-        var def = $.Deferred(), promise = def.promise();
         $fawe.html('<i class="fa fa-times fa-cog fa-spin fa-fw"></i>');
         $.ajax({
             url: '{% url 'user_files' %}',
             type: 'POST',
-            xhr: function() {
-                myXhr = jQuery.ajaxSettings.xhr();
-                // if upload property exists
-                if(myXhr.upload){
-                    myXhr.upload.addEventListener('progress', function(event) {
-                        var percent = 0;
-                        var position = event.loaded || event.position; /*event.position is deprecated*/
-                        var total = event.total;
-                        if (event.lengthComputable) {
-                            percent = Math.ceil(position / total * 100);
-                            def.notify(percent);
-                        }
-                    }, false);
-                }
-                return myXhr;
-            },
-            // Ajax events
+            // Form data
+            data: formData,
+            // Options to tell jQuery not to process data
+            // or worry about the content-type
+            cache: false,
+            contentType: false,
+            processData: false,
             success: function(data) {
                 /* determine if we can remove warning message
                    about missing files */
@@ -160,15 +145,8 @@
                 data = "";
             },
             error: errorHandler = function(data) {
-                alert("500 server error: Something went awry...");
-            },
-            // Form data
-            data: formData,
-            // Options to tell jQuery not to process data
-            // or worry about the content-type
-            cache: false,
-            contentType: false,
-            processData: false
+              alert("500 server error: Something went awry...");
+            }
         }, 'json'); /* end ajax method */
       } /* end if/then logic */
     }); /* end upload-file change() method */
@@ -181,20 +159,40 @@
 
     $('.photo-upload').change(function(){
       var $dis = $(this);
-      var file = this.files[0];
       var $phoc = $('.photo-container');
+      var $cid = $dis.attr("data-content-type");
+      var $oid = $dis.attr("data-oid");
+      // form data form user-files container
+      var formData = new FormData($('#user-files')[0]);
+      formData.append( 'content_type', $cid );
+      formData.append( 'oid', $oid );
+
       if ($phoc.children().length < 3) {
-        var newphoc = '' +
-            '<li>' +
-            '  <a href="#" class="fa-wrap" target="_blank">' +
-            '    <i class="fa fa-picture-o blue"' +
-            '      aria-hidden="true"></i></a>' +
-            '  <a href="#" class="photo-delete">' +
-            '    <i class="fa fa-trash-o red" style="font-size:1.1em;"' +
-            '      aria-hidden="true"></i></a>' +
-            '</li>'
-        $phoc.append(newphoc);
+        $.ajax({
+          url: "{% url 'photo_upload' %}",
+          type: 'POST',
+          // Form data
+          data: formData,
+          dataType: "html",
+          // Options to tell jQuery not to process data
+          // or worry about the content-type
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function(data) {
+            if (data.substr(0,4) == "Fail") {
+              $.growlUI("Error", data);
+            } else {
+              $phoc.append(data);
+              $.growlUI("Success", "Photo uploaded");
+            }
+          },
+          error: errorHandler = function(data) {
+            alert("500 server error: Something went awry...");
+          }
+        }, 'json'); /* end ajax method */
       }else{
+        $('.growlUI').toggleClass('growl-error');
         $.growlUI("Fail", "Maximum 3 photos");
       }
     }); /* end photo-upload change() method */
@@ -224,12 +222,12 @@
             success: function(data) {
               if (data == "success") {
                 $fawe.replaceWith($fawe_done);
-                $.growlUI('Success', "Flight Demo URL saved.");
+                $.growlUI("Success", "Flight Demo URL saved.");
                 // determine if we can remove warning message about
                 // missing files
                 FilesStatus();
               }else{
-                $.growlUI('Fail', "Please input your URL again.");
+                $.growlUI("Fail", "Please input your URL again.");
               }
             },
             error: function(data) {
@@ -237,7 +235,7 @@
             }
           });
         } else {
-          $.growlUI('Fail', "Please input your URL again.");
+          $.growlUI("Fail", "Please input your URL again.");
         }
     });
     $("#id_proceeding_paper").datepicker({
@@ -538,14 +536,20 @@
                 <ol>
                   <li class="form-group ctrlHolder">
                     <div class="filewrap fleft">
-                        <input type="file" class="photo-upload"
-                        name="photo" id="id_photo">
-                        <span class='filevalu'></span>
-                        <span class='filebutt'>Select File</span>
+                      <input type="file" class="photo-upload"
+                        name="phile" id="id_phile"
+                        data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+                        data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}">
+                      <span class='filevalu'></span>
+                      <span class='filebutt'>Select File</span>
                     </div>
                   </li>
                   <li class="form-group ctrlHolder">
-                    <ul class="photo-container"></ul>
+                    <ul class="photo-container">
+                      {% for photo in app.photos.all %}
+                        {% include "dashboard/view_photo.ajax.html" %}
+                      {% endfor %}
+                    </ul>
                   </li>
                 </ol>
               </fieldset>

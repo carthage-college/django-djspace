@@ -24,6 +24,11 @@ urlpatterns = [
         r'^account/files-status/$',
         views.check_files_status, name='files_status'
     ),
+    # upload optional photos
+    url(
+        r'^photo-upload/$',
+        views.photo_upload, name='photo_upload'
+    ),
     # account management
     url(
         r'^account/', include('allauth.urls')

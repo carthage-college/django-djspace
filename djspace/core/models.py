@@ -100,7 +100,7 @@ def _timestamp(obj, field):
 class Photo(models.Model):
     phile = models.ImageField(
         "Photo",
-        upload_to = partial(upload_to_path, 'Photo'),
+        upload_to = partial(upload_to_path, 'Program_Photo'),
         validators = PHOTO_VALIDATORS,
         max_length = 768,
         null = True, blank = True,
@@ -115,6 +115,24 @@ class Photo(models.Model):
 
     def __unicode__(self):
         return u"{}".format(self.caption)
+
+    def user(self):
+        return self.content_object.user
+
+    def get_file_path(self):
+        return "files/applications"
+
+    def get_slug(self):
+        return self.content_object.get_slug()
+
+    def get_file_name(self):
+        return u'{}_{}.{}'.format(
+            self.content_object.get_code(),
+            self.user().last_name, self.user().first_name
+        )
+
+    def get_file_timestamp(self):
+        return _timestamp(self, 'phile')
 
 
 class Base(models.Model):
@@ -209,7 +227,7 @@ class BaseModel(Base):
         return "files/applications"
 
     def get_file_name(self):
-        return u"{}_{}.{}".format(
+        return u'{}_{}.{}'.format(
             self.get_code(),self.user.last_name,self.user.first_name
         )
 
@@ -301,13 +319,13 @@ class UserFiles(models.Model):
         db_table = "core_userfiles"
 
     def get_file_path(self):
-        return "files"
+        return 'files'
 
     def get_slug(self):
         return "users"
 
     def get_file_name(self):
-        return u"{}.{}".format(
+        return u'{}.{}'.format(
             self.user.last_name,self.user.first_name
         )
 

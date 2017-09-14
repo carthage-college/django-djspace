@@ -13,7 +13,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 
 from djspace.dashboard.views import UPLOAD_FORMS
-from djspace.core.forms import UserFilesForm
+from djspace.core.forms import PhotoForm, UserFilesForm
 from djspace.core.forms import EmailApplicantsForm
 from djspace.core.models import UserFiles
 from djspace.core.utils import files_status
@@ -29,7 +29,7 @@ def sendmail(request, redirect):
     POST from admin action email_applicants.
     """
 
-    redirect = "{}/{}".format(settings.ROOT_URL, redirect)
+    redirect = '{}/{}'.format(settings.ROOT_URL, redirect)
     if request.POST:
         # form stuff
         form = EmailApplicantsForm(request.POST)
@@ -49,7 +49,7 @@ def sendmail(request, redirect):
             to = [obj.user.email]
             send_mail(
                 request, to, sub, settings.SERVER_EMAIL,
-                "admin/email_data.html",
+                'admin/email_data.html',
                 {'obj':obj,'content':data['content']},BCC
             )
         messages.add_message(
@@ -62,6 +62,59 @@ def sendmail(request, redirect):
         return HttpResponseRedirect(redirect)
 
 
+import logging
+logger = logging.getLogger(__name__)
+
+@csrf_exempt
+@login_required
+def photo_upload(request):
+    """
+    AJAX POST for uploading a photo for any given application
+    """
+
+    user = request.user
+    response = None
+    if request.is_ajax() and request.method == 'POST':
+        form = PhotoForm(
+            data=request.POST, files=request.FILES
+        )
+        logger.debug("files = {}".format(request.FILES))
+        if form.is_valid():
+            ct = request.POST.get('content_type')
+            oid = request.POST.get('oid')
+            if ct and oid:
+                ct = ContentType.objects.get(pk=ct)
+                mod = ct.model_class()
+                #try:
+                if True:
+                    obj = mod.objects.get(pk=oid)
+                    phile = form.save(commit=False)
+                    phile.content_object = obj
+                    phile.save()
+                    response = render(
+                        request, 'dashboard/view_photo.ajax.html', {
+                            'photo':phile,'ct':ct,'oid':oid
+                        }
+                    )
+                #except Exception, e:
+                else:
+                    #msg = "Fail: {}".format(str(e))
+                    msg = "Fail"
+            else:
+                msg = "Fail: No Content Type or Object ID Provided"
+        else:
+            msg = "Fail: {}".format(form.errors)
+    else:
+        msg = "AJAX POST required"
+
+    if not response:
+        response = HttpResponse(
+            msg, content_type='text/plain; charset=utf-8'
+        )
+
+    return response
+
+
 @csrf_exempt
 @login_required
 def user_files(request):
@@ -70,18 +123,18 @@ def user_files(request):
     """
     user = request.user
     response = None
-    if request.method != "POST":
+    if request.method != 'POST':
         msg = "POST required"
     else:
-        ct = request.POST.get("content_type")
+        ct = request.POST.get('content_type')
         if ct:
             ct = ContentType.objects.get(pk=ct)
             mod = ct.model_class()
-            obj = mod.objects.get(pk=request.POST.get("oid"))
+            obj = mod.objects.get(pk=request.POST.get('oid'))
             # team leaders can upload files for rocket launch teams
             leader = False
             co_advisor = False
-            if ct.model == "rocketlaunchteam":
+            if ct.model == 'rocketlaunchteam':
                 if obj.leader.id == user.id:
                     leader = True
                 elif obj.co_advisor and obj.co_advisor.id == user.id:
@@ -90,7 +143,7 @@ def user_files(request):
             if obj.user != user and not (leader or co_advisor):
                 return HttpResponse(
                     "Something is rotten in Denmark",
-                    content_type="text/plain; charset=utf-8"
+                    content_type='text/plain; charset=utf-8'
                 )
             else:
                 form = UPLOAD_FORMS[ct.model](
@@ -106,6 +159,7 @@ def user_files(request):
             )
         field_name = request.POST.get('field_name')
         if form.is_valid():
+            msg = 'Success'
             phile = form.save(commit=False)
             if not ct:
                 phile.user = user
@@ -136,13 +190,13 @@ def check_files_status(request):
     """
     user = request.user
     response = None
-    if request.method != "POST":
+    if request.method != 'POST':
         status = "POST required"
     else:
         status = files_status(request.user)
 
     return HttpResponse(
-        status, content_type="text/plain; charset=utf-8"
+        status, content_type='text/plain; charset=utf-8'
     )
 
 
@@ -151,13 +205,13 @@ def user_files_test(request):
 
     user = request.user
     response = None
-    valid="get"
-    if request.method == "POST":
-        valid="no"
-        ct = request.POST.get("ct")
+    valid='get'
+    if request.method == 'POST':
+        valid='no'
+        ct = request.POST.get('ct')
         ct = ContentType.objects.get(pk=ct)
         mod = ct.model_class()
-        obj = mod.objects.get(pk=request.POST.get("oid"))
+        obj = mod.objects.get(pk=request.POST.get('oid'))
         form = UPLOAD_FORMS[ct.model](
             data=request.POST, files=request.FILES, instance=obj
         )
@@ -167,10 +221,10 @@ def user_files_test(request):
         else:
             valid=form.errors
     else:
-        ct = request.GET.get("ct")
+        ct = request.GET.get('ct')
         ct = ContentType.objects.get(pk=ct)
         mod = ct.model_class()
-        obj = mod.objects.get(pk=request.GET.get("oid"))
+        obj = mod.objects.get(pk=request.GET.get('oid'))
         form = UPLOAD_FORMS[ct.model](instance=obj)
     return render(
         request, 'dashboard/test.html', {

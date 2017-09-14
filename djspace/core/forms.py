@@ -3,7 +3,7 @@ from django import forms
 from django.contrib import messages
 from django.forms.extras.widgets import SelectDateWidget
 
-from djspace.core.models import UserProfile, UserFiles, GenericChoice
+from djspace.core.models import GenericChoice, Photo, UserFiles, UserProfile
 from djspace.core.models import BIRTH_YEAR_CHOICES, DISABILITY_CHOICES
 from djspace.core.models import EMPLOYMENT_CHOICES, REG_TYPE
 
@@ -269,6 +269,17 @@ class SignupForm(forms.Form):
             'address1','address2', 'city','state','postal_code',
             'phone_primary','phone_mobile', 'email_secondary'
         ]
+
+
+class PhotoForm(forms.ModelForm):
+    """
+    Optional photos
+    """
+
+    class Meta:
+        model = Photo
+        exclude = ('caption','content_type','object_id','content_object')
+        fields = ['phile']
 
 
 class UserFilesForm(forms.ModelForm):
