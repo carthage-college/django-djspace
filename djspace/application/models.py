@@ -748,6 +748,9 @@ class RocketLaunchTeam(BaseModel):
     def get_slug(self):
         return "rocket-launch-team"
 
+    def get_code(self):
+        return "RLT{}".format(YEAR_2)
+
     def get_file_path(self):
         return "files/applications"
 
@@ -879,13 +882,16 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     def get_slug(self):
         return "midwest-high-powered-rocket-competition"
 
+    def get_code(self):
+        return "MRL{}".format(YEAR_2)
+
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
             r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
         )
-        return u'MRL{}_{}_{}_{}.{}'.format(
-            YEAR_2, team_name, school_name,
+        return u'{}_{}_{}_{}.{}'.format(
+            self.get_code(), team_name, school_name,
             self.leader.last_name, self.leader.first_name
         )
 
@@ -944,13 +950,16 @@ class CollegiateRocketCompetition(BaseModel):
     def get_slug(self):
         return "collegiate-rocket-competition"
 
+    def get_code(self):
+        return "CRL{}".format(YEAR_2)
+
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
             r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
         )
-        return u'CRL{}_{}_{}_{}.{}'.format(
-            YEAR_2, team_name, school_name,
+        return u'{}_{}_{}_{}.{}'.format(
+            self.get_code(), team_name, school_name,
             self.leader.last_name, self.leader.first_name
         )
 
@@ -990,18 +999,20 @@ class FirstNationsRocketCompetition(BaseModel):
     def get_slug(self):
         return "first-nations-rocket-competition"
 
+    def get_code(self):
+        if self.team.competition == "First Nations AISES":
+            suffix = "AISES"
+        else:
+            suffix = "Tribal"
+        return "FNL{}_{}".format(YEAR_2, suffix)
+
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
             r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
         )
-        if self.team.competition == "First Nations AISES":
-            suffix = "AISES"
-        else:
-            suffix = "Tribal"
-        code = "FNL{}_{}".format(YEAR_2, suffix)
         return u'{}_{}_{}_{}.{}'.format(
-            code, team_name, school_name,
+            self.get_code(), team_name, school_name,
             self.leader.last_name, self.leader.first_name
         )
 
