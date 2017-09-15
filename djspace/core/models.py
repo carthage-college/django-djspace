@@ -103,7 +103,6 @@ class Photo(models.Model):
         upload_to = partial(upload_to_path, 'Program_Photo'),
         validators = PHOTO_VALIDATORS,
         max_length = 768,
-        null = True, blank = True,
         help_text = "JPEG only"
     )
     caption = models.TextField(
