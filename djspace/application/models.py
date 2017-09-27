@@ -618,7 +618,11 @@ class RocketLaunchTeam(BaseModel):
         upload_to = partial(upload_to_path, 'Budget'),
         validators=FILE_VALIDATORS,
         max_length=768,
-        help_text="Rocket supplies and travel. [PDF format]"
+        null=True, blank=True,
+        help_text="""
+            Rocket supplies and travel. Only required for the
+            Midwest High Powered Rocket Competition. [PDF format]
+        """
     )
     verified_budget = models.FileField(
         upload_to = partial(upload_to_path, 'Verified_Budget'),
