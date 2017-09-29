@@ -158,6 +158,16 @@ def user_files(request):
                 phile.user = user
             phile.save()
             earl = getattr(phile,field_name)
+            # notify wsgc that a user uploaded one of her profile files
+            if settings.DEBUG:
+                to = [settings.ADMINS[0][1],]
+            else:
+                to = [settings.WSGC_EMAIL,]
+            send_mail(
+                request, to, subject, settings.SERVER_EMAIL,
+                'admin/email_data.html',
+                {'phile':phile, 'earl':earl.url, 'field_name':field_name}, BCC
+            )
             response = render(
                 request, 'dashboard/view_file.ajax.html', {
                     'earl':earl.url,'field_name':field_name
