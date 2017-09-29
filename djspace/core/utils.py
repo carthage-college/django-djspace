@@ -175,11 +175,24 @@ def get_email_auxiliary(user):
         return None
 
 def admin_display_file(instance, field):
-    icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+    status = False
     attr = getattr(instance, field)
-    if attr:
+    # user profile files expire each grant cycle
+    if attr and field in ['mugshot','biography','irs_w9','media_release']:
+        user_files = True
+        status = instance.user.user_files.status(field)
+        if status:
+            icon = '''<a href="{}" target="_blank">
+                <i class="fa fa-check green" aria-hidden="true"></i></a>
+            '''.format(attr.url)
+        else:
+            icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+    elif attr:
         icon = '''<a href="{}" target="_blank">
-          <i class="fa fa-check green" aria-hidden="true"></i>
-        </a>'''.format(attr.url)
+            <i class="fa fa-check green" aria-hidden="true"></i></a>
+        '''.format(attr.url)
+    else:
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+
     return icon
 

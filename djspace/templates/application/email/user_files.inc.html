@@ -1,5 +1,5 @@
   <ul>
-    {% if user_files.mugshot.value and mugshot_status %}
+    {% if user.user_files.mugshot and mugshot_status %}
       <li>
         <a href="{{media_url}}{{user.user_files.mugshot}}"
           target="_blank">

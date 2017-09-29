@@ -86,7 +86,7 @@ class GenericAdmin(admin.ModelAdmin):
     )
 
     list_per_page = 20
-    raw_id_fields = ("user","updated_by",)
+    raw_id_fields = ('user','updated_by',)
 
     # user/profile data
     salutation =  lambda s, o: o.user.profile.salutation
@@ -119,7 +119,7 @@ class GenericAdmin(admin.ModelAdmin):
             obj.user.last_name
         )
     last_name.allow_tags = True
-    last_name.short_description = 'Last Name (print)'
+    last_name.short_description = "Last Name (print)"
 
     def phone_primary(self, obj):
         return obj.user.profile.phone_primary
@@ -201,9 +201,9 @@ class GenericAdmin(admin.ModelAdmin):
 
     def registration_type(self, obj):
         try:
-            reg_type = '<a href="%s">%s</a>' % (
+            reg_type = '<a href="{}">{}</a>'.format(
                 reverse(
-                    "admin:registration_{}_change".format(
+                    'admin:registration_{}_change'.format(
                         obj.user.profile.registration_type.lower()
                     ),
                     args=(obj.user.profile.get_registration().id,)
@@ -226,7 +226,7 @@ class GenericAdmin(admin.ModelAdmin):
 
     def mugshot_file(self, instance):
         try:
-            return admin_display_file(instance.user.user_files, "mugshot")
+            return admin_display_file(instance.user.user_files, 'mugshot')
         except:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     mugshot_file.allow_tags = True
@@ -234,7 +234,7 @@ class GenericAdmin(admin.ModelAdmin):
 
     def biography_file(self, instance):
         try:
-            return admin_display_file(instance.user.user_files, "biography")
+            return admin_display_file(instance.user.user_files, 'biography')
         except:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     biography_file.allow_tags = True
@@ -242,7 +242,7 @@ class GenericAdmin(admin.ModelAdmin):
 
     def media_release_file(self, instance):
         try:
-            return admin_display_file(instance.user.user_files, "media_release")
+            return admin_display_file(instance.user.user_files, 'media_release')
         except:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     media_release_file.allow_tags = True
@@ -250,24 +250,24 @@ class GenericAdmin(admin.ModelAdmin):
 
     def irs_w9_file(self, instance):
         try:
-            return admin_display_file(instance.user.user_files, "irs_w9")
+            return admin_display_file(instance.user.user_files, 'irs_w9')
         except:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     irs_w9_file.allow_tags = True
     irs_w9_file.short_description = "W9"
 
     def award_acceptance_file(self, instance):
-        return admin_display_file(instance, "award_acceptance")
+        return admin_display_file(instance, 'award_acceptance')
     award_acceptance_file.allow_tags = True
     award_acceptance_file.short_description = "Award Accpt"
 
     def interim_report_file(self, instance):
-        return admin_display_file(instance, "interim_report")
+        return admin_display_file(instance, 'interim_report')
     interim_report_file.allow_tags = True
     interim_report_file.short_description = "Interim Rpt"
 
     def final_report_file(self, instance):
-        return admin_display_file(instance, "final_report")
+        return admin_display_file(instance, 'final_report')
     final_report_file.allow_tags = True
     final_report_file.short_description = "Final Rpt"
 

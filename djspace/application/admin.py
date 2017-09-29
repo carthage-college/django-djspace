@@ -587,9 +587,12 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     flight_demo_file.short_description = "Flight Demo URL"
 
     def final_motor_selection_trunk(self, instance):
-        return Truncator(instance.final_motor_selection).words(
-            25, html=True, truncate=" ..."
-        )
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        if instance.final_motor_selection:
+            icon = '''
+              <i class="fa fa-check green" aria-hidden="true" title="{}"></i>
+            '''.format(instance.final_motor_selection)
+        return icon
     final_motor_selection_trunk.allow_tags = True
     final_motor_selection_trunk.short_description = "Final Motor"
 

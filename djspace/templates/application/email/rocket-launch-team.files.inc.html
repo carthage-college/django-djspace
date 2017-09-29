@@ -1,10 +1,4 @@
 <ul>
-<li>
-  <a href="{{media_url}}{{data.budget}}" target="_blank">
-    Budget
-  </a><br>
-  https://{{server_url}}{{media_url}}{{data.budget}}
-</li>
 {% if data.award_acceptance %}
   <li>
     <a href="{{media_url}}{{data.award_acceptance}}">
@@ -15,21 +9,21 @@
 {% else %}
   {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
 {% endif %}
-{% if data.competition != "Midwest High Powered Rocket Competition" %}
-  {% if data.budget %}
-    <li>
-      <a href="{{media_url}}{{data.budget}}">
-        Budget
-      </a>
-      <ul>
-        <li>Created: {{data.budget_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.budget}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Budget: Missing</li>{% endif %}
+{% if data.budget %}
+  <li>
+    <a href="{{media_url}}{{data.budget}}">
+      Budget
+    </a>
+    <ul>
+      <li>Created: {{data.budget_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.budget}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status or data.competition == "Midwest High Powered Rocket Competition" %}
+    <li>Budget: Missing</li>
   {% endif %}
 {% endif %}
 {% if data.competition == "Collegiate Rocket Competition" %}

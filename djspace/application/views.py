@@ -345,10 +345,10 @@ def application_print(request, application_type, aid):
         request, "application/email/{}.html".format(application_type),
         {
             'data': data,
-            'mugshot_status':files.status('mugshot'),
-            'biography_status':files.status('biography'),
-            'irs_w9_status':files.status('irs_w9'),
-            'media_release_status':files.status('media_release')
+            'mugshot_status':data.user.user_files.status('mugshot'),
+            'biography_status':data.user.user_files.status('biography'),
+            'irs_w9_status':data.user.user_files.status('irs_w9'),
+            'media_release_status':data.user.user_files.status('media_release')
         }
     )
 
