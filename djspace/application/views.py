@@ -325,7 +325,9 @@ def application_form(request, application_type, aid=None):
 
 @staff_member_required
 def application_print(request, application_type, aid):
-
+    '''
+    AKA (by the wsgc folks): the demographic page/view
+    '''
     # munge the application type
     slug_list = application_type.split("-")
     app_name = slug_list.pop(0).capitalize()
@@ -341,7 +343,13 @@ def application_print(request, application_type, aid):
 
     return render(
         request, "application/email/{}.html".format(application_type),
-        {'data': data,}
+        {
+            'data': data,
+            'mugshot_status':files.status('mugshot'),
+            'biography_status':files.status('biography'),
+            'irs_w9_status':files.status('irs_w9'),
+            'media_release_status':files.status('media_release')
+        }
     )
 
 
