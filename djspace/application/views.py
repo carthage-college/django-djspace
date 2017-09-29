@@ -93,12 +93,6 @@ def application_form(request, application_type, aid=None):
     except:
         raise Http404
 
-    # email distribution
-    if settings.DEBUG:
-        TO_LIST = [settings.ADMINS[0][1],]
-    else:
-        TO_LIST = [settings.WSGC_APPLICATIONS,]
-
     # fetch object if update
     app = None
     # initialise work plan tasks for industry internship
@@ -285,8 +279,12 @@ def application_form(request, application_type, aid=None):
             # email confirmation
             template = "application/email/{}.html".format(application_type)
             if not settings.DEBUG:
+                # email distribution list and bcc parameters
+                to_list = [settings.WSGC_APPLICATIONS,]
+                bcc = [settings.ADMINS[0][1],settings.WSGC_EMAIL]
+
                 # send confirmation email to WSGC staff and applicant
-                TO_LIST.append(data.user.email)
+                to_list.append(data.user.email)
                 if aid:
                     app_name += " (UPDATED)"
                 subject = u"{} {}: {}, {}".format(
@@ -294,9 +292,9 @@ def application_form(request, application_type, aid=None):
                     data.user.last_name, data.user.first_name
                 )
                 send_mail(
-                    request, TO_LIST,
+                    request, to_list,
                     subject, data.user.email,
-                    template, data, settings.MANAGERS
+                    template, data, bcc
                 )
                 return HttpResponseRedirect(reverse('application_success'))
             else:
