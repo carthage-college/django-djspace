@@ -1,5 +1,5 @@
   <ul>
-    {% if user.user_files.mugshot %}
+    {% if user_files.mugshot.value and mugshot_status %}
       <li>
         <a href="{{media_url}}{{user.user_files.mugshot}}"
           target="_blank">
@@ -10,7 +10,7 @@
     {% else %}
       <li>Head shot: Missing</li>
     {% endif %}
-    {% if user.user_files.biography %}
+    {% if user.user_files.biography and biography_status %}
       <li>
         <a href="{{media_url}}{{user.user_files.biography}}"
           target="_blank">
@@ -21,7 +21,7 @@
     {% else %}
       <li>Biography: Missing</li>
     {% endif %}
-    {% if user.user_files.media_release %}
+    {% if user.user_files.media_release and media_release_status %}
       <li>
         <a href="{{media_url}}{{user.user_files.media_release}}"
           target="_blank">
@@ -32,7 +32,7 @@
     {% else %}
       <li>Media release form: Missing</li>
     {% endif %}
-    {% if user.user_files.irs_w9 %}
+    {% if user.user_files.irs_w9 and irs_w9_status %}
       <li>
         <a href="{{media_url}}{{user.user_files.irs_w9}}" target="_blank">
           IRS W9 form
