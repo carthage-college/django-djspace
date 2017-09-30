@@ -43,14 +43,14 @@ def sendmail(request, redirect):
         sub = "WSGC: Information about your {} application".format(
             data['title']
         )
-        BCC = [request.user.email,settings.SERVER_MAIL]
+        bcc = [request.user.email,settings.SERVER_MAIL]
         for pid in pids:
             obj = ct.get_object_for_this_type(pk=pid)
             to = [obj.user.email]
             send_mail(
                 request, to, sub, settings.SERVER_EMAIL,
                 'admin/email_data.html',
-                {'obj':obj,'content':data['content']},BCC
+                {'obj':obj,'content':data['content']}, bcc
             )
         messages.add_message(
             request, messages.SUCCESS,
@@ -144,11 +144,11 @@ def user_files(request):
                 )
         else:
             try:
-                instance = UserFiles.objects.get(user=user)
+                obj = UserFiles.objects.get(user=user)
             except:
-                instance = None
+                obj = None
             form = UserFilesForm(
-                data=request.POST, files=request.FILES, instance=instance
+                data=request.POST, files=request.FILES, instance=obj
             )
         field_name = request.POST.get('field_name')
         if form.is_valid():
@@ -163,10 +163,16 @@ def user_files(request):
                 to = [settings.ADMINS[0][1],]
             else:
                 to = [settings.WSGC_EMAIL,]
+            subject = u'[File Upload] {}: {}, {}'.format(
+                field_name, user.last_name, user.first_name
+            )
+            bcc = [settings.SERVER_MAIL]
             send_mail(
-                request, to, subject, settings.SERVER_EMAIL,
-                'admin/email_data.html',
-                {'phile':phile, 'earl':earl.url, 'field_name':field_name}, BCC
+                request, to, subject, user.email,
+                'dashboard/email_file_uploaded.html', {
+                    'phile':phile, 'earl':earl.url,
+                    'obj':obj, 'field_name':field_name
+                }, bcc
             )
             response = render(
                 request, 'dashboard/view_file.ajax.html', {
