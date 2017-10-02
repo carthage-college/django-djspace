@@ -3,7 +3,7 @@
     <li>
       Name: {{data.obj.user.last_name}}, {{data.obj.user.first_name}}
     </li>
-    {% if data.obj == "User Profile File" %}
+    {% if data.field_name in data.userfiles %}
       <li>
         User Profile File
       </li>
@@ -12,9 +12,9 @@
         Application:
         <a href="https://{{server_url}}{{data.obj.get_details_url}}">{{data.obj}}</a>
       </li>
-      <li>
-        <a href="https://{{server_url}}{{data.earl}}">{{data.field_name}}</a>
-      </li>
     {% endif %}
+    <li>
+      <a href="https://{{server_url}}{{data.earl}}">{{data.field_name}}</a>
+    </li>
   </ul>
 </p>

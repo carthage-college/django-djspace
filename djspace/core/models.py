@@ -350,7 +350,7 @@ class UserFiles(models.Model):
         return s
 
     def __unicode__(self):
-        return "User Profile File"
+        return u'User Profile File'
 
 
 class UserProfile(models.Model):
