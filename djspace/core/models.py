@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -233,6 +234,13 @@ class BaseModel(Base):
             self.get_code(),self.user.last_name,self.user.first_name
         )
 
+    def get_details_url(self):
+
+        return reverse(
+            'application_print',
+            kwargs={'application_type':self.get_slug(),'aid': self.id},
+        )
+
 
 class GenericChoice(models.Model):
     """
@@ -340,6 +348,9 @@ class UserFiles(models.Model):
         if timestamp < get_start_date():
             s = False
         return s
+
+    def __unicode__(self):
+        return "User Profile File"
 
 
 class UserProfile(models.Model):

@@ -170,8 +170,7 @@ def user_files(request):
             send_mail(
                 request, to, subject, user.email,
                 'dashboard/email_file_uploaded.html', {
-                    'phile':phile, 'earl':earl.url,
-                    'obj':obj, 'field_name':field_name
+                    'earl':earl.url, 'obj':phile, 'field_name':field_name
                 }, bcc
             )
             response = render(
