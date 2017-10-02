@@ -668,6 +668,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="PDF format"
     )
     preliminary_design_report = models.FileField(
+        "Preliminary Design Review",
         upload_to = partial(upload_to_path, 'PDR'),
         validators=FILE_VALIDATORS,
         max_length=768,
@@ -703,6 +704,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="PDF format"
     )
     critical_design_report = models.FileField(
+        "Critical Design Review",
         upload_to = partial(upload_to_path, 'CDR'),
         validators=FILE_VALIDATORS,
         max_length=768,
@@ -716,6 +718,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="Power point"
     )
     post_flight_performance_report = models.FileField(
+        "Post Launch Assessment Report",
         upload_to = partial(upload_to_path, 'PFPR'),
         validators=FILE_VALIDATORS,
         max_length=768,
@@ -730,6 +733,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="PDF format"
     )
     flight_readiness_report = models.FileField(
+        "Flight Readiness Review",
         upload_to = partial(upload_to_path, 'FRR'),
         validators=FILE_VALIDATORS,
         max_length=768,

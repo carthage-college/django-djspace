@@ -569,7 +569,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     def preliminary_design_report_file(self, instance):
         return admin_display_file(instance,'preliminary_design_report')
     preliminary_design_report_file.allow_tags = True
-    preliminary_design_report_file.short_description = "Prelim Design Rpt"
+    preliminary_design_report_file.short_description = "Prelim design"
 
     def final_design_report_file(self, instance):
         return admin_display_file(instance,'final_design_report')
