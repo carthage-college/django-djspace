@@ -19,12 +19,14 @@
 <div>{{data.prior_experience|safe}}</div>
 <h4>Files</h4>
 <ul>
+  {% if data.budget %}
   <li>
     <a href="{{media_url}}{{data.budget}}" target="_blank">
       Budget
     </a><br>
     https://{{server_url}}{{media_url}}{{data.budget}}
   </li>
+  {% endif %}
   <li>
     <a href="https://{{server_url}}{{media_url}}{{data.cv}}" target="_blank">
         CV
