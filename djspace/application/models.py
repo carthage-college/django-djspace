@@ -900,7 +900,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         )
         return u'{}_{}_{}_{}.{}'.format(
             self.get_code(), team_name, school_name,
-            self.leader.last_name, self.leader.first_name
+            self.team.leader.last_name, self.team.leader.first_name
         )
 
     def required_files(self):
@@ -968,7 +968,7 @@ class CollegiateRocketCompetition(BaseModel):
         )
         return u'{}_{}_{}_{}.{}'.format(
             self.get_code(), team_name, school_name,
-            self.leader.last_name, self.leader.first_name
+            self.team.leader.last_name, self.team.leader.first_name
         )
 
     def required_files(self):
@@ -1021,7 +1021,7 @@ class FirstNationsRocketCompetition(BaseModel):
         )
         return u'{}_{}_{}_{}.{}'.format(
             self.get_code(), team_name, school_name,
-            self.leader.last_name, self.leader.first_name
+            self.team.leader.last_name, self.team.leader.first_name
         )
 
     def get_media_release(self):
