@@ -339,14 +339,27 @@ def application_print(request, application_type, aid):
     #data.reg = get_object_or_404(mod, pk=aid)
     data = get_object_or_404(mod, pk=aid)
 
+    try:
+        files = data.user.user_files
+    except:
+        files = None
+
+    # deal with user profile files
+    mugshot_status=biography_status=irs_w9_status=media_release_status = None
+    if files:
+        mugshot_status = files.status('mugshot')
+        biography_status = files.status('biography')
+        irs_w9_status = files.status('irs_w9')
+        media_release_status = files.status('media_release')
+
     return render(
         request, "application/email/{}.html".format(application_type),
         {
             'data': data,
-            'mugshot_status':data.user.user_files.status('mugshot'),
-            'biography_status':data.user.user_files.status('biography'),
-            'irs_w9_status':data.user.user_files.status('irs_w9'),
-            'media_release_status':data.user.user_files.status('media_release')
+            'mugshot_status':mugshot_status,
+            'biography_status':biography_status,
+            'irs_w9_status':irs_w9_status,
+            'media_release_status':media_release_status
         }
     )
 

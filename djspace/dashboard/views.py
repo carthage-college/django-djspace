@@ -61,6 +61,8 @@ def home(request):
     except:
         files = None
 
+    mugshot_status=biography_status=irs_w9_status=media_release_status = None
+
     user_files = UserFilesForm(instance=files)
     try:
         mod = django.apps.apps.get_model(
@@ -113,14 +115,20 @@ def home(request):
 
     status = profile_status(user)
 
+    if files:
+        mugshot_status = files.status('mugshot')
+        biography_status = files.status('biography')
+        irs_w9_status = files.status('irs_w9')
+        media_release_status = files.status('media_release')
+
     return render(
         request, 'dashboard/home.html', {
             'user_files':user_files,
             'reg':reg,'status':status,'approved':approved,
-            'mugshot_status':files.status('mugshot'),
-            'biography_status':files.status('biography'),
-            'irs_w9_status':files.status('irs_w9'),
-            'media_release_status':files.status('media_release'),
+            'mugshot_status':mugshot_status,
+            'biography_status':biography_status,
+            'irs_w9_status':irs_w9_status,
+            'media_release_status':media_release_status,
             'team':team,'applications':applications,
             'professional_programs':PROFESSIONAL_PROGRAMS,
             'rocket_competitions':ROCKET_COMPETITIONS_EXCLUDE
