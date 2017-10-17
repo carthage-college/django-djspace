@@ -8,7 +8,9 @@ from djspace.core.models import GenericChoice
 from djspace.core.models import Base
 
 from djtools.fields import STATE_CHOICES
-from djtools.fields.validators import *
+from djtools.fields.validators import credit_gpa_validator
+from djtools.fields.validators import four_digit_year_validator
+from djtools.fields.validators import month_year_validator
 
 
 def limit_affiliation():
