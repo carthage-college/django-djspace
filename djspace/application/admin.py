@@ -589,7 +589,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     def final_motor_selection_trunk(self, instance):
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.final_motor_selection:
-            icon = '''
+            icon = u'''
               <i class="fa fa-check green" aria-hidden="true" title="{}"></i>
             '''.format(instance.final_motor_selection)
         return icon
