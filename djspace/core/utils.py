@@ -83,9 +83,8 @@ def files_status(user):
     # ignore FNL altogether for user files:
     # bio, mugshot, media release, w9
     if not fnl:
-        files = user.user_files
-        # check for user profile files
         try:
+            files = user.user_files
             data=model_to_dict(files)
         except:
             # UserFiles() instance does not exist
