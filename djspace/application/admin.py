@@ -9,7 +9,7 @@ from django.utils.text import Truncator
 from django.utils.html import strip_tags
 from django.utils.encoding import smart_bytes
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.admin.helpers import ActionForm
 from django.template import loader
 
