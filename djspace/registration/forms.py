@@ -159,7 +159,10 @@ class ProfessionalForm(forms.ModelForm):
     A form to collect professional information
     """
 
-    wsgc_affiliate = forms.ModelChoiceField(queryset=AFFILIATES)
+    wsgc_affiliate = forms.ModelChoiceField(
+        label = "WSGC Affiliate",
+        queryset=AFFILIATES
+    )
     sponsoring_organization_state = forms.CharField(
         required=False,
         widget=forms.Select(choices=STATE_CHOICES)
@@ -213,7 +216,10 @@ class FacultyForm(forms.ModelForm):
     A form to collect faculty information
     """
 
-    wsgc_affiliate = forms.ModelChoiceField(queryset=AFFILIATES)
+    wsgc_affiliate = forms.ModelChoiceField(
+        label = "WSGC Affiliate",
+        queryset=AFFILIATES
+    )
 
     class Meta:
         model = Faculty
