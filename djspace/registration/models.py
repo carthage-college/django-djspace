@@ -13,22 +13,6 @@ from djtools.fields.validators import four_digit_year_validator
 from djtools.fields.validators import month_year_validator
 
 
-def limit_affiliation():
-    ids = [
-        g.id for g in GenericChoice.objects.filter(
-            tags__name__in=["WSGC Affiliates","College or University"]
-        ).order_by("ranking")
-    ]
-    return ids
-
-def limit_college_university():
-    ids = [
-        g.id for g in GenericChoice.objects.filter(
-            tags__name__in=["College or University",]
-        ).order_by("ranking")
-    ]
-    return ids
-
 class BaseStudent(Base):
     class Meta:
         abstract = True
@@ -106,21 +90,24 @@ class Undergraduate(BaseStudent):
     )
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        #limit_choices_to={"id__in":limit_college_university},
         verbose_name="College or University",
         related_name="undergraduate_student_wsgc_affiliate",
-        help_text="FNL Participants: Choose 'OTHER.'",
         max_length=128,
         on_delete=models.SET_NULL,
-        null=True,
+        null=True
+    )
+    wsgc_affiliate_other = models.CharField(
+        "Other",
+        max_length=128,
+        null = True, blank = True,
+        help_text="""
+            If your institution does not appear in the list above,
+            please provide it here.
+        """
     )
 
 
 class Graduate(BaseStudent):
-    college_university = models.CharField(
-        "College or university",
-        max_length=255
-    )
     undergraduate_degree = models.CharField(
         max_length=32,
         choices=UNDERGRADUATE_DEGREE
@@ -155,13 +142,20 @@ class Graduate(BaseStudent):
     )
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        #limit_choices_to={"id__in":limit_college_university},
         verbose_name="College or University",
         related_name="graduate_student_wsgc_affiliate",
-        help_text="FNL Participants: Choose 'OTHER.'",
         max_length=128,
         on_delete=models.SET_NULL,
-        null=True,
+        null=True
+    )
+    wsgc_affiliate_other = models.CharField(
+        "Other",
+        max_length=128,
+        null = True, blank = True,
+        help_text="""
+            If your institution does not appear in the list above,
+            please provide it here.
+        """
     )
 
 class Faculty(Base):
@@ -169,7 +163,6 @@ class Faculty(Base):
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        #limit_choices_to={"id__in":limit_affiliation},
         verbose_name="WSGC Affiliate",
         related_name="faculty_wsgc_affiliate",
         on_delete=models.SET_NULL,
@@ -177,6 +170,15 @@ class Faculty(Base):
         help_text = """
             You must be associated with a WSGC commercial, government, or
             nonprofit affiliate in order to proceed
+        """
+    )
+    wsgc_affiliate_other = models.CharField(
+        "Other",
+        max_length=128,
+        null = True, blank = True,
+        help_text="""
+            If your institution does not appear in the list above,
+            please provide it here.
         """
     )
     department_program = models.CharField(
@@ -203,7 +205,6 @@ class Professional(Base):
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        #limit_choices_to={"id__in":limit_affiliation},
         verbose_name="WSGC Affiliate",
         related_name="professional_wsgc_affiliate",
         on_delete=models.SET_NULL,
