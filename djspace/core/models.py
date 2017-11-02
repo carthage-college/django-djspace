@@ -29,9 +29,7 @@ import time
 import re
 
 FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-#FILE_VALIDATORS = []
 PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-#PHOTO_VALIDATORS = []
 REG_TYPE = (
     ('','----select----'),
     ('Undergraduate','Undergraduate'),
