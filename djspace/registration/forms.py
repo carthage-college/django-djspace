@@ -28,15 +28,15 @@ class UndergraduateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UndergraduateForm, self).__init__(*args, **kwargs)
         self.fields['wsgc_affiliate'].queryset = GenericChoice.objects.filter(
-            tags__name__in=["College or University"]
-        ).order_by("ranking")
+            tags__name__in=['College or University']
+        ).order_by('ranking','name')
 
     class Meta:
         model = Undergraduate
         exclude = ('user','status',)
         fields = [
-            'wsgc_affiliate', 'studentid', 'class_year', 'major',
-            'major_other', 'secondary_major_minor',
+            'wsgc_affiliate', 'wsgc_affiliate_other', 'studentid',
+            'class_year', 'major', 'major_other', 'secondary_major_minor',
             'secondary_major_minor_other', 'current_cumulative_gpa',
             'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
             'month_year_of_graduation', 'highschool_name',
@@ -52,20 +52,20 @@ class UndergraduateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(UndergraduateForm, self).clean()
-        major = cleaned_data.get("major")
-        major_other = cleaned_data.get("major_other")
-        secondary_major_minor = cleaned_data.get("secondary_major_minor")
-        secondary_major_minor_other = cleaned_data.get("secondary_major_minor_other")
+        major = cleaned_data.get('major')
+        major_other = cleaned_data.get('major_other')
+        secondary_major_minor = cleaned_data.get('secondary_major_minor')
+        secondary_major_minor_other = cleaned_data.get('secondary_major_minor_other')
 
-        if major == "Other":
-            if major_other == "":
-                self._errors["major_other"] = self.error_class(
+        if major == 'Other':
+            if major_other == '':
+                self._errors['major_other'] = self.error_class(
                     ["Required field."]
                 )
 
-        if secondary_major_minor == "Other":
-            if secondary_major_minor_other == "":
-                self._errors["secondary_major_minor_other"] = self.error_class(
+        if secondary_major_minor == 'Other':
+            if secondary_major_minor_other == '':
+                self._errors['secondary_major_minor_other'] = self.error_class(
                     ["Required field."]
                 )
 
@@ -80,8 +80,8 @@ class GraduateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(GraduateForm, self).__init__(*args, **kwargs)
         self.fields['wsgc_affiliate'].queryset = GenericChoice.objects.filter(
-            tags__name__in=["College or University"]
-        ).order_by("ranking")
+            tags__name__in=['College or University']
+        ).order_by('ranking','name')
 
 
     cumulative_college_credits = forms.CharField(
@@ -105,12 +105,12 @@ class GraduateForm(forms.ModelForm):
         model = Graduate
         exclude = ('user','status',)
         fields = [
-            'major',
-            'major_other','secondary_major_minor',
+            'major', 'major_other','secondary_major_minor',
             'secondary_major_minor_other',
             'gpa_in_major','gpa_scale','cumulative_college_credits',
             'month_year_of_graduation','undergraduate_degree',
-            'wsgc_affiliate','studentid','degree_program','degree_program_other',
+            'wsgc_affiliate','wsgc_affiliate_other','studentid',
+            'degree_program','degree_program_other',
             'concentration_area','graduate_gpa',
             'graduate_scale','graduate_graduation_year',
         ]
@@ -118,37 +118,45 @@ class GraduateForm(forms.ModelForm):
             # undergraduate
             'gpa_in_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'gpa_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
-            'cumulative_college_credits': forms.TextInput(attrs={'placeholder': 'eg. 86.0'}),
+            'cumulative_college_credits': forms.TextInput(
+                attrs={'placeholder': 'eg. 86.0'}
+            ),
             # graduate
             'graduate_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
-            'graduate_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
-            'graduate_graduation_year': forms.TextInput(attrs={'placeholder': 'eg. 2015'})
+            'graduate_scale': forms.TextInput(
+                attrs={'placeholder': 'eg. 4.00'}
+            ),
+            'graduate_graduation_year': forms.TextInput(
+                attrs={'placeholder': 'eg. 2015'}
+            )
         }
 
     def clean(self):
         cleaned_data = super(GraduateForm, self).clean()
-        major = cleaned_data.get("major")
-        major_other = cleaned_data.get("major_other")
-        secondary_major_minor = cleaned_data.get("secondary_major_minor")
-        secondary_major_minor_other = cleaned_data.get("secondary_major_minor_other")
-        degree_program = cleaned_data.get("degree_program")
-        degree_program_other = cleaned_data.get("degree_program_other")
+        major = cleaned_data.get('major')
+        major_other = cleaned_data.get('major_other')
+        secondary_major_minor = cleaned_data.get('secondary_major_minor')
+        secondary_major_minor_other = cleaned_data.get(
+            'secondary_major_minor_other'
+        )
+        degree_program = cleaned_data.get('degree_program')
+        degree_program_other = cleaned_data.get('degree_program_other')
 
-        if major == "Other":
-            if major_other == "":
-                self._errors["major_other"] = self.error_class(
+        if major == 'Other':
+            if major_other == '':
+                self._errors['major_other'] = self.error_class(
                     ["Required field."]
                 )
 
-        if secondary_major_minor == "Other":
-            if secondary_major_minor_other == "":
-                self._errors["secondary_major_minor_other"] = self.error_class(
+        if secondary_major_minor == 'Other':
+            if secondary_major_minor_other == '':
+                self._errors['secondary_major_minor_other'] = self.error_class(
                     ["Required field."]
                 )
 
-        if degree_program == "Other":
-            if degree_program_other == "":
-                self._errors["degree_program_other"] = self.error_class(
+        if degree_program == 'Other':
+            if degree_program_other == '':
+                self._errors['degree_program_other'] = self.error_class(
                     ["Required field."]
                 )
         return cleaned_data
@@ -180,32 +188,32 @@ class ProfessionalForm(forms.ModelForm):
 
     def clean(self):
         cd = super(ProfessionalForm, self).clean()
-        wa = cd.get("wsgc_affiliate")
+        wa = cd.get('wsgc_affiliate')
         # sponsoring organisation data are required if wsgc affiliate
         # is "Other" (id = 49)
         if wa and wa.id == 49:
-            if not cd.get("sponsoring_organization_name"):
-                self._errors["sponsoring_organization_name"] = self.error_class(
+            if not cd.get('sponsoring_organization_name'):
+                self._errors['sponsoring_organization_name'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("sponsoring_organization_address1"):
-                self._errors["sponsoring_organization_address1"] = self.error_class(
+            if not cd.get('sponsoring_organization_address1'):
+                self._errors['sponsoring_organization_address1'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("sponsoring_organization_city"):
-                self._errors["sponsoring_organization_city"] = self.error_class(
+            if not cd.get('sponsoring_organization_city'):
+                self._errors['sponsoring_organization_city'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("sponsoring_organization_state"):
-                self._errors["sponsoring_organization_state"] = self.error_class(
+            if not cd.get('sponsoring_organization_state'):
+                self._errors['sponsoring_organization_state'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("sponsoring_organization_postal_code"):
-                self._errors["sponsoring_organization_postal_code"] = self.error_class(
+            if not cd.get('sponsoring_organization_postal_code'):
+                self._errors['sponsoring_organization_postal_code'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("sponsoring_organization_contact"):
-                self._errors["sponsoring_organization_contact"] = self.error_class(
+            if not cd.get('sponsoring_organization_contact'):
+                self._errors['sponsoring_organization_contact'] = self.error_class(
                     ["Required field"]
                 )
         return cd
