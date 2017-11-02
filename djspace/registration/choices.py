@@ -27,7 +27,7 @@ WSGC_SCHOOL = (
     ('Concordia University','Concordia University'),
     ('Fond du Lac Tribal Community College','Fond du Lac Tribal Community College'),
     ('Lawrence University','Lawrence University'),
-    ('Leech Lake Technical College','Leech Lake Technical College'),
+    ('Leech Lake Tribal College','Leech Lake Tribal College'),
     ('Little Big Horn College','Little Big Horn College'),
     ('Marquette University','Marquette University'),
     ('Medical College of Wisconsin','Medical College of Wisconsin'),
