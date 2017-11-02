@@ -17,7 +17,7 @@ from collections import OrderedDict
 from datetime import date
 
 DOB_YEAR = date.today().year-10
-RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("ranking")
+RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('ranking')
 
 
 class EmailApplicantsForm(forms.Form):
@@ -30,7 +30,7 @@ class EmailApplicantsForm(forms.Form):
     def clean_content(self):
         content = self.cleaned_data['content']
 
-        self._errors["content"] = self.error_class(
+        self._errors['content'] = self.error_class(
             ["Please provide the content of the email"]
         )
 
