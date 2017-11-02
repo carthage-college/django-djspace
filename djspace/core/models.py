@@ -285,6 +285,7 @@ def limit_race():
     ]
     return rids
 
+
 class UserFiles(models.Model):
 
     user = models.OneToOneField(
@@ -532,13 +533,12 @@ class UserProfile(models.Model):
         from djspace.registration.models import Undergraduate, Graduate
         from djspace.registration.models import Faculty, Professional
 
-        try:
-
+        if self.registration_type:
             mod = django.apps.apps.get_model(
                 app_label='registration', model_name=self.registration_type
             )
             return mod.objects.get(user=self.user)
-        except:
+        else:
             return None
 
     def save(self, *args, **kwargs):
