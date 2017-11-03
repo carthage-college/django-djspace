@@ -10,10 +10,8 @@
 <p>{{data.past_funding_year}}</p>
 {% endif %}
 <h4>Academic Institution</h4>
-<p>{{data.academic_institution_name}}
-{% if data.academic_institution_other %}&mdash;
-{{data.academic_institution_other}}
-{% endif %}
+<p>
+  {{data.user.profile.get_registration.wsgc_affiliate.name}}
 </p>
 {% if data.co_advisor %}
   <h4>Co-Advisor</h4>

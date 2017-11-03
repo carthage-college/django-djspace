@@ -773,7 +773,8 @@ class RocketLaunchTeam(BaseModel):
         # replace anything that is not a word character with a dash
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.name)
         school_name = re.sub(
-            r'[^a-zA-Z0-9]', '-', self.academic_institution_name
+            r'[^a-zA-Z0-9]', '-',
+            self.user.profile.get_registration().wsgc_affiliate.name
         )
         return u'{}_{}_{}_{}.{}'.format(
             code, team_name, school_name,
@@ -882,7 +883,8 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
-            r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
+            r'[^a-zA-Z0-9]', '-',
+            self.team.user.profile.get_registration().wsgc_affiliate.name
         )
         return u'{}_{}_{}_{}.{}'.format(
             self.get_code(), team_name, school_name,
@@ -950,7 +952,8 @@ class CollegiateRocketCompetition(BaseModel):
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
-            r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
+            r'[^a-zA-Z0-9]', '-',
+            self.team.user.profile.get_registration().wsgc_affiliate.name
         )
         return u'{}_{}_{}_{}.{}'.format(
             self.get_code(), team_name, school_name,
@@ -1003,7 +1006,8 @@ class FirstNationsRocketCompetition(BaseModel):
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
-            r'[^a-zA-Z0-9]', '-', self.team.academic_institution_name
+            r'[^a-zA-Z0-9]', '-',
+            self.team.user.profile.get_registration().wsgc_affiliate.name
         )
         return u'{}_{}_{}_{}.{}'.format(
             self.get_code(), team_name, school_name,
