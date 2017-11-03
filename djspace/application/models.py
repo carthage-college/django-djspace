@@ -541,20 +541,6 @@ class RocketLaunchTeam(BaseModel):
         "Team name",
         max_length=255
     )
-    academic_institution_name = models.CharField(
-        "Academic institution",
-        choices=WSGC_SCHOOL,
-        max_length=128,
-    )
-    academic_institution_other = models.CharField(
-        "Other",
-        max_length=128,
-        null = True, blank = True,
-        help_text="""
-            If your academic institution does not appear in the list above,
-            please provide it here.
-        """
-    )
     co_advisor = models.ForeignKey(
         User,
         null = True, blank = True,

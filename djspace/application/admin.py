@@ -547,7 +547,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file','flight_readiness_report_file',
         'proceeding_paper_file',
-        'name','academic_institution','competition','co_advisor','leader',
+        'name','competition','co_advisor','leader',
         'industry_mentor_name','industry_mentor_email',
         'date_created','date_updated',
         'past_funding','past_funding_year','funded_code','status'
@@ -555,14 +555,6 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     list_display_links = ['name']
     list_editable = ['funded_code','status']
     raw_id_fields = ('user','co_advisor','leader','members',)
-
-    def academic_institution(self, instance):
-        name = instance.academic_institution_name
-        if instance.academic_institution_other:
-            name = instance.academic_institution_other
-        return name
-    academic_institution.allow_tags = True
-    academic_institution.short_description = "Academic Institution"
 
     def budget_file(self, instance):
         return admin_display_file(instance,'budget')
