@@ -43,19 +43,38 @@ class UndergraduateForm(forms.ModelForm):
             'highschool_city', 'highschool_state',
         ]
         widgets = {
-            'current_cumulative_gpa': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
+            'current_cumulative_gpa': forms.TextInput(
+                attrs={'placeholder': 'eg. 3.87'}
+            ),
             'gpa_in_major': forms.TextInput(attrs={'placeholder': 'eg. 3.87'}),
             'gpa_scale': forms.TextInput(attrs={'placeholder': 'eg. 4.00'}),
-            'cumulative_college_credits': forms.TextInput(attrs={'placeholder': 'eg. 86.0'}),
-            'month_year_of_graduation': forms.TextInput(attrs={'placeholder': 'eg. 05/2015'})
+            'cumulative_college_credits': forms.TextInput(
+                attrs={'placeholder': 'eg. 86.0'}
+            ),
+            'month_year_of_graduation': forms.TextInput(
+                attrs={'placeholder': 'eg. 05/2015'}
+            )
         }
 
     def clean(self):
         cleaned_data = super(UndergraduateForm, self).clean()
+
+        # WSGC Affiliate
+        wsgc_affiliate = cleaned_data.get('wscg_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wscg_affiliate_other')
+
+        if wsgc_affliate == 'Other' and not wsgc_affiliate_other:
+            self._errors['wsgc_affliate_other'] = self.error_class(
+                ["Required field."]
+            )
+
+        # majors
         major = cleaned_data.get('major')
         major_other = cleaned_data.get('major_other')
         secondary_major_minor = cleaned_data.get('secondary_major_minor')
-        secondary_major_minor_other = cleaned_data.get('secondary_major_minor_other')
+        secondary_major_minor_other = cleaned_data.get(
+            'secondary_major_minor_other'
+        )
 
         if major == 'Other':
             if major_other == '':
@@ -133,6 +152,17 @@ class GraduateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(GraduateForm, self).clean()
+
+        # WSGC Affiliate
+        wsgc_affiliate = cleaned_data.get('wscg_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wscg_affiliate_other')
+
+        if wsgc_affliate == 'Other' and not wsgc_affiliate_other:
+            self._errors['wsgc_affliate_other'] = self.error_class(
+                ["Required field."]
+            )
+
+        # majors
         major = cleaned_data.get('major')
         major_other = cleaned_data.get('major_other')
         secondary_major_minor = cleaned_data.get('secondary_major_minor')
@@ -232,3 +262,17 @@ class FacultyForm(forms.ModelForm):
     class Meta:
         model = Faculty
         exclude = ('user','status',)
+
+    def clean(self):
+        cleaned_data = super(FacultyForm, self).clean()
+
+        # WSGC Affiliate
+        wsgc_affiliate = cleaned_data.get('wscg_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wscg_affiliate_other')
+
+        if wsgc_affliate == 'Other' and not wsgc_affiliate_other:
+            self._errors['wsgc_affliate_other'] = self.error_class(
+                ["Required field."]
+            )
+
+        return cleaned_data
