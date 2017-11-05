@@ -60,11 +60,11 @@ class UndergraduateForm(forms.ModelForm):
         cleaned_data = super(UndergraduateForm, self).clean()
 
         # WSGC Affiliate
-        wsgc_affiliate = cleaned_data.get('wscg_affiliate')
-        wsgc_affiliate_other = cleaned_data.get('wscg_affiliate_other')
+        wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
 
-        if wsgc_affliate == 'Other' and not wsgc_affiliate_other:
-            self._errors['wsgc_affliate_other'] = self.error_class(
+        if wsgc_affiliate == 'Other' and not wsgc_affiliate_other:
+            self._errors['wsgc_affiliate_other'] = self.error_class(
                 ["Required field."]
             )
 
@@ -154,11 +154,11 @@ class GraduateForm(forms.ModelForm):
         cleaned_data = super(GraduateForm, self).clean()
 
         # WSGC Affiliate
-        wsgc_affiliate = cleaned_data.get('wscg_affiliate')
-        wsgc_affiliate_other = cleaned_data.get('wscg_affiliate_other')
+        wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
 
-        if wsgc_affliate == 'Other' and not wsgc_affiliate_other:
-            self._errors['wsgc_affliate_other'] = self.error_class(
+        if wsgc_affiliate == 'Other' and not wsgc_affiliate_other:
+            self._errors['wsgc_affiliate_other'] = self.error_class(
                 ["Required field."]
             )
 
@@ -267,11 +267,11 @@ class FacultyForm(forms.ModelForm):
         cleaned_data = super(FacultyForm, self).clean()
 
         # WSGC Affiliate
-        wsgc_affiliate = cleaned_data.get('wscg_affiliate')
-        wsgc_affiliate_other = cleaned_data.get('wscg_affiliate_other')
+        wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
 
-        if wsgc_affliate == 'Other' and not wsgc_affiliate_other:
-            self._errors['wsgc_affliate_other'] = self.error_class(
+        if wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
+            self._errors['wsgc_affiliate_other'] = self.error_class(
                 ["Required field."]
             )
 
