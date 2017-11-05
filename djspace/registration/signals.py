@@ -49,10 +49,13 @@ def registration_faculty_pre_save(sender, **kwargs):
     """
 
     obj = kwargs['instance']
-    gc = _create_generic_choice(obj.wsgc_affiliate_other)
-    obj.wsgc_affiliate_other = ''
-    obj.wsgc_affiliate = gc
-    _send_mail(obj, kwargs.get('request'), 'Faculty')
+    if obj.wsgc_affiliate.name == 'Other':
+        if obj.wsgc_affiliate_other:
+            gc = _create_generic_choice(obj.wsgc_affiliate_other)
+            obj.wsgc_affiliate_other = ''
+            obj.wsgc_affiliate = gc
+
+        _send_mail(obj, kwargs.get('request'), 'Faculty')
 
 
 @receiver(pre_save, sender=Undergraduate)
@@ -64,10 +67,13 @@ def registration_undergraduate_pre_save(sender, **kwargs):
     """
 
     obj = kwargs['instance']
-    gc = _create_generic_choice(obj.wsgc_affiliate_other)
-    obj.wsgc_affiliate_other = ''
-    obj.wsgc_affiliate = gc
-    _send_mail(obj, kwargs.get('request'), 'Undergraduate')
+    if obj.wsgc_affiliate.name == 'Other':
+        if obj.wsgc_affiliate_other:
+            gc = _create_generic_choice(obj.wsgc_affiliate_other)
+            obj.wsgc_affiliate_other = ''
+            obj.wsgc_affiliate = gc
+
+        _send_mail(obj, kwargs.get('request'), 'Undergraduate')
 
 
 @receiver(pre_save, sender=Graduate)
@@ -79,8 +85,11 @@ def registration_graduate_pre_save(sender, **kwargs):
     """
 
     obj = kwargs['instance']
-    gc = _create_generic_choice(obj.wsgc_affiliate_other)
-    obj.wsgc_affiliate_other = ''
-    obj.wsgc_affiliate = gc
-    _send_mail(obj, kwargs.get('request'), 'Graduate')
+    if obj.wsgc_affiliate.name == 'Other':
+        if obj.wsgc_affiliate_other:
+            gc = _create_generic_choice(obj.wsgc_affiliate_other)
+            obj.wsgc_affiliate_other = ''
+            obj.wsgc_affiliate = gc
+
+        _send_mail(obj, kwargs.get('request'), 'Graduate')
 
