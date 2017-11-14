@@ -727,7 +727,7 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'critical_design_report','oral_presentation',
             'post_flight_performance_report','education_outreach',
             'flight_readiness_report','proceeding_paper',
-            'verified_budget','close_out_finance_document',
+            'budget','verified_budget','close_out_finance_document',
             'invoice','charges_certification','institutional_w9'
         )
 
