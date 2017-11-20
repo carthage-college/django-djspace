@@ -600,6 +600,13 @@ class RocketLaunchTeam(BaseModel):
         max_length=128
     )
     # files
+    proposal = models.FileField(
+        upload_to = partial(upload_to_path, 'Proposal'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
         validators=FILE_VALIDATORS,
@@ -796,6 +803,9 @@ class RocketLaunchTeam(BaseModel):
     # timestamp methods are for UI level display
     def budget_timestamp(self):
         return self.get_file_timestamp("budget")
+
+    def proposal_timestamp(self):
+        return self.get_file_timestamp('proposal')
 
     def interim_progress_report_timestamp(self):
         return self.get_file_timestamp("interim_progress_report")

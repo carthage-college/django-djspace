@@ -92,6 +92,23 @@
   {% endif %}
 {% endif %}
 {% if "First Nations" in data.competition %}
+  {% if data.proposal %}
+  <li>
+    <a href="{{media_url}}{{data.proposal}}">
+      Proposal
+    </a>
+    <ul>
+      <li>Created: {{data.proposal_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.proposal}}
+      </li>
+    </ul>
+  </li>
+  {% else %}
+    {% if data.status %}
+    <li>Proposal: Missing</li>
+    {% endif %}
+  {% endif %}
   {% if data.lodging_list %}
     <li>
       <a href="{{media_url}}{{data.lodging_list}}" target="_blank">

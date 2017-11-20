@@ -177,7 +177,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     """
 
     file_fields = [
-        "cv", "proposal", "letter_interest",
+        "cv", "proposal", "letter_interest",'proposal',
         "budget", "undergraduate_transcripts", "graduate_transcripts",
         "recommendation", "recommendation_1", "recommendation_2",
         "high_school_transcripts", "wsgc_advisor_recommendation",
@@ -540,7 +540,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     ]
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'budget_file',
+        'budget_file','proposal_file',
         'interim_progress_report_file','preliminary_design_report_file',
         'final_design_report_file','flight_demo_file',
         'final_motor_selection_trunk','lodging_list_file',
@@ -560,6 +560,12 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         return admin_display_file(instance,'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
+
+
+    def proposal_file(self, instance):
+        return admin_display_file(instance,'proposal')
+    proposal_file.allow_tags = True
+    proposal_file.short_description = "Proposal"
 
     def interim_progress_report_file(self, instance):
         return admin_display_file(instance,'interim_progress_report')

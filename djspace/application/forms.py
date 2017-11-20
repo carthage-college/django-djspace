@@ -653,7 +653,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'authorized_match','members','award_acceptance',
             'interim_progress_report','interim_report',
             'preliminary_design_report','final_design_report','final_report',
-            'flight_demo','lodging_list',
+            'flight_demo','lodging_list','proposal',
             'critical_design_report','oral_presentation','proceeding_paper',
             'flight_readiness_report','post_flight_performance_report',
             'education_outreach','verified_budget',
@@ -726,7 +726,7 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'flight_demo','lodging_list',
             'critical_design_report','oral_presentation',
             'post_flight_performance_report','education_outreach',
-            'flight_readiness_report','proceeding_paper',
+            'flight_readiness_report','proceeding_paper','proposal',
             'budget','verified_budget','close_out_finance_document',
             'invoice','charges_certification','institutional_w9'
         )
