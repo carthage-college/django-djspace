@@ -704,7 +704,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="Power point"
     )
     post_flight_performance_report = models.FileField(
-        "Post Launch Assessment Report",
+        "Post Launch Assessment Review",
         upload_to = partial(upload_to_path, 'PFPR'),
         validators=FILE_VALIDATORS,
         max_length=768,
