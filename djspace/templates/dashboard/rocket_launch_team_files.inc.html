@@ -63,25 +63,6 @@
   {% endif %}
 </li>
 {% endif %}
-<li class="form-group ctrlHolder">
-  <h3>
-    <label for="id_team_roster">Team Roster [PDF]</label>
-  </h3>
-  <div class="filewrap fleft">
-    <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
-      name="team_roster" id="id_team_roster">
-    <span class='filebutt'>Select File</span>
-    <span class='filevalu'></span>
-  </div>
-  {% if app.team_roster or app.team.team_roster %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.team_roster %}{{app.team_roster}}{% else %}{{app.team.team_roster}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-  {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
-  {% endif %}
-</li>
 {% if app.competition != "Midwest High Powered Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
