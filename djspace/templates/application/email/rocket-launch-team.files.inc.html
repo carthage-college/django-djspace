@@ -22,11 +22,11 @@
     </ul>
   </li>
 {% else %}
-  {% if data.status or data.competition == "Midwest High Powered Rocket Competition" %}
+  {% if data.status or data.competition == "Midwest High Powered Rocket Competition" or data.team.competition == "Midwest High Powered Rocket Competition" %}
     <li>Budget: Missing</li>
   {% endif %}
 {% endif %}
-{% if data.competition == "Collegiate Rocket Competition" %}
+{% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
   {% if data.interim_progress_report %}
     <li>
       <a href="{{media_url}}{{data.interim_progress_report}}" target="_blank">
@@ -58,7 +58,7 @@
 {% else %}
   {% if data.status %}<li>Preliminary Design Report: Missing</li>{% endif %}
 {% endif %}
-{% if data.competition == "Collegiate Rocket Competition" %}
+{% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
   {% if data.final_design_report %}
     <li>
       <a href="{{media_url}}{{data.final_design_report}}" target="_blank">
@@ -75,7 +75,7 @@
     {% if data.status %}<li>Final Design Report: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.competition != "Midwest High Powered Rocket Competition" %}
+{% if data.competition != "Midwest High Powered Rocket Competition" or data.team.competion != "Midwest High Powered Rocket Competition" %}
   {% if data.flight_demo %}
     <li>
       <a href="{{data.flight_demo}}" target="_blank">
@@ -91,7 +91,7 @@
     {% if data.status %}<li>Flight Demo: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if "First Nations" in data.competition %}
+{% if "First Nations" in data.competition or "First Nations" in data.team.competition %}
   {% if data.proposal %}
   <li>
     <a href="{{media_url}}{{data.proposal}}">
@@ -140,7 +140,7 @@
     {% if data.status %}<li>Critical Design Report: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.competition != "Midwest High Powered Rocket Competition" %}
+{% if data.competition != "Midwest High Powered Rocket Competition" or data.team.competion != "Midwest High Powered Rocket Competition" %}
   {% if data.oral_presentation %}
     <li>
       <a href="{{media_url}}{{data.oral_presentation}}" target="_blank">
@@ -172,7 +172,7 @@
 {% else %}
   {% if data.status %}<li>Post Flight Performance Report: Missing</li>{% endif %}
 {% endif %}
-{% if data.competition != "First Nations AISES" or data.competiton != "First Nations Tribal" %}
+{% if "First Nations" not in data.competition or "First Nations" not in data.team.competition %}
   {% if data.education_outreach %}
     <li>
       <a href="{{media_url}}{{data.education_outreach}}" target="_blank">
@@ -189,7 +189,7 @@
     {% if data.status %}<li>Education Outreach: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.competition == "Midwest High Powered Rocket Competition" %}
+{% if data.competition == "Midwest High Powered Rocket Competition" or data.team.competion == "Midwest High Powered Rocket Competition" %}
   {% if data.flight_readiness_report %}
     <li>
       <a href="{{media_url}}{{data.flight_readiness_report}}" target="_blank">
