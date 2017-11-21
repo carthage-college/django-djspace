@@ -101,7 +101,10 @@ def home(request):
                 except:
                     pass
 
-    # check if the user has upload all of her user files
+    # check if the user has upload all of her user files.
+    # wsgc would like to remove this message for now. i suspect
+    # they will want to put it back in the future
+    """
     if approved:
         user_files_status = files_status(user)
         if not user_files_status:
@@ -112,6 +115,7 @@ def home(request):
                 ''',
                 extra_tags='danger'
             )
+    """
 
     status = profile_status(user)
 

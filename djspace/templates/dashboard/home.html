@@ -63,7 +63,6 @@
             dataType: "html",
             success: function(response) {
                 if ( response == "True") {
-                    //console.log(response);
                     $("#messages").remove();
                 }
             },
@@ -113,7 +112,7 @@
             success: function(data) {
                 /* determine if we can remove warning message
                    about missing files */
-                FilesStatus();
+                //FilesStatus();
                 /*
                 * Workaround for Chrome browser // Delete the fake path
                 */
@@ -250,7 +249,7 @@
                 $.growlUI("Success", "Flight Demo URL saved.");
                 // determine if we can remove warning message about
                 // missing files
-                FilesStatus();
+                //FilesStatus();
               }else{
                 $.growlUI("Fail", "Please input your URL again.");
               }
@@ -294,7 +293,7 @@
               $.growlUI('Success', "Date saved.");
               /* determine if we can remove warning message
                  about missing files */
-              FilesStatus();
+              //FilesStatus();
             }else{
               $.growlUI('Fail', "Please select your date again.");
             }
@@ -603,7 +602,7 @@
     <ol><li>
     <fieldset>
       <legend>
-        All Program Files
+        All Program Files (FNL participants exempt)
         <span class="fright">
           <i tabindex="0"
           class="fa fa-question-circle-o green popover-toggle"
