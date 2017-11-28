@@ -14,7 +14,7 @@ from djspace.core.utils import registration_notify
 
 from djtools.fields import BINARY_CHOICES, YES_NO_DECLINE, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES
-from djtools.fields.validators import MimetypeValidator
+#from djtools.fields.validators import MimetypeValidator
 
 from gm2m import GM2MField
 from allauth.account.signals import user_signed_up
@@ -30,6 +30,8 @@ import re
 
 FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
 PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+FILE_VALIDATORS = []
+PHOTO_VALIDATORS = []
 REG_TYPE = (
     ('','----select----'),
     ('Undergraduate','Undergraduate'),
