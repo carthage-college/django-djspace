@@ -8,9 +8,9 @@ from djspace.core.models import GenericChoice
 from djspace.core.models import Base
 
 from djtools.fields import STATE_CHOICES
-from djtools.fields.validators import credit_gpa_validator
-from djtools.fields.validators import four_digit_year_validator
-from djtools.fields.validators import month_year_validator
+#from djtools.fields.validators import credit_gpa_validator
+#from djtools.fields.validators import four_digit_year_validator
+#from djtools.fields.validators import month_year_validator
 
 
 class BaseStudent(Base):
@@ -42,17 +42,14 @@ class BaseStudent(Base):
     current_cumulative_gpa = models.CharField(
         "Current cumulative GPA",
         max_length=4,
-        validators=[credit_gpa_validator]
     )
     gpa_in_major = models.CharField(
         "GPA in major",
         max_length=4,
-        validators=[credit_gpa_validator]
     )
     gpa_scale = models.CharField(
         "GPA scale",
         max_length=4,
-        validators=[credit_gpa_validator]
     )
     cumulative_college_credits = models.CharField(
         "Cumulative college credits",
@@ -61,7 +58,6 @@ class BaseStudent(Base):
     month_year_of_graduation = models.CharField(
         "Expected month and year of graduation",
         max_length=7,
-        validators=[month_year_validator]
     )
     studentid = models.CharField(
         "Student Id Number",
@@ -128,17 +124,14 @@ class Graduate(BaseStudent):
     graduate_gpa = models.CharField(
         "Current cumulative GPA",
         max_length=4,
-        validators=[credit_gpa_validator]
     )
     graduate_scale = models.CharField(
         "GPA Scale",
         max_length=4,
-        validators=[credit_gpa_validator]
     )
     graduate_graduation_year = models.CharField(
         "Anticipated graduation year",
         max_length=4,
-        validators=[four_digit_year_validator]
     )
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
