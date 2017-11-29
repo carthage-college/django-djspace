@@ -10,7 +10,7 @@ from django.forms.extras.widgets import SelectDateWidget
 from djspace.application.models import *
 from djspace.core.models import PAST_FUNDING_YEAR_CHOICES
 from djspace.core.utils import get_start_date
-from djtools.fields.validators import MimetypeValidator
+#from djtools.fields.validators import MimetypeValidator
 from djtools.fields import BINARY_CHOICES
 
 from taggit.models import Tag
@@ -744,7 +744,6 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         required = False
     )
     media_release = forms.FileField(
-        validators=[MimetypeValidator('application/pdf')],
         max_length=768,
         help_text="PDF format"
     )
