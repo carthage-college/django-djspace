@@ -72,3 +72,7 @@ Web site.................... {{data.user.profile.get_registration.web_site}}
 {% endblock %}
 <h2>Application Information</h2>
 {% block data %}{% endblock %}
+<h2>Photos</h2>
+{% for p in data.photos.all %}
+<img src="{{p.phile.url}}" width="400">
+{% endfor %}
