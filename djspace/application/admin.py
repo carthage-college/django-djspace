@@ -33,6 +33,7 @@ import os
 FUNDED_FILES = (
     ('','---Select---'),
     ('biography','Biography'),
+    ('budget','Budget'),
     ('critical_design_report','Critical Design Report'),
     ('cv','CV'),
     ('education_outreach','Education Outreach'),
@@ -54,7 +55,6 @@ FUNDED_FILES = (
     ('proposal','Proposal'),
     ('irs_w9','W9'),
     #('',''),
-
 )
 
 
