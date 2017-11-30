@@ -797,7 +797,7 @@ class RocketLaunchTeam(BaseModel):
         used when building a tarball of required files
         '''
         return [
-            'wsgc_acknowledgement','budget'
+            'budget'
         ]
 
     # timestamp methods are for UI level display
