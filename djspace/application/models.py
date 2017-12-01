@@ -1820,6 +1820,10 @@ class NasaCompetition(BaseModel):
         max_length=128,
         null = True, blank = True
     )
+    team_lead = models.CharField(
+        "Team Lead",
+        max_length=128,
+    )
     # approved files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'Invoice'),
