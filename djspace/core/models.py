@@ -28,10 +28,10 @@ from uuid import uuid4
 import time
 import re
 
-#FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-#PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-FILE_VALIDATORS = []
-PHOTO_VALIDATORS = []
+FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+#FILE_VALIDATORS = []
+#PHOTO_VALIDATORS = []
 REG_TYPE = (
     ('','----select----'),
     ('Undergraduate','Undergraduate'),
