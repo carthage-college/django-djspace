@@ -45,6 +45,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+FILE_UPLOAD_PERMISSIONS=664
 # the month after which the new grant cycle begins
 GRANT_CYCLE_START_MES=7
 
