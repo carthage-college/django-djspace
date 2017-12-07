@@ -894,12 +894,6 @@ class NasaCompetitionForm(forms.ModelForm):
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
         required = False
     )
-    other_fellowship = forms.TypedChoiceField(
-        label="""
-            Do you currently hold another Federal fellowship or traineeship?
-        """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
-    )
     program_acceptance = forms.TypedChoiceField(
         label = "Has your team applied and been accepted into the program?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
