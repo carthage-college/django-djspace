@@ -35,7 +35,9 @@
   </li>
   {% if data.team.leader.id == data.user.id %}
     </ul>
-    {% include "application/email/rocket-launch-team.files.inc.html" %}
+    {% with data.team as data %}
+      {% include "application/email/rocket-launch-team.files.inc.html" %}
+    {% endwith %}
   {% else %}
     {% if data.award_acceptance %}
     <li>

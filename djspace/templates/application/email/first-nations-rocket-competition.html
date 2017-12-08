@@ -29,6 +29,8 @@
   </li>
 </ul>
 {% if data.team.leader.id == data.user.id %}
-    {% include "application/email/rocket-launch-team.files.inc.html" %}
+    {% with data.team as data %}
+      {% include "application/email/rocket-launch-team.files.inc.html" %}
+    {% endwith %}
 {% endif %}
 {% endblock %}

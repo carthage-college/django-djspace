@@ -83,23 +83,12 @@ def home(request):
     applications = []
     # only approved, which we can eventually use to display list
     approved = []
-    # we need the content type ID for rocket launch team only
-    # since team leaders can upload file for that model
-    team = {}
     start_date = get_start_date()
     for a in apps.all():
         if a.multi_year or a.date_created >= start_date:
             applications.append(a)
             if a.status:
                 approved.append(a)
-            if "rocketcompetition" in a.get_content_type().model:
-                # in case the team has no leader, somehow.
-                try:
-                    if a.team.leader.id == user.id:
-                        team['ct'] = a.team.get_content_type().id
-                        team['id'] = a.team.id
-                except:
-                    pass
 
     # check if the user has upload all of her user files.
     # wsgc would like to remove this message for now. i suspect
@@ -133,7 +122,7 @@ def home(request):
             'biography_status':biography_status,
             'irs_w9_status':irs_w9_status,
             'media_release_status':media_release_status,
-            'team':team,'applications':applications,
+            'applications':applications,
             'professional_programs':PROFESSIONAL_PROGRAMS,
             'rocket_competitions':ROCKET_COMPETITIONS_EXCLUDE
         }
