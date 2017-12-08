@@ -7,8 +7,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="interim_progress_report" id="id_interim_progress_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -29,8 +29,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="preliminary_design_report" id="id_preliminary_design_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -49,8 +49,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="final_design_report" id="id_final_design_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -70,8 +70,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="budget" id="id_budget">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -92,15 +92,15 @@
   <div>
     {% if app.flight_demo or app.team.flight_demo %}
     <input type="url" name="flight_demo" class="flight-demo fleft"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       value="{% if app.flight_demo %}{{app.flight_demo}}{% else %}{{app.team.flight_demo}}{% endif %}"
       id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
     <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
     {% else %}
     <input type="input" name="flight_demo" class="flight-demo fleft"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
       <i class="fa fa-times red" aria-hidden="true"
         id="id_flight_demo_{{forloop.counter}}_missing" title="Missing file"></i>
@@ -116,8 +116,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="final_motor_selection" id="id_final_motor_selection">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -135,8 +135,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="lodging_list" id="id_lodging_list">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -154,8 +154,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="critical_design_report" id="id_critical_design_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -175,8 +175,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="oral_presentation" id="id_oral_presentation">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -197,8 +197,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="post_flight_performance_report" id="id_post_flight_performance_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -217,8 +217,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="education_outreach" id="id_education_outreach">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -238,8 +238,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="flight_readiness_report" id="id_flight_readiness_report">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -259,8 +259,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="proposal" id="id_proposal">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -280,8 +280,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="verified_budget" id="id_verified_budget">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -301,8 +301,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="close_out_finance_document" id="id_close_out_finance_document">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -320,8 +320,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="invoice" id="id_invoice">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -339,8 +339,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="charges_certification" id="id_charges_certification">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -358,8 +358,8 @@
   </h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       name="institutional_w9" id="id_institutional_w9">
     <span class='filebutt'>Select File</span>
     <span class='filevalu'></span>
@@ -380,15 +380,15 @@
   <div>
     {% if app.proceeding_paper or app.team.proceeding_paper %}
     <input type="input" name="proceeding_paper" class="fleft"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       value="{% if app.proceeding_paper %}{{app.proceeding_paper|date:"m/d/Y"}}{% else %}{{app.team.proceeding_paper|date:"m/d/Y"}}{% endif %}"
       id="id_proceeding_paper" style="margin-right:17px;">
         <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
     {% else %}
     <input type="input" name="proceeding_paper" class="fleft"
-      data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       id="id_proceeding_paper" style="margin-right:17px;">
       <i class="fa fa-times red" aria-hidden="true"
         id="proceeding-missing" title="Missing file"></i>
