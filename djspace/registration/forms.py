@@ -8,7 +8,7 @@ from djspace.registration.models import Undergraduate, Graduate, Faculty
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
 from djtools.fields import STATE_CHOICES
-from djtools.fields.validators import month_year_validator
+#from djtools.fields.validators import month_year_validator
 
 from localflavor.us.forms import USPhoneNumberField, USZipCodeField
 
@@ -110,7 +110,7 @@ class GraduateForm(forms.ModelForm):
         label = "Month and year of graduation",
         max_length=7,
         widget=forms.TextInput(attrs={'placeholder': 'eg. 05/2015'}),
-        validators=[month_year_validator]
+        #validators=[month_year_validator]
     )
     undergraduate_degree = forms.TypedChoiceField(
         choices = UNDERGRADUATE_DEGREE, widget = forms.RadioSelect()
