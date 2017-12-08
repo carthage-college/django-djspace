@@ -561,7 +561,6 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
-
     def proposal_file(self, instance):
         return admin_display_file(instance,'proposal')
     proposal_file.allow_tags = True
@@ -648,9 +647,17 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     model = CollegiateRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
+        'budget_file','proposal_file',
+        'preliminary_design_report_file',
+        'flight_demo_file',
+        'lodging_list_file',
+        'oral_presentation_file',
+        'critical_design_report_file','post_flight_performance_report_file',
+        'education_outreach_file',
         'cv_file','team','date_created','date_updated',
         'past_funding','past_funding_year','funded_code','status'
     ]
+
     list_display_links = ['team']
     list_editable = ['funded_code','status']
 
@@ -665,6 +672,92 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
         return admin_display_file(instance,"cv")
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
+
+    def budget_file(self, instance):
+        return admin_display_file(instance,'budget',team=True)
+    budget_file.allow_tags = True
+    budget_file.short_description = "Budget"
+
+    def proposal_file(self, instance):
+        return admin_display_file(instance,'proposal',team=True)
+    proposal_file.allow_tags = True
+    proposal_file.short_description = "Proposal"
+
+    def interim_progress_report_file(self, instance):
+        return admin_display_file(instance,'interim_progress_report',team=True)
+    interim_progress_report_file.allow_tags = True
+    interim_progress_report_file.short_description = "Interim Rpt"
+
+    def preliminary_design_report_file(self, instance):
+        return admin_display_file(instance,'preliminary_design_report',team=True)
+    preliminary_design_report_file.allow_tags = True
+    preliminary_design_report_file.short_description = "Prelim design"
+
+    def final_design_report_file(self, instance):
+        return admin_display_file(instance,'final_design_report',team=True)
+    final_design_report_file.allow_tags = True
+    final_design_report_file.short_description = "Final Design Rpt"
+
+    def flight_demo_file(self, instance):
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        if instance.team.flight_demo:
+            icon = '''
+              <a href="{}">
+              <i class="fa fa-check green" aria-hidden="true" title="{}"></i></a>
+            '''.format(instance.team.flight_demo, instance.team.flight_demo)
+        return icon
+    flight_demo_file.allow_tags = True
+    flight_demo_file.short_description = "Flight Demo URL"
+
+    def final_motor_selection_trunk(self, instance):
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        if instance.team.final_motor_selection:
+            icon = u'''
+              <i class="fa fa-check green" aria-hidden="true" title="{}"></i>
+            '''.format(instance.team.final_motor_selection)
+        return icon
+    final_motor_selection_trunk.allow_tags = True
+    final_motor_selection_trunk.short_description = "Final Motor"
+
+    def lodging_list_file(self, instance):
+        return admin_display_file(instance,'lodging_list',team=True)
+    lodging_list_file.allow_tags = True
+    lodging_list_file.short_description = "Lodging"
+
+    def critical_design_report_file(self, instance):
+        return admin_display_file(instance,'critical_design_report',team=True)
+    critical_design_report_file.allow_tags = True
+    critical_design_report_file.short_description = "Critical design"
+
+    def oral_presentation_file(self, instance):
+        return admin_display_file(instance,'oral_presentation',team=True)
+    oral_presentation_file.allow_tags = True
+    oral_presentation_file.short_description = "Oral Pres."
+
+    def post_flight_performance_report_file(self, instance):
+        return admin_display_file(instance,'post_flight_performance_report',team=True)
+    post_flight_performance_report_file.allow_tags = True
+    post_flight_performance_report_file.short_description = "Post flight"
+
+    def education_outreach_file(self, instance):
+        return admin_display_file(instance,'education_outreach',team=True)
+    education_outreach_file.allow_tags = True
+    education_outreach_file.short_description = "Edu. Outreach"
+
+    def flight_readiness_report_file(self, instance):
+        return admin_display_file(instance,'flight_readiness_report',team=True)
+    flight_readiness_report_file.allow_tags = True
+    flight_readiness_report_file.short_description = "Flight Ready"
+
+    def proceeding_paper_file(self, instance):
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        if instance.team.proceeding_paper:
+            icon = '''
+              <i class="fa fa-check green" aria-hidden="true" title="{}"></i>
+            '''.format(instance.team.proceeding_paper)
+        return icon
+    proceeding_paper_file.allow_tags = True
+    proceeding_paper_file.short_description = "Proceeding Paper Date"
 
 
 class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):

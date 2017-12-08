@@ -173,14 +173,24 @@ def get_email_auxiliary(user):
     else:
         return None
 
-def admin_display_file(instance, field):
+def admin_display_file(instance, field, team=False):
     status = False
-    attr = getattr(instance, field)
+    if team:
+        attr = getattr(instance.team, field)
+    else:
+        attr = getattr(instance, field)
     # user profile files expire each grant cycle
     if attr and field in ['mugshot','biography','irs_w9','media_release']:
         user_files = True
         status = instance.user.user_files.status(field)
         if status:
+            icon = '''<a href="{}" target="_blank">
+                <i class="fa fa-check green" aria-hidden="true"></i></a>
+            '''.format(attr.url)
+        else:
+            icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+    elif team:
+        if attr:
             icon = '''<a href="{}" target="_blank">
                 <i class="fa fa-check green" aria-hidden="true"></i></a>
             '''.format(attr.url)
