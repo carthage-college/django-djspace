@@ -735,7 +735,9 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     oral_presentation_file.short_description = "Oral Pres."
 
     def post_flight_performance_report_file(self, instance):
-        return admin_display_file(instance,'post_flight_performance_report',team=True)
+        return admin_display_file(
+            instance,'post_flight_performance_report',team=True
+        )
     post_flight_performance_report_file.allow_tags = True
     post_flight_performance_report_file.short_description = "Post flight"
 
@@ -789,6 +791,12 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     model = FirstNationsRocketCompetition
 
     list_display  = PROFILE_LIST_DISPLAY + [
+        'budget_file',
+        'preliminary_design_report_file',
+        'flight_demo_file','proposal_file',
+        'lodging_list_file',
+        'oral_presentation_file',
+        'critical_design_report_file','post_flight_performance_report_file',
         'team','date_created','date_updated',
         'past_funding','past_funding_year','funded_code','status'
     ]
@@ -801,6 +809,56 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
         export_required_files, export_funded_files,
         'email_applicants'
     ]
+
+    def budget_file(self, instance):
+        return admin_display_file(instance,'budget',team=True)
+    budget_file.allow_tags = True
+    budget_file.short_description = "Budget"
+
+    def preliminary_design_report_file(self, instance):
+        return admin_display_file(
+            instance,'preliminary_design_report',team=True
+        )
+    preliminary_design_report_file.allow_tags = True
+    preliminary_design_report_file.short_description = "Prelim design"
+
+    def flight_demo_file(self, instance):
+        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        if instance.team.flight_demo:
+            icon = '''
+              <a href="{}">
+              <i class="fa fa-check green" aria-hidden="true" title="{}"></i></a>
+            '''.format(instance.team.flight_demo, instance.team.flight_demo)
+        return icon
+    flight_demo_file.allow_tags = True
+    flight_demo_file.short_description = "Flight Demo URL"
+
+    def proposal_file(self, instance):
+        return admin_display_file(instance,'proposal',team=True)
+    proposal_file.allow_tags = True
+    proposal_file.short_description = "Proposal"
+
+    def lodging_list_file(self, instance):
+        return admin_display_file(instance,'lodging_list',team=True)
+    lodging_list_file.allow_tags = True
+    lodging_list_file.short_description = "Lodging"
+
+    def critical_design_report_file(self, instance):
+        return admin_display_file(instance,'critical_design_report',team=True)
+    critical_design_report_file.allow_tags = True
+    critical_design_report_file.short_description = "Critical design"
+
+    def oral_presentation_file(self, instance):
+        return admin_display_file(instance,'oral_presentation',team=True)
+    oral_presentation_file.allow_tags = True
+    oral_presentation_file.short_description = "Oral Pres."
+
+    def post_flight_performance_report_file(self, instance):
+        return admin_display_file(
+            instance,'post_flight_performance_report',team=True
+        )
+    post_flight_performance_report_file.allow_tags = True
+    post_flight_performance_report_file.short_description = "Post flight"
 
 
 class HigherEducationInitiativesAdmin(GenericAdmin):
