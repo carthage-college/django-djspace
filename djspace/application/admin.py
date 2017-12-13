@@ -177,7 +177,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     """
 
     file_fields = [
-        "cv", "proposal", "letter_interest",'proposal',
+        "cv", "proposal", "letter_interest",
         "budget", "undergraduate_transcripts", "graduate_transcripts",
         "recommendation", "recommendation_1", "recommendation_2",
         "high_school_transcripts", "wsgc_advisor_recommendation",
