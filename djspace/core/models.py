@@ -92,8 +92,8 @@ def _timestamp(obj, field):
         )
     except:
         # we might not have the files on dev/staging
-        if settings.DEBUG:
-            ts = datetime.today()
+        #if settings.DEBUG:
+        ts = datetime.today()
 
     return ts
 
