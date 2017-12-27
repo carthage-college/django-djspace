@@ -221,7 +221,7 @@ class EducationInitiatives(BaseModel):
         null = True, blank = True
     )
     begin_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
     location = models.CharField(
         "Location of project", max_length=255
     )
@@ -1171,7 +1171,7 @@ class Fellowship(BaseModel):
     )
     '''
     begin_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
         null = True, blank = True,
@@ -1389,7 +1389,7 @@ class UndergraduateResearch(BaseModel):
         choices = UNDERGRADUATE_RESEARCH_AWARD_TYPES
     )
     begin_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
     synopsis = models.TextField(
         help_text = '''
             Please include a short synopsis of your project
@@ -1739,7 +1739,7 @@ class NasaCompetition(BaseModel):
         "Source(s) of match", max_length = 255
     )
     begin_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
     # files
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'Statement'),
