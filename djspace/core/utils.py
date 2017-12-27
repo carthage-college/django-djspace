@@ -60,10 +60,13 @@ def upload_to_path(field_name, instance, filename):
         uid = str(instance.user().id)
     cid = cipher.encrypt(uid)
     ext = filename.split('.')[-1]
-    filename = u'{}_{}.{}'.format(instance.get_file_name(),field_name, ext)
-    path = "{}/{}/{}/".format(
+    filename = u'{}_{}.{}'.format(
+        instance.get_file_name(),field_name, ext
+    )
+    path = u'{}/{}/{}/'.format(
         instance.get_file_path(), instance.get_slug(), cid
     )
+
     return os.path.join(path, filename)
 
 
