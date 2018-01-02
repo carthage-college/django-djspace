@@ -2108,6 +2108,7 @@ class ProfessionalProgramStudent(BaseModel):
         upload_to = partial(upload_to_path, 'Budget'),
         validators=FILE_VALIDATORS,
         max_length=768,
+        null=True, blank=True,
         help_text="[PDF format]"
     )
     mentor = models.ForeignKey(
