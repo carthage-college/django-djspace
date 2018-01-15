@@ -78,16 +78,20 @@ def home(request):
     except:
         apps = None
 
-    # all applications
-    applications = []
-    # only approved, which we can eventually use to display list
+    # current grant cycle applications
+    current_apps = []
+    # current approved
     approved = []
+    # past grant cycle applications
+    past_apps = []
     start_date = get_start_date()
     for a in apps.all():
-        if a.multi_year or a.date_created >= start_date:
-            applications.append(a)
+        if a.date_created >= start_date:
+            current_apps.append(a)
             if a.status:
                 approved.append(a)
+        elif a.multi_year and a.status:
+            past_apps.append(a)
 
     # check if the user has upload all of her user files.
     # wsgc would like to remove this message for now. i suspect
@@ -121,7 +125,8 @@ def home(request):
             'biography_status':biography_status,
             'irs_w9_status':irs_w9_status,
             'media_release_status':media_release_status,
-            'applications':applications,
+            'current_apps':current_apps,
+            'past_apps':past_apps,
             'professional_programs':PROFESSIONAL_PROGRAMS,
             'rocket_competitions':ROCKET_COMPETITIONS_EXCLUDE
         }
