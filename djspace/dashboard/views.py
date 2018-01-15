@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
-
 from djspace.application.forms import *
 from djspace.registration.forms import *
 from djspace.core.utils import get_start_date
@@ -28,23 +27,23 @@ import json
 import django
 
 UPLOAD_FORMS = {
-  "highereducationinitiatives": HigherEducationInitiativesUploadsForm,
-  "researchinfrastructure": ResearchInfrastructureUploadsForm,
-  "aerospaceoutreach": AerospaceOutreachUploadsForm,
-  "specialinitiatives": SpecialInitiativesUploadsForm,
-  "undergraduatescholarship": UndergraduateScholarshipUploadsForm,
-  "stembridgescholarship": StemBridgeScholarshipUploadsForm,
-  "undergraduateresearch": UndergraduateResearchUploadsForm,
-  "graduatefellowship": GraduateFellowshipUploadsForm,
-  "clarkgraduatefellowship": ClarkGraduateFellowshipUploadsForm,
-  "highaltitudeballoonpayload": HighAltitudeBalloonPayloadUploadsForm,
-  "highaltitudeballoonlaunch": HighAltitudeBalloonLaunchUploadsForm,
-  "rocketlaunchteam": RocketLaunchTeamUploadsForm,
-  "firstnationsrocketcompetition": FirstNationsRocketCompetitionUploadsForm,
-  "midwesthighpoweredrocketcompetition": MidwestHighPoweredRocketCompetitionUploadsForm,
-  "collegiaterocketcompetition": CollegiateRocketCompetitionUploadsForm,
-  "nasacompetition": NasaCompetitionUploadsForm,
-  "industryinternship": IndustryInternshipUploadsForm,
+  'highereducationinitiatives': HigherEducationInitiativesUploadsForm,
+  'researchinfrastructure': ResearchInfrastructureUploadsForm,
+  'aerospaceoutreach': AerospaceOutreachUploadsForm,
+  'specialinitiatives': SpecialInitiativesUploadsForm,
+  'undergraduatescholarship': UndergraduateScholarshipUploadsForm,
+  'stembridgescholarship': StemBridgeScholarshipUploadsForm,
+  'undergraduateresearch': UndergraduateResearchUploadsForm,
+  'graduatefellowship': GraduateFellowshipUploadsForm,
+  'clarkgraduatefellowship': ClarkGraduateFellowshipUploadsForm,
+  'highaltitudeballoonpayload': HighAltitudeBalloonPayloadUploadsForm,
+  'highaltitudeballoonlaunch': HighAltitudeBalloonLaunchUploadsForm,
+  'rocketlaunchteam': RocketLaunchTeamUploadsForm,
+  'firstnationsrocketcompetition': FirstNationsRocketCompetitionUploadsForm,
+  'midwesthighpoweredrocketcompetition': MidwestHighPoweredRocketCompetitionUploadsForm,
+  'collegiaterocketcompetition': CollegiateRocketCompetitionUploadsForm,
+  'nasacompetition': NasaCompetitionUploadsForm,
+  'industryinternship': IndustryInternshipUploadsForm,
   'professionalprogramstudent': ProfessionalProgramStudentUploadsForm
 }
 
@@ -155,7 +154,7 @@ def get_users(request):
 
     return HttpResponse(
         json.dumps(results),
-        content_type="application/json; charset=utf-8"
+        content_type='application/json; charset=utf-8'
     )
 
 
@@ -166,7 +165,7 @@ def registration_type(request):
     AJAX post for retrieving registration forms based on type
     """
     if request.method == 'POST':
-        reg_type = request.POST.get("registration_type")
+        reg_type = request.POST.get('registration_type')
         try:
             mod = django.apps.apps.get_model(
                 app_label='registration', model_name=reg_type
@@ -176,22 +175,22 @@ def registration_type(request):
             reg = None
         try:
             reg_form = str_to_class(
-                "djspace.registration.forms", (reg_type+"Form")
-            )(instance=reg, prefix="reg")
+                'djspace.registration.forms', (reg_type+'Form')
+            )(instance=reg, prefix='reg')
         except:
             raise Http404
         reggie = None
         if reg:
             reggie = model_to_dict(reg)
-        t = loader.get_template("dashboard/registration_form.inc.html")
-        context = {"reg_form":reg_form,'reg_type':reg_type}
+        t = loader.get_template('dashboard/registration_form.inc.html')
+        context = {'reg_form':reg_form,'reg_type':reg_type}
         data = {
             'form':t.render(context, request),
             'reg':reggie,'reg_type':reg_type
         }
         response = HttpResponse(
             json.dumps(data),
-            content_type="application/json; charset=utf-8"
+            content_type='application/json; charset=utf-8'
         )
         return response
     else:
@@ -209,8 +208,9 @@ def profile_form(request):
     reg_type = profile.registration_type
     reg_data = None
     # user may have changed registration type
-    if request.method == 'POST' and reg_type != request.POST.get("pro-registration_type"):
-        reg_type = request.POST.get("pro-registration_type")
+    if request.method == 'POST' and \
+      reg_type != request.POST.get('pro-registration_type'):
+        reg_type = request.POST.get('pro-registration_type')
     try:
         mod = django.apps.apps.get_model(
             app_label='registration', model_name=reg_type
@@ -221,21 +221,21 @@ def profile_form(request):
     if request.method == 'POST':
 
         reg_form = str_to_class(
-            "djspace.registration.forms", (reg_type+"Form")
-        )(instance=reg, prefix="reg", data=request.POST)
+            'djspace.registration.forms', (reg_type+'Form')
+        )(instance=reg, prefix='reg', data=request.POST)
 
         pro_form = UserProfileForm(
-            instance=profile, data=request.POST, prefix="pro"
+            instance=profile, data=request.POST, prefix='pro'
         )
-        usr_form = UserForm(prefix="usr", data=request.POST)
+        usr_form = UserForm(prefix='usr', data=request.POST)
         if pro_form.is_valid() and reg_form.is_valid() and usr_form.is_valid():
             usr = usr_form.cleaned_data
-            user.first_name = usr["first_name"]
-            user.last_name = usr["last_name"]
+            user.first_name = usr['first_name']
+            user.last_name = usr['last_name']
             user.save()
             pro = pro_form.save(commit=False)
-            pro.salutation = usr["salutation"]
-            pro.second_name = usr["second_name"]
+            pro.salutation = usr['salutation']
+            pro.second_name = usr['second_name']
             pro.updated_by = user
             pro.user = user
             pro.save()
@@ -248,15 +248,15 @@ def profile_form(request):
         usr_form = UserForm(initial={
             'salutation':profile.salutation,'first_name':user.first_name,
             'second_name':profile.second_name,'last_name':user.last_name
-        }, prefix="usr")
+        }, prefix='usr')
         reg_form = str_to_class(
-            "djspace.registration.forms", (reg_type+"Form")
-        )(instance=reg, prefix="reg")
-        pro_form = UserProfileForm(instance=profile, prefix="pro")
+            'djspace.registration.forms', (reg_type+'Form')
+        )(instance=reg, prefix='reg')
+        pro_form = UserProfileForm(instance=profile, prefix='pro')
     return render(
-        request, "dashboard/profile_form.html", {
-            "pro_form":pro_form,"reg_form":reg_form,"usr_form":usr_form,
-            "reg_type":reg_type,"message":message
+        request, 'dashboard/profile_form.html', {
+            'pro_form':pro_form,'reg_form':reg_form,'usr_form':usr_form,
+            'reg_type':reg_type,'message':message
         }
     )
 
@@ -271,14 +271,14 @@ def set_val(request):
     user = request.user
     msg = "fail"
     obj = None
-    if request.method != "POST":
+    if request.method != 'POST':
         msg = "POST required"
     else:
 
-        cid = request.POST.get("cid")
-        oid = request.POST.get("oid")
-        field = request.POST.get("field")
-        value = request.POST.get("value")
+        cid = request.POST.get('cid')
+        oid = request.POST.get('oid')
+        field = request.POST.get('field')
+        value = request.POST.get('value')
 
         try:
             ct = ContentType.objects.get(pk=int(cid))
@@ -292,7 +292,7 @@ def set_val(request):
         if obj:
             # team leaders can upload files for rocket launch teams
             leader = False
-            if ct.model == "rocketlaunchteam":
+            if ct.model == 'rocketlaunchteam':
                 if obj.leader.id == user.id:
                     leader = True
             # is someone being naughty?
@@ -304,5 +304,5 @@ def set_val(request):
             obj.save()
 
     return HttpResponse(
-        msg, content_type="text/plain; charset=utf-8"
+        msg, content_type='text/plain; charset=utf-8'
     )
