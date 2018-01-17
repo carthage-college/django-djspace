@@ -13,13 +13,12 @@ from djspace.core.utils import get_start_date
 #from djtools.fields.validators import MimetypeValidator
 from djtools.fields import BINARY_CHOICES
 
-from taggit.models import Tag
-
 '''
 UploadsForms are for the user dashboard where file uploads
 take place after the application has been approved and
 additional files are required
 '''
+
 
 class HigherEducationInitiativesForm(forms.ModelForm):
 
