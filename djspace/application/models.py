@@ -1135,6 +1135,19 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
     Elijah Balloon Payload
     """
 
+    position = models.CharField(
+        max_length=16,
+        null = True, blank = True,
+        choices = (
+            ('Team Lead','Team Lead'),
+            ('Team Member','Team Member')
+        ),
+        help_text = '''
+            Team Lead applicants must have participated in the program
+            within the past 2 years.
+        '''
+    )
+
     def __unicode__(self):
         return "High Altitude Balloon Payload"
 

@@ -329,7 +329,7 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     model = HighAltitudeBalloonPayload
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'cv_file', 'commit_short', 'letter_interest_file',
+        'cv_file', 'position', 'commit_short', 'letter_interest_file',
         'date_created','date_updated','past_funding','past_funding_year',
         'funded_code','status'
     ]
