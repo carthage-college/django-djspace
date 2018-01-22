@@ -1105,7 +1105,7 @@ class HighAltitudeBalloon(BaseModel):
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
 
-
+'''
 class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
     """
     AKA: Elijah Balloon Launch
@@ -1125,6 +1125,7 @@ class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
 
     class Meta:
         verbose_name_plural = "High altitude balloon launch"
+'''
 
 
 class HighAltitudeBalloonPayload(HighAltitudeBalloon):

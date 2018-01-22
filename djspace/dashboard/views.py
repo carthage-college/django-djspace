@@ -37,7 +37,7 @@ UPLOAD_FORMS = {
   'graduatefellowship': GraduateFellowshipUploadsForm,
   'clarkgraduatefellowship': ClarkGraduateFellowshipUploadsForm,
   'highaltitudeballoonpayload': HighAltitudeBalloonPayloadUploadsForm,
-  'highaltitudeballoonlaunch': HighAltitudeBalloonLaunchUploadsForm,
+  #'highaltitudeballoonlaunch': HighAltitudeBalloonLaunchUploadsForm,
   'rocketlaunchteam': RocketLaunchTeamUploadsForm,
   'firstnationsrocketcompetition': FirstNationsRocketCompetitionUploadsForm,
   'midwesthighpoweredrocketcompetition': MidwestHighPoweredRocketCompetitionUploadsForm,

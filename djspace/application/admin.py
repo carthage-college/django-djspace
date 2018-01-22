@@ -326,7 +326,7 @@ class TarballActionForm(ActionForm):
 
 class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
 
-    model = HighAltitudeBalloonLaunch
+    model = HighAltitudeBalloonPayload
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'cv_file', 'commit_short', 'letter_interest_file',
@@ -356,6 +356,7 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     letter_interest_file.short_description = "Interest"
 
 
+'''
 class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
 
     model = HighAltitudeBalloonLaunch
@@ -365,7 +366,7 @@ class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
         'date_created','date_updated','past_funding','past_funding_year',
         'funded_code','status'
     ]
-
+'''
 
 class ClarkGraduateFellowshipAdmin(GenericAdmin):
 
@@ -1127,9 +1128,9 @@ admin.site.register(
 admin.site.register(
     MidwestHighPoweredRocketCompetition, MidwestHighPoweredRocketCompetitionAdmin
 )
-admin.site.register(
-    HighAltitudeBalloonLaunch, HighAltitudeBalloonLaunchAdmin
-)
+#admin.site.register(
+    #HighAltitudeBalloonLaunch, HighAltitudeBalloonLaunchAdmin
+#)
 admin.site.register(
     HighAltitudeBalloonPayload, HighAltitudeBalloonPayloadAdmin
 )
