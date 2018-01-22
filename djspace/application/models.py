@@ -1071,12 +1071,14 @@ class HighAltitudeBalloon(BaseModel):
         max_length=768,
         help_text="PDF format"
     )
+    '''
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
         validators=FILE_VALIDATORS,
         max_length=768,
         help_text="[PDF format]"
     )
+    '''
     other_fellowship = models.CharField(
         "Do you currently hold another Federal fellowship or traineeship?",
         max_length=4,
