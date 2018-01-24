@@ -951,12 +951,6 @@ class IndustryInternshipForm(forms.ModelForm):
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
         required = False
     )
-    other_fellowship = forms.TypedChoiceField(
-        label="""
-            Do you currently hold another Federal fellowship or traineeship?
-        """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
-    )
 
     class Meta:
         model = IndustryInternship

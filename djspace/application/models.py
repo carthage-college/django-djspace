@@ -1935,19 +1935,6 @@ class IndustryInternship(BaseModel):
     source_match = models.CharField(
         "Source(s) of match", max_length=255
     )
-    other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
-        max_length=4,
-        choices=BINARY_CHOICES,
-    )
-    other_fellowship_explain = models.CharField(
-        """
-            If yes, please provide the funding source and the
-            funding expiration date.
-        """,
-        max_length=255,
-        null = True, blank = True
-    )
     # Internship opportunity
     discipline = models.CharField(
         max_length = 128,
