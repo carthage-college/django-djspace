@@ -71,17 +71,17 @@ def home(request):
     except:
         reg = None
 
-    # current grant cycle applications
-    current_apps = []
-    # current approved
-    approved = []
-    # past grant cycle applications
-    past_apps = []
-    start_date = get_start_date()
     # if the user does not have any applications, the gm2m
-    # field will throw an error
+    # field will throw an error at apps.all()
     try:
         apps = user.profile.applications
+        # current grant cycle applications
+        current_apps = []
+        # current approved
+        approved = []
+        # past grant cycle applications
+        past_apps = []
+        start_date = get_start_date()
         for a in apps.all():
             if a.date_created >= start_date:
                 current_apps.append(a)
