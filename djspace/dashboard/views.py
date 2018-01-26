@@ -71,13 +71,6 @@ def home(request):
     except:
         reg = None
 
-    # if the user does not have any applications, the gm2m
-    # field will throw an error
-    try:
-        apps = user.profile.applications
-    except:
-        apps = None
-
     # current grant cycle applications
     current_apps = []
     # current approved
@@ -85,13 +78,19 @@ def home(request):
     # past grant cycle applications
     past_apps = []
     start_date = get_start_date()
-    for a in apps.all():
-        if a.date_created >= start_date:
-            current_apps.append(a)
-            if a.status:
-                approved.append(a)
-        elif a.multi_year and a.status:
-            past_apps.append(a)
+    # if the user does not have any applications, the gm2m
+    # field will throw an error
+    try:
+        apps = user.profile.applications
+        for a in apps.all():
+            if a.date_created >= start_date:
+                current_apps.append(a)
+                if a.status:
+                    approved.append(a)
+            elif a.multi_year and a.status:
+                past_apps.append(a)
+    except:
+        apps = None
 
     # check if the user has upload all of her user files.
     # wsgc would like to remove this message for now. i suspect
