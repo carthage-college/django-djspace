@@ -572,7 +572,7 @@ class HighAltitudeBalloonPayloadUploadsForm(forms.ModelForm):
             'award_acceptance','final_report','interim_report'
         )
 
-'''
+
 class HighAltitudeBalloonLaunchForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(
@@ -607,7 +607,6 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','final_report','interim_report'
         )
-'''
 
 
 class RocketLaunchTeamForm(forms.ModelForm):

@@ -11,10 +11,7 @@ sys.path.append('/data2/django_projects/')
 sys.path.append('/data2/django_third/')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djspace.settings')
 
-
 import django
-
-from django.conf import settings
 django.setup()
 
 from django.contrib.auth.models import User
