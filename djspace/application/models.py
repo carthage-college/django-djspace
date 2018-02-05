@@ -1303,7 +1303,7 @@ class Fellowship(BaseModel):
     signed_certification = models.BooleanField(
         """
         I certify that I am, will be, or have applied to be a
-        full-time undergraduate student at one of the Wisconsin Space
+        full-time graduate student at one of the Wisconsin Space
         Grant Consortium colleges or universities during the award period
         covered in this application, and the information
         contained in this application is accurate to the best of my
@@ -1477,7 +1477,7 @@ class UndergraduateResearch(BaseModel):
     signed_certification = models.BooleanField(
         """
         I certify that I am, will be, or have applied to be a
-        full-time undergraduate student at one of the Wisconsin Space
+        full-time graduate student at one of the Wisconsin Space
         Grant Consortium colleges or universities during the award period
         covered in this application, and the information
         contained in this application is accurate to the best of my
