@@ -1178,13 +1178,6 @@ class Fellowship(BaseModel):
     project_title = models.CharField(
         "Title of project", max_length=255
     )
-    '''
-    time_frame = models.CharField(
-        "Time frame that best suits your project",
-        max_length=128,
-        choices=TIME_FRAME
-    )
-    '''
     begin_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     funds_requested = models.IntegerField(help_text="In Dollars")
