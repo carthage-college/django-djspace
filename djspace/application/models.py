@@ -1136,7 +1136,6 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
 
     position = models.CharField(
         max_length=16,
-        null = True, blank = True,
         choices = (
             ('Team Lead','Team Lead'),
             ('Team Member','Team Member')
