@@ -112,25 +112,6 @@
 {% if app.competition == "AISES Challenge" or app.competition == "Tribal Challenge" or app.competition == "First Nations AISES" or app.competition == "First Nations Tribal" %}
 <li class="form-group ctrlHolder">
   <h3>
-    <label for="id_final_motor_selection">Final Motor Selection [PDF]</label>
-  </h3>
-  <div class="filewrap fleft">
-    <input type="file" class="upload-file"
-      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if app.team %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-      name="final_motor_selection" id="id_final_motor_selection">
-    <span class='filebutt'>Select File</span>
-    <span class='filevalu'></span>
-  </div>
-  {% if app.final_motor_selection or app.team.final_motor_selection %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.final_motor_selection %}{{app.final_motor_selection}}{% else %}{{app.team.final_motor_selection}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-  {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
-  {% endif %}
-</li>
-<li class="form-group ctrlHolder">
-  <h3>
     <label for="id_lodging_list">Lodging List [PDF]</label>
   </h3>
   <div class="filewrap fleft">
