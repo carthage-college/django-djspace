@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db.models import Count
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.template import loader, Context, RequestContext
+from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 from django.contrib.auth.decorators import login_required
