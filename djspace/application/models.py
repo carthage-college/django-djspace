@@ -1097,7 +1097,7 @@ class HighAltitudeBalloon(BaseModel):
         '''
         used when building a tarball of required files
         '''
-        return ['letter_interest','cv','budget']
+        return ['letter_interest','cv']
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
