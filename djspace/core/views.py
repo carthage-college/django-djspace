@@ -152,35 +152,38 @@ def user_files(request):
             )
         field_name = request.POST.get('field_name')
         if form.is_valid():
-            msg = 'Success'
-            phile = form.save(commit=False)
-            if not ct:
-                phile.user = user
-            phile.save()
-            earl = getattr(phile,field_name)
-            # notify wsgc that a user uploaded one of her profile files
-            if settings.DEBUG:
-                to = [settings.ADMINS[0][1],]
+            if field_name:
+                msg = "Success"
+                phile = form.save(commit=False)
+                if not ct:
+                    phile.user = user
+                phile.save()
+                earl = getattr(phile,field_name)
+                # notify wsgc that a user uploaded one of her profile files
+                if settings.DEBUG:
+                    to = [settings.ADMINS[0][1],]
+                else:
+                    to = [settings.WSGC_EMAIL,]
+                subject = u"[File Upload] {}: {}, {}".format(
+                    field_name, user.last_name, user.first_name
+                )
+                bcc = [settings.SERVER_MAIL]
+                send_mail(
+                    request, to, subject, user.email,
+                    'dashboard/email_file_uploaded.html', {
+                        'earl':earl.url, 'obj':phile, 'field_name':field_name,
+                        'userfiles':['mugshot','biography','irs_w9','media_release']
+                    }, bcc
+                )
+                response = render(
+                    request, 'dashboard/view_file.ajax.html', {
+                        'earl':earl.url,'field_name':field_name
+                    }
+                )
             else:
-                to = [settings.WSGC_EMAIL,]
-            subject = u'[File Upload] {}: {}, {}'.format(
-                field_name, user.last_name, user.first_name
-            )
-            bcc = [settings.SERVER_MAIL]
-            send_mail(
-                request, to, subject, user.email,
-                'dashboard/email_file_uploaded.html', {
-                    'earl':earl.url, 'obj':phile, 'field_name':field_name,
-                    'userfiles':['mugshot','biography','irs_w9','media_release']
-                }, bcc
-            )
-            response = render(
-                request, 'dashboard/view_file.ajax.html', {
-                    'earl':earl.url,'field_name':field_name
-                }
-            )
+            msg = "Fail: Field name is missing"
         else:
-            msg = 'Fail: {}'.format(form.errors)
+            msg = "Fail: {}".format(form.errors)
 
     if not response:
         response = HttpResponse(
