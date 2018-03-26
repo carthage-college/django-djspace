@@ -181,7 +181,7 @@ def user_files(request):
                     }
                 )
             else:
-            msg = "Fail: Field name is missing"
+                msg = "Fail: Field name is missing"
         else:
             msg = "Fail: {}".format(form.errors)
 

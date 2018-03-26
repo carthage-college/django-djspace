@@ -5,7 +5,8 @@ from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from django.utils.safestring import mark_safe
 from django.shortcuts import render
-from django.template import django.views.decorators.csrf import csrf_exempt
+from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, HttpResponseRedirect, Http404
