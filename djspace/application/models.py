@@ -170,6 +170,7 @@ STUDENT_PROFESSIONAL_PROGRAMS = (
     ('CaNOP', 'CaNOP'),
     ('Higher Education', 'Higher Education'),
     ('Industry Internship', 'Industry Internship'),
+    ('Micro-Propellant Gauging','Micro-Propellant Gauging'),
     ('NASA Competition', 'NASA Competition'),
     ('NASA Internship', 'NASA Internship'),
     ('Research Infrastructure', 'Research Infrastructure'),
