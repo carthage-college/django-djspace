@@ -70,7 +70,7 @@ $(function() {
         select: function (event, uil) {
             var lid = uil.item.id;
             //store in session
-            document.mentorAutocomplete = lid
+            document.mentorAutocomplete = lid;
         }
     });
     /* End Professional Program Student Mentor */
@@ -185,6 +185,8 @@ $(function() {
     /* End NASA Competition Team Members */
     {% endif %}
     $('form#profile').submit(function(){
+        // disable submit button after users clicks it
+        $('form#profile input[type=submit]').prop('disabled', true);
         {% if app_name == "Rocket Launch Team" %}
             // set leader field to selected User's ID
             $('#id_leader').val(document.leaderAutocomplete);
@@ -193,18 +195,22 @@ $(function() {
         {% endif %}
 
         {% if app_name == "Professional Program Student" %}
+            console.log(typeof document.mentorAutocomplete);
             // set mentor field to selected User's ID
-            $('#id_mentor').val(document.mentorAutocomplete);
+            if (typeof document.mentorAutocomplete == "undefined") {
+                $.growlUI('Warning', 'You did not provide a mentor\nor the mentor has not registered yet');
+                $('form#profile input[type=submit]').prop('disabled', false);
+                return false;
+            }else{
+                $('#id_mentor').val(document.mentorAutocomplete);
+            }
         {% endif %}
-
         /* check textarea for just br tag */
         $("textarea").each(function(){
             if (this.value == "<br>") {
                 this.value = "";
             }
         });
-        // disable submit button after users clicks it
-        $('form#profile input[type=submit]').prop('disabled', true);
     });
 });
 </script>
