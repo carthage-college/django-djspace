@@ -161,6 +161,31 @@ def get_users(request):
         content_type='application/json; charset=utf-8'
     )
 
+@csrf_exempt
+@login_required
+def get_programs(request):
+
+    programs = None
+
+    if request.is_ajax() and request.method == 'POST':
+        program = request.POST.get('program')
+        mentor_id = request.POST.get('mentor_id')
+        user = User.objects.get(pk=mentor_id)
+        try:
+            mod = django.apps.apps.get_model(
+                app_label='application', model_name=program
+            )
+            programs = mod.objects.filter(user=user)
+        except:
+            programs = None
+
+    t = loader.get_template('dashboard/get_programs.inc.html')
+    template = t.render({'programs':programs}, request),
+
+    return HttpResponse(
+        template, content_type='text/plain; charset=utf-8'
+    )
+
 
 @csrf_exempt
 @login_required

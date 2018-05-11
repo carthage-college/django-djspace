@@ -166,15 +166,15 @@ PROFESSIONAL_PROGRAMS = [
     "specialinitiatives",
 ]
 STUDENT_PROFESSIONAL_PROGRAMS = (
-    ('Aerospace Outreach', 'Aerospace Outreach'),
+    ('AerospaceOutreach', 'Aerospace Outreach'),
     ('CaNOP', 'CaNOP'),
-    ('Higher Education', 'Higher Education'),
-    ('Industry Internship', 'Industry Internship'),
-    ('Micro-Propellant Gauging','Micro-Propellant Gauging'),
-    ('NASA Competition', 'NASA Competition'),
-    ('NASA Internship', 'NASA Internship'),
-    ('Research Infrastructure', 'Research Infrastructure'),
-    ('Special Initiatives', 'Special Initiatives')
+    ('HigherEducationInitiatives', 'Higher Education Initiatives'),
+    ('IndustryInternship', 'Industry Internship'),
+    ('MicroPropellantGauging','Micro-Propellant Gauging'),
+    ('NasaCompetition', 'NASA Competition'),
+    ('NasaInternship', 'NASA Internship'),
+    ('ResearchInfrastructure', 'Research Infrastructure'),
+    ('SpecialInitiatives', 'Special Initiatives')
 )
 
 # only used at UI level
@@ -320,6 +320,9 @@ class EducationInitiatives(BaseModel):
     # timestamp methods are for UI level display
     def budget_timestamp(self):
         return self.get_file_timestamp("budget")
+
+    def __unicode__(self):
+        return self.project_title
 
 
 class HigherEducationInitiatives(EducationInitiatives):

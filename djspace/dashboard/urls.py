@@ -9,6 +9,10 @@ urlpatterns = [
         views.get_users, name='get_users'
     ),
     url(
+        r'^get-programs/$',
+        views.get_programs, name='get_programs'
+    ),
+    url(
         r'^set-val/$',
         views.set_val, name='set_val'
     ),

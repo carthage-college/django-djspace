@@ -870,7 +870,9 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
             count=Count('members')
         ).filter(competition__in=["Collegiate Rocket Competition"]).filter(
             date_created__gte=get_start_date()
-        ).exclude(count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT).order_by("name")
+        ).exclude(
+            count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+        ).order_by("name")
 
 
 class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
@@ -990,11 +992,30 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
             from which to choose.
         ''',
     )
+    aerospace_outreach = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
+    higher_education = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
+    industry_internship = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
+    nasa_competition = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
+    research_infrastructure = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
+    special_initiatives = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
 
     class Meta:
         model = ProfessionalProgramStudent
         fields = (
-            'program','mentor','award_acceptance','budget'
+            'program','mentor','award_acceptance','budget',
+            'past_funding','past_funding_year'
         )
 
     def __init__(self, *args, **kwargs):

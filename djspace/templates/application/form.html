@@ -64,6 +64,31 @@ $(function() {
     document.mentorAutocomplete = {{form.mentor.value}}
     $('#id_mentor').val("{{request.session.mentor_name}}");
     {% endif %}
+
+    function getPrograms(mentor, program) {
+        var $data = {
+          'mentor_id': mentor,
+          'program': program
+        }
+        var $dis = $('#get-programs');
+        $.ajax({
+          type: "POST",
+          url: "{% url 'get_programs' %}",
+          data: $data,
+          cache: false,
+          beforeSend: function(){
+            $dis.empty();
+          },
+          success: function(data) {
+            $dis.css({"display":"inherit"});
+            $dis.append(data);
+          },
+          error: function(data) {
+            console.log(data)
+          }
+      });
+    }
+
     $('#id_mentor').autocomplete({
         source: '{% url "get_users" %}',
         minLength: 3,
@@ -71,6 +96,7 @@ $(function() {
             var lid = uil.item.id;
             //store in session
             document.mentorAutocomplete = lid;
+            getPrograms(lid, $('#id_program').val());
         }
     });
     /* End Professional Program Student Mentor */
@@ -271,6 +297,9 @@ $(function() {
     {% if form %}
     <form class="form" enctype="multipart/form-data" action="."
         id="profile" method="post">
+    {% for hidden in form.hidden_fields %}
+      {{hidden}}
+    {% endfor %}
     {% csrf_token %}
     {% if form.errors %}
         <p class="error">
@@ -325,6 +354,10 @@ $(function() {
                     <fieldset class="blockLabels">
                     <legend>WSGC and NASA</legend>
                     <ol>
+                {% endif %}
+                {% if app_name == "Professional Program Student" and field.name == "award_acceptance" %}
+                <li class="form-group ctrlHolder" id="get-programs" style="display:none;">
+                </li>
                 {% endif %}
                 {% if app_name == "Nasa Competition" and field.name == "member_1" %}
                     </ol></fieldset>
