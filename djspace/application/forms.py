@@ -992,22 +992,22 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
             from which to choose.
         ''',
     )
-    aerospace_outreach = forms.CharField(
+    AerospaceOutreach = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
-    higher_education = forms.CharField(
+    HigherEducationInitiatives = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
-    industry_internship = forms.CharField(
+    IndustryInternship = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
-    nasa_competition = forms.CharField(
+    NasaCompetition = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
-    research_infrastructure = forms.CharField(
+    ResearchInfrastructure = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
-    special_initiatives = forms.CharField(
+    SpecialInitiatives = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
 
@@ -1015,7 +1015,11 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
         model = ProfessionalProgramStudent
         fields = (
             'program','mentor','award_acceptance','budget',
-            'past_funding','past_funding_year'
+            'past_funding','past_funding_year',
+            #'AerospaceOutreach',
+            #'HigherEducationInitiatives','IndustryInternship','NasaCompetition',
+            #'ResearchInfrastructure',
+            #'SpecialInitiatives'
         )
 
     def __init__(self, *args, **kwargs):

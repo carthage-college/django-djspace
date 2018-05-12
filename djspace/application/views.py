@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.db.models import Count
+from django.template import loader
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-from django.contrib.admin.views.decorators import staff_member_required
 
 from djspace.application.forms import *
 from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
@@ -167,7 +167,7 @@ def application_form(request, application_type, aid=None):
                 data=request.POST, files=request.FILES
             )
         if form.is_valid():
-
+            cd = form.cleaned_data
             if application_type == "professional-program-student":
                 if form_user_files.is_valid():
                     form_user_files.save()
@@ -216,6 +216,16 @@ def application_form(request, application_type, aid=None):
                     uf.save()
 
             data.save()
+
+            if application_type == "professional-program-student":
+                program = cd['program']
+                mod = django.apps.apps.get_model(
+                    app_label='application', model_name=program
+                )
+                submission = mod.objects.get(pk=cd[program])
+                setattr(data, program, submission)
+
+                data.save()
 
             # add user to RocketLaunchTeam member m2m
             if "rocket-competition" in application_type:
@@ -318,6 +328,32 @@ def application_form(request, application_type, aid=None):
             'form': form,'app_name':app_name,'obj':app,
             'form_user_files':form_user_files
         }
+    )
+
+
+@csrf_exempt
+@login_required
+def get_program_submissions(request):
+
+    programs = None
+
+    if request.is_ajax() and request.method == 'POST':
+        program = request.POST.get('program')
+        mentor_id = request.POST.get('mentor_id')
+        user = User.objects.get(pk=mentor_id)
+        try:
+            mod = django.apps.apps.get_model(
+                app_label='application', model_name=program
+            )
+            programs = mod.objects.filter(user=user)
+        except:
+            programs = None
+
+    t = loader.get_template('application/get_program_submissions.inc.html')
+    template = t.render({'programs':programs}, request),
+
+    return HttpResponse(
+        template, content_type='text/plain; charset=utf-8'
     )
 
 

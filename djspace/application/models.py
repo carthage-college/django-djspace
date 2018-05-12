@@ -2113,32 +2113,32 @@ class ProfessionalProgramStudent(BaseModel):
         User,
         related_name='professional_program_student'
     )
-    aerospace_outreach = models.ForeignKey(
+    AerospaceOutreach = models.ForeignKey(
         AerospaceOutreach,
         related_name='aerospace_outreach_student',
         null=True, blank=True
     )
-    higher_education = models.ForeignKey(
+    HigherEducationInitiatives  = models.ForeignKey(
         HigherEducationInitiatives,
         related_name='higher_education_student',
         null=True, blank=True
     )
-    industry_internship = models.ForeignKey(
+    IndustryInternship = models.ForeignKey(
         IndustryInternship,
         related_name='industry_internship_student',
         null=True, blank=True
     )
-    nasa_competition = models.ForeignKey(
+    NasaCompetition = models.ForeignKey(
         NasaCompetition,
         related_name='nasa_competition_student',
         null=True, blank=True
     )
-    research_infrastructure = models.ForeignKey(
+    ResearchInfrastructure = models.ForeignKey(
         ResearchInfrastructure,
         related_name='research_infrastructure_student',
         null=True, blank=True
     )
-    special_initiatives = models.ForeignKey(
+    SpecialInitiatives = models.ForeignKey(
         SpecialInitiatives,
         related_name='special_initiatives_student',
         null=True, blank=True
@@ -2162,18 +2162,18 @@ class ProfessionalProgramStudent(BaseModel):
 
     def program_application(self):
         obj = None
-        if self.aerospace_outreach:
-            obj = self.aerospace_outreach
-        elif self.higher_education:
-            obj = self.higher_education
-        elif self.industry_internship:
-            obj = self.industry_internship
-        elif self.nasa_competition:
-            obj = self.nasa_competition
-        elif self.research_infrastructure:
-            obj = self.research_infrastructure
-        elif self.special_initiatives:
-            obj = self.special_initiatives
+        if self.AerospaceOutreach:
+            obj = self.AerospaceOutreach
+        elif self.HigherEducationInitiatives:
+            obj = self.HigherEducationInitiatives
+        elif self.IndustryInternship:
+            obj = self.IndustryInternship
+        elif self.NasaCompetition:
+            obj = self.NasaCompetition
+        elif self.ResearchInfrastructure:
+            obj = self.ResearchInfrastructure
+        elif self.SpecialInitiatives:
+            obj = self.SpecialInitiatives
         return obj
 
     def program_application_link(self):

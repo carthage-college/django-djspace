@@ -65,15 +65,16 @@ $(function() {
     $('#id_mentor').val("{{request.session.mentor_name}}");
     {% endif %}
 
-    function getPrograms(mentor, program) {
+    function getProgramSubmissions(mentor, program, pid) {
         var $data = {
+          'pid': pid,
           'mentor_id': mentor,
           'program': program
         }
-        var $dis = $('#get-programs');
+        var $dis = $('#get-program-submissions');
         $.ajax({
           type: "POST",
-          url: "{% url 'get_programs' %}",
+          url: "{% url 'get_program_submissions' %}",
           data: $data,
           cache: false,
           beforeSend: function(){
@@ -96,7 +97,7 @@ $(function() {
             var lid = uil.item.id;
             //store in session
             document.mentorAutocomplete = lid;
-            getPrograms(lid, $('#id_program').val());
+            getProgramSubmissions(lid, $('#id_program').val(), 0);
         }
     });
     /* End Professional Program Student Mentor */
@@ -221,7 +222,6 @@ $(function() {
         {% endif %}
 
         {% if app_name == "Professional Program Student" %}
-            console.log(typeof document.mentorAutocomplete);
             // set mentor field to selected User's ID
             if (typeof document.mentorAutocomplete == "undefined") {
                 $.growlUI('Warning', 'You did not provide a mentor\nor the mentor has not registered yet');
@@ -230,6 +230,10 @@ $(function() {
             }else{
                 $('#id_mentor').val(document.mentorAutocomplete);
             }
+            // set program ID
+            $program = $('#id_program').val()
+            $pid = $('#id_program_submissions').val();
+            $('#id_' + $program).val($pid);
         {% endif %}
         /* check textarea for just br tag */
         $("textarea").each(function(){
@@ -356,7 +360,7 @@ $(function() {
                     <ol>
                 {% endif %}
                 {% if app_name == "Professional Program Student" and field.name == "award_acceptance" %}
-                <li class="form-group ctrlHolder" id="get-programs" style="display:none;">
+                <li class="form-group ctrlHolder" id="get-program-submissions" style="display:none;">
                 </li>
                 {% endif %}
                 {% if app_name == "Nasa Competition" and field.name == "member_1" %}

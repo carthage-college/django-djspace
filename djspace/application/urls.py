@@ -21,6 +21,10 @@ urlpatterns = [
         name='application_success'
     ),
     url(
+        r'^get-program-submissions/$',
+        views.get_program_submissions, name='get_program_submissions'
+    ),
+    url(
         r'^(?P<application_type>[a-zA-Z0-9_-]+)/(?P<aid>\d+)/print/$',
         views.application_print, name='application_print'
     ),
