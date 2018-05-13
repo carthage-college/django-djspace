@@ -63,12 +63,10 @@ $(function() {
 
     function getProgramSubmissions(mentor, program, aid) {
         var excludes = [
-            'CaNOP',
-            'MicroPropellantGauging',
-            'NasaInternship'
+            'CaNOP', 'MicroPropellantGauging', 'NasaInternship'
         ]
         /* indexOf does not work in IE < 9 */
-        if (excludes.indexOf(program) != 0) {
+        if (excludes.indexOf(program) == -1) {
           var $data = {
             'aid': aid,
             'mentor_id': mentor,
