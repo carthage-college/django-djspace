@@ -1035,17 +1035,13 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
         mid = cd.get('mentor')
 
         if mid:
-            #try:
-            if True:
+            try:
                 user = User.objects.get(pk=mid)
                 cd['mentor'] = user
-                self.request.session['mentor_name'] = u'{}, {}'.format(
-                    user.last_name, user.first_name
+            except:
+                self._errors["mentor"] = self.error_class(
+                    ["That User does not exist in the system"]
                 )
-            #except:
-                #self._errors["mentor"] = self.error_class(
-                    #["That User does not exist in the system"]
-                #)
         else:
             self._errors["mentor"] = self.error_class(
                 ["Required field"]

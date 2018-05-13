@@ -50,6 +50,16 @@
 <h3>Intern Biography</h3>
 <p>{{data.intern_biography}}</p>
 
+<h3>Students confirmed</h3>
+<ol>
+{% for student in data.industry_internship_student.all %}
+<li>
+    {{student.user.last_name}},
+    {{student.user.first_name}}
+</li>
+{% endfor %}
+</ol>
+
 <h4>Files</h4>
 <hr>
 <ul>

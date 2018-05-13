@@ -31,24 +31,17 @@
 <p>{{data.location}}</p>
 <h4>Synopsis</h4>
 <div>{{data.synopsis|safe}}</div>
+{% block students %}
 <h3>Student Researchers</h3>
 <ol>
-{% if data.student_1 %}
-<li>{{data.student_1}}</li>
-{% endif %}
-{% if data.student_2 %}
-<li>{{data.student_2}}</li>
-{% endif %}
-{% if data.student_3 %}
-<li>{{data.student_3}}</li>
-{% endif %}
-{% if data.student_4 %}
-<li>{{data.student_4}}</li>
-{% endif %}
-{% if data.student_5 %}
-<li>{{data.student_5}}</li>
-{% endif %}
+{% for student in data.higher_education_initiatives_student.all %}
+<li>
+    {{student.user.last_name}},
+    {{student.user.first_name}}
+</li>
+{% endfor %}
 </ol>
+{% endblock %}
 <h4>NASA Mission Directorate</h4>
 <p>{{data.nasa_mission_directorate}}</p>
 {% if data.nasa_mission_directorate_other %}

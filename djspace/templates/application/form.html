@@ -88,7 +88,7 @@ $(function() {
 
     {% if form.mentor.value %}
     document.mentorAutocomplete = {{form.mentor.value}}
-    $('#id_mentor').val("{{request.session.mentor_name}}");
+    $('#id_mentor').val("{{obj.mentor.last_name}}, {{obj.mentor.first_name}}");
     getProgramSubmissions(
         {{form.mentor.value}}, $('#id_program').val(), {{obj.id|default:0}}
     );

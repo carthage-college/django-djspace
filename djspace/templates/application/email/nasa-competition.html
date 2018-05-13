@@ -55,6 +55,17 @@
 <p>{{data.grant_officer_email}}</p>
 <h4>Phone</h4>
 <p>{{data.grant_officer_phone}}</p>
+
+<h3>Team Members confirmed</h3>
+<ol>
+{% for student in data.nasa_competition_student.all %}
+<li>
+    {{student.user.last_name}},
+    {{student.user.first_name}}
+</li>
+{% endfor %}
+</ol>
+
 <h3>Team Members</h3>
 <ol>
 {% if data.member_1 %}
