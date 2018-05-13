@@ -62,28 +62,36 @@ $(function() {
     /* Professional Program Student Mentor */
 
     function getProgramSubmissions(mentor, program, aid) {
-        var $data = {
-          'aid': aid,
-          'mentor_id': mentor,
-          'program': program
-        }
-        var $dis = $('#get-program-submissions');
-        $.ajax({
-          type: "POST",
-          url: "{% url 'get_program_submissions' %}",
-          data: $data,
-          cache: false,
-          beforeSend: function(){
-            $dis.empty();
-          },
-          success: function(data) {
-            $dis.css({"display":"inherit"});
-            $dis.append(data);
-          },
-          error: function(data) {
-            console.log(data)
+        var excludes = [
+            'CaNOP',
+            'MicroPropellantGauging',
+            'NasaInternship'
+        ]
+        /* indexOf does not work in IE < 9 */
+        if (excludes.indexOf(program) != 0) {
+          var $data = {
+            'aid': aid,
+            'mentor_id': mentor,
+            'program': program
           }
-      });
+          var $dis = $('#get-program-submissions');
+          $.ajax({
+            type: "POST",
+            url: "{% url 'get_program_submissions' %}",
+            data: $data,
+            cache: false,
+            beforeSend: function(){
+              $dis.empty();
+            },
+            success: function(data) {
+              $dis.css({"display":"inherit"});
+              $dis.append(data);
+            },
+            error: function(data) {
+              console.log(data)
+            }
+          });
+        }
     }
 
     {% if form.mentor.value %}
@@ -143,7 +151,6 @@ $(function() {
         minLength: 3,
         select: function (event, uic) {
             var cid = uic.item.id;
-            console.log('cid=' + cid);
             // store in session
             document.coAdvisorAutocomplete = cid
         },
