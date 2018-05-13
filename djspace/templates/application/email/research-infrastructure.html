@@ -30,7 +30,10 @@
 <h3>Student Researchers</h3>
 <ol>
 {% for student in data.research_infrastructure_student.all %}
-<li>{{student}}</li>
+<li>
+    {{student.user.last_name}},
+    {{student.user.first_name}}
+</li>
 {% endfor %}
 </ol>
 <h3>Authorized Organizational Representative</h3>

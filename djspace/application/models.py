@@ -2120,7 +2120,7 @@ class ProfessionalProgramStudent(BaseModel):
     )
     HigherEducationInitiatives  = models.ForeignKey(
         HigherEducationInitiatives,
-        related_name='higher_education_student',
+        related_name='higher_education_initiatives_student',
         null=True, blank=True
     )
     IndustryInternship = models.ForeignKey(

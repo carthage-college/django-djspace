@@ -11,7 +11,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 
 from djspace.application.forms import *
-from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
+from djspace.application.models import (
+    ProfessionalProgramStudent, ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
+)
 from djspace.core.models import UserFiles
 from djspace.core.forms import UserFilesForm
 from djspace.core.utils import profile_status
@@ -215,17 +217,16 @@ def application_form(request, application_type, aid=None):
                     )
                     uf.save()
 
-            data.save()
-
             if application_type == "professional-program-student":
                 program = cd['program']
                 mod = django.apps.apps.get_model(
                     app_label='application', model_name=program
                 )
-                submission = mod.objects.get(pk=cd[program])
+                submission = mod.objects.get(pk=cd[program_submissions])
                 setattr(data, program, submission)
 
-                data.save()
+            # final save before clean up and mailing
+            data.save()
 
             # add user to RocketLaunchTeam member m2m
             if "rocket-competition" in application_type:
@@ -340,6 +341,13 @@ def get_program_submissions(request):
     if request.is_ajax() and request.method == 'POST':
         program = request.POST.get('program')
         mentor_id = request.POST.get('mentor_id')
+        app = ProfessionalProgramStudent.objects.get(
+            pk = request.POST.get('aid')
+        )
+        aid = None
+        app_prog = getattr(app, program)
+        if app_prog:
+            aid = app_prog.id
         user = User.objects.get(pk=mentor_id)
         try:
             mod = django.apps.apps.get_model(
@@ -350,7 +358,7 @@ def get_program_submissions(request):
             programs = None
 
     t = loader.get_template('application/get_program_submissions.inc.html')
-    template = t.render({'programs':programs}, request),
+    template = t.render({'programs':programs,'aid':aid}, request),
 
     return HttpResponse(
         template, content_type='text/plain; charset=utf-8'

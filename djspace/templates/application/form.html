@@ -60,14 +60,10 @@ $(function() {
 
     {% if app_name == "Professional Program Student" %}
     /* Professional Program Student Mentor */
-    {% if form.mentor.value %}
-    document.mentorAutocomplete = {{form.mentor.value}}
-    $('#id_mentor').val("{{request.session.mentor_name}}");
-    {% endif %}
 
-    function getProgramSubmissions(mentor, program, pid) {
+    function getProgramSubmissions(mentor, program, aid) {
         var $data = {
-          'pid': pid,
+          'aid': aid,
           'mentor_id': mentor,
           'program': program
         }
@@ -90,6 +86,21 @@ $(function() {
       });
     }
 
+    {% if form.mentor.value %}
+    document.mentorAutocomplete = {{form.mentor.value}}
+    $('#id_mentor').val("{{request.session.mentor_name}}");
+    getProgramSubmissions(
+        {{form.mentor.value}}, $('#id_program').val(), {{obj.id|default:0}}
+    );
+    {% endif %}
+
+    /* clear 'mentor' when 'program' field changes */
+    $('#id_program').on('input',function(e){
+        $('#id_mentor').val("");
+        $('#get-program-submissions').empty();
+        document.mentorAutocomplete = ""
+    });
+
     $('#id_mentor').autocomplete({
         source: '{% url "get_users" %}',
         minLength: 3,
@@ -97,7 +108,9 @@ $(function() {
             var lid = uil.item.id;
             //store in session
             document.mentorAutocomplete = lid;
-            getProgramSubmissions(lid, $('#id_program').val(), 0);
+            getProgramSubmissions(
+                lid, $('#id_program').val(), {{obj.id|default:0}}
+            );
         }
     });
     /* End Professional Program Student Mentor */
