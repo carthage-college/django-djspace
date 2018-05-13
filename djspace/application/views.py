@@ -12,7 +12,8 @@ from django.shortcuts import render, get_object_or_404
 
 from djspace.application.forms import *
 from djspace.application.models import (
-    ProfessionalProgramStudent, ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
+    ProfessionalProgramStudent, ROCKET_LAUNCH_COMPETITION_WITH_LIMIT,
+    STUDENT_PROFESSIONAL_PROGRAMS
 )
 from djspace.core.models import UserFiles
 from djspace.core.forms import UserFilesForm
@@ -217,13 +218,21 @@ def application_form(request, application_type, aid=None):
                     )
                     uf.save()
 
+            # deal with FK relationships for programs
             if application_type == "professional-program-student":
                 program = cd['program']
                 mod = django.apps.apps.get_model(
                     app_label='application', model_name=program
                 )
-                submission = mod.objects.get(pk=cd[program_submissions])
-                setattr(data, program, submission)
+                pk = request.POST.get('program_submissions')
+                if pk:
+                    submission = mod.objects.get(pk=int(pk))
+                    setattr(data, program, submission)
+
+                    # set the others to None
+                    for spp in STUDENT_PROFESSIONAL_PROGRAMS:
+                        if spp[0] != program:
+                            setattr(data, spp[0], None)
 
             # final save before clean up and mailing
             data.save()
@@ -341,13 +350,15 @@ def get_program_submissions(request):
     if request.is_ajax() and request.method == 'POST':
         program = request.POST.get('program')
         mentor_id = request.POST.get('mentor_id')
-        app = ProfessionalProgramStudent.objects.get(
-            pk = request.POST.get('aid')
-        )
         aid = None
-        app_prog = getattr(app, program)
-        if app_prog:
-            aid = app_prog.id
+        if request.POST.get('aid') != '0':
+            pk = int(request.POST.get('aid'))
+            app = ProfessionalProgramStudent.objects.get(pk = pk)
+            app_prog = getattr(app, program)
+
+            if app_prog:
+                aid = app_prog.id
+
         user = User.objects.get(pk=mentor_id)
         try:
             mod = django.apps.apps.get_model(
