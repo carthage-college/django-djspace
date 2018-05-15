@@ -221,18 +221,20 @@ def application_form(request, application_type, aid=None):
             # deal with FK relationships for programs
             if application_type == "professional-program-student":
                 program = cd['program']
-                mod = django.apps.apps.get_model(
-                    app_label='application', model_name=program
-                )
-                pk = request.POST.get('program_submissions')
-                if pk:
-                    submission = mod.objects.get(pk=int(pk))
-                    setattr(data, program, submission)
+                excludes = ['CaNOP','MicroPropellantGauging','NasaInternship']
+                if program not in excludes:
+                    mod = django.apps.apps.get_model(
+                        app_label='application', model_name=program
+                    )
+                    pk = request.POST.get('program_submissions')
+                    if pk:
+                        submission = mod.objects.get(pk=int(pk))
+                        setattr(data, program, submission)
 
-                    # set the others to None
-                    for spp in STUDENT_PROFESSIONAL_PROGRAMS:
-                        if spp[0] != program:
-                            setattr(data, spp[0], None)
+                        # set the others to None
+                        for spp in STUDENT_PROFESSIONAL_PROGRAMS:
+                            if spp[0] != program:
+                                setattr(data, spp[0], None)
 
             # final save before clean up and mailing
             data.save()
