@@ -107,6 +107,52 @@ def export_required_files(modeladmin, request, queryset):
 export_required_files.short_description = "Export Required Files"
 
 
+def photo_files(modeladmin, request, queryset):
+    """
+    export photos for all applicants to a tarball
+    """
+    if not queryset:
+        messages.add_message(
+            request, messages.ERROR,
+            '''
+                Currently, there are no applications for this program.
+            ''',
+            extra_tags='danger'
+        )
+        return HttpResponseRedirect(
+            reverse_lazy(
+                "admin:application_{}_changelist".format(object_name.lower())
+            )
+        )
+    else:
+        object_name = modeladmin.model._meta.object_name
+        response = HttpResponse(content_type='application/x-gzip')
+        response['Content-Disposition'] = 'attachment; filename={}.tar.gz'.format(
+            object_name
+        )
+        tar_ball = tarfile.open(fileobj=response, mode='w:gz')
+        for obj in queryset:
+            fotos = obj.photos.all()
+            for i in range(len(fotos)):
+                path = '{}/{}'.format(settings.MEDIA_ROOT, str(fotos[i].phile))
+                path_list = path.split('/')
+                name = '{}_{}_{}'.format(obj.id, i, path_list[-1])
+                tar_ball.add(path, name)
+
+        tar_ball.close()
+        return response
+
+
+def export_photo_files(modeladmin, request, queryset):
+    """
+    Export photo files
+    """
+
+    return photo_files(modeladmin, request, queryset)
+
+export_photo_files.short_description = "Export Photos"
+
+
 def longitudinal_tracking(modeladmin, request):
     """
     Export application data to OpenXML file
@@ -337,7 +383,7 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -386,7 +432,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -446,7 +492,7 @@ class UndergraduateAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -536,7 +582,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -665,7 +711,7 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -777,7 +823,7 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -807,7 +853,7 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -888,7 +934,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -975,7 +1021,7 @@ class NasaCompetitionAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -1035,7 +1081,7 @@ class IndustryInternshipAdmin(GenericAdmin):
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files,
+        export_required_files, export_funded_files, export_photo_files,
         'email_applicants'
     ]
 
@@ -1074,7 +1120,7 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
     list_editable = ['funded_code','status']
 
     actions = [
-        export_longitudinal_tracking, export_all_applications,
+        export_longitudinal_tracking, export_all_applications, export_photo_files,
         'email_applicants'
     ]
 
