@@ -189,22 +189,22 @@
     {% if data.status %}<li>Education Outreach: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
+{% if data.flight_readiness_report %}
+  <li>
+    <a href="{{media_url}}{{data.flight_readiness_report}}" target="_blank">
+      Flight Readiness Review
+    </a>
+    <ul>
+      <li>Created: {{data.flight_readiness_report_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.flight_readiness_report}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Flight Readiness Report: Missing</li>{% endif %}
+{% endif %}
 {% if data.competition == "Midwest High Powered Rocket Competition" or data.team.competion == "Midwest High Powered Rocket Competition" %}
-  {% if data.flight_readiness_report %}
-    <li>
-      <a href="{{media_url}}{{data.flight_readiness_report}}" target="_blank">
-        Flight Readiness Review
-      </a>
-      <ul>
-        <li>Created: {{data.flight_readiness_report_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.flight_readiness_report}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Flight Readiness Report: Missing</li>{% endif %}
-  {% endif %}
   {% if data.verified_budget %}
     <li>
       <a href="{{media_url}}{{data.verified_budget}}" target="_blank">
