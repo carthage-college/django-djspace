@@ -181,6 +181,7 @@ class BaseModel(Base):
         abstract = True
 
     status = models.BooleanField(default=False, verbose_name="Funded")
+    complete = models.BooleanField(default=False, verbose_name="Completed")
     funded_code = models.CharField(
         "Funded ID",
         max_length=24,
