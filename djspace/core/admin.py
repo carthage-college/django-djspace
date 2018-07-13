@@ -76,7 +76,7 @@ class GenericAdmin(admin.ModelAdmin):
 
     list_display = PROFILE_LIST_DISPLAY
     list_display_links = None
-    list_filter   = ('status',)
+    #list_filter   = ('status','complete')
     date_hierarchy = 'date_created'
     ordering = [
         'user__last_name','user__first_name'

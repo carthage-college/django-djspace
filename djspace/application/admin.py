@@ -377,9 +377,9 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     list_display  = PROFILE_LIST_DISPLAY + [
         'cv_file', 'position', 'commit_short', 'letter_interest_file',
         'date_created','date_updated','past_funding','past_funding_year',
-        'funded_code','status'
+        'funded_code','complete','status'
     ]
-    list_editable = ['funded_code','status']
+    list_editable = ['funded_code','complete','status']
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking, export_all_applications,
@@ -410,7 +410,7 @@ class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
     list_display  = PROFILE_LIST_DISPLAY + [
         'cv_file', 'letter_interest_file',
         'date_created','date_updated','past_funding','past_funding_year',
-        'funded_code','status'
+        'funded_code','complete','status'
     ]
 
 
@@ -425,9 +425,9 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
         'project_title','begin_date','end_date',
         'anticipating_funding','funds_requested','funds_authorized',
         'synopsis_trunk','date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
-    list_editable = ['funds_authorized','funded_code','status']
+    list_editable = ['funds_authorized','funded_code','complete','status']
     list_display_links = ['project_title']
     action_form = TarballActionForm
     actions = [
@@ -531,9 +531,9 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
         'synopsis_trunk',
         'other_funding', 'other_funding_explain',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
-    list_editable = ['funds_authorized','funded_code','status']
+    list_editable = ['funds_authorized','funded_code','complete','status']
     list_display_links = ['project_title']
 
     def synopsis_trunk(self, instance):
@@ -560,9 +560,9 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
         'academic_institution','wsgc_affiliate',
         'other_funding', 'other_funding_explain',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
-    list_editable = ['funded_code','status']
+    list_editable = ['funded_code','complete','status']
 
     def statement_file(self, instance):
         return admin_display_file(instance,"statement")
@@ -597,10 +597,10 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'name','competition','co_advisor','leader',
         'industry_mentor_name','industry_mentor_email',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
     list_display_links = ['name']
-    list_editable = ['funded_code','status']
+    list_editable = ['funded_code','complete','status']
     raw_id_fields = ('user','co_advisor','leader','members',)
 
     def budget_file(self, instance):
@@ -702,11 +702,11 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file',
         'cv_file','team','date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
 
     list_display_links = ['team']
-    list_editable = ['funded_code','status']
+    list_editable = ['funded_code','complete','status']
 
     action_form = TarballActionForm
     actions = [
@@ -815,10 +815,10 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'team','date_created','date_updated','cv_file',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
     list_display_links = ['team']
-    list_editable = ['funded_code','status']
+    list_editable = ['funded_code','complete','status']
 
     action_form = TarballActionForm
     actions = [
@@ -845,10 +845,10 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
         'oral_presentation_file',
         'critical_design_report_file','post_flight_performance_report_file',
         'team','date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
     list_display_links = ['team']
-    list_editable = ['funded_code','status']
+    list_editable = ['funded_code','complete','status']
 
     action_form = TarballActionForm
     actions = [
@@ -924,10 +924,10 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
     list_editable = [
-        'funds_authorized','authorized_match','funded_code','status'
+        'funds_authorized','authorized_match','funded_code','complete','status'
     ]
     list_display_links = ['project_title']
 
@@ -988,7 +988,7 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
 
 
@@ -1010,11 +1010,11 @@ class NasaCompetitionAdmin(GenericAdmin):
         'grant_officer_name','grant_officer_address',
         'grant_officer_email','grant_officer_phone',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
     list_display_links = ['date_created']
     list_editable = [
-        'funds_authorized','authorized_match','funded_code','status'
+        'funds_authorized','authorized_match','funded_code','complete','status'
     ]
     #date_created.short_description = 'Created (edit)'
 
@@ -1069,13 +1069,13 @@ class IndustryInternshipAdmin(GenericAdmin):
         'funds_requested','funds_authorized',
         'proposed_match','authorized_match','source_match',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
 
     model = IndustryInternship
     list_display_links = ['first_name']
     list_editable = [
-        'funds_authorized','authorized_match','funded_code','status'
+        'funds_authorized','authorized_match','funded_code','complete','status'
     ]
 
     action_form = TarballActionForm
@@ -1115,9 +1115,9 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
     list_display  = PROFILE_LIST_DISPLAY + [
         'program_link','program_application_link','mentor',
         'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','status'
+        'past_funding','past_funding_year','funded_code','complete','status'
     ]
-    list_editable = ['funded_code','status']
+    list_editable = ['funded_code','complete','status']
 
     actions = [
         export_longitudinal_tracking, export_all_applications, export_photo_files,
