@@ -1,20 +1,32 @@
 <h3 class="application-type">
-    {{app.get_application_type}}{% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}} {% endif %}
+  {{app.get_application_type}}
+  {% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}}
+  {% endif %}
 </h3>
 <li class="application-container">
     <span class="short-date popover-toggle"
       data-html="true"
       data-trigger="focus"
       data-content="Date Created">
-        {{app.date_created|date:"SHORT_DATE_FORMAT"}}</span>
+      {{app.date_created|date:"SHORT_DATE_FORMAT"}}</span>
+    {% if not app.complete %}
     <span style="font-weight:bold" class="popover-toggle-right"
-        tabindex="0" data-html="true" data-trigger="focus"
-        data-content="Update your application"> |
+      tabindex="0" data-html="true" data-trigger="focus"
+      data-content="Update your application"> |
     <a href="{{app.get_absolute_url}}">
-    {% if app.project_title %}{{app}}{% else %}Update Application{% endif %}</a>
-    <i class="fa fa-pencil green" aria-hidden="true"></i>
+    {% if app.project_title %}{{app}}{% else %}Update Application{% endif %}
+    <i class="fa fa-pencil green" aria-hidden="true"></i></a>
     </span>
-   {% if app.get_content_type.model == "rocketlaunchteam" %}
+    {% else %}
+    <span style="font-weight:bold" class="popover-toggle-right"
+      tabindex="0" data-html="true" data-trigger="focus"
+      data-content="View your application"> |
+    <a href="{% url 'application_print' app.get_slug app.id %}" target="_blank">
+      {% if app.project_title %}{{app}}{% else %}View Application{% endif %}
+    <i class="fa fa-eye green" aria-hidden="true"></i></a>
+    </span>
+    {% endif %}
+    {% if app.get_content_type.model == "rocketlaunchteam" %}
      | <i tabindex="0" class="fa fa-rocket green popover-toggle" data-html="true" data-title="<b>Team members confirmed:</b>" data-trigger="focus" data-content="<span class='help'><ul>{% for m in app.get_team_members.all %}<li>{{m.user.last_name}}, {{m.user.first_name}}</li>{% endfor %}</ul></span>." aria-hidden="true" data-original-title="" title=""></i>
     {% endif %}
     {% if app.status and not app.complete %}
