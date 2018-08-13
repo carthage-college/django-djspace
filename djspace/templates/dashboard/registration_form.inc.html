@@ -19,7 +19,8 @@
                         {{ field.errors|join:", "}}
                     </span>
                 {% else %}
-                <div{% if field.field.required %} class="required"{% endif %}>
+                <div{% if field.field.required %} class="required"{% endif %}
+                  id="div_{{field.id_for_label}}">
                 {% endif %}
                 {{field}}
                 {% if field.help_text and reg_type != "Graduate" %}

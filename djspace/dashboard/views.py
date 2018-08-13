@@ -26,6 +26,7 @@ from djtools.utils.convert import str_to_class
 import json
 import django
 
+
 UPLOAD_FORMS = {
   'highereducationinitiatives': HigherEducationInitiativesUploadsForm,
   'researchinfrastructure': ResearchInfrastructureUploadsForm,
@@ -186,6 +187,10 @@ def registration_type(request):
         reggie = None
         if reg:
             reggie = model_to_dict(reg)
+            # remove file field because json barfs on it and we don't need it
+            if 'cv' in reggie:
+                reggie['cv'] = ''
+
         t = loader.get_template('dashboard/registration_form.inc.html')
         context = {'reg_form':reg_form,'reg_type':reg_type}
         data = {
@@ -206,7 +211,6 @@ def profile_form(request):
     """
     Form method that handles user profile data.
     """
-    message = None
     user = request.user
     profile = user.profile
     reg_type = profile.registration_type
@@ -226,7 +230,7 @@ def profile_form(request):
 
         reg_form = str_to_class(
             'djspace.registration.forms', (reg_type+'Form')
-        )(instance=reg, prefix='reg', data=request.POST)
+        )(instance=reg, prefix='reg', data=request.POST, files=request.FILES)
 
         pro_form = UserProfileForm(
             instance=profile, data=request.POST, prefix='pro'
@@ -247,7 +251,12 @@ def profile_form(request):
             reg.user = user
             reg.updated_by = user
             reg.save()
-            message = "Success"
+            # redirect to dashboard with message
+            messages.add_message(
+                request, messages.SUCCESS, 'Your profile has been saved.',
+                extra_tags='success'
+            )
+            return HttpResponseRedirect(reverse('dashboard_home'))
     else:
         usr_form = UserForm(initial={
             'salutation':profile.salutation,'first_name':user.first_name,
@@ -260,7 +269,7 @@ def profile_form(request):
     return render(
         request, 'dashboard/profile_form.html', {
             'pro_form':pro_form,'reg_form':reg_form,'usr_form':usr_form,
-            'reg_type':reg_type,'message':message
+            'reg_type':reg_type
         }
     )
 

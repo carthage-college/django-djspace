@@ -40,7 +40,7 @@ class UndergraduateForm(forms.ModelForm):
             'secondary_major_minor_other', 'current_cumulative_gpa',
             'gpa_in_major', 'gpa_scale', 'cumulative_college_credits',
             'month_year_of_graduation', 'highschool_name',
-            'highschool_city', 'highschool_state',
+            'highschool_city', 'highschool_state','cv','cv_authorize'
         ]
         widgets = {
             'current_cumulative_gpa': forms.TextInput(
@@ -131,7 +131,7 @@ class GraduateForm(forms.ModelForm):
             'wsgc_affiliate','wsgc_affiliate_other','studentid',
             'degree_program','degree_program_other',
             'concentration_area','graduate_gpa',
-            'graduate_scale','graduate_graduation_year',
+            'graduate_scale','graduate_graduation_year','cv','cv_authorize'
         ]
         widgets = {
             # undergraduate

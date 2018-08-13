@@ -6,9 +6,15 @@
 {{block.super}}
 <style type="text/css" media="screen, projection">
     .form fieldset.btnHolder {
-    background-color: #fcffff;
-    border: 2px solid #ddf3f3;
+      background-color: #fcffff;
+      border: 2px solid #ddf3f3;
     }
+    #div_id_reg-cv a {
+      width: 0; overflow: hidden; display: inline-block;
+      height: 16px; color: transparent;
+    }
+    #reg-cv-clear_id { margin-bottom:1px; vertical-align:text-bottom; }
+    label[for="reg-cv-clear_id"] {padding-left:0 !important;}
 </style>
 {% endblock %}
 {% block extra_javascript %}
@@ -199,11 +205,6 @@ $(document).ready(function(){
         </small>
         <span id="secondary-dropdown"></span>
     </h1>
-    {% if message %}
-    <div class="notice">
-        <p><h4>Your profile has been saved.</h4></p>
-    </div>
-    {% endif %}
 {% endblock %}
 {% block content %}
 {% if messages %}
@@ -218,7 +219,7 @@ $(document).ready(function(){
         Please correct the errors below.
     </p>
 {% endif %}
-<form method="post" action="." class="form">
+<form method="post" action="." class="form" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="forms-container large-6 medium-12 small-12">
         <h2>Account information</h2>

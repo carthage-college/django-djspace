@@ -245,9 +245,6 @@ def user_files_test(request):
     )
 
 
-import logging
-logger = logging.getLogger(__name__)
-
 @csrf_exempt
 @login_required
 def object_delete(request):

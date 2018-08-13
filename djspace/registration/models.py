@@ -4,13 +4,17 @@ from django.contrib.auth.models import User
 
 from djspace.registration.choices import MAJORS, YEAR_CHOICES
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
+from djspace.core.models import FILE_VALIDATORS, PHOTO_VALIDATORS
 from djspace.core.models import GenericChoice
 from djspace.core.models import Base
+from djspace.core.utils import upload_to_path
 
 from djtools.fields import STATE_CHOICES
-#from djtools.fields.validators import credit_gpa_validator
-#from djtools.fields.validators import four_digit_year_validator
-#from djtools.fields.validators import month_year_validator
+from djtools.fields.validators import credit_gpa_validator
+from djtools.fields.validators import four_digit_year_validator
+from djtools.fields.validators import month_year_validator
+
+from functools import partial
 
 
 class BaseStudent(Base):
@@ -42,7 +46,7 @@ class BaseStudent(Base):
     current_cumulative_gpa = models.CharField(
         "Current cumulative GPA",
         max_length=4,
-        #validators=[credit_gpa_validator],
+        validators=[credit_gpa_validator],
     )
     gpa_in_major = models.CharField(
         "GPA in major",
@@ -64,9 +68,34 @@ class BaseStudent(Base):
         #validators=[month_year_validator]
     )
     studentid = models.CharField(
-        "Student Id Number",
+        "Student ID Number",
         max_length=64
     )
+    cv = models.FileField(
+        "Résumé",
+        upload_to = partial(upload_to_path, 'CV'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    cv_authorize = models.BooleanField(
+        """
+            I authorize Wisconsin Space Grant Consortium to provide my résumé
+            to Wisconsin companies seeking to place interns and co-ops
+        """
+    )
+
+    def get_file_path(self):
+        return 'files'
+
+    def get_slug(self):
+        return "users"
+
+    def get_file_name(self):
+        return u'{}.{}'.format(
+            self.user.last_name,self.user.first_name
+        )
 
 
 class Undergraduate(BaseStudent):
@@ -128,17 +157,17 @@ class Graduate(BaseStudent):
     graduate_gpa = models.CharField(
         "Current cumulative GPA",
         max_length=4,
-        #validators=[credit_gpa_validator],
+        validators=[credit_gpa_validator],
     )
     graduate_scale = models.CharField(
         "GPA Scale",
         max_length=4,
-        #validators=[credit_gpa_validator],
+        validators=[credit_gpa_validator],
     )
     graduate_graduation_year = models.CharField(
         "Anticipated graduation year",
         max_length=4,
-        #validators=[four_digit_year_validator]
+        validators=[four_digit_year_validator]
     )
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
