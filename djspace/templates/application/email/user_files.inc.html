@@ -42,4 +42,17 @@
     {% else %}
       <li>IRS W9 form: Missing</li>
     {% endif %}
+    {% if user.profile.get_registration.cv %}
+    <li>
+      <a href="https://{{server_url}}{{media_url}}{{user.profile.get_registration.cv}}">
+        CV</a>
+      {% if user.profile.get_registration.cv_authorize %}
+        <strong>Authorized</strong>
+      {% else %}
+        <strong>Not Authorized</strong>
+      {% endif %}
+      <br>
+      https://{{server_url}}{{media_url}}{{data.user.profile.get_registration.cv}}
+    </li>
+{% endif %}
   </ul>
