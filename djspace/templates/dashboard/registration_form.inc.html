@@ -12,7 +12,9 @@
             <ol>
             {% endif %}
             <li class="form-group ctrlHolder">
-                <h3>{{ field.label_tag }}</h3>
+                <h3{% if field.name == "cv_authorize" %} style="width:95%;float:right;margin-top:10px !important;"{% endif %}>
+                  {{ field.label_tag }}
+                </h3>
                 {% if field.errors %}
                 <div class="required warning">
                     <span class="error-message">
@@ -20,6 +22,7 @@
                     </span>
                 {% else %}
                 <div{% if field.field.required %} class="required"{% endif %}
+                  {% if field.name == "cv_authorize" %}style="width:5%;float:left;margin-top:4px;"{% endif %}
                   id="div_{{field.id_for_label}}">
                 {% endif %}
                 {{field}}
