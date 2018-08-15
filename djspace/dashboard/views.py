@@ -230,12 +230,12 @@ def profile_form(request):
 
         reg_form = str_to_class(
             'djspace.registration.forms', (reg_type+'Form')
-        )(instance=reg, prefix='reg', data=request.POST, files=request.FILES)
+        )(instance=reg, prefix='reg', label_suffix='', data=request.POST, files=request.FILES)
 
         pro_form = UserProfileForm(
-            instance=profile, data=request.POST, prefix='pro'
+            instance=profile, data=request.POST, prefix='pro', label_suffix=''
         )
-        usr_form = UserForm(prefix='usr', data=request.POST)
+        usr_form = UserForm(prefix='usr', data=request.POST, label_suffix='')
         if pro_form.is_valid() and reg_form.is_valid() and usr_form.is_valid():
             usr = usr_form.cleaned_data
             user.first_name = usr['first_name']
@@ -261,11 +261,13 @@ def profile_form(request):
         usr_form = UserForm(initial={
             'salutation':profile.salutation,'first_name':user.first_name,
             'second_name':profile.second_name,'last_name':user.last_name
-        }, prefix='usr')
+        }, prefix='usr', label_suffix='')
         reg_form = str_to_class(
             'djspace.registration.forms', (reg_type+'Form')
-        )(instance=reg, prefix='reg')
-        pro_form = UserProfileForm(instance=profile, prefix='pro')
+        )(instance=reg, prefix='reg', label_suffix='')
+        pro_form = UserProfileForm(
+            instance=profile, prefix='pro', label_suffix=''
+        )
     return render(
         request, 'dashboard/profile_form.html', {
             'pro_form':pro_form,'reg_form':reg_form,'usr_form':usr_form,
