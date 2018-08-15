@@ -72,7 +72,7 @@ class BaseStudent(Base):
         max_length=64
     )
     cv = models.FileField(
-        "Résumé",
+        "Résumé (optional)",
         upload_to = partial(upload_to_path, 'CV'),
         validators=FILE_VALIDATORS,
         max_length=768,
@@ -82,7 +82,7 @@ class BaseStudent(Base):
     cv_authorize = models.BooleanField(
         """
             I authorize Wisconsin Space Grant Consortium to provide my résumé
-            to Wisconsin companies seeking to place interns and co-ops
+            to Wisconsin companies seeking to place interns and co-ops.
         """
     )
 
