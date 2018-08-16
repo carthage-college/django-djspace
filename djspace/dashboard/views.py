@@ -237,20 +237,23 @@ def profile_form(request):
         )
         usr_form = UserForm(prefix='usr', data=request.POST, label_suffix='')
         if pro_form.is_valid() and reg_form.is_valid() and usr_form.is_valid():
+            # User
             usr = usr_form.cleaned_data
             user.first_name = usr['first_name']
             user.last_name = usr['last_name']
             user.save()
+            # registration type: undergrad, grad, faculty, pro
+            reg = reg_form.save(commit=False)
+            reg.user = user
+            reg.updated_by = user
+            reg.save()
+            # UserProfile
             pro = pro_form.save(commit=False)
             pro.salutation = usr['salutation']
             pro.second_name = usr['second_name']
             pro.updated_by = user
             pro.user = user
             pro.save()
-            reg = reg_form.save(commit=False)
-            reg.user = user
-            reg.updated_by = user
-            reg.save()
             # redirect to dashboard with message
             messages.add_message(
                 request, messages.SUCCESS, 'Your profile has been saved.',

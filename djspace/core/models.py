@@ -4,6 +4,7 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.db.models.signals import pre_save
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -542,17 +543,21 @@ class UserProfile(models.Model):
         else:
             return None
 
-    def save(self, *args, **kwargs):
-        if self.id and not profile_status(self.user):
-            # notify WSGC administrators of registration update
-            request = None
-            registration_notify(request, "update", self.user)
-        super(UserProfile, self).save()
+
+@receiver(pre_save, sender=UserProfile)
+def notify_administrators(sender, **kwargs):
+    """
+    send an email to  WSGC administrators of registration update
+    """
+
+    obj = kwargs['instance']
+    if not profile_status(obj.user):
+        registration_notify(kwargs.get('request'), 'update', obj.user)
 
 
 # dispatch ID needs to be unique for each signal handler, nothing more.
 # so we can use package plus signal name.
-@receiver(user_signed_up, dispatch_uid="allauth.user_signed_up")
+@receiver(user_signed_up, dispatch_uid='allauth.user_signed_up')
 def _user_signed_up(request, user, **kwargs):
 
     from allauth.account.models import EmailAddress
@@ -562,7 +567,7 @@ def _user_signed_up(request, user, **kwargs):
     # slipped past our form clean() method.
     try:
         EmailAddress.objects.add_email(
-            request, user, request.POST.get("email_secondary"), confirm=True
+            request, user, request.POST.get('email_secondary'), confirm=True
         )
     except:
         pass

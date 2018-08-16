@@ -1,7 +1,9 @@
 <h1>Registration Profile {{data.action|capfirst}}d</h1>
 <p>
-    <a href="https://wsgc.carthage.edu/apps/registration/{{data.user.id}}/print/">
-        Registration Details
-    </a>
+<a href="https://{{data.server_url}}{% url 'registration_print' data.user.id %}">
+Registration Details
+</a>
 </p>
-{% include "application/email/base.html" %}
+{% with server_url=data.server_url media_url=data.media_url %}
+  {% include "application/email/base.html" %}
+{% endwith %}

@@ -147,6 +147,7 @@ def profile_status(user):
         status = True
     return status
 
+
 def registration_notify(request, action, user):
     subject = u"[WSGC Profile Registration: {}D] {}, {}".format(
         action.upper(), user.last_name, user.first_name
@@ -155,17 +156,22 @@ def registration_notify(request, action, user):
         TO_LIST = [settings.ADMINS[0][1],]
     else:
         TO_LIST = [settings.WSGC_APPLICATIONS,]
-    template = "account/registration_alert_email.html"
+    template = 'account/registration_alert_email.html'
+    context = {
+        'user':user, 'action':action, 'server_url':settings.SERVER_URL,
+        'media_url':settings.MEDIA_URL
+    }
     send_mail(
-        request, TO_LIST, subject, user.email,
-        template, {"user":user,"action":action}, settings.MANAGERS
+        request,TO_LIST,subject,user.email,template,context,settings.MANAGERS
     )
+
 
 def get_term(date):
     term = "SP"
     if date.month >= settings.GRANT_CYCLE_START_MES:
         term = "FA"
     return term
+
 
 def get_email_auxiliary(user):
     from allauth.account.models import EmailAddress
@@ -175,6 +181,7 @@ def get_email_auxiliary(user):
         return e[0].email
     else:
         return None
+
 
 def admin_display_file(instance, field, team=False):
     status = False
