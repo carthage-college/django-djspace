@@ -551,7 +551,7 @@ def notify_administrators(sender, **kwargs):
     """
 
     obj = kwargs['instance']
-    if obj.user.profile and not profile_status(obj.user):
+    if obj.pk is not None and not profile_status(obj.user):
         registration_notify(kwargs.get('request'), 'update', obj.user)
 
 
