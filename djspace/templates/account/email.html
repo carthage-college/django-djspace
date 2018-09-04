@@ -8,17 +8,16 @@
 {% endblock %}
 {% block content %}
 <div class="forms-container">
+    {% if messages %}
+        {% for message in messages %}
+        <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
     {% if user.emailaddress_set.all %}
-        <form action="{% url 'account_email' %}" class="form"
-            method="post">
+        <form action="{% url 'account_email' %}" class="form" method="post">
             {% csrf_token %}
-            {% if messages %}
-                {% for message in messages %}
-                <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                    {{ message }}
-                </div>
-                {% endfor %}
-            {% endif %}
             <p>
             {% blocktrans %}
                 The following email addresses are associated with your account:
@@ -80,7 +79,8 @@
     <h2>{% trans "Add an email address" %}</h2>
     <form method="post" action="{% url 'account_email' %}" class="form">
         {% csrf_token %}
-        {% include "includes/generic_form.html" %}
+        {{ form.as_p }}
+        <button name="action_add" type="submit">{% trans "Add E-mail" %}</button>
     </form>
 </div>
 {% endblock %}
