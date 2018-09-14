@@ -176,7 +176,6 @@
                 title="Missing file"></i>
             {% endif %}
           </li>
-          {% if app.get_content_type.model != "professionalprogramstudent" %}
           <li class="form-group ctrlHolder">
             <h3>
                 <label for="id_final_report">Final Report [PDF]</label>
@@ -200,7 +199,6 @@
                 title="Missing file"></i>
             {% endif %}
           </li>
-          {% endif %}{# professionalprogramstudent exception #}
           {% endif %}{# rocket exceptions #}
         </ol>
       </fieldset>
