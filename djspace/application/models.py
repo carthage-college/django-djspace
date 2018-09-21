@@ -69,7 +69,7 @@ ACADEMIC_INSTITUTIONS = (
         'All Academic Institution Opportunity (Spring)'
     ),
     (
-        'STEM Bridge (Spring)','STEM Bridge (Spring)'
+        'STEM Bridge','STEM Bridge'
     )
 )
 INDUSTRY_AWARD_TYPES = (
@@ -268,8 +268,10 @@ class EducationInitiatives(BaseModel):
         null = True, blank = True
     )
     finance_officer_name = models.CharField(
-        "Name",
-        max_length=128
+        "Name", max_length=128
+    )
+    finance_officer_title = models.CharField(
+        "Title", max_length=128
     )
     finance_officer_address = models.TextField("Address")
     finance_officer_email = models.EmailField("Email")
