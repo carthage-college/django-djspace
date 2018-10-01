@@ -74,7 +74,7 @@ class ProfessionalProgramStudentUploadsForm(forms.ModelForm):
     class Meta:
         model = HigherEducationInitiatives
         fields = (
-            'award_acceptance','interim_report'
+            'award_acceptance','interim_report','final_report'
         )
 
 
