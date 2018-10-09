@@ -140,9 +140,13 @@ $(function() {
     });
     /* Rocket Launch Co-Advisor */
     {% if form.co_advisor.value %}
-    document.coAdvisorAutocomplete = {{form.co_advisor.value}}
+    {% if form.co_advisor.errors %}
+    document.coAdvisorAutocomplete = "";
+    $('#id_co_advisor').val("");
+    {% else %}
+    document.coAdvisorAutocomplete = {{form.co_advisor.value|default:""}};
     $('#id_co_advisor').val("{{request.session.co_advisor_name}}");
-    {% endif %}
+    {% endif %}{% endif %}
     $('#id_co_advisor').autocomplete({
         autoFocus: true,
         source: '{% url "get_users" %}',
@@ -319,10 +323,14 @@ $(function() {
     {% if form %}
     <form class="form" enctype="multipart/form-data" action="."
         id="profile" method="post">
-    {% for hidden in form.hidden_fields %}
-      {{hidden}}
-    {% endfor %}
     {% csrf_token %}
+    {% if app_name == "Rocket Launch Team" %}
+    <input type="hidden" name="uid" value="{{request.user.id}}">
+    {% else %}
+      {% for hidden in form.hidden_fields %}
+      {{hidden}}
+      {% endfor %}
+    {% endif %}
     {% if form.errors %}
         <p class="error">
             There were errors with the data submitted, see below.

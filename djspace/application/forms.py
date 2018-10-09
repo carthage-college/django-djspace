@@ -619,6 +619,9 @@ class RocketLaunchTeamForm(forms.ModelForm):
     '''
     Form that handles the create/update for Rocket Launch Teams
     '''
+    uid = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput()
+    )
     co_advisor = forms.CharField(
         label = "Co-Advisor",
         required = False,
@@ -670,38 +673,38 @@ class RocketLaunchTeamForm(forms.ModelForm):
         self.request = kwargs.pop('request', None)
         super(RocketLaunchTeamForm, self).__init__(*args, **kwargs)
 
-    def clean_co_advisor(self):
+    def clean(self):
         '''
         Assign a User object to co-advisor
         '''
-
         cd = self.cleaned_data
         cid = cd.get('co_advisor')
+        #uid = cd.get('uid')
+        #uid = cd['uid']
+        uid = str(self.request.user.id)
 
         if cid:
-            try:
-                user = User.objects.get(pk=cid)
-                cd['co_advisor'] = user
-                self.request.session['co_advisor_name'] = u'{}, {}'.format(
-                    user.last_name, user.first_name
-                )
-            except:
-                self._errors["co_advisor"] = self.error_class(
-                    ["That User does not exist in the system"]
-                )
+            if cid == uid:
+                self.add_error('co_advisor', "You cannot also be a co-advisor")
+                cd['co_advisor'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=cid)
+                    cd['co_advisor'] = user
+                    self.request.session['co_advisor_name'] = u'{}, {}'.format(
+                        user.last_name, user.first_name
+                    )
+                except:
+                    self.add_error(
+                        'co_advisor', "That User does not exist in the system"
+                    )
         else:
             cd['co_advisor'] = None
 
-        return cd['co_advisor']
-
-    def clean_leader(self):
         '''
-        Assign a User object to co-advisor
+        Assign a User object to team leader
         '''
-
-        cd = self.cleaned_data
         lid = cd.get('leader')
-
         if lid:
             try:
                 user = User.objects.get(pk=lid)
@@ -710,15 +713,15 @@ class RocketLaunchTeamForm(forms.ModelForm):
                     user.last_name, user.first_name
                 )
             except:
-                self._errors["leader"] = self.error_class(
-                    ["That User does not exist in the system"]
+                self.add_error(
+                    'leader', "The team leader does not exist in the system"
                 )
         else:
-            self._errors["leader"] = self.error_class(
-                ["Required field"]
+            self.add_error(
+                'leader', "The team leader does not exist in the system"
             )
 
-        return cd['leader']
+        return cd
 
 
 class RocketLaunchTeamUploadsForm(forms.ModelForm):
@@ -925,15 +928,11 @@ class NasaCompetitionForm(forms.ModelForm):
 
         if cd.get("competition_type") == "Other":
             if cd.get("competition_type_other") == "":
-                self._errors["competition_type_other"] = self.error_class(
-                    ["Required field"]
-                )
+                self.add_error('competition_type_other', "Required field")
 
         if cd.get("facility_name") == "Other":
             if cd.get("facility_name_other") == "":
-                self._errors["facility_name_other"] = self.error_class(
-                    ["Required field"]
-                )
+                self.add_error('facility_name_other', "Required field")
 
         return cd
 
@@ -1046,13 +1045,11 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
                 user = User.objects.get(pk=mid)
                 cd['mentor'] = user
             except:
-                self._errors["mentor"] = self.error_class(
-                    ["That User does not exist in the system"]
+                self.add_error(
+                    'mentor', "That User does not exist in the system"
                 )
         else:
-            self._errors["mentor"] = self.error_class(
-                ["Required field"]
-            )
+            self.add_error('mentor', "Required field")
 
         return cd['mentor']
 
