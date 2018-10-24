@@ -617,16 +617,14 @@ class RocketLaunchTeamForm(forms.ModelForm):
         label = "Co-Advisor",
         required = False,
         help_text = '''
-            Enter the last name or first name of the Co-Advisor to see results
-            from which to choose.
+            Co-Advisor must be registered for auto-population of this field.
         ''',
     )
     leader = forms.CharField(
         label = "Team Lead",
         required = True,
         help_text = '''
-            Enter the last name or first name of the team leader to see results
-            from which to choose.
+            Team Leads must be registered for auto-population of this field.
         ''',
     )
     past_funding = forms.TypedChoiceField(
@@ -655,7 +653,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'flight_demo','lodging_list','proposal','other_file',
             'critical_design_report','oral_presentation','proceeding_paper',
             'flight_readiness_report','post_flight_performance_report',
-            'education_outreach','verified_budget',
+            'education_outreach','verified_budget','final_motor_selection',
             'close_out_finance_document','invoice','charges_certification',
             'institutional_w9'
         )
