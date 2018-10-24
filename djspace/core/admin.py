@@ -29,7 +29,8 @@ PROFILE_LIST = [
 # program applications all have the following fields in common
 PROFILE_LIST_DISPLAY = PROFILE_LIST + [
     'mugshot_file','biography_file','media_release_file','irs_w9_file',
-    'award_acceptance_file','interim_report_file','final_report_file'
+    'award_acceptance_file','interim_report_file','final_report_file',
+    'other_file_file'
 ]
 
 POST_NO_OBJECTS = ['export_longitudinal_tracking']
@@ -270,6 +271,11 @@ class GenericAdmin(admin.ModelAdmin):
         return admin_display_file(instance, 'final_report')
     final_report_file.allow_tags = True
     final_report_file.short_description = "Final Rpt"
+
+    def other_file_file(self, instance):
+        return admin_display_file(instance, 'other_file')
+    other_file_file.allow_tags = True
+    other_file_file.short_description = "Other"
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user

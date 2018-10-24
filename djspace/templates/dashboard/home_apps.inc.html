@@ -200,6 +200,29 @@
             {% endif %}
           </li>
           {% endif %}{# rocket exceptions #}
+          <li class="form-group ctrlHolder">
+            <h3>
+                <label for="id_final_report">Other File [PDF]</label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+                data-content-type="{{app.get_content_type.id}}"
+                data-oid="{{app.id}}"
+                name="other_file" id="id_other_file">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.other_file %}
+              <a class="fa-wrap"
+                href="{{media_url}}{{app.other_file}}"
+                target="_blank">
+                <i class="fa fa-times fa-file-pdf-o blue"
+                aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-times green fa-wrap" aria-hidden="true"
+                title="Optional file"></i>
+            {% endif %}
+          </li>
         </ol>
       </fieldset>
       <fieldset>

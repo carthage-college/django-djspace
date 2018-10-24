@@ -29,10 +29,12 @@ from uuid import uuid4
 import time
 import re
 
-FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-#FILE_VALIDATORS = []
-PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-#PHOTO_VALIDATORS = []
+# comment out for migrations
+#FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+FILE_VALIDATORS = []
+#PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+PHOTO_VALIDATORS = []
+
 REG_TYPE = (
     ('','----select----'),
     ('Undergraduate','Undergraduate'),
@@ -217,6 +219,13 @@ class BaseModel(Base):
     )
     final_report = models.FileField(
         upload_to = partial(upload_to_path, 'Final_Report'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True, blank=True,
+        help_text="PDF format"
+    )
+    other_file = models.FileField(
+        upload_to = partial(upload_to_path, 'Other_File'),
         validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,

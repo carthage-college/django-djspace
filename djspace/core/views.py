@@ -21,6 +21,9 @@ from djspace.application.models import *
 
 from djtools.utils.mail import send_mail
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 @staff_member_required
 def sendmail(request, redirect):
@@ -159,6 +162,7 @@ def user_files(request):
                     phile.user = user
                 phile.save()
                 earl = getattr(phile,field_name)
+                logger.debug('phile = {}'.format(phile))
                 # notify wsgc that a user uploaded one of her profile files
                 if settings.DEBUG:
                     to = [settings.ADMINS[0][1],]
