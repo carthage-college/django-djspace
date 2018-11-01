@@ -32,6 +32,7 @@ WSGC_SCHOOL = (
     ('Marquette University','Marquette University'),
     ('Medical College of Wisconsin','Medical College of Wisconsin'),
     ('Milwaukee School of Engineering','Milwaukee School of Engineering'),
+    ('Moraine Park Technical College','Moraine Park Technical College'),
     ('Northern Arizona University','Northern Arizona University'),
     ('Northwest Indian College','Northwest Indian College'),
     ('Ripon College','Ripon College'),
