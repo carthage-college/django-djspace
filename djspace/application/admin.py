@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.utils.text import Truncator
 from django.utils.html import strip_tags
 from django.utils.encoding import smart_bytes
+from django.utils.encoding import smart_str
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.admin.helpers import ActionForm
@@ -254,7 +255,11 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     writer.writerow(headers)
 
     for reg in queryset:
-        fields = get_profile_fields(reg)
+        fields = []
+        profile_fields = get_profile_fields(reg)
+        # deal with non-standard characters
+        for f in profile_fields:
+            fields.append(smart_str(f))
         field_names = [f.name for f in reg._meta.get_fields()]
         for field in field_names:
             if field and field not in exclude:
@@ -265,7 +270,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
                             strip_tags(value)
                         ).encode('utf-8', 'ignore').strip()
                     elif field in file_fields:
-                        earl = 'https://{}{}{}'.format(
+                        earl = u'https://{}{}{}'.format(
                             settings.SERVER_URL, settings.MEDIA_URL, value
                         )
                         value = '=HYPERLINK("{}","{}")'.format(earl, field)
