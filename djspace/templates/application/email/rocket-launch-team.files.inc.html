@@ -9,7 +9,7 @@
 {% else %}
   {% if data.status %}<li>Advisor's Award Acceptance: Missing</li>{% endif %}
 {% endif %}
-{% for c in data.collegiate_rocket_competition.all %}
+{% for c in data.get_team_members.all %}
   {% if c.user == data.leader %}
     {% if c.award_acceptance %}
     <li>
