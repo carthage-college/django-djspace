@@ -72,14 +72,20 @@ Web site.................... {{data.user.profile.get_registration.web_site}}
 {% endblock %}
 <h2>Application Information</h2>
 {% block data %}{% endblock %}
-<h2>Photos</h2>
-{% for p in data.photos.all %}
-<img src="{{p.phile.url}}" width="400">
-{% endfor %}
+<h3>Other File</h3>
 {% if data.other_file %}
-<h2>Other File</h2>
 <a href="{{media_url}}{{data.other_file}}" target="_blank">
   Other File
 </a><br>
 https://{{server_url}}{{media_url}}{{data.other_file}}
+{% else %}
+<p>No file uploaded.</p>
+{% endif %}
+<h2>Photos</h2>
+{% if data.photos.all %}
+{% for p in data.photos.all %}
+<img src="{{p.phile.url}}" width="400">
+{% endfor %}
+{% else %}
+<p>No photos uploaded.</p>
 {% endif %}
