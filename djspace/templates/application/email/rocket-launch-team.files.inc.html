@@ -11,12 +11,16 @@
 {% endif %}
 {% for c in data.collegiate_rocket_competition.all %}
   {% if c.user == data.leader %}
-  <li>
-    <a href="{{media_url}}{{c.award_acceptance}}">
-      Team Leader's Award Acceptance
-    </a><br>
-    https://{{server_url}}{{media_url}}{{c.award_acceptance}}
-  </li>
+    {% if c.award_acceptance %}
+    <li>
+      <a href="{{media_url}}{{c.award_acceptance}}">
+        Team Leader's Award Acceptance
+      </a><br>
+      https://{{server_url}}{{media_url}}{{c.award_acceptance}}
+    </li>
+  {% else %}
+    {% if data.status %}<li>Team Leader's Award Acceptance: Missing</li>{% endif %}
+  {% endif %}
   {% endif %}
 {% endfor %}
 {% if data.budget %}
