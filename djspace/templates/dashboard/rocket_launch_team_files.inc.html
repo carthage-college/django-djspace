@@ -333,25 +333,6 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
-<li class="form-group ctrlHolder">
-  <h3>
-    <label for="id_institutional_w9">Institutional W9 [PDF]</label>
-  </h3>
-  <div class="filewrap fleft">
-    <input type="file" class="upload-file"
-      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-      name="institutional_w9" id="id_institutional_w9">
-    <span class='filebutt'>Select File</span>
-    <span class='filevalu'></span>
-  </div>
-  {% if app.institutional_w9 or app.team.institutional_w9 %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.institutional_w9 %}{{app.institutional_w9}}{% else %}{{app.team.institutional_w9}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-  {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
-  {% endif %}
-</li>
 {% endif %}
 {% if app.competition == "AISES Challenge" or app.competition == "Tribal Challenge" or app.competition == "First Nations AISES" or app.competition == "First Nations Tribal" %}
 <li class="form-group ctrlHolder">
@@ -378,3 +359,23 @@
   </div>
 </li>
 {% endif %}
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_institutional_w9">Institutional W9 [PDF]</label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+      name="institutional_w9" id="id_institutional_w9">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.institutional_w9 or app.team.institutional_w9 %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.institutional_w9 %}{{app.institutional_w9}}{% else %}{{app.team.institutional_w9}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times green fa-wrap" aria-hidden="true"
+      title="Optional file"></i>
+  {% endif %}
+</li>
