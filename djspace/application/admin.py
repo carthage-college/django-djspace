@@ -40,7 +40,6 @@ FUNDED_FILES = (
     ('education_outreach','Education Outreach'),
     ('final_design_report','Final Design Report'),
     ('final_report','Final Report'),
-    ('other_file','Other File'),
     ('flight_demo','Flight Demo'),
     ('flight_readiness_report','Flight Readiness Report'),
     ('interim_progress_report','Interim Progress Report'),
@@ -51,11 +50,13 @@ FUNDED_FILES = (
     ('mugshot','Mugshot'),
     ('oral_presentation','Oral Presentation'),
     ('close_out_finance_document','Close Out Finance Document'),
+    ('other_file','Other File'),
     ('post_flight_performance_report','Post Flight Performance Report'),
     ('preliminary_design_report','Preliminary Design Report'),
-    ('intended_program_match','Intended Program Match'),
+    ('intended_program_match','Program Match'),
     ('proposal','Proposal'),
-    ('irs_w9','W9'),
+    ('irs_w9','W9 Personal'),
+    ('institutional_w9','W9 Institutional'),
     #('',''),
 )
 
