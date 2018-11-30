@@ -775,7 +775,7 @@ class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
     class Meta:
         model = FirstNationsRocketCompetition
         fields = (
-            'award_acceptance',
+            'award_acceptance','other_file'
         )
 
 
@@ -829,7 +829,7 @@ class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
     class Meta:
         model = MidwestHighPoweredRocketCompetition
         fields = (
-            'award_acceptance',
+            'award_acceptance','other_file'
         )
 
 
@@ -878,7 +878,7 @@ class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
     class Meta:
         model = CollegiateRocketCompetition
         fields = (
-            'award_acceptance',
+            'award_acceptance','other_file'
         )
 
 
