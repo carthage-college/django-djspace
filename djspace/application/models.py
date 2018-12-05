@@ -843,6 +843,9 @@ class RocketLaunchTeam(BaseModel):
     def flight_readiness_report_timestamp(self):
         return self.get_file_timestamp("flight_readiness_report")
 
+    def institutional_w9_timestamp(self):
+        return self.get_file_timestamp("institutional_w9")
+
 
 class MidwestHighPoweredRocketCompetition(BaseModel):
 

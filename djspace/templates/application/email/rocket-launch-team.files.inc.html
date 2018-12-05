@@ -280,20 +280,20 @@
   {% else %}
     {% if data.status %}<li>Charges Certification: Missing</li>{% endif %}
   {% endif %}
-  {% if data.institutional_w9 %}
-    <li>
-      <a href="{{media_url}}{{data.institutional_w9}}" target="_blank">
-        Institutional W9
-      </a>
-      <ul>
-        <li>Created: {{data.institutional_w9_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.institutional_w9}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Institutional W9: Missing</li>{% endif %}
-  {% endif %}
+{% endif %}
+{% if data.institutional_w9 %}
+  <li>
+    <a href="{{media_url}}{{data.institutional_w9}}" target="_blank">
+      Institutional W9
+    </a>
+    <ul>
+      <li>Created: {{data.institutional_w9_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.institutional_w9}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Institutional W9: Missing</li>{% endif %}
 {% endif %}
 </ul>
