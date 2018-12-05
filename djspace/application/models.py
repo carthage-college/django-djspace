@@ -659,8 +659,8 @@ class RocketLaunchTeam(BaseModel):
         help_text="PDF format"
     )
     interim_progress_report = models.FileField(
-        "Interim progress report",
-        upload_to = partial(upload_to_path, 'Interim_Report'),
+        "Critical Design Report",
+        upload_to = partial(upload_to_path, ' Critical_Design_Report'),
         validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
