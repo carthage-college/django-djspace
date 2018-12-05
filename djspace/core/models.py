@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models.signals import pre_save
+from django.core.validators import FileExtensionValidator
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -30,10 +31,11 @@ import time
 import re
 
 # comment out for migrations
-#FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-FILE_VALIDATORS = []
-#PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-PHOTO_VALIDATORS = []
+FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+#FILE_VALIDATORS = []
+PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+#PHOTO_VALIDATORS = []
+ALLOWED_EXTENSIONS = ['doc','docx','xls','xlsx','pdf','tar','zip','gzip']
 
 REG_TYPE = (
     ('','----select----'),
@@ -226,10 +228,10 @@ class BaseModel(Base):
     )
     other_file = models.FileField(
         upload_to = partial(upload_to_path, 'Other_File'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
-        help_text="PDF format"
+        validators=[
+            FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
+        ], help_text=ALLOWED_EXTENSIONS,
+        max_length=768, null=True, blank=True,
     )
     photos = GenericRelation(Photo)
 

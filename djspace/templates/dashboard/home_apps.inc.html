@@ -1,3 +1,4 @@
+{% load livewhale_api %}
 <h3 class="application-type">
   {{app.get_application_type}}
   {% if app.get_content_type.model == "rocketlaunchteam" %}: {{app.name}}
@@ -202,7 +203,9 @@
           {% endif %}{# rocket exceptions #}
           <li class="form-group ctrlHolder">
             <h3>
-                <label for="id_final_report">Other File [PDF]</label>
+              <label for="id_final_report">
+                Other File
+              </label>
             </h3>
             <div class="filewrap fleft">
               <input type="file" class="upload-file"
@@ -222,6 +225,7 @@
               <i class="fa fa-times green fa-wrap" aria-hidden="true"
                 title="Optional file"></i>
             {% endif %}
+            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-title="<b>NOTE:</b>" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true" data-original-title="" title=""></i>
           </li>
         </ol>
       </fieldset>
