@@ -16,11 +16,15 @@ PROFILE_HEADERS = [
     'Current Address 1','Address 2','City','State','Postal Code',
     'Date of Birth', 'Gender','Race','Tribe',
     'Disability','Disability Specifics', 'Employment','Military',
-    'U.S. Citizen','Registration Type'
+    'U.S. Citizen','Registration Type','WSGC Affiliate'
 ]
+
 
 def get_profile_fields(obj):
     reg = obj.user
+    affiliate =  reg.profile.get_registration().wsgc_affiliate
+    if not affiliate:
+        affiliate =  reg.profile.get_registration().wsgc_affiliate_other
     race = [r.name for r in reg.profile.race.all()]
     fields = [
         reg.profile.salutation,
@@ -47,9 +51,10 @@ def get_profile_fields(obj):
         ' '.join(race),reg.profile.tribe,
         reg.profile.disability,reg.profile.disability_specify,
         reg.profile.employment,reg.profile.military,reg.profile.us_citizen,
-        reg.profile.registration_type
+        reg.profile.registration_type, affiliate
     ]
     return fields
+
 
 def export_registrants(modeladmin, request, queryset):
     """

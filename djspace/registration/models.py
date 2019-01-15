@@ -71,6 +71,23 @@ class BaseStudent(Base):
         "Student ID Number",
         max_length=64
     )
+    wsgc_affiliate = models.ForeignKey(
+        GenericChoice,
+        verbose_name="College or University",
+        related_name="student_wsgc_affiliate",
+        max_length=128,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    wsgc_affiliate_other = models.CharField(
+        "Other",
+        max_length=128,
+        null = True, blank = True,
+        help_text="""
+            If your institution does not appear in the list above,
+            please provide it here.
+        """
+    )
     cv = models.FileField(
         "Résumé (optional)",
         upload_to = partial(upload_to_path, 'CV'),
@@ -117,23 +134,6 @@ class Undergraduate(BaseStudent):
         max_length=24,
         choices=YEAR_CHOICES
     )
-    wsgc_affiliate = models.ForeignKey(
-        GenericChoice,
-        verbose_name="College or University",
-        related_name="undergraduate_student_wsgc_affiliate",
-        max_length=128,
-        on_delete=models.SET_NULL,
-        null=True
-    )
-    wsgc_affiliate_other = models.CharField(
-        "Other",
-        max_length=128,
-        null = True, blank = True,
-        help_text="""
-            If your institution does not appear in the list above,
-            please provide it here.
-        """
-    )
 
 
 class Graduate(BaseStudent):
@@ -169,23 +169,7 @@ class Graduate(BaseStudent):
         max_length=4,
         validators=[four_digit_year_validator]
     )
-    wsgc_affiliate = models.ForeignKey(
-        GenericChoice,
-        verbose_name="College or University",
-        related_name="graduate_student_wsgc_affiliate",
-        max_length=128,
-        on_delete=models.SET_NULL,
-        null=True
-    )
-    wsgc_affiliate_other = models.CharField(
-        "Other",
-        max_length=128,
-        null = True, blank = True,
-        help_text="""
-            If your institution does not appear in the list above,
-            please provide it here.
-        """
-    )
+
 
 class Faculty(Base):
 
