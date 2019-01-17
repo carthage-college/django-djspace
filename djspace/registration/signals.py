@@ -14,15 +14,17 @@ def _send_mail(obj, request, registration):
     """
     private function for sending an email
     """
-    to_list = [settings.MANAGERS[0][1],]
+    to_list = [settings.WSGC_EMAIL,settings.WSGC_APPLICATIONS]
 
     # send email to managers
     send_mail(
         request, to_list,
         "[WSGC {} Registration] Other Institute".format(registration),
         settings.SERVER_MAIL,
-        'registration/email_wsgc_affiliate_other.html', obj, settings.MANAGERS
+        'registration/email_wsgc_affiliate_other.html', obj,
+        [settings.MANAGERS[0][1],]
     )
+
 
 def _create_generic_choice(affiliate):
     """
