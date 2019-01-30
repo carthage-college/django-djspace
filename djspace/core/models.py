@@ -35,7 +35,9 @@ FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
 #FILE_VALIDATORS = []
 PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
 #PHOTO_VALIDATORS = []
-ALLOWED_EXTENSIONS = ['doc','docx','xls','xlsx','pdf','tar','zip','gzip']
+ALLOWED_EXTENSIONS = [
+    'doc','docx','xls','xlsx','pdf','tar','zip','gzip','jpg','jpeg','png'
+]
 
 REG_TYPE = (
     ('','----select----'),
