@@ -446,7 +446,8 @@ class GraduateFellowshipForm(forms.ModelForm):
     signed_certification = forms.BooleanField(
         label = """
         I certify that I am, will be, or have applied to be a
-        full-time undergraduate student at one of the Wisconsin Space
+        full-time graduate or professional student
+        at one of the Wisconsin Space
         Grant Consortium colleges or universities during the award period
         covered in this application, and the information
         contained in this application is accurate to the best of my
@@ -496,7 +497,8 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
     signed_certification = forms.BooleanField(
         label = """
         I certify that I am, will be, or have applied to be a
-        full-time undergraduate student at one of the Wisconsin Space
+        full-time graduate or professional student
+        at one of the Wisconsin Space
         Grant Consortium colleges or universities during the award period
         covered in this application, and the information
         contained in this application is accurate to the best of my
