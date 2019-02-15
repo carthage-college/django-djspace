@@ -1,4 +1,1 @@
-django==1.11.16
-django-allauth==0.37.0
-django-gm2m==0.4.10
-django-taggit==0.22.0
+django==1.11.18
