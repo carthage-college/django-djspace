@@ -65,3 +65,4 @@ urlpatterns = [
         RedirectView.as_view(url=reverse_lazy('dashboard_home'))
     )
 ]
+urlpatterns += url("admin/", include('loginas.urls')),
