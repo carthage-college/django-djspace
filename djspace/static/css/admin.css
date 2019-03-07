@@ -29,5 +29,7 @@ thead th {
 .field-undergraduate_transcripts_file,.field-graduate_transcripts_file,
 .field-recommendation_1_file,.field-recommendation_2_file,
 .field-high_school_transcripts_file,.field-wsgc_advisor_recommendation_file,
-.field-recommendation_file,.field-statement_file
+.field-recommendation_file,.field-statement_file, .field-virtual_cdr_file,
+.field-virtual_pdr_file, .field-virtual_frr_file,
+.field-final_motor_selection_trunk
 {text-align:center;}

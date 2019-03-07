@@ -123,6 +123,57 @@
     <li>Proposal: Missing</li>
     {% endif %}
   {% endif %}
+  {% if data.virtual_cdr %}
+    <li>
+      <a href="{{media_url}}{{data.virtual_cdr}}">
+      Virtual CDR
+      </a>
+      <ul>
+        <li>Created: {{data.virtual_cdr_timestamp}}</li>
+        <li>
+        https://{{server_url}}{{media_url}}{{data.virtual_cdr}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    {% if data.status %}
+    <li>Virtual CDR: Missing</li>
+    {% endif %}
+  {% endif %}
+  {% if data.virtual_pdr %}
+    <li>
+      <a href="{{media_url}}{{data.virtual_pdr}}">
+        Virtual CDR
+      </a>
+      <ul>
+        <li>Created: {{data.virtual_pdr_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.virtual_pdr}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+      {% if data.status %}
+    <li>Virtual PDR: Missing</li>
+      {% endif %}
+  {% endif %}
+  {% if data.virtual_frr %}
+    <li>
+      <a href="{{media_url}}{{data.virtual_frr}}">
+        Virtual FRR
+      </a>
+      <ul>
+        <li>Created: {{data.virtual_frr_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.virtual_frr}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+      {% if data.status %}
+    <li>Virtual FRR: Missing</li>
+      {% endif %}
+  {% endif %}
   {% if data.lodging_list %}
     <li>
       <a href="{{media_url}}{{data.lodging_list}}" target="_blank">

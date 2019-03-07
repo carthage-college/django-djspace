@@ -84,6 +84,29 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
+{% if app.competition == "AISES Challenge" or app.competition == "Tribal Challenge" or app.competition == "First Nations AISES" or app.competition == "First Nations Tribal" %}
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_virtual_pdr">
+      Virtual PDR [PTT]
+    </label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+      name="virtual_pdr" id="id_virtual_pdr">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.virtual_pdr or app.team.virtual_pdr %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.virtual_pdr %}{{app.virtual_pdr}}{% else %}{{app.team.virtual_pdr}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+{% endif %}
 {% if app.competition == "Collegiate Rocket Competition" or app.team.competition == "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
@@ -152,6 +175,27 @@
 </li>
 <li class="form-group ctrlHolder">
   <h3>
+    <label for="id_virtual_cdr">
+      Virtual CDR [PTT]
+    </label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+      name="virtual_cdr" id="id_virtual_cdr">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.virtual_cdr or app.team.virtual_cdr %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.virtual_cdr %}{{app.virtual_cdr}}{% else %}{{app.team.virtual_cdr}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
     <label for="id_lodging_list">Lodging List [PDF]</label>
   </h3>
   <div class="filewrap fleft">
@@ -186,6 +230,27 @@
   {% if app.flight_readiness_report or app.team.flight_readiness_report %}
     <a class="fa-wrap" href="{{media_url}}{% if app.flight_readiness_report %}{{app.flight_readiness_report}}{% else %}{{app.team.flight_readiness_report}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_virtual_cdr">
+      Virtual FRR [PTT]
+    </label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+      name="virtual_frr" id="id_virtual_frr">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.virtual_frr or app.team.virtual_frr %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.virtual_frr %}{{app.virtual_frr}}{% else %}{{app.team.virtual_frr}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}

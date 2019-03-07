@@ -670,6 +670,13 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
+    virtual_cdr = models.FileField(
+        "CDR - Virtual Presentation",
+        upload_to = partial(upload_to_path, 'VCDR'),
+        max_length=768,
+        null=True, blank=True,
+        help_text="Power point"
+    )
     preliminary_design_report = models.FileField(
         "Preliminary Design Review",
         upload_to = partial(upload_to_path, 'PDR'),
@@ -677,6 +684,13 @@ class RocketLaunchTeam(BaseModel):
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
+    )
+    virtual_pdr = models.FileField(
+        "PDR - Virtual Presentation",
+        upload_to = partial(upload_to_path, 'VPDR'),
+        max_length=768,
+        null=True, blank=True,
+        help_text="Power point"
     )
     final_design_report = models.FileField(
         upload_to = partial(upload_to_path, 'FDR'),
@@ -742,6 +756,13 @@ class RocketLaunchTeam(BaseModel):
         max_length=768,
         null=True, blank=True,
         help_text="PDF format"
+    )
+    virtual_frr = models.FileField(
+        "FRR - Virtual Presentation",
+        upload_to = partial(upload_to_path, 'VFRR'),
+        max_length=768,
+        null=True, blank=True,
+        help_text="Power point"
     )
     proceeding_paper = models.DateField(null=True, blank=True)
 
@@ -849,6 +870,15 @@ class RocketLaunchTeam(BaseModel):
 
     def institutional_w9_timestamp(self):
         return self.get_file_timestamp("institutional_w9")
+
+    def virtual_cdr_timestamp(self):
+        return self.get_file_timestamp('virtual_cdr')
+
+    def virtual_pdr_timestamp(self):
+        return self.get_file_timestamp('virtual_pdr')
+
+    def virtual_frr_timestamp(self):
+        return self.get_file_timestamp('virtual_frr')
 
 
 class MidwestHighPoweredRocketCompetition(BaseModel):

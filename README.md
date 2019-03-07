@@ -23,6 +23,76 @@ Wisconsin Space Grant Consortium grant programs application infrastructure.
 
 9. update templates/application/form.html if need be
 
+# New Field added to a Model
+
+add a new field:
+
+1. add to applications/models.py
+
+virtual_cdr
+virtual_pdr
+virtual_frr
+
+2. add timestamp method if it is a file field:
+
+def virtual_cdr_timestamp(self):
+    return self.get_file_timestamp('virtual_cdr')
+etc
+
+3. add to list in required_files() method if it is required field:
+
+def required_files(self):
+    '''
+    used when building a tarball of required files
+    '''
+    return [
+        'budget'
+    ]
+
+4. add the fields to the database table manually or with migrations
+
+5. in application/admin.py 
+    a. add to FUNDED_FILES tuple.
+    b. add to list_display list in RocketLaunchTeamAdmin() model
+    'interim_progress_report_file','virtual_cdr_file',
+    'preliminary_design_report_file','virtual_pdr_file',
+    etc
+    c. create methods to display those fields from (b)
+
+        def virtual_cdr_file(self, instance):
+            return admin_display_file(instance,'virtual_cdr')
+        virtual_cdr_file.allow_tags = True
+        virtual_cdr_file.short_description = "VCDR"
+
+      etc
+6. add class names in the td tag to static/djspace/css/admin.css
+  field-virtual_cdr_file
+  field-virtual_pdr_file
+  etc
+
+7. add fields to templates/application/email/rocket-launch-team.files.inc.html
+
+    {% if data.virtual_cdr %}
+    <li>
+      <a href="{{media_url}}{{data.virtual_cdr}}">
+        Virtual CDR
+      </a>
+      <ul>
+        <li>Created: {{data.virtual_cdr_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.virtual_cdr}}
+        </li>
+      </ul>
+    </li>
+    {% else %}
+      {% if data.status %}
+    <li>Virtual CDR: Missing</li>
+      {% endif %}
+    {% endif %}
+
+8. add upload fields to templates/dashboard/rocket_launch_team_files.inc.html
+
+
 _Faculty_
 
 Aerospace Outreach

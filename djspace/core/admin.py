@@ -115,7 +115,7 @@ class GenericAdmin(admin.ModelAdmin):
         return obj.user.profile.second_name
 
     def last_name(self, obj):
-        return u'<a href="{}">{}</a>'.format(
+        return u'<a href="{}" target="_blank">{}</a>'.format(
             reverse("application_print", args=(obj.get_slug(),obj.id)),
             obj.user.last_name
         )

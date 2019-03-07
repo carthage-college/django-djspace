@@ -36,12 +36,15 @@ FUNDED_FILES = (
     ('biography','Biography'),
     ('budget','Budget'),
     ('critical_design_report','Critical Design Report'),
+    ('interim_progress_report','Critical Design Report (NOI)'),
+    ('virtual_cdr','Virtual Critical Design Report'),
     ('cv','CV'),
     ('education_outreach','Education Outreach'),
     ('final_design_report','Final Design Report'),
     ('final_report','Final Report'),
     ('flight_demo','Flight Demo'),
     ('flight_readiness_report','Flight Readiness Report'),
+    ('virtual_frr','Virtual Flight Readiness Report'),
     ('interim_progress_report','Interim Progress Report'),
     ('interim_report','Interim Report'),
     ('invoice','Invoice'),
@@ -53,6 +56,7 @@ FUNDED_FILES = (
     ('other_file','Other File'),
     ('post_flight_performance_report','Post Flight Performance Report'),
     ('preliminary_design_report','Preliminary Design Report'),
+    ('virtual_pdr','Virtual Preliminary Design Report'),
     ('intended_program_match','Program Match'),
     ('proposal','Proposal'),
     ('irs_w9','W9 Personal'),
@@ -595,16 +599,16 @@ class RocketLaunchTeamAdmin(GenericAdmin):
 
     list_display  = PROFILE_LIST_DISPLAY + [
         'budget_file','proposal_file',
-        'interim_progress_report_file','preliminary_design_report_file',
+        'interim_progress_report_file','virtual_cdr_file',
+        'preliminary_design_report_file','virtual_pdr_file',
         'final_design_report_file','flight_demo_file',
         'final_motor_selection_trunk','lodging_list_file',
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file','flight_readiness_report_file',
-        'proceeding_paper_file',
-        'name','competition','co_advisor','leader',
-        'industry_mentor_name','industry_mentor_email',
-        'date_created','date_updated',
-        'past_funding','past_funding_year','funded_code','complete','status'
+        'virtual_frr_file','proceeding_paper_file', 'name','competition',
+        'co_advisor','leader','industry_mentor_name','industry_mentor_email',
+        'date_created','date_updated','past_funding','past_funding_year',
+        'funded_code','complete','status'
     ]
     list_display_links = ['name']
     list_editable = ['funded_code','complete','status']
@@ -623,12 +627,22 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     def interim_progress_report_file(self, instance):
         return admin_display_file(instance,'interim_progress_report')
     interim_progress_report_file.allow_tags = True
-    interim_progress_report_file.short_description = "Interim Rpt"
+    interim_progress_report_file.short_description = "CDR"
+
+    def virtual_cdr_file(self, instance):
+        return admin_display_file(instance,'virtual_cdr')
+    virtual_cdr_file.allow_tags = True
+    virtual_cdr_file.short_description = "VCDR"
 
     def preliminary_design_report_file(self, instance):
         return admin_display_file(instance,'preliminary_design_report')
     preliminary_design_report_file.allow_tags = True
     preliminary_design_report_file.short_description = "Prelim design"
+
+    def virtual_pdr_file(self, instance):
+        return admin_display_file(instance,'virtual_pdr')
+    virtual_pdr_file.allow_tags = True
+    virtual_pdr_file.short_description = "VPDR"
 
     def final_design_report_file(self, instance):
         return admin_display_file(instance,'final_design_report')
@@ -684,6 +698,11 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         return admin_display_file(instance,'flight_readiness_report')
     flight_readiness_report_file.allow_tags = True
     flight_readiness_report_file.short_description = "Flight Ready"
+
+    def virtual_frr_file(self, instance):
+        return admin_display_file(instance,'virtual_frr')
+    virtual_frr_file.allow_tags = True
+    virtual_frr_file.short_description = "VFRR"
 
     def proceeding_paper_file(self, instance):
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
