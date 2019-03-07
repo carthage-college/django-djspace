@@ -673,6 +673,7 @@ class RocketLaunchTeam(BaseModel):
     virtual_cdr = models.FileField(
         "CDR - Virtual Presentation",
         upload_to = partial(upload_to_path, 'VCDR'),
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
@@ -688,6 +689,7 @@ class RocketLaunchTeam(BaseModel):
     virtual_pdr = models.FileField(
         "PDR - Virtual Presentation",
         upload_to = partial(upload_to_path, 'VPDR'),
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
@@ -760,6 +762,7 @@ class RocketLaunchTeam(BaseModel):
     virtual_frr = models.FileField(
         "FRR - Virtual Presentation",
         upload_to = partial(upload_to_path, 'VFRR'),
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True, blank=True,
         help_text="Power point"

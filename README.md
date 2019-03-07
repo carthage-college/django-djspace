@@ -33,13 +33,13 @@ virtual_cdr
 virtual_pdr
 virtual_frr
 
-2. add timestamp method if it is a file field:
+2. in models.py, add timestamp method if it is a file field:
 
 def virtual_cdr_timestamp(self):
     return self.get_file_timestamp('virtual_cdr')
 etc
 
-3. add to list in required_files() method if it is required field:
+3. in models.py, add to list in required_files() method if it is required field:
 
 def required_files(self):
     '''
@@ -51,7 +51,7 @@ def required_files(self):
 
 4. add the fields to the database table manually or with migrations
 
-5. in application/admin.py 
+5. in application/admin.py
     a. add to FUNDED_FILES tuple.
     b. add to list_display list in RocketLaunchTeamAdmin() model
     'interim_progress_report_file','virtual_cdr_file',
@@ -65,12 +65,33 @@ def required_files(self):
         virtual_cdr_file.short_description = "VCDR"
 
       etc
+
 6. add class names in the td tag to static/djspace/css/admin.css
+
   field-virtual_cdr_file
   field-virtual_pdr_file
   etc
 
-7. add fields to templates/application/email/rocket-launch-team.files.inc.html
+7. in application/forms.py, add the field names to the upload form:
+
+class RocketLaunchTeamUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = RocketLaunchTeam
+        fields = (
+            'award_acceptance','interim_progress_report',
+            'preliminary_design_report','final_design_report',
+            'flight_demo','lodging_list','other_file',
+            'critical_design_report','oral_presentation',
+            'post_flight_performance_report','education_outreach',
+            'flight_readiness_report','proceeding_paper','proposal',
+            'budget','verified_budget','close_out_finance_document',
+            'invoice','charges_certification','institutional_w9',
+            'virtual_cdr','virtual_pdr','virtual_frr'
+        )
+
+
+8. add fields to templates/application/email/rocket-launch-team.files.inc.html
 
     {% if data.virtual_cdr %}
     <li>
@@ -90,7 +111,7 @@ def required_files(self):
       {% endif %}
     {% endif %}
 
-8. add upload fields to templates/dashboard/rocket_launch_team_files.inc.html
+9. add upload fields to templates/dashboard/rocket_launch_team_files.inc.html
 
 
 _Faculty_

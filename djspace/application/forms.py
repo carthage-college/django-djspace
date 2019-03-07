@@ -727,7 +727,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'post_flight_performance_report','education_outreach',
             'flight_readiness_report','proceeding_paper','proposal',
             'budget','verified_budget','close_out_finance_document',
-            'invoice','charges_certification','institutional_w9'
+            'invoice','charges_certification','institutional_w9',
+            'virtual_cdr','virtual_pdr','virtual_frr'
         )
 
 
