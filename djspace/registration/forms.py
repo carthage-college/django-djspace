@@ -8,9 +8,10 @@ from djspace.registration.models import Undergraduate, Graduate, Faculty
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
 from djtools.fields import STATE_CHOICES
+from djtools.fields.localflavor import USPhoneNumberField
 #from djtools.fields.validators import month_year_validator
 
-from localflavor.us.forms import USPhoneNumberField, USZipCodeField
+from localflavor.us.forms import USZipCodeField
 
 try:
     AFFILIATES = GenericChoice.objects.filter(

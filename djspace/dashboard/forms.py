@@ -5,10 +5,11 @@ from django.forms.extras.widgets import SelectDateWidget
 from djspace.core.models import UserProfile, GenericChoice, BIRTH_YEAR_CHOICES
 from djspace.core.models import REG_TYPE, DISABILITY_CHOICES
 
+from djtools.fields.localflavor import USPhoneNumberField
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES
 
-from localflavor.us.forms import USPhoneNumberField, USZipCodeField
+from localflavor.us.forms import USZipCodeField
 
 RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("name")
 

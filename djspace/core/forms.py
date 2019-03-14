@@ -10,7 +10,8 @@ from djspace.core.models import EMPLOYMENT_CHOICES, REG_TYPE
 from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES
 
-from localflavor.us.forms import USPhoneNumberField, USZipCodeField
+from djtools.fields.localflavor import USPhoneNumberField
+from localflavor.us.forms import USZipCodeField
 
 from allauth.account.models import EmailAddress
 from collections import OrderedDict
