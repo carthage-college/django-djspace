@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.sessions',
+    # needed for allauth
     'django.contrib.sites',
     'django.contrib.staticfiles',
     # registration and authentication
