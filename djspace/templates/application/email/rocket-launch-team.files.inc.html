@@ -237,22 +237,20 @@
 {% else %}
   {% if data.status %}<li>Post Launch Assessment Review: Missing</li>{% endif %}
 {% endif %}
-{% if "First Nations" not in data.competition or "First Nations" not in data.team.competition %}
-  {% if data.education_outreach %}
-    <li>
-      <a href="{{media_url}}{{data.education_outreach}}" target="_blank">
-        Education Outreach
-      </a>
-      <ul>
-        <li>Created: {{data.education_outreach_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.education_outreach}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Education Outreach: Missing</li>{% endif %}
-  {% endif %}
+{% if data.education_outreach %}
+  <li>
+    <a href="{{media_url}}{{data.education_outreach}}" target="_blank">
+      Education Outreach
+    </a>
+    <ul>
+      <li>Created: {{data.education_outreach_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.education_outreach}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Education Outreach: Missing</li>{% endif %}
 {% endif %}
 {% if data.flight_readiness_report %}
   <li>
