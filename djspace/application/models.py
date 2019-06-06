@@ -12,7 +12,7 @@ from djspace.core.models import Base, BaseModel
 from djspace.registration.choices import WSGC_SCHOOL
 from djspace.core.utils import upload_to_path
 from djspace.core.utils import get_term
-from djspace.core.models import PHOTO_VALIDATORS, ALLOWED_EXTENSIONS
+from djspace.core.models import FILE_VALIDATORS, PHOTO_VALIDATORS, ALLOWED_EXTENSIONS
 
 from djtools.fields import BINARY_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import GENDER_CHOICES, TODAY
@@ -26,9 +26,9 @@ YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
-FILE_VALIDATORS = [
-    FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
-]
+#FILE_VALIDATORS = [
+    #FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
+#]
 DIRECTORATE_CHOICES = (
     (
         'Aeronautics Research','Aeronautics Research'
