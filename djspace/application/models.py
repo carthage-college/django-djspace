@@ -26,9 +26,9 @@ YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
-#FILE_VALIDATORS = [
-    #FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
-#]
+PPT_EXTENSIONS = [
+    FileExtensionValidator(allowed_extensions=['ppt','pptx','pot','pps'])
+]
 DIRECTORATE_CHOICES = (
     (
         'Aeronautics Research','Aeronautics Research'
@@ -673,7 +673,7 @@ class RocketLaunchTeam(BaseModel):
     virtual_cdr = models.FileField(
         "CDR - Virtual Presentation",
         upload_to = partial(upload_to_path, 'VCDR'),
-        validators=FILE_VALIDATORS,
+        validators=PPT_EXTENSIONS,
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
@@ -689,7 +689,7 @@ class RocketLaunchTeam(BaseModel):
     virtual_pdr = models.FileField(
         "PDR - Virtual Presentation",
         upload_to = partial(upload_to_path, 'VPDR'),
-        validators=FILE_VALIDATORS,
+        validators=PPT_EXTENSIONS,
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
@@ -732,6 +732,7 @@ class RocketLaunchTeam(BaseModel):
     )
     oral_presentation = models.FileField(
         upload_to = partial(upload_to_path, 'PPT'),
+        validators=PPT_EXTENSIONS,
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
@@ -762,7 +763,7 @@ class RocketLaunchTeam(BaseModel):
     virtual_frr = models.FileField(
         "FRR - Virtual Presentation",
         upload_to = partial(upload_to_path, 'VFRR'),
-        validators=FILE_VALIDATORS,
+        validators=PPT_EXTENSIONS,
         max_length=768,
         null=True, blank=True,
         help_text="Power point"
