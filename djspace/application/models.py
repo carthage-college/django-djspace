@@ -213,7 +213,7 @@ class EducationInitiatives(BaseModel):
         "Source(s) of match", max_length=255
     )
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES,
     )
@@ -287,6 +287,9 @@ class EducationInitiatives(BaseModel):
     grant_officer_name = models.CharField(
         "Name",
         max_length=128
+    )
+    grant_officer_title = models.CharField(
+        "Title", max_length=128
     )
     grant_officer_address = models.TextField("Address")
     grant_officer_email = models.EmailField("Email")
@@ -376,7 +379,7 @@ class ResearchInfrastructure(EducationInitiatives):
         """
     )
     nasa_mission_directorate = models.CharField(
-        "NASA Mission directorate",
+        "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
@@ -433,12 +436,12 @@ class AerospaceOutreach(EducationInitiatives):
         choices=BINARY_CHOICES,
     )
     other_funding_explain = models.CharField(
-        "If yes, please explain",
+        "If yes, please explain.",
         max_length=255,
         null = True, blank = True
     )
     nasa_mission_directorate = models.CharField(
-        "NASA Mission directorate",
+        "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
@@ -500,7 +503,7 @@ class SpecialInitiatives(EducationInitiatives):
         null = True, blank = True
     )
     nasa_mission_directorate = models.CharField(
-        "NASA Mission directorate",
+        "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
@@ -566,14 +569,12 @@ class RocketLaunchTeam(BaseModel):
         User, related_name="rocket_launch_team_members"
     )
     industry_mentor_name = models.CharField(
+        "Industry, Tripoli or National Rocketry Association mentor name",
         max_length=128,
         null = True, blank = True,
-        help_text="""
-            NOTE: Only required for the Collegiate Rocket Competition
-            and the Midwest High-Powered Rocket Competition
-        """
     )
     industry_mentor_email = models.EmailField(
+        "Industry, Tripoli or National Rocketry Association mentor email",
         max_length=128,
         null = True, blank = True,
         help_text="""
@@ -581,14 +582,18 @@ class RocketLaunchTeam(BaseModel):
             and the Midwest High-Powered Rocket Competition
         """
     )
+    '''
     intent_compete = models.TextField(
         "Notification of Intent to Compete"
     )
+    '''
+    '''
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES,
     )
+    '''
     other_fellowship_explain = models.CharField(
         """
             If yes, please provide the funding source and the
@@ -911,7 +916,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         """
     )
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES
     )
@@ -980,7 +985,7 @@ class CollegiateRocketCompetition(BaseModel):
         """
     )
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES,
     )
@@ -1104,7 +1109,7 @@ class HighAltitudeBalloon(BaseModel):
     commit = models.CharField(
         """
             Will you be able to commit 32-40 hours/week
-            to this 10 week summer experience?
+            to this 10-week summer experience?
         """,
         max_length=4,
         null = True, blank = True,
@@ -1126,7 +1131,7 @@ class HighAltitudeBalloon(BaseModel):
     )
     '''
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES,
     )
@@ -1240,7 +1245,7 @@ class Fellowship(BaseModel):
         '''
     )
     nasa_mission_directorate = models.CharField(
-        "NASA Mission directorate",
+        "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
         help_text='''
@@ -1262,7 +1267,7 @@ class Fellowship(BaseModel):
         '''
     )
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES,
     )
@@ -1312,8 +1317,8 @@ class Fellowship(BaseModel):
         max_length=768,
         null=True,blank=True,
         help_text=mark_safe('''
-            Recommendation letter is required for the application but may be
-            emailed by Advisor directly to WSGC at
+            Recommendation letters are required for the application.
+            Advisors may email letters of recommendation directly to
             <a href="mailto:spacegrant@carthage.edu">
                 spacegrant@carthage.edu</a>.
             [PDF format]
@@ -1424,7 +1429,7 @@ class UndergraduateResearch(BaseModel):
         null = True, blank = True
     )
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES,
     )
@@ -1645,7 +1650,7 @@ class Scholarship(BaseModel):
         null = True, blank = True
     )
     other_fellowship = models.CharField(
-        "Do you currently hold another Federal fellowship or traineeship?",
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
         choices=BINARY_CHOICES,
     )
@@ -1764,19 +1769,24 @@ class NasaCompetition(BaseModel):
         null = True, blank = True,
         help_text = '''
             If you have choosen "Other" in the field above,
-            please identify the competition location"
+            please identify the competition location
         '''
     )
     program_acceptance = models.CharField(
-        "Has your team applied and been accepted into the program?",
+        """
+            Has your team applied and been accepted into the NASA program
+            listed above?
+        """,
         max_length = 4,
         choices = BINARY_CHOICES
     )
+    '''
     award_type = models.CharField(
         "Award type",
         max_length = 128,
         choices = NASA_COMPETITION_AWARD_TYPES
     )
+    '''
     funds_requested = models.IntegerField(help_text="In dollars")
     funds_authorized = models.IntegerField(
         null = True, blank = True,
@@ -2048,15 +2058,16 @@ class IndustryInternship(BaseModel):
         """
     )
     wsgc_goal = models.TextField(
+        "WSGC Goal",
         # 500 character limit
         null = True, blank = True,
         help_text = '''
             How does this internship opportunity address the WSGC goal of
-            "Career placements within the aerospace industry in Wisconsin".
+            "Career placements within the aerospace industry in Wisconsin."
         '''
     )
     nasa_mission_relationship = models.TextField(
-        "NASA Mission directorate",
+        "NASA Mission Directorate",
         # 1250 character limit
         null = True, blank = True,
         help_text = '''
