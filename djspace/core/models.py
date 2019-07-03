@@ -78,6 +78,7 @@ EMPLOYMENT_CHOICES = (
      "Employed in 'Other' STEM academic field"),
     ("Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)",
      "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
+    ("N/A","N/A"),
 )
 
 def _timestamp(obj, field):
