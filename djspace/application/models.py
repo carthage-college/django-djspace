@@ -331,7 +331,7 @@ class EducationInitiatives(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
     def __unicode__(self):
         return self.project_title
@@ -851,43 +851,43 @@ class RocketLaunchTeam(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
     def proposal_timestamp(self):
         return self.get_file_timestamp('proposal')
 
     def interim_progress_report_timestamp(self):
-        return self.get_file_timestamp("interim_progress_report")
+        return self.get_file_timestamp('interim_progress_report')
 
     def preliminary_design_report_timestamp(self):
-        return self.get_file_timestamp("preliminary_design_report")
+        return self.get_file_timestamp('preliminary_design_report')
 
     def final_design_report_timestamp(self):
-        return self.get_file_timestamp("final_design_report")
+        return self.get_file_timestamp('final_design_report')
 
     def final_motor_selection_timestamp(self):
-        return self.get_file_timestamp("final_motor_selection")
+        return self.get_file_timestamp('final_motor_selection')
 
     def lodging_list_timestamp(self):
-        return self.get_file_timestamp("lodging_list")
+        return self.get_file_timestamp('lodging_list')
 
     def critical_design_report_timestamp(self):
-        return self.get_file_timestamp("critical_design_report")
+        return self.get_file_timestamp('critical_design_report')
 
     def oral_presentation_timestamp(self):
-        return self.get_file_timestamp("oral_presentation")
+        return self.get_file_timestamp('oral_presentation')
 
     def post_flight_performance_report_timestamp(self):
-        return self.get_file_timestamp("post_flight_performance_report")
+        return self.get_file_timestamp('post_flight_performance_report')
 
     def education_outreach_timestamp(self):
-        return self.get_file_timestamp("education_outreach")
+        return self.get_file_timestamp('education_outreach')
 
     def flight_readiness_report_timestamp(self):
-        return self.get_file_timestamp("flight_readiness_report")
+        return self.get_file_timestamp('flight_readiness_report')
 
     def institutional_w9_timestamp(self):
-        return self.get_file_timestamp("institutional_w9")
+        return self.get_file_timestamp('institutional_w9')
 
     def virtual_cdr_timestamp(self):
         return self.get_file_timestamp('virtual_cdr')
@@ -899,7 +899,7 @@ class RocketLaunchTeam(BaseModel):
         return self.get_file_timestamp('virtual_frr')
 
     def openrocketrocksim_timestamp(self):
-        return self.get_file_timestamp('openrocketrocksim_timestamp')
+        return self.get_file_timestamp('openrocketrocksim')
 
 
 class MidwestHighPoweredRocketCompetition(BaseModel):
@@ -907,7 +907,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
-        related_name="midwest_high_powered_rocket_competition"
+        related_name='midwest_high_powered_rocket_competition'
     )
     cv = models.FileField(
         "Résumé",
@@ -949,10 +949,10 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         return "Midwest High-Powered Rocket Competition"
 
     def get_slug(self):
-        return "midwest-high-powered-rocket-competition"
+        return 'midwest-high-powered-rocket-competition'
 
     def get_code(self):
-        return "MRL{}".format(YEAR_2)
+        return 'MRL{}'.format(YEAR_2)
 
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
@@ -981,7 +981,7 @@ class CollegiateRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
-        related_name="collegiate_rocket_competition"
+        related_name='collegiate_rocket_competition'
     )
     cv = models.FileField(
         "Résumé",
@@ -1018,10 +1018,10 @@ class CollegiateRocketCompetition(BaseModel):
         return "Collegiate Rocket Competition"
 
     def get_slug(self):
-        return "collegiate-rocket-competition"
+        return 'collegiate-rocket-competition'
 
     def get_code(self):
-        return "CRL{}".format(YEAR_2)
+        return 'CRL{}'.format(YEAR_2)
 
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
@@ -1165,7 +1165,7 @@ class HighAltitudeBalloon(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1386,7 +1386,7 @@ class Fellowship(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1573,7 +1573,7 @@ class UndergraduateResearch(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1961,7 +1961,7 @@ class NasaCompetition(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
     @models.permalink
     def get_absolute_url(self):
@@ -2150,7 +2150,7 @@ class IndustryInternship(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
     @models.permalink
     def get_absolute_url(self):
@@ -2279,7 +2279,7 @@ class ProfessionalProgramStudent(BaseModel):
 
     # timestamp methods are for UI level display
     def budget_timestamp(self):
-        return self.get_file_timestamp("budget")
+        return self.get_file_timestamp('budget')
 
 
 class WorkPlanTask(models.Model):

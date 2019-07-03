@@ -707,8 +707,8 @@ class RocketLaunchTeamAdmin(GenericAdmin):
 
     def openrocketrocksim_file(self, instance):
         return admin_display_file(instance,'openrocketrocksim')
-    virtual_frr_file.allow_tags = True
-    virtual_frr_file.short_description = "ORRS"
+    openrocketrocksim_file.allow_tags = True
+    openrocketrocksim_file.short_description = "ORK"
 
     def proceeding_paper_file(self, instance):
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
