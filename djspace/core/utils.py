@@ -9,30 +9,30 @@ from datetime import datetime
 import os
 
 PROFESSIONAL_PROGRAMS = [
-    "aerospaceoutreach",
-    "highereducationinitiatives",
-    "industryinternship",
-    "nasacompetition",
-    "researchinfrastructure",
-    "specialinitiatives",
+    'aerospaceoutreach',
+    'highereducationinitiatives',
+    'industryinternship',
+    'nasacompetition',
+    'researchinfrastructure',
+    'specialinitiatives',
 ]
 
 # rocket launch required files by competition. this will do until
 # we change the data model to have a separate table for their files
 MRL_REQUIRED_FILES = [
-    "preliminary_design_report","flight_readiness_report",
-    "education_outreach","post_flight_performance_report",
-    "proceeding_paper"
+    'preliminary_design_report','flight_readiness_report',
+    'education_outreach','post_flight_performance_report',
+    'proceeding_paper'
 ]
 FNL_REQUIRED_FILES = [
-    "budget","flight_demo","preliminary_design_report",
-    "final_motor_selection","lodging_list","critical_design_report",
-    "oral_presentation","post_flight_performance_report"
+    'budget','flight_demo','preliminary_design_report',
+    'final_motor_selection','lodging_list','critical_design_report',
+    'oral_presentation','post_flight_performance_report'
 ]
 CRL_REQUIRED_FILES = [
-    "budget","flight_demo","interim_progress_report",
-    "final_design_report","education_outreach","oral_presentation",
-    "post_flight_performance_report","proceeding_paper"
+    'budget','flight_demo','interim_progress_report',
+    'final_design_report','education_outreach','oral_presentation',
+    'post_flight_performance_report','proceeding_paper'
 ]
 
 
@@ -80,7 +80,7 @@ def files_status(user):
     # First Nations Competition exception
     fnl = False
     for app in apps:
-        if app.get_content_type().model == "firstnationsrocketcompetition":
+        if app.get_content_type().model == 'firstnationsrocketcompetition':
             fnl = True
 
     # ignore FNL altogether for user files:
@@ -118,12 +118,12 @@ def files_status(user):
 
             # rocket launch team files
             # (not very elegant but waiting on new data model)
-            if m == "rocketlaunchteam":
-                if app.competition == "Collegiate Rocket Competition":
+            if m == 'rocketlaunchteam':
+                if app.competition == 'Collegiate Rocket Competition':
                     for field in CRL_REQUIRED_FILES:
                         if not getattr(app,field):
                             return False
-                elif app.competition == "Midwest High Powered Rocket Competition":
+                elif app.competition == 'Midwest High Powered Rocket Competition':
                     for field in MRL_REQUIRED_FILES:
                         if not getattr(app,field):
                             return False
@@ -167,16 +167,16 @@ def registration_notify(request, action, user):
 
 
 def get_term(date):
-    term = "SP"
+    term = 'SP'
     if date.month >= settings.GRANT_CYCLE_START_MES:
-        term = "FA"
+        term = 'FA'
     return term
 
 
 def get_email_auxiliary(user):
     from allauth.account.models import EmailAddress
     e = EmailAddress.objects.filter(user=user).\
-        filter(primary=False).order_by("-id")[:1]
+        filter(primary=False).order_by('-id')[:1]
     if len(e) > 0:
         return e[0].email
     else:
