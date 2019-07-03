@@ -84,6 +84,27 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_openrocketrocksim">
+      OpenRocket or RockSim [ORK or RKT]
+    </label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+      name="openrocketrocksim" id="id_openrocketrocksim">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.openrocketrocksim or app.team.openrocketrocksim %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim %}{{app.openrocketrocksim}}{% else %}{{app.team.openrocketrocksim}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
 {% if app.competition == "AISES Challenge" or app.competition == "Tribal Challenge" or app.competition == "First Nations AISES" or app.competition == "First Nations Tribal" %}
 <li class="form-group ctrlHolder">
   <h3>

@@ -72,6 +72,23 @@
 {% else %}
   {% if data.status %}<li>Preliminary Design Report: Missing</li>{% endif %}
 {% endif %}
+{% if data.openrocketrocksim %}
+<li>
+  <a href="{{media_url}}{{data.openrocketrocksim}}">
+    OpenRocket or RockSim
+  </a>
+  <ul>
+    <li>Created: {{data.openrocketrocksim_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.openrocketrocksim}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}
+<li>OpenRocketRockSim: Missing</li>
+  {% endif %}
+{% endif %}
 {% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
   {% if data.final_design_report %}
     <li>
