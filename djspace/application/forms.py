@@ -533,7 +533,7 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
     commit = forms.TypedChoiceField(
         label="""
             Will you be able to commit 32-40 hours/week
-            to this 10 week summer experience?
+            to this 10-week summer experience?
         """,
         required = True,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -1043,7 +1043,7 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
         else:
             self.add_error('mentor', "Required field")
 
-        return cd['mentor']
+        return cd.get('mentor')
 
 
 class ProfessionalProgramStudentUploadsForm(forms.ModelForm):
