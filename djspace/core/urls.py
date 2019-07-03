@@ -6,8 +6,11 @@ from django.conf.urls import include, url
 from djspace.core import views
 from djtools.views.dashboard import responsive_switch
 
+from allauth.account.views import login
+
 handler404 = 'djtools.views.errors.four_oh_four_error'
 handler500 = 'djtools.views.errors.server_error'
+
 
 urlpatterns = [
     # required files after funding granted
@@ -33,6 +36,7 @@ urlpatterns = [
     url(
         r'^account/', include('allauth.urls')
     ),
+    url(r'^account/login/$', login, name="auth_login"),
     # grants applications
     url(
         r'^application/', include('djspace.application.urls')
