@@ -143,10 +143,6 @@ NASA_CENTER_CHOICES = (
     ('Wallops Flight Facility','Wallops Flight Facility'),
     ('Other','Other')
 )
-NASA_COMPETITION_AWARD_TYPES = (
-    ('Project award','Project award'),
-    ('Travel award','Travel award')
-)
 FIRST_NATIONS_ROCKET_COMPETITIONS = (
     ('Tribal Challenge','Tribal Challenge'),
     ('AISES Challenge','AISES Challenge'),
@@ -1793,13 +1789,6 @@ class NasaCompetition(BaseModel):
         max_length = 4,
         choices = BINARY_CHOICES
     )
-    '''
-    award_type = models.CharField(
-        "Award type",
-        max_length = 128,
-        choices = NASA_COMPETITION_AWARD_TYPES
-    )
-    '''
     funds_requested = models.IntegerField(help_text="In dollars")
     funds_authorized = models.IntegerField(
         null = True, blank = True,
