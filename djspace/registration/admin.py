@@ -22,9 +22,13 @@ PROFILE_HEADERS = [
 
 def get_profile_fields(obj):
     reg = obj.user
-    affiliate =  reg.profile.get_registration().wsgc_affiliate
-    if not affiliate:
-        affiliate =  reg.profile.get_registration().wsgc_affiliate_other
+    try:
+        affiliate =  reg.profile.get_registration().wsgc_affiliate
+        if not affiliate:
+            affiliate =  reg.profile.get_registration().wsgc_affiliate_other
+    except:
+        affiliate = None
+
     race = [r.name for r in reg.profile.race.all()]
     fields = [
         reg.profile.salutation,
@@ -143,6 +147,22 @@ class FacultyAdmin(GenericAdmin):
     last_name.short_description = 'Last Name (print)'
 
 
+class HighSchoolAdmin(GenericAdmin):
+
+    model = HighSchool
+    actions = [export_registrants]
+    list_display = PROFILE_LIST
+    list_filter   = ()
+
+    def last_name(self, obj):
+        return u'<a href="{}">{}</a>'.format(
+            reverse("registration_print", args=[obj.user.id]),
+            obj.user.last_name
+        )
+    last_name.allow_tags = True
+    last_name.short_description = 'Last Name (print)'
+
+
 class ProfessionalAdmin(GenericAdmin):
 
     model = Professional
@@ -159,6 +179,7 @@ class ProfessionalAdmin(GenericAdmin):
     last_name.short_description = 'Last Name (print)'
 
 
+admin.site.register(HighSchool, HighSchoolAdmin)
 admin.site.register(Undergraduate, UndergraduateAdmin)
 admin.site.register(Graduate, GraduateAdmin)
 admin.site.register(Faculty, FacultyAdmin)
