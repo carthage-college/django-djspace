@@ -166,41 +166,41 @@ class SignupForm(forms.Form):
     def clean(self):
         cd = super(SignupForm, self).clean()
         # dob is required for this form
-        if not cd.get("date_of_birth"):
-            self._errors["date_of_birth"] = self.error_class(
+        if not cd.get('date_of_birth'):
+            self._errors['date_of_birth'] = self.error_class(
                 ["Required field"]
             )
         # current address is required for students
-        if (cd.get("registration_type") == "Undergraduate" or \
-            cd.get("registration_type") == "Graduate"):
-            if not cd.get("address1_current"):
-                self._errors["address1_current"] = self.error_class(
+        if (cd.get('registration_type') == 'Undergraduate' or \
+            cd.get('registration_type') == 'Graduate'):
+            if not cd.get('address1_current'):
+                self._errors['address1_current'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("city_current"):
-                self._errors["city_current"] = self.error_class(
+            if not cd.get('city_current'):
+                self._errors['city_current'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("state_current"):
-                self._errors["state_current"] = self.error_class(
+            if not cd.get('state_current'):
+                self._errors['state_current'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("postal_code_current"):
-                self._errors["postal_code_current"] = self.error_class(
+            if not cd.get('postal_code_current'):
+                self._errors['postal_code_current'] = self.error_class(
                     ["Required field"]
                 )
         # check disability and description
-        if cd.get("disability") == "I have a disability, but it is not listed"\
-          and cd.get("disability_specify") == "":
-            self._errors["disability_specify"] = self.error_class(
+        if cd.get('disability') == 'I have a disability, but it is not listed'\
+          and cd.get('disability_specify') == '':
+            self._errors['disability_specify'] = self.error_class(
                 ["Please describe your disability"]
             )
 
         # check if secondary email already exists in the system
-        if cd.get("email_secondary"):
+        if cd.get('email_secondary'):
             try:
-                EmailAddress.objects.get(email= cd.get("email_secondary"))
-                self._errors["email_secondary"] = self.error_class(
+                EmailAddress.objects.get(email= cd.get('email_secondary'))
+                self._errors['email_secondary'] = self.error_class(
                     ["That email already exists in the system"]
                 )
                 raise forms.ValidationError(
@@ -251,7 +251,7 @@ class SignupForm(forms.Form):
             profile.race.add(r)
         profile.save()
 
-        if profile.us_citizen == "No":
+        if profile.us_citizen == 'No':
             messages.warning(
                 request,
                 """

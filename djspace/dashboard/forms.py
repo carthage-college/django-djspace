@@ -11,7 +11,7 @@ from djtools.fields import BINARY_CHOICES
 
 from localflavor.us.forms import USZipCodeField
 
-RACES = GenericChoice.objects.filter(tags__name__in=["Race"]).order_by("name")
+RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('name')
 
 
 class UserForm(forms.Form):
@@ -146,27 +146,27 @@ class UserProfileForm(forms.ModelForm):
     def clean(self):
         cd = super(UserProfileForm, self).clean()
         # current address is required for students
-        if (cd.get("registration_type") == "Undergraduate" or \
-            cd.get("registration_type") == "Graduate"):
-            if not cd.get("address1_current"):
-                self._errors["address1_current"] = self.error_class(
+        if (cd.get('registration_type') == 'Undergraduate' or \
+            cd.get('registration_type') == 'Graduate'):
+            if not cd.get('address1_current'):
+                self._errors['address1_current'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("city_current"):
-                self._errors["city_current"] = self.error_class(
+            if not cd.get('city_current'):
+                self._errors['city_current'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("state_current"):
-                self._errors["state_current"] = self.error_class(
+            if not cd.get('state_current'):
+                self._errors['state_current'] = self.error_class(
                     ["Required field"]
                 )
-            if not cd.get("postal_code_current"):
-                self._errors["postal_code_current"] = self.error_class(
+            if not cd.get('postal_code_current'):
+                self._errors['postal_code_current'] = self.error_class(
                     ["Required field"]
                 )
-        if cd.get("disability") == "I have a disability, but it is not listed"\
-          and cd.get("disability_specify") == "":
-            self._errors["disability_specify"] = self.error_class(
+        if cd.get('disability') == 'I have a disability, but it is not listed'\
+          and cd.get('disability_specify') == '':
+            self._errors['disability_specify'] = self.error_class(
                 ["Please describe your disability"]
             )
         return cd

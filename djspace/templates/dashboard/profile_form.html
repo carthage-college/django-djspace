@@ -126,19 +126,21 @@ $(document).ready(function(){
                 $(".required > select").addClass("required");
                 $(".required > textarea").addClass("required");
                 $(".required > ul").parent().parent().find('h3').addClass("required");
-                if (data.reg.degree_program != "Other") {
-                    $('#id_reg-degree_program_other').closest('li').slideUp(200);
-                }
-                if (data.reg.major != "Other") {
-                    $('#id_reg-major_other').closest('li').slideUp(200);
-                }
-                if (data.reg.secondary_major_minor != "Other") {
-                    $('#id_reg-secondary_major_minor_other').closest('li').slideUp(200);
-                }
-                if (data.reg.wsgc_affiliate == 49) {
-                    sponsoringOrganization("on");
-                }else{
-                    sponsoringOrganization("off");
+                if (data.reg) {
+                    if (data.reg.degree_program != "Other") {
+                        $('#id_reg-degree_program_other').closest('li').slideUp(200);
+                    }
+                    if (data.reg.major != "Other") {
+                        $('#id_reg-major_other').closest('li').slideUp(200);
+                    }
+                    if (data.reg.secondary_major_minor != "Other") {
+                        $('#id_reg-secondary_major_minor_other').closest('li').slideUp(200);
+                    }
+                    if (data.reg.wsgc_affiliate == 49) {
+                        sponsoringOrganization("on");
+                    }else{
+                        sponsoringOrganization("off");
+                    }
                 }
             },
             error: function (){

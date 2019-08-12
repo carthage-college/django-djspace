@@ -31,54 +31,55 @@ import time
 import re
 
 # comment out for migrations
-FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-#FILE_VALIDATORS = []
-PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-#PHOTO_VALIDATORS = []
+#FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+FILE_VALIDATORS = []
+#PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+PHOTO_VALIDATORS = []
 ALLOWED_EXTENSIONS = [
     'doc','docx','xls','xlsx','pdf','tar','zip','gzip','jpg','jpeg','png',
     'ppt','pptx'
 ]
 
 REG_TYPE = (
-    ('','----select----'),
-    ('Undergraduate','Undergraduate'),
-    ('Graduate','Graduate'),
-    ('Faculty','Faculty'),
-    ('Professional','Professional')
+    ('',"----select----"),
+    ('HighSchool',"High School"),
+    ('Undergraduate',"Undergraduate"),
+    ('Graduate',"Graduate"),
+    ('Faculty',"Faculty"),
+    ('Professional',"Professional")
 )
 BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
 PAST_FUNDING_YEAR_CHOICES = [
     (x, x) for x in reversed(xrange(date.today().year-5,date.today().year+1))
 ]
-PAST_FUNDING_YEAR_CHOICES.insert(0,('','---year---'))
+PAST_FUNDING_YEAR_CHOICES.insert(0,('',"---year---"))
 DISABILITY_CHOICES = (
-    ('','----select----'),
-    ("I do not have a disability", "I do not have a disability"),
-    ("I do not wish to identify my disability status",
+    ('',"----select----"),
+    ('I do not have a disability', "I do not have a disability"),
+    ('I do not wish to identify my disability status',
      "I do not wish to identify my disability status"),
-    ("Hearing", "Hearing"),
-    ("Vision", "Vision"),
-    ("Missing Extremeties", "Missing Extremeties"),
-    ("Paralysis", "Paralysis"),
-    ("Other Impairments", "Other Impairments"),
-    ("I have a disability, but it is not listed",
+    ('Hearing', "Hearing"),
+    ('Vision', "Vision"),
+    ('Missing Extremeties', "Missing Extremeties"),
+    ('Paralysis', "Paralysis"),
+    ('Other Impairments', "Other Impairments"),
+    ('I have a disability, but it is not listed',
      "I have a disability, but it is not listed")
 )
 EMPLOYMENT_CHOICES = (
-    ('','----select----'),
-    ("Employed with NASA/JPL", "Employed with NASA/JPL"),
-    ("Employed with an AerospaceContractor",
+    ('',"----select----"),
+    ('Employed with NASA/JPL', "Employed with NASA/JPL"),
+    ('Employed with an AerospaceContractor',
      "Employed with an AerospaceContractor"),
-    ("Employed in a STEM field (Non-Aerospace field)",
+    ('Employed in a STEM field (Non-Aerospace field)',
      "Employed in a STEM field (Non-Aerospace field)"),
-    ("Employed in K-12 STEM academic field",
+    ('Employed in K-12 STEM academic field',
      "Employed in K-12 STEM academic field"),
-    ("Employed in 'Other' STEM academic field",
-     "Employed in 'Other' STEM academic field"),
-    ("Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)",
+    ('Employed in other STEM academic field',
+     "Employed in other STEM academic field"),
+    ('Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)',
      "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
-    ("N/A","N/A"),
+    ('N/A',"N/A"),
 )
 
 def _timestamp(obj, field):
@@ -129,7 +130,7 @@ class Photo(models.Model):
         return self.content_object.user
 
     def get_file_path(self):
-        return "files/applications"
+        return 'files/applications'
 
     def get_slug(self):
         return self.content_object.get_slug()
@@ -166,7 +167,7 @@ class Base(models.Model):
     )
     updated_by = models.ForeignKey(
         User, verbose_name="Updated by",
-        related_name="%(app_label)s_%(class)s_related",
+        related_name='%(app_label)s_%(class)s_related',
         editable=False
     )
 
@@ -192,9 +193,7 @@ class BaseModel(Base):
     status = models.BooleanField(default=False, verbose_name="Funded")
     complete = models.BooleanField(default=False, verbose_name="Completed")
     funded_code = models.CharField(
-        "Funded ID",
-        max_length=24,
-        null=True, blank=True
+        "Funded ID", max_length=24, null=True, blank=True
     )
     past_funding = models.CharField(
         "Have you received WSGC funding within the past five years?",
@@ -291,14 +290,13 @@ class GenericChoice(models.Model):
         return self.name
 
     class Meta:
-        #app_label = "genericchoice"
         ordering = ['ranking']
 
 def limit_race():
     rids = [
         g.id for g in GenericChoice.objects.filter(
-            tags__name__in=["Race"]
-        ).order_by("name")
+            tags__name__in=['Race']
+        ).order_by('name')
     ]
     return rids
 
@@ -307,7 +305,7 @@ class UserFiles(models.Model):
 
     user = models.OneToOneField(
         User,
-        related_name="user_files",
+        related_name='user_files',
         editable=False
     )
     mugshot = models.FileField(
@@ -344,13 +342,13 @@ class UserFiles(models.Model):
     )
 
     class Meta:
-        db_table = "core_userfiles"
+        db_table = 'core_userfiles'
 
     def get_file_path(self):
         return 'files'
 
     def get_slug(self):
-        return "users"
+        return 'users'
 
     def get_file_name(self):
         return u'{}.{}'.format(
@@ -375,11 +373,11 @@ class UserProfile(models.Model):
 
     # meta
     user = models.OneToOneField(
-        User, related_name="profile"
+        User, related_name='profile'
     )
     updated_by = models.ForeignKey(
         User, verbose_name="Updated by",
-        related_name="user_profile_updated_by",
+        related_name='user_profile_updated_by',
         editable=False
     )
     date_created = models.DateTimeField(
@@ -467,7 +465,6 @@ class UserProfile(models.Model):
     )
     race = models.ManyToManyField(
         GenericChoice,
-        #limit_choices_to={"id__in":limit_race},
         related_name="user_profile_race",
         help_text = 'Check all that apply'
     )
@@ -527,8 +524,7 @@ class UserProfile(models.Model):
     )
 
     class Meta:
-        #app_label = "userprofile"
-        db_table = "core_userprofile"
+        db_table = 'core_userprofile'
 
     def __unicode__(self):
         return u"{} {}'s profile".format(
@@ -547,8 +543,9 @@ class UserProfile(models.Model):
     def get_registration(self):
         # these imports need to be here, rather than at the top with the others
         import django
-        from djspace.registration.models import Undergraduate, Graduate
-        from djspace.registration.models import Faculty, Professional
+        from djspace.registration.models import (
+            HighSchool, Undergraduate, Graduate, Faculty, Professional
+        )
 
         if self.registration_type:
             mod = django.apps.apps.get_model(
@@ -590,5 +587,5 @@ def _user_signed_up(request, user, **kwargs):
     uf = UserFiles(user=user)
     uf.save()
     # notify WSGC administrators of new user registration
-    registration_notify(request, "create", user)
+    registration_notify(request, 'create', user)
 

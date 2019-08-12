@@ -29,7 +29,7 @@ def _send_mail(obj, request, registration):
 def _create_generic_choice(affiliate):
     """
     private function for creating a GenericChoice based on the name
-    the user provided in the 'other' field for WSGC affiliate
+    the user provided in the 'other' field for Institution/Organization
     """
 
     try:
@@ -37,7 +37,7 @@ def _create_generic_choice(affiliate):
     except:
         gc = GenericChoice(name=affiliate, value=affiliate, active=True)
         gc.save()
-        gc.tags.add("College or University")
+        gc.tags.add('College or University')
 
     return gc
 
@@ -45,7 +45,7 @@ def _create_generic_choice(affiliate):
 @receiver(pre_save, sender=Faculty)
 def registration_faculty_pre_save(sender, **kwargs):
     """
-    Notify DevOps that a faculty has chosen 'Other' for WSGC affiliate
+    Notify DevOps that a faculty has chosen 'Other' for Institution/Organization
     and that a new GenericChoice object has been created automatically
     based on the name provided in the wsgc_affiliate_other field
     """
@@ -63,7 +63,7 @@ def registration_faculty_pre_save(sender, **kwargs):
 @receiver(pre_save, sender=Undergraduate)
 def registration_undergraduate_pre_save(sender, **kwargs):
     """
-    Notify DevOps that an undergraduate has chosen 'Other' for WSGC affiliate
+    Notify DevOps that an undergraduate has chosen 'Other' for Institution/Organization
     and that a new GenericChoice object has been created automatically
     based on the name provided in the wsgc_affiliate_other field
     """
@@ -81,7 +81,7 @@ def registration_undergraduate_pre_save(sender, **kwargs):
 @receiver(pre_save, sender=Graduate)
 def registration_graduate_pre_save(sender, **kwargs):
     """
-    Notify DevOps that an graduate has chosen 'Other' for WSGC affiliate
+    Notify DevOps that an graduate has chosen 'Other' for Institution/Organization
     and that a new GenericChoice object has been created automatically
     based on the name provided in the wsgc_affiliate_other field
     """

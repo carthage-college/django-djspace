@@ -59,25 +59,20 @@ class BaseStudent(Base):
         #validators=[credit_gpa_validator],
     )
     cumulative_college_credits = models.CharField(
-        "Cumulative college credits",
-        max_length=6,
+        "Cumulative college credits", max_length=6
     )
     month_year_of_graduation = models.CharField(
-        "Expected month and year of graduation",
-        max_length=7,
-        #validators=[month_year_validator]
+        "Expected month and year of graduation", max_length=7
     )
     studentid = models.CharField(
-        "Student ID Number",
-        max_length=64
+        "Student ID Number", max_length=64
     )
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
         verbose_name="College or University",
-        related_name="student_wsgc_affiliate",
+        related_name='student_wsgc_affiliate',
         max_length=128,
-        on_delete=models.SET_NULL,
-        null=True
+        on_delete=models.SET_NULL, null=True
     )
     wsgc_affiliate_other = models.CharField(
         "Other",
@@ -92,8 +87,7 @@ class BaseStudent(Base):
         "Résumé (optional)",
         upload_to = partial(upload_to_path, 'CV'),
         validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        max_length=768, null=True, blank=True,
         help_text="PDF format"
     )
     cv_authorize = models.BooleanField(
@@ -107,7 +101,7 @@ class BaseStudent(Base):
         return 'files'
 
     def get_slug(self):
-        return "users"
+        return 'users'
 
     def get_file_name(self):
         return u'{}.{}'.format(
@@ -115,7 +109,38 @@ class BaseStudent(Base):
         )
 
 
+class HighSchool(Base):
+    highschool_name = models.CharField(
+        "High school name", max_length=128
+    )
+    secondary_education = models.CharField(
+        "College or University attending in the Fall", max_length=128
+    )
+    major = models.CharField(
+        "Intended Major", max_length=128
+    )
+    gpa = models.CharField(
+        "High School Cumulative GPA", max_length=4,
+        validators=[credit_gpa_validator],
+    )
+    gpa_scale = models.CharField(
+        "GPA Scale",
+        max_length=4,
+        validators=[credit_gpa_validator],
+    )
+    student_identification = models.CharField(
+        "College or University Student ID", max_length=32
+    )
+
+
 class Undergraduate(BaseStudent):
+    wsgc_affiliate = models.ForeignKey(
+        GenericChoice,
+        verbose_name="College or University",
+        related_name='undergrad_wsgc_affiliate',
+        max_length=128,
+        on_delete=models.SET_NULL, null=True
+    )
     highschool_name = models.CharField(
         "High school name",
         max_length=128
@@ -137,6 +162,13 @@ class Undergraduate(BaseStudent):
 
 
 class Graduate(BaseStudent):
+    wsgc_affiliate = models.ForeignKey(
+        GenericChoice,
+        verbose_name="College or University",
+        related_name='graduate_wsgc_affiliate',
+        max_length=128,
+        on_delete=models.SET_NULL, null=True
+    )
     undergraduate_degree = models.CharField(
         max_length=32,
         choices=UNDERGRADUATE_DEGREE
@@ -176,8 +208,8 @@ class Faculty(Base):
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        verbose_name="WSGC Affiliate",
-        related_name="faculty_wsgc_affiliate",
+        verbose_name="Institution/Organization",
+        related_name='faculty_wsgc_affiliate',
         on_delete=models.SET_NULL,
         null=True,
         help_text = """
@@ -218,8 +250,8 @@ class Professional(Base):
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
-        verbose_name="WSGC Affiliate",
-        related_name="professional_wsgc_affiliate",
+        verbose_name="Institution/Organization",
+        related_name='professional_wsgc_affiliate',
         on_delete=models.SET_NULL,
         null=True,
         help_text = """

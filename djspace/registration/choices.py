@@ -19,13 +19,11 @@ UNDERGRADUATE_DEGREE = (
 
 WSGC_SCHOOL = (
     ('Alverno College','Alverno College'),
-    ('Carroll University','Carroll University'),
     ('Carthage College','Carthage College'),
     ('Chief Dull Knife College','Chief Dull Knife College'),
     ('College of Menominee Nation','College of Menominee Nation'),
     ('Colorado School of Mines','Colorado School of Mines'),
     ('Concordia University','Concordia University'),
-    ('Fond du Lac Tribal Community College','Fond du Lac Tribal Community College'),
     ('Lawrence University','Lawrence University'),
     ('Leech Lake Tribal College','Leech Lake Tribal College'),
     ('Little Big Horn College','Little Big Horn College'),

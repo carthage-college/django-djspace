@@ -3,8 +3,9 @@
 from django import forms
 
 from djspace.core.models import GenericChoice
-from djspace.registration.models import Professional
-from djspace.registration.models import Undergraduate, Graduate, Faculty
+from djspace.registration.models import (
+    HighSchool, Undergraduate, Graduate, Faculty, Professional
+)
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
 from djtools.fields import STATE_CHOICES
@@ -16,9 +17,19 @@ from localflavor.us.forms import USZipCodeField
 try:
     AFFILIATES = GenericChoice.objects.filter(
         tags__name__in=['WSGC Affiliates','College or University']
-    ).order_by('ranking','name')
+    ).filter(active=True).order_by('ranking','name')
 except:
     AFFILIATES = GenericChoice.objects.none()
+
+
+class HighSchoolForm(forms.ModelForm):
+    """
+    A form for high school registrants
+    """
+
+    class Meta:
+        model = HighSchool
+        exclude = ('user','date_created','date_updated','updated_by')
 
 
 class UndergraduateForm(forms.ModelForm):
