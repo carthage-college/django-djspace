@@ -30,7 +30,7 @@ PROFILE_LIST = [
 PROFILE_LIST_DISPLAY = PROFILE_LIST + [
     'mugshot_file','biography_file','media_release_file','irs_w9_file',
     'award_acceptance_file','interim_report_file','final_report_file',
-    'other_file_file'
+    'other_file_file','other_file2_file','other_file3_file'
 ]
 
 POST_NO_OBJECTS = ['export_longitudinal_tracking']
@@ -275,7 +275,17 @@ class GenericAdmin(admin.ModelAdmin):
     def other_file_file(self, instance):
         return admin_display_file(instance, 'other_file')
     other_file_file.allow_tags = True
-    other_file_file.short_description = "Other"
+    other_file_file.short_description = "Other1"
+
+    def other_file2_file(self, instance):
+        return admin_display_file(instance, 'other_file2')
+    other_file2_file.allow_tags = True
+    other_file2_file.short_description = "Other2"
+
+    def other_file3_file(self, instance):
+        return admin_display_file(instance, 'other_file3')
+    other_file3_file.allow_tags = True
+    other_file3_file.short_description = "Other3"
 
     def save_model(self, request, obj, form, change):
         obj.updated_by = request.user

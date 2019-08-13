@@ -236,6 +236,20 @@ class BaseModel(Base):
         ], help_text=ALLOWED_EXTENSIONS,
         max_length=768, null=True, blank=True,
     )
+    other_file2 = models.FileField(
+        upload_to = partial(upload_to_path, 'Other_File2'),
+        validators=[
+            FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
+        ], help_text=ALLOWED_EXTENSIONS,
+        max_length=768, null=True, blank=True,
+    )
+    other_file3 = models.FileField(
+        upload_to = partial(upload_to_path, 'Other_File3'),
+        validators=[
+            FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
+        ], help_text=ALLOWED_EXTENSIONS,
+        max_length=768, null=True, blank=True,
+    )
     photos = GenericRelation(Photo)
 
     def multi_year(self):

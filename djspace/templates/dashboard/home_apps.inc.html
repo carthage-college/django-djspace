@@ -233,7 +233,7 @@
           <li class="form-group ctrlHolder">
             <h3>
               <label for="id_final_report">
-                Other File
+                Other File 1
               </label>
             </h3>
             <div class="filewrap fleft">
@@ -247,6 +247,58 @@
             {% if app.other_file %}
               <a class="fa-wrap"
                 href="{{media_url}}{{app.other_file}}"
+                target="_blank">
+                <i class="fa fa-times fa-file-pdf-o blue"
+                aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-times green fa-wrap" aria-hidden="true"
+                title="Optional file"></i>
+            {% endif %}
+            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true" data-original-title="" title=""></i>
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_final_report">
+                Other File 2
+              </label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+                data-content-type="{{app.get_content_type.id}}"
+                data-oid="{{app.id}}"
+                name="other_file2" id="id_other_file2">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.other_file2 %}
+              <a class="fa-wrap"
+                href="{{media_url}}{{app.other_file2}}"
+                target="_blank">
+                <i class="fa fa-times fa-file-pdf-o blue"
+                aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-times green fa-wrap" aria-hidden="true"
+                title="Optional file"></i>
+            {% endif %}
+            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true" data-original-title="" title=""></i>
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_final_report">
+                Other File 3
+              </label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+                data-content-type="{{app.get_content_type.id}}"
+                data-oid="{{app.id}}"
+                name="other_file3" id="id_other_file3">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.other_file3 %}
+              <a class="fa-wrap"
+                href="{{media_url}}{{app.other_file3}}"
                 target="_blank">
                 <i class="fa fa-times fa-file-pdf-o blue"
                 aria-hidden="true"></i></a>

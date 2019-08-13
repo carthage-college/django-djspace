@@ -78,9 +78,21 @@ Web site.................... {{data.user.profile.get_registration.web_site}}
 <h3>Other File</h3>
 {% if data.other_file %}
 <a href="{{media_url}}{{data.other_file}}" target="_blank">
-  Other File
-</a><br>
-https://{{server_url}}{{media_url}}{{data.other_file}}
+  https://{{server_url}}{{media_url}}{{data.other_file}}</a><br>
+{% else %}
+<p>No file uploaded.</p>
+{% endif %}
+<h3>Other File</h3>
+{% if data.other_file2 %}
+<a href="{{media_url}}{{data.other_file2}}" target="_blank">
+  https://{{server_url}}{{media_url}}{{data.other_file2}}</a><br>
+{% else %}
+<p>No file uploaded.</p>
+{% endif %}
+<h3>Other File 3</h3>
+{% if data.other_file3 %}
+<a href="{{media_url}}{{data.other_file3}}" target="_blank">
+  https://{{server_url}}{{media_url}}{{data.other_file3}}</a><br>
 {% else %}
 <p>No file uploaded.</p>
 {% endif %}

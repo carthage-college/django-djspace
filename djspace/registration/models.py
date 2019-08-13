@@ -111,31 +111,31 @@ class BaseStudent(Base):
 
 class HighSchool(Base):
     name = models.CharField(
-        "High school name", max_length=128
+        "School name", max_length=128
     )
     city = models.CharField(
-        "High school city",
+        "City",
         max_length=128
     )
     state = models.CharField(
-        "High school state",
+        "State",
         max_length=2,
         choices=STATE_CHOICES
-    )
-    secondary_education = models.CharField(
-        "College or University attending in the Fall", max_length=128
     )
     major = models.CharField(
         "Intended Major", max_length=128
     )
     gpa = models.CharField(
-        "High School Cumulative GPA", max_length=4,
+        "Cumulative GPA", max_length=4,
         validators=[credit_gpa_validator],
     )
     gpa_scale = models.CharField(
         "GPA Scale",
         max_length=4,
         validators=[credit_gpa_validator],
+    )
+    secondary_education = models.CharField(
+        "College or University attending in the Fall", max_length=128
     )
     student_identification = models.CharField(
         "College or University Student ID", max_length=32
