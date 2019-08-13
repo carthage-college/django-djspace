@@ -110,8 +110,17 @@ class BaseStudent(Base):
 
 
 class HighSchool(Base):
-    highschool_name = models.CharField(
+    name = models.CharField(
         "High school name", max_length=128
+    )
+    city = models.CharField(
+        "High school city",
+        max_length=128
+    )
+    state = models.CharField(
+        "High school state",
+        max_length=2,
+        choices=STATE_CHOICES
     )
     secondary_education = models.CharField(
         "College or University attending in the Fall", max_length=128
