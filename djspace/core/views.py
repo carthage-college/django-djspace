@@ -32,7 +32,7 @@ def sendmail(request, redirect):
     redirect = '{}/{}'.format(settings.ROOT_URL, redirect)
     if request.POST:
         # form stuff
-        form = EmailApplicantsForm(request.POST)
+        form = EmailApplicantsForm(request.POST, use_required_attribute=False)
         form.is_valid()
         data = form.cleaned_data
         # content type
@@ -73,7 +73,7 @@ def photo_upload(request):
     response = None
     if request.is_ajax() and request.method == 'POST':
         form = PhotoForm(
-            data=request.POST, files=request.FILES
+            data=request.POST, files=request.FILES, use_required_attribute=False
         )
         if form.is_valid():
             ct = request.POST.get('content_type')
@@ -140,7 +140,8 @@ def user_files(request):
                 )
             else:
                 form = UPLOAD_FORMS[ct.model](
-                    data=request.POST, files=request.FILES, instance=obj
+                    data=request.POST, files=request.FILES, instance=obj,
+                    use_required_attribute=False
                 )
         else:
             try:
@@ -148,7 +149,8 @@ def user_files(request):
             except:
                 obj = None
             form = UserFilesForm(
-                data=request.POST, files=request.FILES, instance=obj
+                data=request.POST, files=request.FILES, instance=obj,
+                use_required_attribute=False
             )
         field_name = request.POST.get('field_name')
         if form.is_valid():
@@ -225,7 +227,8 @@ def user_files_test(request):
         mod = ct.model_class()
         obj = mod.objects.get(pk=request.POST.get('oid'))
         form = UPLOAD_FORMS[ct.model](
-            data=request.POST, files=request.FILES, instance=obj
+            data=request.POST, files=request.FILES, instance=obj,
+            use_required_attribute=False
         )
         if form.is_valid():
             form.save()
@@ -237,11 +240,9 @@ def user_files_test(request):
         ct = ContentType.objects.get(pk=ct)
         mod = ct.model_class()
         obj = mod.objects.get(pk=request.GET.get('oid'))
-        form = UPLOAD_FORMS[ct.model](instance=obj)
+        form = UPLOAD_FORMS[ct.model](instance=obj, use_required_attribute=False)
     return render(
-        request, 'dashboard/test.html', {
-            'form':form, 'valid':valid
-        }
+        request, 'dashboard/test.html', {'form':form, 'valid':valid}
     )
 
 

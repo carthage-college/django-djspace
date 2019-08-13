@@ -60,31 +60,30 @@ def application_form(request, application_type, aid=None):
         return HttpResponseRedirect(reverse('dashboard_home'))
 
     # munge the application type
-    slug_list = application_type.split("-")
+    slug_list = application_type.split('-')
     app_name = slug_list.pop(0).capitalize()
     for n in slug_list:
-        app_name += " %s" % n.capitalize()
-    app_type = "".join(app_name.split(" "))
+        app_name += ' {}'.format(n.capitalize())
+    app_type = ''.join(app_name.split(' '))
 
 
     # check rocket competition teams and member limits.
     # currently, FNL does not have a limit so we can exclude it.
-    if "rocket-competition" in application_type:
+    if 'rocket-competition' in application_type:
         teams = RocketLaunchTeam.objects.filter(
             competition__contains=app_name[:12]
         )
 
-        if application_type != "first-nations-rocket-competition":
+        if application_type != 'first-nations-rocket-competition':
             teams = teams.annotate(
                 count=Count('members')
             ).exclude(
                 count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
-            ).order_by("name")
+            ).order_by('name')
 
         if not teams:
             return render(
-                request, "application/form.html",
-                {"form": None,"app_name":app_name}
+                request, 'application/form.html', {'form': None,'app_name':app_name}
             )
 
     # we need the application model now and if it barfs
@@ -120,7 +119,7 @@ def application_form(request, application_type, aid=None):
 
     # rocket launch team co-advisor
     coa_orig = None
-    if app and application_type == "rocket-launch-team":
+    if app and application_type == 'rocket-launch-team':
         if app.co_advisor:
             # for autocomplete form field at the UI level
             request.session['co_advisor_name'] = u'{}, {}'.format(
@@ -135,11 +134,13 @@ def application_form(request, application_type, aid=None):
 
     # fetch the form class
     FormClass = str_to_class(
-        "djspace.application.forms", (app_type+"Form")
+        'djspace.application.forms', (app_type+'Form')
     )
     # fetch the form instance
     try:
-        form = FormClass(instance=app, label_suffix='')
+        form = FormClass(
+            instance=app, label_suffix='', use_required_attribute=False
+        )
     except:
         # app_type does not match an existing form
         raise Http404
@@ -148,30 +149,30 @@ def application_form(request, application_type, aid=None):
         try:
             # rocket launch team and professional program student
             # forms need request context
-            if application_type == "rocket-launch-team" or \
-               application_type == "professional-program-student":
+            if application_type == 'rocket-launch-team' or \
+               application_type == 'professional-program-student':
                 form = FormClass(
                     instance=app, data=request.POST, files=request.FILES,
-                    request=request, label_suffix=''
+                    request=request, label_suffix='', use_required_attribute=False
                 )
             else:
                 form = FormClass(
                     instance=app, data=request.POST, files=request.FILES,
-                    label_suffix=''
+                    label_suffix='', use_required_attribute=False
                 )
         except:
             # app_type does not match an existing form
             raise Http404
 
         # professional program student has three files from UserFiles
-        if application_type == "professional-program-student":
+        if application_type == 'professional-program-student':
             form_user_files = UserFilesForm(
-                instance=userfiles,
-                data=request.POST, files=request.FILES
+                instance=userfiles, data=request.POST, files=request.FILES,
+                use_required_attribute=False
             )
         if form.is_valid():
             cd = form.cleaned_data
-            if application_type == "professional-program-student":
+            if application_type == 'professional-program-student':
                 if form_user_files.is_valid():
                     form_user_files.save()
                 else:
@@ -186,7 +187,7 @@ def application_form(request, application_type, aid=None):
             data.user = user
             data.updated_by = user
 
-            if application_type == "rocket-launch-team":
+            if application_type == 'rocket-launch-team':
                 # limit number of team members if need be
                 if data.competition in ROCKET_LAUNCH_COMPETITION_WITH_LIMIT:
                     data.limit = settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
@@ -194,13 +195,13 @@ def application_form(request, application_type, aid=None):
                     data.limit = 0
 
             # save media_release file to UserProfileFiles if first nations
-            if application_type == "first-nations-rocket-competition":
+            if application_type == 'first-nations-rocket-competition':
                 if request.FILES.get('media_release'):
                     try:
                         uf = user.user_files
                     except:
                         uf = UserFiles(user=user)
-                    file_root = "{}/{}/{}/".format(
+                    file_root = '{}/{}/{}/'.format(
                         uf.get_file_path(),
                         uf.get_slug(),
                         str(user.id)
@@ -211,15 +212,15 @@ def application_form(request, application_type, aid=None):
                     )
                     media_release = handle_uploaded_file(
                         request.FILES['media_release'], path,
-                        u"{}_media_release".format(uf.get_file_name())
+                        u'{}_media_release'.format(uf.get_file_name())
                     )
-                    uf.media_release = u"{}{}".format(
+                    uf.media_release = u'{}{}'.format(
                         file_root, media_release
                     )
                     uf.save()
 
             # deal with FK relationships for programs
-            if application_type == "professional-program-student":
+            if application_type == 'professional-program-student':
                 program = cd['program']
                 excludes = ['CaNOP','MicroPropellantGauging','NasaInternship']
                 if program not in excludes:
@@ -240,11 +241,11 @@ def application_form(request, application_type, aid=None):
             data.save()
 
             # add user to RocketLaunchTeam member m2m
-            if "rocket-competition" in application_type:
+            if 'rocket-competition' in application_type:
                 data.team.members.add(data.user)
 
             # add work plan tasks for industry internship
-            if application_type == "industry-internship":
+            if application_type == 'industry-internship':
                 tid = request.POST.getlist('tid[]')
                 title = request.POST.getlist('title[]')
                 description = request.POST.getlist('description[]')
@@ -282,7 +283,7 @@ def application_form(request, application_type, aid=None):
             # if we have a rocket launch team application
             # add co-advisor to generic many-to-many relationsip (gm2m) if new
             # and remove the old one if need be
-            if application_type == "rocket-launch-team":
+            if application_type == 'rocket-launch-team':
                 coa = data.co_advisor
                 # we have a co-advisor, check if the old matches new
                 if (coa_orig and coa) and coa.id != coa_orig.id:
@@ -299,7 +300,7 @@ def application_form(request, application_type, aid=None):
                     coa.profile.applications.add(data)
 
             # email confirmation
-            template = "application/email/{}.html".format(application_type)
+            template = 'application/email/{}.html'.format(application_type)
             if not settings.DEBUG:
                 # email distribution list and bcc parameters
                 to_list = [settings.WSGC_APPLICATIONS,]
@@ -308,8 +309,8 @@ def application_form(request, application_type, aid=None):
                 # send confirmation email to WSGC staff and applicant
                 to_list.append(data.user.email)
                 if aid:
-                    app_name += " (UPDATED)"
-                subject = u"{} {}: {}, {}".format(
+                    app_name += ' (UPDATED)'
+                subject = u'{} {}: {}, {}'.format(
                     app_name, date,
                     data.user.last_name, data.user.first_name
                 )
@@ -328,13 +329,15 @@ def application_form(request, application_type, aid=None):
             return HttpResponseRedirect(reverse('application_success'))
     else:
         # UserFilesForm
-        form_user_files = UserFilesForm(instance=userfiles)
+        form_user_files = UserFilesForm(
+            instance=userfiles, use_required_attribute=False
+        )
         if not app:
             # set session values to null for GET requests that are not updates
-            request.session["leader_id"] = ""
-            request.session["leader_name"] = ""
-            request.session["co_advisor_id"] = ""
-            request.session["co_advisor_name"] = ""
+            request.session['leader_id'] = ''
+            request.session['leader_name'] = ''
+            request.session['co_advisor_id'] = ''
+            request.session['co_advisor_name'] = ''
     return render(
         request, 'application/form.html', {
             'form': form,'app_name':app_name,'obj':app,
@@ -387,11 +390,11 @@ def application_print(request, application_type, aid):
     user = request.user
 
     # munge the application type
-    slug_list = application_type.split("-")
+    slug_list = application_type.split('-')
     app_name = slug_list.pop(0).capitalize()
     for n in slug_list:
-        app_name += " %s" % n.capitalize()
-    app_type = "".join(app_name.split(" "))
+        app_name += ' {}'.format(n.capitalize())
+    app_type = ''.join(app_name.split(' '))
 
     mod = django.apps.apps.get_model(
         app_label='application', model_name=app_type
@@ -414,7 +417,7 @@ def application_print(request, application_type, aid):
             media_release_status = files.status('media_release')
 
         response = render(
-            request, "application/email/{}.html".format(application_type),
+            request, 'application/email/{}.html'.format(application_type),
             {
                 'data': data,
                 'mugshot_status':mugshot_status,
@@ -432,7 +435,7 @@ def application_print(request, application_type, aid):
 
 @staff_member_required
 def application_export(request, application_type):
-    users = User.objects.all().order_by("last_name")
+    users = User.objects.all().order_by('last_name')
 
     exports = []
     for user in users:
@@ -443,14 +446,14 @@ def application_export(request, application_type):
         if apps:
             for a in apps:
                 if a.get_slug() == application_type:
-                    exports.append({"user":user,"app":a})
+                    exports.append({'user':user,'app':a})
                     program = a.get_application_type()
 
     if settings.DEBUG:
         response = render(
-            request, "application/export.html",
+            request, 'application/export.html',
             {'exports': exports,'program':program,'year':TODAY.year},
-            content_type="text/plain; charset=utf-8"
+            content_type='text/plain; charset=utf-8'
         )
     else:
         response = HttpResponse(content_type='text/csv')

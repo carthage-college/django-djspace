@@ -243,12 +243,6 @@ class Faculty(Base):
         "Title (eg. Assistant Prof., Associate Prof., Prof.)",
         max_length=128
     )
-    web_site = models.CharField(
-        "Web site",
-        max_length=128,
-        help_text = "eg. www.mywebsite.com",
-        null=True, blank=True,
-    )
 
     class Meta:
         verbose_name_plural = "Faculty"

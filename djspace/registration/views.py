@@ -31,16 +31,16 @@ def form(request, reg_type):
         reg = None
     try:
         form = str_to_class(
-            "djspace.registration.forms", (reg_type+"Form")
-        )(instance=reg)
+            'djspace.registration.forms', (reg_type+'Form')
+        )(instance=reg, use_required_attribute=False)
     except:
         raise Http404
 
     if request.method == 'POST':
         try:
             form = str_to_class(
-                "djspace.registration.forms", (reg_type+"Form")
-            )(instance=reg, data=request.POST)
+                'djspace.registration.forms', (reg_type+'Form')
+            )(instance=reg, data=request.POST, use_required_attribute=False)
         except:
             raise Http404
         if form.is_valid():
@@ -51,17 +51,16 @@ def form(request, reg_type):
             return HttpResponseRedirect(reverse('registration_success'))
 
     return render(
-        request, "registration/form.html",
-        {"form": form,"reg_type":reg_type}
+        request, 'registration/form.html', {'form': form,'reg_type':reg_type}
     )
 
 @login_required
 def user_files(request):
 
-    form = UserFilesForm()
+    form = UserFilesForm(use_required_attribute=False)
 
     return render(
-        request, "registration/user_files.html", {"form": form,}
+        request, 'registration/user_files.html', {'form': form,}
     )
 
 
@@ -71,5 +70,5 @@ def registration_print(request, uid):
     user = get_object_or_404(User, pk=uid)
     user = user
     return render(
-        request, "application/email/base.html", {'data': {'user':user,},}
+        request, 'application/email/base.html', {'data': {'user':user,},}
     )

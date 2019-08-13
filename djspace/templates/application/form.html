@@ -321,7 +321,7 @@ $(function() {
 {% endif %}
 <div class="forms-container clear">
     {% if form %}
-    <form class="form" enctype="multipart/form-data" action="."
+    <form class="form" enctype="multipart/form-data" action="." novalidate
         id="profile" method="post">
     {% csrf_token %}
     {% if app_name == "Rocket Launch Team" %}

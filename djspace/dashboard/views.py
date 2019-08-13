@@ -181,7 +181,7 @@ def registration_type(request):
         try:
             reg_form = str_to_class(
                 'djspace.registration.forms', (reg_type+'Form')
-            )(instance=reg, prefix='reg')
+            )(instance=reg, prefix='reg', use_required_attribute=False)
         except:
             raise Http404
         reggie = None
@@ -214,9 +214,8 @@ def profile_form(request):
     user = request.user
     profile = user.profile
     reg_type = profile.registration_type
-    reg_data = None
     # user may have changed registration type
-    if request.method == 'POST' and \
+    if request.method=='POST' and request.POST.get('pro-registration_type') != '' and \
       reg_type != request.POST.get('pro-registration_type'):
         reg_type = request.POST.get('pro-registration_type')
     try:
@@ -228,14 +227,16 @@ def profile_form(request):
         reg = None
     if request.method == 'POST':
 
-        reg_form = str_to_class(
-            'djspace.registration.forms', (reg_type+'Form')
-        )(instance=reg, prefix='reg', label_suffix='', data=request.POST, files=request.FILES)
+        reg_form = str_to_class('djspace.registration.forms', (reg_type+'Form'))(instance=reg, prefix='reg', label_suffix='', data=request.POST, files=request.FILES, use_required_attribute=False)
 
         pro_form = UserProfileForm(
-            instance=profile, data=request.POST, prefix='pro', label_suffix=''
+            instance=profile, data=request.POST, prefix='pro', label_suffix='',
+            use_required_attribute=False
         )
-        usr_form = UserForm(prefix='usr', data=request.POST, label_suffix='')
+        usr_form = UserForm(
+            prefix='usr', data=request.POST, label_suffix='',
+            use_required_attribute=False
+        )
         if pro_form.is_valid() and reg_form.is_valid() and usr_form.is_valid():
             # User
             usr = usr_form.cleaned_data
@@ -264,12 +265,13 @@ def profile_form(request):
         usr_form = UserForm(initial={
             'salutation':profile.salutation,'first_name':user.first_name,
             'second_name':profile.second_name,'last_name':user.last_name
-        }, prefix='usr', label_suffix='')
+        }, prefix='usr', label_suffix='', use_required_attribute=False)
         reg_form = str_to_class(
             'djspace.registration.forms', (reg_type+'Form')
-        )(instance=reg, prefix='reg', label_suffix='')
+        )(instance=reg, prefix='reg', label_suffix='', use_required_attribute=False)
         pro_form = UserProfileForm(
-            instance=profile, prefix='pro', label_suffix=''
+            instance=profile, prefix='pro', label_suffix='',
+            use_required_attribute=False
         )
     return render(
         request, 'dashboard/profile_form.html', {
