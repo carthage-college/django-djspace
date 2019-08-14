@@ -183,14 +183,13 @@
 
     $('.photo-upload').change(function(){
       var $dis = $(this);
-      var $phoc = $('.photo-container');
       var $cid = $dis.attr("data-content-type");
       var $oid = $dis.attr("data-oid");
+      var $phoc = $('#phoc_' + $oid);
       // form data form user-files container
       var formData = new FormData($('#user-files')[0]);
       formData.append( 'content_type', $cid );
       formData.append( 'oid', $oid );
-
       if ($phoc.children().length < 3) {
         $.ajax({
           url: "{% url 'photo_upload' %}",

@@ -20,29 +20,4 @@
 <p>{{data.commit}}</p>
 <h4>Position</h4>
 <p>{{data.position}}</p>
-<h4>Files</h4>
-<ul>
-  <li>
-    <a href="https://{{server_url}}{{media_url}}{{data.letter_interest}}" target="_blank">
-        Letter of interest
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.letter_interest}}
-  </li>
-  <li>
-    <a href="https://{{server_url}}{{media_url}}{{data.cv}}" target="_blank">
-      CV
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.cv}}
-  </li>
-  {% if data.award_acceptance %}
-    <li>
-      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
-        Award Acceptance
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
-  {% endif %}
-</ul>
 {% endblock %}

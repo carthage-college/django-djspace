@@ -1,0 +1,295 @@
+{% if data.get_slug == 'rocket-launch-team' %}
+  {% include "application/email/rocket-launch-team.files.inc.html" %}
+{% else %}
+<ul>
+{% if data.cv %}
+<li>
+  <a href="https://{{server_url}}{{media_url}}{{data.cv}}" target="_blank">
+    CV
+  </a>
+  <ul>
+    <li>Created: {{data.cv_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.cv}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.get_slug in "midwest-high-powered-rocket-competition,collegiate-rocket-competition,high-altitude-balloon-launch,high-altitude-balloon-payload,clark-graduate-fellowship,graduate-fellowship" %}
+  {% if data.status %}<li>CV: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.proposal %}
+<li>
+  <a href="{{media_url}}{{data.proposal}}">
+    Proposal
+  </a>
+  <ul>
+    <li>Created: {{data.proposal_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.proposal}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,research-infrastructure,aerospace-outreach,special-initiatives,clark-graduate-fellowship,graduate-fellowship,undergraduate-research" %}
+  {% if data.status %}<li>Proposal: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.budget %}
+<li>
+  <a href="{{media_url}}{{data.budget}}">
+    Budget
+  </a>
+  <ul>
+    <li>Created: {{data.budget_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.budget}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,research-infrastructure,aerospace-outreach,special-initiatives,clark-graduate-fellowship,graduate-fellowship,undergraduate-research,nasa-competition,industry-internship,professional-program-student" %}
+  {% if data.status %}<li>Budget: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.invoice %}
+  <li>
+    <a href="{{media_url}}{{data.invoice}}" target="_blank">
+      Invoice
+    </a>
+    <ul>
+      <li>Created: {{data.invoice_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.invoice}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition,industry-internship" %}
+  {% if data.status %}<li>Invoice: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.intended_program_match %}
+  <li>
+    <a href="{{media_url}}{{data.intended_program_match}}" target="_blank">
+      Program Match
+    </a>
+    <ul>
+      <li>Created: {{data.intended_program_match_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.intended_program_match}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition,industry-internship" %}
+  {% if data.status %}<li>Program Match: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.close_out_finance_document %}
+  <li>
+    <a href="{{media_url}}{{data.close_out_finance_document}}" target="_blank">
+      Close Out Finance Document
+    </a>
+    <ul>
+      <li>Created: {{data.close_out_finance_document_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.close_out_finance_document}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition,industry-internship" %}
+  {% if data.status %}<li>Close Out Finance Document: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.letter_interest %}
+  <li>
+    <a href="{{media_url}}{{data.letter_interest}}" target="_blank">
+      Letter of Interest
+    </a>
+    <ul>
+      <li>Created: {{data.letter_interest_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.letter_interest}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "high-altitude-balloon-launch,high-altitude-balloon-payload" %}
+  {% if data.status %}<li>Letter of Interest: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.undergraduate_transcripts %}
+  <li>
+    <a href="{{media_url}}{{data.undergraduate_transcripts}}" target="_blank">
+      Undergraduate Transcripts
+    </a>
+    <ul>
+      <li>Created: {{data.undergraduate_transcripts_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.undergraduate_transcripts}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "clark-graduate-fellowship,graduate-fellowship,undergraduate-research,undergraduate-scholarship,stem-bridge-scholarship" %}
+  {% if data.status %}<li>Undergraduate Transcripts: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.graduate_transcripts %}
+  <li>
+    <a href="{{media_url}}{{data.graduate_transcripts}}" target="_blank">
+      Graduate Transcripts
+    </a>
+    <ul>
+      <li>Created: {{data.graduate_transcripts_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.graduate_transcripts}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "clark-graduate-fellowship,graduate-fellowship" %}
+  {% if data.status %}<li>Graduate Transcripts: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.recommendation_1 %}
+  <li>
+    <a href="{{media_url}}{{data.recommendation_1}}" target="_blank">
+      Recommendation 1
+    </a>
+    <ul>
+      <li>Created: {{data.recommendation_1_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.recommendation_1}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "clark-graduate-fellowship,graduate-fellowship" %}
+  {% if data.status %}<li>Recommendation 1: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.recommendation_2 %}
+  <li>
+    <a href="{{media_url}}{{data.recommendation_2}}" target="_blank">
+      Recommendation 2
+    </a>
+    <ul>
+      <li>Created: {{data.recommendation_2_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.recommendation_2}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "clark-graduate-fellowship,graduate-fellowship" %}
+  {% if data.status %}<li>Recommendation 2: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.recommendation %}
+  <li>
+    <a href="{{media_url}}{{data.recommendation}}" target="_blank">
+      Recommendation
+    </a>
+    <ul>
+      <li>Created: {{data.recommendation_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.recommendation}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "undergraduate-research,undergraduate-scholarship,stem-bridge-scholarship" %}
+  {% if data.status %}<li>Recommendation: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.wsgc_advisor_recommendation %}
+  <li>
+    <a href="{{media_url}}{{data.wsgc_advisor_recommendation}}" target="_blank">
+      WSGC Advisor Recommendation
+    </a>
+    <ul>
+      <li>Created: {{data.wsgc_advisor_recommendation_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.wsgc_advisor_recommendation}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "undergraduate-research,undergraduate-scholarship,stem-bridge-scholarship" %}
+  {% if data.status %}<li>WSGC Advisor Recommendation: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.high_school_transcripts %}
+  <li>
+    <a href="{{media_url}}{{data.high_school_transcripts}}" target="_blank">
+      High School Transcripts
+    </a>
+    <ul>
+      <li>Created: {{data.high_school_transcripts_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.high_school_transcripts}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "undergraduate-research,undergraduate-scholarship,stem-bridge-scholarship" %}
+  {% if data.status %}<li>Graduate Transcripts: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.statement %}
+  <li>
+    <a href="{{media_url}}{{data.statement}}" target="_blank">
+      Statement
+    </a>
+    <ul>
+      <li>Created: {{data.statement_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.statement}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "undergraduate-scholarship,stem-bridge-scholarship,nasa-competition" %}
+  {% if data.status %}<li>Statement: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.task_schedule %}
+  <li>
+    <a href="{{media_url}}{{data.task_schedule}}" target="_blank">
+      Task Schedule
+    </a>
+    <ul>
+      <li>Created: {{data.task_schedule_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.task_schedule}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "industry-internship" %}
+  {% if data.status %}<li>Task Schedule: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.intern_supervisor_cv %}
+<li>
+  <a href="https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}" target="_blank">
+    Intern Supervisor CV
+  </a>
+  <ul>
+    <li>Created: {{data.intern_supervisor_cv_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.intern_supervisor_cv}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.get_slug in "industry-internship" %}
+  {% if data.status %}<li>Intern Supervisor CV: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+</ul>
+{% endif %}

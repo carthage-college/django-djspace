@@ -208,7 +208,7 @@
           Optional Files
         </legend>
         <ol>
-        {% if app.get_content_type.model == "rocketlaunchteam" or app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id %}
+          {% if app.get_content_type.model == "rocketlaunchteam" or app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id %}
           <li class="form-group ctrlHolder">
             <h3>
               <label for="id_institutional_w9">Institutional W9 [PDF]</label>
@@ -225,15 +225,14 @@
               <a class="fa-wrap" href="{{media_url}}{% if app.institutional_w9 %}{{app.institutional_w9}}{% else %}{{app.team.institutional_w9}}{% endif %}" target="_blank">
               <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
             {% else %}
-              <i class="fa fa-times green fa-wrap" aria-hidden="true"
-              title="Optional file"></i>
+              <i class="fa fa-times green fa-wrap" aria-hidden="true" title="Institutional W9"></i>
             {% endif %}
           </li>
           {% endif %}
           <li class="form-group ctrlHolder">
             <h3>
               <label for="id_final_report">
-                Other File 1
+                File 1
               </label>
             </h3>
             <div class="filewrap fleft">
@@ -248,18 +247,16 @@
               <a class="fa-wrap"
                 href="{{media_url}}{{app.other_file}}"
                 target="_blank">
-                <i class="fa fa-times fa-file-pdf-o blue"
-                aria-hidden="true"></i></a>
+                <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
             {% else %}
-              <i class="fa fa-times green fa-wrap" aria-hidden="true"
-                title="Optional file"></i>
+              <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Optional file"></i>
             {% endif %}
-            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true" data-original-title="" title=""></i>
+            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true"></i>
           </li>
           <li class="form-group ctrlHolder">
             <h3>
               <label for="id_final_report">
-                Other File 2
+                File 2
               </label>
             </h3>
             <div class="filewrap fleft">
@@ -277,15 +274,14 @@
                 <i class="fa fa-times fa-file-pdf-o blue"
                 aria-hidden="true"></i></a>
             {% else %}
-              <i class="fa fa-times green fa-wrap" aria-hidden="true"
-                title="Optional file"></i>
+              <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Optional file"></i>
             {% endif %}
-            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true" data-original-title="" title=""></i>
+            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true"></i>
           </li>
           <li class="form-group ctrlHolder">
             <h3>
               <label for="id_final_report">
-                Other File 3
+                File 3
               </label>
             </h3>
             <div class="filewrap fleft">
@@ -303,10 +299,9 @@
                 <i class="fa fa-times fa-file-pdf-o blue"
                 aria-hidden="true"></i></a>
             {% else %}
-              <i class="fa fa-times green fa-wrap" aria-hidden="true"
-                title="Optional file"></i>
+              <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Optional file"></i>
             {% endif %}
-            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true" data-original-title="" title=""></i>
+            <i tabindex="0" class="fa fa-question-circle-o green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true"></i>
           </li>
         </ol>
       </fieldset>
@@ -334,13 +329,14 @@
             </div>
           </li>
           <li class="form-group ctrlHolder">
-            <ul class="photo-container">
-              {% for photo in app.photos.all %}
+            <ul id="phoc_{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}" class="photo-container">
+                {% for photo in app.photos.all %}
                 {% include "dashboard/view_photo.ajax.html" %}
               {% endfor %}
             </ul>
           </li>
         </ol>
+        <div class="help">Include the student awardee who is engaged in the project.</div>
       </fieldset>
     {% endif %}{# /app.status #}
 </li>

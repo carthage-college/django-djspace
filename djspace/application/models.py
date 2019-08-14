@@ -326,8 +326,16 @@ class EducationInitiatives(BaseModel):
         return ['proposal','budget']
 
     # timestamp methods are for UI level display
+    def proposal_timestamp(self):
+        return self.get_file_timestamp('proposal')
     def budget_timestamp(self):
         return self.get_file_timestamp('budget')
+    def invoice_timestamp(self):
+        return self.get_file_timestamp('invoice')
+    def intended_program_match_timestamp(self):
+        return self.get_file_timestamp('intended_program_match')
+    def close_out_finance_document_timestamp(self):
+        return self.get_file_timestamp('close_out_finance_document')
 
     def __unicode__(self):
         return self.project_title
@@ -585,8 +593,6 @@ class RocketLaunchTeam(BaseModel):
     intent_compete = models.TextField(
         "Notification of Intent to Compete"
     )
-    '''
-    '''
     other_fellowship = models.CharField(
         "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
@@ -846,54 +852,48 @@ class RocketLaunchTeam(BaseModel):
         return ['budget',]
 
     # timestamp methods are for UI level display
-    def budget_timestamp(self):
-        return self.get_file_timestamp('budget')
-
     def proposal_timestamp(self):
         return self.get_file_timestamp('proposal')
-
-    def interim_progress_report_timestamp(self):
-        return self.get_file_timestamp('interim_progress_report')
-
-    def preliminary_design_report_timestamp(self):
-        return self.get_file_timestamp('preliminary_design_report')
-
-    def final_design_report_timestamp(self):
-        return self.get_file_timestamp('final_design_report')
-
-    def final_motor_selection_timestamp(self):
-        return self.get_file_timestamp('final_motor_selection')
-
-    def lodging_list_timestamp(self):
-        return self.get_file_timestamp('lodging_list')
-
-    def critical_design_report_timestamp(self):
-        return self.get_file_timestamp('critical_design_report')
-
-    def oral_presentation_timestamp(self):
-        return self.get_file_timestamp('oral_presentation')
-
-    def post_flight_performance_report_timestamp(self):
-        return self.get_file_timestamp('post_flight_performance_report')
-
-    def education_outreach_timestamp(self):
-        return self.get_file_timestamp('education_outreach')
-
-    def flight_readiness_report_timestamp(self):
-        return self.get_file_timestamp('flight_readiness_report')
-
+    def budget_timestamp(self):
+        return self.get_file_timestamp('budget')
+    def verified_budget_timestamp(self):
+        return self.get_file_timestamp('verified_budget')
+    def invoice_timestamp(self):
+        return self.get_file_timestamp('invoice')
+    def close_out_finance_document_timestamp(self):
+        return self.get_file_timestamp('close_out_finance_document')
+    def charges_certification_timestamp(self):
+        return self.get_file_timestamp('invoice')
     def institutional_w9_timestamp(self):
         return self.get_file_timestamp('institutional_w9')
-
+    def interim_progress_report_timestamp(self):
+        return self.get_file_timestamp('interim_progress_report')
     def virtual_cdr_timestamp(self):
         return self.get_file_timestamp('virtual_cdr')
-
+    def preliminary_design_report_timestamp(self):
+        return self.get_file_timestamp('preliminary_design_report')
     def virtual_pdr_timestamp(self):
         return self.get_file_timestamp('virtual_pdr')
-
+    def final_design_report_timestamp(self):
+        return self.get_file_timestamp('final_design_report')
+    def flight_demo_timestamp(self):
+        return self.get_file_timestamp('invoice')
+    def final_motor_selection_timestamp(self):
+        return self.get_file_timestamp('final_motor_selection')
+    def lodging_list_timestamp(self):
+        return self.get_file_timestamp('lodging_list')
+    def critical_design_report_timestamp(self):
+        return self.get_file_timestamp('critical_design_report')
+    def oral_presentation_timestamp(self):
+        return self.get_file_timestamp('oral_presentation')
+    def post_flight_performance_report_timestamp(self):
+        return self.get_file_timestamp('post_flight_performance_report')
+    def education_outreach_timestamp(self):
+        return self.get_file_timestamp('education_outreach')
+    def flight_readiness_report_timestamp(self):
+        return self.get_file_timestamp('flight_readiness_report')
     def virtual_frr_timestamp(self):
         return self.get_file_timestamp('virtual_frr')
-
     def openrocketrocksim_timestamp(self):
         return self.get_file_timestamp('openrocketrocksim')
 
@@ -967,6 +967,10 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         '''
         return ['cv']
 
+    # timestamp methods are for UI level display
+    def cv_timestamp(self):
+        return self.get_file_timestamp('cv')
+
     @models.permalink
     def get_absolute_url(self):
         return ('application_update', [self.get_slug(), str(self.id)])
@@ -1035,6 +1039,10 @@ class CollegiateRocketCompetition(BaseModel):
         used when building a tarball of required files
         '''
         return ['cv']
+
+    # timestamp methods are for UI level display
+    def cv_timestamp(self):
+        return self.get_file_timestamp('cv')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1160,8 +1168,10 @@ class HighAltitudeBalloon(BaseModel):
         return ['letter_interest','cv']
 
     # timestamp methods are for UI level display
-    def budget_timestamp(self):
-        return self.get_file_timestamp('budget')
+    def letter_interest_timestamp(self):
+        return self.get_file_timestamp('letter_interest')
+    def cv_timestamp(self):
+        return self.get_file_timestamp('cv')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1381,8 +1391,20 @@ class Fellowship(BaseModel):
         ]
 
     # timestamp methods are for UI level display
+    def proposal_timestamp(self):
+        return self.get_file_timestamp('proposal')
+    def cv_timestamp(self):
+        return self.get_file_timestamp('cv')
     def budget_timestamp(self):
         return self.get_file_timestamp('budget')
+    def undergraduate_transcripts_timestamp(self):
+        return self.get_file_timestamp('undergraduate_transcripts')
+    def graduate_transcripts_timestamp(self):
+        return self.get_file_timestamp('graduate_transcripts')
+    def recommendation_1_timestamp(self):
+        return self.get_file_timestamp('recommendation_1')
+    def recommendation_2_timestamp(self):
+        return self.get_file_timestamp('recommendation_2')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1568,8 +1590,18 @@ class UndergraduateResearch(BaseModel):
         ]
 
     # timestamp methods are for UI level display
+    def proposal_timestamp(self):
+        return self.get_file_timestamp('proposal')
     def budget_timestamp(self):
         return self.get_file_timestamp('budget')
+    def high_school_transcripts_timestamp(self):
+        return self.get_file_timestamp('high_school_transcripts')
+    def undergraduate_transcripts_timestamp(self):
+        return self.get_file_timestamp('undergraduate_transcripts')
+    def wsgc_advisor_recommendation_timestamp(self):
+        return self.get_file_timestamp('wsgc_advisor_recommendation')
+    def recommendation_timestamp(self):
+        return self.get_file_timestamp('recommendation')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1701,6 +1733,18 @@ class Scholarship(BaseModel):
             'undergraduate_transcripts','wsgc_advisor_recommendation',
             'recommendation'
         ]
+
+    # timestamp methods are for UI level display
+    def statement_timestamp(self):
+        return self.get_file_timestamp('statement')
+    def high_school_transcripts_timestamp(self):
+        return self.get_file_timestamp('high_school_transcripts')
+    def undergraduate_transcripts_timestamp(self):
+        return self.get_file_timestamp('undergraduate_transcripts')
+    def wsgc_advisor_recommendation_timestamp(self):
+        return self.get_file_timestamp('wsgc_advisor_recommendation')
+    def recommendation_timestamp(self):
+        return self.get_file_timestamp('recommendation')
 
 
 class UndergraduateScholarship(Scholarship):
@@ -1949,8 +1993,16 @@ class NasaCompetition(BaseModel):
         return [ 'statement','budget']
 
     # timestamp methods are for UI level display
+    def statement_timestamp(self):
+        return self.get_file_timestamp('statement')
     def budget_timestamp(self):
         return self.get_file_timestamp('budget')
+    def invoice_timestamp(self):
+        return self.get_file_timestamp('invoice')
+    def intended_program_match_timestamp(self):
+        return self.get_file_timestamp('intended_program_match')
+    def close_out_finance_document_timestamp(self):
+        return self.get_file_timestamp('close_out_finance_document')
 
     @models.permalink
     def get_absolute_url(self):
@@ -2138,8 +2190,18 @@ class IndustryInternship(BaseModel):
         return ['intern_supervisor_cv','task_schedule','budget']
 
     # timestamp methods are for UI level display
+    def intern_supervisor_cv_timestamp(self):
+        return self.get_file_timestamp('intern_supervisor_cv')
+    def task_schedule_timestamp(self):
+        return self.get_file_timestamp('task_schedule')
     def budget_timestamp(self):
         return self.get_file_timestamp('budget')
+    def invoice_timestamp(self):
+        return self.get_file_timestamp('invoice')
+    def intended_program_match_timestamp(self):
+        return self.get_file_timestamp('intended_program_match')
+    def close_out_finance_document_timestamp(self):
+        return self.get_file_timestamp('close_out_finance_document')
 
     @models.permalink
     def get_absolute_url(self):

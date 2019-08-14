@@ -230,6 +230,7 @@ class BaseModel(Base):
         help_text="PDF format"
     )
     other_file = models.FileField(
+        "Ancillary File 1",
         upload_to = partial(upload_to_path, 'Other_File'),
         validators=[
             FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
@@ -237,6 +238,7 @@ class BaseModel(Base):
         max_length=768, null=True, blank=True,
     )
     other_file2 = models.FileField(
+        "Ancillary File 2",
         upload_to = partial(upload_to_path, 'Other_File2'),
         validators=[
             FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
@@ -244,6 +246,7 @@ class BaseModel(Base):
         max_length=768, null=True, blank=True,
     )
     other_file3 = models.FileField(
+        "Ancillary File 3",
         upload_to = partial(upload_to_path, 'Other_File3'),
         validators=[
             FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)

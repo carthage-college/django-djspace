@@ -1,4 +1,4 @@
-  <ul>
+<ul>
     {% if user.user_files.mugshot and mugshot_status %}
       <li>
         <a href="{{media_url}}{{user.user_files.mugshot}}"
@@ -54,5 +54,5 @@
       <br>
       https://{{server_url}}{{media_url}}{{data.user.profile.get_registration.cv}}
     </li>
-{% endif %}
-  </ul>
+    {% endif %}
+</ul>
