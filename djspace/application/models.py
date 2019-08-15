@@ -179,7 +179,11 @@ STUDENT_PROFESSIONAL_PROGRAMS = (
     ('ResearchInfrastructure', 'Research Infrastructure'),
     ('SpecialInitiatives', 'Special Initiatives')
 )
-
+FUNDING_CHOICES = (
+    ('WSGC','WSGC'),
+    ('Federal','Federal'),
+    ('Not Applicable','Not Applicable'),
+)
 # only used at UI level
 ROCKET_COMPETITIONS_EXCLUDE = [
     "midwesthighpoweredrocketcompetition",
@@ -1240,8 +1244,8 @@ class Fellowship(BaseModel):
     # core
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
-        max_length=4,
-        choices=BINARY_CHOICES,
+        max_length=32,
+        choices=FUNDING_CHOICES,
         help_text="Grants/Scholarships/etc."
     )
     project_title = models.CharField(
