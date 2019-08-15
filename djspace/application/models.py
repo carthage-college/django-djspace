@@ -441,6 +441,8 @@ class AerospaceOutreach(EducationInitiatives):
         max_length=128,
         choices=PROJECT_CATEGORIES
     )
+    other_fellowship = None
+    other_fellowship_explain = None
     other_funding = models.CharField(
         "Are you seeking other WSGC funding for this project?",
         max_length=4,
@@ -503,6 +505,8 @@ class SpecialInitiatives(EducationInitiatives):
         max_length=128,
         choices=PROJECT_CATEGORIES
     )
+    other_fellowship = None
+    other_fellowship_explain = None
     other_funding = models.CharField(
         "Are you seeking other WSGC funding for this project?",
         max_length=4,
@@ -2222,13 +2226,6 @@ class ProfessionalProgramStudent(BaseModel):
             I, as a student, have been selected to participate
             in the above program
         '''
-    )
-    budget = models.FileField(
-        upload_to = partial(upload_to_path, 'Budget'),
-        validators=FILE_VALIDATORS,
-        max_length=255,
-        null=True, blank=True,
-        help_text="[PDF format]"
     )
     mentor = models.ForeignKey(
         User,

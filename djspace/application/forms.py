@@ -143,12 +143,6 @@ class AerospaceOutreachForm(forms.ModelForm):
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    other_fellowship = forms.TypedChoiceField(
-        label="""
-            Do you currently hold another Federal fellowship or traineeship?
-        """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
-    )
     end_date = forms.DateField(required=True)
 
     class Meta:
@@ -158,7 +152,6 @@ class AerospaceOutreachForm(forms.ModelForm):
             'end_date', 'funds_requested','proposed_match','source_match',
             'past_funding','past_funding_year',
             'other_funding','other_funding_explain',
-            'other_fellowship','other_fellowship_explain',
             'synopsis', 'nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal','budget',
             'finance_officer_name','finance_officer_title',
@@ -206,12 +199,6 @@ class SpecialInitiativesForm(forms.ModelForm):
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    other_fellowship = forms.TypedChoiceField(
-        label="""
-            Do you currently hold another Federal fellowship or traineeship?
-        """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
-    )
     proposed_match = forms.IntegerField(
         label = "Proposed match (1:1 mimimum)(in $)",
         help_text = """
@@ -236,7 +223,6 @@ class SpecialInitiativesForm(forms.ModelForm):
             'end_date', 'funds_requested','proposed_match','source_match',
             'past_funding','past_funding_year',
             'other_funding','other_funding_explain',
-            'other_fellowship','other_fellowship_explain',
             'synopsis','nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal','budget',
             'finance_officer_name','finance_officer_title',
@@ -1048,12 +1034,8 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
     class Meta:
         model = ProfessionalProgramStudent
         fields = (
-            'program','mentor','award_acceptance','budget',
-            'past_funding','past_funding_year',
-            #'AerospaceOutreach',
-            #'HigherEducationInitiatives','IndustryInternship','NasaCompetition',
-            #'ResearchInfrastructure',
-            #'SpecialInitiatives'
+            'program','mentor','award_acceptance','past_funding',
+            'past_funding_year'
         )
 
     def __init__(self, *args, **kwargs):
