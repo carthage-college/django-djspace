@@ -1,4 +1,5 @@
 {% extends "home.html" %}
+{% load livewhale_api %}
 {% block title %}
   WSGC {{app_name}} Application &mdash; Carthage College
 {% endblock %}
@@ -312,6 +313,10 @@ $(function() {
 {% endblock %}
 {% block content %}
 {% include "application/intro_instructions.inc.html" %}
+<p class="intro">
+Mandatory fields are denoted by an asterisk. Once the form is complete,
+you will receive a notification email.
+</p>
 {% if messages %}
     {% for message in messages %}
     <div id="messages" class="{{ message.tags }} large-12 medium-12 small-12">
