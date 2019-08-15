@@ -45,7 +45,8 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'authorized_match', 'award_acceptance','final_report',
             'other_file','other_file2','other_file3',
             'interim_report','invoice','intended_program_match',
-            'close_out_finance_document'
+            'close_out_finance_document',
+            'url1','url2','url3'
         )
         fields = (
             'project_title','award_type','funds_requested','proposed_match',
@@ -95,7 +96,8 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3',
-            'interim_report','close_out_finance_document'
+            'interim_report','close_out_finance_document',
+            'url1','url2','url3'
         )
         fields = (
             'project_title','award_type','funds_requested','proposed_match',
@@ -170,7 +172,8 @@ class AerospaceOutreachForm(forms.ModelForm):
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3',
             'interim_report','invoice','intended_program_match',
-            'close_out_finance_document'
+            'close_out_finance_document',
+            'url1','url2','url3'
         )
 
 
@@ -247,7 +250,8 @@ class SpecialInitiativesForm(forms.ModelForm):
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3',
             'interim_report','invoice','intended_program_match',
-            'close_out_finance_document'
+            'close_out_finance_document',
+            'url1','url2','url3'
         )
 
 
@@ -308,7 +312,8 @@ class UndergraduateScholarshipForm(forms.ModelForm):
         exclude = (
             'complete', 'user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report'
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
         )
 
 
@@ -368,7 +373,8 @@ class StemBridgeScholarshipForm(forms.ModelForm):
         exclude = (
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report'
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
         )
 
 
@@ -423,7 +429,8 @@ class UndergraduateResearchForm(forms.ModelForm):
         exclude = (
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report'
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
         )
 
 
@@ -475,7 +482,8 @@ class GraduateFellowshipForm(forms.ModelForm):
         exclude = (
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report'
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
         )
 
 
@@ -527,7 +535,8 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
         exclude = (
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report'
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
         )
 
 
@@ -572,7 +581,8 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
         exclude = (
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report'
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
         )
 
 
@@ -609,7 +619,8 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
         exclude = (
             'complete','user','status','commit','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report'
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
         )
 
 
@@ -673,7 +684,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'flight_readiness_report','post_flight_performance_report',
             'education_outreach','verified_budget','final_motor_selection',
             'close_out_finance_document','invoice','charges_certification',
-            'institutional_w9'
+            'institutional_w9', 'url1','url2','url3'
         )
 
     def __init__(self, *args, **kwargs):
@@ -771,6 +782,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','interim_report',
             'final_report','other_file','other_file2','other_file3',
+            'url1','url2','url3'
         )
 
 
@@ -827,6 +839,7 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','interim_report',
             'final_report','other_file','other_file2','other_file3',
+            'url1','url2','url3'
         )
 
     def __init__(self, *args, **kwargs):
@@ -877,6 +890,7 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','interim_report',
             'final_report','other_file','other_file2','other_file3',
+            'url1','url2','url3'
         )
 
 
@@ -926,7 +940,7 @@ class NasaCompetitionForm(forms.ModelForm):
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3',
             'interim_report','invoice','intended_program_match',
-            'close_out_finance_document'
+            'close_out_finance_document','url1','url2','url3'
         )
 
 
@@ -977,7 +991,8 @@ class IndustryInternshipForm(forms.ModelForm):
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3',
             'interim_report','invoice','intended_program_match',
-            'close_out_finance_document','funds_authorized'
+            'close_out_finance_document','funds_authorized',
+            'url1','url2','url3'
         )
 
 
