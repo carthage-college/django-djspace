@@ -307,6 +307,84 @@
       </fieldset>
       <fieldset>
         <legend>
+            Optional URLs
+            <span class="fright">
+              <i tabindex="0"
+              class="fa fa-question-circle-o green popover-toggle"
+              data-html="true"
+              data-trigger="focus"
+              data-content="<span class='help'>Provide up to three URLs to files and photos that you would like to include.</span>"
+              aria-hidden="true"></i>
+            </span>
+        </legend>
+        <ol>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_url1">URL 1</label>
+            </h3>
+            <div>
+              {% if app.url1 %}
+              <input type="url" name="url1" class="url-field fleft"
+              data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+              data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+              value="{{app.url1}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
+              <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+              {% else %}
+              <input type="input" name="url1" class="url-field fleft"
+              data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+              data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+              id="id_url1" style="margin-right:17px;">
+              <i class="fa fa-times red" aria-hidden="true" id="id_url1_missing"
+                title="Provide an optional URL"></i>
+              {% endif %}
+            </div>
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_url2">URL 2</label>
+            </h3>
+            <div>
+              {% if app.url2 %}
+              <input type="url" name="url2" class="url-field fleft"
+              data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+              data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+              value="{{app.url2}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
+              <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+              {% else %}
+              <input type="input" name="url2" class="url-field fleft"
+              data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+              data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+              id="id_url2" style="margin-right:17px;">
+              <i class="fa fa-times red" aria-hidden="true" id="id_url2_missing"
+                title="Provide an optional URL"></i>
+              {% endif %}
+            </div>
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_url3">URL 3</label>
+            </h3>
+            <div>
+              {% if app.url3 %}
+              <input type="url" name="url3" class="url-field fleft"
+              data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+              data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+              value="{{app.url3}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
+              <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+              {% else %}
+              <input type="input" name="url3" class="url-field fleft"
+              data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+              data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+              id="id_url3" style="margin-right:17px;">
+              <i class="fa fa-times red" aria-hidden="true" id="id_url3_missing"
+                title="Provide an optional URL"></i>
+              {% endif %}
+            </div>
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset>
+        <legend>
             Photos
             <span class="fright">
               <i tabindex="0"

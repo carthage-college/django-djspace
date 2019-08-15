@@ -220,7 +220,7 @@
       }
     }); /* end photo-upload change() method */
 
-    $(".flight-demo").blur(function() {
+    $(".url-field").blur(function() {
         var $dis = $(this);
         var $did = $dis.attr('id');
         var $val = $dis.val();
@@ -235,6 +235,10 @@
             'field':$field,
             'value':$val
         };
+        console.log("data['cid'] = " + $data['cid']);
+        console.log("data['oid'] = " + $data['oid']);
+        console.log("data['field'] = " + $data['field']);
+        console.log("data['value'] = " + $data['value']);
         if ($val != '' && validateURL($val)) {
           $.ajax ({
             type: "POST",
@@ -245,10 +249,7 @@
             success: function(data) {
               if (data == "success") {
                 $fawe.replaceWith($fawe_done);
-                $.growlUI("Success", "Flight Demo URL saved.");
-                // determine if we can remove warning message about
-                // missing files
-                //FilesStatus();
+                $.growlUI("Success", "URL saved.");
               }else{
                 $.growlUI("Fail", "Please input your URL again.");
               }

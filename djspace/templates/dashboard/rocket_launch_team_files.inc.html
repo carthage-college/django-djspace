@@ -156,14 +156,14 @@
   </h3>
   <div>
     {% if app.flight_demo or app.team.flight_demo %}
-    <input type="url" name="flight_demo" class="flight-demo fleft"
+    <input type="url" name="flight_demo" class="url-field fleft"
       data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       value="{% if app.flight_demo %}{{app.flight_demo}}{% else %}{{app.team.flight_demo}}{% endif %}"
       id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
     <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
     {% else %}
-    <input type="input" name="flight_demo" class="flight-demo fleft"
+    <input type="input" name="flight_demo" class="url-field fleft"
       data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">

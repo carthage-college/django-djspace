@@ -130,6 +130,24 @@ Department program.......... {{data.user.profile.get_registration.department_pro
       https://{{server_url}}{{media_url}}{{data.other_file3}}
     </li>
   {% endif %}
+  {% if data.url1 %}
+    <li>
+      <a href="{{data.url1}}" target="_blank">Optional URL 1</a><br>
+      {{data.url1}}
+    </li>
+  {% endif %}
+  {% if data.url2 %}
+    <li>
+      <a href="{{data.url2}}" target="_blank">Optional URL 2</a><br>
+      {{data.url2}}
+    </li>
+  {% endif %}
+  {% if data.url3 %}
+    <li>
+      <a href="{{data.url3}}" target="_blank">Optional URL 3</a><br>
+      {{data.url3}}
+    </li>
+  {% endif %}
 </ul>
 <h2>Program Files</h2>
 {% include "application/email/program_files.inc.html" %}

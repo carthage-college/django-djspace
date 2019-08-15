@@ -253,6 +253,18 @@ class BaseModel(Base):
         ], help_text=ALLOWED_EXTENSIONS,
         max_length=768, null=True, blank=True,
     )
+    url1 = models.CharField(
+        max_length=768, null=True, blank=True,
+        help_text="Other URL for linking to files or photos"
+    )
+    url2 = models.CharField(
+        max_length=768, null=True, blank=True,
+        help_text="Other URL for linking to files or photos"
+    )
+    url3 = models.CharField(
+        max_length=768, null=True, blank=True,
+        help_text="Other URL for linking to files or photos"
+    )
     photos = GenericRelation(Photo)
 
     def multi_year(self):
