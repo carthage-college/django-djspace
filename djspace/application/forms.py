@@ -926,7 +926,8 @@ class NasaCompetitionForm(forms.ModelForm):
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3',
             'interim_report','invoice','intended_program_match',
-            'close_out_finance_document','url1','url2','url3'
+            'close_out_finance_document','url1','url2','url3',
+            'team_photo','team_biography'
         )
 
 
@@ -955,6 +956,7 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
             'award_acceptance','final_report','interim_report','invoice',
             'intended_program_match','close_out_finance_document',
             'other_file','other_file2','other_file3',
+            'team_photo','team_biography'
         )
 
 
