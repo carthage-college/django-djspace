@@ -82,6 +82,7 @@ EMPLOYMENT_CHOICES = (
     ('N/A',"N/A"),
 )
 FUNDING_CHOICES = (
+    ('',"----select----"),
     ('WSGC','WSGC'),
     ('Federal','Federal'),
     ('Not Applicable','Not Applicable'),
@@ -217,7 +218,6 @@ class BaseModel(Base):
         "Are you anticipating other funding this year?",
         max_length=32,
         choices=FUNDING_CHOICES,
-        default='Not Applicable',
         help_text="Grants/Scholarships/etc."
     )
     award_acceptance = models.FileField(

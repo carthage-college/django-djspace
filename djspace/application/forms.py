@@ -49,9 +49,9 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'url1','url2','url3'
         )
         fields = (
-            'project_title','award_type','funds_requested','proposed_match',
-            'source_match','begin_date', 'end_date', 'location','synopsis',
-            'proposal','budget','past_funding','past_funding_year',
+            'project_title','award_type','anticipating_funding','funds_requested',
+            'proposed_match','source_match','begin_date','end_date','location',
+            'synopsis','proposal','budget','past_funding','past_funding_year',
             'other_fellowship','other_fellowship_explain',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
@@ -100,10 +100,11 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'url1','url2','url3'
         )
         fields = (
-            'project_title','award_type','funds_requested','proposed_match',
-            'source_match', 'past_funding','past_funding_year',
+            'project_title','award_type','anticipating_funding',
+            'funds_requested','proposed_match',
+            'source_match','past_funding','past_funding_year',
             'other_fellowship','other_fellowship_explain',
-            'begin_date', 'end_date', 'location','synopsis',
+            'begin_date','end_date', 'location','synopsis',
             'nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal','budget',
             'finance_officer_name','finance_officer_title',
@@ -149,10 +150,11 @@ class AerospaceOutreachForm(forms.ModelForm):
         model = AerospaceOutreach
         fields = (
             'project_title','project_category','location','begin_date',
-            'end_date', 'funds_requested','proposed_match','source_match',
+            'end_date','anticipating_funding','funds_requested',
+            'proposed_match','source_match',
             'past_funding','past_funding_year',
             'other_funding','other_funding_explain',
-            'synopsis', 'nasa_mission_directorate',
+            'synopsis','nasa_mission_directorate',
             'nasa_mission_directorate_other', 'proposal','budget',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
@@ -220,11 +222,12 @@ class SpecialInitiativesForm(forms.ModelForm):
         model = SpecialInitiatives
         fields = (
             'project_title','project_category','location','begin_date',
-            'end_date', 'funds_requested','proposed_match','source_match',
+            'end_date','anticipating_funding','funds_requested',
+            'proposed_match','source_match',
             'past_funding','past_funding_year',
             'other_funding','other_funding_explain',
             'synopsis','nasa_mission_directorate',
-            'nasa_mission_directorate_other', 'proposal','budget',
+            'nasa_mission_directorate_other','proposal','budget',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
@@ -930,7 +933,6 @@ class NasaCompetitionForm(forms.ModelForm):
             'team_photo','team_biography'
         )
 
-
     def clean(self):
         """
         Check "other" fields if need be
@@ -1037,7 +1039,7 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
         model = ProfessionalProgramStudent
         fields = (
             'program','mentor','award_acceptance','past_funding',
-            'past_funding_year'
+            'past_funding_year','anticipating_funding'
         )
 
     def __init__(self, *args, **kwargs):
