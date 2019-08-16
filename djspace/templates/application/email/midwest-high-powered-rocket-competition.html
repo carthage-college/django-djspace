@@ -3,46 +3,12 @@
 {% block data %}
 <h4>Team</h4>
 <p>{{data.team.name}}</p>
-<h4>Have you received WSGC funding within the past five years?</h4>
-<p>{{data.past_funding|default_if_none:"No"}}</p>
-{% if data.past_funding == 'Yes' %}
-<h4>If 'Yes', what year?</h4>
-<p>{{data.past_funding_year}}</p>
-{% endif %}
 <h4>Prior Experience</h4>
 <div>{{data.prior_experience|safe}}</div>
-<h4>Files</h4>
-<ul>
-  {% if data.budget %}
-  <li>
-    <a href="{{media_url}}{{data.budget}}" target="_blank">
-        Budget
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.budget}}
-  </li>
-  {% endif %}
-  <li>
-    <a href="https://{{server_url}}{{media_url}}{{data.cv}}" target="_blank">
-        CV
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.cv}}
-  </li>
-  {% if data.team.leader.id == data.user.id %}
-    </ul>
-    {% with data.team as data %}
-      {% include "application/email/rocket-launch-team.files.inc.html" %}
-    {% endwith %}
-  {% else %}
-    {% if data.award_acceptance %}
-    <li>
-      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
-        Award Acceptance
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
-    </li>
-    {% else %}
-    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
-    {% endif %}
-  {% endif %}
-</ul>
+{% if data.team.leader.id == data.user.id %}
+  <h4>Rocket launch team files</h4>
+  {% with data.team as data %}
+    {% include "application/email/rocket-launch-team.files.inc.html" %}
+  {% endwith %}
+{% endif %}
 {% endblock %}

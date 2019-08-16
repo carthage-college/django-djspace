@@ -3,12 +3,6 @@
 {% block data %}
 <h4>Title of project</h4>
 <p>{{data.project_title}}</p>
-<h4>Have you received WSGC funding within the past five years?</h4>
-<p>{{data.past_funding|default_if_none:"No"}}</p>
-{% if data.past_funding == 'Yes' %}
-<h4>If 'Yes', what year?</h4>
-<p>{{data.past_funding_year}}</p>
-{% endif %}
 <h4>Funds requested</h4>
 <p>{{data.funds_requested}}</p>
 <h4>Are you seeking other WSGC funding for this project?</h4>
@@ -25,85 +19,4 @@
 <p>{{data.mentor_email}}</p>
 <h4>Synopsis</h4>
 <p>{{data.synopsis|safe}}</p>
-<h4>Files</h4>
-<ul>
-  <li>
-    <a href="{{media_url}}{{data.budget}}" target="_blank">
-        Budget
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.budget}}
-  </li>
-  <li>
-    <a href="{{media_url}}{{data.proposal}}" target="_blank">
-        Proposal
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.proposal}}
-  </li>
-  {% if data.high_school_transcripts %}
-  <li>
-    <a href="{{media_url}}{{data.high_school_transcripts}}" target="_blank">
-        High school transcripts
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.high_school_transcripts}}
-  </li>
-  {% endif %}
-  <li>
-    <a href="{{media_url}}{{data.undergraduate_transcripts}}" target="_blank">
-        Undergraduate transcripts
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.undergraduate_transcripts}}
-  </li>
-  {% if data.wsgc_advisor_recommendation %}
-  <li>
-    <a href="{{media_url}}{{data.wsgc_advisor_recommendation}}" target="_blank">
-        WSGC Advisor recommendation
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.wsgc_advisor_recommendation}}
-  </li>
-  {% endif %}
-  {% if data.recommendation %}
-  <li>
-    <a href="{{media_url}}{{data.recommendation}}" target="_blank">
-        Recommendation
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.recommendation}}
-  </li>
-  {% endif %}
-  <li>
-    <a href="{{media_url}}{{data.signed_certification}}" target="_blank">
-        Signed certification
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.signed_certification}}
-  </li>
-  {% if data.award_acceptance %}
-    <li>
-      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
-      Award Acceptance
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
-  {% endif %}
-  {% if data.interim_report %}
-    <li>
-      <a href="{{media_url}}{{data.interim_report}}" target="_blank">
-        Interim Report
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.interim_report}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Interim Report: Missing</li>{% endif %}
-  {% endif %}
-  {% if data.final_report %}
-    <li>
-      <a href="{{media_url}}{{data.final_report}}" target="_blank">
-        Final Report
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.final_report}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Final Report: Missing</li>{% endif %}
-  {% endif %}
-</ul>
 {% endblock %}

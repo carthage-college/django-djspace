@@ -1,12 +1,6 @@
 {% extends "application/email/base.html" %}
 {% block title %}High Altitude Balloon Payload Application{% endblock %}
 {% block data %}
-<h4>Have you received WSGC funding within the past five years?</h4>
-<p>{{data.past_funding|default_if_none:"No"}}</p>
-{% if data.past_funding == 'Yes' %}
-<h4>If 'Yes', what year?</h4>
-<p>{{data.past_funding_year}}</p>
-{% endif %}
 <h4>Do you currently hold another Federal fellowship or traineeship?</h4>
 <p>{{data.other_fellowship|default:"No"}}</p>
 {% if data.other_funding == 'Yes' %}

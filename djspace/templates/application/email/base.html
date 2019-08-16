@@ -73,6 +73,14 @@ Department program.......... {{data.user.profile.get_registration.department_pro
 {% endwith %}
 {% endblock %}
 <h2>Application Information</h2>
+<h4>Have you received WSGC funding within the past five years?</h4>
+<p>{{data.past_funding|default_if_none:"No"}}</p>
+{% if data.past_funding == 'Yes' %}
+<h4>If 'Yes', what year?</h4>
+<p>{{data.past_funding_year}}</p>
+{% endif %}
+<h4>Are you anticipating other funding this year?</h4>
+<p>{{data.anticipating_funding|default_if_none:"Not Applicable"}}</p>
 {% block data %}{% endblock %}
 <h2>Common Files</h2>
 <ul>

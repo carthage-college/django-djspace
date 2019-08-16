@@ -7,12 +7,6 @@
 <h4>Other competition</h4>
 <p>{{data.competition_type_other}}</p>
 {% endif %}
-<h4>Have you received WSGC funding within the past five years?</h4>
-<p>{{data.past_funding|default_if_none:"No"}}</p>
-{% if data.past_funding == 'Yes' %}
-<h4>If 'Yes', what year?</h4>
-<p>{{data.past_funding_year}}</p>
-{% endif %}
 <h4>NASA Center</h4>
 <p>{{data.facility_name}}</p>
 {% if data.facility_name_other %}
@@ -101,49 +95,4 @@
 </ol>
 <h4>Team Lead</h4>
 <p>{{data.team_lead}}</p>
-<h4>Files</h4>
-<ul>
-  <li>
-    <a href="https://{{server_url}}{{media_url}}{{data.statement}}" target="_blank">
-      Statement
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.statement}}
-  </li>
-  <li>
-    <a href="https://{{server_url}}{{media_url}}{{data.budget}}" target="_blank">
-      Budget
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.budget}}
-  </li>
-  {% if data.award_acceptance %}
-    <li>
-      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
-      Award Acceptance
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
-  {% endif %}
-  {% if data.interim_report %}
-    <li>
-      <a href="{{media_url}}{{data.interim_report}}" target="_blank">
-        Interim Report
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.interim_report}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Interim Report: Missing</li>{% endif %}
-  {% endif %}
-  {% if data.final_report %}
-    <li>
-      <a href="{{media_url}}{{data.final_report}}" target="_blank">
-        Final Report
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.final_report}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Final Report: Missing</li>{% endif %}
-  {% endif %}
-</ul>
 {% endblock %}

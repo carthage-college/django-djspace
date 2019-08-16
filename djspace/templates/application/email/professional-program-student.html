@@ -1,31 +1,6 @@
 {% extends "application/email/base.html" %}
 {% block title %}Professional Program Student Participation{% endblock %}
 {% block data %}
-<h4>Have you received WSGC funding within the past five years?</h4>
-<p>{{data.past_funding|default_if_none:"No"}}</p>
-{% if data.past_funding == 'Yes' %}
-<h4>If 'Yes', what year?</h4>
-<p>{{data.past_funding_year}}</p>
-{% endif %}
-<h4>Files</h4>
-<ul>
-  <li>
-    <a href="{{media_url}}{{data.budget}}" target="_blank">
-      Budget
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.budget}}
-  </li>
-  {% if data.award_acceptance %}
-    <li>
-      <a href="{{media_url}}{{data.award_acceptance}}" target="_blank">
-        Award Acceptance
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.award_acceptance}}
-    </li>
-  {% else %}
-    {% if data.status %}<li>Award Acceptance: Missing</li>{% endif %}
-  {% endif %}
-</ul>
 {% with data.user as user %}
   {% include "application/email/user_files.inc.html" %}
 {% endwith %}

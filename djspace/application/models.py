@@ -2193,6 +2193,8 @@ class IndustryInternship(BaseModel):
         return self.get_file_timestamp('intended_program_match')
     def close_out_finance_document_timestamp(self):
         return self.get_file_timestamp('close_out_finance_document')
+    def background_photo_timestamp(self):
+        return self.get_file_timestamp('background_photo')
 
     @models.permalink
     def get_absolute_url(self):

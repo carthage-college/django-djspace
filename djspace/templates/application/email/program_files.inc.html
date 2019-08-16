@@ -291,5 +291,16 @@
   {% if data.status %}<li>Intern Supervisor CV: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
+{% if data.background_photo %}
+<li>
+  <a href="https://{{server_url}}{{media_url}}{{data.background_photo}}"
+    target="_blank">
+    https://{{server_url}}{{media_url}}{{data.background_photo}}
+  </a>
+  <ul>
+    <li>Created: {{data.background_photo_timestamp}}</li>
+  </ul>
+</li>
+{% endif %}
 </ul>
 {% endif %}
