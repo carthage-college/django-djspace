@@ -31,10 +31,10 @@ import time
 import re
 
 # comment out for migrations
-#FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-FILE_VALIDATORS = []
-#PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-PHOTO_VALIDATORS = []
+FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+#FILE_VALIDATORS = []
+PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+#PHOTO_VALIDATORS = []
 ALLOWED_EXTENSIONS = [
     'doc','docx','xls','xlsx','pdf','tar','zip','gzip','jpg','jpeg','png',
     'ppt','pptx'
@@ -80,6 +80,11 @@ EMPLOYMENT_CHOICES = (
     ('Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)',
      "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
     ('N/A',"N/A"),
+)
+FUNDING_CHOICES = (
+    ('WSGC','WSGC'),
+    ('Federal','Federal'),
+    ('Not Applicable','Not Applicable'),
 )
 
 def _timestamp(obj, field):
@@ -207,6 +212,13 @@ class BaseModel(Base):
         # OJO: does not display on django admin listing if choices is set.
         #choices=PAST_FUNDING_YEAR_CHOICES,
         null=True, blank=True
+    )
+    anticipating_funding = models.CharField(
+        "Are you anticipating other funding this year?",
+        max_length=32,
+        choices=FUNDING_CHOICES,
+        default='Not Applicable',
+        help_text="Grants/Scholarships/etc."
     )
     award_acceptance = models.FileField(
         upload_to = partial(upload_to_path, 'Award_Acceptance'),

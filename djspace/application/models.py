@@ -179,11 +179,6 @@ STUDENT_PROFESSIONAL_PROGRAMS = (
     ('ResearchInfrastructure', 'Research Infrastructure'),
     ('SpecialInitiatives', 'Special Initiatives')
 )
-FUNDING_CHOICES = (
-    ('WSGC','WSGC'),
-    ('Federal','Federal'),
-    ('Not Applicable','Not Applicable'),
-)
 # only used at UI level
 ROCKET_COMPETITIONS_EXCLUDE = [
     "midwesthighpoweredrocketcompetition",
@@ -1246,12 +1241,6 @@ class Fellowship(BaseModel):
         abstract = True
 
     # core
-    anticipating_funding = models.CharField(
-        "Are you anticipating other funding this year?",
-        max_length=32,
-        choices=FUNDING_CHOICES,
-        help_text="Grants/Scholarships/etc."
-    )
     project_title = models.CharField(
         "Title of project", max_length=255
     )
@@ -1861,31 +1850,39 @@ class NasaCompetition(BaseModel):
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'Statement'),
         validators=FILE_VALIDATORS,
-        max_length = 255,
-        help_text = "1 to 2 pages"
+        max_length=255,
+        help_text="1 to 2 pages"
     )
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
         validators=FILE_VALIDATORS,
-        max_length = 255,
-        help_text = "PDF format"
+        max_length=255,
+        help_text="PDF format"
+    )
+    team_photo = models.ImageField(
+        "Team Photo",
+        upload_to = partial(upload_to_path, 'Team_Photo'),
+        validators=PHOTO_VALIDATORS,
+        max_length=255, null=True, blank=True,
+        help_text="JPEG only"
+    )
+    team_biography = models.TextField(
+        "Team Biography", null=True, blank=True,
     )
     # finance officer
     finance_officer_name = models.CharField(
         "Name",
-        max_length = 128
+        max_length=128
     )
     finance_officer_address = models.TextField("Address")
     finance_officer_email = models.EmailField("Email")
     finance_officer_phone = models.CharField(
         verbose_name = 'Phone number',
-        max_length = 12,
-        help_text = "Format: XXX-XXX-XXXX"
+        max_length=12, help_text="Format: XXX-XXX-XXXX"
     )
     # grant officer
     grant_officer_name = models.CharField(
-        "Name",
-        max_length=128
+        "Name", max_length=128
     )
     grant_officer_address = models.TextField("Address")
     grant_officer_email = models.EmailField("Email")
@@ -1897,70 +1894,56 @@ class NasaCompetition(BaseModel):
     # this is crazy and should be m2m but for now they do not
     # want to require members to be registered with the site
     member_1 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_2 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_3 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_4 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_5 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_6 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_7 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_8 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_9 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     member_10 = models.CharField(
         "Member 10",
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     team_lead = models.CharField(
-        "Team Lead",
-        max_length=128,
+        "Team Lead", max_length=128,
     )
     # approved files
     invoice = models.FileField(
         upload_to = partial(upload_to_path, 'Invoice'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null=True, blank=True,
+        max_length=255, null=True, blank=True,
         help_text="PDF format"
     )
     intended_program_match = models.FileField(
         upload_to = partial(upload_to_path, 'Intended_Program_Match'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null=True, blank=True,
+        max_length=255, null=True, blank=True,
         help_text="PDF format"
     )
     close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'Closeout_Finance_Document'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null=True, blank=True,
+        max_length=255, null=True, blank=True,
         help_text="PDF format"
     )
 
