@@ -21,7 +21,11 @@ additional files are required
 
 
 class HigherEducationInitiativesForm(forms.ModelForm):
-
+    budget = forms.FileField(
+        help_text="""
+            Note the spend down date requirement in the Announcement of Opportunity.
+        """
+    )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -74,6 +78,11 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
 
 class ResearchInfrastructureForm(forms.ModelForm):
 
+    budget = forms.FileField(
+        help_text="""
+            Note the spend down date requirement in the Announcement of Opportunity.
+        """
+    )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -128,6 +137,11 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
 
 class AerospaceOutreachForm(forms.ModelForm):
 
+    budget = forms.FileField(
+        help_text="""
+            Note the spend down date requirement in the Announcement of Opportunity.
+        """
+    )
     project_category = forms.TypedChoiceField(
         choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
     )
@@ -185,6 +199,11 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
 
 class SpecialInitiativesForm(forms.ModelForm):
 
+    budget = forms.FileField(
+        help_text="""
+            Note the spend down date requirement in the Announcement of Opportunity.
+        """
+    )
     project_category = forms.TypedChoiceField(
         choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
     )
