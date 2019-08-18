@@ -590,7 +590,7 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'url1','url2','url3','team_photo','team_biography'
         )
 
 
@@ -601,6 +601,7 @@ class HighAltitudeBalloonPayloadUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','final_report','interim_report',
             'other_file','other_file2','other_file3',
+            'team_photo','team_biography'
         )
 
 
@@ -628,7 +629,7 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
             'complete','user','status','commit','funded_code','funds_authorized',
             'authorized_match','award_acceptance','final_report',
             'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'url1','url2','url3','team_photo','team_biography'
         )
 
 
@@ -639,6 +640,7 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','final_report','interim_report',
             'other_file','other_file2','other_file3',
+            'team_photo','team_biography'
         )
 
 
@@ -692,7 +694,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'flight_readiness_report','post_flight_performance_report',
             'education_outreach','verified_budget','final_motor_selection',
             'close_out_finance_document','invoice','charges_certification',
-            'institutional_w9', 'url1','url2','url3'
+            'institutional_w9', 'url1','url2','url3','team_photo','team_biography'
         )
 
     def __init__(self, *args, **kwargs):
@@ -764,7 +766,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'flight_readiness_report','proceeding_paper','proposal',
             'budget','verified_budget','close_out_finance_document',
             'invoice','charges_certification','institutional_w9',
-            'virtual_cdr','virtual_pdr','virtual_frr'
+            'virtual_cdr','virtual_pdr','virtual_frr',
+            'team_photo','team_biography'
         )
 
 

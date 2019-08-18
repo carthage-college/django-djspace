@@ -198,14 +198,14 @@ class EducationInitiatives(BaseModel):
     )
     funds_requested = models.IntegerField(help_text="In dollars")
     funds_authorized = models.IntegerField(
-        null = True, blank = True,
+        null=True, blank=True,
         help_text="In Dollars"
     )
     proposed_match = models.IntegerField(
         "Proposed match (1:1 mimimum)(in $)",
     )
     authorized_match = models.IntegerField(
-        null = True, blank = True
+        null=True, blank=True,
     )
     source_match = models.CharField(
         "Source(s) of match", max_length=255
@@ -220,8 +220,7 @@ class EducationInitiatives(BaseModel):
             If yes, please provide the funding source and the
             funding expiration date.
         """,
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True,
     )
     begin_date = models.DateField()
     end_date = models.DateField(
@@ -256,24 +255,18 @@ class EducationInitiatives(BaseModel):
         help_text="[PDF format]"
     )
     student_1 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     student_2 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     student_3 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     student_4 = models.CharField(
-        max_length=128,
-        null = True, blank = True
-    )
+        max_length=128, null=True, blank=True)
     student_5 = models.CharField(
-        max_length=128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True
     )
     finance_officer_name = models.CharField(
         "Name", max_length=128
@@ -350,8 +343,7 @@ class HigherEducationInitiatives(EducationInitiatives):
 
     award_type = models.CharField(
         "Award",
-        max_length = 128,
-        choices = EDUCATION_INITIATIVES_AWARD_TYPES,
+        max_length=128, choices=EDUCATION_INITIATIVES_AWARD_TYPES,
         help_text = """
             Select the opportunity to which the proposal is being submitted.
         """
@@ -384,8 +376,7 @@ class ResearchInfrastructure(EducationInitiatives):
 
     award_type = models.CharField(
         "Award",
-        max_length = 128,
-        choices = EDUCATION_INITIATIVES_AWARD_TYPES,
+        max_length=128, choices=EDUCATION_INITIATIVES_AWARD_TYPES,
         help_text = """
             Select the opportunity to which the proposal is being submitted.
         """
@@ -404,8 +395,7 @@ class ResearchInfrastructure(EducationInitiatives):
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
-        max_length = 128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text = '''
             If you have choosen "Other" in the field above,
             please identify the NASA Mission Directorate in which you are
@@ -451,8 +441,7 @@ class AerospaceOutreach(EducationInitiatives):
     )
     other_funding_explain = models.CharField(
         "If yes, please explain.",
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     nasa_mission_directorate = models.CharField(
         "NASA Mission Directorate",
@@ -468,8 +457,7 @@ class AerospaceOutreach(EducationInitiatives):
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
-        max_length = 128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text = '''
             If you have choosen "Other" in the field above,
             please identify the NASA Mission Directorate in which you are
@@ -515,8 +503,7 @@ class SpecialInitiatives(EducationInitiatives):
     )
     other_funding_explain = models.CharField(
         "If yes, please explain",
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     nasa_mission_directorate = models.CharField(
         "NASA Mission Directorate",
@@ -532,8 +519,7 @@ class SpecialInitiatives(EducationInitiatives):
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
-        max_length = 128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text = '''
             If you have choosen "Other" in the field above,
             please identify the NASA Mission Directorate in which you are
@@ -571,8 +557,7 @@ class RocketLaunchTeam(BaseModel):
         max_length=255
     )
     co_advisor = models.ForeignKey(
-        User,
-        null = True, blank = True,
+        User, null=True, blank=True,
         verbose_name="Co-Advisor",
         related_name="rocket_launch_team_co_advisor",
     )
@@ -586,13 +571,11 @@ class RocketLaunchTeam(BaseModel):
     )
     industry_mentor_name = models.CharField(
         "Industry, Tripoli or National Rocketry Association mentor name",
-        max_length=128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True
     )
     industry_mentor_email = models.EmailField(
         "Industry, Tripoli or National Rocketry Association mentor email",
-        max_length=128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text="""
             NOTE: Only required for the Collegiate Rocket Competition
             and the Midwest High-Powered Rocket Competition
@@ -613,8 +596,7 @@ class RocketLaunchTeam(BaseModel):
             If yes, please provide the funding source and the
             funding expiration date.
         """,
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     team_roster = models.TextField(
         "Team Roster",
@@ -625,8 +607,7 @@ class RocketLaunchTeam(BaseModel):
     )
     # meta
     competition = models.CharField(
-        choices = ROCKET_COMPETITIONS,
-        max_length=128
+        max_length=128, choices=ROCKET_COMPETITIONS
     )
     # files
     proposal = models.FileField(
@@ -795,6 +776,18 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="ORK or RKT file"
     )
+    team_photo = models.ImageField(
+        upload_to = partial(upload_to_path, 'Team_Photo'),
+        validators=PHOTO_VALIDATORS,
+        max_length=255, null=True, blank=True,
+        help_text="JPEG only"
+    )
+    team_biography = models.FileField(
+        upload_to = partial(upload_to_path, 'Team_Biography'),
+        validators=FILE_VALIDATORS,
+        max_length=255, null=True, blank=True,
+    )
+    # misc
     proceeding_paper = models.DateField(null=True, blank=True)
 
     class Meta:
@@ -905,7 +898,10 @@ class RocketLaunchTeam(BaseModel):
         return self.get_file_timestamp('virtual_frr')
     def openrocketrocksim_timestamp(self):
         return self.get_file_timestamp('openrocketrocksim')
-
+    def team_photo_timestamp(self):
+        return self.get_file_timestamp('team_photo')
+    def team_biography_timestamp(self):
+        return self.get_file_timestamp('team_biography')
 
 class MidwestHighPoweredRocketCompetition(BaseModel):
 
@@ -943,8 +939,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
             If yes, please provide the funding source and the
             funding expiration date.
         """,
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
 
     def __unicode__(self):
@@ -1016,8 +1011,7 @@ class CollegiateRocketCompetition(BaseModel):
             If yes, please provide the funding source and the
             funding expiration date.
         """,
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
 
     def __unicode__(self):
@@ -1137,10 +1131,21 @@ class HighAltitudeBalloon(BaseModel):
             Will you be able to commit 32-40 hours/week
             to this 10-week summer experience?
         """,
+        max_length=4, null=True, blank=True, choices=BINARY_CHOICES,
+    )
+    other_fellowship = models.CharField(
+        "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
-        null = True, blank = True,
         choices=BINARY_CHOICES,
     )
+    other_fellowship_explain = models.CharField(
+        """
+            If yes, please provide the funding source and the
+            funding expiration date.
+        """,
+        max_length=255, null=True, blank=True
+    )
+    # files
     cv = models.FileField(
         "Résumé",
         upload_to = partial(upload_to_path, 'CV'),
@@ -1156,18 +1161,16 @@ class HighAltitudeBalloon(BaseModel):
         help_text="[PDF format]"
     )
     '''
-    other_fellowship = models.CharField(
-        "Do you currently hold another federal fellowship or traineeship?",
-        max_length=4,
-        choices=BINARY_CHOICES,
+    team_photo = models.ImageField(
+        upload_to = partial(upload_to_path, 'Team_Photo'),
+        validators=PHOTO_VALIDATORS,
+        max_length=255, null=True, blank=True,
+        help_text="JPEG only"
     )
-    other_fellowship_explain = models.CharField(
-        """
-            If yes, please provide the funding source and the
-            funding expiration date.
-        """,
-        max_length=255,
-        null = True, blank = True
+    team_biography = models.FileField(
+        upload_to = partial(upload_to_path, 'Team_Biography'),
+        validators=FILE_VALIDATORS,
+        max_length=255, null=True, blank=True,
     )
 
     def required_files(self):
@@ -1181,6 +1184,10 @@ class HighAltitudeBalloon(BaseModel):
         return self.get_file_timestamp('letter_interest')
     def cv_timestamp(self):
         return self.get_file_timestamp('cv')
+    def team_photo_timestamp(self):
+        return self.get_file_timestamp('team_photo')
+    def team_biography_timestamp(self):
+        return self.get_file_timestamp('team_biography')
 
     @models.permalink
     def get_absolute_url(self):
@@ -1215,10 +1222,7 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
 
     position = models.CharField(
         max_length=16,
-        choices = (
-            ('Team Lead','Team Lead'),
-            ('Team Member','Team Member')
-        ),
+        choices=(('Team Lead','Team Lead'),('Team Member','Team Member')),
         help_text = '''
             Team Lead applicants must have participated in the program
             within the past 2 years.
@@ -1254,7 +1258,7 @@ class Fellowship(BaseModel):
     end_date = models.DateField(null=True, blank=True)
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
-        null = True, blank = True,
+        null=True, blank=True,
         help_text="In Dollars"
     )
     synopsis = models.TextField(
@@ -1280,8 +1284,7 @@ class Fellowship(BaseModel):
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
-        max_length = 128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text = '''
             If you have choosen "Other" in the field above,
             please identify the NASA Mission Directorate in which you are
@@ -1298,8 +1301,7 @@ class Fellowship(BaseModel):
             If yes, please provide the funding source and the
             funding expiration date.
         """,
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     proposal = models.FileField(
         upload_to = partial(upload_to_path, 'Proposal'),
@@ -1350,8 +1352,7 @@ class Fellowship(BaseModel):
         "Recommendation letter 2",
         upload_to = partial(upload_to_path, 'Recommendation_2'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
@@ -1361,8 +1362,7 @@ class Fellowship(BaseModel):
         ''')
     )
     mentor_name = models.CharField(
-        "Mentor's Name",
-        max_length = 128
+        "Mentor's Name", max_length=128
     )
     mentor_email = models.EmailField("Mentor's Email")
     signed_certification = models.BooleanField(
@@ -1449,7 +1449,7 @@ class UndergraduateResearch(BaseModel):
     )
     funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
-        null = True, blank = True,
+        null=True, blank=True,
         help_text="In Dollars"
     )
     other_funding = models.CharField(
@@ -1459,8 +1459,7 @@ class UndergraduateResearch(BaseModel):
     )
     other_funding_explain = models.CharField(
         "If yes, please explain",
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     other_fellowship = models.CharField(
         "Do you currently hold another federal fellowship or traineeship?",
@@ -1472,13 +1471,10 @@ class UndergraduateResearch(BaseModel):
             If yes, please provide the funding source and the
             funding expiration date.
         """,
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     award_type = models.CharField(
-        "Award",
-        max_length = 128,
-        choices = UNDERGRADUATE_RESEARCH_AWARD_TYPES
+        "Award", max_length=128, choices=UNDERGRADUATE_RESEARCH_AWARD_TYPES
     )
     begin_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
@@ -1506,8 +1502,7 @@ class UndergraduateResearch(BaseModel):
     high_school_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'High_School_Transcripts'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text="High School Senior and Freshman students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
@@ -1520,8 +1515,7 @@ class UndergraduateResearch(BaseModel):
         "Faculty Research Advisor Recommendation Letter",
         upload_to = partial(upload_to_path, 'WSGC_Advisor_Recommendation'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
@@ -1536,8 +1530,7 @@ class UndergraduateResearch(BaseModel):
         """,
         upload_to = partial(upload_to_path, 'Recommendation'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
@@ -1547,8 +1540,7 @@ class UndergraduateResearch(BaseModel):
         ''')
     )
     mentor_name = models.CharField(
-        "Mentor's Name",
-        max_length = 128
+        "Mentor's Name", max_length=128
     )
     mentor_email = models.EmailField("Mentor's Email")
     signed_certification = models.BooleanField(
@@ -1640,8 +1632,7 @@ class Scholarship(BaseModel):
     high_school_transcripts = models.FileField(
         upload_to = partial(upload_to_path, 'High_School_Transcripts'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text="First and second year students only. [PDF format]"
     )
     undergraduate_transcripts = models.FileField(
@@ -1654,8 +1645,7 @@ class Scholarship(BaseModel):
         "STEM Faculty/Advisor Recommendation Letter",
         upload_to = partial(upload_to_path, 'WSGC_Advisor_Recommendation'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text=mark_safe('''
             Recommendation letter is required for the application but may be
             emailed by Advisor directly to WSGC at
@@ -1670,8 +1660,7 @@ class Scholarship(BaseModel):
         """,
         upload_to = partial(upload_to_path, 'Recommendation'),
         validators=FILE_VALIDATORS,
-        max_length=255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text=mark_safe('''
           Recommendation letter is required for the application but may be
           emailed by Advisor directly to WSGC at
@@ -1690,8 +1679,7 @@ class Scholarship(BaseModel):
     )
     other_funding_explain = models.CharField(
         "If yes, please explain",
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     other_fellowship = models.CharField(
         "Do you currently hold another federal fellowship or traineeship?",
@@ -1703,8 +1691,7 @@ class Scholarship(BaseModel):
             If yes, please provide the funding source and the
             funding expiration date.
         """,
-        max_length=255,
-        null = True, blank = True
+        max_length=255, null=True, blank=True
     )
     signed_certification = models.BooleanField(
         """
@@ -1801,13 +1788,11 @@ class NasaCompetition(BaseModel):
             Type of NASA competition in which you are
             requesting funds to participate
         """,
-        max_length = 128,
-        choices = NASA_COMPETITION_TYPES
+        max_length=128, choices=NASA_COMPETITION_TYPES
     )
     competition_type_other = models.CharField(
         "Other",
-        max_length = 128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text = '''
             If you have choosen "Other" in the field above,
             please identify the NASA Competition in which you are
@@ -1815,14 +1800,11 @@ class NasaCompetition(BaseModel):
         '''
     )
     facility_name = models.CharField(
-        "NASA center",
-        max_length = 128,
-        choices = NASA_CENTER_CHOICES
+        "NASA center", max_length=128, choices=NASA_CENTER_CHOICES
     )
     facility_name_other = models.CharField(
         "Other",
-        max_length = 128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text = '''
             If you have choosen "Other" in the field above,
             please identify the competition location
@@ -1833,22 +1815,21 @@ class NasaCompetition(BaseModel):
             Has your team applied and been accepted into the NASA program
             listed above?
         """,
-        max_length = 4,
-        choices = BINARY_CHOICES
+        max_length=4, choices=BINARY_CHOICES
     )
     funds_requested = models.IntegerField(help_text="In dollars")
     funds_authorized = models.IntegerField(
-        null = True, blank = True,
+        null=True, blank=True,
         help_text = "In Dollars"
     )
     proposed_match = models.IntegerField(
         "Proposed match (25% mimimum)(in $)"
     )
     authorized_match = models.IntegerField(
-        null = True, blank = True
+        null=True, blank=True
     )
     source_match = models.CharField(
-        "Source(s) of match", max_length = 255
+        "Source(s) of match", max_length=255
     )
     begin_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
@@ -1866,14 +1847,15 @@ class NasaCompetition(BaseModel):
         help_text="PDF format"
     )
     team_photo = models.ImageField(
-        "Team Photo",
         upload_to = partial(upload_to_path, 'Team_Photo'),
         validators=PHOTO_VALIDATORS,
         max_length=255, null=True, blank=True,
         help_text="JPEG only"
     )
-    team_biography = models.TextField(
-        "Team Biography", null=True, blank=True,
+    team_biography = models.FileField(
+        upload_to = partial(upload_to_path, 'Team_Biography'),
+        validators=FILE_VALIDATORS,
+        max_length=255, null=True, blank=True,
     )
     # finance officer
     finance_officer_name = models.CharField(
@@ -2000,6 +1982,10 @@ class NasaCompetition(BaseModel):
         return self.get_file_timestamp('intended_program_match')
     def close_out_finance_document_timestamp(self):
         return self.get_file_timestamp('close_out_finance_document')
+    def team_photo_timestamp(self):
+        return self.get_file_timestamp('team_photo')
+    def team_biography_timestamp(self):
+        return self.get_file_timestamp('team_biography')
 
     @models.permalink
     def get_absolute_url(self):
@@ -2009,9 +1995,7 @@ class NasaCompetition(BaseModel):
 class IndustryInternship(BaseModel):
 
     award_type = models.CharField(
-        "Award",
-        max_length = 128,
-        choices = INDUSTRY_AWARD_TYPES,
+        "Award", max_length=128, choices=INDUSTRY_AWARD_TYPES,
         help_text = """
             Select the opportunity to which the proposal is being submitted.
             <br><strong>NOTE</strong>:
@@ -2021,31 +2005,28 @@ class IndustryInternship(BaseModel):
     )
     funds_requested = models.IntegerField(help_text="In dollars")
     funds_authorized = models.IntegerField(
-        null = True, blank = True,
+        null=True, blank=True,
         help_text="In Dollars"
     )
     proposed_match = models.IntegerField(
         "Proposed match (1:1 mimimum)(in $)",
     )
     authorized_match = models.IntegerField(
-        null = True, blank = True
+        null=True, blank=True
     )
     source_match = models.CharField(
         "Source(s) of match", max_length=255
     )
     # Internship opportunity
     discipline = models.CharField(
-        max_length = 128,
-        choices = DISCIPLINES,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True, choices=DISCIPLINES,
         help_text = """
             Select the discipline within which the
             internship opportunity falls.
         """
     )
     discipline_other = models.CharField(
-        max_length = 128,
-        null = True, blank = True,
+        max_length=128, null=True, blank=True,
         help_text = '''
             If you have choosen "Other" in the field above,
             please provide the Discipline name here.
@@ -2053,7 +2034,7 @@ class IndustryInternship(BaseModel):
     )
     educational_background = models.TextField(
         # 500 character limit
-        null = True, blank = True,
+        null=True, blank=True,
         help_text = """
             Provide additional information related to the required educational
             background for the internship opportunity.
@@ -2062,38 +2043,34 @@ class IndustryInternship(BaseModel):
     # Intern Supervisor
     intern_supervisor_name = models.CharField(
         "Name",
-        max_length = 128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True,
     )
     intern_supervisor_job_title = models.CharField(
         "Job title",
-        max_length = 128,
-        null = True, blank = True
+        max_length=128, null=True, blank=True,
     )
     intern_supervisor_cv = models.FileField(
         "Brief Résumé",
         upload_to = partial(upload_to_path, 'Intern_Supervisor_CV'),
         validators=FILE_VALIDATORS,
-        max_length = 255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text = "PDF format"
     )
     # Work description
     objective_technical_approach = models.TextField(
         "Objective and Technical Approach",
         # 2500 character limit
-        null = True, blank = True
+        null=True, blank=True
     )
     background = models.TextField(
         # 2500 character limit
-        null = True, blank = True
+        null=True, blank=True
     )
     background_photo = models.ImageField(
         "Photo",
         upload_to = partial(upload_to_path, 'Background_Photo'),
         validators=PHOTO_VALIDATORS,
-        max_length = 255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text = "JPEG only"
     )
     # WorkPlanTask model has a foreign key that references
@@ -2101,8 +2078,7 @@ class IndustryInternship(BaseModel):
     # an instance with the related name "work_plan_tasks"
     task_schedule = models.FileField(
         upload_to = partial(upload_to_path, 'Task_Schedule'),
-        max_length = 255,
-        null = True, blank = True,
+        max_length=255, null=True, blank=True,
         help_text = """
             You must include milestones and the file format must be:
             Excel, Word, or Project.
@@ -2111,7 +2087,7 @@ class IndustryInternship(BaseModel):
     wsgc_goal = models.TextField(
         "WSGC Goal",
         # 500 character limit
-        null = True, blank = True,
+        null=True, blank=True,
         help_text = '''
             How does this internship opportunity address the WSGC goal of
             "Career placements within the aerospace industry in Wisconsin."
@@ -2120,7 +2096,7 @@ class IndustryInternship(BaseModel):
     nasa_mission_relationship = models.TextField(
         "NASA Mission Directorate",
         # 1250 character limit
-        null = True, blank = True,
+        null=True, blank=True,
         help_text = '''
             How does this internship opportunity relate to NASAs mission?
             Can the work be related to a specific NASA center?
@@ -2128,7 +2104,7 @@ class IndustryInternship(BaseModel):
     )
     intern_biography = models.TextField(
         # 1250 character limit
-        null = True, blank = True,
+        null=True, blank=True,
         help_text = '''
             If a candidate student has been identified, provide a brief
             biosketch of the company intern and his or her career goals,
@@ -2140,7 +2116,7 @@ class IndustryInternship(BaseModel):
     budget = models.FileField(
         upload_to = partial(upload_to_path, 'Budget'),
         validators=FILE_VALIDATORS,
-        max_length = 255,
+        max_length=255,
         help_text = "PDF format"
     )
     # approved files
@@ -2211,7 +2187,7 @@ class ProfessionalProgramStudent(BaseModel):
 
     program = models.CharField(
         "Program Name",
-        max_length = 128,
+        max_length=128,
         choices=STUDENT_PROFESSIONAL_PROGRAMS,
         help_text = '''
             I, as a student, have been selected to participate
@@ -2331,18 +2307,17 @@ class WorkPlanTask(models.Model):
         related_name="work_plan_tasks",
     )
     title = models.CharField(
-        max_length = 128,
-        null = True, blank = True
+        max_length=128,
+        null=True, blank=True,
     )
     description = models.TextField(
-        null = True, blank = True
+        null=True, blank=True,
     )
     hours_percent = models.CharField(
-        max_length = 32,
-        null = True, blank = True
+        max_length=32, null=True, blank=True,
     )
     expected_outcome = models.TextField(
-        null = True, blank = True
+        null=True, blank=True,
     )
 
     def __unicode__(self):

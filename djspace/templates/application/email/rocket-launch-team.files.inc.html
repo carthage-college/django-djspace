@@ -362,4 +362,26 @@
 {% else %}
   {% if data.status %}<li>Institutional W9: Missing</li>{% endif %}
 {% endif %}
+{% if data.team_biography %}
+<li>
+  <a href="{{media_url}}{{data.team_biography}}" target="_blank">Team Biography</a>
+  <ul>
+    <li>Created: {{data.team_biography_timestamp}}</li>
+    <li>https://{{server_url}}{{media_url}}{{data.team_biography}}</li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}<li>Team Biography: Missing</li>{% endif %}
+{% endif %}
+{% if data.team_photo %}
+<li>
+  <a href="{{media_url}}{{data.team_photo}}" target="_blank">Team Photo</a>
+  <ul>
+    <li>Created: {{data.team_photo_timestamp}}</li>
+    <li>https://{{server_url}}{{media_url}}{{data.team_photo}}</li>
+  </ul>
+</li>-
+{% else %}
+  {% if data.status %}<li>Team Photo: Missing</li>{% endif %}
+{% endif %}
 </ul>
