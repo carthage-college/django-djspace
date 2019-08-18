@@ -1832,7 +1832,16 @@ class NasaCompetition(BaseModel):
         "Source(s) of match", max_length=255
     )
     begin_date = models.DateField()
-    end_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(
+        null=True, blank=True,
+        help_text="""
+            Note the spend down date requirement in the Announcement of Opportunity.
+        """
+    )
+    location = models.TextField(
+        "Location of project", max_length=255,
+        help_text="Please list all cities and zipcodes (Format City, State, Zipcode)"
+    )
     # files
     statement = models.FileField(
         upload_to = partial(upload_to_path, 'Statement'),
