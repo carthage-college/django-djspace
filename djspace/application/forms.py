@@ -694,7 +694,8 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'flight_readiness_report','post_flight_performance_report',
             'education_outreach','verified_budget','final_motor_selection',
             'close_out_finance_document','invoice','charges_certification',
-            'institutional_w9', 'url1','url2','url3','team_photo','team_biography'
+            'institutional_w9', 'url1','url2','url3','team_photo','team_biography',
+            'virtual_cdr','virtual_pdr','virtual_frr'
         )
 
     def __init__(self, *args, **kwargs):

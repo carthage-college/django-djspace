@@ -590,7 +590,6 @@ class RocketLaunchTeam(BaseModel):
         max_length=4,
         choices=BINARY_CHOICES,
     )
-    '''
     other_fellowship_explain = models.CharField(
         """
             If yes, please provide the funding source and the
@@ -598,6 +597,7 @@ class RocketLaunchTeam(BaseModel):
         """,
         max_length=255, null=True, blank=True
     )
+    '''
     team_roster = models.TextField(
         "Team Roster",
         help_text="""

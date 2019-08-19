@@ -28,7 +28,7 @@ class BaseStudent(Base):
         choices=MAJORS
     )
     major_other = models.CharField(
-        "If Other, please state",
+        "If other, please state",
         max_length=128,
         null=True, blank=True
     )
@@ -39,7 +39,7 @@ class BaseStudent(Base):
         choices=MAJORS
     )
     secondary_major_minor_other = models.CharField(
-        "If Other, please state",
+        "If other, please state",
         max_length=128,
         null=True, blank=True
     )

@@ -350,7 +350,7 @@ you will receive a notification email.
                     <fieldset class="blockLabels">
                     <legend>Authorized Organizational Representative</legend>
                     <h4>
-                        The individual responsible for submitting
+                        Individual responsible for submitting
                         all required financial forms to WSGC
                     </h4>
                     <ol>
@@ -360,7 +360,8 @@ you will receive a notification email.
                     <fieldset class="blockLabels">
                     <legend>Grants Officer</legend>
                     <h4>
-                        The individual responsible for grants
+                        Individual responsible for managing grants
+                        at your organization
                     </h4>
                     <ol>
                 {% endif %}
@@ -444,7 +445,15 @@ you will receive a notification email.
           </ol>
         </fieldset>
     {% endif %}
-    {% include "form_submit.inc.html" %}
+    <fieldset class="btnHolder">
+      <ol>
+        <li>
+          <label for="id_submit" style="display:none;">Submit</label>
+          <input id="id_submit" type="submit" value="Submit" class="button">
+          <input type="reset" value="Reset" class="button">
+        </li>
+      </ol>
+    </fieldset>
     </form>
         {% if app_name == "Industry Internship" %}
         <div id="doop-master-container">
