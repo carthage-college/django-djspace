@@ -112,6 +112,8 @@ UNDERGRADUATE_RESEARCH_AWARD_TYPES = (
     )
 )
 EDUCATION_INITIATIVES_AWARD_TYPES = (
+    ('Multi-Institutional: Up to $20,000','Multi-Institutional: Up to $20,000'),
+    ('Multi-Institutional: Up to $15,000','Multi-Institutional: Up to $15,000'),
     ('Major Award: $5000-$10000','Major Award: $5000-$10000'),
     ('Minor Award:  Up to $5000','Minor Award:  Up to $5000')
 )
@@ -1036,6 +1038,12 @@ class CollegiateRocketCompetition(BaseModel):
             self.get_code(), team_name, school_name,
             self.user.last_name, self.user.first_name
         )
+
+    def get_media_release(self):
+        return self.user.user_files.media_release
+
+    def get_irs_w9(self):
+        return self.user.user_files.irs_w9
 
     def required_files(self):
         '''
@@ -2293,6 +2301,9 @@ class ProfessionalProgramStudent(BaseModel):
     def media_release(self):
         return self.user.user_files.media_release
 
+    def irs_w9(self):
+        return self.user.user_files.irs_w9
+
     def biography(self):
         return self.user.user_files.biography
 
@@ -2303,11 +2314,7 @@ class ProfessionalProgramStudent(BaseModel):
         '''
         used when building a tarball of required files
         '''
-        return ['budget',]
-
-    # timestamp methods are for UI level display
-    def budget_timestamp(self):
-        return self.get_file_timestamp('budget')
+        return []
 
 
 class WorkPlanTask(models.Model):

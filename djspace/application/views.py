@@ -164,24 +164,17 @@ def application_form(request, application_type, aid=None):
             # app_type does not match an existing form
             raise Http404
 
-        # professional program student has three files from UserFiles
-        if application_type == 'professional-program-student':
-            form_user_files = UserFilesForm(
-                instance=userfiles, data=request.POST, files=request.FILES,
-                use_required_attribute=False
-            )
-        if form.is_valid():
+        # some forms have user files
+        form_user_files = UserFilesForm(
+            instance=userfiles, data=request.POST, files=request.FILES,
+            use_required_attribute=False
+        )
+        if application_type == 'collegiate-rocket-competition':
+            form_user_files.fields['irs_w9'].required=True
+            form_user_files.fields['media_release'].required=True
+        if form.is_valid() and form_user_files.is_valid():
             cd = form.cleaned_data
-            if application_type == 'professional-program-student':
-                if form_user_files.is_valid():
-                    form_user_files.save()
-                else:
-                    return render(
-                        request, 'application/form.html', {
-                            'form': form,'app_name':app_name,'obj':app,
-                            'form_user_files':form_user_files
-                        }
-                    )
+            form_user_files.save()
 
             data = form.save(commit=False)
             data.user = user
@@ -194,30 +187,29 @@ def application_form(request, application_type, aid=None):
                 else:
                     data.limit = 0
 
-            # save media_release file to UserProfileFiles if first nations
-            if application_type == 'first-nations-rocket-competition':
-                if request.FILES.get('media_release'):
-                    try:
-                        uf = user.user_files
-                    except:
-                        uf = UserFiles(user=user)
-                    file_root = '{}/{}/{}/'.format(
-                        uf.get_file_path(),
-                        uf.get_slug(),
-                        str(user.id)
-                    )
-                    path = join(
-                        settings.MEDIA_ROOT,
-                        file_root
-                    )
-                    media_release = handle_uploaded_file(
-                        request.FILES['media_release'], path,
-                        u'{}_media_release'.format(uf.get_file_name())
-                    )
-                    uf.media_release = u'{}{}'.format(
-                        file_root, media_release
-                    )
-                    uf.save()
+            # save media_release and w9 files to UserProfileFiles
+            try:
+                uf = user.user_files
+            except:
+                uf = UserFiles(user=user)
+            if request.FILES.get('media_release'):
+                file_root = '{}/{}/{}/'.format(
+                    uf.get_file_path(),
+                    uf.get_slug(),
+                    str(user.id)
+                )
+                path = join(
+                    settings.MEDIA_ROOT,
+                    file_root
+                )
+                media_release = handle_uploaded_file(
+                    request.FILES['media_release'], path,
+                    u'{}_media_release'.format(uf.get_file_name())
+                )
+                uf.media_release = u'{}{}'.format(
+                    file_root, media_release
+                )
+                uf.save()
 
             # deal with FK relationships for programs
             if application_type == 'professional-program-student':
@@ -332,6 +324,10 @@ def application_form(request, application_type, aid=None):
         form_user_files = UserFilesForm(
             instance=userfiles, use_required_attribute=False
         )
+        if application_type == 'collegiate-rocket-competition':
+            form_user_files.fields['irs_w9'].required=True
+            form_user_files.fields['media_release'].required=True
+
         if not app:
             # set session values to null for GET requests that are not updates
             request.session['leader_id'] = ''

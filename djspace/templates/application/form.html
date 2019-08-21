@@ -58,10 +58,8 @@ $(function() {
     $("label[for$='clear_id']").css({ float: "right", marginRight:"7px" });
     $('label[for="id_other_funding_0"]').closest('ul').addClass('linline');
     $('label[for="id_program_acceptance_0"]').closest('ul').addClass('linline');
-
     {% if app_name == "Professional Program Student" %}
     /* Professional Program Student Mentor */
-
     function getProgramSubmissions(mentor, program, aid) {
         var excludes = [
             'CaNOP', 'MicroPropellantGauging', 'NasaInternship'
@@ -92,7 +90,6 @@ $(function() {
           });
         }
     }
-
     {% if form.mentor.value %}
     document.mentorAutocomplete = {{form.mentor.value}}
     $('#id_mentor').val("{{obj.mentor.last_name}}, {{obj.mentor.first_name}}");
@@ -100,14 +97,12 @@ $(function() {
         {{form.mentor.value}}, $('#id_program').val(), {{obj.id|default:0}}
     );
     {% endif %}
-
     /* clear 'mentor' when 'program' field changes */
     $('#id_program').on('input',function(e){
         $('#id_mentor').val("");
         $('#get-program-submissions').empty();
         document.mentorAutocomplete = ""
     });
-
     $('#id_mentor').autocomplete({
         source: '{% url "get_users" %}',
         minLength: 3,
@@ -122,8 +117,6 @@ $(function() {
     });
     /* End Professional Program Student Mentor */
     {% endif %}
-
-
     {% if app_name == "Rocket Launch Team" %}
     /* Rocket Launch Team Leader */
     {% if form.leader.value %}
@@ -438,8 +431,17 @@ you will receive a notification email.
         <fieldset class="blockLabels">
           <ol>
           {% for field in form_user_files.visible_fields %}
-            {% if field.name != "irs_w9" %}
-                {% include "form_field.inc.html" %}
+            {% include "form_field.inc.html" %}
+          {% endfor %}
+          </ol>
+        </fieldset>
+    {% endif %}
+    {% if app_name == "Collegiate Rocket Competition" or app_name == "Midwest High Powered Rocket Competition" or app_name == "First Nations Rocket Competition" %}
+        <fieldset class="blockLabels">
+          <ol>
+          {% for field in form_user_files.visible_fields %}
+            {% if field.name in "irs_w9,media_release" %}
+            {% include "form_field.inc.html" %}
             {% endif %}
           {% endfor %}
           </ol>

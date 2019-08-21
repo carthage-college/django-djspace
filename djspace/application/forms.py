@@ -783,10 +783,14 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
         required = False
     )
+    '''
     media_release = forms.FileField(
-        max_length=768,
-        help_text="PDF format"
+        max_length=768, help_text="PDF format"
     )
+    irs_w9= forms.FileField(
+        label="IRS W9", help_text="PDF format"
+    )
+    '''
 
     class Meta:
         model = FirstNationsRocketCompetition
@@ -805,9 +809,14 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         self.fields['team'].queryset = RocketLaunchTeam.objects.filter(
             competition__contains="First Nations"
         ).filter(date_created__gte=get_start_date()).order_by("name")
+        '''
         instance = kwargs.get('instance', None)
         if instance:
             self.fields['media_release'].initial = instance.get_media_release()
+        if instance:
+            self.fields['irs_w9'].initial = instance.get_irs_w9()
+        '''
+
 
 class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
     """
@@ -844,6 +853,14 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         label="Have you previously participated in Collegiate Rocket Launch?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    '''
+    media_release = forms.FileField(
+        max_length=768, help_text="PDF format"
+    )
+    irs_w9= forms.FileField(
+        label="IRS W9", help_text="PDF format"
+    )
+    '''
 
     class Meta:
         model = MidwestHighPoweredRocketCompetition
@@ -867,6 +884,12 @@ class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
         ).exclude(
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
+        '''
+        instance = kwargs.get('instance', None)
+        if instance:
+            self.fields['media_release'].initial = instance.get_media_release()
+            self.fields['irs_w9'].initial = instance.get_irs_w9()
+        '''
 
 
 class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
@@ -895,6 +918,14 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    '''
+    media_release = forms.FileField(
+        max_length=768, help_text="PDF format"
+    )
+    irs_w9= forms.FileField(
+        label="IRS W9", help_text="PDF format"
+    )
+    '''
 
     class Meta:
         model = CollegiateRocketCompetition
@@ -917,6 +948,12 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
         ).exclude(
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
         ).order_by("name")
+        '''
+        instance = kwargs.get('instance', None)
+        if instance:
+            self.fields['media_release'].initial = instance.get_media_release()
+            self.fields['irs_w9'].initial = instance.get_irs_w9()
+        '''
 
 
 class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):

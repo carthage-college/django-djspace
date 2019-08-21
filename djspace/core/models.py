@@ -116,10 +116,8 @@ def _timestamp(obj, field):
 
 class Photo(models.Model):
     phile = models.ImageField(
-        "Photo",
-        upload_to = partial(upload_to_path, 'Program_Photo'),
-        validators = PHOTO_VALIDATORS,
-        max_length = 768,
+        "Photo", upload_to = partial(upload_to_path, 'Program_Photo'),
+        validators = PHOTO_VALIDATORS, max_length = 768,
         help_text = "JPEG only"
     )
     caption = models.TextField(
@@ -203,9 +201,7 @@ class BaseModel(Base):
     )
     past_funding = models.CharField(
         "Have you received WSGC funding within the past five years?",
-        max_length=4,
-        choices=BINARY_CHOICES,
-        null=True, blank=True
+        max_length=4, choices=BINARY_CHOICES, null=True, blank=True
     )
     past_funding_year = models.CharField(
         "If 'Yes', what year?",
@@ -216,29 +212,22 @@ class BaseModel(Base):
     )
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
-        max_length=32,
-        choices=FUNDING_CHOICES,
+        max_length=32, choices=FUNDING_CHOICES,
         help_text="Grants/Scholarships/etc."
     )
     award_acceptance = models.FileField(
         upload_to = partial(upload_to_path, 'Award_Acceptance'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
         help_text="PDF format"
     )
     interim_report = models.FileField(
         upload_to = partial(upload_to_path, 'Interim_Report'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
         help_text="PDF format"
     )
     final_report = models.FileField(
         upload_to = partial(upload_to_path, 'Final_Report'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
         help_text="PDF format"
     )
     other_file = models.FileField(
@@ -310,8 +299,7 @@ class GenericChoice(models.Model):
         unique=True, max_length=255
     )
     ranking = models.IntegerField(
-        null=True, blank=True, default=0,
-        verbose_name="Ranking",
+        null=True, blank=True, default=0, verbose_name="Ranking",
         help_text=
         """
         A number from 0 to 999 to determine this object's position in a list.
@@ -345,40 +333,29 @@ def limit_race():
 class UserFiles(models.Model):
 
     user = models.OneToOneField(
-        User,
-        related_name='user_files',
-        editable=False
+        User, related_name='user_files', editable=False
     )
     mugshot = models.FileField(
-        "Photo",
-        upload_to = partial(upload_to_path, 'Photo'),
-        validators=PHOTO_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        "Photo", upload_to = partial(upload_to_path, 'Photo'),
+        validators=PHOTO_VALIDATORS, max_length=768, null=True, blank=True,
         help_text="JPEG format (.jpg)"
     )
     biography = models.FileField(
         upload_to = partial(upload_to_path, 'Bio'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
         help_text="PDF format"
     )
     media_release = models.FileField(
         upload_to = partial(upload_to_path, 'Media_Release'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
         help_text="""
             Media release forms must contain a hand-written signature to be
             accepted by NASA. File must be in PDF format.
         """
     )
     irs_w9 = models.FileField(
-        upload_to = partial(upload_to_path, 'W9'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True, blank=True,
+        "IRS W9", upload_to = partial(upload_to_path, 'W9'),
+        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
         help_text="PDF format"
     )
 
