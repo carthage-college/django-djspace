@@ -4,7 +4,7 @@ from django import forms
 
 from djspace.core.models import GenericChoice
 from djspace.registration.models import (
-    HighSchool, Undergraduate, Graduate, Faculty, Professional
+    HighSchool, Undergraduate, Graduate, Faculty, GrantsOfficer, Professional
 )
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
@@ -69,7 +69,7 @@ class UndergraduateForm(forms.ModelForm):
         }
 
     def clean(self):
-        cleaned_data = super(UndergraduateForm, self).clean()
+        cleaned_data = self.cleaned_data
 
         # WSGC Affiliate
         wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
@@ -163,7 +163,7 @@ class GraduateForm(forms.ModelForm):
         }
 
     def clean(self):
-        cleaned_data = super(GraduateForm, self).clean()
+        cleaned_data = self.cleaned_data
 
         # WSGC Affiliate
         wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
@@ -229,7 +229,7 @@ class ProfessionalForm(forms.ModelForm):
         exclude = ('user','status',)
 
     def clean(self):
-        cd = super(ProfessionalForm, self).clean()
+        cd = self.cleaned_data
         wa = cd.get('wsgc_affiliate')
         # sponsoring organisation data are required if wsgc affiliate
         # is "Other" (id = 49)
@@ -276,7 +276,36 @@ class FacultyForm(forms.ModelForm):
         exclude = ('user','status',)
 
     def clean(self):
-        cleaned_data = super(FacultyForm, self).clean()
+        cleaned_data = self.cleaned_data
+
+        # WSGC Affiliate
+        wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
+
+        if wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
+            self._errors['wsgc_affiliate_other'] = self.error_class(
+                ["Required field."]
+            )
+
+        return cleaned_data
+
+
+class GrantsOfficerForm(forms.ModelForm):
+    """
+    A form to collect grants officer information
+    """
+
+    wsgc_affiliate = forms.ModelChoiceField(
+        label = "WSGC Affiliate",
+        queryset=AFFILIATES
+    )
+
+    class Meta:
+        model = GrantsOfficer
+        exclude = ('user','status',)
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
 
         # WSGC Affiliate
         wsgc_affiliate = cleaned_data.get('wsgc_affiliate')

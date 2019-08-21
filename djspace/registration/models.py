@@ -18,6 +18,7 @@ from functools import partial
 
 
 class BaseStudent(Base):
+
     class Meta:
         abstract = True
 
@@ -212,13 +213,15 @@ class Graduate(BaseStudent):
     )
 
 
-class Faculty(Base):
+class Academic(Base):
+
+    class Meta:
+        abstract = True
 
     # core
     wsgc_affiliate = models.ForeignKey(
         GenericChoice,
         verbose_name="Institution/Organization",
-        related_name='faculty_wsgc_affiliate',
         on_delete=models.SET_NULL,
         null=True,
         help_text = """
@@ -244,8 +247,17 @@ class Faculty(Base):
         max_length=128
     )
 
+
+class Faculty(Academic):
+
     class Meta:
         verbose_name_plural = "Faculty"
+
+
+class GrantsOfficer(Academic):
+
+    class Meta:
+        verbose_name_plural = "Grants Officer"
 
 
 class Professional(Base):

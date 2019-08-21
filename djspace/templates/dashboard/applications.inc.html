@@ -57,7 +57,7 @@
             Research Infrastructure
         </a>
     </li>
-    {% if user.profile.registration_type == "Faculty" %}
+    {% if user.profile.registration_type == "Faculty" or user.profile.registration_type == "GrantsOfficer" %}
     <li>
         <a href="{% url 'application_create' 'rocket-launch-team' %}">
             Rocket Launch Team (Create NOI)

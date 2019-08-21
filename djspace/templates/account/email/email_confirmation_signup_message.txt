@@ -7,7 +7,7 @@ Your registration with WSGC is nearly complete. Please visit
 {{ activate_url }}
 to activate your account and complete your registration. You
 will choose your registration type: Undergraduate, Graduate,
-Faculty, or Professional. Complete the associated form and you
+Faculty, Grants Officer, or Professional. Complete the associated form and you
 can then apply to the various programs we have to offer.
 
 You can safely ignore this message

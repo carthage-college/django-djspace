@@ -178,11 +178,13 @@ def registration_type(request):
             reg = mod.objects.get(user=request.user)
         except:
             reg = None
-        try:
+        #try:
+        if True:
             reg_form = str_to_class(
                 'djspace.registration.forms', (reg_type+'Form')
             )(instance=reg, prefix='reg', use_required_attribute=False)
-        except:
+        #except:
+        else:
             raise Http404
         reggie = None
         if reg:
@@ -243,7 +245,7 @@ def profile_form(request):
             user.first_name = usr['first_name']
             user.last_name = usr['last_name']
             user.save()
-            # registration type: undergrad, grad, faculty, pro
+            # registration type: undergrad, grad, faculty, grants, pro
             reg = reg_form.save(commit=False)
             reg.user = user
             reg.updated_by = user

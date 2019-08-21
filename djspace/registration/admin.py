@@ -147,6 +147,22 @@ class FacultyAdmin(GenericAdmin):
     last_name.short_description = 'Last Name (print)'
 
 
+class GrantsOfficerAdmin(GenericAdmin):
+
+    model = GrantsOfficer
+    actions = [export_registrants]
+    list_display = PROFILE_LIST
+    list_filter   = ()
+
+    def last_name(self, obj):
+        return u'<a href="{}">{}</a>'.format(
+            reverse("registration_print", args=[obj.user.id]),
+            obj.user.last_name
+        )
+    last_name.allow_tags = True
+    last_name.short_description = 'Last Name (print)'
+
+
 class HighSchoolAdmin(GenericAdmin):
 
     model = HighSchool
@@ -183,4 +199,5 @@ admin.site.register(HighSchool, HighSchoolAdmin)
 admin.site.register(Undergraduate, UndergraduateAdmin)
 admin.site.register(Graduate, GraduateAdmin)
 admin.site.register(Faculty, FacultyAdmin)
+admin.site.register(GrantsOfficer, GrantsOfficerAdmin)
 admin.site.register(Professional, ProfessionalAdmin)

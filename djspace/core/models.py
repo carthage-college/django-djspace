@@ -31,10 +31,10 @@ import time
 import re
 
 # comment out for migrations
-FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-#FILE_VALIDATORS = []
-PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-#PHOTO_VALIDATORS = []
+#FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+FILE_VALIDATORS = []
+#PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+PHOTO_VALIDATORS = []
 ALLOWED_EXTENSIONS = [
     'doc','docx','xls','xlsx','pdf','tar','zip','gzip','jpg','jpeg','png',
     'ppt','pptx'
@@ -46,6 +46,7 @@ REG_TYPE = (
     ('Undergraduate',"Undergraduate"),
     ('Graduate',"Graduate"),
     ('Faculty',"Faculty"),
+    ('GrantsOfficer',"Grants Officer"),
     ('Professional',"Professional")
 )
 BIRTH_YEAR_CHOICES = [x for x in reversed(xrange(1926,date.today().year -11))]
@@ -562,7 +563,7 @@ class UserProfile(models.Model):
         # these imports need to be here, rather than at the top with the others
         import django
         from djspace.registration.models import (
-            HighSchool, Undergraduate, Graduate, Faculty, Professional
+            HighSchool, Undergraduate, Graduate, Faculty, GrantsOfficer, Professional
         )
 
         if self.registration_type:

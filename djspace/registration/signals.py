@@ -4,6 +4,7 @@ from django.dispatch import receiver
 
 from djspace.core.models import GenericChoice
 from djspace.registration.models import Faculty
+from djspace.registration.models import GrantsOfficer
 from djspace.registration.models import Graduate
 from djspace.registration.models import Undergraduate
 
@@ -48,6 +49,25 @@ def registration_faculty_pre_save(sender, **kwargs):
     Notify DevOps that a faculty has chosen 'Other' for Institution/Organization
     and that a new GenericChoice object has been created automatically
     based on the name provided in the wsgc_affiliate_other field
+    """
+
+    obj = kwargs['instance']
+    if obj.wsgc_affiliate.name == 'Other':
+        if obj.wsgc_affiliate_other:
+            gc = _create_generic_choice(obj.wsgc_affiliate_other)
+            obj.wsgc_affiliate_other = ''
+            obj.wsgc_affiliate = gc
+
+        _send_mail(obj, kwargs.get('request'), 'Faculty')
+
+
+@receiver(pre_save, sender=GrantsOfficer)
+def registration_grantsofficer_pre_save(sender, **kwargs):
+    """
+    Notify DevOps that a grants officer has chosen 'Other' for
+    Institution/Organization and that a new GenericChoice object has been
+    created automatically based on the name provided in the
+    wsgc_affiliate_other field
     """
 
     obj = kwargs['instance']
