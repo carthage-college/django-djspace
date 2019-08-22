@@ -150,25 +150,25 @@ FIRST_NATIONS_ROCKET_COMPETITIONS = (
     ('AISES Challenge','AISES Challenge'),
 )
 ROCKET_COMPETITIONS = (
-    ("Collegiate Rocket Competition", "Collegiate Rocket Competition"),
-    ("First Nations AISES", "First Nations AISES"),
-    ("First Nations Tribal", "First Nations Tribal"),
+    ('Collegiate Rocket Competition', "Collegiate Rocket Competition"),
+    ('First Nations AISES', "First Nations AISES"),
+    ('First Nations Tribal', "First Nations Tribal"),
     (
-        "Midwest High Powered Rocket Competition",
+        'Midwest High Powered Rocket Competition',
         "Midwest High Powered Rocket Competition"
     )
 )
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
-    "Midwest High Powered Rocket Competition",
+    'Midwest High Powered Rocket Competition',
     "Collegiate Rocket Competition"
 ]
 PROFESSIONAL_PROGRAMS = [
-    "aerospaceoutreach",
-    "highereducationinitiatives",
-    "industryinternship",
-    "nasacompetition",
-    "researchinfrastructure",
-    "specialinitiatives",
+    'aerospaceoutreach',
+    'highereducationinitiatives',
+    'industryinternship',
+    'nasacompetition',
+    'researchinfrastructure',
+    'specialinitiatives',
 ]
 STUDENT_PROFESSIONAL_PROGRAMS = (
     ('AerospaceOutreach', 'Aerospace Outreach'),
@@ -183,9 +183,9 @@ STUDENT_PROFESSIONAL_PROGRAMS = (
 )
 # only used at UI level
 ROCKET_COMPETITIONS_EXCLUDE = [
-    "midwesthighpoweredrocketcompetition",
-    "collegiaterocketcompetition",
-    "firstnationsrocketcompetition"
+    'midwesthighpoweredrocketcompetition',
+    'collegiaterocketcompetition',
+    'firstnationsrocketcompetition'
 ]
 
 
@@ -256,20 +256,38 @@ class EducationInitiatives(BaseModel):
         max_length=255,
         help_text="[PDF format]"
     )
-    student_1 = models.CharField(
+    member_01 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    student_2 = models.CharField(
+    member_02 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    student_3 = models.CharField(
+    member_03 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    student_4 = models.CharField(
-        max_length=128, null=True, blank=True)
-    student_5 = models.CharField(
+    member_04 = models.CharField(
         max_length=128, null=True, blank=True
     )
+    member_05 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_06 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_07 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_08 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_09 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_10 = models.CharField(
+        "Member 10",
+        max_length=128, null=True, blank=True
+    )
+    # finance officer
     finance_officer_name = models.CharField(
         "Name", max_length=128
     )
@@ -279,10 +297,11 @@ class EducationInitiatives(BaseModel):
     finance_officer_address = models.TextField("Address")
     finance_officer_email = models.EmailField("Email")
     finance_officer_phone = models.CharField(
-        verbose_name='Phone number',
+        verbose_name="Phone number",
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
     )
+    # grant officer
     grant_officer_name = models.CharField(
         "Name",
         max_length=128
@@ -293,7 +312,7 @@ class EducationInitiatives(BaseModel):
     grant_officer_address = models.TextField("Address")
     grant_officer_email = models.EmailField("Email")
     grant_officer_phone = models.CharField(
-        verbose_name='Phone number',
+        verbose_name="Phone number",
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
     )
@@ -343,6 +362,11 @@ class EducationInitiatives(BaseModel):
 
 class HigherEducationInitiatives(EducationInitiatives):
 
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        related_name='hei_grants_officer'
+    )
     award_type = models.CharField(
         "Award",
         max_length=128, choices=EDUCATION_INITIATIVES_AWARD_TYPES,
@@ -355,16 +379,16 @@ class HigherEducationInitiatives(EducationInitiatives):
         return self.project_title
 
     def get_application_type(self):
-        return "Higher Education Initiatives"
+        return 'Higher Education Initiatives'
 
     def get_slug(self):
-        return "higher-education-initiatives"
+        return 'higher-education-initiatives'
 
     def get_code(self):
-        award_type = "MNR"
-        if "Major" in self.award_type:
-            award_type = "MJR"
-        return "HEI{}_{}".format(YEAR_2,award_type)
+        award_type = 'MNR'
+        if 'Major' in self.award_type:
+            award_type = 'MJR'
+        return 'HEI{}_{}'.format(YEAR_2,award_type)
 
     @models.permalink
     def get_absolute_url(self):
@@ -376,6 +400,11 @@ class HigherEducationInitiatives(EducationInitiatives):
 
 class ResearchInfrastructure(EducationInitiatives):
 
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        related_name='rip_grants_officer'
+    )
     award_type = models.CharField(
         "Award",
         max_length=128, choices=EDUCATION_INITIATIVES_AWARD_TYPES,
@@ -406,19 +435,19 @@ class ResearchInfrastructure(EducationInitiatives):
     )
 
     def get_code(self):
-        award_type = "MNR"
-        if "Major" in self.award_type:
-            award_type = "MJR"
-        return "RIP{}_{}".format(YEAR_2,award_type)
+        award_type = 'MNR'
+        if 'Major' in self.award_type:
+            award_type = 'MJR'
+        return 'RIP{}_{}'.format(YEAR_2,award_type)
 
     def __unicode__(self):
         return self.project_title
 
     def get_application_type(self):
-        return "Research Infrastructure"
+        return 'Research Infrastructure'
 
     def get_slug(self):
-        return "research-infrastructure"
+        return 'research-infrastructure'
 
     @models.permalink
     def get_absolute_url(self):
@@ -430,6 +459,11 @@ class ResearchInfrastructure(EducationInitiatives):
 
 class AerospaceOutreach(EducationInitiatives):
 
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        related_name='aop_grants_officer'
+    )
     project_category = models.CharField(
         max_length=128,
         choices=PROJECT_CATEGORIES
@@ -471,16 +505,16 @@ class AerospaceOutreach(EducationInitiatives):
         return self.project_title
 
     def get_application_type(self):
-        return "Aerospace Outreach"
+        return 'Aerospace Outreach'
 
     def get_slug(self):
-        return "aerospace-outreach"
+        return 'aerospace-outreach'
 
     def get_code(self):
-        project_category = "IE"
-        if "K-12" in self.project_category:
-            project_category = "K12"
-        return "AOP{}_{}".format(YEAR_2, project_category)
+        project_category = 'IE'
+        if 'K-12' in self.project_category:
+            project_category = 'K12'
+        return 'AOP{}_{}'.format(YEAR_2, project_category)
 
     @models.permalink
     def get_absolute_url(self):
@@ -492,6 +526,11 @@ class AerospaceOutreach(EducationInitiatives):
 
 class SpecialInitiatives(EducationInitiatives):
 
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        related_name='sip_grants_officer'
+    )
     project_category = models.CharField(
         max_length=128,
         choices=PROJECT_CATEGORIES
@@ -533,16 +572,16 @@ class SpecialInitiatives(EducationInitiatives):
         return self.project_title
 
     def get_application_type(self):
-        return "Special Initiatives"
+        return 'Special Initiatives'
 
     def get_slug(self):
-        return "special-initiatives"
+        return 'special-initiatives'
 
     def get_code(self):
-        project_category = "IE"
-        if "K-12" in self.project_category:
-            project_category = "K12"
-        return "SIP{}_{}".format(YEAR_2,project_category)
+        project_category = 'IE'
+        if 'K-12' in self.project_category:
+            project_category = 'K12'
+        return 'SIP{}_{}'.format(YEAR_2,project_category)
 
     @models.permalink
     def get_absolute_url(self):
@@ -561,15 +600,19 @@ class RocketLaunchTeam(BaseModel):
     co_advisor = models.ForeignKey(
         User, null=True, blank=True,
         verbose_name="Co-Advisor",
-        related_name="rocket_launch_team_co_advisor",
+        related_name='rocket_launch_team_co_advisor',
     )
     leader = models.ForeignKey(
         User,
         verbose_name="Team lead",
-        related_name="rocket_launch_team_leader",
+        related_name='rocket_launch_team_leader',
+    )
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        related_name='rocket_launch_team_grants_officer',
     )
     members = models.ManyToManyField(
-        User, related_name="rocket_launch_team_members"
+        User, related_name='rocket_launch_team_members'
     )
     industry_mentor_name = models.CharField(
         "Industry, Tripoli or National Rocketry Association mentor name",
@@ -801,39 +844,39 @@ class RocketLaunchTeam(BaseModel):
         return u"{}".format(self.name)
 
     def get_application_type(self):
-        return "Rocket Launch Team"
+        return 'Rocket Launch Team'
 
     def get_slug(self):
-        return "rocket-launch-team"
+        return 'rocket-launch-team'
 
     def get_code(self):
-        return "RLT{}".format(YEAR_2)
+        return 'RLT{}'.format(YEAR_2)
 
     def get_file_path(self):
-        return "files/applications"
+        return 'files/applications'
 
     def get_team_members(self):
         team = None
-        if self.competition == "Collegiate Rocket Competition":
+        if self.competition == 'Collegiate Rocket Competition':
             team = self.collegiate_rocket_competition
-        elif self.competition == "Midwest High Powered Rocket Competition":
+        elif self.competition == 'Midwest High Powered Rocket Competition':
             team = self.midwest_high_powered_rocket_competition
-        elif "First Nations" in self.competition:
+        elif 'First Nations' in self.competition:
             team = self.first_nations_rocket_competition
         return team
 
     def get_file_name(self):
 
-        if self.competition == "Collegiate Rocket Competition":
-            code = "CRL{}".format(YEAR_2)
-        elif self.competition == "Midwest High Powered Rocket Competition":
-            code = "MRL{}".format(YEAR_2)
-        elif "First Nations" in self.competition:
-            if self.competition == "First Nations AISES":
-                suffix = "AISES"
+        if self.competition == 'Collegiate Rocket Competition':
+            code = 'CRL{}'.format(YEAR_2)
+        elif self.competition == 'Midwest High Powered Rocket Competition':
+            code = 'MRL{}'.format(YEAR_2)
+        elif 'First Nations' in self.competition:
+            if self.competition == 'First Nations AISES':
+                suffix = 'AISES'
             else:
-                suffix = "Tribal"
-            code = "FNL{}_{}".format(YEAR_2, suffix)
+                suffix = 'Tribal'
+            code = 'FNL{}_{}'.format(YEAR_2, suffix)
         # replace anything that is not a word character with a dash
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.name)
         school_name = re.sub(
@@ -948,7 +991,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         return "Midwest High-Powered Rocket Competition"
 
     def get_application_type(self):
-        return "Midwest High-Powered Rocket Competition"
+        return 'Midwest High-Powered Rocket Competition'
 
     def get_slug(self):
         return 'midwest-high-powered-rocket-competition'
@@ -1020,7 +1063,7 @@ class CollegiateRocketCompetition(BaseModel):
         return "Collegiate Rocket Competition"
 
     def get_application_type(self):
-        return "Collegiate Rocket Competition"
+        return 'Collegiate Rocket Competition'
 
     def get_slug(self):
         return 'collegiate-rocket-competition'
@@ -1065,7 +1108,7 @@ class FirstNationsRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
-        related_name="first_nations_rocket_competition"
+        related_name='first_nations_rocket_competition'
     )
     competition = models.CharField(
         "Rocket Competition",
@@ -1080,17 +1123,17 @@ class FirstNationsRocketCompetition(BaseModel):
         return "First Nations Rocket Competition"
 
     def get_application_type(self):
-        return "First Nations Rocket Competition"
+        return 'First Nations Rocket Competition'
 
     def get_slug(self):
-        return "first-nations-rocket-competition"
+        return 'first-nations-rocket-competition'
 
     def get_code(self):
-        if self.team.competition == "First Nations AISES":
-            suffix = "AISES"
+        if self.team.competition == 'First Nations AISES':
+            suffix = 'AISES'
         else:
-            suffix = "Tribal"
-        return "FNL{}_{}".format(YEAR_2, suffix)
+            suffix = 'Tribal'
+        return 'FNL{}_{}'.format(YEAR_2, suffix)
 
     def get_file_name(self):
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
@@ -1211,13 +1254,13 @@ class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
         return "High Altitude Balloon Launch"
 
     def get_application_type(self):
-        return "High Altitude Balloon Launch"
+        return 'High Altitude Balloon Launch'
 
     def get_slug(self):
-        return "high-altitude-balloon-launch"
+        return 'high-altitude-balloon-launch'
 
     def get_code(self):
-        return "EBL{}".format(YEAR_2)
+        return 'EBL{}'.format(YEAR_2)
 
     class Meta:
         verbose_name_plural = "High altitude balloon launch"
@@ -1225,7 +1268,7 @@ class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
 
 class HighAltitudeBalloonPayload(HighAltitudeBalloon):
     """
-    Elijah Balloon Payload
+    High Altitude Balloon Payload
     """
 
     position = models.CharField(
@@ -1241,13 +1284,13 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
         return "High Altitude Balloon Payload"
 
     def get_application_type(self):
-        return "High Altitude Balloon Payload"
+        return 'High Altitude Balloon Payload'
 
     def get_slug(self):
-        return "high-altitude-balloon-payload"
+        return 'high-altitude-balloon-payload'
 
     def get_code(self):
-        return "EBP{}".format(YEAR_2)
+        return 'EBP{}'.format(YEAR_2)
 
     class Meta:
         verbose_name_plural = "High altitude balloon payload"
@@ -1270,13 +1313,13 @@ class Fellowship(BaseModel):
         help_text="In Dollars"
     )
     synopsis = models.TextField(
-        help_text = '''
+        help_text = """
             Please include a short synopsis of your project
             (no more than 200 characters) outlining its purpose
             in terms understandable by the general reader.
             If your project is selected for funding, this
             wording will be used on our website.
-        '''
+        """
     )
     nasa_mission_directorate = models.CharField(
         "NASA Mission Directorate",
@@ -1389,7 +1432,7 @@ class Fellowship(BaseModel):
     )
 
     def __unicode__(self):
-        return u"{}".format(self.project_title)
+        return u'{}'.format(self.project_title)
 
     def required_files(self):
         '''
@@ -1425,13 +1468,13 @@ class Fellowship(BaseModel):
 class ClarkGraduateFellowship(Fellowship):
 
     def get_application_type(self):
-        return "Dr. Laurel Salton Clark Memorial Research Fellowship"
+        return 'Dr. Laurel Salton Clark Memorial Research Fellowship'
 
     def get_slug(self):
-        return "clark-graduate-fellowship"
+        return 'clark-graduate-fellowship'
 
     def get_code(self):
-        return "LSC{}".format(YEAR_2)
+        return 'LSC{}'.format(YEAR_2)
 
 
 class GraduateFellowship(Fellowship):
@@ -1440,13 +1483,13 @@ class GraduateFellowship(Fellowship):
     """
 
     def get_application_type(self):
-        return "WSGC Graduate &amp; Professional Research Fellowship"
+        return 'WSGC Graduate &amp; Professional Research Fellowship'
 
     def get_slug(self):
-        return "graduate-fellowship"
+        return 'graduate-fellowship'
 
     def get_code(self):
-        return "RFP{}".format(YEAR_2)
+        return 'RFP{}'.format(YEAR_2)
 
 
 class UndergraduateResearch(BaseModel):
@@ -1570,13 +1613,13 @@ class UndergraduateResearch(BaseModel):
         return u"{}".format(self.project_title)
 
     def get_application_type(self):
-        return "Undergraduate Research Fellowship"
+        return 'Undergraduate Research Fellowship'
 
     def get_slug(self):
-        return "undergraduate-research"
+        return 'undergraduate-research'
 
     def get_code(self):
-        return "UGR{}".format(YEAR_2)
+        return 'UGR{}'.format(YEAR_2)
 
     def form(self):
         from djspace.application.forms import UndergraduateResearchForm
@@ -1717,9 +1760,9 @@ class Scholarship(BaseModel):
     )
 
     def get_academic_institution(self):
-        term = "FA"
-        if "Spring" in self.academic_institution:
-            term = "SP"
+        term = 'FA'
+        if 'Spring' in self.academic_institution:
+            term = 'SP'
         return term
 
     def required_files(self):
@@ -1751,13 +1794,13 @@ class UndergraduateScholarship(Scholarship):
         return "Undergraduate Scholarship"
 
     def get_application_type(self):
-        return "Undergraduate Scholarship"
+        return 'Undergraduate Scholarship'
 
     def get_slug(self):
-        return "undergraduate-scholarship"
+        return 'undergraduate-scholarship'
 
     def get_code(self):
-        return "UGS{}_{}".format(
+        return 'UGS{}_{}'.format(
             YEAR_2, self.get_academic_institution()
         )
 
@@ -1772,13 +1815,13 @@ class StemBridgeScholarship(Scholarship):
         return "STEM Bridge Scholarship"
 
     def get_application_type(self):
-        return "STEM Bridge Scholarship"
+        return 'STEM Bridge Scholarship'
 
     def get_slug(self):
-        return "stem-bridge-scholarship"
+        return 'stem-bridge-scholarship'
 
     def get_code(self):
-        return "SBS{}".format(YEAR_2)
+        return 'SBS{}'.format(YEAR_2)
 
     @models.permalink
     def get_absolute_url(self):
@@ -1874,6 +1917,11 @@ class NasaCompetition(BaseModel):
         validators=FILE_VALIDATORS,
         max_length=255, null=True, blank=True,
     )
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        related_name='opp_grants_officer'
+    )
     # finance officer
     finance_officer_name = models.CharField(
         "Name",
@@ -1882,7 +1930,7 @@ class NasaCompetition(BaseModel):
     finance_officer_address = models.TextField("Address")
     finance_officer_email = models.EmailField("Email")
     finance_officer_phone = models.CharField(
-        verbose_name = 'Phone number',
+        verbose_name = "Phone number",
         max_length=12, help_text="Format: XXX-XXX-XXXX"
     )
     # grant officer
@@ -1892,37 +1940,37 @@ class NasaCompetition(BaseModel):
     grant_officer_address = models.TextField("Address")
     grant_officer_email = models.EmailField("Email")
     grant_officer_phone = models.CharField(
-        verbose_name='Phone number',
+        verbose_name="Phone number",
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
     )
     # this is crazy and should be m2m but for now they do not
     # want to require members to be registered with the site
-    member_1 = models.CharField(
+    member_01 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_2 = models.CharField(
+    member_02 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_3 = models.CharField(
+    member_03 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_4 = models.CharField(
+    member_04 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_5 = models.CharField(
+    member_05 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_6 = models.CharField(
+    member_06 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_7 = models.CharField(
+    member_07 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_8 = models.CharField(
+    member_08 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_9 = models.CharField(
+    member_09 = models.CharField(
         max_length=128, null=True, blank=True
     )
     member_10 = models.CharField(
@@ -1962,23 +2010,23 @@ class NasaCompetition(BaseModel):
         )
 
     def get_application_type(self):
-        return "NASA Competition"
+        return 'NASA Competition'
 
     def get_slug(self):
-        return "nasa-competition"
+        return 'nasa-competition'
 
     def get_code(self):
         """
         OPP = Other Programs
         """
 
-        if self.competition_type != "Other":
+        if self.competition_type != 'Other':
             program = re.sub(r'[^a-zA-Z0-9]', '-', self.competition_type)
         elif self.competition_type_other:
             program = re.sub(r'[^a-zA-Z0-9]', '-', self.competition_type_other)
         else:
-            program = "other"
-        return "OPP{}_{}_{}".format(
+            program = 'other'
+        return 'OPP{}_{}_{}'.format(
             YEAR_2, get_term(self.date_created), program
         )
 
@@ -2165,13 +2213,13 @@ class IndustryInternship(BaseModel):
         )
 
     def get_application_type(self):
-        return "Industry Internship"
+        return 'Industry Internship'
 
     def get_slug(self):
-        return "industry-internship"
+        return 'industry-internship'
 
     def get_code(self):
-        return "IIP{}".format(YEAR_2)
+        return 'IIP{}'.format(YEAR_2)
 
     def required_files(self):
         '''
@@ -2257,10 +2305,10 @@ class ProfessionalProgramStudent(BaseModel):
         return ('application_update', [self.get_slug(), str(self.id)])
 
     def get_application_type(self):
-        return "Professional Program Student"
+        return 'Professional Program Student'
 
     def get_slug(self):
-        return "professional-program-student"
+        return 'professional-program-student'
 
     def program_application(self):
         obj = None
@@ -2296,7 +2344,7 @@ class ProfessionalProgramStudent(BaseModel):
         return link
 
     def get_code(self):
-        return "PPS{}_{}".format(YEAR_2, self.program)
+        return 'PPS{}_{}'.format(YEAR_2, self.program)
 
     def media_release(self):
         return self.user.user_files.media_release
@@ -2320,7 +2368,7 @@ class ProfessionalProgramStudent(BaseModel):
 class WorkPlanTask(models.Model):
     industry_internship = models.ForeignKey(
         IndustryInternship,
-        related_name="work_plan_tasks",
+        related_name='work_plan_tasks',
     )
     title = models.CharField(
         max_length=128,
