@@ -166,7 +166,8 @@ class AerospaceOutreachForm(forms.ModelForm):
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
             'grant_officer_name','grant_officer_title','grant_officer_address',
-            'grant_officer_email','grant_officer_phone','grants_officer',
+            #'grant_officer_email','grant_officer_phone','grants_officer',
+            'grant_officer_email','grant_officer_phone',
             'member_1','member_2','member_3','member_4','member_5',
             'member_6','member_7','member_8','member_9','member_10',
         )

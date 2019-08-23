@@ -31,10 +31,10 @@ import time
 import re
 
 # comment out for migrations
-#FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-FILE_VALIDATORS = []
-#PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-PHOTO_VALIDATORS = []
+FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+#FILE_VALIDATORS = []
+PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+#PHOTO_VALIDATORS = []
 ALLOWED_EXTENSIONS = [
     'doc','docx','xls','xlsx','pdf','tar','zip','gzip','jpg','jpeg','png',
     'ppt','pptx'
