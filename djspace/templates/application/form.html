@@ -187,8 +187,7 @@ $(function() {
     });
     /* End Industry Internship Work Plans */
     {% endif %}
-    {% if app_name == "Nasa Competition" %}
-    /* NASA Competition Team Members */
+    /* Team Members */
     var members = 0;
     $('input[id^="id_member_"]').each(function(index) {
         dis = $(this);
@@ -225,8 +224,7 @@ $(function() {
             $.growlUI('Warning', 'No more team members to delete');
         }
     });
-    /* End NASA Competition Team Members */
-    {% endif %}
+    /* End Team Members */
     $('form#profile').submit(function(){
         // disable submit button after users clicks it
         $('form#profile input[type=submit]').prop('disabled', true);
@@ -389,7 +387,7 @@ you will receive a notification email.
                 <li class="form-group ctrlHolder" id="get-program-submissions" style="display:none;">
                 </li>
                 {% endif %}
-                {% if app_name == "Nasa Competition" and field.name == "member_1" %}
+                {% if field.name == "member_1" %}
                     </ol></fieldset>
                     <fieldset class="blockLabels">
                     <legend>Team members</legend>
@@ -404,6 +402,30 @@ you will receive a notification email.
                         </p>
                     </li>
                 {% endif %}
+                {% if field.name == "grants_officer" and app_name != "Rocket Launch Team" %}
+                  <li class="form-group ctrlHolder">
+                    <h3>
+                        {{ field.label_tag }}
+                    </h3>
+                    {% if field.errors %}
+                    <div class="required warning clear">
+                        <span class="error-message">
+                            {{ field.errors|join:", "}}
+                        </span>
+                    {% else %}
+                    <div class="clear{% if field.field.required %} required{% endif %}">
+                    {% endif %}
+                    {{field}}
+                    {% if field.help_text %}
+                        <div class="help" id="{{field.name}}_qtip_help">
+                            {{field.help_text}}
+                        </div>
+                    {% endif %}
+                    </div>
+                  </li>
+                  </ol></fieldset>
+                  <fieldset class="blockLabels">
+                {% else %}
                 <li class="form-group ctrlHolder">
                     <h3>
                         {{ field.label_tag }}
@@ -424,6 +446,7 @@ you will receive a notification email.
                     {% endif %}
                     </div>
                 </li>
+                {% endif %}
             {% endfor %}
         </ol>
     </fieldset>

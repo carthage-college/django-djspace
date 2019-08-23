@@ -44,24 +44,20 @@ class HigherEducationInitiativesForm(forms.ModelForm):
 
     class Meta:
         model = HigherEducationInitiatives
-        exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match', 'award_acceptance','final_report',
-            'other_file','other_file2','other_file3',
-            'interim_report','invoice','intended_program_match',
-            'close_out_finance_document',
-            'url1','url2','url3'
-        )
         fields = (
-            'project_title','award_type','anticipating_funding','funds_requested',
-            'proposed_match','source_match','begin_date','end_date','location',
-            'synopsis','proposal','budget','past_funding','past_funding_year',
+            'project_title','award_type','funds_requested',
+            'proposed_match','source_match',
+            'past_funding','past_funding_year','anticipating_funding',
             'other_fellowship','other_fellowship_explain',
+            'begin_date','end_date','location','synopsis',
+            'proposal','budget','intended_program_match',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_address',
-            'grant_officer_email','grant_officer_phone'
+            'grant_officer_name','grant_officer_title','grant_officer_address',
+            'grant_officer_email','grant_officer_phone','grants_officer',
+            'member_1','member_2','member_3','member_4','member_5',
+            'member_6','member_7','member_8','member_9','member_10',
         )
 
 
@@ -101,26 +97,22 @@ class ResearchInfrastructureForm(forms.ModelForm):
 
     class Meta:
         model = ResearchInfrastructure
-        exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3',
-            'interim_report','close_out_finance_document',
-            'url1','url2','url3'
-        )
         fields = (
-            'project_title','award_type','anticipating_funding',
-            'funds_requested','proposed_match',
-            'source_match','past_funding','past_funding_year',
+            'project_title','award_type','funds_requested',
+            'proposed_match','source_match',
+            'past_funding','past_funding_year','anticipating_funding',
             'other_fellowship','other_fellowship_explain',
-            'begin_date','end_date', 'location','synopsis',
+            'begin_date','end_date','location','synopsis',
+            'proposal','budget','invoice','intended_program_match',
             'nasa_mission_directorate',
-            'nasa_mission_directorate_other', 'proposal','budget',
+            'nasa_mission_directorate_other',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_address',
-            'grant_officer_email','grant_officer_phone'
+            'grant_officer_name','grant_officer_title','grant_officer_address',
+            'grant_officer_email','grant_officer_phone','grants_officer',
+            'member_1','member_2','member_3','member_4','member_5',
+            'member_6','member_7','member_8','member_9','member_10',
         )
 
 
@@ -163,26 +155,20 @@ class AerospaceOutreachForm(forms.ModelForm):
     class Meta:
         model = AerospaceOutreach
         fields = (
-            'project_title','project_category','location','begin_date',
-            'end_date','anticipating_funding','funds_requested',
+            'project_title','project_category','funds_requested',
             'proposed_match','source_match',
-            'past_funding','past_funding_year',
+            'past_funding','past_funding_year','anticipating_funding',
             'other_funding','other_funding_explain',
-            'synopsis','nasa_mission_directorate',
-            'nasa_mission_directorate_other', 'proposal','budget',
+            'begin_date','end_date','location','synopsis',
+            'proposal','budget','intended_program_match',
+            'nasa_mission_directorate','nasa_mission_directorate_other',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_address',
-            'grant_officer_email','grant_officer_phone'
-        )
-        exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3',
-            'interim_report','invoice','intended_program_match',
-            'close_out_finance_document',
-            'url1','url2','url3'
+            'grant_officer_name','grant_officer_title','grant_officer_address',
+            'grant_officer_email','grant_officer_phone','grants_officer',
+            'member_1','member_2','member_3','member_4','member_5',
+            'member_6','member_7','member_8','member_9','member_10',
         )
 
 
@@ -240,26 +226,20 @@ class SpecialInitiativesForm(forms.ModelForm):
     class Meta:
         model = SpecialInitiatives
         fields = (
-            'project_title','project_category','location','begin_date',
-            'end_date','anticipating_funding','funds_requested',
+            'project_title','project_category','funds_requested',
             'proposed_match','source_match',
-            'past_funding','past_funding_year',
+            'past_funding','past_funding_year','anticipating_funding',
             'other_funding','other_funding_explain',
-            'synopsis','nasa_mission_directorate',
-            'nasa_mission_directorate_other','proposal','budget',
+            'begin_date','end_date','location','synopsis',
+            'proposal','budget','intended_program_match',
+            'nasa_mission_directorate','nasa_mission_directorate_other',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_address',
-            'grant_officer_email','grant_officer_phone'
-        )
-        exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3',
-            'interim_report','invoice','intended_program_match',
-            'close_out_finance_document',
-            'url1','url2','url3'
+            'grant_officer_name','grant_officer_title','grant_officer_address',
+            'grant_officer_email','grant_officer_phone','grants_officer',
+            'member_1','member_2','member_3','member_4','member_5',
+            'member_6','member_7','member_8','member_9','member_10',
         )
 
 
@@ -674,19 +654,21 @@ class RocketLaunchTeamForm(forms.ModelForm):
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
         required = False
     )
+    '''
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    '''
 
     class Meta:
         model = RocketLaunchTeam
         exclude = (
             'complete','user','status','funded_code','funds_authorized',
             'authorized_match','members','award_acceptance',
-            'interim_progress_report','interim_report',
+            'interim_progress_report','interim_report','team_roster',
             'preliminary_design_report','final_design_report','final_report',
             'flight_demo','lodging_list','proposal',
             'other_file','other_file2','other_file3',

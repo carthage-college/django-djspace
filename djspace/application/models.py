@@ -256,31 +256,31 @@ class EducationInitiatives(BaseModel):
         max_length=255,
         help_text="[PDF format]"
     )
-    member_01 = models.CharField(
+    member_1 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_02 = models.CharField(
+    member_2 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_03 = models.CharField(
+    member_3 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_04 = models.CharField(
+    member_4 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_05 = models.CharField(
+    member_5 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_06 = models.CharField(
+    member_6 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_07 = models.CharField(
+    member_7 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_08 = models.CharField(
+    member_8 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_09 = models.CharField(
+    member_9 = models.CharField(
         max_length=128, null=True, blank=True
     )
     member_10 = models.CharField(
@@ -365,6 +365,7 @@ class HigherEducationInitiatives(EducationInitiatives):
     # grants officer user
     grants_officer = models.ForeignKey(
         User, null=True, blank=True,
+        verbose_name="Grants Officer User",
         related_name='hei_grants_officer'
     )
     award_type = models.CharField(
@@ -400,11 +401,6 @@ class HigherEducationInitiatives(EducationInitiatives):
 
 class ResearchInfrastructure(EducationInitiatives):
 
-    # grants officer user
-    grants_officer = models.ForeignKey(
-        User, null=True, blank=True,
-        related_name='rip_grants_officer'
-    )
     award_type = models.CharField(
         "Award",
         max_length=128, choices=EDUCATION_INITIATIVES_AWARD_TYPES,
@@ -432,6 +428,12 @@ class ResearchInfrastructure(EducationInitiatives):
             please identify the NASA Mission Directorate in which you are
             requesting funds to participate.
         '''
+    )
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        verbose_name="Grants Officer User",
+        related_name='rip_grants_officer'
     )
 
     def get_code(self):
@@ -462,6 +464,7 @@ class AerospaceOutreach(EducationInitiatives):
     # grants officer user
     grants_officer = models.ForeignKey(
         User, null=True, blank=True,
+        verbose_name="Grants Officer User",
         related_name='aop_grants_officer'
     )
     project_category = models.CharField(
@@ -529,6 +532,7 @@ class SpecialInitiatives(EducationInitiatives):
     # grants officer user
     grants_officer = models.ForeignKey(
         User, null=True, blank=True,
+        verbose_name="Grants Officer User",
         related_name='sip_grants_officer'
     )
     project_category = models.CharField(
@@ -609,17 +613,18 @@ class RocketLaunchTeam(BaseModel):
     )
     grants_officer = models.ForeignKey(
         User, null=True, blank=True,
+        verbose_name="Grants Officer User",
         related_name='rocket_launch_team_grants_officer',
     )
     members = models.ManyToManyField(
         User, related_name='rocket_launch_team_members'
     )
     industry_mentor_name = models.CharField(
-        "Industry, Tripoli or National Rocketry Association mentor name",
+        "Industry, Tripoli, or National Rocketry Association mentor name",
         max_length=128, null=True, blank=True
     )
     industry_mentor_email = models.EmailField(
-        "Industry, Tripoli or National Rocketry Association mentor email",
+        "Industry, Tripoli, or National Rocketry Association mentor email",
         max_length=128, null=True, blank=True,
         help_text="""
             NOTE: Only required for the Collegiate Rocket Competition
@@ -644,7 +649,7 @@ class RocketLaunchTeam(BaseModel):
     )
     '''
     team_roster = models.TextField(
-        "Team Roster",
+        "Team Roster", null=True, blank=True,
         help_text="""
             Maximum 6 members, except for First Nations competitions, which
             can have unlimited team members
@@ -834,6 +839,38 @@ class RocketLaunchTeam(BaseModel):
     )
     # misc
     proceeding_paper = models.DateField(null=True, blank=True)
+    # team members
+    member_1 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_2 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_3 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_4 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_5 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_6 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_7 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_8 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_9 = models.CharField(
+        max_length=128, null=True, blank=True
+    )
+    member_10 = models.CharField(
+        "Member 10",
+        max_length=128, null=True, blank=True
+    )
 
     class Meta:
         ordering = ['name']
@@ -1917,10 +1954,8 @@ class NasaCompetition(BaseModel):
         validators=FILE_VALIDATORS,
         max_length=255, null=True, blank=True,
     )
-    # grants officer user
-    grants_officer = models.ForeignKey(
-        User, null=True, blank=True,
-        related_name='opp_grants_officer'
+    team_lead = models.CharField(
+        "Team Lead", max_length=128,
     )
     # finance officer
     finance_officer_name = models.CharField(
@@ -1944,41 +1979,44 @@ class NasaCompetition(BaseModel):
         max_length=12,
         help_text="Format: XXX-XXX-XXXX"
     )
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User, null=True, blank=True,
+        verbose_name="Grants Officer User",
+        related_name='opp_grants_officer'
+    )
     # this is crazy and should be m2m but for now they do not
     # want to require members to be registered with the site
-    member_01 = models.CharField(
+    member_1 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_02 = models.CharField(
+    member_2 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_03 = models.CharField(
+    member_3 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_04 = models.CharField(
+    member_4 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_05 = models.CharField(
+    member_5 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_06 = models.CharField(
+    member_6 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_07 = models.CharField(
+    member_7 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_08 = models.CharField(
+    member_8 = models.CharField(
         max_length=128, null=True, blank=True
     )
-    member_09 = models.CharField(
+    member_9 = models.CharField(
         max_length=128, null=True, blank=True
     )
     member_10 = models.CharField(
         "Member 10",
         max_length=128, null=True, blank=True
-    )
-    team_lead = models.CharField(
-        "Team Lead", max_length=128,
     )
     # approved files
     invoice = models.FileField(
