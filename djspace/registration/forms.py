@@ -296,8 +296,10 @@ class GrantsOfficerForm(forms.ModelForm):
     """
 
     wsgc_affiliate = forms.ModelChoiceField(
-        label = "WSGC Affiliate",
-        queryset=AFFILIATES
+        label = "WSGC Affiliate", queryset=AFFILIATES
+    )
+    title = forms.CharField(
+        label="Title"
     )
 
     class Meta:

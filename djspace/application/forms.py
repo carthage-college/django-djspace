@@ -41,6 +41,13 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
+    grants_officer = forms.CharField(
+        label = "Grants Officer",
+        required = False,
+        help_text = '''
+            Grants Officer user, if they have registered with this site.
+        ''',
+    )
 
     class Meta:
         model = HigherEducationInitiatives
@@ -93,6 +100,13 @@ class ResearchInfrastructureForm(forms.ModelForm):
             Do you currently hold another Federal fellowship or traineeship?
         """,
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    grants_officer = forms.CharField(
+        label = "Grants Officer",
+        required = False,
+        help_text = '''
+            Grants Officer user, if they have registered with this site.
+        ''',
     )
 
     class Meta:
@@ -151,6 +165,13 @@ class AerospaceOutreachForm(forms.ModelForm):
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
     end_date = forms.DateField(required=True)
+    grants_officer = forms.CharField(
+        label = "Grants Officer",
+        required = False,
+        help_text = '''
+            Grants Officer user, if they have registered with this site.
+        ''',
+    )
 
     class Meta:
         model = AerospaceOutreach
@@ -166,8 +187,7 @@ class AerospaceOutreachForm(forms.ModelForm):
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
             'grant_officer_name','grant_officer_title','grant_officer_address',
-            #'grant_officer_email','grant_officer_phone','grants_officer',
-            'grant_officer_email','grant_officer_phone',
+            'grant_officer_email','grant_officer_phone','grants_officer',
             'member_1','member_2','member_3','member_4','member_5',
             'member_6','member_7','member_8','member_9','member_10',
         )
@@ -223,6 +243,13 @@ class SpecialInitiativesForm(forms.ModelForm):
         """
     )
     end_date = forms.DateField(required=True)
+    grants_officer = forms.CharField(
+        label = "Grants Officer",
+        required = False,
+        help_text = '''
+            Grants Officer user, if they have registered with this site.
+        ''',
+    )
 
     class Meta:
         model = SpecialInitiatives
@@ -646,6 +673,13 @@ class RocketLaunchTeamForm(forms.ModelForm):
             Team Leads must be registered for auto-population of this field.
         ''',
     )
+    grants_officer = forms.CharField(
+        label = "Grants Officer",
+        required = False,
+        help_text = '''
+            Grants Officer user, if they have registered with this site.
+        ''',
+    )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
@@ -687,14 +721,34 @@ class RocketLaunchTeamForm(forms.ModelForm):
 
     def clean(self):
         '''
-        Assign a User object to co-advisor
         '''
         cd = self.cleaned_data
         cid = cd.get('co_advisor')
+        gid = cd.get('grants_officer')
         #uid = cd.get('uid')
         #uid = cd['uid']
         uid = str(self.request.user.id)
 
+        # Assign a User object to grants officer
+        if gid:
+            if gid == uid:
+                self.add_error('grants_officer', "You cannot also be a grants officer")
+                cd['grants_officer'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=gid)
+                    cd['grants_officer'] = user
+                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
+                        user.last_name, user.first_name
+                    )
+                except:
+                    self.add_error(
+                        'grants_officer', "That User does not exist in the system"
+                    )
+        else:
+            cd['co_advisor'] = None
+
+        # Assign a User object to co-advisor
         if cid:
             if cid == uid:
                 self.add_error('co_advisor', "You cannot also be a co-advisor")

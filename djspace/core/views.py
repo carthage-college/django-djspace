@@ -124,16 +124,20 @@ def user_files(request):
             ct = ContentType.objects.get(pk=ct)
             mod = ct.model_class()
             obj = mod.objects.get(pk=request.POST.get('oid'))
-            # team leaders can upload files for rocket launch teams
-            leader = False
-            co_advisor = False
+
+            # team leaders, co-advisors, and grants officers can upload files
+            # for rocket launch teams and professional programs
+            manager = False
             if ct.model == 'rocketlaunchteam':
-                if obj.leader.id == user.id:
-                    leader = True
-                elif obj.co_advisor and obj.co_advisor.id == user.id:
-                    co_advisor = True
+                if obj.leader.id == user.id or obj.co_advisor.id == user.id or \
+                  obj.grants_officer.id == user.id:
+                    manager = True
+            if ct.model in PROFESSIONAL_PROGRAMS:
+                if obj.grants_officer.id == user.id:
+                    manager = True
+
             # is someone being naughty?
-            if obj.user != user and not (leader or co_advisor):
+            if obj.user != user and not manager:
                 return HttpResponse(
                     "Something is rotten in Denmark",
                     content_type='text/plain; charset=utf-8'

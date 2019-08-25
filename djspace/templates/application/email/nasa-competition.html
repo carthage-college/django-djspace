@@ -49,8 +49,25 @@
 <p>{{data.grant_officer_email}}</p>
 <h4>Phone</h4>
 <p>{{data.grant_officer_phone}}</p>
+{% if data.grants_officer %}
+  <h4>Grants Officer</h4>
+  <p>{{data.grants_officer.last_name}}, {{data.grants_officer.first_name}}</p>
+{% endif %}
 <h4>Location</h4>
 <p>{{data.location}}</p>
+<h4>Preliminary Team Members</h4>
+<pre>
+{{data.member_1}}
+{{data.member_2}}
+{{data.member_3}}
+{{data.member_4}}
+{{data.member_5}}
+{{data.member_6}}
+{{data.member_7}}
+{{data.member_8}}
+{{data.member_9}}
+{{data.member_10}}
+</pre>
 <h3>Team Members confirmed</h3>
 <ol>
 {% for student in data.nasa_competition_student.all %}

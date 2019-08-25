@@ -7,6 +7,10 @@
 <p>
   {{data.user.profile.get_registration.wsgc_affiliate.name}}
 </p>
+{% if data.grants_officer %}
+  <h4>Grants Officer</h4>
+  <p>{{data.grants_officer.last_name}}, {{data.grants_officer.first_name}}</p>
+{% endif %}
 {% if data.co_advisor %}
   <h4>Co-Advisor</h4>
   <p>{{data.co_advisor.last_name}}, {{data.co_advisor.first_name}}</p>
@@ -28,8 +32,8 @@
 <p>
     {% if data.industry_mentor_email %}
     <a href="mailto:{{data.industry_mentor_email}}">
-        {{data.industry_mentor_name}}
-    </a> [{{data.industry_mentor_email}}]
+        {{data.industry_mentor_name}}</a>
+    [{{data.industry_mentor_email}}]
     {% else %}
     {{data.industry_mentor_name}}
     {% endif %}
@@ -42,6 +46,19 @@
 <h4>Team Roster</h4>
 <pre>
 {{data.team_roster}}
+</pre>
+<h4>Preliminary Team Members</h4>
+<pre>
+{{data.member_1}}
+{{data.member_2}}
+{{data.member_3}}
+{{data.member_4}}
+{{data.member_5}}
+{{data.member_6}}
+{{data.member_7}}
+{{data.member_8}}
+{{data.member_9}}
+{{data.member_10}}
 </pre>
 <h4>Confirmed Team Members</h4>
 <p>

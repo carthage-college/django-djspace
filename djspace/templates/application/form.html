@@ -115,8 +115,8 @@ $(function() {
             );
         }
     });
-    /* End Professional Program Student Mentor */
     {% endif %}
+    /* End Professional Program Student Mentor */
     {% if app_name == "Rocket Launch Team" %}
     /* Rocket Launch Team Leader */
     {% if form.leader.value %}
@@ -158,8 +158,35 @@ $(function() {
           }
        }
     });
-    /* End Rocket Launch Team Co-advisor */
+    /* End Rocket Launch Team */
     {% endif %}
+    /* Grants Officer autocomplete */
+    {% if form.grants_officer.value %}
+    {% if form.grants_officer.errors %}
+    document.grantsOfficerAutocomplete = "";
+    $('#id_grants_officer').val("");
+    {% else %}
+    document.grantsOfficerAutocomplete = {{form.grants_officer.value|default:""}};
+    $('#id_grants_officer').val("{{request.session.grants_officer_name}}");
+    {% endif %}{% endif %}
+    $('#id_grants_officer').autocomplete({
+        autoFocus: true,
+        source: '{% url "get_users" %}',
+        minLength: 3,
+        select: function (event, uic) {
+            var cid = uic.item.id;
+            // store in session
+            document.grantsOfficerAutocomplete = cid
+        },
+        change: function (event, ui) {
+          if (ui.item === null) {
+              $(this).val('');
+              $('#id_grants_officer').val('');
+              document.grantsOfficerAutocomplete = ""
+          }
+       }
+    });
+    /* End Grants Officer autocomplete */
     /* Industry Internship Work Plans */
     {% if app_name == "Industry Internship" %}
     // number of work plan tasks
@@ -233,6 +260,8 @@ $(function() {
             $('#id_leader').val(document.leaderAutocomplete);
             // set co_advisor field to selected User's ID
             $('#id_co_advisor').val(document.coAdvisorAutocomplete);
+            // set grants_officer field to selected User's ID
+            $('#id_grants_officer').val(document.grantsOfficerAutocomplete);
         {% endif %}
 
         {% if app_name == "Professional Program Student" %}

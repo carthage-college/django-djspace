@@ -312,13 +312,18 @@ def set_val(request):
             """.format(cid, oid)
 
         if obj:
-            # team leaders can upload files for rocket launch teams
-            leader = False
+            # team leaders, co-advisors, and grants officers can upload files
+            # for rocket launch teams and professional programs
+            manager = False
             if ct.model == 'rocketlaunchteam':
-                if obj.leader.id == user.id:
-                    leader = True
+                if obj.leader.id == user.id or obj.co_advisor.id == user.id or \
+                  obj.grants_officer.id == user.id:
+                    manager = True
+            if ct.model in PROFESSIONAL_PROGRAMS:
+                if obj.grants_officer.id == user.id:
+                    manager = True
             # is someone being naughty?
-            if obj.user != user and not leader:
+            if obj.user != user and not manager:
                 msg =  "Something is rotten in Denmark"
             else:
                 setattr(obj, field, value)
