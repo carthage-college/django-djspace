@@ -133,7 +133,6 @@ def application_form(request, application_type, aid=None):
 
     # garnts officer
     go_orig = None
-    ct = app.get_content_type().model
     if app and app.get_content_type().model in PROFESSIONAL_PROGRAMS or application_type == 'rocket-launch-team':
         if app.grants_officer:
             # for autocomplete form field at the UI level
