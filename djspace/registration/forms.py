@@ -277,15 +277,12 @@ class FacultyForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = self.cleaned_data
-
         # WSGC Affiliate
         wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
         wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
 
-        if wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
-            self._errors['wsgc_affiliate_other'] = self.error_class(
-                ["Required field."]
-            )
+        if wsgc_affiliate == 'Other' and not wsgc_affiliate_other:
+            self.add_error('wsgc_affiliate_other', "Required field.")
 
         return cleaned_data
 
@@ -308,14 +305,11 @@ class GrantsOfficerForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = self.cleaned_data
-
         # WSGC Affiliate
         wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
         wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
 
         if wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
-            self._errors['wsgc_affiliate_other'] = self.error_class(
-                ["Required field."]
-            )
+            self.add_error('wsgc_affiliate_other', "Required field.")
 
         return cleaned_data

@@ -10,7 +10,7 @@ from djspace.registration.models import Undergraduate
 
 from djtools.utils.mail import send_mail
 
-
+'''
 def _send_mail(obj, request, registration):
     """
     private function for sending an email
@@ -114,4 +114,4 @@ def registration_graduate_pre_save(sender, **kwargs):
             obj.wsgc_affiliate = gc
 
         _send_mail(obj, kwargs.get('request'), 'Graduate')
-
+'''
