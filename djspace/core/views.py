@@ -128,14 +128,16 @@ def user_files(request):
             # team leaders, co-advisors, and grants officers can upload files
             # for rocket launch teams and professional programs
             manager = False
-            if obj.grants_officer:
-                if ct.model == 'rocketlaunchteam':
-                    if obj.leader.id == user.id or obj.co_advisor.id == user.id or \
-                    obj.grants_officer.id == user.id:
-                        manager = True
-                if ct.model in PROFESSIONAL_PROGRAMS:
-                    if obj.grants_officer.id == user.id:
-                        manager = True
+            try:
+                goid = obj.grants_officer.id
+            except:
+                goid = None
+            if ct.model == 'rocketlaunchteam':
+                if obj.leader.id == user.id or obj.co_advisor.id == user.id or goid == user.id:
+                    manager = True
+            if ct.model in PROFESSIONAL_PROGRAMS:
+                if goid == user.id:
+                    manager = True
 
             # is someone being naughty?
             if obj.user != user and not manager:
