@@ -404,6 +404,81 @@ class StemBridgeScholarshipUploadsForm(forms.ModelForm):
         )
 
 
+class WomenInAviationScholarshipForm(forms.ModelForm):
+
+    statement = models.FileField(
+        upload_to = partial(upload_to_path, 'Statement'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        help_text=mark_safe('''
+            Maximum two-page statement containing the following:
+            <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">
+            <li>interest in aviation</li>
+            <li>experience in aviation (coursework, pilot training, etc.)</li>
+            <li>benefit of attending the 2020 Women in Aviation conference</li>
+            <li>future plan to participate in aviation as a career, hobby, etc./<li>
+            </ol> [PDF format]
+        ''')
+    )
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required = False
+    )
+    other_funding = forms.TypedChoiceField(
+        label="Are you seeking other WSGC funding for this project?",
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+    )
+    academic_institution = forms.TypedChoiceField(
+        label = "Application submitted for",
+        widget = forms.RadioSelect(),
+        choices=ACADEMIC_INSTITUTIONS
+    )
+    signed_certification = forms.BooleanField(
+        label = """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required = True
+    )
+
+    class Meta:
+        model = WomenInAviationScholarship
+        exclude = (
+            'complete','user','status','funded_code','funds_authorized',
+            'authorized_match','award_acceptance','final_report',
+            'other_file','other_file2','other_file3','interim_report',
+            'url1','url2','url3'
+        )
+
+
+class WomenInAviationScholarshipUploadsForm(forms.ModelForm):
+
+    class Meta:
+        model = WomenInAviationScholarship
+        fields = (
+            'award_acceptance','final_report','interim_report',
+            'other_file','other_file2','other_file3',
+        )
+
+
 class UndergraduateResearchForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(

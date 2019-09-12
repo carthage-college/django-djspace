@@ -34,6 +34,7 @@ UPLOAD_FORMS = {
   'specialinitiatives': SpecialInitiativesUploadsForm,
   'undergraduatescholarship': UndergraduateScholarshipUploadsForm,
   'stembridgescholarship': StemBridgeScholarshipUploadsForm,
+  'womeninaviationscholarship': WomenInAviationScholarshipUploadsForm,
   'undergraduateresearch': UndergraduateResearchUploadsForm,
   'graduatefellowship': GraduateFellowshipUploadsForm,
   'clarkgraduatefellowship': ClarkGraduateFellowshipUploadsForm,

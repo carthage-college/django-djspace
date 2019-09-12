@@ -582,6 +582,11 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     statement_file.short_description = 'Statement'
 
 
+class WomenInAviationScholarshipAdmin(UndergraduateScholarshipAdmin):
+
+    model = WomenInAviationScholarship
+
+
 class StemBridgeScholarshipAdmin(UndergraduateScholarshipAdmin):
 
     model = StemBridgeScholarship
@@ -1225,6 +1230,9 @@ admin.site.register(
 )
 admin.site.register(
     UndergraduateScholarship, UndergraduateScholarshipAdmin
+)
+admin.site.register(
+    WomenInAviationScholarship, WomenInAviationScholarshipAdmin
 )
 admin.site.register(
     UndergraduateResearch, UndergraduateResearchAdmin

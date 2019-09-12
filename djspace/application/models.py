@@ -75,9 +75,8 @@ ACADEMIC_INSTITUTIONS = (
         'All Academic Institution Opportunity (Spring)',
         'All Academic Institution Opportunity (Spring)'
     ),
-    (
-        'STEM Bridge','STEM Bridge'
-    )
+    ('STEM Bridge','STEM Bridge'),
+    ('Women in Aviation','Women in Aviation')
 )
 INDUSTRY_AWARD_TYPES = (
     (
@@ -1823,6 +1822,28 @@ class Scholarship(BaseModel):
         return self.get_file_timestamp('wsgc_advisor_recommendation')
     def recommendation_timestamp(self):
         return self.get_file_timestamp('recommendation')
+
+class WomenInAviationScholarship(Scholarship):
+
+    def __unicode__(self):
+        return "Women in Aviation Scholarship"
+
+    def get_application_type(self):
+        return 'Women in Aviation Scholarship'
+
+    def get_slug(self):
+        return 'women-in-aviation-scholarship'
+
+    def get_code(self):
+        return 'WAS{}'.format(YEAR_2)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('application_update', [self.get_slug(), str(self.id)])
+
+    class Meta:
+        verbose_name = "Women in Aviation Scholarship"
+        verbose_name_plural = "Women in Aviation Scholarships"
 
 
 class UndergraduateScholarship(Scholarship):

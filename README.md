@@ -9,7 +9,7 @@ Wisconsin Space Grant Consortium grant programs application infrastructure.
 
 2. update the applications GM2MField in the UserProfile() data model class with the name of the new class e.g. 'application.NewDataModel',
 
-3. create the form class in application/forms.py
+3. create the form class and the form upload class in application/forms.py
 
 4. execute 'python manage.py migrate --run-syncdb' to create the new table(s). if the table is created but the command barfed, check the django_content_type table to insure that the ContentType object was created. if not, do it manually.
 
@@ -22,6 +22,8 @@ Wisconsin Space Grant Consortium grant programs application infrastructure.
 8. update application/views.py if need be
 
 9. update templates/application/form.html if need be
+
+10. update the UPLOAD_FORMS dictionary with the name of the model in lowercase
 
 # New Field added to a Model
 
