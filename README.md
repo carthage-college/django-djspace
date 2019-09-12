@@ -11,7 +11,7 @@ Wisconsin Space Grant Consortium grant programs application infrastructure.
 
 3. create the form class and the form upload class in application/forms.py
 
-4. execute 'python manage.py migrate --run-syncdb' to create the new table(s). if the table is created but the command barfed, check the django_content_type table to insure that the ContentType object was created. if not, do it manually.
+4. for production, execute 'python manage.py migrate --run-syncdb' to create the new table(s). for staging or development, use migrations. if the table is created but the command barfed, check the django_content_type table to insure that the ContentType object was created. if not, do it manually.
 
 5. update templates/dashboard/applications.inc.html to add the URL to the application form
 
