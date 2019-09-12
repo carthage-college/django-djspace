@@ -119,33 +119,36 @@ def application_form(request, application_type, aid=None):
 
     # rocket launch team co-advisor
     coa_orig = None
-    if app and application_type == 'rocket-launch-team' and app.co_advisor:
-        # for autocomplete form field at the UI level
-        request.session['co_advisor_name'] = u'{}, {}'.format(
-            app.co_advisor.last_name, app.co_advisor.first_name
-        )
-        request.session['leader_name'] = u'{}, {}'.format(
-            app.leader.last_name, app.leader.first_name
-        )
-        # we want to remove the old advisor if a new one is submitted
-        # and add the new one to the application gm2m relationship
-        coa_orig = app.co_advisor
-
-    # garnts officer
+    # rocket launch team team leader
+    tl_orig = None
+    # grants officer
     go_orig = None
-    if app and app.get_content_type().model in PROFESSIONAL_PROGRAMS \
-      or application_type == 'rocket-launch-team':
-        if app.grants_officer:
+    if app:
+        # we want to remove the old person if a new one is submitted
+        # and add the new one to the application gm2m relationship
+        # so that they can upload files on the dashboard
+        if application_type == 'rocket-launch-team' and app.co_advisor:
             # for autocomplete form field at the UI level
-            request.session['grants_officer_name'] = u'{}, {}'.format(
-                app.grants_officer.last_name, app.grants_officer.first_name
+            request.session['co_advisor_name'] = u'{}, {}'.format(
+                app.co_advisor.last_name, app.co_advisor.first_name
             )
+            coa_orig = app.co_advisor
+
+        if application_type == 'rocket-launch-team' and app.leader:
+            # for autocomplete form field at the UI level
             request.session['leader_name'] = u'{}, {}'.format(
                 app.leader.last_name, app.leader.first_name
             )
-            # we want to remove the old grants officer if a new one is submitted
-            # and add the new one to the application gm2m relationship
-            go_orig = app.grants_officer
+            tl_orig = app.leader
+
+        if app.get_content_type().model in PROFESSIONAL_PROGRAMS \
+          or application_type == 'rocket-launch-team':
+            if app.grants_officer:
+                # for autocomplete form field at the UI level
+                request.session['grants_officer_name'] = u'{}, {}'.format(
+                    app.grants_officer.last_name, app.grants_officer.first_name
+                )
+                go_orig = app.grants_officer
 
     # fetch the form class
     FormClass = str_to_class(
@@ -287,7 +290,6 @@ def application_form(request, application_type, aid=None):
             else:
                 date = data.date_updated
 
-            # if we have a rocket launch team application
             # add co-advisor to generic many-to-many relationsip (gm2m) if new
             # and remove the old one if need be
             if application_type == 'rocket-launch-team':
@@ -306,12 +308,30 @@ def application_form(request, application_type, aid=None):
                     # new application or new co-advisor on update
                     coa.profile.applications.add(data)
 
+            # add leader to generic many-to-many relationsip (gm2m) if new
+            # and remove the old one if need be
+            if application_type == 'rocket-launch-team':
+                tl = data.leader
+                # we have a co-advisor, check if the old matches new
+                if (tl_orig and tl) and tl.id != tl_orig.id:
+                    # update
+                    tl.profile.applications.add(data)
+                    # delete the old leader
+                    tl_orig.profile.applications.remove(data)
+                elif tl_orig and not tl:
+                    # delete the old leader because they removed
+                    # the leader from the field
+                    tl_orig.profile.applications.remove(data)
+                elif tl and not tl_orig:
+                    # new application or new leader on update
+                    tl.profile.applications.add(data)
+
             # add grants officer to generic many-to-many relationsip if new
             # and remove the old one if need be
             if data.get_content_type().model in PROFESSIONAL_PROGRAMS \
               or application_type == 'rocket-launch-team':
                 go = data.grants_officer
-                # we have a co-advisor, check if the old matches new
+                # we have a grants officer, check if the old matches new
                 if (go_orig and go) and go.id != go_orig.id:
                     # update
                     go.profile.applications.add(data)
@@ -364,6 +384,8 @@ def application_form(request, application_type, aid=None):
 
         if not app:
             # set session values to null for GET requests that are not updates
+            request.session['grants_officer_id'] = ''
+            request.session['grants_officer'] = ''
             request.session['leader_id'] = ''
             request.session['leader_name'] = ''
             request.session['co_advisor_id'] = ''
