@@ -145,13 +145,13 @@ NASA_CENTER_CHOICES = (
     ('Other','Other')
 )
 FIRST_NATIONS_ROCKET_COMPETITIONS = (
-    ('Tribal Challenge','Tribal Challenge'),
-    ('AISES Challenge','AISES Challenge'),
+    ('Moon Challenge','Moon Challenge'),
+    ('Mars Challenge','Mars Challenge'),
 )
 ROCKET_COMPETITIONS = (
     ('Collegiate Rocket Competition', "Collegiate Rocket Competition"),
-    ('First Nations AISES', "First Nations AISES"),
-    ('First Nations Tribal', "First Nations Tribal"),
+    ('First Nations Mars Challenge', "First Nations Mars Challenge"),
+    ('First Nations Moon Challenge', "First Nations Moon Challenge"),
     (
         'Midwest High Powered Rocket Competition',
         "Midwest High Powered Rocket Competition"
@@ -908,10 +908,10 @@ class RocketLaunchTeam(BaseModel):
         elif self.competition == 'Midwest High Powered Rocket Competition':
             code = 'MRL{}'.format(YEAR_2)
         elif 'First Nations' in self.competition:
-            if self.competition == 'First Nations AISES':
-                suffix = 'AISES'
+            if self.competition == 'First Nations Mars Challenge':
+                suffix = 'Mars'
             else:
-                suffix = 'Tribal'
+                suffix = 'Moon'
             code = 'FNL{}_{}'.format(YEAR_2, suffix)
         # replace anything that is not a word character with a dash
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.name)
@@ -1165,10 +1165,10 @@ class FirstNationsRocketCompetition(BaseModel):
         return 'first-nations-rocket-competition'
 
     def get_code(self):
-        if self.team.competition == 'First Nations AISES':
-            suffix = 'AISES'
+        if self.team.competition == 'First Nations Mars Challenge':
+            suffix = 'Mars'
         else:
-            suffix = 'Tribal'
+            suffix = 'Moon'
         return 'FNL{}_{}'.format(YEAR_2, suffix)
 
     def get_file_name(self):

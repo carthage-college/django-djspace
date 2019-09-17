@@ -71,7 +71,7 @@
 {% endfor %}
 </ol>
 
-{% if data.competition != "First Nations AISES" or data.competiton != "First Nations Tribal" %}
+{% if data.competition != "First Nations AISES" or data.competiton != "First Nations Tribal" or data.competition != "First Nations Mars Challenge" or data.competiton != "First Nations Moon Challenge" %}
   {% if data.proceeding_paper %}
     <h4>Proceeding Paper</h4>
     <p>{{data.proceeding_paper}}</p>
