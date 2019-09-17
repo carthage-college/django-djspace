@@ -67,6 +67,30 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'member_6','member_7','member_8','member_9','member_10',
         )
 
+    def clean(self):
+        cd = self.cleaned_data
+        gid = cd.get('grants_officer')
+        uid = str(self.request.user.id)
+
+        # Assign a User object to grants officer
+        if gid:
+            if gid == uid:
+                self.add_error('grants_officer', "You cannot also be a grants officer")
+                cd['grants_officer'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=gid)
+                    cd['grants_officer'] = user
+                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
+                        user.last_name, user.first_name
+                    )
+                except:
+                    self.add_error(
+                        'grants_officer', "That User does not exist in the system"
+                    )
+        else:
+            cd['grants_officer'] = None
+
 
 class HigherEducationInitiativesUploadsForm(forms.ModelForm):
 
@@ -128,6 +152,30 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'member_1','member_2','member_3','member_4','member_5',
             'member_6','member_7','member_8','member_9','member_10',
         )
+
+    def clean(self):
+        cd = self.cleaned_data
+        gid = cd.get('grants_officer')
+        uid = str(self.request.user.id)
+
+        # Assign a User object to grants officer
+        if gid:
+            if gid == uid:
+                self.add_error('grants_officer', "You cannot also be a grants officer")
+                cd['grants_officer'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=gid)
+                    cd['grants_officer'] = user
+                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
+                        user.last_name, user.first_name
+                    )
+                except:
+                    self.add_error(
+                        'grants_officer', "That User does not exist in the system"
+                    )
+        else:
+            cd['grants_officer'] = None
 
 
 class ResearchInfrastructureUploadsForm(forms.ModelForm):
@@ -191,6 +239,30 @@ class AerospaceOutreachForm(forms.ModelForm):
             'member_1','member_2','member_3','member_4','member_5',
             'member_6','member_7','member_8','member_9','member_10',
         )
+
+    def clean(self):
+        cd = self.cleaned_data
+        gid = cd.get('grants_officer')
+        uid = str(self.request.user.id)
+
+        # Assign a User object to grants officer
+        if gid:
+            if gid == uid:
+                self.add_error('grants_officer', "You cannot also be a grants officer")
+                cd['grants_officer'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=gid)
+                    cd['grants_officer'] = user
+                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
+                        user.last_name, user.first_name
+                    )
+                except:
+                    self.add_error(
+                        'grants_officer', "That User does not exist in the system"
+                    )
+        else:
+            cd['grants_officer'] = None
 
 
 class AerospaceOutreachUploadsForm(forms.ModelForm):
@@ -269,6 +341,30 @@ class SpecialInitiativesForm(forms.ModelForm):
             'member_1','member_2','member_3','member_4','member_5',
             'member_6','member_7','member_8','member_9','member_10',
         )
+
+    def clean(self):
+        cd = self.cleaned_data
+        gid = cd.get('grants_officer')
+        uid = str(self.request.user.id)
+
+        # Assign a User object to grants officer
+        if gid:
+            if gid == uid:
+                self.add_error('grants_officer', "You cannot also be a grants officer")
+                cd['grants_officer'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=gid)
+                    cd['grants_officer'] = user
+                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
+                        user.last_name, user.first_name
+                    )
+                except:
+                    self.add_error(
+                        'grants_officer', "That User does not exist in the system"
+                    )
+        else:
+            cd['grants_officer'] = None
 
 
 class SpecialInitiativesUploadsForm(forms.ModelForm):
@@ -795,13 +891,10 @@ class RocketLaunchTeamForm(forms.ModelForm):
         super(RocketLaunchTeamForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        '''
-        '''
         cd = self.cleaned_data
         cid = cd.get('co_advisor')
         gid = cd.get('grants_officer')
-        #uid = cd.get('uid')
-        #uid = cd['uid']
+        lid = cd.get('leader')
         uid = str(self.request.user.id)
 
         # Assign a User object to grants officer
@@ -842,25 +935,24 @@ class RocketLaunchTeamForm(forms.ModelForm):
         else:
             cd['co_advisor'] = None
 
-        '''
-        Assign a User object to team leader
-        '''
-        lid = cd.get('leader')
+        # Assign a User object to team leader
         if lid:
-            try:
-                user = User.objects.get(pk=lid)
-                cd['leader'] = user
-                self.request.session['leader_name'] = u'{}, {}'.format(
-                    user.last_name, user.first_name
-                )
-            except:
-                self.add_error(
-                    'leader', "The team leader does not exist in the system"
-                )
+            if lid == uid:
+                self.add_error('leader', "You cannot also be a co-advisor")
+                cd['leader'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=lid)
+                    cd['leader'] = user
+                    self.request.session['leader_name'] = u'{}, {}'.format(
+                        user.last_name, user.first_name
+                    )
+                except:
+                    self.add_error(
+                        'leader', "The team leader does not exist in the system"
+                    )
         else:
-            self.add_error(
-                'leader', "The team leader does not exist in the system"
-            )
+            cd['leader'] = None
 
         return cd
 
