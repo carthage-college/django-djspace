@@ -821,7 +821,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
                         'grants_officer', "That User does not exist in the system"
                     )
         else:
-            cd['co_advisor'] = None
+            cd['grants_officer'] = None
 
         # Assign a User object to co-advisor
         if cid:
