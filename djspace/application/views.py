@@ -167,8 +167,9 @@ def application_form(request, application_type, aid=None):
         try:
             # rocket launch team and professional program student
             # forms need request context
-            if application_type == 'rocket-launch-team' or \
-               application_type == 'professional-program-student':
+            if application_type == 'rocket-launch-team' \
+              or application_type == 'professional-program-student' \
+              or application_type.replace('-','') in PROFESSIONAL_PROGRAMS:
                 form = FormClass(
                     instance=app, data=request.POST, files=request.FILES,
                     request=request, label_suffix='', use_required_attribute=False
