@@ -49,6 +49,10 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         ''',
     )
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(HigherEducationInitiativesForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = HigherEducationInitiatives
         fields = (
@@ -132,6 +136,10 @@ class ResearchInfrastructureForm(forms.ModelForm):
             Grants Officer user, if they have registered with this site.
         ''',
     )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(ResearchInfrastructureForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = ResearchInfrastructure
@@ -220,6 +228,10 @@ class AerospaceOutreachForm(forms.ModelForm):
             Grants Officer user, if they have registered with this site.
         ''',
     )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(AerospaceOutreachForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = AerospaceOutreach
@@ -322,6 +334,10 @@ class SpecialInitiativesForm(forms.ModelForm):
             Grants Officer user, if they have registered with this site.
         ''',
     )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(SpecialInitiativesForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = SpecialInitiatives
