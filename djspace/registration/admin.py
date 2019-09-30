@@ -52,7 +52,11 @@ def get_profile_fields(obj):
         reg.profile.city_current,reg.profile.state_current,
         reg.profile.postal_code_current,
         reg.profile.date_of_birth,reg.profile.gender,
-        ' '.join(race),reg.profile.tribe,
+        ' '.join(race),
+        smart_str(
+            reg.profile.tribe,
+            encoding='utf-8', strings_only=False, errors='strict'
+        ),
         reg.profile.disability,reg.profile.disability_specify,
         reg.profile.employment,reg.profile.military,reg.profile.us_citizen,
         reg.profile.registration_type, affiliate
