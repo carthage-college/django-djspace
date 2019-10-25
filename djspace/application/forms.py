@@ -1202,6 +1202,10 @@ class NasaCompetitionForm(forms.ModelForm):
     )
     end_date = forms.DateField(required=True)
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(NasaCompetitionForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = NasaCompetition
         exclude = (
@@ -1253,6 +1257,10 @@ class IndustryInternshipForm(forms.ModelForm):
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
         required = False
     )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(IndustryInternshipForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = IndustryInternship
