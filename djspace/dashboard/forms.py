@@ -90,9 +90,8 @@ class UserProfileForm(forms.ModelForm):
     state = forms.CharField(
         widget=forms.Select(choices=STATE_CHOICES)
     )
-    postal_code = USZipCodeField(
-        label="Zip Code",
-        help_text="Format: 99999 or 99999-9999",
+    postal_code = forms.CharField(
+        label="Postal Code",
         max_length=10
     )
     address1_current = forms.CharField(
@@ -115,9 +114,8 @@ class UserProfileForm(forms.ModelForm):
         widget=forms.Select(choices=STATE_CHOICES),
         required=False
     )
-    postal_code_current = USZipCodeField(
-        label="Zip Code",
-        help_text="Format: 99999 or 99999-9999",
+    postal_code_current = forms.CharField(
+        label="Postal Code",
         max_length=10,
         required=False,
     )
