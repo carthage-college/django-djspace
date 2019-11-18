@@ -132,8 +132,13 @@ def user_files(request):
                 goid = obj.grants_officer.id
             except:
                 goid = None
+            try:
+                coid = obj.co_advisor.id
+            except:
+                coid = None
+
             if ct.model == 'rocketlaunchteam':
-                if obj.leader.id == user.id or obj.co_advisor.id == user.id or goid == user.id:
+                if obj.leader.id == user.id or goid == user.id or coid == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
                 if goid == user.id:
