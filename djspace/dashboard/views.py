@@ -321,7 +321,7 @@ def set_val(request):
             except:
                 goid = None
             if ct.model == 'rocketlaunchteam':
-                if obj.leader.id == user.id or obj.co_advisor.id == user.id or goid == user.id:
+                if (obj.leader and obj.leader.id == user.id) or (obj.co_advisor and obj.co_advisor.id == user.id) or goid == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
                 if goid == user.id:
