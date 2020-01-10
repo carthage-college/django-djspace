@@ -305,7 +305,7 @@ class GrantsOfficerForm(forms.ModelForm):
         wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
         wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
 
-        if wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
+        if wsgc_affiliate and wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
             self.add_error('wsgc_affiliate_other', "Required field.")
 
         return cleaned_data
