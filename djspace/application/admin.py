@@ -611,6 +611,13 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'email_applicants'
     ]
 
+    search_fields = (
+        'user__last_name','user__first_name','user__email',
+        'co_advisor__last_name','co_advisor__first_name','co_advisor__email',
+        'leader__last_name','leader__first_name','leader__email',
+        'grants_officer__last_name','grants_officer__first_name','grants_officer__email',
+    )
+
     list_display  = PROFILE_LIST_DISPLAY + [
         'budget_file','proposal_file',
         'interim_progress_report_file','virtual_cdr_file',
