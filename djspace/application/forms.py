@@ -61,7 +61,7 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'past_funding','past_funding_year','anticipating_funding',
             'other_fellowship','other_fellowship_explain',
             'begin_date','end_date','location','synopsis',
-            'proposal','budget','intended_program_match',
+            'proposal','budget',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
             'finance_officer_email','finance_officer_phone',
@@ -103,7 +103,7 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','final_report','interim_report',
             'other_file','other_file2','other_file3',
-            'invoice','intended_program_match','close_out_finance_document'
+            'invoice','close_out_finance_document'
         )
 
 
@@ -149,7 +149,7 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'past_funding','past_funding_year','anticipating_funding',
             'other_fellowship','other_fellowship_explain',
             'begin_date','end_date','location','synopsis',
-            'proposal','budget','invoice','intended_program_match',
+            'proposal','budget','invoice',
             'nasa_mission_directorate',
             'nasa_mission_directorate_other',
             'finance_officer_name','finance_officer_title',
@@ -193,7 +193,7 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','final_report','interim_report',
             'other_file','other_file2','other_file3',
-            'invoice','intended_program_match','close_out_finance_document'
+            'invoice','close_out_finance_document'
         )
 
 
@@ -241,7 +241,7 @@ class AerospaceOutreachForm(forms.ModelForm):
             'past_funding','past_funding_year','anticipating_funding',
             'other_funding','other_funding_explain',
             'begin_date','end_date','location','synopsis',
-            'proposal','budget','intended_program_match',
+            'proposal','budget',
             'nasa_mission_directorate','nasa_mission_directorate_other',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
@@ -284,7 +284,7 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','final_report','interim_report',
             'other_file','other_file2','other_file3',
-            'invoice','intended_program_match','close_out_finance_document'
+            'invoice','close_out_finance_document'
         )
 
 
@@ -347,7 +347,7 @@ class SpecialInitiativesForm(forms.ModelForm):
             'past_funding','past_funding_year','anticipating_funding',
             'other_funding','other_funding_explain',
             'begin_date','end_date','location','synopsis',
-            'proposal','budget','intended_program_match',
+            'proposal','budget',
             'nasa_mission_directorate','nasa_mission_directorate_other',
             'finance_officer_name','finance_officer_title',
             'finance_officer_address',
@@ -390,7 +390,7 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','final_report','interim_report',
             'other_file','other_file2','other_file3',
-            'invoice','intended_program_match','close_out_finance_document'
+            'invoice','close_out_finance_document'
         )
 
 

@@ -999,7 +999,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'invoice_file','intended_program_match_file',
+        'invoice_file',
         'close_out_finance_document_file',
         'project_title','begin_date','end_date','award_type',
         'funds_requested','funds_authorized',
@@ -1041,11 +1041,6 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
-    def intended_program_match_file(self, instance):
-        return admin_display_file(instance,'intended_program_match')
-    intended_program_match_file.allow_tags = True
-    intended_program_match_file.short_description = "Intended program match"
-
     def close_out_finance_document_file(self, instance):
         return admin_display_file(instance, 'close_out_finance_document')
     close_out_finance_document_file.allow_tags = True
@@ -1062,7 +1057,7 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
     model = AerospaceOutreach
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'invoice_file','intended_program_match_file',
+        'invoice_file',
         'close_out_finance_document_file',
         'project_title','begin_date','end_date','project_category',
         'proposal_file','funds_requested','funds_authorized',

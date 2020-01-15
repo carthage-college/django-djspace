@@ -120,17 +120,24 @@ def home(request):
 
     return render(
         request, 'dashboard/home.html', {
-            'user_files':user_files,
-            'reg':reg,'status':status,'approved':approved,
-            'mugshot_status':mugshot_status,
-            'biography_status':biography_status,
-            'irs_w9_status':irs_w9_status,
-            'media_release_status':media_release_status,
-            'current_apps':current_apps,
-            'past_apps':past_apps,
-            'professional_programs':PROFESSIONAL_PROGRAMS,
-            'rocket_competitions':ROCKET_COMPETITIONS_EXCLUDE
-        }
+            'user_files': user_files,
+            'reg': reg,
+            'status': status,
+            'approved': approved,
+            'mugshot_status': mugshot_status,
+            'biography_status': biography_status,
+            'irs_w9_status': irs_w9_status,
+            'media_release_status': media_release_status,
+            'current_apps': current_apps,
+            'past_apps': past_apps,
+            'professional_programs': [
+                'aerospaceoutreach',
+                'highereducationinitiatives',
+                'researchinfrastructure',
+                'specialinitiatives',
+            ],
+            'rocket_competitions': ROCKET_COMPETITIONS_EXCLUDE,
+        },
     )
 
 

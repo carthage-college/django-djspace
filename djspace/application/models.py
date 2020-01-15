@@ -322,13 +322,6 @@ class EducationInitiatives(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    intended_program_match = models.FileField(
-        upload_to = partial(upload_to_path, 'Intended_Program_Match'),
-        validators=FILE_VALIDATORS,
-        max_length=255,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
     close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'Closeout_Finance_Document'),
         validators=FILE_VALIDATORS,
@@ -350,8 +343,6 @@ class EducationInitiatives(BaseModel):
         return self.get_file_timestamp('budget')
     def invoice_timestamp(self):
         return self.get_file_timestamp('invoice')
-    def intended_program_match_timestamp(self):
-        return self.get_file_timestamp('intended_program_match')
     def close_out_finance_document_timestamp(self):
         return self.get_file_timestamp('close_out_finance_document')
 
