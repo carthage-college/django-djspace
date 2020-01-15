@@ -149,7 +149,7 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'past_funding','past_funding_year','anticipating_funding',
             'other_fellowship','other_fellowship_explain',
             'begin_date','end_date','location','synopsis',
-            'proposal','budget','invoice',
+            'proposal','budget',
             'nasa_mission_directorate',
             'nasa_mission_directorate_other',
             'finance_officer_name','finance_officer_title',
