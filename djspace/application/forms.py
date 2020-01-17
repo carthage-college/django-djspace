@@ -282,9 +282,9 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
     class Meta:
         model = AerospaceOutreach
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
-            'invoice','close_out_finance_document'
+            'award_acceptance', 'final_report', 'interim_report',
+            'other_file', 'other_file2', 'other_file3',
+            'invoice', 'close_out_finance_document',
         )
 
 
