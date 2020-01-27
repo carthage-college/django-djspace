@@ -161,6 +161,12 @@ ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     'Midwest High Powered Rocket Competition',
     "Collegiate Rocket Competition"
 ]
+EDUCATION_INITITATIVES_PROGRAMS = [
+    'aerospaceoutreach',
+    'highereducationinitiatives',
+    'researchinfrastructure',
+    'specialinitiatives',
+]
 PROFESSIONAL_PROGRAMS = [
     'aerospaceoutreach',
     'highereducationinitiatives',

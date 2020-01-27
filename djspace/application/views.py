@@ -12,8 +12,9 @@ from django.shortcuts import render, get_object_or_404
 
 from djspace.application.forms import *
 from djspace.application.models import (
-    ProfessionalProgramStudent, ROCKET_LAUNCH_COMPETITION_WITH_LIMIT,
-    PROFESSIONAL_PROGRAMS, STUDENT_PROFESSIONAL_PROGRAMS
+    EDUCATION_INITITATIVES_PROGRAMS, ProfessionalProgramStudent,
+    ROCKET_LAUNCH_COMPETITION_WITH_LIMIT, PROFESSIONAL_PROGRAMS,
+    STUDENT_PROFESSIONAL_PROGRAMS
 )
 from djspace.core.models import UserFiles
 from djspace.core.forms import UserFilesForm
@@ -141,7 +142,7 @@ def application_form(request, application_type, aid=None):
             )
             tl_orig = app.leader
 
-        if app.get_content_type().model in PROFESSIONAL_PROGRAMS \
+        if app.get_content_type().model in EDUCATION_INITITATIVES_PROGRAMS \
           or application_type == 'rocket-launch-team':
             if app.grants_officer:
                 # for autocomplete form field at the UI level
@@ -329,7 +330,7 @@ def application_form(request, application_type, aid=None):
 
             # add grants officer to generic many-to-many relationsip if new
             # and remove the old one if need be
-            if data.get_content_type().model in PROFESSIONAL_PROGRAMS \
+            if data.get_content_type().model in EDUCATION_INITITATIVES_PROGRAMS \
               or application_type == 'rocket-launch-team':
                 go = data.grants_officer
                 # we have a grants officer, check if the old matches new
