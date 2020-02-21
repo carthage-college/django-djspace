@@ -74,9 +74,10 @@
           {% if app.get_content_type.model == "rocketlaunchteam" %}
             {% include "dashboard/rocket_launch_team_files.inc.html" %}
           {% endif %}
-          {% if app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id %}
-            {% include "dashboard/rocket_launch_team_files.inc.html" %}
-          {% endif %}
+          {# 20200221: commented out the rock launch team files for competition applications #}
+          {# if app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id #}
+            {# include "dashboard/rocket_launch_team_files.inc.html" #}
+          {# endif #}
           {% if app.get_slug in "industry-internship,nasa-competition" %}
           <li class="form-group ctrlHolder">
             <h3>
