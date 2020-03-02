@@ -822,6 +822,14 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="ORK or RKT file"
     )
+    openrocketrocksim2 = models.FileField(
+        "OpenRocket or RockSim 2",
+        upload_to = partial(upload_to_path, 'ORRS'),
+        validators=OPENROCKET_EXTENSIONS,
+        max_length=255,
+        null=True, blank=True,
+        help_text="ORK or RKT file",
+    )
     team_photo = models.ImageField(
         upload_to = partial(upload_to_path, 'Team_Photo'),
         validators=PHOTO_VALIDATORS,
@@ -976,6 +984,8 @@ class RocketLaunchTeam(BaseModel):
         return self.get_file_timestamp('virtual_frr')
     def openrocketrocksim_timestamp(self):
         return self.get_file_timestamp('openrocketrocksim')
+    def openrocketrocksim2_timestamp(self):
+        return self.get_file_timestamp('openrocketrocksim2')
     def team_photo_timestamp(self):
         return self.get_file_timestamp('team_photo')
     def team_biography_timestamp(self):

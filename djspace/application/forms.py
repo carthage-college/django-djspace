@@ -980,7 +980,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
         fields = (
             'award_acceptance','interim_progress_report',
             'preliminary_design_report','final_design_report',
-            'flight_demo','lodging_list','openrocketrocksim',
+            'flight_demo','lodging_list',
+            'openrocketrocksim', 'openrocketrocksim2',
             'other_file','other_file2','other_file3',
             'critical_design_report','oral_presentation',
             'post_flight_performance_report','education_outreach',

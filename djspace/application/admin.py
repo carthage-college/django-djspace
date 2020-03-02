@@ -55,6 +55,7 @@ FUNDED_FILES = (
     ('close_out_finance_document','Close Out Finance Document'),
     ('other_file','Other File'),
     ('openrocketrocksim','OpenRocket or RockSim'),
+    ('openrocketrocksim2','OpenRocket or RockSim 2'),
     ('post_flight_performance_report','Post Flight Performance Report'),
     ('preliminary_design_report','Preliminary Design Report'),
     ('virtual_pdr','Virtual Preliminary Design Report'),
@@ -622,7 +623,8 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'budget_file','proposal_file',
         'interim_progress_report_file','virtual_cdr_file',
         'preliminary_design_report_file','virtual_pdr_file',
-        'final_design_report_file','flight_demo_file','openrocketrocksim_file',
+        'final_design_report_file','flight_demo_file',
+        'openrocketrocksim_file', 'openrocketrocksim_file2',
         'final_motor_selection_trunk','lodging_list_file',
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file','flight_readiness_report_file',
@@ -763,6 +765,11 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         return admin_display_file(instance,'openrocketrocksim')
     openrocketrocksim_file.allow_tags = True
     openrocketrocksim_file.short_description = "ORK"
+
+    def openrocketrocksim_file2(self, instance):
+        return admin_display_file(instance,'openrocketrocksim2')
+    openrocketrocksim_file2.allow_tags = True
+    openrocketrocksim_file2.short_description = "ORK2"
 
     def proceeding_paper_file(self, instance):
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
