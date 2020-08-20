@@ -44,8 +44,9 @@ class HigherEducationInitiativesForm(forms.ModelForm):
     grants_officer = forms.CharField(
         label = "Grants Officer",
         required = False,
-        help_text = '''
-            Grants Officer user, if they have registered with this site.
+        help_text='''
+            I authorize the Grants Officer listed above to submit
+            the required documents associated with this proposal on my behalf.
         ''',
     )
 
@@ -132,8 +133,9 @@ class ResearchInfrastructureForm(forms.ModelForm):
     grants_officer = forms.CharField(
         label = "Grants Officer",
         required = False,
-        help_text = '''
-            Grants Officer user, if they have registered with this site.
+        help_text='''
+            I authorize the Grants Officer listed above to submit
+            the required documents associated with this proposal on my behalf.
         ''',
     )
 
@@ -224,8 +226,9 @@ class AerospaceOutreachForm(forms.ModelForm):
     grants_officer = forms.CharField(
         label = "Grants Officer",
         required = False,
-        help_text = '''
-            Grants Officer user, if they have registered with this site.
+        help_text='''
+            I authorize the Grants Officer listed above to submit
+            the required documents associated with this proposal on my behalf.
         ''',
     )
 
@@ -330,8 +333,9 @@ class SpecialInitiativesForm(forms.ModelForm):
     grants_officer = forms.CharField(
         label = "Grants Officer",
         required = False,
-        help_text = '''
-            Grants Officer user, if they have registered with this site.
+        help_text='''
+            I authorize the Grants Officer listed above to submit
+            the required documents associated with this proposal on my behalf.
         ''',
     )
 
@@ -863,8 +867,9 @@ class RocketLaunchTeamForm(forms.ModelForm):
     grants_officer = forms.CharField(
         label = "Grants Officer",
         required = False,
-        help_text = '''
-            Grants Officer user, if they have registered with this site.
+        help_text='''
+            I authorize the Grants Officer listed above to submit
+            the required documents associated with this proposal on my behalf.
         ''',
     )
     past_funding = forms.TypedChoiceField(

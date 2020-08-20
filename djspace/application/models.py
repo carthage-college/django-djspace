@@ -362,7 +362,7 @@ class HigherEducationInitiatives(EducationInitiatives):
     grants_officer = models.ForeignKey(
         User, null=True, blank=True,
         verbose_name="Grants Officer User",
-        related_name='hei_grants_officer'
+        related_name='hei_grants_officer',
     )
     award_type = models.CharField(
         "Award",
