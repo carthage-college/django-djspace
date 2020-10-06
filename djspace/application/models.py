@@ -34,132 +34,132 @@ OPENROCKET_EXTENSIONS = [
 ]
 DIRECTORATE_CHOICES = (
     (
-        'Aeronautics Research','Aeronautics Research'
+        'Aeronautics Research', 'Aeronautics Research'
     ),
     (
         'Human Exploration and Operations Mission Directorate',
-        'Human Exploration and Operations Mission Directorate'
+        'Human Exploration and Operations Mission Directorate',
     ),
-    ('Science','Science'),
-    ('Space Technology','Space Technology'),
-    ('Other','Other')
+    ('Science', 'Science'),
+    ('Space Technology', 'Space Technology'),
+    ('Other', 'Other'),
 )
 GRAVITY_TRAVEL = (
-    ('gravity','Reduced Gravity'),
-    ('travel','Student Travel')
+    ('gravity', 'Reduced Gravity'),
+    ('travel', 'Student Travel'),
 )
 TIME_FRAME = (
-    ('Summer','Summer'),
-    ('Summer and fall','Summer and fall'),
-    ('Fall','Fall'),
-    ('Spring','Spring'),
-    ('Summer, fall, and spring','Summer, fall, and spring'),
-    ('Fall and spring','Fall and spring')
+    ('Summer', 'Summer'),
+    ('Summer and fall', 'Summer and fall'),
+    ('Fall', 'Fall'),
+    ('Spring', 'Spring'),
+    ('Summer, fall, and spring', 'Summer, fall, and spring'),
+    ('Fall and spring', 'Fall and spring'),
 )
 PROJECT_CATEGORIES = (
     (
         'Pre-College Program (Formal Education Outreach - K-12)',
-        'Pre-College Program (Formal Education Outreach - K-12)'
+        'Pre-College Program (Formal Education Outreach - K-12)',
     ),
     (
         'Informal Education Program (Museums, Planetariums, etc.)',
-        'Informal Education Program (Museums, Planetariums, etc.)'
-    )
+        'Informal Education Program (Museums, Planetariums, etc.)',
+    ),
 )
 ACADEMIC_INSTITUTIONS = (
     (
         'Two-year Academic Institution Opportunity (Fall)',
-        'Two-year Academic Institution Opportunity (Fall)'
+        'Two-year Academic Institution Opportunity (Fall)',
     ),
     (
         'All Academic Institution Opportunity (Spring)',
-        'All Academic Institution Opportunity (Spring)'
+        'All Academic Institution Opportunity (Spring)',
     ),
-    ('STEM Bridge','STEM Bridge'),
-    ('Women in Aviation','Women in Aviation')
+    ('STEM Bridge', 'STEM Bridge'),
+    ('Women in Aviation', 'Women in Aviation'),
 )
 INDUSTRY_AWARD_TYPES = (
     (
         'Industry Internship: $5000 award with a required 1:1 match',
-        'Industry Internship: $5000 award with a required 1:1 match'
+        'Industry Internship: $5000 award with a required 1:1 match',
     ),
     (
         'Industry Internship: $5000 award with an optional match',
-        'Industry Internship: $5000 award with an optional match'
+        'Industry Internship: $5000 award with an optional match',
     ),
     (
         'Internship/Apprenticeship: $0.00 Award with full match',
-        'Internship/Apprenticeship:  $0.00 Award with full match'
+        'Internship/Apprenticeship:  $0.00 Award with full match',
     ),
     (
         'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match',
-        'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match'
+        'Technical Apprenticeship: $2500 for two-year schools with a 1:1 match',
     ),
     (
         'Technical Apprenticeship:  $2500 for two-year schools with an optional match.',
-        'Technical Apprenticeship:  $2500 for two-year schools with an optional match.'
+        'Technical Apprenticeship:  $2500 for two-year schools with an optional match.',
     ),
 )
 UNDERGRADUATE_RESEARCH_AWARD_TYPES = (
     (
-        'Summer Research:  Up to $4000',
-        'Summer Research:  Up to $4000'
+        'Summer Research: Up to $4000',
+        'Summer Research: Up to $4000',
     ),
     (
-        'Academic-Year Research:  Up to $4000',
-        'Academic-Year Research:  Up to $4000'
+        'Academic-Year Research: Up to $4000',
+        'Academic-Year Research: Up to $4000',
     )
 )
 EDUCATION_INITIATIVES_AWARD_TYPES = (
-    ('Multi-Institutional: Up to $20,000','Multi-Institutional: Up to $20,000'),
-    ('Multi-Institutional: Up to $15,000','Multi-Institutional: Up to $15,000'),
-    ('Major Award: $5000-$10000','Major Award: $5000-$10000'),
-    ('Minor Award:  Up to $5000','Minor Award:  Up to $5000')
+    ('Multi-Institutional: Up to $20,000', 'Multi-Institutional: Up to $20,000'),
+    ('Multi-Institutional: Up to $15,000', 'Multi-Institutional: Up to $15,000'),
+    ('Major Award: $5000-$10000', 'Major Award: $5000-$10000'),
+    ('Minor Award:  Up to $5000', 'Minor Award:  Up to $5000'),
 )
 DISCIPLINES = (
-    ('Engineering','Engineering'),
-    ('Biology','Biology'),
-    ('Technical (2 year)','Technical (2 year)'),
-    ('Other','Other')
+    ('Engineering', 'Engineering'),
+    ('Biology', 'Biology'),
+    ('Technical (2 year)', 'Technical (2 year)'),
+    ('Other', 'Other'),
 )
 NASA_COMPETITION_TYPES = (
-    ('HASP','HASP'),
-    ('Micro-G/NExT','Micro-G/NExT'),
-    ('Robotic Mining','Robotic Mining'),
-    ('RockSat','RockSat'),
-    ('XHab','XHab'),
-    ('Other','Other')
+    ('HASP', 'HASP'),
+    ('Micro-G/NExT', 'Micro-G/NExT'),
+    ('Robotic Mining', 'Robotic Mining'),
+    ('RockSat', 'RockSat'),
+    ('XHab', 'XHab'),
+    ('Other', 'Other'),
 )
 NASA_CENTER_CHOICES = (
-    ('Ames Research Center','Ames Research Center'),
-    ('Armstrong Flight Research Center','Armstrong Flight Research Center'),
-    ('Glenn Research Center','Glenn Research Center'),
-    ('Goddard Space Flight Center','Goddard Space Flight Center'),
-    ('Jet Propulsion Laboratory','Jet Propulsion Laboratory'),
-    ('Johnson Space Center','Johnson Space Center'),
-    ('Kennedy Space Center','Kennedy Space Center'),
-    ('Langley Research Center','Langley Research Center'),
-    ('Marshall Space Flight Center','Marshall Space Flight Center'),
-    ('Stennis Space Center','Stennis Space Center'),
-    ('Wallops Flight Facility','Wallops Flight Facility'),
-    ('Other','Other')
+    ('Ames Research Center', 'Ames Research Center'),
+    ('Armstrong Flight Research Center', 'Armstrong Flight Research Center'),
+    ('Glenn Research Center', 'Glenn Research Center'),
+    ('Goddard Space Flight Center', 'Goddard Space Flight Center'),
+    ('Jet Propulsion Laboratory', 'Jet Propulsion Laboratory'),
+    ('Johnson Space Center', 'Johnson Space Center'),
+    ('Kennedy Space Center', 'Kennedy Space Center'),
+    ('Langley Research Center', 'Langley Research Center'),
+    ('Marshall Space Flight Center', 'Marshall Space Flight Center'),
+    ('Stennis Space Center', 'Stennis Space Center'),
+    ('Wallops Flight Facility', 'Wallops Flight Facility'),
+    ('Other', 'Other'),
 )
 FIRST_NATIONS_ROCKET_COMPETITIONS = (
-    ('Moon Challenge','Moon Challenge'),
-    ('Mars Challenge','Mars Challenge'),
+    ('Moon Challenge', 'Moon Challenge'),
+    ('Mars Challenge', 'Mars Challenge'),
 )
 ROCKET_COMPETITIONS = (
-    ('Collegiate Rocket Competition', "Collegiate Rocket Competition"),
-    ('First Nations Mars Challenge', "First Nations Mars Challenge"),
-    ('First Nations Moon Challenge', "First Nations Moon Challenge"),
+    ('Collegiate Rocket Competition', 'Collegiate Rocket Competition'),
+    ('First Nations Mars Challenge', 'First Nations Mars Challenge'),
+    ('First Nations Moon Challenge', 'First Nations Moon Challenge'),
     (
         'Midwest High Powered Rocket Competition',
-        "Midwest High Powered Rocket Competition"
-    )
+        'Midwest High Powered Rocket Competition',
+    ),
 )
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     'Midwest High Powered Rocket Competition',
-    "Collegiate Rocket Competition"
+    'Collegiate Rocket Competition',
 ]
 EDUCATION_INITITATIVES_PROGRAMS = [
     'aerospaceoutreach',
@@ -184,13 +184,14 @@ STUDENT_PROFESSIONAL_PROGRAMS = (
     ('NasaCompetition', 'NASA Competition'),
     ('NasaInternship', 'NASA Internship'),
     ('ResearchInfrastructure', 'Research Infrastructure'),
-    ('SpecialInitiatives', 'Special Initiatives')
+    ('Second Stage Space Sciences', 'Second Stage Space Sciences'),
+    ('SpecialInitiatives', 'Special Initiatives'),
 )
 # only used at UI level
 ROCKET_COMPETITIONS_EXCLUDE = [
     'midwesthighpoweredrocketcompetition',
     'collegiaterocketcompetition',
-    'firstnationsrocketcompetition'
+    'firstnationsrocketcompetition',
 ]
 
 

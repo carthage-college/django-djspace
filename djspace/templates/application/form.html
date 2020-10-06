@@ -482,7 +482,28 @@ you will receive a notification email.
         <fieldset class="blockLabels">
           <ol>
           {% for field in form_user_files.visible_fields %}
+            {% if field.name == "irs_w9" %}
+            <li class="form-group ctrlHolder">
+              <h3>
+                <label for="id_irs_w9">
+                IRS W9, W4, or Carthage College Educational Experience HR Package
+                </label>
+              </h3>
+              {% if field.errors %}
+              <div class="required warning">
+                <span class="error-message">{{ field.errors|join:", "}}</span>
+              {% else %}
+              <div{% if field.field.required %} class="required"{% endif %}>
+              {% endif %}
+              {% if field.help_text %}
+                <p class="help">{{field.help_text|safe}}</p>
+              {% endif %}
+              {{field}}
+              </div>
+            </li>
+            {% else %}
             {% include "form_field.inc.html" %}
+            {% endif %}
           {% endfor %}
           </ol>
         </fieldset>
