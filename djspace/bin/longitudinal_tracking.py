@@ -1,10 +1,11 @@
-'''
+import pystuck
+pystuck.run_server()
+
 print('import')
 import django
 print('setup')
 django.setup()
 
-'''
 from django.contrib.auth.models import User
 from djspace.application.models import UndergraduateScholarship
 
