@@ -161,6 +161,12 @@ ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     'Midwest High Powered Rocket Competition',
     "Collegiate Rocket Competition"
 ]
+EDUCATION_INITITATIVES_PROGRAMS = [
+    'aerospaceoutreach',
+    'highereducationinitiatives',
+    'researchinfrastructure',
+    'specialinitiatives',
+]
 PROFESSIONAL_PROGRAMS = [
     'aerospaceoutreach',
     'highereducationinitiatives',
@@ -322,13 +328,6 @@ class EducationInitiatives(BaseModel):
         null=True, blank=True,
         help_text="PDF format"
     )
-    intended_program_match = models.FileField(
-        upload_to = partial(upload_to_path, 'Intended_Program_Match'),
-        validators=FILE_VALIDATORS,
-        max_length=255,
-        null=True, blank=True,
-        help_text="PDF format"
-    )
     close_out_finance_document = models.FileField(
         upload_to = partial(upload_to_path, 'Closeout_Finance_Document'),
         validators=FILE_VALIDATORS,
@@ -350,8 +349,6 @@ class EducationInitiatives(BaseModel):
         return self.get_file_timestamp('budget')
     def invoice_timestamp(self):
         return self.get_file_timestamp('invoice')
-    def intended_program_match_timestamp(self):
-        return self.get_file_timestamp('intended_program_match')
     def close_out_finance_document_timestamp(self):
         return self.get_file_timestamp('close_out_finance_document')
 
@@ -365,7 +362,7 @@ class HigherEducationInitiatives(EducationInitiatives):
     grants_officer = models.ForeignKey(
         User, null=True, blank=True,
         verbose_name="Grants Officer User",
-        related_name='hei_grants_officer'
+        related_name='hei_grants_officer',
     )
     award_type = models.CharField(
         "Award",
@@ -825,6 +822,14 @@ class RocketLaunchTeam(BaseModel):
         null=True, blank=True,
         help_text="ORK or RKT file"
     )
+    openrocketrocksim2 = models.FileField(
+        "OpenRocket or RockSim 2",
+        upload_to = partial(upload_to_path, 'ORRS'),
+        validators=OPENROCKET_EXTENSIONS,
+        max_length=255,
+        null=True, blank=True,
+        help_text="ORK or RKT file",
+    )
     team_photo = models.ImageField(
         upload_to = partial(upload_to_path, 'Team_Photo'),
         validators=PHOTO_VALIDATORS,
@@ -979,6 +984,8 @@ class RocketLaunchTeam(BaseModel):
         return self.get_file_timestamp('virtual_frr')
     def openrocketrocksim_timestamp(self):
         return self.get_file_timestamp('openrocketrocksim')
+    def openrocketrocksim2_timestamp(self):
+        return self.get_file_timestamp('openrocketrocksim2')
     def team_photo_timestamp(self):
         return self.get_file_timestamp('team_photo')
     def team_biography_timestamp(self):

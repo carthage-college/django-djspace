@@ -74,30 +74,11 @@
           {% if app.get_content_type.model == "rocketlaunchteam" %}
             {% include "dashboard/rocket_launch_team_files.inc.html" %}
           {% endif %}
-          {% if app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id %}
-            {% include "dashboard/rocket_launch_team_files.inc.html" %}
-          {% endif %}
-          {% if app.get_content_type.model in professional_programs %}
-          <li class="form-group ctrlHolder">
-            <h3><label for="id_invoice">Invoice [PDF]</label></h3>
-            <div class="filewrap fleft">
-              <input type="file" class="upload-file"
-                data-content-type="{{app.get_content_type.id}}"
-                data-oid="{{app.id}}"
-                name="invoice" id="id_invoice">
-              <span class='filebutt'>Select File</span>
-              <span class='filevalu'></span>
-            </div>
-            {% if app.invoice %}
-              <a class="fa-wrap" href="{{media_url}}{{app.invoice}}"
-                target="_blank">
-                <i class="fa fa-times fa-file-pdf-o blue"
-                aria-hidden="true"></i></a>
-            {% else %}
-              <i class="fa fa-times red fa-wrap" aria-hidden="true"
-                title="Missing file"></i>
-            {% endif %}
-          </li>
+          {# 20200221: commented out the rock launch team files for competition applications #}
+          {# if app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id #}
+            {# include "dashboard/rocket_launch_team_files.inc.html" #}
+          {# endif #}
+          {% if app.get_slug in "industry-internship,nasa-competition" %}
           <li class="form-group ctrlHolder">
             <h3>
                 <label for="id_intended_program_match">
@@ -116,6 +97,28 @@
             {% if app.intended_program_match %}
               <a class="fa-wrap"
                 href="{{media_url}}{{app.intended_program_match}}"
+                target="_blank">
+                <i class="fa fa-times fa-file-pdf-o blue"
+                aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-times red fa-wrap" aria-hidden="true"
+                title="Missing file"></i>
+            {% endif %}
+          </li>
+          {% endif %}
+          {% if app.get_content_type.model in professional_programs %}
+          <li class="form-group ctrlHolder">
+            <h3><label for="id_invoice">Invoice [PDF]</label></h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+                data-content-type="{{app.get_content_type.id}}"
+                data-oid="{{app.id}}"
+                name="invoice" id="id_invoice">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.invoice %}
+              <a class="fa-wrap" href="{{media_url}}{{app.invoice}}"
                 target="_blank">
                 <i class="fa fa-times fa-file-pdf-o blue"
                 aria-hidden="true"></i></a>

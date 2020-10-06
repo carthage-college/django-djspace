@@ -11,7 +11,6 @@ from djtools.fields import GENDER_CHOICES, SALUTATION_TITLES, STATE_CHOICES
 from djtools.fields import BINARY_CHOICES
 
 from djtools.fields.localflavor import USPhoneNumberField
-from localflavor.us.forms import USZipCodeField
 
 from allauth.account.models import EmailAddress
 from collections import OrderedDict
@@ -115,9 +114,8 @@ class SignupForm(forms.Form):
     state = forms.CharField(
         widget=forms.Select(choices=STATE_CHOICES)
     )
-    postal_code = USZipCodeField(
-        label="Zip Code",
-        help_text="Format: 99999 or 99999-9999",
+    postal_code = forms.CharField(
+        label="Postal Code",
         max_length=10
     )
     address1_current = forms.CharField(
@@ -140,9 +138,8 @@ class SignupForm(forms.Form):
         widget=forms.Select(choices=STATE_CHOICES),
         required=False
     )
-    postal_code_current = USZipCodeField(
-        label="Zip Code",
-        help_text="Format: 99999 or 99999-9999",
+    postal_code_current = forms.CharField(
+        label="Postal Code",
         max_length=10,
         required=False
     )

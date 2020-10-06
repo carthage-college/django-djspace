@@ -55,6 +55,7 @@ FUNDED_FILES = (
     ('close_out_finance_document','Close Out Finance Document'),
     ('other_file','Other File'),
     ('openrocketrocksim','OpenRocket or RockSim'),
+    ('openrocketrocksim2','OpenRocket or RockSim 2'),
     ('post_flight_performance_report','Post Flight Performance Report'),
     ('preliminary_design_report','Preliminary Design Report'),
     ('virtual_pdr','Virtual Preliminary Design Report'),
@@ -80,7 +81,7 @@ def required_files(modeladmin, request, queryset):
         )
         return HttpResponseRedirect(
             reverse_lazy(
-                "admin:application_{}_changelist".format(object_name.lower())
+                'admin:application_{}_changelist'.format(object_name.lower())
             )
         )
     else:
@@ -92,7 +93,7 @@ def required_files(modeladmin, request, queryset):
         tar_ball = tarfile.open(fileobj=response, mode='w:gz')
         for obj in queryset:
             for field in obj.required_files():
-                if field != "media_release":
+                if field != 'media_release':
                     phile = getattr(obj, field)
                 else:
                     phile = obj.user.user_files.media_release
@@ -129,7 +130,7 @@ def photo_files(modeladmin, request, queryset):
         )
         return HttpResponseRedirect(
             reverse_lazy(
-                "admin:application_{}_changelist".format(object_name.lower())
+                'admin:application_{}_changelist'.format(object_name.lower())
             )
         )
     else:
@@ -198,8 +199,8 @@ def longitudinal_tracking(modeladmin, request):
     # reader requires an object which supports the iterator protocol and
     # returns a string each time its next() method is called. StringIO
     # provides an in-memory, line by line stream of the template data.
-    #reader = csv.reader(io.StringIO(data), delimiter="|")
-    reader = csv.reader(BytesIO(data), delimiter="|")
+    #reader = csv.reader(io.StringIO(data), delimiter='|')
+    reader = csv.reader(BytesIO(data), delimiter='|')
     for row in reader:
         ws.append(row)
 
@@ -231,21 +232,24 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     """
 
     file_fields = [
-        "cv", "proposal", "letter_interest",
-        "budget", "undergraduate_transcripts", "graduate_transcripts",
-        "recommendation", "recommendation_1", "recommendation_2",
-        "high_school_transcripts", "wsgc_advisor_recommendation",
-        "statement"
+        'cv', 'proposal', 'letter_interest',
+        'budget', 'undergraduate_transcripts', 'graduate_transcripts',
+        'recommendation', 'recommendation_1', 'recommendation_2',
+        'high_school_transcripts', 'wsgc_advisor_recommendation',
+        'statement'
+    ]
+    username_fields = [
+        'co_advisor','leader','grants_officer'
     ]
     exclude = [
-        "user", "userprofile", "user_id", "updated_by_id", "id",
-        "aerospaceoutreach", "clarkgraduatefellowship",
-        "first_nations_rocket_competition", "collegiate_rocket_competition",
-        "midwest_high_powered_rocket_competition", "graduatefellowship",
-        "highaltitudeballoonpayload","highaltitudeballoonlaunch",
-        "highereducationinitiatives", "industryinternship","nasacompetition",
-        "researchinfrastructure", "specialinitiatives",
-        "undergraduateresearch", "undergraduatescholarship"
+        'user', 'userprofile', 'user_id', 'updated_by_id', 'id',
+        'aerospaceoutreach', 'clarkgraduatefellowship',
+        'first_nations_rocket_competition', 'collegiate_rocket_competition',
+        'midwest_high_powered_rocket_competition', 'graduatefellowship',
+        'highaltitudeballoonpayload','highaltitudeballoonlaunch',
+        'highereducationinitiatives', 'industryinternship','nasacompetition',
+        'researchinfrastructure', 'specialinitiatives',
+        'undergraduateresearch', 'undergraduatescholarship'
     ]
 
     field_names = [f.name for f in modeladmin.model._meta.get_fields()]
@@ -280,6 +284,11 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
                             settings.SERVER_URL, settings.MEDIA_URL, value
                         )
                         value = '=HYPERLINK("{}","{}")'.format(earl, field)
+                    elif field in username_fields:
+                        if value:
+                            value = '{}, {} ({})'.format(
+                                value.last_name,value.first_name,value.email
+                            )
                     else:
                         value = unicode(value).encode('utf-8', 'ignore')
                 fields.append(value)
@@ -400,7 +409,7 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     ]
 
     def cv_file(self, instance):
-        return admin_display_file(instance,"cv")
+        return admin_display_file(instance,'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
@@ -409,7 +418,7 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     commit_short.short_description = "Commitement"
 
     def letter_interest_file(self, instance):
-        return admin_display_file(instance,"letter_interest")
+        return admin_display_file(instance,'letter_interest')
     letter_interest_file.allow_tags = True
     letter_interest_file.short_description = "Interest"
 
@@ -450,43 +459,43 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
-            25, html=True, truncate=" ..."
+            25, html=True, truncate=' ...'
         )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
     def proposal_file(self, instance):
-        return admin_display_file(instance,"proposal")
+        return admin_display_file(instance,'proposal')
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
     def cv_file(self, instance):
-        return admin_display_file(instance,"cv")
+        return admin_display_file(instance,'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
     def budget_file(self, instance):
-        return admin_display_file(instance,"budget")
+        return admin_display_file(instance,'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def undergraduate_transcripts_file(self, instance):
-        return admin_display_file(instance,"undergraduate_transcripts")
+        return admin_display_file(instance,'undergraduate_transcripts')
     undergraduate_transcripts_file.allow_tags = True
     undergraduate_transcripts_file.short_description = "UG Trans"
 
     def graduate_transcripts_file(self, instance):
-        return admin_display_file(instance,"graduate_transcripts")
+        return admin_display_file(instance,'graduate_transcripts')
     graduate_transcripts_file.allow_tags = True
     graduate_transcripts_file.short_description = "GR Trans"
 
     def recommendation_1_file(self, instance):
-        return admin_display_file(instance,"recommendation_1")
+        return admin_display_file(instance,'recommendation_1')
     recommendation_1_file.allow_tags = True
     recommendation_1_file.short_description = "Recom 1"
 
     def recommendation_2_file(self, instance):
-        return admin_display_file(instance,"recommendation_2")
+        return admin_display_file(instance,'recommendation_2')
     recommendation_2_file.allow_tags = True
     recommendation_2_file.short_description = "Recom 2"
 
@@ -509,22 +518,22 @@ class UndergraduateAdmin(GenericAdmin):
     ]
 
     def high_school_transcripts_file(self, instance):
-        return admin_display_file(instance,"high_school_transcripts")
+        return admin_display_file(instance,'high_school_transcripts')
     high_school_transcripts_file.allow_tags = True
     high_school_transcripts_file.short_description = "HS Trans"
 
     def undergraduate_transcripts_file(self, instance):
-        return admin_display_file(instance,"undergraduate_transcripts")
+        return admin_display_file(instance,'undergraduate_transcripts')
     undergraduate_transcripts_file.allow_tags = True
     undergraduate_transcripts_file.short_description = "UG Trans"
 
     def wsgc_advisor_recommendation_file(self, instance):
-        return admin_display_file(instance,"wsgc_advisor_recommendation")
+        return admin_display_file(instance,'wsgc_advisor_recommendation')
     wsgc_advisor_recommendation_file.allow_tags = True
     wsgc_advisor_recommendation_file.short_description = "WSGC Advisor Recom"
 
     def recommendation_file(self, instance):
-        return admin_display_file(instance,"recommendation")
+        return admin_display_file(instance,'recommendation')
     recommendation_file.allow_tags = True
     recommendation_file.short_description = "Recommendation"
 
@@ -550,13 +559,13 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
 
     def synopsis_trunk(self, instance):
         return Truncator(instance.synopsis).words(
-            25, html=True, truncate=" ..."
+            25, html=True, truncate=' ...'
         )
     synopsis_trunk.allow_tags = True
     synopsis_trunk.short_description = "Synopsis truncated"
 
     def proposal_file(self, instance):
-        return admin_display_file(instance,"proposal")
+        return admin_display_file(instance,'proposal')
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
@@ -577,7 +586,7 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     list_editable = ['funded_code','complete','status']
 
     def statement_file(self, instance):
-        return admin_display_file(instance,"statement")
+        return admin_display_file(instance,'statement')
     statement_file.allow_tags = True
     statement_file.short_description = 'Statement'
 
@@ -603,22 +612,64 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'email_applicants'
     ]
 
+    search_fields = (
+        'user__last_name','user__first_name','user__email',
+        'co_advisor__last_name','co_advisor__first_name','co_advisor__email',
+        'leader__last_name','leader__first_name','leader__email',
+        'grants_officer__last_name','grants_officer__first_name','grants_officer__email',
+    )
+
     list_display  = PROFILE_LIST_DISPLAY + [
         'budget_file','proposal_file',
         'interim_progress_report_file','virtual_cdr_file',
         'preliminary_design_report_file','virtual_pdr_file',
-        'final_design_report_file','flight_demo_file','openrocketrocksim_file',
+        'final_design_report_file','flight_demo_file',
+        'openrocketrocksim_file', 'openrocketrocksim_file2',
         'final_motor_selection_trunk','lodging_list_file',
         'critical_design_report_file','post_flight_performance_report_file',
         'education_outreach_file','flight_readiness_report_file',
-        'virtual_frr_file','proceeding_paper_file', 'name','competition',
-        'co_advisor','leader','industry_mentor_name','industry_mentor_email',
+        'virtual_frr_file','proceeding_paper_file', 'name','competition','grants_officer_name',
+        'co_advisor_name','leader_name','industry_mentor_name','industry_mentor_email',
         'date_created','date_updated','past_funding','past_funding_year',
         'funded_code','complete','status'
     ]
     list_display_links = ['name']
     list_editable = ['funded_code','complete','status']
     raw_id_fields = ('user','co_advisor','leader','members',)
+
+
+    def grants_officer_name(self, obj):
+        name = None
+        if obj.grants_officer:
+            name = u'<a href="mailto:{}">{}, {} ({})</a>'.format(
+                obj.grants_officer.email, obj.grants_officer.last_name, obj.grants_officer.first_name,
+                obj.grants_officer.email
+            )
+        return name
+    grants_officer_name.allow_tags = True
+    grants_officer_name.short_description = "Grants Officer"
+
+    def co_advisor_name(self, obj):
+        name = None
+        if obj.co_advisor:
+            name = u'<a href="mailto:{}">{}, {} ({})</a>'.format(
+                obj.co_advisor.email, obj.co_advisor.last_name, obj.co_advisor.first_name,
+                obj.co_advisor.email
+            )
+        return name
+    co_advisor_name.allow_tags = True
+    co_advisor_name.short_description = "Co-Advisor"
+
+    def leader_name(self, obj):
+        name = None
+        if obj.leader:
+            name = u'<a href="mailto:{}">{}, {} ({})</a>'.format(
+                obj.leader.email, obj.leader.last_name, obj.leader.first_name,
+                obj.leader.email
+            )
+        return name
+    leader_name.allow_tags = True
+    leader_name.short_description = "Leader"
 
     def budget_file(self, instance):
         return admin_display_file(instance,'budget')
@@ -715,6 +766,11 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     openrocketrocksim_file.allow_tags = True
     openrocketrocksim_file.short_description = "ORK"
 
+    def openrocketrocksim_file2(self, instance):
+        return admin_display_file(instance,'openrocketrocksim2')
+    openrocketrocksim_file2.allow_tags = True
+    openrocketrocksim_file2.short_description = "ORK2"
+
     def proceeding_paper_file(self, instance):
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.proceeding_paper:
@@ -753,7 +809,7 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     ]
 
     def cv_file(self, instance):
-        return admin_display_file(instance,"cv")
+        return admin_display_file(instance,'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
@@ -865,7 +921,7 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     ]
 
     def cv_file(self, instance):
-        return admin_display_file(instance,"cv")
+        return admin_display_file(instance,'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
@@ -950,7 +1006,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'invoice_file','intended_program_match_file',
+        'invoice_file',
         'close_out_finance_document_file',
         'project_title','begin_date','end_date','award_type',
         'funds_requested','funds_authorized',
@@ -983,19 +1039,14 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     synopsis_trunk.short_description = "Synopsis truncated"
 
     def proposal_file(self, instance):
-        return admin_display_file(instance,"proposal")
+        return admin_display_file(instance,'proposal')
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
     def invoice_file(self, instance):
-        return admin_display_file(instance,"invoice")
+        return admin_display_file(instance,'invoice')
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
-
-    def intended_program_match_file(self, instance):
-        return admin_display_file(instance,"intended_program_match")
-    intended_program_match_file.allow_tags = True
-    intended_program_match_file.short_description = "Intended program match"
 
     def close_out_finance_document_file(self, instance):
         return admin_display_file(instance, 'close_out_finance_document')
@@ -1013,7 +1064,7 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
     model = AerospaceOutreach
 
     list_display  = PROFILE_LIST_DISPLAY + [
-        'invoice_file','intended_program_match_file',
+        'invoice_file',
         'close_out_finance_document_file',
         'project_title','begin_date','end_date','project_category',
         'proposal_file','funds_requested','funds_authorized',
@@ -1062,22 +1113,22 @@ class NasaCompetitionAdmin(GenericAdmin):
     ]
 
     def budget_file(self, instance):
-        return admin_display_file(instance,"budget")
+        return admin_display_file(instance,'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def statement_file(self, instance):
-        return admin_display_file(instance,"statement")
+        return admin_display_file(instance,'statement')
     statement_file.allow_tags = True
     statement_file.short_description = 'Statement'
 
     def invoice_file(self, instance):
-        return admin_display_file(instance,"invoice")
+        return admin_display_file(instance,'invoice')
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
     def intended_program_match_file(self, instance):
-        return admin_display_file(instance,"intended_program_match")
+        return admin_display_file(instance,'intended_program_match')
     intended_program_match_file.allow_tags = True
     intended_program_match_file.short_description = "Intended program match"
 
@@ -1124,17 +1175,17 @@ class IndustryInternshipAdmin(GenericAdmin):
     inlines = [WorkPlanTaskInline,]
 
     def budget_file(self, instance):
-        return admin_display_file(instance,"budget")
+        return admin_display_file(instance,'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def invoice_file(self, instance):
-        return admin_display_file(instance,"invoice")
+        return admin_display_file(instance,'invoice')
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
     def intended_program_match_file(self, instance):
-        return admin_display_file(instance,"intended_program_match")
+        return admin_display_file(instance,'intended_program_match')
     intended_program_match_file.allow_tags = True
     intended_program_match_file.short_description = "Intended program match"
 
@@ -1168,7 +1219,7 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
     def program_link(self, obj):
         link = '<a href="{}">{}</a>'.format(
             reverse(
-                "admin:application_professionalprogramstudent_change",
+                'admin:application_professionalprogramstudent_change',
                 args=(obj.id,)
             ),
             obj.program
@@ -1183,7 +1234,7 @@ class WorkPlanTaskAdmin(admin.ModelAdmin):
 
     model = WorkPlanTask
     list_display = ['title','industry_internship',]
-    raw_id_fields = ("industry_internship",)
+    raw_id_fields = ('industry_internship',)
 '''
 
 admin.site.register(

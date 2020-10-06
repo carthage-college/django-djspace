@@ -260,10 +260,9 @@ $(function() {
             $('#id_leader').val(document.leaderAutocomplete);
             // set co_advisor field to selected User's ID
             $('#id_co_advisor').val(document.coAdvisorAutocomplete);
-            // set grants_officer field to selected User's ID
-            $('#id_grants_officer').val(document.grantsOfficerAutocomplete);
         {% endif %}
-
+        // set grants_officer field to selected User's ID
+        $('#id_grants_officer').val(document.grantsOfficerAutocomplete);
         {% if app_name == "Professional Program Student" %}
             // set mentor field to selected User's ID
             if (typeof document.mentorAutocomplete == "undefined") {

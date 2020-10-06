@@ -9,10 +9,7 @@ from djspace.registration.models import (
 from djspace.registration.choices import UNDERGRADUATE_DEGREE, GRADUATE_DEGREE
 
 from djtools.fields import STATE_CHOICES
-from djtools.fields.localflavor import USPhoneNumberField
-#from djtools.fields.validators import month_year_validator
 
-from localflavor.us.forms import USZipCodeField
 
 try:
     AFFILIATES = GenericChoice.objects.filter(
@@ -217,9 +214,8 @@ class ProfessionalForm(forms.ModelForm):
         required=False,
         widget=forms.Select(choices=STATE_CHOICES)
     )
-    sponsoring_organization_postal_code = USZipCodeField(
-        label="Zip Code",
-        help_text="Format: 99999 or 99999-9999",
+    sponsoring_organization_postal_code = forms.CharField(
+        label="Postal Code",
         required=False,
         max_length=10
     )
@@ -309,7 +305,7 @@ class GrantsOfficerForm(forms.ModelForm):
         wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
         wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
 
-        if wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
+        if wsgc_affiliate and wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
             self.add_error('wsgc_affiliate_other', "Required field.")
 
         return cleaned_data
