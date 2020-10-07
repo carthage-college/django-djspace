@@ -27,18 +27,16 @@
     {% include "application/email/user_files.inc.html" %}
   {% endwith %}
 {% endif %}
-{% if data.industry_mentor_name %}
 <h4>Industry mentor</h4>
 <p>
-    {% if data.industry_mentor_email %}
-    <a href="mailto:{{data.industry_mentor_email}}">
-        {{data.industry_mentor_name}}</a>
-    [{{data.industry_mentor_email}}]
-    {% else %}
-    {{data.industry_mentor_name}}
-    {% endif %}
+  {% if data.industry_mentor_email %}
+  <a href="mailto:{{data.industry_mentor_email}}">
+    {{data.industry_mentor_name}}</a>
+  [{{data.industry_mentor_email}}]
+  {% else %}
+  {{data.industry_mentor_name}}
+  {% endif %}
 </p>
-{% endif %}
 <h4>Notification of Intent to Compete</h4>
 {{data.intent_compete|safe}}
 <h4>Competition</h4>

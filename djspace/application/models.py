@@ -613,19 +613,19 @@ class RocketLaunchTeam(BaseModel):
         related_name='rocket_launch_team_grants_officer',
     )
     members = models.ManyToManyField(
-        User, related_name='rocket_launch_team_members'
+        User, related_name='rocket_launch_team_members',
     )
     industry_mentor_name = models.CharField(
         "Industry, Tripoli, or National Rocketry Association mentor name",
-        max_length=128, null=True, blank=True
+        max_length=128,
     )
     industry_mentor_email = models.EmailField(
         "Industry, Tripoli, or National Rocketry Association mentor email",
-        max_length=128, null=True, blank=True,
+        max_length=128,
         help_text="""
             NOTE: Only required for the Collegiate Rocket Competition
             and the Midwest High-Powered Rocket Competition
-        """
+        """,
     )
     '''
     intent_compete = models.TextField(
