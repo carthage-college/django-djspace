@@ -815,7 +815,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="Power point"
     )
     openrocketrocksim = models.FileField(
-        "OpenRocket or RockSim",
+        "OpenRocket or RockSim Design Review",
         upload_to = partial(upload_to_path, 'ORRS'),
         validators=OPENROCKET_EXTENSIONS,
         max_length=255,
@@ -823,7 +823,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="ORK or RKT file"
     )
     openrocketrocksim2 = models.FileField(
-        "OpenRocket or RockSim 2",
+        "OpenRocket or RockSim Design Review 2",
         upload_to = partial(upload_to_path, 'ORRS'),
         validators=OPENROCKET_EXTENSIONS,
         max_length=255,
