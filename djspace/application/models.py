@@ -123,6 +123,7 @@ DISCIPLINES = (
     ('Other', 'Other'),
 )
 NASA_COMPETITION_TYPES = (
+    ('Big Idea Challenge', 'Big Idea Challenge'),
     ('HASP', 'HASP'),
     ('Micro-G/NExT', 'Micro-G/NExT'),
     ('Robotic Mining', 'Robotic Mining'),

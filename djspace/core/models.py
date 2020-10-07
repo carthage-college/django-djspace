@@ -337,27 +337,41 @@ class UserFiles(models.Model):
         User, related_name='user_files', editable=False
     )
     mugshot = models.FileField(
-        "Photo", upload_to = partial(upload_to_path, 'Photo'),
-        validators=PHOTO_VALIDATORS, max_length=768, null=True, blank=True,
-        help_text="JPEG format (.jpg)"
+        "Photo",
+        upload_to = partial(upload_to_path, 'Photo'),
+        validators=PHOTO_VALIDATORS,
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="JPEG format (.jpg)",
     )
     biography = models.FileField(
-        upload_to = partial(upload_to_path, 'Bio'),
-        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
-        help_text="PDF format"
+        upload_to=partial(upload_to_path, 'Bio'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="PDF format",
     )
     media_release = models.FileField(
-        upload_to = partial(upload_to_path, 'Media_Release'),
-        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
+        upload_to=partial(upload_to_path, 'Media_Release'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True,
+        blank=True,
         help_text="""
-            Media release forms must contain a hand-written signature to be
-            accepted by NASA. File must be in PDF format.
-        """
+            Media release forms may contain a handwritten or digital signature.
+            File must be in PDF format.
+        """,
     )
     irs_w9 = models.FileField(
-        "IRS W9", upload_to = partial(upload_to_path, 'W9'),
-        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
-        help_text="PDF format"
+        "IRS W9",
+        upload_to=partial(upload_to_path, 'W9'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="PDF format",
     )
 
     class Meta:
