@@ -57,29 +57,43 @@ PAST_FUNDING_YEAR_CHOICES.insert(0,('',"---year---"))
 DISABILITY_CHOICES = (
     ('',"----select----"),
     ('I do not have a disability', "I do not have a disability"),
-    ('I do not wish to identify my disability status',
-     "I do not wish to identify my disability status"),
+    (
+        'I do not wish to identify my disability status',
+        "I do not wish to identify my disability status",
+    ),
     ('Hearing', "Hearing"),
     ('Vision', "Vision"),
     ('Missing Extremeties', "Missing Extremeties"),
     ('Paralysis', "Paralysis"),
     ('Other Impairments', "Other Impairments"),
-    ('I have a disability, but it is not listed',
-     "I have a disability, but it is not listed")
+    (
+        'I have a disability, but it is not listed',
+        "I have a disability, but it is not listed",
+    )
 )
 EMPLOYMENT_CHOICES = (
     ('',"----select----"),
     ('Employed with NASA/JPL', "Employed with NASA/JPL"),
-    ('Employed with an AerospaceContractor',
-     "Employed with an AerospaceContractor"),
-    ('Employed in a STEM field (Non-Aerospace field)',
-     "Employed in a STEM field (Non-Aerospace field)"),
-    ('Employed in K-12 STEM academic field',
-     "Employed in K-12 STEM academic field"),
-    ('Employed in other STEM academic field',
-     "Employed in other STEM academic field"),
-    ('Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)',
-     "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)"),
+    (
+        'Employed with an AerospaceContractor',
+        "Employed with an AerospaceContractor",
+    ),
+    (
+        'Employed in a STEM field (Non-Aerospace field)',
+        "Employed in a STEM field (Non-Aerospace field)",
+    ),
+    (
+        'Employed in K-12 STEM academic field',
+        "Employed in K-12 STEM academic field",
+    ),
+    (
+        'Employed in other STEM academic field',
+        "Employed in other STEM academic field",
+    ),
+    (
+        'Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)',
+        "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)",
+    ),
     ('N/A',"N/A"),
 )
 FUNDING_CHOICES = (
@@ -88,6 +102,7 @@ FUNDING_CHOICES = (
     ('Federal','Federal'),
     ('Not Applicable','Not Applicable'),
 )
+
 
 def _timestamp(obj, field):
     phile = getattr(obj, field, None)
@@ -116,40 +131,50 @@ def _timestamp(obj, field):
 
 
 class Photo(models.Model):
+    """Generic class for a photo image file."""
+
     phile = models.ImageField(
-        "Photo", upload_to = partial(upload_to_path, 'Program_Photo'),
-        validators = PHOTO_VALIDATORS, max_length = 768,
-        help_text = "JPEG only"
+        "Photo",
+        upload_to=partial(upload_to_path, 'Program_Photo'),
+        validators=PHOTO_VALIDATORS,
+        max_length = 768,
+        help_text = "JPEG only",
     )
-    caption = models.TextField(
-        null = True, blank = True
-    )
+    caption = models.TextField(null=True, blank=True)
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
     def __unicode__(self):
-        return u"{}".format(self.caption)
+        """Default display value in unicode encoding."""
+        return u"{0}".format(self.caption)
 
     def user(self):
+        """Return the user owner of the object."""
         return self.content_object.user
 
     def get_file_path(self):
+        """Return the path prefix for the file."""
         return 'files/applications'
 
     def get_slug(self):
+        """Return the slug for the associated content object."""
         return self.content_object.get_slug()
 
     def get_file_name(self):
-        return u'{}_{}.{}'.format(
+        """Return the file name based on content object code and user's name."""
+        return u'{0}_{1}.{2}'.format(
             self.content_object.get_code(),
-            self.user().last_name, self.user().first_name
+            self.user().last_name,
+            self.user().first_name,
         )
 
     def get_file_timestamp(self):
+        """Return the timestamp for the phile. i.e. when it was created."""
         return _timestamp(self, 'phile')
 
     def get_content_type(self):
+        """Return the content type of the associciated object."""
         return ContentType.objects.get_for_model(self)
 
 
@@ -164,25 +189,25 @@ class Base(models.Model):
 
     # meta
     user = models.ForeignKey(User)
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
+    date_created = models.DateTimeField("Date Created", auto_now_add=True)
+    date_updated = models.DateTimeField("Date Updated", auto_now=True)
     updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
+        User,
+        verbose_name="Updated by",
         related_name='%(app_label)s_%(class)s_related',
-        editable=False
+        editable=False,
     )
 
     def get_content_type(self):
+        """Return the content type of the associciated object."""
         return ContentType.objects.get_for_model(self)
 
     def get_file_name(self):
+        """Return the file name which is a uuid4 hex."""
         return uuid4().hex
 
     def get_file_timestamp(self, field):
+        """Return the timestamp for the phile. i.e. when it was created."""
         return _timestamp(self, field)
 
 
@@ -198,91 +223,118 @@ class BaseModel(Base):
     status = models.BooleanField(default=False, verbose_name="Funded")
     complete = models.BooleanField(default=False, verbose_name="Completed")
     funded_code = models.CharField(
-        "Funded ID", max_length=24, null=True, blank=True
+        "Funded ID",
+        max_length=24,
+        null=True,
+        blank=True,
     )
     past_funding = models.CharField(
         "Have you received WSGC funding within the past five years?",
-        max_length=4, choices=BINARY_CHOICES, null=True, blank=True
+        max_length=4,
+        choices=BINARY_CHOICES,
+        null=True,
+        blank=True,
     )
     past_funding_year = models.CharField(
         "If 'Yes', what year?",
         max_length=4,
         # OJO: does not display on django admin listing if choices is set.
         #choices=PAST_FUNDING_YEAR_CHOICES,
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
     anticipating_funding = models.CharField(
         "Are you anticipating other funding this year?",
-        max_length=32, choices=FUNDING_CHOICES,
-        help_text="Grants/Scholarships/etc."
+        max_length=32,
+        choices=FUNDING_CHOICES,
+        help_text="Grants/Scholarships/etc.",
     )
     award_acceptance = models.FileField(
-        upload_to = partial(upload_to_path, 'Award_Acceptance'),
-        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
-        help_text="PDF format"
+        upload_to=partial(upload_to_path, 'Award_Acceptance'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="PDF format",
     )
     interim_report = models.FileField(
-        upload_to = partial(upload_to_path, 'Interim_Report'),
-        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
-        help_text="PDF format"
+        upload_to=partial(upload_to_path, 'Interim_Report'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="PDF format",
     )
     final_report = models.FileField(
-        upload_to = partial(upload_to_path, 'Final_Report'),
-        validators=FILE_VALIDATORS, max_length=768, null=True, blank=True,
-        help_text="PDF format"
+        upload_to=partial(upload_to_path, 'Final_Report'),
+        validators=FILE_VALIDATORS,
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="PDF format",
     )
     other_file = models.FileField(
         "Ancillary File 1",
-        upload_to = partial(upload_to_path, 'Other_File'),
-        validators=[
-            FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
-        ], help_text=ALLOWED_EXTENSIONS,
-        max_length=768, null=True, blank=True,
+        upload_to=partial(upload_to_path, 'Other_File'),
+        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        help_text=ALLOWED_EXTENSIONS,
+        max_length=768,
+        null=True,
+        blank=True,
     )
     other_file2 = models.FileField(
         "Ancillary File 2",
-        upload_to = partial(upload_to_path, 'Other_File2'),
-        validators=[
-            FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
-        ], help_text=ALLOWED_EXTENSIONS,
-        max_length=768, null=True, blank=True,
+        upload_to=partial(upload_to_path, 'Other_File2'),
+        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        help_text=ALLOWED_EXTENSIONS,
+        max_length=768,
+        null=True,
+        blank=True,
     )
     other_file3 = models.FileField(
         "Ancillary File 3",
-        upload_to = partial(upload_to_path, 'Other_File3'),
-        validators=[
-            FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)
-        ], help_text=ALLOWED_EXTENSIONS,
-        max_length=768, null=True, blank=True,
+        upload_to=partial(upload_to_path, 'Other_File3'),
+        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        help_text=ALLOWED_EXTENSIONS,
+        max_length=768,
+        null=True,
+        blank=True,
     )
     url1 = models.CharField(
-        max_length=768, null=True, blank=True,
-        help_text="Other URL for linking to files or photos"
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="Other URL for linking to files or photos",
     )
     url2 = models.CharField(
-        max_length=768, null=True, blank=True,
-        help_text="Other URL for linking to files or photos"
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="Other URL for linking to files or photos",
     )
     url3 = models.CharField(
-        max_length=768, null=True, blank=True,
-        help_text="Other URL for linking to files or photos"
+        max_length=768,
+        null=True,
+        blank=True,
+        help_text="Other URL for linking to files or photos",
     )
     photos = GenericRelation(Photo)
 
     def multi_year(self):
-        #return False
         return True
 
     def get_file_path(self):
-        return "files/applications"
+        """Return the path prefix for the file."""
+        return 'files/applications'
 
     def get_file_name(self):
-        return u'{}_{}.{}'.format(
+        """Return the file name based on content object code and user's name."""
+        return u'{0}_{1}.{2}'.format(
             self.get_code(),self.user.last_name,self.user.first_name
         )
 
     def get_details_url(self):
-
+        """Return the URL for the details view for this object."""
         return reverse(
             'application_print',
             kwargs={'application_type':self.get_slug(),'aid': self.id},
@@ -290,33 +342,28 @@ class BaseModel(Base):
 
 
 class GenericChoice(models.Model):
-    """
-    For making choices for choice fields for forms
-    """
-    name = models.CharField(
-        max_length=255
-    )
-    value = models.CharField(
-        unique=True, max_length=255
-    )
+    """For making choices for choice fields for forms."""
+
+    name = models.CharField(max_length=255)
+    value = models.CharField(unique=True, max_length=255)
     ranking = models.IntegerField(
-        null=True, blank=True, default=0, verbose_name="Ranking",
-        help_text=
-        """
-        A number from 0 to 999 to determine this object's position in a list.
+        "Ranking",
+        null=True,
+        blank=True,
+        default=0,
+        help_text="""
+            A number from 0 to 999 to determine this object's position in a list.
         """
     )
     active = models.BooleanField(
-        help_text=
-        """
-        Do you want the field to be visable on your form?
-        """,
+        help_text="Do you want the field to be visable on your form?",
         verbose_name="Is active?",
-        default=True
+        default=True,
     )
     tags = TaggableManager()
 
     def __unicode__(self):
+        """Default display value in unicode encoding."""
         return self.name
 
     class Meta:
@@ -378,20 +425,25 @@ class UserFiles(models.Model):
         db_table = 'core_userfiles'
 
     def get_file_path(self):
+        """Return the path prefix for the file."""
         return 'files'
 
     def get_slug(self):
+        """Return the slug for this object class."""
         return 'users'
 
     def get_file_name(self):
-        return u'{}.{}'.format(
+        """Return the file name based on the user's name."""
+        return u'{0}.{1}'.format(
             self.user.last_name,self.user.first_name
         )
 
     def get_file_timestamp(self, field):
+        """Return the timestamp for the phile. i.e. when it was created."""
         return _timestamp(self, field)
 
     def status(self, field):
+        """Was the file uploaded before the deadline date?"""
         timestamp = self.get_file_timestamp(field)
         s = True
         if timestamp < get_start_date():
@@ -399,26 +451,23 @@ class UserFiles(models.Model):
         return s
 
     def __unicode__(self):
+        """Default display value in unicode encoding."""
         return u'User Profile File'
 
 
 class UserProfile(models.Model):
+    """User profile for the django user class."""
 
     # meta
-    user = models.OneToOneField(
-        User, related_name='profile'
-    )
+    user = models.OneToOneField(User, related_name='profile')
     updated_by = models.ForeignKey(
-        User, verbose_name="Updated by",
+        User,
+        verbose_name="Updated by",
         related_name='user_profile_updated_by',
-        editable=False
+        editable=False,
     )
-    date_created = models.DateTimeField(
-        "Date Created", auto_now_add=True
-    )
-    date_updated = models.DateTimeField(
-        "Date Updated", auto_now=True
-    )
+    date_created = models.DateTimeField("Date Created", auto_now_add=True)
+    date_updated = models.DateTimeField("Date Updated", auto_now=True)
     # core
     salutation = models.CharField(
         max_length=16,
@@ -427,113 +476,86 @@ class UserProfile(models.Model):
     )
     second_name = models.CharField(
         max_length=30,
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
-    address1 = models.CharField(
-        "Address",
-        max_length=128
-    )
-    address2 = models.CharField(
-        "",
-        max_length=128,
-        null=True, blank=True
-    )
-    city = models.CharField(
-        "City",
-        max_length=128
-    )
-    state = models.CharField(
-        "State",
-        max_length=2,
-        choices=STATE_CHOICES
-    )
-    postal_code = models.CharField(
-        "Zip code",
-        max_length=10
-    )
+    address1 = models.CharField("Address", max_length=128)
+    address2 = models.CharField("", max_length=128, null=True, blank=True)
+    city = models.CharField("City", max_length=128)
+    state = models.CharField("State", max_length=2, choices=STATE_CHOICES)
+    postal_code = models.CharField("Zip code", max_length=10)
     address1_current = models.CharField(
         "Address",
         max_length=128,
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
-    address2_current = models.CharField(
-        "",
-        max_length=128,
-        null=True, blank=True
-    )
-    city_current = models.CharField(
-        "City",
-        max_length=128,
-        null=True, blank=True
-    )
+    address2_current = models.CharField("", max_length=128, null=True, blank=True)
+    city_current = models.CharField("City", max_length=128, null=True, blank=True)
     state_current = models.CharField(
         "State",
         max_length=2,
         choices=STATE_CHOICES,
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
     postal_code_current = models.CharField(
         "Zip code",
         max_length=10,
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
     phone_primary = models.CharField(
         verbose_name='Primary phone',
         max_length=12,
-        help_text="Format: XXX-XXX-XXXX"
+        help_text="Format: XXX-XXX-XXXX",
     )
     phone_mobile = models.CharField(
         verbose_name='Cell phone',
         max_length=12,
         help_text="Format: XXX-XXX-XXXX",
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
     date_of_birth = models.DateField(
-        "Date of birth",
-        help_text="Format: mm/dd/yyyy"
+        "Date of birth", help_text="Format: mm/dd/yyyy",
     )
-    gender = models.CharField(
-        max_length=16,
-        choices = GENDER_CHOICES
-    )
+    gender = models.CharField(max_length=16, choices = GENDER_CHOICES)
     race = models.ManyToManyField(
         GenericChoice,
         related_name="user_profile_race",
-        help_text = 'Check all that apply'
+        help_text='Check all that apply',
     )
-    tribe = models.CharField(
-        "Tribe",
-        max_length=128,
-        null=True, blank=True
-    )
+    tribe = models.CharField("Tribe", max_length=128, null=True, blank=True)
     disability = models.CharField(
         "Disability status",
         max_length=64,
-        choices=DISABILITY_CHOICES
+        choices=DISABILITY_CHOICES,
     )
     disability_specify = models.CharField(
         "Specify if not listed",
         max_length=255,
-        null=True, blank=True
+        null=True,
+        blank=True,
     )
     us_citizen = models.CharField(
         "United States Citizen",
         max_length=4,
-        choices=BINARY_CHOICES
+        choices=BINARY_CHOICES,
     )
     employment = models.CharField(
         "Employment status",
         max_length=128,
-        choices=EMPLOYMENT_CHOICES
+        choices=EMPLOYMENT_CHOICES,
     )
     military = models.CharField(
         "Have you served in the United States military?",
         max_length=4,
-        choices=BINARY_CHOICES
+        choices=BINARY_CHOICES,
     )
     registration_type = models.CharField(
         max_length=32,
-        choices=REG_TYPE
+        choices=REG_TYPE,
     )
     applications = GM2MField(
         'application.HigherEducationInitiatives',
@@ -554,32 +576,39 @@ class UserProfile(models.Model):
         'application.UndergraduateScholarship',
         'application.NasaCompetition',
         'application.IndustryInternship',
-        'application.ProfessionalProgramStudent'
+        'application.ProfessionalProgramStudent',
     )
 
     class Meta:
         db_table = 'core_userprofile'
 
     def __unicode__(self):
-        return u"{} {}'s profile".format(
-            self.user.first_name, self.user.last_name
+        """Default display value in unicode encoding."""
+        return u"{0} {1}'s profile".format(
+            self.user.first_name, self.user.last_name,
         )
 
     def email_auxiliary(self):
+        """Return the secondary email for the user."""
         return get_email_auxiliary(self.user)
 
     def get_race(self):
+        """Return all of the race choices selected by the user."""
         race = ""
         for r in self.race.all():
             race += "{},".format(r)
         return race[:-1]
 
     def get_registration(self):
+        """Return registration relationship for the user."""
         # these imports need to be here, rather than at the top with the others
         import django
-        from djspace.registration.models import (
-            HighSchool, Undergraduate, Graduate, Faculty, GrantsOfficer, Professional
-        )
+        from djspace.registration.models import Faculty
+        from djspace.registration.models import Graduate
+        from djspace.registration.models import GrantsOfficer
+        from djspace.registration.models import HighSchool
+        from djspace.registration.models import Professional
+        from djspace.registration.models import Undergraduate
 
         if self.registration_type:
             mod = django.apps.apps.get_model(
@@ -592,20 +621,18 @@ class UserProfile(models.Model):
 
 @receiver(pre_save, sender=UserProfile)
 def notify_administrators(sender, **kwargs):
-    """
-    send an email to  WSGC administrators of registration update
-    """
-
+    """Send an email to  WSGC administrators of registration update."""
     obj = kwargs['instance']
     if obj.pk is not None and not profile_status(obj.user):
         registration_notify(kwargs.get('request'), 'update', obj.user)
 
 
-# dispatch ID needs to be unique for each signal handler, nothing more.
-# so we can use package plus signal name.
 @receiver(user_signed_up, dispatch_uid='allauth.user_signed_up')
 def _user_signed_up(request, user, **kwargs):
-
+    """
+    Dispatch ID needs to be unique for each signal handler, nothing more.
+    so we can use package plus signal name.
+    """
     from allauth.account.models import EmailAddress
     # Add secondary email address for the user, and send email confirmation.
     # try/except for the rare cases when someone tries to register after they
@@ -613,7 +640,7 @@ def _user_signed_up(request, user, **kwargs):
     # slipped past our form clean() method.
     try:
         EmailAddress.objects.add_email(
-            request, user, request.POST.get('email_secondary'), confirm=True
+            request, user, request.POST.get('email_secondary'), confirm=True,
         )
     except:
         pass
@@ -622,4 +649,3 @@ def _user_signed_up(request, user, **kwargs):
     uf.save()
     # notify WSGC administrators of new user registration
     registration_notify(request, 'create', user)
-
