@@ -232,7 +232,6 @@ class EducationInitiatives(BaseModel):
     )
     begin_date = models.DateField()
     end_date = models.DateField(
-        null=True, blank=True,
         help_text="""
             Note the spend down date requirement in the Announcement of Opportunity.
         """

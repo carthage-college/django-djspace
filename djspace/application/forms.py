@@ -222,7 +222,6 @@ class AerospaceOutreachForm(forms.ModelForm):
         label="Are you seeking other WSGC funding for this project?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    end_date = forms.DateField(required=True)
     grants_officer = forms.CharField(
         label = "Grants Officer",
         required = False,
@@ -329,7 +328,6 @@ class SpecialInitiativesForm(forms.ModelForm):
             of the required matching funds
         """
     )
-    end_date = forms.DateField(required=True)
     grants_officer = forms.CharField(
         label = "Grants Officer",
         required = False,
@@ -1206,7 +1204,6 @@ class NasaCompetitionForm(forms.ModelForm):
         label = "Has your team applied and been accepted into the program?",
         choices = BINARY_CHOICES, widget = forms.RadioSelect()
     )
-    end_date = forms.DateField(required=True)
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
