@@ -64,7 +64,7 @@ def application_form(request, application_type, aid=None):
     slug_list = application_type.split('-')
     app_name = slug_list.pop(0).capitalize()
     for n in slug_list:
-        app_name += ' {}'.format(n.capitalize())
+        app_name += ' {0}'.format(n.capitalize())
     app_type = ''.join(app_name.split(' '))
 
 
@@ -84,14 +84,16 @@ def application_form(request, application_type, aid=None):
 
         if not teams:
             return render(
-                request, 'application/form.html', {'form': None,'app_name':app_name}
+                request,
+                'application/form.html',
+                {'form': None, 'app_name': app_name},
             )
 
     # we need the application model now and if it barfs
     # we throw a 404
     try:
         mod = django.apps.apps.get_model(
-            app_label='application', model_name=app_type
+            app_label='application', model_name=app_type,
         )
     except:
         raise Http404
@@ -186,12 +188,15 @@ def application_form(request, application_type, aid=None):
 
         # some forms have user files
         form_user_files = UserFilesForm(
-            instance=userfiles, data=request.POST, files=request.FILES,
-            use_required_attribute=False
+            instance=userfiles,
+            data=request.POST,
+            files=request.FILES,
+            use_required_attribute=False,
+            required=['media_release'],
         )
         if application_type == 'collegiate-rocket-competition':
-            form_user_files.fields['irs_w9'].required=True
-            form_user_files.fields['media_release'].required=True
+            form_user_files.fields['irs_w9'].required = True
+            form_user_files.fields['media_release'].required = True
         if form.is_valid() and form_user_files.is_valid():
             cd = form.cleaned_data
             form_user_files.save()
@@ -213,22 +218,18 @@ def application_form(request, application_type, aid=None):
             except:
                 uf = UserFiles(user=user)
             if request.FILES.get('media_release'):
-                file_root = '{}/{}/{}/'.format(
+                file_root = '{0}/{1}/{2}/'.format(
                     uf.get_file_path(),
                     uf.get_slug(),
-                    str(user.id)
+                    str(user.id),
                 )
-                path = join(
-                    settings.MEDIA_ROOT,
-                    file_root
-                )
+                path = join(settings.MEDIA_ROOT, file_root)
                 media_release = handle_uploaded_file(
-                    request.FILES['media_release'], path,
-                    u'{}_media_release'.format(uf.get_file_name())
+                    request.FILES['media_release'],
+                    path,
+                    u'{0}_media_release'.format(uf.get_file_name()),
                 )
-                uf.media_release = u'{}{}'.format(
-                    file_root, media_release
-                )
+                uf.media_release = u'{0}{1}'.format(file_root, media_release)
                 uf.save()
 
             # deal with FK relationships for programs
@@ -378,11 +379,13 @@ def application_form(request, application_type, aid=None):
     else:
         # UserFilesForm
         form_user_files = UserFilesForm(
-            instance=userfiles, use_required_attribute=False
+            instance=userfiles,
+            use_required_attribute=False,
+            required=['media_release'],
         )
         if application_type == 'collegiate-rocket-competition':
-            form_user_files.fields['irs_w9'].required=True
-            form_user_files.fields['media_release'].required=True
+            form_user_files.fields['irs_w9'].required = True
+            form_user_files.fields['media_release'].required = True
 
         if not app:
             # set session values to null for GET requests that are not updates
