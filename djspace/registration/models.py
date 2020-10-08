@@ -257,7 +257,7 @@ class Faculty(Academic):
 class GrantsOfficer(Academic):
 
     class Meta:
-        verbose_name_plural = "Grants Officer"
+        verbose_name_plural = "Authorized User"
 
 
 class Professional(Base):

@@ -21,32 +21,37 @@ additional files are required
 
 
 class HigherEducationInitiativesForm(forms.ModelForm):
-    budget = forms.FileField(
+    budget=forms.FileField(
         help_text="""
-            Note the spend down date requirement in the Announcement of Opportunity.
-        """
+            Note the spend down date requirement in the
+            Announcement of Opportunity.
+        """,
     )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect()
     )
     grants_officer = forms.CharField(
-        label = "Grants Officer",
-        required = False,
+        label="Authorized User",
+        required=False,
         help_text='''
-            I authorize the Grants Officer listed above to submit
+            I authorize the individual listed above to submit
             the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
         ''',
     )
 
@@ -57,19 +62,43 @@ class HigherEducationInitiativesForm(forms.ModelForm):
     class Meta:
         model = HigherEducationInitiatives
         fields = (
-            'project_title','award_type','funds_requested',
-            'proposed_match','source_match',
-            'past_funding','past_funding_year','anticipating_funding',
-            'other_fellowship','other_fellowship_explain',
-            'begin_date','end_date','location','synopsis',
-            'proposal','budget',
-            'finance_officer_name','finance_officer_title',
+            'project_title',
+            'award_type',
+            'funds_requested',
+            'proposed_match',
+            'source_match',
+            'past_funding',
+            'past_funding_year',
+            'anticipating_funding',
+            'other_fellowship',
+            'other_fellowship_explain',
+            'begin_date',
+            'end_date',
+            'location',
+            'synopsis',
+            'proposal',
+            'budget',
+            'finance_officer_name',
+            'finance_officer_title',
             'finance_officer_address',
-            'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_title','grant_officer_address',
-            'grant_officer_email','grant_officer_phone','grants_officer',
-            'member_1','member_2','member_3','member_4','member_5',
-            'member_6','member_7','member_8','member_9','member_10',
+            'finance_officer_email',
+            'finance_officer_phone',
+            'grant_officer_name',
+            'grant_officer_title',
+            'grant_officer_address',
+            'grant_officer_email',
+            'grant_officer_phone',
+            'grants_officer',
+            'member_1',
+            'member_2',
+            'member_3',
+            'member_4',
+            'member_5',
+            'member_6',
+            'member_7',
+            'member_8',
+            'member_9',
+            'member_10',
         )
 
     def clean(self):
@@ -80,18 +109,22 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         # Assign a User object to grants officer
         if gid:
             if gid == uid:
-                self.add_error('grants_officer', "You cannot also be a grants officer")
+                self.add_error(
+                    'grants_officer',
+                    "You cannot also be an authorized user",
+                )
                 cd['grants_officer'] = None
             else:
                 try:
                     user = User.objects.get(pk=gid)
                     cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
-                        user.last_name, user.first_name
+                    self.request.session['grants_officer_name'] = u'{0}, {1}'.format(
+                        user.last_name, user.first_name,
                     )
                 except:
                     self.add_error(
-                        'grants_officer', "That User does not exist in the system"
+                        'grants_officer',
+                        "That User does not exist in the system",
                     )
         else:
             cd['grants_officer'] = None
@@ -102,9 +135,14 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
     class Meta:
         model = HigherEducationInitiatives
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
-            'invoice','close_out_finance_document'
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'invoice',
+            'close_out_finance_document',
         )
 
 
@@ -112,30 +150,35 @@ class ResearchInfrastructureForm(forms.ModelForm):
 
     budget = forms.FileField(
         help_text="""
-            Note the spend down date requirement in the Announcement of Opportunity.
-        """
+            Note the spend down date requirement in the
+            Announcement of Opportunity.
+        """,
     )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     grants_officer = forms.CharField(
-        label = "Grants Officer",
-        required = False,
+        label="Authorized User",
+        required=False,
         help_text='''
-            I authorize the Grants Officer listed above to submit
+            I authorize the individual listed above to submit
             the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
         ''',
     )
 
@@ -146,21 +189,45 @@ class ResearchInfrastructureForm(forms.ModelForm):
     class Meta:
         model = ResearchInfrastructure
         fields = (
-            'project_title','award_type','funds_requested',
-            'proposed_match','source_match',
-            'past_funding','past_funding_year','anticipating_funding',
-            'other_fellowship','other_fellowship_explain',
-            'begin_date','end_date','location','synopsis',
-            'proposal','budget',
+            'project_title',
+            'award_type',
+            'funds_requested',
+            'proposed_match',
+            'source_match',
+            'past_funding',
+            'past_funding_year',
+            'anticipating_funding',
+            'other_fellowship',
+            'other_fellowship_explain',
+            'begin_date',
+            'end_date',
+            'location',
+            'synopsis',
+            'proposal',
+            'budget',
             'nasa_mission_directorate',
             'nasa_mission_directorate_other',
-            'finance_officer_name','finance_officer_title',
+            'finance_officer_name',
+            'finance_officer_title',
             'finance_officer_address',
-            'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_title','grant_officer_address',
-            'grant_officer_email','grant_officer_phone','grants_officer',
-            'member_1','member_2','member_3','member_4','member_5',
-            'member_6','member_7','member_8','member_9','member_10',
+            'finance_officer_email',
+            'finance_officer_phone',
+            'grant_officer_name',
+            'grant_officer_title',
+            'grant_officer_address',
+            'grant_officer_email',
+            'grant_officer_phone',
+            'grants_officer',
+            'member_1',
+            'member_2',
+            'member_3',
+            'member_4',
+            'member_5',
+            'member_6',
+            'member_7',
+            'member_8',
+            'member_9',
+            'member_10',
         )
 
     def clean(self):
@@ -171,18 +238,22 @@ class ResearchInfrastructureForm(forms.ModelForm):
         # Assign a User object to grants officer
         if gid:
             if gid == uid:
-                self.add_error('grants_officer', "You cannot also be a grants officer")
+                self.add_error(
+                    'grants_officer',
+                    "You cannot also be an authorized user",
+                )
                 cd['grants_officer'] = None
             else:
                 try:
                     user = User.objects.get(pk=gid)
                     cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
-                        user.last_name, user.first_name
+                    self.request.session['grants_officer_name'] = u'{0}, {1}'.format(
+                        user.last_name, user.first_name,
                     )
                 except:
                     self.add_error(
-                        'grants_officer', "That User does not exist in the system"
+                        'grants_officer',
+                        "That User does not exist in the system",
                     )
         else:
             cd['grants_officer'] = None
@@ -193,9 +264,14 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
     class Meta:
         model = ResearchInfrastructure
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
-            'invoice','close_out_finance_document'
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'invoice',
+            'close_out_finance_document',
         )
 
 
@@ -204,30 +280,34 @@ class AerospaceOutreachForm(forms.ModelForm):
     budget = forms.FileField(
         help_text="""
             Note the spend down date requirement in the Announcement of Opportunity.
-        """
+        """,
     )
     project_category = forms.TypedChoiceField(
-        choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
+        choices=PROJECT_CATEGORIES, widget=forms.RadioSelect(),
     )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     grants_officer = forms.CharField(
-        label = "Grants Officer",
-        required = False,
+        label="Authorized User",
+        required=False,
         help_text='''
-            I authorize the Grants Officer listed above to submit
+            I authorize the individual listed above to submit
             the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
         ''',
     )
 
@@ -238,20 +318,45 @@ class AerospaceOutreachForm(forms.ModelForm):
     class Meta:
         model = AerospaceOutreach
         fields = (
-            'project_title','project_category','funds_requested',
-            'proposed_match','source_match',
-            'past_funding','past_funding_year','anticipating_funding',
-            'other_funding','other_funding_explain',
-            'begin_date','end_date','location','synopsis',
-            'proposal','budget',
-            'nasa_mission_directorate','nasa_mission_directorate_other',
-            'finance_officer_name','finance_officer_title',
+            'project_title',
+            'project_category',
+            'funds_requested',
+            'proposed_match',
+            'source_match',
+            'past_funding',
+            'past_funding_year',
+            'anticipating_funding',
+            'other_funding',
+            'other_funding_explain',
+            'begin_date',
+            'end_date',
+            'location',
+            'synopsis',
+            'proposal',
+            'budget',
+            'nasa_mission_directorate',
+            'nasa_mission_directorate_other',
+            'finance_officer_name',
+            'finance_officer_title',
             'finance_officer_address',
-            'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_title','grant_officer_address',
-            'grant_officer_email','grant_officer_phone','grants_officer',
-            'member_1','member_2','member_3','member_4','member_5',
-            'member_6','member_7','member_8','member_9','member_10',
+            'finance_officer_email',
+            'finance_officer_phone',
+            'grant_officer_name',
+            'grant_officer_title',
+            'grant_officer_address',
+            'grant_officer_email',
+            'grant_officer_phone',
+            'grants_officer',
+            'member_1',
+            'member_2',
+            'member_3',
+            'member_4',
+            'member_5',
+            'member_6',
+            'member_7',
+            'member_8',
+            'member_9',
+            'member_10',
         )
 
     def clean(self):
@@ -262,18 +367,22 @@ class AerospaceOutreachForm(forms.ModelForm):
         # Assign a User object to grants officer
         if gid:
             if gid == uid:
-                self.add_error('grants_officer', "You cannot also be a grants officer")
+                self.add_error(
+                    'grants_officer',
+                    "You cannot also be an authorized user",
+                )
                 cd['grants_officer'] = None
             else:
                 try:
                     user = User.objects.get(pk=gid)
                     cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
-                        user.last_name, user.first_name
+                    self.request.session['grants_officer_name'] = u'{0}, {1}'.format(
+                        user.last_name, user.first_name,
                     )
                 except:
                     self.add_error(
-                        'grants_officer', "That User does not exist in the system"
+                        'grants_officer',
+                        "That User does not exist in the system",
                     )
         else:
             cd['grants_officer'] = None
@@ -284,9 +393,14 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
     class Meta:
         model = AerospaceOutreach
         fields = (
-            'award_acceptance', 'final_report', 'interim_report',
-            'other_file', 'other_file2', 'other_file3',
-            'invoice', 'close_out_finance_document',
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'invoice',
+            'close_out_finance_document',
         )
 
 
@@ -294,46 +408,51 @@ class SpecialInitiativesForm(forms.ModelForm):
 
     budget = forms.FileField(
         help_text="""
-            Note the spend down date requirement in the Announcement of Opportunity.
-        """
+            Note the spend down date requirement in the
+            Announcement of Opportunity.
+        """,
     )
     project_category = forms.TypedChoiceField(
-        choices = PROJECT_CATEGORIES, widget = forms.RadioSelect()
+        choices=PROJECT_CATEGORIES, widget=forms.RadioSelect(),
     )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     proposed_match = forms.IntegerField(
-        label = "Proposed match (1:1 mimimum)(in $)",
+        label="Proposed match (1:1 mimimum)(in $)",
         help_text = """
             Match must be 50% for ongoing program;
             25% for new innovated programs (or)
             programs with significant legacy value.
-        """
+        """,
     )
     source_match = forms.CharField(
-        label = "Source(s) of match",
+        label="Source(s) of match",
         help_text = """
             Overhead (or indirect costs) cannot exceed 0.5
             of the required matching funds
-        """
+        """,
     )
     grants_officer = forms.CharField(
-        label = "Grants Officer",
-        required = False,
+        label="Authorized User",
+        required=False,
         help_text='''
-            I authorize the Grants Officer listed above to submit
+            I authorize the individual listed above to submit
             the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
         ''',
     )
 
@@ -344,20 +463,45 @@ class SpecialInitiativesForm(forms.ModelForm):
     class Meta:
         model = SpecialInitiatives
         fields = (
-            'project_title','project_category','funds_requested',
-            'proposed_match','source_match',
-            'past_funding','past_funding_year','anticipating_funding',
-            'other_funding','other_funding_explain',
-            'begin_date','end_date','location','synopsis',
-            'proposal','budget',
-            'nasa_mission_directorate','nasa_mission_directorate_other',
-            'finance_officer_name','finance_officer_title',
+            'project_title',
+            'project_category',
+            'funds_requested',
+            'proposed_match',
+            'source_match',
+            'past_funding',
+            'past_funding_year',
+            'anticipating_funding',
+            'other_funding',
+            'other_funding_explain',
+            'begin_date',
+            'end_date',
+            'location',
+            'synopsis',
+            'proposal',
+            'budget',
+            'nasa_mission_directorate',
+            'nasa_mission_directorate_other',
+            'finance_officer_name',
+            'finance_officer_title',
             'finance_officer_address',
-            'finance_officer_email','finance_officer_phone',
-            'grant_officer_name','grant_officer_title','grant_officer_address',
-            'grant_officer_email','grant_officer_phone','grants_officer',
-            'member_1','member_2','member_3','member_4','member_5',
-            'member_6','member_7','member_8','member_9','member_10',
+            'finance_officer_email',
+            'finance_officer_phone',
+            'grant_officer_name',
+            'grant_officer_title',
+            'grant_officer_address',
+            'grant_officer_email',
+            'grant_officer_phone',
+            'grants_officer',
+            'member_1',
+            'member_2',
+            'member_3',
+            'member_4',
+            'member_5',
+            'member_6',
+            'member_7',
+            'member_8',
+            'member_9',
+            'member_10',
         )
 
     def clean(self):
@@ -368,18 +512,22 @@ class SpecialInitiativesForm(forms.ModelForm):
         # Assign a User object to grants officer
         if gid:
             if gid == uid:
-                self.add_error('grants_officer', "You cannot also be a grants officer")
+                self.add_error(
+                    'grants_officer',
+                    "You cannot also be an authorized user",
+                )
                 cd['grants_officer'] = None
             else:
                 try:
                     user = User.objects.get(pk=gid)
                     cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
-                        user.last_name, user.first_name
+                    self.request.session['grants_officer_name'] = u'{0}, {1}'.format(
+                        user.last_name, user.first_name,
                     )
                 except:
                     self.add_error(
-                        'grants_officer', "That User does not exist in the system"
+                        'grants_officer',
+                        "That User does not exist in the system",
                     )
         else:
             cd['grants_officer'] = None
@@ -390,9 +538,14 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
     class Meta:
         model = SpecialInitiatives
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
-            'invoice','close_out_finance_document'
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'invoice',
+            'close_out_finance_document',
         )
 
 
@@ -400,30 +553,33 @@ class UndergraduateScholarshipForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     academic_institution = forms.TypedChoiceField(
-        label = "Application submitted for",
-        widget = forms.RadioSelect(),
-        choices=ACADEMIC_INSTITUTIONS
+        label="Application submitted for",
+        widget=forms.RadioSelect(),
+        choices=ACADEMIC_INSTITUTIONS,
     )
     signed_certification = forms.BooleanField(
-        label = """
+        label="""
         I certify that I am, will be, or have applied to be a
         full-time undergraduate student at one of the Wisconsin Space
         Grant Consortium colleges or universities during the award period
@@ -434,16 +590,27 @@ class UndergraduateScholarshipForm(forms.ModelForm):
         to IRS regulations and that I am responsible for making sure all
         tax requirements are met.
         """,
-        required = True
+        required=True,
     )
 
     class Meta:
         model = UndergraduateScholarship
         exclude = (
-            'complete', 'user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
         )
 
 
@@ -452,8 +619,12 @@ class UndergraduateScholarshipUploadsForm(forms.ModelForm):
     class Meta:
         model = UndergraduateScholarship
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
         )
 
 
@@ -461,30 +632,33 @@ class StemBridgeScholarshipForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     academic_institution = forms.TypedChoiceField(
-        label = "Application submitted for",
-        widget = forms.RadioSelect(),
-        choices=ACADEMIC_INSTITUTIONS
+        label="Application submitted for",
+        widget=forms.RadioSelect(),
+        choices=ACADEMIC_INSTITUTIONS,
     )
     signed_certification = forms.BooleanField(
-        label = """
+        label="""
         I certify that I am, will be, or have applied to be a
         full-time undergraduate student at one of the Wisconsin Space
         Grant Consortium colleges or universities during the award period
@@ -495,16 +669,27 @@ class StemBridgeScholarshipForm(forms.ModelForm):
         to IRS regulations and that I am responsible for making sure all
         tax requirements are met.
         """,
-        required = True
+        required=True,
     )
 
     class Meta:
         model = StemBridgeScholarship
         exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
         )
 
 
@@ -513,15 +698,19 @@ class StemBridgeScholarshipUploadsForm(forms.ModelForm):
     class Meta:
         model = StemBridgeScholarship
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
         )
 
 
 class WomenInAviationScholarshipForm(forms.ModelForm):
 
     statement = models.FileField(
-        upload_to = partial(upload_to_path, 'Statement'),
+        upload_to=partial(upload_to_path, 'Statement'),
         validators=FILE_VALIDATORS,
         max_length=255,
         help_text=mark_safe('''
@@ -532,26 +721,29 @@ class WomenInAviationScholarshipForm(forms.ModelForm):
             <li>benefit of attending the 2020 Women in Aviation conference</li>
             <li>future plan to participate in aviation as a career, hobby, etc./<li>
             </ol> [PDF format]
-        ''')
+        '''),
     )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     academic_institution = forms.TypedChoiceField(
         label = "Application submitted for",
@@ -856,28 +1048,31 @@ class RocketLaunchTeamForm(forms.ModelForm):
         ''',
     )
     leader = forms.CharField(
-        label = "Team Lead",
-        required = True,
-        help_text = '''
+        label="Team Lead",
+        required=True,
+        help_text= '''
             Team Leads must be registered for auto-population of this field.
         ''',
     )
     grants_officer = forms.CharField(
-        label = "Grants Officer",
-        required = False,
+        label="Authorized User",
+        required=False,
         help_text='''
-            I authorize the Grants Officer listed above to submit
+            I authorize the individual listed above to submit
             the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
         ''',
     )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     '''
     other_fellowship = forms.TypedChoiceField(
@@ -919,18 +1114,22 @@ class RocketLaunchTeamForm(forms.ModelForm):
         # Assign a User object to grants officer
         if gid:
             if gid == uid:
-                self.add_error('grants_officer', "You cannot also be a grants officer")
+                self.add_error(
+                    'grants_officer',
+                    "You cannot also be an authorized user",
+                )
                 cd['grants_officer'] = None
             else:
                 try:
                     user = User.objects.get(pk=gid)
                     cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = u'{}, {}'.format(
-                        user.last_name, user.first_name
+                    self.request.session['grants_officer_name'] = u'{0}, {1}'.format(
+                        user.last_name, user.first_name,
                     )
                 except:
                     self.add_error(
-                        'grants_officer', "That User does not exist in the system"
+                        'grants_officer',
+                        "That User does not exist in the system"
                     )
         else:
             cd['grants_officer'] = None

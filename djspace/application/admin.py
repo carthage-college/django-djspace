@@ -647,7 +647,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
             )
         return name
     grants_officer_name.allow_tags = True
-    grants_officer_name.short_description = "Grants Officer"
+    grants_officer_name.short_description = "Authorized User"
 
     def co_advisor_name(self, obj):
         name = None
