@@ -185,7 +185,6 @@ STUDENT_PROFESSIONAL_PROGRAMS = (
     ('NasaCompetition', 'NASA Competition'),
     ('NasaInternship', 'NASA Internship'),
     ('ResearchInfrastructure', 'Research Infrastructure'),
-    ('Second Stage Space Sciences', 'Second Stage Space Sciences'),
     ('SpecialInitiatives', 'Special Initiatives'),
 )
 # only used at UI level
