@@ -17,8 +17,17 @@
     src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script src="https://malsup.github.io/min/jquery.blockUI.min.js"
     type="text/javascript"></script>
+<script src="https://www.carthage.edu/static/vendor/cleave.js/cleave.min.js"></script>
+<script src="https://www.carthage.edu/static/vendor/cleave.js/addons/cleave-phone.us.js"></script>
 <script type="text/javascript" charset="utf-8">
 $(function() {
+    $('.phone').each(function (index, ele) {
+      var cleavePhone = new Cleave(ele, {
+        phone: true,
+        phoneRegionCode: 'US',
+        delimiter: '-'
+      });
+    });
     {% if app_name == "Industry Internship" %}
     $("#id_educational_background").counter({
         count: 'up',
@@ -344,7 +353,7 @@ you will receive a notification email.
     {% endfor %}
 {% endif %}
 <div class="forms-container clear">
-    {% if form %}
+{% if form %}
     <form class="form" enctype="multipart/form-data" action="." novalidate
         id="profile" method="post">
     {% csrf_token %}
@@ -542,36 +551,37 @@ you will receive a notification email.
       </ol>
     </fieldset>
     </form>
-        {% if app_name == "Industry Internship" %}
-        <div id="doop-master-container">
-            <div class="work-plan-task" id="doop-master">
-                <input type="hidden" name="tid[]" value="">
-                <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
-                    src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
-                <ul>
-                    <li>
-                        <input type="text" name="title[]" maxlength="128" placeholder="Title">
-                    </li>
-                    <li>
-                        <textarea rows="10" name="description[]" cols="40" placeholder="Description"></textarea>
-                    </li>
-                    <li>
-                        <input type="text" name="hours_percent[]" maxlength="128" placeholder="Percentage of total internship hours">
-                    </li>
-                    <li>
-                        <textarea rows="10" name="expected_outcome[]" cols="40" placeholder="Expected outcome"></textarea>
-                    </li>
-                </ul>
-            </div>
+    <pre>errors = {{form.errors}}</pre>
+    {% if app_name == "Industry Internship" %}
+    <div id="doop-master-container">
+        <div class="work-plan-task" id="doop-master">
+            <input type="hidden" name="tid[]" value="">
+            <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
+                src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+            <ul>
+                <li>
+                    <input type="text" name="title[]" maxlength="128" placeholder="Title">
+                </li>
+                <li>
+                    <textarea rows="10" name="description[]" cols="40" placeholder="Description"></textarea>
+                </li>
+                <li>
+                    <input type="text" name="hours_percent[]" maxlength="128" placeholder="Percentage of total internship hours">
+                </li>
+                <li>
+                    <textarea rows="10" name="expected_outcome[]" cols="40" placeholder="Expected outcome"></textarea>
+                </li>
+            </ul>
         </div>
-        {% endif %}
-    {% else %}
-        <h2>No teams</h2>
-        <p class="intro">
-        There are no teams yet for this competition. Please ask
-        your faculty advisor to create a team so that you can
-        join it and submit your application.
-        </p>
+    </div>
     {% endif %}
+{% else %}
+    <h2>No teams</h2>
+    <p class="intro">
+    There are no teams yet for this competition. Please ask
+    your faculty advisor to create a team so that you can
+    join it and submit your application.
+    </p>
+{% endif %}
 </div>
 {% endblock %}
