@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import django
+import logging
+import os
+
 from django.conf import settings
 from django.db.models import Count
 from django.template import loader
@@ -26,8 +30,10 @@ from djtools.utils.convert import str_to_class
 from djtools.utils.mail import send_mail
 from djtools.fields import TODAY
 
-import django
-from os.path import join
+
+# django logging
+logger = logging.getLogger('debug_logfile')
+
 
 @login_required
 def application_form(request, application_type, aid=None):
@@ -233,7 +239,7 @@ def application_form(request, application_type, aid=None):
                     uf.get_slug(),
                     str(user.id),
                 )
-                path = join(settings.MEDIA_ROOT, file_root)
+                path = os.path.join(settings.MEDIA_ROOT, file_root)
                 media_release = handle_uploaded_file(
                     request.FILES['media_release'],
                     path,
