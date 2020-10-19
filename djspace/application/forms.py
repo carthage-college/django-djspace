@@ -12,6 +12,8 @@ from djspace.core.models import PAST_FUNDING_YEAR_CHOICES
 from djspace.core.utils import get_start_date
 #from djtools.fields.validators import MimetypeValidator
 from djtools.fields import BINARY_CHOICES
+from djtools.fields.localflavor import USPhoneNumberField
+
 
 '''
 UploadsForms are for the user dashboard where file uploads
@@ -43,6 +45,20 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         """,
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect()
+    )
+    finance_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
+    )
+    grant_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
     )
     grants_officer = forms.CharField(
         label="Authorized User",
@@ -170,6 +186,20 @@ class ResearchInfrastructureForm(forms.ModelForm):
         """,
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
+    )
+    finance_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
+    )
+    grant_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
     )
     grants_officer = forms.CharField(
         label="Authorized User",
@@ -299,6 +329,20 @@ class AerospaceOutreachForm(forms.ModelForm):
         label="Are you seeking other WSGC funding for this project?",
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
+    )
+    finance_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
+    )
+    grant_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
     )
     grants_officer = forms.CharField(
         label="Authorized User",
@@ -444,6 +488,20 @@ class SpecialInitiativesForm(forms.ModelForm):
             Overhead (or indirect costs) cannot exceed 0.5
             of the required matching funds
         """,
+    )
+    finance_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
+    )
+    grant_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
     )
     grants_officer = forms.CharField(
         label="Authorized User",

@@ -170,17 +170,27 @@ def application_form(request, application_type, aid=None):
         try:
             # rocket launch team and professional program student
             # forms need request context
-            if application_type == 'rocket-launch-team' \
-              or application_type == 'professional-program-student' \
-              or application_type.replace('-','') in PROFESSIONAL_PROGRAMS:
+            program = (
+                application_type == 'rocket-launch-team' or
+                application_type == 'professional-program-student' or
+                application_type.replace('-','') in PROFESSIONAL_PROGRAMS
+            )
+            if program:
                 form = FormClass(
-                    instance=app, data=request.POST, files=request.FILES,
-                    request=request, label_suffix='', use_required_attribute=False
+                    instance=app,
+                    data=request.POST,
+                    files=request.FILES,
+                    request=request,
+                    label_suffix='',
+                    use_required_attribute=False,
                 )
             else:
                 form = FormClass(
-                    instance=app, data=request.POST, files=request.FILES,
-                    label_suffix='', use_required_attribute=False
+                    instance=app,
+                    data=request.POST,
+                    files=request.FILES,
+                    label_suffix='',
+                    use_required_attribute=False,
                 )
         except:
             # app_type does not match an existing form
@@ -347,34 +357,38 @@ def application_form(request, application_type, aid=None):
                 elif go and not go_orig:
                     # new application or new co-advisor on update
                     go.profile.applications.add(data)
-
             # email confirmation
             template = 'application/email/{}.html'.format(application_type)
             if not settings.DEBUG:
                 # email distribution list and bcc parameters
-                to_list = [settings.WSGC_APPLICATIONS,]
-                bcc = [settings.ADMINS[0][1],settings.WSGC_EMAIL]
-
+                to_list = [settings.WSGC_APPLICATIONS]
+                bcc = [settings.ADMINS[0][1], settings.WSGC_EMAIL]
                 # send confirmation email to WSGC staff and applicant
                 to_list.append(data.user.email)
                 if aid:
                     app_name += ' (UPDATED)'
-                subject = u'{} {}: {}, {}'.format(
-                    app_name, date,
-                    data.user.last_name, data.user.first_name
+                subject = u'{0} {1}: {2}, {3}'.format(
+                    app_name,
+                    date,
+                    data.user.last_name,
+                    data.user.first_name,
                 )
                 send_mail(
-                    request, to_list,
-                    subject, data.user.email,
-                    template, data, bcc
+                    request,
+                    to_list,
+                    subject,
+                    data.user.email,
+                    template,
+                    data,
+                    bcc,
                 )
                 return HttpResponseRedirect(reverse('application_success'))
             else:
                 return render(
-                    request, template,
-                    {'data': data,'form':form}
+                    request,
+                    template,
+                    {'data': data, 'form': form},
                 )
-
             return HttpResponseRedirect(reverse('application_success'))
     else:
         # UserFilesForm
@@ -396,10 +410,14 @@ def application_form(request, application_type, aid=None):
             request.session['co_advisor_id'] = ''
             request.session['co_advisor_name'] = ''
     return render(
-        request, 'application/form.html', {
-            'form': form,'app_name':app_name,'obj':app,
-            'form_user_files':form_user_files
-        }
+        request,
+        'application/form.html',
+        {
+            'form': form,
+            'app_name': app_name,
+            'obj':app,
+            'form_user_files': form_user_files,
+        },
     )
 
 
