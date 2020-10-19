@@ -746,9 +746,9 @@ class WomenInAviationScholarshipForm(forms.ModelForm):
         widget=forms.RadioSelect(),
     )
     academic_institution = forms.TypedChoiceField(
-        label = "Application submitted for",
-        widget = forms.RadioSelect(),
-        choices=ACADEMIC_INSTITUTIONS
+        label="Application submitted for",
+        widget=forms.RadioSelect(),
+        choices=ACADEMIC_INSTITUTIONS,
     )
     signed_certification = forms.BooleanField(
         label = """
@@ -762,16 +762,27 @@ class WomenInAviationScholarshipForm(forms.ModelForm):
         to IRS regulations and that I am responsible for making sure all
         tax requirements are met.
         """,
-        required = True
+        required=True,
     )
 
     class Meta:
         model = WomenInAviationScholarship
         exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
         )
 
 
@@ -780,8 +791,12 @@ class WomenInAviationScholarshipUploadsForm(forms.ModelForm):
     class Meta:
         model = WomenInAviationScholarship
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
         )
 
 
@@ -789,25 +804,28 @@ class UndergraduateResearchForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_funding = forms.TypedChoiceField(
         label="Are you seeking other WSGC funding for this project?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     signed_certification = forms.BooleanField(
-        label = """
+        label="""
         I certify that I am, will be, or have applied to be a
         full-time undergraduate student at one of the Wisconsin Space
         Grant Consortium colleges or universities during the award period
@@ -818,16 +836,27 @@ class UndergraduateResearchForm(forms.ModelForm):
         to IRS regulations and that I am responsible for making sure all
         tax requirements are met.
         """,
-        required = True
+        required=True,
     )
 
     class Meta:
         model = UndergraduateResearch
         exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
         )
 
 
@@ -836,8 +865,12 @@ class UndergraduateResearchUploadsForm(forms.ModelForm):
     class Meta:
         model = UndergraduateResearch
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
         )
 
 
@@ -845,21 +878,23 @@ class GraduateFellowshipForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     signed_certification = forms.BooleanField(
-        label = """
+        label="""
         I certify that I am, will be, or have applied to be a
         full-time graduate or professional student
         at one of the Wisconsin Space
@@ -871,16 +906,27 @@ class GraduateFellowshipForm(forms.ModelForm):
         to IRS regulations and that I am responsible for making sure all
         tax requirements are met.
         """,
-        required = True
+        required=True,
     )
 
     class Meta:
         model = GraduateFellowship
         exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
         )
 
 
@@ -889,8 +935,12 @@ class GraduateFellowshipUploadsForm(forms.ModelForm):
     class Meta:
         model = GraduateFellowship
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
         )
 
 
@@ -898,21 +948,23 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     signed_certification = forms.BooleanField(
-        label = """
+        label="""
         I certify that I am, will be, or have applied to be a
         full-time graduate or professional student
         at one of the Wisconsin Space
@@ -924,16 +976,27 @@ class ClarkGraduateFellowshipForm(forms.ModelForm):
         to IRS regulations and that I am responsible for making sure all
         tax requirements are met.
         """,
-        required = True
+        required=True,
     )
 
     class Meta:
         model = ClarkGraduateFellowship
         exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
         )
 
 
@@ -942,8 +1005,12 @@ class ClarkGraduateFellowshipUploadsForm(forms.ModelForm):
     class Meta:
         model = ClarkGraduateFellowship
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
         )
 
 
@@ -954,32 +1021,48 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
             Will you be able to commit 32-40 hours/week
             to this 10-week summer experience?
         """,
-        required = True,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        required=True,
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
 
     class Meta:
         model = HighAltitudeBalloonPayload
         exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3','team_photo','team_biography'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
+            'team_photo',
+            'team_biography',
         )
 
 
@@ -988,9 +1071,14 @@ class HighAltitudeBalloonPayloadUploadsForm(forms.ModelForm):
     class Meta:
         model = HighAltitudeBalloonPayload
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
-            'team_photo','team_biography'
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'team_photo',
+            'team_biography',
         )
 
 
@@ -998,27 +1086,43 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
 
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
     past_funding_year = forms.CharField(
         label="If 'Yes', what year?",
         widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
-        required = False
+        required=False,
     )
     other_fellowship = forms.TypedChoiceField(
         label="""
             Do you currently hold another Federal fellowship or traineeship?
         """,
-        choices = BINARY_CHOICES, widget = forms.RadioSelect()
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
     )
 
     class Meta:
         model = HighAltitudeBalloonLaunch
         exclude = (
-            'complete','user','status','commit','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','final_report',
-            'other_file','other_file2','other_file3','interim_report',
-            'url1','url2','url3','team_photo','team_biography'
+            'complete',
+            'user',
+            'status',
+            'commit',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
+            'team_photo',
+            'team_biography',
         )
 
 
@@ -1027,16 +1131,20 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
     class Meta:
         model = HighAltitudeBalloonLaunch
         fields = (
-            'award_acceptance','final_report','interim_report',
-            'other_file','other_file2','other_file3',
-            'team_photo','team_biography'
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'team_photo',
+            'team_biography',
         )
 
 
 class RocketLaunchTeamForm(forms.ModelForm):
-    '''
-    Form that handles the create/update for Rocket Launch Teams
-    '''
+    """Form that handles the create/update for Rocket Launch Teams."""
+
     uid = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput()
     )
