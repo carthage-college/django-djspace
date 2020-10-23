@@ -427,9 +427,11 @@ class ResearchInfrastructure(EducationInitiatives):
     )
     # grants officer user
     grants_officer = models.ForeignKey(
-        User, null=True, blank=True,
+        User,
+        null=True,
+        blank=True,
         verbose_name="Grants Officer User",
-        related_name='rip_grants_officer'
+        related_name='rip_grants_officer',
     )
 
     def get_code(self):
@@ -934,9 +936,7 @@ class RocketLaunchTeam(BaseModel):
         return ('application_update', [self.get_slug(), str(self.id)])
 
     def required_files(self):
-        '''
-        used when building a tarball of required files
-        '''
+        """Used when building a tarball of required files."""
         return ['budget',]
 
     # timestamp methods are for UI level display
@@ -1830,6 +1830,7 @@ class Scholarship(BaseModel):
     def recommendation_timestamp(self):
         return self.get_file_timestamp('recommendation')
 
+
 class WomenInAviationScholarship(Scholarship):
 
     def __unicode__(self):
@@ -2451,4 +2452,4 @@ class WorkPlanTask(models.Model):
     )
 
     def __unicode__(self):
-        return u"{}".format(self.title)
+        return u"{0}".format(self.title)

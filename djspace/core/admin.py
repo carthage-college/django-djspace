@@ -1,36 +1,67 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.contrib import admin
 from django.contrib import messages
-from django.shortcuts import render
+from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.admin.templatetags.admin_urls import add_preserved_filters
-
+from django.core.urlresolvers import reverse
+from django.shortcuts import render
 from djspace.core.forms import EmailApplicantsForm
-from djspace.core.models import UserProfile, GenericChoice
-from djspace.core.utils import admin_display_file, get_email_auxiliary
+from djspace.core.models import GenericChoice
+from djspace.core.models import UserProfile
+from djspace.core.utils import admin_display_file
+from djspace.core.utils import get_email_auxiliary
 
 from functools import update_wrapper
 
 
 # base list that all registration types and program applications can use
 PROFILE_LIST = [
-    'salutation','last_name','first_name','date_of_birth',
-    'email','date_created','date_updated','registration_type',
-    'email_auxiliary','phone_primary','phone_mobile',
-    'address1','address2','city','state','postal_code',
-    'address1_current','address2_current','city_current','state_current',
-    'postal_code_current','gender','race','tribe',
-    'disability','disability_specify','employment','military','us_citizen',
+    'salutation',
+    'last_name',
+    'first_name',
+    'date_of_birth',
+    'email',
+    'date_created',
+    'date_updated',
+    'registration_type',
+    'email_auxiliary',
+    'phone_primary',
+    'phone_mobile',
+    'address1',
+    'address2',
+    'city',
+    'state',
+    'postal_code',
+    'address1_current',
+    'address2_current',
+    'city_current',
+    'state_current',
+    'postal_code_current',
+    'gender',
+    'race',
+    'tribe',
+    'disability',
+    'disability_specify',
+    'employment',
+    'military',
+    'us_citizen',
     'wsgc_affiliate',
 ]
 # program applications all have the following fields in common
 PROFILE_LIST_DISPLAY = PROFILE_LIST + [
-    'mugshot_file','biography_file','media_release_file','irs_w9_file',
-    'award_acceptance_file','interim_report_file','final_report_file',
-    'other_file_file','other_file2_file','other_file3_file'
+    'mugshot_file',
+    'biography_file',
+    'media_release_file',
+    'irs_w9_file',
+    'award_acceptance_file',
+    'interim_report_file',
+    'final_report_file',
+    'other_file_file',
+    'other_file2_file',
+    'other_file3_file',
 ]
 
 POST_NO_OBJECTS = ['export_longitudinal_tracking']
@@ -48,16 +79,16 @@ class GenericAdmin(admin.ModelAdmin):
         and then sends the data off to another view for sending
         of said email to all selected applicants
         """
-
         title = self.model._meta.verbose_name_plural
         form = EmailApplicantsForm()
         ct = ContentType.objects.get_for_model(queryset.model)
 
         return render (
-            request, 'admin/email_applicants.html', {
-                'form':form,'title':title,'objs':queryset,
-                'content_type':ct.pk
-            }
+            request,
+            'admin/email_applicants.html',
+            {
+                'form': form, 'title':title, 'objs': queryset, 'content_type': ct.pk,
+            },
         )
     email_applicants.short_description = u'Email selected applicants'
 
@@ -71,25 +102,19 @@ class GenericAdmin(admin.ModelAdmin):
                 post = request.POST.copy()
                 post.update({admin.ACTION_CHECKBOX_NAME: str(1)})
                 request._set_post(post)
-        return super(GenericAdmin, self).changelist_view(
-            request, extra_context
-        )
+        return super(GenericAdmin, self).changelist_view(request, extra_context)
 
     list_display = PROFILE_LIST_DISPLAY
     list_display_links = None
-    #list_filter   = ('status','complete')
+    #list_filter   = ('status', 'complete')
     date_hierarchy = 'date_created'
-    ordering = [
-        'user__last_name','user__first_name'
-    ]
+    ordering = ['user__last_name', 'user__first_name']
     search_fields = (
-        'user__last_name','user__first_name','user__email','user__username'
+        'user__last_name', 'user__first_name', 'user__email', 'user__username',
     )
 
     list_per_page = 20
-    raw_id_fields = ('user','updated_by',)
-
-    # user/profile data
+    raw_id_fields = ('user', 'updated_by',)
     salutation =  lambda s, o: o.user.profile.salutation
 
     class Media:
@@ -107,20 +132,23 @@ class GenericAdmin(admin.ModelAdmin):
             '/static/djspace/js/admin.js'
         )
 
-
-    def first_name(self, obj):
-        return obj.user.first_name
-
     def second_name(self, obj):
         return obj.user.profile.second_name
 
     def last_name(self, obj):
-        return u'<a href="{}" target="_blank">{}</a>'.format(
+        return u'<a href="{0}" target="_blank">{1}</a>'.format(
             reverse("application_print", args=(obj.get_slug(),obj.id)),
-            obj.user.last_name
+            obj.user.last_name,
         )
     last_name.allow_tags = True
     last_name.short_description = "Last Name (print)"
+
+    def first_name(self, obj):
+        return u'<a href="{0}" target="_blank">{1}</a>'.format(
+            obj.get_absolute_url(), obj.user.first_name,
+        )
+    first_name.allow_tags = True
+    first_name.short_description = "Given Name (edit)"
 
     def phone_primary(self, obj):
         return obj.user.profile.phone_primary
@@ -191,8 +219,8 @@ class GenericAdmin(admin.ModelAdmin):
         return obj.user.profile.tribe
 
     def email(self, obj):
-        return '<a href="mailto:{}">{}</a>'.format(
-            obj.user.email, obj.user.email
+        return '<a href="mailto:{0}">{1}</a>'.format(
+            obj.user.email, obj.user.email,
         )
     email.allow_tags = True
     email.short_description = 'Email'
@@ -202,14 +230,14 @@ class GenericAdmin(admin.ModelAdmin):
 
     def registration_type(self, obj):
         try:
-            reg_type = '<a href="{}">{}</a>'.format(
+            reg_type = '<a href="{0}">{1}</a>'.format(
                 reverse(
-                    'admin:registration_{}_change'.format(
-                        obj.user.profile.registration_type.lower()
+                    'admin:registration_{0}_change'.format(
+                        obj.user.profile.registration_type.lower(),
                     ),
-                    args=(obj.user.profile.get_registration().id,)
+                    args=(obj.user.profile.get_registration().id,),
                 ),
-                obj.user.profile.registration_type
+                obj.user.profile.registration_type,
             )
         except:
             return None
@@ -295,27 +323,22 @@ class GenericAdmin(admin.ModelAdmin):
 class GenericChoiceAdmin(admin.ModelAdmin):
     list_display = ('name', 'value', 'ranking', 'active')
 
-admin.site.register(GenericChoice, GenericChoiceAdmin)
+
 
 class ProfileAdmin(admin.ModelAdmin):
 
-    list_display = [
-        'last_name','first_name','email','username','id'
-    ]
-
-    ordering = [
-        'user__last_name','user__first_name','id'
-    ]
+    list_display = ['last_name', 'first_name', 'email', 'username', 'id']
+    ordering = ['user__last_name', 'user__first_name', 'id']
     search_fields = (
-        'user__last_name','user__first_name',
-        'user__email','user__username','user__id'
+        'user__last_name',
+        'user__first_name',
+        'user__email',
+        'user__username',
+        'user__id',
     )
-
     date_hierarchy = 'date_created'
-
     list_per_page = 500
-    raw_id_fields = ("user","updated_by",)
-
+    raw_id_fields = ('user', 'updated_by')
 
     def last_name(self, instance):
         return instance.user.last_name
@@ -333,7 +356,6 @@ class ProfileAdmin(admin.ModelAdmin):
         obj.updated_by = request.user
         obj.save()
 
-admin.site.register(UserProfile, ProfileAdmin)
 
 # override django admin user display
 class UserProfileInline(admin.StackedInline):
@@ -342,8 +364,12 @@ class UserProfileInline(admin.StackedInline):
     # we need this because UserProfile has two FK to auth.User model
     fk_name = 'user'
 
+
 class UserProfileAdmin(UserAdmin):
     inlines = (UserProfileInline,)
 
+
+admin.site.register(GenericChoice, GenericChoiceAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserProfileAdmin)
+admin.site.register(UserProfile, ProfileAdmin)

@@ -282,9 +282,6 @@ class PhotoForm(forms.ModelForm):
         fields = ['phile']
 
 
-import logging
-logger = logging.getLogger('debug_logger')
-
 class UserFilesForm(forms.ModelForm):
     """Files required after funding has been approved."""
 
@@ -296,7 +293,6 @@ class UserFilesForm(forms.ModelForm):
     def clean(self):
         """Form validation."""
         cd = self.cleaned_data
-        logger.debug(self.required)
         if self.required:
             for require in self.required:
                 if not cd.get(require):

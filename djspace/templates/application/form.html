@@ -370,18 +370,6 @@ you will receive a notification email.
        data submitted. See below for more details.
       </p>
     {% endif %}
-    {% if form_user_files.errors %}
-        <ol class="error" style="padding:2px;">
-        {% for field, errors in form_user_files.errors.items %}
-        <li>
-        <strong>
-          {{field}}: is not an acceptable file type. Please upload a new {{field}} file as PDF.
-        </strong>
-        </li>
-        {% endfor %}
-        </ol>
-      </p>
-    {% endif %}
     <fieldset class="blockLabels">
         <ol>
             {% for field in form.visible_fields %}

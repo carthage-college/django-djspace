@@ -1384,10 +1384,21 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
     class Meta:
         model = FirstNationsRocketCompetition
         exclude = (
-            'complete','user','status','funded_code','funds_authorized',
-            'authorized_match','award_acceptance','interim_report',
-            'final_report','other_file','other_file2','other_file3',
-            'url1','url2','url3'
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'interim_report',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'url1',
+            'url2',
+            'url3',
         )
 
 

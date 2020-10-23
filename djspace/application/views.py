@@ -32,21 +32,57 @@ from djtools.fields import TODAY
 
 
 # django logging
-logger = logging.getLogger('debug_logfile')
+logger = logging.getLogger(__name__)
 
 
 @login_required
 def application_form(request, application_type, aid=None):
 
-    # our user
-    user = request.user
+    # munge the application type
+    slug_list = application_type.split('-')
+    app_name = slug_list.pop(0).capitalize()
+    for name in slug_list:
+        app_name += ' {0}'.format(name.capitalize())
+    app_type = ''.join(app_name.split(' '))
+
+    # we need the application model now and if it barfs
+    # we throw a 404
+    try:
+        mod = django.apps.apps.get_model(
+            app_label='application', model_name=app_type,
+        )
+    except:
+        raise Http404
+
+    # supes can update someone else's application
+    superuser = request.user.is_superuser
+    # fetch object if update
+    app = None
+    if aid:
+        # allow managers to update applications, so we set user to the owner,
+        # otherwise the user is the person signed in.
+        if superuser:
+            app = get_object_or_404(mod, pk=aid)
+            user = app.user
+        else:
+            user = request.user
+            # prevent users from managing apps that are not theirs
+            try:
+                app = mod.objects.get(pk=aid, user=user)
+            except:
+                return HttpResponseRedirect(reverse('dashboard_home'))
+            # verify that create_date is after grant cycle began
+            # or that if the app is complete:
+            # otherwise redirect to dashboard home
+            if app.date_created < get_start_date() or app.complete:
+                return HttpResponseRedirect(reverse('dashboard_home'))
+
     # userfiles
     try:
         userfiles = UserFiles.objects.get(user=user)
     except:
         userfiles = UserFiles(user=user)
         userfiles.save()
-
     # UserFilesForm
     form_user_files = None
 
@@ -58,24 +94,18 @@ def application_form(request, application_type, aid=None):
         )
         reg = mod.objects.get(user=user)
     except:
-        # redirect to dashboard
-        return HttpResponseRedirect(reverse('dashboard_home'))
+        if not superuser:
+            # redirect to dashboard
+            return HttpResponseRedirect(reverse('dashboard_home'))
 
     # verify that the user has an up to date registration
-    if not profile_status(user):
+    if not profile_status(user) and not superuser:
         # redirect to dashboard
         return HttpResponseRedirect(reverse('dashboard_home'))
-
-    # munge the application type
-    slug_list = application_type.split('-')
-    app_name = slug_list.pop(0).capitalize()
-    for n in slug_list:
-        app_name += ' {0}'.format(n.capitalize())
-    app_type = ''.join(app_name.split(' '))
-
 
     # check rocket competition teams and member limits.
     # currently, FNL does not have a limit so we can exclude it.
+    teams = None
     if 'rocket-competition' in application_type:
         teams = RocketLaunchTeam.objects.filter(
             competition__contains=app_name[:12]
@@ -94,37 +124,6 @@ def application_form(request, application_type, aid=None):
                 'application/form.html',
                 {'form': None, 'app_name': app_name},
             )
-
-    # we need the application model now and if it barfs
-    # we throw a 404
-    try:
-        mod = django.apps.apps.get_model(
-            app_label='application', model_name=app_type,
-        )
-    except:
-        raise Http404
-
-    # fetch object if update
-    app = None
-    # initialise work plan tasks for industry internship
-    tasks = None
-    if aid:
-
-        if user.is_superuser:
-            app = get_object_or_404(mod, pk=aid)
-        else:
-            # prevent users from managing apps that are not theirs
-            try:
-                app = mod.objects.get(pk=aid, user=user)
-            except:
-                return HttpResponseRedirect(reverse('dashboard_home'))
-
-
-        # verify that create_date is after grant cycle began
-        # or that if the app is complete:
-        # otherwise redirect to dashboard home
-        if app.date_created < get_start_date() or app.complete:
-            return HttpResponseRedirect(reverse('dashboard_home'))
 
     # rocket launch team co-advisor
     coa_orig = None
@@ -154,8 +153,8 @@ def application_form(request, application_type, aid=None):
           or application_type == 'rocket-launch-team':
             if app.grants_officer:
                 # for autocomplete form field at the UI level
-                request.session['grants_officer_name'] = u'{}, {}'.format(
-                    app.grants_officer.last_name, app.grants_officer.first_name
+                request.session['grants_officer_name'] = u'{0}, {1}'.format(
+                    app.grants_officer.last_name, app.grants_officer.first_name,
                 )
                 go_orig = app.grants_officer
 
@@ -208,9 +207,8 @@ def application_form(request, application_type, aid=None):
             data=request.POST,
             files=request.FILES,
             use_required_attribute=False,
-            required=['media_release'],
         )
-        if application_type == 'collegiate-rocket-competition':
+        if teams:
             form_user_files.fields['irs_w9'].required = True
             form_user_files.fields['media_release'].required = True
         if form.is_valid() and form_user_files.is_valid():
@@ -218,7 +216,10 @@ def application_form(request, application_type, aid=None):
             form_user_files.save()
 
             data = form.save(commit=False)
-            data.user = user
+            # we do not want to change owner of an application if a manager
+            # is updating it
+            if not app:
+                data.user = user
             data.updated_by = user
 
             if application_type == 'rocket-launch-team':
@@ -401,9 +402,8 @@ def application_form(request, application_type, aid=None):
         form_user_files = UserFilesForm(
             instance=userfiles,
             use_required_attribute=False,
-            required=['media_release'],
         )
-        if application_type == 'collegiate-rocket-competition':
+        if teams:
             form_user_files.fields['irs_w9'].required = True
             form_user_files.fields['media_release'].required = True
 
