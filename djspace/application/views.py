@@ -58,6 +58,7 @@ def application_form(request, application_type, aid=None):
     superuser = request.user.is_superuser
     # fetch object if update
     app = None
+    user = request.user
     if aid:
         # allow managers to update applications, so we set user to the owner,
         # otherwise the user is the person signed in.
@@ -65,7 +66,6 @@ def application_form(request, application_type, aid=None):
             app = get_object_or_404(mod, pk=aid)
             user = app.user
         else:
-            user = request.user
             # prevent users from managing apps that are not theirs
             try:
                 app = mod.objects.get(pk=aid, user=user)
