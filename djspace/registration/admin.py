@@ -118,6 +118,9 @@ class UndergraduateAdmin(GenericAdmin):
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
 
+    def first_name(self, obj):
+        return obj.user.first_name
+
 
 class GraduateAdmin(GenericAdmin):
 
@@ -133,6 +136,9 @@ class GraduateAdmin(GenericAdmin):
         )
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
+
+    def first_name(self, obj):
+        return obj.user.first_name
 
 
 class FacultyAdmin(GenericAdmin):
@@ -150,6 +156,9 @@ class FacultyAdmin(GenericAdmin):
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
 
+    def first_name(self, obj):
+        return obj.user.first_name
+
 
 class GrantsOfficerAdmin(GenericAdmin):
 
@@ -165,6 +174,9 @@ class GrantsOfficerAdmin(GenericAdmin):
         )
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
+
+    def first_name(self, obj):
+        return obj.user.first_name
 
 
 class HighSchoolAdmin(GenericAdmin):
@@ -182,6 +194,9 @@ class HighSchoolAdmin(GenericAdmin):
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
 
+    def first_name(self, obj):
+        return obj.user.first_name
+
 
 class ProfessionalAdmin(GenericAdmin):
 
@@ -197,6 +212,9 @@ class ProfessionalAdmin(GenericAdmin):
         )
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
+
+    def first_name(self, obj):
+        return obj.user.first_name
 
 
 admin.site.register(HighSchool, HighSchoolAdmin)
