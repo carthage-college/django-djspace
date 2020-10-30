@@ -250,6 +250,8 @@ class GenericAdmin(admin.ModelAdmin):
             wsgc_affiliate = obj.user.profile.get_registration().wsgc_affiliate
         except:
             wsgc_affiliate = None
+        if wsgc_affiliate and wsgc_affiliate.name == 'Other':
+            wsgc_affiliate = obj.user.profile.get_registration().wsgc_affiliate_other
         return wsgc_affiliate
     wsgc_affiliate.short_description = "Institution Name"
 

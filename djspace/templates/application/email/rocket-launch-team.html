@@ -5,7 +5,11 @@
 <p>{{data.name}}</p>
 <h4>Academic Institution</h4>
 <p>
+  {% if data.user.profile.get_registration.wsgc_affiliate.name == 'Other' %}
+  {{data.user.profile.get_registration.wsgc_affiliate_other|default:""}}
+  {% else %}
   {{data.user.profile.get_registration.wsgc_affiliate.name}}
+  {% endif %}
 </p>
 {% if data.grants_officer %}
   <h4>Grants Officer</h4>
