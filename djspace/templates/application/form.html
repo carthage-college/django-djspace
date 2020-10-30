@@ -522,20 +522,12 @@ you will receive a notification email.
           <ol>
           {% for field in form_user_files.visible_fields %}
             {% if field.name in "irs_w9,media_release" %}
-            <li class="form-group ctrlHolder">
-              <h3>{{ field.label_tag }}</h3>
-              {% if field.errors %}
-              <div class="required warning">
-                <span class="error-message">{{ field.errors|join:", "}}</span>
-              {% else %}
-              <div class="required">
+              {% if field.name == 'irs_w9' and app_name != 'First Nations Rocket Competition' %}
+                {% include "form_field.inc.html" %}
               {% endif %}
-              {% if field.help_text %}
-                <p class="help">{{field.help_text|safe}}</p>
+              {% if field.name == 'media_release' %}
+                {% include "form_field.inc.html" %}
               {% endif %}
-              {{field}}
-              </div>
-            </li>
             {% endif %}
           {% endfor %}
           </ol>
