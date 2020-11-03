@@ -209,8 +209,9 @@ def application_form(request, application_type, aid=None):
             use_required_attribute=False,
         )
         if teams:
-            form_user_files.fields['irs_w9'].required = True
             form_user_files.fields['media_release'].required = True
+            if application_type != 'first-nations-rocket-competition':
+                form_user_files.fields['irs_w9'].required = True
         if form.is_valid() and form_user_files.is_valid():
             cd = form.cleaned_data
             form_user_files.save()
@@ -404,8 +405,9 @@ def application_form(request, application_type, aid=None):
             use_required_attribute=False,
         )
         if teams:
-            form_user_files.fields['irs_w9'].required = True
             form_user_files.fields['media_release'].required = True
+            if application_type != 'first-nations-rocket-competition':
+                form_user_files.fields['irs_w9'].required = True
 
         if not app:
             # set session values to null for GET requests that are not updates
