@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import django
-import logging
 import os
 
 from django.conf import settings
@@ -29,10 +28,6 @@ from djtools.fields.helpers import handle_uploaded_file
 from djtools.utils.convert import str_to_class
 from djtools.utils.mail import send_mail
 from djtools.fields import TODAY
-
-
-# django logging
-logger = logging.getLogger(__name__)
 
 
 @login_required

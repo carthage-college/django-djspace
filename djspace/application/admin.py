@@ -155,6 +155,9 @@ export_photo_files.short_description = "Export Photos"
 
 def longitudinal_tracking(modeladmin, request):
     """Export application data to OpenXML file."""
+    import logging
+    logger = logging.getLogger(__name__)
+
     users = User.objects.all().order_by('last_name')
     program = None
     exports = []
@@ -164,12 +167,12 @@ def longitudinal_tracking(modeladmin, request):
         except:
             apps = None
         if apps:
-            for a in apps:
-                if a._meta.object_name == modeladmin.model._meta.object_name \
-                and a.status:
-                    exports.append({'user': user, 'app': a})
-                    #program = a.get_application_type()
-                    program = a.get_slug()
+            for app in apps:
+                if app._meta.object_name == modeladmin.model._meta.object_name \
+                  and app.status:
+                    exports.append({'user': user, 'app': app})
+                    #program = app.get_application_type()
+                    program = app.get_slug()
 
     wb = load_workbook(
         '{0}/application/longitudinal_tracking.xlsx'.format(settings.ROOT_DIR),
@@ -180,7 +183,7 @@ def longitudinal_tracking(modeladmin, request):
     # for CSV export if need be.
     t = loader.get_template('application/export.longitudinal.html')
     c = {'exports': exports, 'program': program, 'year': TODAY.year}
-    data = smart_bytes(
+    rendered_data = smart_bytes(
         t.render(c, request),
         encoding='utf-8',
         strings_only=False,
@@ -189,8 +192,9 @@ def longitudinal_tracking(modeladmin, request):
     # reader requires an object which supports the iterator protocol and
     # returns a string each time its next() method is called. StringIO
     # provides an in-memory, line by line stream of the template data.
-    #reader = csv.reader(io.StringIO(data), delimiter='|')
-    reader = csv.reader(BytesIO(data), delimiter='|')
+    #reader = csv.reader(io.StringIO(rendered_data), delimiter='|')
+    '''
+    reader = csv.reader(BytesIO(rendered_data), delimiter='|')
     for row in reader:
         ws.append(row)
     # in memory response instead of save to file system
@@ -198,6 +202,11 @@ def longitudinal_tracking(modeladmin, request):
         save_virtual_workbook(wb), content_type='application/ms-excel',
     )
     response['Content-Disposition'] = 'attachment;filename={0}.xlsx'.format(
+        program,
+    )
+    '''
+    response = HttpResponse(rendered_data, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment;filename={0}.csv'.format(
         program,
     )
 
