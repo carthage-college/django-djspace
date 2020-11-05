@@ -167,6 +167,7 @@ def application_form(request, application_type, aid=None):
         raise Http404
     # GET or POST
     if request.method == 'POST':
+        post = request.POST
         try:
             # rocket launch team and professional program student
             # forms need request context
@@ -178,7 +179,7 @@ def application_form(request, application_type, aid=None):
             if program:
                 form = FormClass(
                     instance=app,
-                    data=request.POST,
+                    data=post,
                     files=request.FILES,
                     request=request,
                     label_suffix='',
@@ -187,19 +188,19 @@ def application_form(request, application_type, aid=None):
             else:
                 form = FormClass(
                     instance=app,
-                    data=request.POST,
+                    data=post,
                     files=request.FILES,
                     label_suffix='',
                     use_required_attribute=False,
                 )
-        except:
+        except Exception:
             # app_type does not match an existing form
             raise Http404
 
         # some forms have user files
         form_user_files = UserFilesForm(
             instance=userfiles,
-            data=request.POST,
+            data=post,
             files=request.FILES,
             use_required_attribute=False,
         )
@@ -209,7 +210,7 @@ def application_form(request, application_type, aid=None):
                 form_user_files.fields['irs_w9'].required = True
         if form.is_valid() and form_user_files.is_valid():
             cd = form.cleaned_data
-            form_user_files.save()
+            philes = form_user_files.save()
 
             data = form.save(commit=False)
             # we do not want to change owner of an application if a manager

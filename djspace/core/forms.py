@@ -299,6 +299,10 @@ class UserFilesForm(forms.ModelForm):
                     self.add_error(require, "Required field")
         return cd
 
+    #def clean_mugshot(self):
+        #phile = self.cleaned_data.get('mugshot')
+        #if phile.path
+
     class Meta:
         """Information about the form class."""
 
