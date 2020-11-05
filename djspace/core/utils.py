@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+import os
+
+from datetime import datetime
+
 from django.conf import settings
 from django.forms.models import model_to_dict
 
 from djtools.fields import NOW
-from djtools.utils.mail import send_mail
 from djtools.utils.cypher import AESCipher
+from djtools.utils.mail import send_mail
 
-from datetime import datetime
-import os
 
 PROFESSIONAL_PROGRAMS = [
     'aerospaceoutreach',
@@ -20,58 +23,63 @@ PROFESSIONAL_PROGRAMS = [
 # rocket launch required files by competition. this will do until
 # we change the data model to have a separate table for their files
 MRL_REQUIRED_FILES = [
-    'preliminary_design_report','flight_readiness_report',
-    'education_outreach','post_flight_performance_report',
-    'proceeding_paper'
+    'preliminary_design_report',
+    'flight_readiness_report',
+    'education_outreach',
+    'post_flight_performance_report',
+    'proceeding_paper',
 ]
 FNL_REQUIRED_FILES = [
-    'budget','flight_demo','preliminary_design_report',
-    'final_motor_selection','lodging_list','critical_design_report',
-    'oral_presentation','post_flight_performance_report'
+    'budget',
+    'flight_demo',
+    'preliminary_design_report',
+    'final_motor_selection',
+    'lodging_list',
+    'critical_design_report',
+    'oral_presentation',
+    'post_flight_performance_report',
 ]
 CRL_REQUIRED_FILES = [
-    'budget','flight_demo','interim_progress_report',
-    'final_design_report','education_outreach','oral_presentation',
-    'post_flight_performance_report','proceeding_paper'
+    'budget',
+    'flight_demo',
+    'interim_progress_report',
+    'final_design_report',
+    'education_outreach',
+    'oral_presentation',
+    'post_flight_performance_report',
+    'proceeding_paper',
 ]
 
 
 def get_start_date():
-
+    """Obtain the start date for the current grant cycle."""
     year = NOW.year
     if NOW.month < settings.GRANT_CYCLE_START_MES:
         year = NOW.year - 1
     start_date = datetime(
         year, settings.GRANT_CYCLE_START_MES, 1
     )
-
     return start_date
 
 
 def upload_to_path(field_name, instance, filename):
-    """
-    Generates the path as a string for file field.
-    """
-
+    """Generates the path as a string for file field."""
     cipher = AESCipher(bs=16)
     try:
         uid = str(instance.user.id)
-    except:
+    except Exception:
         uid = str(instance.user().id)
     cid = cipher.encrypt(uid)
     ext = filename.split('.')[-1]
-    filename = u'{}_{}.{}'.format(
-        instance.get_file_name(),field_name, ext
+    filename = u'{0}_{1}.{2}'.format(instance.get_file_name(), field_name, ext)
+    path = u'{0}/{1}/{2}/'.format(
+        instance.get_file_path(), instance.get_slug(), cid,
     )
-    path = u'{}/{}/{}/'.format(
-        instance.get_file_path(), instance.get_slug(), cid
-    )
-
     return os.path.join(path, filename)
 
 
 def files_status(user):
-
+    """Determine if the user file is valid for the current grant cycle."""
     status = True
     start_date = get_start_date()
 
@@ -137,10 +145,11 @@ def files_status(user):
 
 def profile_status(user):
     """
-    simple function that compares the user's profile updated datetime
-    against the grant cycle start date, which is comprised of the
-    current year and the settings value for the month and the first
-    day of the month.
+    Determine the status of the user's registration profile.
+
+    Compares the user's profile updated datetime against the grant cycle
+    start date, which is comprised of the current year and the settings
+    value for the month and the first day of the month.
     """
     status = False
     if user.profile.date_updated > get_start_date():
@@ -149,24 +158,34 @@ def profile_status(user):
 
 
 def registration_notify(request, action, user):
+    """Send an email when a new registration comes in."""
     subject = u"[WSGC Profile Registration: {}D] {}, {}".format(
-        action.upper(), user.last_name, user.first_name
+        action.upper(), user.last_name, user.first_name,
     )
     if settings.DEBUG:
-        TO_LIST = [settings.ADMINS[0][1],]
+        TO_LIST = [settings.ADMINS[0][1]]
     else:
-        TO_LIST = [settings.WSGC_APPLICATIONS,]
+        TO_LIST = [settings.WSGC_APPLICATIONS]
     template = 'account/registration_alert_email.html'
     context = {
-        'user':user, 'action':action, 'server_url':settings.SERVER_URL,
-        'media_url':settings.MEDIA_URL
+        'user':user,
+        'action':action,
+        'server_url':settings.SERVER_URL,
+        'media_url':settings.MEDIA_URL,
     }
     send_mail(
-        request,TO_LIST,subject,user.email,template,context,settings.MANAGERS
+        request,
+        TO_LIST,
+        subject,
+        user.email,
+        template,
+        context,
+        settings.MANAGERS,
     )
 
 
 def get_term(date):
+    """Obtain the current term for the grant cycle."""
     term = 'SP'
     if date.month >= settings.GRANT_CYCLE_START_MES:
         term = 'FA'
@@ -174,23 +193,25 @@ def get_term(date):
 
 
 def get_email_auxiliary(user):
+    """Fetch the secondary email address for the user."""
     from allauth.account.models import EmailAddress
-    e = EmailAddress.objects.filter(user=user).\
+    semail = EmailAddress.objects.filter(user=user).\
         filter(primary=False).order_by('-id')[:1]
-    if len(e) > 0:
-        return e[0].email
+    if len(semail) > 0:
+        return semail[0].email
     else:
         return None
 
 
 def admin_display_file(instance, field, team=False):
+    """Display the proper icon on the admin dashboard for the file."""
     status = False
     if team:
         attr = getattr(instance.team, field)
     else:
         attr = getattr(instance, field)
     # user profile files expire each grant cycle
-    if attr and field in ['mugshot','biography','irs_w9','media_release']:
+    if attr and field in ['mugshot', 'biography', 'irs_w9', 'media_release']:
         user_files = True
         status = instance.user.user_files.status(field)
         if status:
@@ -212,6 +233,4 @@ def admin_display_file(instance, field, team=False):
         '''.format(attr.url)
     else:
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
-
     return icon
-

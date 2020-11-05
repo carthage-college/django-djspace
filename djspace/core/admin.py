@@ -239,7 +239,7 @@ class GenericAdmin(admin.ModelAdmin):
                 ),
                 obj.user.profile.registration_type,
             )
-        except:
+        except Exception:
             return None
         return reg_type
     registration_type.allow_tags = True
@@ -248,12 +248,12 @@ class GenericAdmin(admin.ModelAdmin):
     def wsgc_affiliate(self, obj):
         try:
             wsgc_affiliate = obj.user.profile.get_registration().wsgc_affiliate
-        except:
+        except Exception:
             wsgc_affiliate = None
         try:
             if wsgc_affiliate.name == 'Other':
                 wsgc_affiliate = obj.user.profile.get_registration().wsgc_affiliate_other
-        except:
+        except Exception:
             pass
         return wsgc_affiliate
     wsgc_affiliate.short_description = "Institution Name"
@@ -261,7 +261,7 @@ class GenericAdmin(admin.ModelAdmin):
     def mugshot_file(self, instance):
         try:
             return admin_display_file(instance.user.user_files, 'mugshot')
-        except:
+        except Exception:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     mugshot_file.allow_tags = True
     mugshot_file.short_description = "Photo"
@@ -269,7 +269,7 @@ class GenericAdmin(admin.ModelAdmin):
     def biography_file(self, instance):
         try:
             return admin_display_file(instance.user.user_files, 'biography')
-        except:
+        except Exception:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     biography_file.allow_tags = True
     biography_file.short_description = "Bio"
@@ -277,7 +277,7 @@ class GenericAdmin(admin.ModelAdmin):
     def media_release_file(self, instance):
         try:
             return admin_display_file(instance.user.user_files, 'media_release')
-        except:
+        except Exception:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     media_release_file.allow_tags = True
     media_release_file.short_description = "Media"
@@ -285,7 +285,7 @@ class GenericAdmin(admin.ModelAdmin):
     def irs_w9_file(self, instance):
         try:
             return admin_display_file(instance.user.user_files, 'irs_w9')
-        except:
+        except Exception:
             return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     irs_w9_file.allow_tags = True
     irs_w9_file.short_description = "W9"

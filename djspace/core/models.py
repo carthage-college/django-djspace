@@ -379,9 +379,10 @@ def limit_race():
 
 
 class UserFiles(models.Model):
+    """User profile files."""
 
     user = models.OneToOneField(
-        User, related_name='user_files', editable=False
+        User, related_name='user_files', editable=False,
     )
     mugshot = models.FileField(
         "Photo",
@@ -422,6 +423,8 @@ class UserFiles(models.Model):
     )
 
     class Meta:
+        """Information about the data model."""
+
         db_table = 'core_userfiles'
 
     def get_file_path(self):
@@ -435,7 +438,7 @@ class UserFiles(models.Model):
     def get_file_name(self):
         """Return the file name based on the user's name."""
         return u'{0}.{1}'.format(
-            self.user.last_name,self.user.first_name
+            self.user.last_name,self.user.first_name,
         )
 
     def get_file_timestamp(self, field):
