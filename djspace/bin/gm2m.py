@@ -17,7 +17,7 @@ django.setup()
 from django.contrib.auth.models import User
 
 #users = User.objects.all().order_by('last_name')
-user = User.objects.get(pk=)
+user = User.objects.get(pk=666)
 
 apps = user.profile.applications.all()
 
