@@ -20,6 +20,7 @@ from djtools.fields.localflavor import USPhoneNumberField
 from allauth.account.models import EmailAddress
 from collections import OrderedDict
 from datetime import date
+from pathlib import Path
 
 DOB_YEAR = date.today().year-10
 RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('ranking')
@@ -299,9 +300,29 @@ class UserFilesForm(forms.ModelForm):
                     self.add_error(require, "Required field")
         return cd
 
-    #def clean_mugshot(self):
-        #phile = self.cleaned_data.get('mugshot')
-        #if phile.path
+    def clean_biography(self):
+        biography = self.cleaned_data.get('biography')
+        if biography and self.instance.biography:
+            Path(self.instance.biography.path).touch()
+        return biography
+
+    def clean_irs_w9(self):
+        irs_w9 = self.cleaned_data.get('irs_w9')
+        if irs_w9 and self.instance.irs_w9:
+            Path(self.instance.irs_w9.path).touch()
+        return irs_w9
+
+    def clean_mugshot(self):
+        mugshot = self.cleaned_data.get('mugshot')
+        if mugshot and self.instance.mugshot:
+            Path(self.instance.mugshot.path).touch()
+        return mugshot
+
+    def clean_media_release(self):
+        media_release = self.cleaned_data.get('media_release')
+        if media_release and self.instance.media_release:
+            Path(self.instance.media_release.path).touch()
+        return media_release
 
     class Meta:
         """Information about the form class."""
