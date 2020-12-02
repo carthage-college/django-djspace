@@ -69,7 +69,7 @@ def application_form(request, application_type, aid=None):
             # verify that create_date is after grant cycle began
             # or that if the app is complete:
             # otherwise redirect to dashboard home
-            if app.date_created < get_start_date() or app.complete:
+            if app.complete:
                 return HttpResponseRedirect(reverse('dashboard_home'))
 
     # userfiles
