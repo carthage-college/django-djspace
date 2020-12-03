@@ -27,10 +27,10 @@ if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
 PPT_EXTENSIONS = [
-    FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps'])
+    FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),
 ]
 OPENROCKET_EXTENSIONS = [
-    FileExtensionValidator(allowed_extensions=['ork', 'rkt', 'ORK', 'RKT'])
+    FileExtensionValidator(allowed_extensions=['rkt', 'RKT']),
 ]
 DIRECTORATE_CHOICES = (
     ('Aeronautics Research', 'Aeronautics Research'),
@@ -815,12 +815,12 @@ class RocketLaunchTeam(BaseModel):
         help_text="Power point"
     )
     openrocketrocksim = models.FileField(
-        "OpenRocket or RockSim Design Review",
+        "RockSim Design Review",
         upload_to = partial(upload_to_path, 'ORRS'),
         validators=OPENROCKET_EXTENSIONS,
         max_length=255,
         null=True, blank=True,
-        help_text="ORK or RKT file"
+        help_text="RKT file"
     )
     openrocketrocksim2 = models.FileField(
         "OpenRocket or RockSim Design Review 2",
@@ -828,7 +828,7 @@ class RocketLaunchTeam(BaseModel):
         validators=OPENROCKET_EXTENSIONS,
         max_length=255,
         null=True, blank=True,
-        help_text="ORK or RKT file",
+        help_text="RKT file",
     )
     team_photo = models.ImageField(
         upload_to = partial(upload_to_path, 'Team_Photo'),
