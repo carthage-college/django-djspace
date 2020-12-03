@@ -27,15 +27,13 @@ if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
 PPT_EXTENSIONS = [
-    FileExtensionValidator(allowed_extensions=['ppt','pptx','pot','pps'])
+    FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps'])
 ]
 OPENROCKET_EXTENSIONS = [
-    FileExtensionValidator(allowed_extensions=['ork','rkt'])
+    FileExtensionValidator(allowed_extensions=['ork', 'rkt', 'ORK', 'RKT'])
 ]
 DIRECTORATE_CHOICES = (
-    (
-        'Aeronautics Research', 'Aeronautics Research'
-    ),
+    ('Aeronautics Research', 'Aeronautics Research'),
     (
         'Human Exploration and Operations Mission Directorate',
         'Human Exploration and Operations Mission Directorate',
