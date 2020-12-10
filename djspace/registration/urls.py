@@ -1,23 +1,19 @@
-from django.contrib import admin
-from django.conf.urls import url
-from django.views.generic import TemplateView
+# -*- coding: utf-8 -*-
 
-from djspace.registration import views
+"""URLs for all views."""
+
+from django.urls import path
+from django.views.generic import TemplateView
+from djspace.registration.views import form
+from djspace.registration.views import registration_print
+
 
 urlpatterns = [
-    url(
-        r'^success/$',
-        TemplateView.as_view(
-            template_name='registration/success.html'
-        ),
-        name='registration_success'
+    path(
+        'success/',
+        TemplateView.as_view(template_name='registration/success.html'),
+        name='registration_success',
     ),
-    url(
-        r'^(?P<uid>\d+)/print/$',
-        views.registration_print, name='registration_print'
-    ),
-    url(
-        r'^(?P<reg_type>[a-zA-Z0-9_-]+)/$',
-        views.form, name='registration_form'
-    )
+    path('<int:pid>/print/', registration_print, name='registration_print'),
+    path('<str:reg_type>/', form, name='registration_form'),
 ]

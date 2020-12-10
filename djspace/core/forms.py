@@ -1,28 +1,27 @@
 # -*- coding: utf-8 -*-
-from django import forms
-from django.contrib import messages
-from django.forms.extras.widgets import SelectDateWidget
 
-from djspace.core.models import BIRTH_YEAR_CHOICES
-from djspace.core.models import DISABILITY_CHOICES
-from djspace.core.models import EMPLOYMENT_CHOICES
-from djspace.core.models import GenericChoice
-from djspace.core.models import Photo
-from djspace.core.models import REG_TYPE
-from djspace.core.models import UserFiles
-from djspace.core.models import UserProfile
-from djtools.fields import GENDER_CHOICES
-from djtools.fields import SALUTATION_TITLES
-from djtools.fields import STATE_CHOICES
-from djtools.fields import BINARY_CHOICES
-from djtools.fields.localflavor import USPhoneNumberField
-
-from allauth.account.models import EmailAddress
-from collections import OrderedDict
 from datetime import date
 from pathlib import Path
 
-DOB_YEAR = date.today().year-10
+from allauth.account.models import EmailAddress
+from django import forms
+from django.contrib import messages
+from django.forms.extras.widgets import SelectDateWidget
+from djspace.core.models import DISABILITY_CHOICES
+from djspace.core.models import EMPLOYMENT_CHOICES
+from djspace.core.models import REG_TYPE
+from djspace.core.models import GenericChoice
+from djspace.core.models import Photo
+from djspace.core.models import UserFiles
+from djspace.core.models import UserProfile
+from djtools.fields import BINARY_CHOICES
+from djtools.fields import GENDER_CHOICES
+from djtools.fields import SALUTATION_TITLES
+from djtools.fields import STATE_CHOICES
+from djtools.fields.localflavor import USPhoneNumberField
+
+
+DOB_YEAR = date.today().year - 10
 RACES = GenericChoice.objects.filter(tags__name__in=['Race']).order_by('ranking')
 
 
@@ -30,7 +29,7 @@ class EmailApplicantsForm(forms.Form):
     """Email form for sending email to applicants."""
 
     content = forms.CharField(
-        required=True, widget=forms.Textarea, label="Email content"
+        required=True, widget=forms.Textarea, label="Email content",
     )
     title = forms.CharField(max_length=50, widget=forms.HiddenInput())
     content_type = forms.CharField(max_length=8, widget=forms.HiddenInput())

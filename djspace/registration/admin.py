@@ -1,88 +1,136 @@
-from django.contrib import admin
-from django.http import HttpResponse
-from django.utils.encoding import smart_str
-from django.core.urlresolvers import reverse
-from django.forms.models import model_to_dict
-
-from djspace.core.admin import GenericAdmin, PROFILE_LIST
-from djspace.registration.models import *
+# -*- coding: utf-8 -*-
 
 import csv
 
+from django.contrib import admin
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.utils.encoding import smart_str
+from djspace.core.admin import PROFILE_LIST
+from djspace.core.admin import GenericAdmin
+from djspace.registration.models import *
+
+
 PROFILE_HEADERS = [
-    'Salutation','First Name','Second Name','Last Name',
-    'Email', 'Email auxiliary', 'Phone Primary', 'Phone Mobile',
-    'Permanent Address 1','Address 2','City','State','Postal Code',
-    'Current Address 1','Address 2','City','State','Postal Code',
-    'Date of Birth', 'Gender','Race','Tribe',
-    'Disability','Disability Specifics', 'Employment','Military',
-    'U.S. Citizen','Registration Type','WSGC Affiliate'
+    'Salutation',
+    'First Name',
+    'Second Name',
+    'Last Name',
+    'Email',
+    'Email auxiliary',
+    'Phone Primary',
+    'Phone Mobile',
+    'Permanent Address 1',
+    'Address 2',
+    'City',
+    'State',
+    'Postal Code',
+    'Current Address 1',
+    'Address 2',
+    'City',
+    'State',
+    'Postal Code',
+    'Date of Birth',
+    'Gender',
+    'Race',
+    'Tribe',
+    'Disability',
+    'Disability Specifics',
+    'Employment',
+    'Military',
+    'U.S. Citizen',
+    'Registration Type',
+    'WSGC Affiliate',
 ]
 
 
-def get_profile_fields(obj):
-    reg = obj.user
+def get_profile_fields(registrant):
+    """Obtain the fields for the Profile data model."""
+    reg = registrant.user
     try:
-        affiliate =  reg.profile.get_registration().wsgc_affiliate
+        affiliate = reg.profile.get_registration().wsgc_affiliate
         if not affiliate:
-            affiliate =  reg.profile.get_registration().wsgc_affiliate_other
-    except:
+            affiliate = reg.profile.get_registration().wsgc_affiliate_other
+    except Except:
         affiliate = None
 
-    race = [r.name for r in reg.profile.race.all()]
-    fields = [
+    race = [raza.name for raza in reg.profile.race.all()]
+    return [
         reg.profile.salutation,
         smart_str(
             reg.first_name,
-            encoding='utf-8', strings_only=False, errors='strict'
+            encoding='utf-8',
+            strings_only=False,
+            errors='strict',
         ),
         smart_str(
             reg.profile.second_name,
-            encoding='utf-8', strings_only=False, errors='strict'
+            encoding='utf-8',
+            strings_only=False,
+            errors='strict',
         ),
         smart_str(
             reg.last_name,
-            encoding='utf-8', strings_only=False, errors='strict'
+            encoding='utf-8',
+            strings_only=False,
+            errors='strict',
         ),
-        reg.email,reg.profile.email_auxiliary(),
-        reg.profile.phone_primary,reg.profile.phone_mobile,
-        reg.profile.address1,reg.profile.address2,reg.profile.city,
-        reg.profile.state,reg.profile.postal_code,
-        reg.profile.address1_current,reg.profile.address2_current,
-        reg.profile.city_current,reg.profile.state_current,
+        reg.email,
+        reg.profile.email_auxiliary(),
+        reg.profile.phone_primary,
+        reg.profile.phone_mobile,
+        reg.profile.address1,
+        reg.profile.address2,
+        reg.profile.city,
+        reg.profile.state,
+        reg.profile.postal_code,
+        reg.profile.address1_current,
+        reg.profile.address2_current,
+        reg.profile.city_current,
+        reg.profile.state_current,
         reg.profile.postal_code_current,
-        reg.profile.date_of_birth,reg.profile.gender,
+        reg.profile.date_of_birth,
+        reg.profile.gender,
         ' '.join(race),
         smart_str(
             reg.profile.tribe,
-            encoding='utf-8', strings_only=False, errors='strict'
+            encoding='utf-8',
+            strings_only=False,
+            errors='strict',
         ),
-        reg.profile.disability,reg.profile.disability_specify,
-        reg.profile.employment,reg.profile.military,reg.profile.us_citizen,
-        reg.profile.registration_type, affiliate
+        reg.profile.disability,
+        reg.profile.disability_specify,
+        reg.profile.employment,
+        reg.profile.military,
+        reg.profile.us_citizen,
+        reg.profile.registration_type,
+        affiliate,
     ]
-    return fields
 
 
 def export_registrants(modeladmin, request, queryset):
-    """
-    Export registration data to CSV
-    """
+    """Export registration data to CSV."""
     exclude = [
-        "user", "user_id", "updated_by", "updated_by_id", "id",
-        "date_created", "date_updated", "wsgc_affiliate_id",
-        "wsgc_affiliate_id"
+        'user',
+        'user_id',
+        'updated_by',
+        'updated_by_id',
+        'id',
+        'date_created',
+        'date_updated',
+        'wsgc_affiliate_id',
+        'wsgc_affiliate_id',
     ]
-    response = HttpResponse("", content_type="text/csv; charset=utf-8")
-    filename = "{}.csv".format(modeladmin)
-    response['Content-Disposition']='attachment; filename={}'.format(filename)
+    response = HttpResponse('', content_type='text/csv; charset=utf-8')
+    filename = '{0}.csv'.format(modeladmin)
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
     writer = csv.writer(response)
-    field_names = [f.name for f in modeladmin.model._meta.get_fields()]
+    field_names = [field.name for field in modeladmin.model._meta.get_fields()]
     headers = PROFILE_HEADERS[0:-1] + field_names
     # remove unwanted headers
-    for e in exclude:
-        if e in headers:
-            headers.remove(e)
+    for ex in exclude:
+        if ex in headers:
+            headers.remove(ex)
     writer.writerow(headers)
 
     for reg in queryset:
@@ -91,130 +139,67 @@ def export_registrants(modeladmin, request, queryset):
         for field in field_names:
             if field not in exclude:
                 try:
-                    val = unicode(
-                        getattr(reg, field, None)
-                    ).encode("utf-8", "ignore")
-                except:
-                    val = ''
-                fields.append(val)
+                    field_val = getattr(reg, field, None)
+                except Exception:
+                    field_val = ''
+                fields.append(field_val)
         writer.writerow(fields)
     return response
+
 
 export_registrants.short_description = "Export Registrants"
 
 
 class UndergraduateAdmin(GenericAdmin):
+    """Undergraduate Admin model."""
 
     model = Undergraduate
     actions = [export_registrants]
     list_display = PROFILE_LIST
-    list_filter   = ()
+    list_filter = ()
 
-    def last_name(self, obj):
-        return u'<a href="{}">{}</a>'.format(
-            reverse("registration_print", args=[obj.user.id]),
-            obj.user.last_name
+    def last_name(self, instance):
+        """Construct the link to the print view."""
+        return '<a href="{0}">{1}</a>'.format(
+            reverse('registration_print', args=[instance.user.id]),
+            instance.user.last_name,
         )
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
 
-    def first_name(self, obj):
-        return obj.user.first_name
+    def first_name(self, instance):
+        """Return the user's first name."""
+        return instance.user.first_name
 
 
-class GraduateAdmin(GenericAdmin):
+class GraduateAdmin(UndergraduateAdmin):
+    """Graduate Admin model."""
 
     model = Graduate
-    actions = [export_registrants]
-    list_display = PROFILE_LIST
-    list_filter   = ()
-
-    def last_name(self, obj):
-        return u'<a href="{}">{}</a>'.format(
-            reverse("registration_print", args=[obj.user.id]),
-            obj.user.last_name
-        )
-    last_name.allow_tags = True
-    last_name.short_description = 'Last Name (print)'
-
-    def first_name(self, obj):
-        return obj.user.first_name
 
 
-class FacultyAdmin(GenericAdmin):
+class FacultyAdmin(UndergraduateAdmin):
+    """Faculty Admin model."""
 
     model = Faculty
-    actions = [export_registrants]
-    list_display = PROFILE_LIST
-    list_filter   = ()
-
-    def last_name(self, obj):
-        return u'<a href="{}">{}</a>'.format(
-            reverse("registration_print", args=[obj.user.id]),
-            obj.user.last_name
-        )
-    last_name.allow_tags = True
-    last_name.short_description = 'Last Name (print)'
-
-    def first_name(self, obj):
-        return obj.user.first_name
 
 
-class GrantsOfficerAdmin(GenericAdmin):
+class GrantsOfficerAdmin(UndergraduateAdmin):
+    """Grants Officer Admin model."""
 
     model = GrantsOfficer
-    actions = [export_registrants]
-    list_display = PROFILE_LIST
-    list_filter   = ()
-
-    def last_name(self, obj):
-        return u'<a href="{}">{}</a>'.format(
-            reverse("registration_print", args=[obj.user.id]),
-            obj.user.last_name
-        )
-    last_name.allow_tags = True
-    last_name.short_description = 'Last Name (print)'
-
-    def first_name(self, obj):
-        return obj.user.first_name
 
 
-class HighSchoolAdmin(GenericAdmin):
+class HighSchoolAdmin(UndergraduateAdmin):
+    """High School Admin model."""
 
     model = HighSchool
-    actions = [export_registrants]
-    list_display = PROFILE_LIST
-    list_filter   = ()
-
-    def last_name(self, obj):
-        return u'<a href="{}">{}</a>'.format(
-            reverse("registration_print", args=[obj.user.id]),
-            obj.user.last_name
-        )
-    last_name.allow_tags = True
-    last_name.short_description = 'Last Name (print)'
-
-    def first_name(self, obj):
-        return obj.user.first_name
 
 
-class ProfessionalAdmin(GenericAdmin):
+class ProfessionalAdmin(UndergraduateAdmin):
+    """Professional Admin model."""
 
     model = Professional
-    actions = [export_registrants]
-    list_display = PROFILE_LIST
-    list_filter   = ()
-
-    def last_name(self, obj):
-        return u'<a href="{}">{}</a>'.format(
-            reverse("registration_print", args=[obj.user.id]),
-            obj.user.last_name
-        )
-    last_name.allow_tags = True
-    last_name.short_description = 'Last Name (print)'
-
-    def first_name(self, obj):
-        return obj.user.first_name
 
 
 admin.site.register(HighSchool, HighSchoolAdmin)

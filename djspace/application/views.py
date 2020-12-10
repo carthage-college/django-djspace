@@ -1,38 +1,39 @@
 # -*- coding: utf-8 -*-
-import django
+
 import os
 
+import django
 from django.conf import settings
-from django.db.models import Count
-from django.template import loader
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.db.models import Count
+from django.http import Http404
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.template import loader
+from django.views.decorators.csrf import csrf_exempt
 from djspace.application.forms import *
-from djspace.application.models import (
-    EDUCATION_INITITATIVES_PROGRAMS, ProfessionalProgramStudent,
-    ROCKET_LAUNCH_COMPETITION_WITH_LIMIT, PROFESSIONAL_PROGRAMS,
-    STUDENT_PROFESSIONAL_PROGRAMS
-)
-from djspace.core.models import UserFiles
+from djspace.application.models import EDUCATION_INITITATIVES_PROGRAMS
+from djspace.application.models import PROFESSIONAL_PROGRAMS
+from djspace.application.models import ROCKET_LAUNCH_COMPETITION_WITH_LIMIT
+from djspace.application.models import STUDENT_PROFESSIONAL_PROGRAMS
+from djspace.application.models import ProfessionalProgramStudent
 from djspace.core.forms import UserFilesForm
+from djspace.core.models import UserFiles
 from djspace.core.utils import profile_status
-from djspace.core.utils import get_start_date
-
+from djtools.fields import TODAY
 from djtools.fields.helpers import handle_uploaded_file
 from djtools.utils.convert import str_to_class
 from djtools.utils.mail import send_mail
-from djtools.fields import TODAY
 
 
 @login_required
 def application_form(request, application_type, aid=None):
-
+    """All purpose view for all program applications."""
     # munge the application type
     slug_list = application_type.split('-')
     app_name = slug_list.pop(0).capitalize()
@@ -46,7 +47,7 @@ def application_form(request, application_type, aid=None):
         mod = django.apps.apps.get_model(
             app_label='application', model_name=app_type,
         )
-    except:
+    except Exception:
         raise Http404
 
     # supes can update someone else's application
@@ -64,7 +65,7 @@ def application_form(request, application_type, aid=None):
             # prevent users from managing apps that are not theirs
             try:
                 app = mod.objects.get(pk=aid, user=user)
-            except:
+            except Exception:
                 return HttpResponseRedirect(reverse('dashboard_home'))
             # verify that create_date is after grant cycle began
             # or that if the app is complete:
@@ -75,7 +76,7 @@ def application_form(request, application_type, aid=None):
     # userfiles
     try:
         userfiles = UserFiles.objects.get(user=user)
-    except:
+    except Exception:
         userfiles = UserFiles(user=user)
         userfiles.save()
     # UserFilesForm
@@ -85,10 +86,9 @@ def application_form(request, application_type, aid=None):
     reg_type = user.profile.registration_type
     try:
         mod = django.apps.apps.get_model(
-            app_label='registration', model_name=reg_type
+            app_label='registration', model_name=reg_type,
         )
-        reg = mod.objects.get(user=user)
-    except:
+    except Exception:
         if not superuser:
             # redirect to dashboard
             return HttpResponseRedirect(reverse('dashboard_home'))
@@ -103,14 +103,14 @@ def application_form(request, application_type, aid=None):
     teams = None
     if 'rocket-competition' in application_type:
         teams = RocketLaunchTeam.objects.filter(
-            competition__contains=app_name[:12]
+            competition__contains=app_name[:12],
         )
 
         if application_type != 'first-nations-rocket-competition':
             teams = teams.annotate(
-                count=Count('members')
+                count=Count('members'),
             ).exclude(
-                count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT
+                count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT,
             ).order_by('name')
 
         if not teams:
@@ -132,15 +132,15 @@ def application_form(request, application_type, aid=None):
         # so that they can upload files on the dashboard
         if application_type == 'rocket-launch-team' and app.co_advisor:
             # for autocomplete form field at the UI level
-            request.session['co_advisor_name'] = u'{}, {}'.format(
-                app.co_advisor.last_name, app.co_advisor.first_name
+            request.session['co_advisor_name'] = '{0}, {1}'.format(
+                app.co_advisor.last_name, app.co_advisor.first_name,
             )
             coa_orig = app.co_advisor
 
         if application_type == 'rocket-launch-team' and app.leader:
             # for autocomplete form field at the UI level
-            request.session['leader_name'] = u'{}, {}'.format(
-                app.leader.last_name, app.leader.first_name
+            request.session['leader_name'] = '{0}, {1}'.format(
+                app.leader.last_name, app.leader.first_name,
             )
             tl_orig = app.leader
 
@@ -148,21 +148,21 @@ def application_form(request, application_type, aid=None):
           or application_type == 'rocket-launch-team':
             if app.grants_officer:
                 # for autocomplete form field at the UI level
-                request.session['grants_officer_name'] = u'{0}, {1}'.format(
+                request.session['grants_officer_name'] = '{0}, {1}'.format(
                     app.grants_officer.last_name, app.grants_officer.first_name,
                 )
                 go_orig = app.grants_officer
 
     # fetch the form class
-    FormClass = str_to_class(
-        'djspace.application.forms', (app_type+'Form')
+    formclass = str_to_class(
+        'djspace.application.forms', '{0}Form'.format(app_type),
     )
     # fetch the form instance
     try:
-        form = FormClass(
-            instance=app, label_suffix='', use_required_attribute=False
+        form = formclass(
+            instance=app, label_suffix='', use_required_attribute=False,
         )
-    except:
+    except Exception:
         # app_type does not match an existing form
         raise Http404
     # GET or POST
@@ -174,10 +174,10 @@ def application_form(request, application_type, aid=None):
             program = (
                 application_type == 'rocket-launch-team' or
                 application_type == 'professional-program-student' or
-                application_type.replace('-','') in PROFESSIONAL_PROGRAMS
+                application_type.replace('-', '') in PROFESSIONAL_PROGRAMS
             )
             if program:
-                form = FormClass(
+                form = formclass(
                     instance=app,
                     data=post,
                     files=request.FILES,
@@ -186,7 +186,7 @@ def application_form(request, application_type, aid=None):
                     use_required_attribute=False,
                 )
             else:
-                form = FormClass(
+                form = formclass(
                     instance=app,
                     data=post,
                     files=request.FILES,
@@ -210,7 +210,7 @@ def application_form(request, application_type, aid=None):
                 form_user_files.fields['irs_w9'].required = True
         if form.is_valid() and form_user_files.is_valid():
             cd = form.cleaned_data
-            philes = form_user_files.save()
+            form_user_files.save()
 
             data = form.save(commit=False)
             # we do not want to change owner of an application if a manager
@@ -229,7 +229,7 @@ def application_form(request, application_type, aid=None):
             # save media_release and w9 files to UserProfileFiles
             try:
                 uf = user.user_files
-            except:
+            except Exception:
                 uf = UserFiles(user=user)
             if request.FILES.get('media_release'):
                 file_root = '{0}/{1}/{2}/'.format(
@@ -241,18 +241,18 @@ def application_form(request, application_type, aid=None):
                 media_release = handle_uploaded_file(
                     request.FILES['media_release'],
                     path,
-                    u'{0}_media_release'.format(uf.get_file_name()),
+                    '{0}_media_release'.format(uf.get_file_name()),
                 )
-                uf.media_release = u'{0}{1}'.format(file_root, media_release)
+                uf.media_release = '{0}{1}'.format(file_root, media_release)
                 uf.save()
 
             # deal with FK relationships for programs
             if application_type == 'professional-program-student':
                 program = cd['program']
-                excludes = ['CaNOP','MicroPropellantGauging','NasaInternship']
+                excludes = ['CaNOP', 'MicroPropellantGauging', 'NasaInternship']
                 if program not in excludes:
                     mod = django.apps.apps.get_model(
-                        app_label='application', model_name=program
+                        app_label='application', model_name=program,
                     )
                     pk = request.POST.get('program_submissions')
                     if pk:
@@ -288,10 +288,10 @@ def application_form(request, application_type, aid=None):
                         task.delete()
                 # add or update tasks
                 # len could use any of the above 5 lists from POST
-                for i in range (0,len(tid)):
+                for i in range(0, len(tid)):
                     try:
                         task = WorkPlanTask.objects.get(pk=tid[i])
-                    except:
+                    except Exception:
                         task = WorkPlanTask()
                         task.industry_internship = data
                     task.title = title[i]
@@ -362,7 +362,7 @@ def application_form(request, application_type, aid=None):
                     # new application or new co-advisor on update
                     go.profile.applications.add(data)
             # email confirmation
-            template = 'application/email/{}.html'.format(application_type)
+            template = 'application/email/{0}.html'.format(application_type)
             if not settings.DEBUG:
                 # email distribution list and bcc parameters
                 to_list = [settings.WSGC_APPLICATIONS]
@@ -371,7 +371,7 @@ def application_form(request, application_type, aid=None):
                 to_list.append(data.user.email)
                 if aid:
                     app_name += ' (UPDATED)'
-                subject = u'{0} {1}: {2}, {3}'.format(
+                subject = '{0} {1}: {2}, {3}'.format(
                     app_name,
                     date,
                     data.user.last_name,
@@ -419,7 +419,7 @@ def application_form(request, application_type, aid=None):
         {
             'form': form,
             'app_name': app_name,
-            'obj':app,
+            'obj': app,
             'form_user_files': form_user_files,
         },
     )
@@ -428,7 +428,7 @@ def application_form(request, application_type, aid=None):
 @csrf_exempt
 @login_required
 def get_program_submissions(request):
-
+    """Obtain the program submissions."""
     programs = None
 
     if request.is_ajax() and request.method == 'POST':
@@ -437,7 +437,7 @@ def get_program_submissions(request):
         aid = None
         if request.POST.get('aid') != '0':
             pk = int(request.POST.get('aid'))
-            app = ProfessionalProgramStudent.objects.get(pk = pk)
+            app = ProfessionalProgramStudent.objects.get(pk=pk)
             app_prog = getattr(app, program)
 
             if app_prog:
@@ -446,37 +446,30 @@ def get_program_submissions(request):
         user = User.objects.get(pk=mentor_id)
         try:
             mod = django.apps.apps.get_model(
-                app_label='application', model_name=program
+                app_label='application', model_name=program,
             )
             programs = mod.objects.filter(user=user)
-        except:
+        except Exception:
             programs = None
 
-    t = loader.get_template('application/get_program_submissions.inc.html')
-    template = t.render({'programs':programs,'aid':aid}, request),
-
-    return HttpResponse(
-        template, content_type='text/plain; charset=utf-8'
-    )
+    template = loader.get_template('application/get_program_submissions.inc.html')
+    template = template.render({'programs': programs, 'aid': aid}, request)
+    return HttpResponse(template, content_type='text/plain; charset=utf-8')
 
 
 @login_required
 def application_print(request, application_type, aid):
-    '''
-    AKA (by the wsgc folks): the demographic page/view
-    '''
-
+    """Print view for applications. AKA: the demographic page/view."""
     user = request.user
-
     # munge the application type
     slug_list = application_type.split('-')
     app_name = slug_list.pop(0).capitalize()
-    for n in slug_list:
-        app_name += ' {}'.format(n.capitalize())
+    for slug in slug_list:
+        app_name += ' {0}'.format(slug.capitalize())
     app_type = ''.join(app_name.split(' '))
 
     mod = django.apps.apps.get_model(
-        app_label='application', model_name=app_type
+        app_label='application', model_name=app_type,
     )
 
     data = get_object_or_404(mod, pk=aid)
@@ -484,11 +477,14 @@ def application_print(request, application_type, aid):
     if data.user == user or user.is_superuser:
         try:
             files = data.user.user_files
-        except:
+        except Exception:
             files = None
 
         # deal with user profile files
-        mugshot_status=biography_status=irs_w9_status=media_release_status = None
+        mugshot_status = None
+        biography_status = None
+        irs_w9_status = None
+        media_release_status = None
         if files:
             mugshot_status = files.status('mugshot')
             biography_status = files.status('biography')
@@ -496,16 +492,16 @@ def application_print(request, application_type, aid):
             media_release_status = files.status('media_release')
 
         response = render(
-            request, 'application/email/{}.html'.format(application_type),
+            request,
+            'application/email/{0}.html'.format(application_type),
             {
                 'data': data,
-                'mugshot_status':mugshot_status,
-                'biography_status':biography_status,
-                'irs_w9_status':irs_w9_status,
-                'media_release_status':media_release_status
-            }
+                'mugshot_status': mugshot_status,
+                'biography_status': biography_status,
+                'irs_w9_status': irs_w9_status,
+                'media_release_status': media_release_status,
+            },
         )
-
     else:
         response = HttpResponseRedirect(reverse('dashboard_home'))
 
@@ -514,38 +510,40 @@ def application_print(request, application_type, aid):
 
 @staff_member_required
 def application_export(request, application_type):
+    """Export applications."""
     users = User.objects.all().order_by('last_name')
 
     exports = []
     for user in users:
         try:
             apps = user.profile.applications.all()
-        except:
+        except Exception:
             apps = None
         if apps:
-            for a in apps:
-                if a.get_slug() == application_type:
-                    exports.append({'user':user,'app':a})
-                    program = a.get_application_type()
+            for app in apps:
+                if app.get_slug() == application_type:
+                    exports.append({'user': user, 'app': app})
+                    program = app.get_application_type()
 
     if settings.DEBUG:
         response = render(
-            request, 'application/export.html',
-            {'exports': exports,'program':program,'year':TODAY.year},
-            content_type='text/plain; charset=utf-8'
+            request,
+            'application/export.html',
+            {'exports': exports, 'program': program, 'year': TODAY.year},
+            content_type='text/plain; charset=utf-8',
         )
     else:
         response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(
-            application_type
+        response['Content-Disposition'] = 'attachment; filename="{0}.csv"'.format(
+            application_type,
         )
 
-        t = loader.get_template('application/export.html')
+        template = loader.get_template('application/export.html')
         context = {
             'exports': exports,
-            'program':program,
-            'year':TODAY.year
+            'program': program,
+            'year': TODAY.year,
         }
-        response.write(t.render(context, request))
+        response.write(template.render(context, request))
 
     return response

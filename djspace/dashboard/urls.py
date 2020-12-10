@@ -1,27 +1,18 @@
-from django.contrib import admin
-from django.conf.urls import url
+# -*- coding: utf-8 -*-
+
+"""URLs for all views."""
+
+from django.urls import path
 
 from djspace.dashboard import views
 
+
 urlpatterns = [
-    url(
-        r'^get-users/$',
-        views.get_users, name='get_users'
+    path('get-users/', views.get_users, name='get_users'),
+    path('set-val/', views.set_val, name='set_val'),
+    path(
+        'registration-type/', views.registration_type, name='registration_type',
     ),
-    url(
-        r'^set-val/$',
-        views.set_val, name='set_val'
-    ),
-    url(
-        r'^registration-type/$',
-        views.registration_type, name='registration_type'
-    ),
-    url(
-        r'^profile/$',
-        views.profile_form, name='dashboard_profile'
-    ),
-    url(
-        r'^$',
-        views.home, name='dashboard_home'
-    )
+    path('profile/', views.profile_form, name='dashboard_profile'),
+    path('', views.home, name='dashboard_home'),
 ]
