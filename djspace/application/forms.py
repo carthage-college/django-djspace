@@ -10,7 +10,6 @@ from django.utils.safestring import mark_safe
 from djspace.application.models import *
 from djspace.core.models import PAST_FUNDING_YEAR_CHOICES
 from djspace.core.utils import get_start_date
-from djspace.core.utils import upload_to_path
 from djtools.fields import BINARY_CHOICES
 from djtools.fields.localflavor import USPhoneNumberField
 
@@ -813,9 +812,6 @@ class WomenInAviationScholarshipForm(forms.ModelForm):
     """Women in Aviation Scholarship form."""
 
     statement = forms.FileField(
-        upload_to=partial(upload_to_path, 'Statement'),
-        validators=FILE_VALIDATORS,
-        max_length=255,
         help_text=mark_safe("""
             Maximum two-page statement containing the following:
             <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">

@@ -14,11 +14,11 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from django.urls import reverse
 from djspace.core.utils import get_email_auxiliary
 from djspace.core.utils import get_start_date
 from djspace.core.utils import profile_status
@@ -156,9 +156,12 @@ class Photo(models.Model):
         help_text="JPEG only",
     )
     caption = models.TextField(null=True, blank=True)
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey(
+        'content_type',
+        'object_id',
+    )
 
     def __str__(self):
         """Default display value in unicode encoding."""
@@ -206,7 +209,7 @@ class Base(models.Model):
         abstract = True
 
     # meta
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     date_created = models.DateTimeField("Date Created", auto_now_add=True)
     date_updated = models.DateTimeField("Date Updated", auto_now=True)
     updated_by = models.ForeignKey(
@@ -214,6 +217,7 @@ class Base(models.Model):
         verbose_name="Updated by",
         related_name='%(app_label)s_%(class)s_related',
         editable=False,
+        on_delete=models.PROTECT,
     )
 
     def get_content_type(self):
@@ -398,7 +402,10 @@ class UserFiles(models.Model):
     """User profile files."""
 
     user = models.OneToOneField(
-        User, related_name='user_files', editable=False,
+        User,
+        related_name='user_files',
+        editable=False,
+        on_delete=models.PROTECT,
     )
     mugshot = models.FileField(
         "Photo",
@@ -478,12 +485,15 @@ class UserProfile(models.Model):
     """User profile for the django user class."""
 
     # meta
-    user = models.OneToOneField(User, related_name='profile')
+    user = models.OneToOneField(
+        User, related_name='profile', on_delete=models.PROTECT,
+    )
     updated_by = models.ForeignKey(
         User,
         verbose_name="Updated by",
         related_name='user_profile_updated_by',
         editable=False,
+        on_delete=models.PROTECT,
     )
     date_created = models.DateTimeField("Date Created", auto_now_add=True)
     date_updated = models.DateTimeField("Date Updated", auto_now=True)

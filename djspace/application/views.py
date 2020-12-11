@@ -7,7 +7,6 @@ from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django.http import Http404
 from django.http import HttpResponse
@@ -15,6 +14,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.template import loader
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from djspace.application.forms import *
 from djspace.application.models import EDUCATION_INITITATIVES_PROGRAMS

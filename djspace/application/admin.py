@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import csv
-import glob
-import io
-import os
 import tarfile
+from io import BytesIO
 
 from django import forms
 from django.conf import settings
@@ -12,25 +10,23 @@ from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin.helpers import ActionForm
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template import loader
-from django.utils.text import Truncator
-from django.utils.html import strip_tags
+from django.urls import reverse
+from django.urls import reverse_lazy
 from django.utils.encoding import smart_bytes
 from django.utils.encoding import smart_str
+from django.utils.html import strip_tags
+from django.utils.text import Truncator
 from djspace.application.models import *
-from djspace.core.admin import GenericAdmin
 from djspace.core.admin import PROFILE_LIST_DISPLAY
+from djspace.core.admin import GenericAdmin
 from djspace.core.models import UserFiles
 from djspace.core.utils import admin_display_file
-from djspace.core.utils import get_start_date
-from djspace.registration.admin import get_profile_fields
 from djspace.registration.admin import PROFILE_HEADERS
+from djspace.registration.admin import get_profile_fields
 from djtools.fields import TODAY
-from io import BytesIO
 from openpyxl import load_workbook
 from openpyxl.writer.excel import save_virtual_workbook
 
@@ -72,38 +68,38 @@ FUNDED_FILES = (
 
 def required_files(modeladmin, request, queryset):
     """Export required program files for all applicants to a tarball."""
-    if not queryset:
-        messages.add_message(
-            request,
-            messages.ERROR,
-            "Currently, there are no applications for this program.",
-            extra_tags='danger',
-        )
-        return HttpResponseRedirect(
-            reverse_lazy(
-                'admin:application_{0}_changelist'.format(object_name.lower()),
-            )
-        )
-    else:
+    if queryset:
         object_name = modeladmin.model._meta.object_name
         response = HttpResponse(content_type='application/x-gzip')
         response['Content-Disposition'] = 'attachment; filename={0}.tar.gz'.format(
             object_name,
         )
         tar_ball = tarfile.open(fileobj=response, mode='w:gz')
-        for obj in queryset:
-            for field in obj.required_files():
-                if field != 'media_release':
-                    phile = getattr(obj, field)
+        for instance in queryset:
+            for field in instance.required_files():
+                if field == 'media_release':
+                    phile = instance.user.user_files.media_release
                 else:
-                    phile = obj.user.user_files.media_release
+                    phile = getattr(instance, field)
                 if phile:
                     path = phile.path
                     path_list = path.split('/')
                     name = path_list[-1]
                     tar_ball.add(path, arcname=name)
         tar_ball.close()
-        return response
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            "Currently, there are no applications for this program.",
+            extra_tags='danger',
+        )
+        response = HttpResponseRedirect(
+            reverse_lazy(
+                'admin:application_{0}_changelist'.format(object_name.lower()),
+            ),
+        )
+    return response
 
 
 def export_required_files(modeladmin, request, queryset):
@@ -116,33 +112,35 @@ export_required_files.short_description = "Export Required Files"
 
 def photo_files(modeladmin, request, queryset):
     """Export photos for all applicants to a tarball."""
-    if not queryset:
-        messages.add_message(
-            request, messages.ERROR,
-            "Currently, there are no applications for this program.",
-            extra_tags='danger',
-        )
-        return HttpResponseRedirect(
-            reverse_lazy(
-                'admin:application_{0}_changelist'.format(object_name.lower()),
-            )
-        )
-    else:
+    if queryset:
         object_name = modeladmin.model._meta.object_name
         response = HttpResponse(content_type='application/x-gzip')
         response['Content-Disposition'] = 'attachment; filename={0}.tar.gz'.format(
             object_name,
         )
         tar_ball = tarfile.open(fileobj=response, mode='w:gz')
-        for obj in queryset:
-            fotos = obj.photos.all()
-            for i in range(len(fotos)):
-                path = '{}/{}'.format(settings.MEDIA_ROOT, str(fotos[i].phile))
+        for instance in queryset:
+            fotos = instance.photos.all()
+            for index, foto in enumerate(fotos):
+                path = '{0}/{1}'.format(settings.MEDIA_ROOT, str(foto.phile))
                 path_list = path.split('/')
-                name = '{0}_{1}_{2}'.format(obj.id, i, path_list[-1])
+                name = '{0}_{1}_{2}'.format(instance.id, index, path_list[-1])
                 tar_ball.add(path, name)
         tar_ball.close()
-        return response
+    else:
+        messages.add_message(
+            request,
+            messages.ERROR,
+            "Currently, there are no applications for this program.",
+            extra_tags='danger',
+        )
+        response = HttpResponseRedirect(
+            reverse_lazy(
+                'admin:application_{0}_changelist'.format(object_name.lower()),
+            ),
+        )
+
+    return response
 
 
 def export_photo_files(modeladmin, request, queryset):
@@ -155,59 +153,38 @@ export_photo_files.short_description = "Export Photos"
 
 def longitudinal_tracking(modeladmin, request):
     """Export application data to OpenXML file."""
-    import logging
-    logger = logging.getLogger(__name__)
-
     users = User.objects.all().order_by('last_name')
     program = None
     exports = []
     for user in users:
         try:
             apps = user.profile.applications.all()
-        except:
+        except Exception:
             apps = None
         if apps:
             for app in apps:
-                if app._meta.object_name == modeladmin.model._meta.object_name \
-                  and app.status:
+                status = (
+                    app._meta.object_name == modeladmin.model._meta.object_name and
+                    app.status
+                )
+                if status:
                     exports.append({'user': user, 'app': app})
-                    #program = app.get_application_type()
                     program = app.get_slug()
 
-    wb = load_workbook(
-        '{0}/application/longitudinal_tracking.xlsx'.format(settings.ROOT_DIR),
-    )
-    ws = wb.active
     # this could all be accomplished by a list of lists but building a list
     # for each row would be ugly. this seems more pythonic, and we can reuse
     # for CSV export if need be.
-    t = loader.get_template('application/export.longitudinal.html')
-    c = {'exports': exports, 'program': program, 'year': TODAY.year}
+    template = loader.get_template('application/export.longitudinal.html')
+    context = {'exports': exports, 'program': program, 'year': TODAY.year}
     rendered_data = smart_bytes(
-        t.render(c, request),
+        template.render(context, request),
         encoding='utf-8',
         strings_only=False,
         errors='strict',
     )
-    # reader requires an object which supports the iterator protocol and
-    # returns a string each time its next() method is called. StringIO
-    # provides an in-memory, line by line stream of the template data.
-    #reader = csv.reader(io.StringIO(rendered_data), delimiter='|')
-    '''
-    reader = csv.reader(BytesIO(rendered_data), delimiter='|')
-    for row in reader:
-        ws.append(row)
-    # in memory response instead of save to file system
-    response = HttpResponse(
-        save_virtual_workbook(wb), content_type='application/ms-excel',
-    )
-    response['Content-Disposition'] = 'attachment;filename={0}.xlsx'.format(
-        program,
-    )
-    '''
     response = HttpResponse(rendered_data, content_type='text/csv')
     response['Content-Disposition'] = 'attachment;filename={0}.csv'.format(
-        program,
+        erogram,
     )
 
     return response
@@ -261,12 +238,12 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         'undergraduatescholarship',
     ]
 
-    field_names = [f.name for f in modeladmin.model._meta.get_fields()]
+    field_names = [field.name for field in modeladmin.model._meta.get_fields()]
     headers = PROFILE_HEADERS + field_names
     # remove unwanted headers
-    for e in exclude:
-        if e in headers:
-            headers.remove(e)
+    for exclu in exclude:
+        if exclu in headers:
+            headers.remove(exclu)
 
     bi = BytesIO()
     csv.register_dialect('pipes', delimiter='|')
@@ -315,7 +292,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         save_virtual_workbook(wb), content_type='application/ms-excel',
     )
 
-    response['Content-Disposition'] = 'attachment;filename={}.xlsx'.format(
+    response['Content-Disposition'] = 'attachment;filename={0}.xlsx'.format(
         reg.get_slug(),
     )
 
@@ -388,6 +365,8 @@ export_funded_files.short_description = "Export Funded Files"
 
 
 class TarballActionForm(ActionForm):
+    """Admin Form class for exporting data to a tarball."""
+
     phile = forms.CharField(
         label="File name",
         required=False,
@@ -396,10 +375,11 @@ class TarballActionForm(ActionForm):
 
 
 class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
+    """Admin class for High Altitude Balloon Payload."""
 
     model = HighAltitudeBalloonPayload
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'cv_file',
         'position',
         'commit_short',
@@ -422,25 +402,29 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     ]
 
     def cv_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
     def commit_short(self, instance):
+        """Return Commitment status."""
         return instance.commit
-    commit_short.short_description = "Commitement"
+    commit_short.short_description = "Commitment"
 
     def letter_interest_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'letter_interest')
     letter_interest_file.allow_tags = True
     letter_interest_file.short_description = "Interest"
 
 
 class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
+    """Admin class for High Altitude Balloon Launch."""
 
     model = HighAltitudeBalloonLaunch
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'cv_file',
         'letter_interest_file',
         'past_funding',
@@ -452,10 +436,11 @@ class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
 
 
 class ClarkGraduateFellowshipAdmin(GenericAdmin):
+    """Admin class for Clark Graduate Fellowhsip."""
 
     model = ClarkGraduateFellowship
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'signed_certification',
         'proposal_file',
         'cv_file',
@@ -497,84 +482,98 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     synopsis_trunk.short_description = "Synopsis truncated"
 
     def proposal_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'proposal')
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
     def cv_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
     def budget_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def undergraduate_transcripts_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'undergraduate_transcripts')
     undergraduate_transcripts_file.allow_tags = True
     undergraduate_transcripts_file.short_description = "UG Trans"
 
     def graduate_transcripts_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'graduate_transcripts')
     graduate_transcripts_file.allow_tags = True
     graduate_transcripts_file.short_description = "GR Trans"
 
     def recommendation_1_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'recommendation_1')
     recommendation_1_file.allow_tags = True
     recommendation_1_file.short_description = "Recom 1"
 
     def recommendation_2_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'recommendation_2')
     recommendation_2_file.allow_tags = True
     recommendation_2_file.short_description = "Recom 2"
 
 
 class GraduateFellowshipAdmin(ClarkGraduateFellowshipAdmin):
+    """Admin class for Graduate Fellowhsip."""
 
     model = GraduateFellowship
 
 
 class UndergraduateAdmin(GenericAdmin):
-    """
-    base admin class for the various undergrad applications
-    """
+    """Base admin class for the various undergrad applications."""
 
     action_form = TarballActionForm
     actions = [
-        export_longitudinal_tracking, export_all_applications,
-        export_required_files, export_funded_files, export_photo_files,
-        'email_applicants'
+        export_longitudinal_tracking,
+        export_all_applications,
+        export_required_files,
+        export_funded_files,
+        export_photo_files,
+        'email_applicants',
     ]
 
     def high_school_transcripts_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'high_school_transcripts')
     high_school_transcripts_file.allow_tags = True
     high_school_transcripts_file.short_description = "HS Trans"
 
     def undergraduate_transcripts_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'undergraduate_transcripts')
     undergraduate_transcripts_file.allow_tags = True
     undergraduate_transcripts_file.short_description = "UG Trans"
 
     def wsgc_advisor_recommendation_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'wsgc_advisor_recommendation')
     wsgc_advisor_recommendation_file.allow_tags = True
     wsgc_advisor_recommendation_file.short_description = "WSGC Advisor Recom"
 
     def recommendation_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'recommendation')
     recommendation_file.allow_tags = True
     recommendation_file.short_description = "Recommendation"
 
 
 class UndergraduateResearchAdmin(UndergraduateAdmin):
+    """Admin class for Undergraduate Research."""
 
     model = UndergraduateResearch
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'signed_certification',
         'proposal_file',
         'high_school_transcripts_file',
@@ -608,16 +607,18 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
     synopsis_trunk.short_description = "Synopsis truncated"
 
     def proposal_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'proposal')
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
 
 class UndergraduateScholarshipAdmin(UndergraduateAdmin):
+    """Admin class for Undergraduate Scholarship."""
 
     model = UndergraduateScholarship
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'signed_certification',
         'statement_file',
         'high_school_transcripts_file',
@@ -637,22 +638,26 @@ class UndergraduateScholarshipAdmin(UndergraduateAdmin):
     list_editable = ['funded_code', 'complete', 'status']
 
     def statement_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'statement')
     statement_file.allow_tags = True
     statement_file.short_description = 'Statement'
 
 
 class WomenInAviationScholarshipAdmin(UndergraduateScholarshipAdmin):
+    """Admin class for Women In Aviation Scholarship."""
 
     model = WomenInAviationScholarship
 
 
 class StemBridgeScholarshipAdmin(UndergraduateScholarshipAdmin):
+    """Admin class for STEM Bridge Scholarship."""
 
     model = StemBridgeScholarship
 
 
 class RocketLaunchTeamAdmin(GenericAdmin):
+    """Admin class for Rocke Launch Team (NOI)."""
 
     model = RocketLaunchTeam
 
@@ -681,7 +686,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'grants_officer__email',
     )
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'budget_file',
         'proposal_file',
         'interim_progress_report_file',
@@ -743,135 +748,156 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     co_advisor_name.allow_tags = True
     co_advisor_name.short_description = "Co-Advisor"
 
-    def leader_name(self, obj):
+    def leader_name(self, instance):
+        """Return the team leader's name as link to email address."""
         name = None
-        if obj.leader:
-            name = u'<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
-                obj.leader.email,
-                obj.leader.last_name,
-                obj.leader.first_name,
-                obj.leader.email,
+        if instance.leader:
+            name = '<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
+                instance.leader.email,
+                instance.leader.last_name,
+                instance.leader.first_name,
+                instance.leader.email,
             )
         return name
     leader_name.allow_tags = True
     leader_name.short_description = "Leader"
 
     def budget_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def proposal_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'proposal')
     proposal_file.allow_tags = True
     proposal_file.short_description = "Proposal"
 
     def interim_progress_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'interim_progress_report')
     interim_progress_report_file.allow_tags = True
     interim_progress_report_file.short_description = "CDR"
 
     def virtual_cdr_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'virtual_cdr')
     virtual_cdr_file.allow_tags = True
     virtual_cdr_file.short_description = "VCDR"
 
     def preliminary_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'preliminary_design_report')
     preliminary_design_report_file.allow_tags = True
     preliminary_design_report_file.short_description = "Prelim design"
 
     def virtual_pdr_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'virtual_pdr')
     virtual_pdr_file.allow_tags = True
     virtual_pdr_file.short_description = "VPDR"
 
     def final_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'final_design_report')
     final_design_report_file.allow_tags = True
     final_design_report_file.short_description = "Final Design Rpt"
 
     def flight_demo_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.flight_demo:
-            icon = '''
+            icon = """
               <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            '''.format(instance.flight_demo)
+            """.format(instance.flight_demo)
         return icon
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo URL"
 
     def final_motor_selection_trunk(self, instance):
+        """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.final_motor_selection:
-            icon = u'''
+            icon = """
               <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            '''.format(instance.final_motor_selection)
+            """.format(instance.final_motor_selection)
         return icon
     final_motor_selection_trunk.allow_tags = True
     final_motor_selection_trunk.short_description = "Final Motor"
 
     def lodging_list_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'lodging_list')
     lodging_list_file.allow_tags = True
     lodging_list_file.short_description = "Lodging"
 
     def critical_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'critical_design_report')
     critical_design_report_file.allow_tags = True
     critical_design_report_file.short_description = "Critical design"
 
     def oral_presentation_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'oral_presentation')
     oral_presentation_file.allow_tags = True
     oral_presentation_file.short_description = "Oral Pres."
 
     def post_flight_performance_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'post_flight_performance_report')
     post_flight_performance_report_file.allow_tags = True
     post_flight_performance_report_file.short_description = "Post flight"
 
     def education_outreach_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'education_outreach')
     education_outreach_file.allow_tags = True
     education_outreach_file.short_description = "Edu. Outreach"
 
     def flight_readiness_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'flight_readiness_report')
     flight_readiness_report_file.allow_tags = True
     flight_readiness_report_file.short_description = "Flight Ready"
 
     def virtual_frr_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'virtual_frr')
     virtual_frr_file.allow_tags = True
     virtual_frr_file.short_description = "VFRR"
 
     def openrocketrocksim_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'openrocketrocksim')
     openrocketrocksim_file.allow_tags = True
     openrocketrocksim_file.short_description = "ORK"
 
     def openrocketrocksim_file2(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'openrocketrocksim2')
     openrocketrocksim_file2.allow_tags = True
     openrocketrocksim_file2.short_description = "ORK2"
 
     def proceeding_paper_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.proceeding_paper:
-            icon = '''
+            icon = """
               <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            '''.format(instance.proceeding_paper)
+            """.format(instance.proceeding_paper)
         return icon
     proceeding_paper_file.allow_tags = True
     proceeding_paper_file.short_description = "Proceeding Paper Date"
 
 
 class CollegiateRocketCompetitionAdmin(GenericAdmin):
+    """Admin class for Collegiate Rocket Launch Competition."""
 
     model = CollegiateRocketCompetition
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'budget_file',
         'proposal_file',
         'preliminary_design_report_file',
@@ -904,104 +930,120 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
     ]
 
     def cv_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
     def budget_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'budget', team=True)
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def proposal_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'proposal', team=True)
     proposal_file.allow_tags = True
     proposal_file.short_description = "Proposal"
 
     def interim_progress_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'interim_progress_report', team=True)
     interim_progress_report_file.allow_tags = True
     interim_progress_report_file.short_description = "Interim Rpt"
 
     def preliminary_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'preliminary_design_report', team=True)
     preliminary_design_report_file.allow_tags = True
     preliminary_design_report_file.short_description = "Prelim design"
 
     def final_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'final_design_report', team=True)
     final_design_report_file.allow_tags = True
     final_design_report_file.short_description = "Final Design Rpt"
 
     def flight_demo_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.team.flight_demo:
-            icon = '''
+            icon = """
               <a href="{0}">
               <i class="fa fa-check green" aria-hidden="true" title="{1}"></i></a>
-            '''.format(instance.team.flight_demo, instance.team.flight_demo)
+            """.format(instance.team.flight_demo, instance.team.flight_demo)
         return icon
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo URL"
 
     def final_motor_selection_trunk(self, instance):
+        """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.team.final_motor_selection:
-            icon = u'''
+            icon = """
               <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            '''.format(instance.team.final_motor_selection)
+            """.format(instance.team.final_motor_selection)
         return icon
     final_motor_selection_trunk.allow_tags = True
     final_motor_selection_trunk.short_description = "Final Motor"
 
     def lodging_list_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'lodging_list', team=True)
     lodging_list_file.allow_tags = True
     lodging_list_file.short_description = "Lodging"
 
     def critical_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'critical_design_report', team=True)
     critical_design_report_file.allow_tags = True
     critical_design_report_file.short_description = "Critical design"
 
     def oral_presentation_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'oral_presentation', team=True)
     oral_presentation_file.allow_tags = True
     oral_presentation_file.short_description = "Oral Pres."
 
     def post_flight_performance_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(
-            instance, 'post_flight_performance_report', team=True
+            instance, 'post_flight_performance_report', team=True,
         )
     post_flight_performance_report_file.allow_tags = True
     post_flight_performance_report_file.short_description = "Post flight"
 
     def education_outreach_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'education_outreach', team=True)
     education_outreach_file.allow_tags = True
     education_outreach_file.short_description = "Edu. Outreach"
 
     def flight_readiness_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'flight_readiness_report', team=True)
     flight_readiness_report_file.allow_tags = True
     flight_readiness_report_file.short_description = "Flight Ready"
 
     def proceeding_paper_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.team.proceeding_paper:
-            icon = '''
+            icon = """
               <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            '''.format(instance.team.proceeding_paper)
+            """.format(instance.team.proceeding_paper)
         return icon
     proceeding_paper_file.allow_tags = True
     proceeding_paper_file.short_description = "Proceeding Paper Date"
 
 
 class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
+    """Admin class for Midwest High Powered Rocket Competition."""
 
     model = MidwestHighPoweredRocketCompetition
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'team',
         'cv_file',
         'past_funding',
@@ -1023,16 +1065,18 @@ class MidwestHighPoweredRocketCompetitionAdmin(GenericAdmin):
     ]
 
     def cv_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'cv')
     cv_file.allow_tags = True
     cv_file.short_description = "CV"
 
 
 class FirstNationsRocketCompetitionAdmin(GenericAdmin):
+    """Admin class for First Nations Rocket Launch Competition."""
 
     model = FirstNationsRocketCompetition
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'budget_file',
         'preliminary_design_report_file',
         'flight_demo_file',
@@ -1062,11 +1106,13 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     ]
 
     def budget_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'budget', team=True)
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def preliminary_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(
             instance, 'preliminary_design_report', team=True,
         )
@@ -1074,37 +1120,43 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     preliminary_design_report_file.short_description = "Prelim design"
 
     def flight_demo_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.team.flight_demo:
-            icon = '''
+            icon = """
               <a href="{0}">
               <i class="fa fa-check green" aria-hidden="true" title="{1}"></i></a>
-            '''.format(instance.team.flight_demo, instance.team.flight_demo)
+            """.format(instance.team.flight_demo, instance.team.flight_demo)
         return icon
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo URL"
 
     def proposal_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'proposal', team=True)
     proposal_file.allow_tags = True
     proposal_file.short_description = "Proposal"
 
     def lodging_list_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'lodging_list', team=True)
     lodging_list_file.allow_tags = True
     lodging_list_file.short_description = "Lodging"
 
     def critical_design_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'critical_design_report', team=True)
     critical_design_report_file.allow_tags = True
     critical_design_report_file.short_description = "Critical design"
 
     def oral_presentation_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'oral_presentation', team=True)
     oral_presentation_file.allow_tags = True
     oral_presentation_file.short_description = "Oral Pres."
 
     def post_flight_performance_report_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(
             instance, 'post_flight_performance_report', team=True,
         )
@@ -1113,10 +1165,11 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
 
 
 class HigherEducationInitiativesAdmin(GenericAdmin):
+    """Admin class for Higher Education Initiatives."""
 
     model = HigherEducationInitiatives
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'invoice_file',
         'close_out_finance_document_file',
         'project_title',
@@ -1165,6 +1218,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     ]
 
     def synopsis_trunk(self, instance):
+        """Return a truncated bit of text from synopsis for display."""
         return Truncator(instance.synopsis).words(
             25, html=True, truncate=" ...",
         )
@@ -1172,31 +1226,36 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     synopsis_trunk.short_description = "Synopsis truncated"
 
     def proposal_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'proposal')
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
     def invoice_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'invoice')
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
     def close_out_finance_document_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'close_out_finance_document')
     close_out_finance_document_file.allow_tags = True
-    close_out_finance_document_file.short_description = "Close Out Finance Document"
+    close_out_finance_document_file.short_description = "Close Out Finance Doc"
 
 
 class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
+    """Admin class for Research Infrastructure."""
 
     model = ResearchInfrastructure
 
 
 class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
+    """Admin class for Aerospace Outreach."""
 
     model = AerospaceOutreach
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'invoice_file',
         'close_out_finance_document_file',
         'project_title',
@@ -1230,9 +1289,10 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
 
 
 class NasaCompetitionAdmin(GenericAdmin):
+    """Admin class for NASA Competition."""
 
     model = NasaCompetition
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'invoice_file',
         'intended_program_match_file',
         'close_out_finance_document_file',
@@ -1283,44 +1343,53 @@ class NasaCompetitionAdmin(GenericAdmin):
     ]
 
     def budget_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def statement_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'statement')
     statement_file.allow_tags = True
     statement_file.short_description = 'Statement'
 
     def invoice_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'invoice')
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
     def intended_program_match_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'intended_program_match')
     intended_program_match_file.allow_tags = True
     intended_program_match_file.short_description = "Intended program match"
 
     def close_out_finance_document_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'close_out_finance_document')
     close_out_finance_document_file.allow_tags = True
-    close_out_finance_document_file.short_description = "Close Out Finance Document"
+    close_out_finance_document_file.short_description = "Close Out Finance Doc"
 
 
 class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
+    """Admin class for Special Initiatives."""
 
     model = SpecialInitiatives
 
 
 class WorkPlanTaskInline(admin.TabularInline):
+    """Inline Admin class for Work Plan Task."""
+
     model = WorkPlanTask
     fields = ('title', 'description', 'hours_percent', 'expected_outcome')
 
 
 class IndustryInternshipAdmin(GenericAdmin):
+    """Admin class for Industry Internship."""
 
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'budget_file',
         'invoice_file',
         'intended_program_match_file',
@@ -1355,33 +1424,38 @@ class IndustryInternshipAdmin(GenericAdmin):
         export_photo_files,
         'email_applicants',
     ]
-    inlines = [WorkPlanTaskInline,]
+    inlines = [WorkPlanTaskInline]
 
     def budget_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'budget')
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
     def invoice_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'invoice')
     invoice_file.allow_tags = True
     invoice_file.short_description = "Invoice"
 
     def intended_program_match_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'intended_program_match')
     intended_program_match_file.allow_tags = True
     intended_program_match_file.short_description = "Intended program match"
 
     def close_out_finance_document_file(self, instance):
+        """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'close_out_finance_document')
     close_out_finance_document_file.allow_tags = True
-    close_out_finance_document_file.short_description = "Close Out Finance Document"
+    close_out_finance_document_file.short_description = "Close Out Finance Doc"
 
 
 class ProfessionalProgramStudentAdmin(GenericAdmin):
+    """Admin class for Professional Program for Students."""
 
     model = ProfessionalProgramStudent
-    list_display  = PROFILE_LIST_DISPLAY + [
+    list_display = PROFILE_LIST_DISPLAY + [
         'program_link',
         'program_application_link',
         'mentor',
@@ -1400,30 +1474,23 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
     ]
 
     def program_application_link(self, instance):
+        """Return link to program application."""
         return instance.program_application_link()
     program_application_link.allow_tags = True
     program_application_link.short_description = "Program Application"
 
-    def program_link(self, obj):
-        link = '<a href="{0}">{1}</a>'.format(
+    def program_link(self, instance):
+        """Construct link to admin update view."""
+        return '<a href="{0}">{1}</a>'.format(
             reverse(
                 'admin:application_professionalprogramstudent_change',
-                args=(obj.id,),
+                args=(instance.id,),
             ),
-            obj.program,
+            instance.program,
         )
-        return link
     program_link.allow_tags = True
     program_link.short_description = 'Program Name (view/edit)'
 
-
-'''
-class WorkPlanTaskAdmin(admin.ModelAdmin):
-
-    model = WorkPlanTask
-    list_display = ['title', 'industry_internship',]
-    raw_id_fields = ('industry_internship',)
-'''
 
 admin.site.register(
     HigherEducationInitiatives, HigherEducationInitiativesAdmin,
@@ -1447,7 +1514,8 @@ admin.site.register(
     CollegiateRocketCompetition, CollegiateRocketCompetitionAdmin,
 )
 admin.site.register(
-    MidwestHighPoweredRocketCompetition, MidwestHighPoweredRocketCompetitionAdmin,
+    MidwestHighPoweredRocketCompetition,
+    MidwestHighPoweredRocketCompetitionAdmin,
 )
 admin.site.register(
     HighAltitudeBalloonLaunch, HighAltitudeBalloonLaunchAdmin,
@@ -1482,8 +1550,3 @@ admin.site.register(
 admin.site.register(
     ProfessionalProgramStudent, ProfessionalProgramStudentAdmin,
 )
-'''
-admin.site.register(
-    WorkPlanTask, WorkPlanTaskAdmin,
-)
-'''

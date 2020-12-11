@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from django.forms.extras.widgets import SelectDateWidget
 from djspace.core.models import BIRTH_YEAR_CHOICES
 from djspace.core.models import DISABILITY_CHOICES
 from djspace.core.models import REG_TYPE
@@ -44,7 +43,7 @@ class UserProfileForm(forms.ModelForm):
     )
     date_of_birth = forms.DateField(
         label="Date of birth",
-        widget=SelectDateWidget(years=BIRTH_YEAR_CHOICES),
+        widget=forms.SelectDateWidget(years=BIRTH_YEAR_CHOICES),
     )
     gender = forms.TypedChoiceField(
         choices=GENDER_CHOICES, widget=forms.RadioSelect(),

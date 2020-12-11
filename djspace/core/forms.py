@@ -6,7 +6,6 @@ from pathlib import Path
 from allauth.account.models import EmailAddress
 from django import forms
 from django.contrib import messages
-from django.forms.extras.widgets import SelectDateWidget
 from djspace.core.models import DISABILITY_CHOICES
 from djspace.core.models import EMPLOYMENT_CHOICES
 from djspace.core.models import REG_TYPE
@@ -66,7 +65,7 @@ class SignupForm(forms.Form):
     date_of_birth = forms.DateField(
         label="Date of birth",
         required=False,
-        widget=SelectDateWidget(years=range(DOB_YEAR, 1929, -1)),
+        widget=forms.SelectDateWidget(years=range(DOB_YEAR, 1929, -1)),
     )
     gender = forms.TypedChoiceField(
         choices=GENDER_CHOICES,

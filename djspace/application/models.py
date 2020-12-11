@@ -350,6 +350,7 @@ class HigherEducationInitiatives(EducationInitiatives):
     # grants officer user
     grants_officer = models.ForeignKey(
         User,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name="Grants Officer User",
@@ -383,10 +384,9 @@ class HigherEducationInitiatives(EducationInitiatives):
             award_type = 'MJR'
         return 'HEI{0}_{1}'.format(YEAR_2, award_type)
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -431,6 +431,7 @@ class ResearchInfrastructure(EducationInitiatives):
     # grants officer user
     grants_officer = models.ForeignKey(
         User,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name="Grants Officer User",
@@ -456,10 +457,9 @@ class ResearchInfrastructure(EducationInitiatives):
         """Slug for the application, used for many things."""
         return 'research-infrastructure'
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -473,6 +473,7 @@ class AerospaceOutreach(EducationInitiatives):
     # grants officer user
     grants_officer = models.ForeignKey(
         User,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name="Grants Officer User",
@@ -538,10 +539,9 @@ class AerospaceOutreach(EducationInitiatives):
             project_category = 'K12'
         return 'AOP{0}_{1}'.format(YEAR_2, project_category)
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -555,6 +555,7 @@ class SpecialInitiatives(EducationInitiatives):
     # grants officer user
     grants_officer = models.ForeignKey(
         User,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name="Grants Officer User",
@@ -617,10 +618,9 @@ class SpecialInitiatives(EducationInitiatives):
             project_category = 'K12'
         return 'SIP{0}_{1}'.format(YEAR_2, project_category)
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -638,6 +638,7 @@ class RocketLaunchTeam(BaseModel):
     )
     co_advisor = models.ForeignKey(
         User,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name="Co-Advisor",
@@ -645,11 +646,13 @@ class RocketLaunchTeam(BaseModel):
     )
     leader = models.ForeignKey(
         User,
+        on_delete=models.PROTECT,
         verbose_name="Team lead",
         related_name='rocket_launch_team_leader',
     )
     grants_officer = models.ForeignKey(
         User,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name="Grants Officer User",
@@ -976,10 +979,9 @@ class RocketLaunchTeam(BaseModel):
             self.leader.first_name,
         )
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     def required_files(self):
         """Used when building a tarball of required files."""
@@ -1093,6 +1095,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
+        on_delete=models.CASCADE,
         related_name='midwest_high_powered_rocket_competition',
     )
     cv = models.FileField(
@@ -1169,10 +1172,9 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('cv')
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class CollegiateRocketCompetition(BaseModel):
@@ -1181,6 +1183,7 @@ class CollegiateRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
+        on_delete=models.CASCADE,
         related_name='collegiate_rocket_competition',
     )
     cv = models.FileField(
@@ -1260,10 +1263,9 @@ class CollegiateRocketCompetition(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('cv')
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class FirstNationsRocketCompetition(BaseModel):
@@ -1272,6 +1274,7 @@ class FirstNationsRocketCompetition(BaseModel):
     # core
     team = models.ForeignKey(
         RocketLaunchTeam,
+        on_delete=models.CASCADE,
         related_name='first_nations_rocket_competition',
     )
     competition = models.CharField(
@@ -1327,10 +1330,9 @@ class FirstNationsRocketCompetition(BaseModel):
         """Used when building a tarball of required files."""
         return ['media_release']
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class HighAltitudeBalloon(BaseModel):
@@ -1421,10 +1423,9 @@ class HighAltitudeBalloon(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('team_biography')
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
@@ -1672,10 +1673,9 @@ class Fellowship(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('recommendation_2')
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class ClarkGraduateFellowship(Fellowship):
@@ -1891,10 +1891,9 @@ class UndergraduateResearch(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('recommendation')
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -2076,10 +2075,9 @@ class WomenInAviationScholarship(Scholarship):
         """Three letter code for WSGC administrative purposes."""
         return 'WAS{0}'.format(YEAR_2)
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -2109,10 +2107,9 @@ class UndergraduateScholarship(Scholarship):
             YEAR_2, self.get_academic_institution(),
         )
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class StemBridgeScholarship(Scholarship):
@@ -2134,10 +2131,9 @@ class StemBridgeScholarship(Scholarship):
         """Three letter code for WSGC administrative purposes."""
         return 'SBS{0}'.format(YEAR_2)
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -2261,6 +2257,7 @@ class NasaCompetition(BaseModel):
     # grants officer user
     grants_officer = models.ForeignKey(
         User,
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
         verbose_name="Grants Officer User",
@@ -2373,10 +2370,9 @@ class NasaCompetition(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('team_biography')
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class IndustryInternship(BaseModel):
@@ -2601,10 +2597,9 @@ class IndustryInternship(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('background_photo')
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
 
 class ProfessionalProgramStudent(BaseModel):
@@ -2619,39 +2614,49 @@ class ProfessionalProgramStudent(BaseModel):
             in the above program
         """,
     )
-    mentor = models.ForeignKey(User, related_name='professional_program_student')
+    mentor = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name='professional_program_student',
+    )
     AerospaceOutreach = models.ForeignKey(
         AerospaceOutreach,
+        on_delete=models.SET_NULL,
         related_name='aerospace_outreach_student',
         null=True,
         blank=True,
     )
     HigherEducationInitiatives = models.ForeignKey(
         HigherEducationInitiatives,
+        on_delete=models.SET_NULL,
         related_name='higher_education_initiatives_student',
         null=True,
         blank=True,
     )
     IndustryInternship = models.ForeignKey(
         IndustryInternship,
+        on_delete=models.SET_NULL,
         related_name='industry_internship_student',
         null=True,
         blank=True,
     )
     NasaCompetition = models.ForeignKey(
         NasaCompetition,
+        on_delete=models.SET_NULL,
         related_name='nasa_competition_student',
         null=True,
         blank=True,
     )
     ResearchInfrastructure = models.ForeignKey(
         ResearchInfrastructure,
+        on_delete=models.SET_NULL,
         related_name='research_infrastructure_student',
         null=True,
         blank=True,
     )
     SpecialInitiatives = models.ForeignKey(
         SpecialInitiatives,
+        on_delete=models.SET_NULL,
         related_name='special_initiatives_student',
         null=True,
         blank=True,
@@ -2666,10 +2671,9 @@ class ProfessionalProgramStudent(BaseModel):
         """Default data for display."""
         return "Professional Program Student"
 
-    @models.permalink
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return ('application_update', [self.get_slug(), str(self.id)])
+        return reverse('application_update', [self.get_slug(), str(self.id)])
 
     def get_application_type(self):
         """Application type title for display."""
@@ -2743,6 +2747,7 @@ class WorkPlanTask(models.Model):
 
     industry_internship = models.ForeignKey(
         IndustryInternship,
+        on_delete=models.CASCADE,
         related_name='work_plan_tasks',
     )
     title = models.CharField(

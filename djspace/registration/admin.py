@@ -3,8 +3,9 @@
 import csv
 
 from django.contrib import admin
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponse
+from django.urls import reverse
 from django.utils.encoding import smart_str
 from djspace.core.admin import PROFILE_LIST
 from djspace.core.admin import GenericAdmin

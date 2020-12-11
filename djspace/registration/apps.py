@@ -8,7 +8,3 @@ class RegistrationConfig(AppConfig):
 
     name = 'djspace.registration'
     verbose_name = 'Registration Application'
-
-    def ready(self):
-        """Initiate the app."""
-        import djspace.registration.signals

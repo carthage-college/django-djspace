@@ -18,10 +18,8 @@ handler500 = 'djtools.views.errors.server_error'
 
 urlpatterns = [
     # django admin
-    path('rocinante/', include('loginas.urls')),
-    path('rocinante/', admin.site.urls),
-    # admin honeypot
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('admin/', include('loginas.urls')),
+    path('admin/', admin.site.urls),
     # required files after funding granted
     path(
         'account/user-files-test/',

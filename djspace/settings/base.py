@@ -4,6 +4,7 @@
 
 import os
 
+
 DEBUG = True
 ADMINS = ()
 MANAGERS = ADMINS
@@ -32,7 +33,7 @@ STATIC_URL = '/static/{0}/'.format(PROJECT_APP)
 MEDIA_URL = '/media/{0}/'.format(PROJECT_APP)
 UPLOADS_DIR = '{0}files/'.format(MEDIA_ROOT)
 UPLOADS_URL = '{0}files/'.format(MEDIA_URL)
-FILE_UPLOAD_PERMISSIONS=0o644
+FILE_UPLOAD_PERMISSIONS = 0o644
 STATICFILES_DIRS = ()
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -69,9 +70,9 @@ INSTALLED_APPS = (
     'djspace.application',
     'djspace.registration',
     'djspace.core',
-    'djtools'
+    'djtools',
 )
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,9 +90,8 @@ TEMPLATES = [
             '/data2/django_templates/djeuropa/',
             '/data2/django_templates/djcher/',
         ],
-        #'APP_DIRS': True,
         'OPTIONS': {
-            'debug':DEBUG,
+            'debug': DEBUG,
             'context_processors': [
                 'djtools.context_processors.sitevars',
                 'django.contrib.auth.context_processors.auth',
@@ -103,8 +103,8 @@ TEMPLATES = [
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader'
-            ]
+                'django.template.loaders.app_directories.Loader',
+            ],
         },
     },
 ]
@@ -152,33 +152,34 @@ SERVER_EMAIL = ''
 SERVER_MAIL = ''
 # logging
 LOG_FILEPATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/')
-DEBUG_LOG_FILENAME = LOG_FILEPATH + 'debug.log'
-INFO_LOG_FILENAME = LOG_FILEPATH + 'info.log'
-ERROR_LOG_FILENAME = LOG_FILEPATH + 'error.log'
-CUSTOM_LOG_FILENAME = LOG_FILEPATH + 'custom.log'
+LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'debug.log')
+DEBUG_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'debug.log')
+INFO_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'info.log')
+ERROR_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'error.log')
+CUSTOM_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'custom.log')
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'standard': {
-            'format' : '[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s',
-            'datefmt' : '%Y/%b/%d %H:%M:%S'
+            'format': '[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s',
+            'datefmt': '%Y/%b/%d %H:%M:%S',
         },
         'verbose': {
             'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s',
-            'datefmt' : '%Y/%b/%d %H:%M:%S'
+            'datefmt': '%Y/%b/%d %H:%M:%S',
         },
         'custom': {
             'format': '%(asctime)s: %(levelname)s: %(message)s',
-            'datefmt' : '%m/%d/%Y %I:%M:%S %p'
+            'datefmt': '%m/%d/%Y %I:%M:%S %p',
         },
         'simple': {
-            'format': '%(levelname)s %(message)s'
+            'format': '%(levelname)s %(message)s',
         },
     },
     'filters': {
         'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
+            '()': 'django.utils.log.RequireDebugFalse',
         },
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
@@ -186,75 +187,77 @@ LOGGING = {
     },
     'handlers': {
         'custom_logfile': {
-            'level':'ERROR',
-            'filters': ['require_debug_true'], # do not run error logger in production
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],  # do not run error logger in production
             'class': 'logging.FileHandler',
             'filename': CUSTOM_LOG_FILENAME,
             'formatter': 'custom',
         },
         'info_logfile': {
-            'level':'INFO',
-            'class':'logging.handlers.RotatingFileHandler',
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
             'backupCount': 10,
             'maxBytes': 50000,
-            'filters': ['require_debug_false'], # run logger in production
+            'filters': ['require_debug_false'],  # run logger in production
             'filename': INFO_LOG_FILENAME,
             'formatter': 'simple',
         },
         'debug_logfile': {
             'level': 'DEBUG',
-            'filters': ['require_debug_true'], # do not run debug logger in production
             'class': 'logging.FileHandler',
             'filename': DEBUG_LOG_FILENAME,
-            'formatter': 'verbose'
+            'formatter': 'verbose',
         },
         'error_logfile': {
             'level': 'ERROR',
-            'filters': ['require_debug_true'], # do not run error logger in production
             'class': 'logging.FileHandler',
             'filename': ERROR_LOG_FILENAME,
-            'formatter': 'verbose'
+            'formatter': 'verbose',
         },
-        'console':{
-            'level':'INFO',
-            'class':'logging.StreamHandler',
-            'formatter': 'standard'
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
         },
         'mail_admins': {
             'level': 'ERROR',
-            #'filters': ['require_debug_false'],
             'include_html': True,
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
+            'class': 'django.utils.log.AdminEmailHandler',
+        },
     },
     'loggers': {
-        'djspace': {
-            'handlers':['debug_logfile'],
+        'redpanda': {
+            'handlers': ['debug_logfile'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
-        'djtools': {
-            'handlers':['debug_logfile'],
+        'redpanda.lynx': {
+            'handlers': ['debug_logfile'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
+        },
+        'redpanda.core': {
+            'handlers': ['debug_logfile'],
+            'propagate': True,
+            'level': 'DEBUG',
         },
         'error_logger': {
             'handlers': ['error_logfile'],
-            'level': 'ERROR'
-         },
+            'level': 'ERROR',
+        },
         'info_logger': {
             'handlers': ['info_logfile'],
-            'level': 'INFO'
+            'level': 'INFO',
         },
         'debug_logger': {
-            'handlers':['debug_logfile'],
+            'handlers': ['debug_logfile'],
             'propagate': True,
-            'level':'DEBUG',
+            'level': 'DEBUG',
         },
         'django': {
-            'handlers':['console'],
+            'handlers': ['console'],
             'propagate': True,
-            'level':'WARN',
+            'level': 'WARN',
         },
         'django.db.backends': {
             'handlers': ['console'],
@@ -262,11 +265,11 @@ LOGGING = {
             'propagate': False,
         },
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['mail_admins', 'error_logfile'],
             'level': 'ERROR',
             'propagate': True,
         },
-    }
+    },
 }
 #
 # app config
@@ -275,9 +278,9 @@ WSGC_EMAIL = ''
 WSGC_APPLICATIONS = ''
 ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT = 100
 # the month after which the new grant cycle begins
-GRANT_CYCLE_START_MES=8
+GRANT_CYCLE_START_MES = 8
 # allauth configuration
-ACCOUNT_AUTHENTICATION_METHOD ='email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_SUBJECT_PREFIX = '[WSGC] '

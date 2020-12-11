@@ -4,11 +4,11 @@ import django
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
+from django.urls import reverse
 from djspace.registration.forms import *
 from djspace.registration.models import *
 from djtools.utils.convert import str_to_class

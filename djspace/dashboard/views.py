@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.forms.models import model_to_dict
 from django.http import Http404
@@ -15,6 +14,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from djspace.application.forms import *
 from djspace.application.models import ROCKET_COMPETITIONS_EXCLUDE
