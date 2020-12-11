@@ -4,13 +4,13 @@
 
 from allauth.account.views import login
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
 from django.urls import include
 from django.urls import path
 from django.urls import re_path
 from django.urls import reverse_lazy
 from django.views.generic import RedirectView
 from djspace.core import views
+
 
 handler404 = 'djtools.views.errors.four_oh_four_error'
 handler500 = 'djtools.views.errors.server_error'

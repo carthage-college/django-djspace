@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
 
+import os
 from datetime import datetime
 
+from allauth.account.models import EmailAddress
 from django.conf import settings
 from django.forms.models import model_to_dict
-
 from djtools.fields import NOW
 from djtools.utils.cypher import AESCipher
 from djtools.utils.mail import send_mail
@@ -19,7 +19,6 @@ PROFESSIONAL_PROGRAMS = [
     'researchinfrastructure',
     'specialinitiatives',
 ]
-
 # rocket launch required files by competition. this will do until
 # we change the data model to have a separate table for their files
 MRL_REQUIRED_FILES = [
@@ -56,10 +55,7 @@ def get_start_date():
     year = NOW.year
     if NOW.month < settings.GRANT_CYCLE_START_MES:
         year = NOW.year - 1
-    start_date = datetime(
-        year, settings.GRANT_CYCLE_START_MES, 1
-    )
-    return start_date
+    return datetime(year, settings.GRANT_CYCLE_START_MES, 1)
 
 
 def upload_to_path(field_name, instance, filename):
@@ -71,8 +67,8 @@ def upload_to_path(field_name, instance, filename):
         uid = str(instance.user().id)
     cid = cipher.encrypt(uid)
     ext = filename.split('.')[-1]
-    filename = u'{0}_{1}.{2}'.format(instance.get_file_name(), field_name, ext)
-    path = u'{0}/{1}/{2}/'.format(
+    filename = '{0}_{1}.{2}'.format(instance.get_file_name(), field_name, ext)
+    path = '{0}/{1}/{2}/'.format(
         instance.get_file_path(), instance.get_slug(), cid,
     )
     return os.path.join(path, filename)
@@ -81,14 +77,12 @@ def upload_to_path(field_name, instance, filename):
 def files_status(user):
     """Determine if the user file is valid for the current grant cycle."""
     status = True
-    start_date = get_start_date()
-
     # fetch all user application submissions
     apps = user.profile.applications.all()
     # First Nations Competition exception
     fnl = False
-    for app in apps:
-        if app.get_content_type().model == 'firstnationsrocketcompetition':
+    for ap in apps:
+        if ap.get_content_type().model == 'firstnationsrocketcompetition':
             fnl = True
 
     # ignore FNL altogether for user files:
@@ -96,48 +90,48 @@ def files_status(user):
     if not fnl:
         try:
             files = user.user_files
-            data=model_to_dict(files)
-        except:
+            files_dict = model_to_dict(files)
+        except Exception:
             # UserFiles() instance does not exist
             return False
-        for k,v in data.items():
-            if k != 'id':
-                if not v:
+        for key, valu in files_dict.items():
+            if key != 'id':
+                if not valu:
                     return False
                 # have to be renewed every year
-                if not files.status(k):
+                if not files.status(key):
                     return False
 
     # check for application files
     for app in apps:
         if app.status:
-            data=model_to_dict(app)
+            app_dict = model_to_dict(app)
 
             # all programs except FNL
             if not app.award_acceptance and not fnl:
                 return False
 
             # program specific
-            m = app.get_content_type().model
+            mod = app.get_content_type().model
             # professional programs
-            if m in PROFESSIONAL_PROGRAMS:
-                if not data['close_out_finance_document']:
+            if mod in PROFESSIONAL_PROGRAMS:
+                if not app_dict['close_out_finance_document']:
                     return False
 
             # rocket launch team files
             # (not very elegant but waiting on new data model)
-            if m == 'rocketlaunchteam':
+            if mod == 'rocketlaunchteam':
                 if app.competition == 'Collegiate Rocket Competition':
-                    for field in CRL_REQUIRED_FILES:
-                        if not getattr(app,field):
+                    for cfield in CRL_REQUIRED_FILES:
+                        if not getattr(app, cfield):
                             return False
                 elif app.competition == 'Midwest High Powered Rocket Competition':
-                    for field in MRL_REQUIRED_FILES:
-                        if not getattr(app,field):
+                    for mfield in MRL_REQUIRED_FILES:
+                        if not getattr(app, mfield):
                             return False
                 else:
-                    for field in FNL_REQUIRED_FILES:
-                        if not getattr(app,field):
+                    for ffield in FNL_REQUIRED_FILES:
+                        if not getattr(app, ffield):
                             return False
 
     return status
@@ -159,23 +153,23 @@ def profile_status(user):
 
 def registration_notify(request, action, user):
     """Send an email when a new registration comes in."""
-    subject = u"[WSGC Profile Registration: {}D] {}, {}".format(
+    subject = "[WSGC Profile Registration: {0}D] {1}, {2}".format(
         action.upper(), user.last_name, user.first_name,
     )
     if settings.DEBUG:
-        TO_LIST = [settings.ADMINS[0][1]]
+        to_list = [settings.ADMINS[0][1]]
     else:
-        TO_LIST = [settings.WSGC_APPLICATIONS]
+        to_list = [settings.WSGC_APPLICATIONS]
     template = 'account/registration_alert_email.html'
     context = {
-        'user':user,
-        'action':action,
-        'server_url':settings.SERVER_URL,
-        'media_url':settings.MEDIA_URL,
+        'user': user,
+        'action': action,
+        'server_url': settings.SERVER_URL,
+        'media_url': settings.MEDIA_URL,
     }
     send_mail(
         request,
-        TO_LIST,
+        to_list,
         subject,
         user.email,
         template,
@@ -194,13 +188,9 @@ def get_term(date):
 
 def get_email_auxiliary(user):
     """Fetch the secondary email address for the user."""
-    from allauth.account.models import EmailAddress
-    semail = EmailAddress.objects.filter(user=user).\
-        filter(primary=False).order_by('-id')[:1]
-    if len(semail) > 0:
-        return semail[0].email
-    else:
-        return None
+    return EmailAddress.objects.filter(user=user).filter(
+        primary=False,
+    ).order_by('-id').first()
 
 
 def admin_display_file(instance, field, team=False):
@@ -211,26 +201,25 @@ def admin_display_file(instance, field, team=False):
     else:
         attr = getattr(instance, field)
     # user profile files expire each grant cycle
-    if attr and field in ['mugshot', 'biography', 'irs_w9', 'media_release']:
-        user_files = True
+    if attr and field in {'mugshot', 'biography', 'irs_w9', 'media_release'}:
         status = instance.user.user_files.status(field)
         if status:
-            icon = '''<a href="{}" target="_blank">
+            icon = """<a href="{0}" target="_blank">
                 <i class="fa fa-check green" aria-hidden="true"></i></a>
-            '''.format(attr.url)
+            """.format(attr.url)
         else:
             icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     elif team:
         if attr:
-            icon = '''<a href="{}" target="_blank">
+            icon = """<a href="{0}" target="_blank">
                 <i class="fa fa-check green" aria-hidden="true"></i></a>
-            '''.format(attr.url)
+            """.format(attr.url)
         else:
             icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     elif attr:
-        icon = '''<a href="{}" target="_blank">
+        icon = """<a href="{0}" target="_blank">
             <i class="fa fa-check green" aria-hidden="true"></i></a>
-        '''.format(attr.url)
+        """.format(attr.url)
     else:
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
     return icon

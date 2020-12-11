@@ -105,8 +105,18 @@ UNDERGRADUATE_RESEARCH_AWARD_TYPES = (
     ),
 )
 EDUCATION_INITIATIVES_AWARD_TYPES = (
-    ('Multi-Institutional: Up to $20,000', 'Multi-Institutional: Up to $20,000'),
-    ('Multi-Institutional: Up to $15,000', 'Multi-Institutional: Up to $15,000'),
+    (
+        'Early-Stage Investigator: Up to $10,000',
+        'Early-Stage Investigator: Up to $10,000',
+    ),
+    (
+        'Multi-Institutional: Up to $20,000',
+        'Multi-Institutional: Up to $20,000',
+    ),
+    (
+        'Multi-Institutional: Up to $15,000',
+        'Multi-Institutional: Up to $15,000',
+    ),
     ('Major Award: $5000-$10000', 'Major Award: $5000-$10000'),
     ('Minor Award:  Up to $5000', 'Minor Award:  Up to $5000'),
 )

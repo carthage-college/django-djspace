@@ -35,6 +35,7 @@ class EmailApplicantsForm(forms.Form):
     content_type = forms.CharField(max_length=8, widget=forms.HiddenInput())
 
     def clean_content(self):
+        """Form validation."""
         content = self.cleaned_data['content']
 
         self._errors['content'] = self.error_class(
@@ -63,18 +64,18 @@ class SignupForm(forms.Form):
     )
     last_name = forms.CharField(max_length=30)
     date_of_birth = forms.DateField(
-        label = "Date of birth",
+        label="Date of birth",
         required=False,
-        widget=SelectDateWidget(years=range(DOB_YEAR,1929,-1)),
+        widget=SelectDateWidget(years=range(DOB_YEAR, 1929, -1)),
     )
     gender = forms.TypedChoiceField(
-        choices = GENDER_CHOICES,
-        widget = forms.RadioSelect(),
+        choices=GENDER_CHOICES,
+        widget=forms.RadioSelect(),
     )
     race = forms.ModelMultipleChoiceField(
-        queryset = RACES,
-        help_text = 'Check all that apply',
-        widget = forms.CheckboxSelectMultiple(),
+        queryset=RACES,
+        help_text='Check all that apply',
+        widget=forms.CheckboxSelectMultiple(),
     )
     tribe = forms.CharField(
         max_length=128,
@@ -147,8 +148,7 @@ class SignupForm(forms.Form):
                 ["Required field"],
             )
         # current address is required for students
-        if (cd.get('registration_type') == 'Undergraduate' or \
-            cd.get('registration_type') == 'Graduate'):
+        if cd.get('registration_type') in {'Undergraduate', 'Graduate'}:
             if not cd.get('address1_current'):
                 self._errors['address1_current'] = self.error_class(
                     ["Required field"],
@@ -166,8 +166,11 @@ class SignupForm(forms.Form):
                     ["Required field"],
                 )
         # check disability and description
-        if cd.get('disability') == 'I have a disability, but it is not listed'\
-          and cd.get('disability_specify') == '':
+        dis_err = (
+            cd.get('disability') == 'I have a disability, but it is not listed' and
+            cd.get('disability_specify') == ''
+        )
+        if dis_err:
             self._errors['disability_specify'] = self.error_class(
                 ["Please describe your disability"],
             )
@@ -175,7 +178,7 @@ class SignupForm(forms.Form):
         # check if secondary email already exists in the system
         if cd.get('email_secondary'):
             try:
-                EmailAddress.objects.get(email= cd.get('email_secondary'))
+                EmailAddress.objects.get(email=cd.get('email_secondary'))
                 self._errors['email_secondary'] = self.error_class(
                     ["That email already exists in the system"],
                 )
@@ -183,9 +186,9 @@ class SignupForm(forms.Form):
                     """
                         You have submitted an email that already exists
                         in the system. Please provide a different email.
-                    """
+                    """,
                 )
-            except:
+            except Exception:
                 pass
 
         return cd
@@ -197,35 +200,35 @@ class SignupForm(forms.Form):
         user.last_name = cd['last_name']
         user.save()
         profile = UserProfile(
-            user = user,
-            updated_by = user,
-            salutation = cd['salutation'],
-            second_name = cd['second_name'],
-            registration_type = cd['registration_type'],
-            gender = cd['gender'],
-            tribe = cd.get('tribe'),
-            disability = cd['disability'],
-            disability_specify = cd['disability_specify'],
-            employment = cd['employment'],
-            military = cd['military'],
-            us_citizen = cd['us_citizen'],
-            date_of_birth = cd['date_of_birth'],
-            address1 = cd['address1'],
-            address2 = cd.get('address2'),
-            city = cd['city'],
-            state = cd['state'],
-            postal_code = cd['postal_code'],
-            address1_current = cd['address1_current'],
-            address2_current = cd.get('address2_current'),
-            city_current = cd['city_current'],
-            state_current = cd['state_current'],
-            postal_code_current = cd['postal_code_current'],
-            phone_primary = cd['phone_primary'],
-            phone_mobile = cd['phone_mobile'],
+            user=user,
+            updated_by=user,
+            salutation=cd['salutation'],
+            second_name=cd['second_name'],
+            registration_type=cd['registration_type'],
+            gender=cd['gender'],
+            tribe=cd.get('tribe'),
+            disability=cd['disability'],
+            disability_specify=cd['disability_specify'],
+            employment=cd['employment'],
+            military=cd['military'],
+            us_citizen=cd['us_citizen'],
+            date_of_birth=cd['date_of_birth'],
+            address1=cd['address1'],
+            address2=cd.get('address2'),
+            city=cd['city'],
+            state=cd['state'],
+            postal_code=cd['postal_code'],
+            address1_current=cd['address1_current'],
+            address2_current=cd.get('address2_current'),
+            city_current=cd['city_current'],
+            state_current=cd['state_current'],
+            postal_code_current=cd['postal_code_current'],
+            phone_primary=cd['phone_primary'],
+            phone_mobile=cd['phone_mobile'],
         )
         profile.save()
-        for r in request.POST.getlist('race'):
-            profile.race.add(r)
+        for raza in request.POST.getlist('race'):
+            profile.race.add(raza)
         profile.save()
 
         if profile.us_citizen == 'No':
@@ -234,7 +237,7 @@ class SignupForm(forms.Form):
                 """
                 You must be a United States citizen in order to
                 apply for grants from NASA.
-                """
+                """,
             )
 
     class Meta:
@@ -300,24 +303,28 @@ class UserFilesForm(forms.ModelForm):
         return cd
 
     def clean_biography(self):
+        """Touch file so we can update the timestamp."""
         biography = self.cleaned_data.get('biography')
         if biography and self.instance.biography:
             Path(self.instance.biography.path).touch()
         return biography
 
     def clean_irs_w9(self):
+        """Touch file so we can update the timestamp."""
         irs_w9 = self.cleaned_data.get('irs_w9')
         if irs_w9 and self.instance.irs_w9:
             Path(self.instance.irs_w9.path).touch()
         return irs_w9
 
     def clean_mugshot(self):
+        """Touch file so we can update the timestamp."""
         mugshot = self.cleaned_data.get('mugshot')
         if mugshot and self.instance.mugshot:
             Path(self.instance.mugshot.path).touch()
         return mugshot
 
     def clean_media_release(self):
+        """Touch file so we can update the timestamp."""
         media_release = self.cleaned_data.get('media_release')
         if media_release and self.instance.media_release:
             Path(self.instance.media_release.path).touch()

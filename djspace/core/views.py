@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
+
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.admin.views.decorators import staff_member_required
-from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-
 from djspace.application.models import *
 from djspace.core.forms import EmailApplicantsForm
 from djspace.core.forms import PhotoForm
@@ -19,39 +16,37 @@ from djspace.core.forms import UserFilesForm
 from djspace.core.models import UserFiles
 from djspace.core.utils import files_status
 from djspace.dashboard.views import UPLOAD_FORMS
-
 from djtools.utils.mail import send_mail
 
 
 @staff_member_required
 def sendmail(request, redirect):
     """Send emails to program applicants from admin action email_applicants."""
-
     redirect = '{0}/{1}'.format(settings.ROOT_URL, redirect)
     if request.POST:
         # form stuff
         form = EmailApplicantsForm(request.POST, use_required_attribute=False)
         form.is_valid()
-        data = form.cleaned_data
+        cd = form.cleaned_data
         # content type
-        ct = ContentType.objects.get_for_id(data['content_type'])
+        ct = ContentType.objects.get_for_id(cd['content_type'])
         # program ids
         pids = request.POST.getlist('pids[]')
         # email subject
         sub = "WSGC: Information about your {0} application".format(
-            data['title'],
+            cd['title'],
         )
-        bcc = [request.user.email,settings.SERVER_MAIL]
+        bcc = [request.user.email, settings.SERVER_MAIL]
         for pid in pids:
-            obj = ct.get_object_for_this_type(pk=pid)
-            to = [obj.user.email]
+            instance = ct.get_object_for_this_type(pk=pid)
+            to = [instance.user.email]
             send_mail(
                 request,
                 to,
                 sub,
                 settings.SERVER_EMAIL,
                 'admin/email_data.html',
-                {'obj': obj, 'content': data['content']},
+                {'obj': instance, 'content': cd['content']},
                 bcc,
             )
         messages.add_message(
@@ -60,17 +55,14 @@ def sendmail(request, redirect):
             'Your message was sent successfully.',
             extra_tags='success',
         )
-        return HttpResponseRedirect(redirect)
-    else:
-        return HttpResponseRedirect(redirect)
+
+    return HttpResponseRedirect(redirect)
 
 
 @csrf_exempt
 @login_required
 def photo_upload(request):
     """AJAX POST for uploading a photo for any given application."""
-
-    user = request.user
     response = None
     if request.is_ajax() and request.method == 'POST':
         form = PhotoForm(
@@ -83,17 +75,17 @@ def photo_upload(request):
                 ct = ContentType.objects.get(pk=ct)
                 mod = ct.model_class()
                 try:
-                    obj = mod.objects.get(pk=oid)
+                    instance = mod.objects.get(pk=oid)
                     phile = form.save(commit=False)
-                    phile.content_object = obj
+                    phile.content_object = instance
                     phile.save()
                     response = render(
                         request,
                         'dashboard/view_photo.ajax.html',
                         {'photo': phile, 'ct': ct, 'oid': oid},
                     )
-                except Exception as e:
-                    msg = "Fail: {0}".format(str(e))
+                except Exception as error:
+                    msg = "Fail: {0}".format(str(error))
             else:
                 msg = "Fail: No Content Type or Object ID Provided"
         else:
@@ -111,38 +103,35 @@ def photo_upload(request):
 @login_required
 def user_files(request):
     """Update user files via ajax post."""
-
     user = request.user
     response = None
-    if request.method != 'POST':
-        msg = "POST required"
-    else:
+    if request.method == 'POST':
         ct = request.POST.get('content_type')
         if ct:
             ct = ContentType.objects.get(pk=ct)
             mod = ct.model_class()
-            obj = mod.objects.get(pk=request.POST.get('oid'))
+            instance = mod.objects.get(pk=request.POST.get('oid'))
             # team leaders, co-advisors, and grants officers can upload files
             # for rocket launch teams and professional programs
             manager = False
             try:
-                goid = obj.grants_officer.id
-            except:
+                goid = instance.grants_officer.id
+            except Exception:
                 goid = None
             try:
-                coid = obj.co_advisor.id
-            except:
+                coid = instance.co_advisor.id
+            except Exception:
                 coid = None
 
             if ct.model == 'rocketlaunchteam':
-                if obj.leader.id == user.id or goid == user.id or coid == user.id:
+                if instance.leader.id == user.id or goid == user.id or coid == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
                 if goid == user.id:
                     manager = True
 
             # is someone being naughty?
-            if obj.user != user and not manager:
+            if instance.user != user and not manager:
                 return HttpResponse(
                     "Something is rotten in Denmark",
                     content_type='text/plain; charset=utf-8',
@@ -151,18 +140,18 @@ def user_files(request):
                 form = UPLOAD_FORMS[ct.model](
                     data=request.POST,
                     files=request.FILES,
-                    instance=obj,
+                    instance=instance,
                     use_required_attribute=False,
                 )
         else:
             try:
-                obj = UserFiles.objects.get(user=user)
-            except:
-                obj = None
+                instance = UserFiles.objects.get(user=user)
+            except Exception:
+                instance = None
             form = UserFilesForm(
                 data=request.POST,
                 files=request.FILES,
-                instance=obj,
+                instance=instance,
                 use_required_attribute=False,
             )
         field_name = request.POST.get('field_name')
@@ -173,13 +162,13 @@ def user_files(request):
                 if not ct:
                     phile.user = user
                 phile.save()
-                earl = getattr(phile,field_name)
+                earl = getattr(phile, field_name)
                 # notify wsgc that a user uploaded one of her profile files
                 if settings.DEBUG:
-                    to = [settings.ADMINS[0][1],]
+                    to = [settings.ADMINS[0][1]]
                 else:
-                    to = [settings.WSGC_EMAIL,]
-                subject = u"[File Upload] {0}: {1}, {2}".format(
+                    to = [settings.WSGC_EMAIL]
+                subject = "[File Upload] {0}: {1}, {2}".format(
                     field_name, user.last_name, user.first_name,
                 )
                 bcc = [settings.SERVER_MAIL]
@@ -195,7 +184,7 @@ def user_files(request):
                         'field_name': field_name,
                         'userfiles': [
                             'mugshot', 'biography', 'irs_w9', 'media_release',
-                        ]
+                        ],
                     },
                     bcc,
                 )
@@ -208,6 +197,8 @@ def user_files(request):
                 msg = "Fail: Field name is missing"
         else:
             msg = "Fail: {0}".format(form.errors)
+    else:
+        msg = "POST required"
 
     if not response:
         response = HttpResponse(msg, content_type='text/plain; charset=utf-8')
@@ -219,16 +210,14 @@ def user_files(request):
 def check_files_status(request):
     """
     Determine if the user has all of her files uploaded or not.
+
     Method: ajax post
     Return: True or False
     """
-
-    user = request.user
-    response = None
-    if request.method != 'POST':
-        status = "POST required"
-    else:
+    if request.method == 'POST':
         status = files_status(request.user)
+    else:
+        status = "POST required"
 
     return HttpResponse(status, content_type='text/plain; charset=utf-8')
 
@@ -236,20 +225,17 @@ def check_files_status(request):
 @csrf_exempt
 def user_files_test(request):
     """Test for user file upload."""
-
-    user = request.user
-    response = None
     valid = 'get'
     if request.method == 'POST':
         valid = 'no'
         ct = request.POST.get('ct')
         ct = ContentType.objects.get(pk=ct)
         mod = ct.model_class()
-        obj = mod.objects.get(pk=request.POST.get('oid'))
+        instance = mod.objects.get(pk=request.POST.get('oid'))
         form = UPLOAD_FORMS[ct.model](
             data=request.POST,
             files=request.FILES,
-            instance=obj,
+            instance=instance,
             use_required_attribute=False,
         )
         if form.is_valid():
@@ -261,8 +247,10 @@ def user_files_test(request):
         ct = request.GET.get('ct')
         ct = ContentType.objects.get(pk=ct)
         mod = ct.model_class()
-        obj = mod.objects.get(pk=request.GET.get('oid'))
-        form = UPLOAD_FORMS[ct.model](instance=obj, use_required_attribute=False)
+        instance = mod.objects.get(pk=request.GET.get('oid'))
+        form = UPLOAD_FORMS[ct.model](
+            instance=instance, use_required_attribute=False,
+        )
     return render(
         request, 'dashboard/test.html', {'form': form, 'valid': valid},
     )
@@ -272,9 +260,7 @@ def user_files_test(request):
 @login_required
 def object_delete(request):
     """AJAX POST for deleting arbitrary objects."""
-
     user = request.user
-    response = None
     if request.is_ajax() and request.method == 'POST':
         try:
             # object ID
@@ -285,28 +271,20 @@ def object_delete(request):
                 ct = ContentType.objects.get(pk=cid)
                 mod = ct.model_class()
                 try:
-                    obj = mod.objects.get(pk=oid)
-                    # user id might come from object.user.id or from
-                    # a custom method that returns the user object
-                    try:
-                        uid = obj.user.id
-                    except:
-                        uid = obj.user().id
+                    instance = mod.objects.get(pk=oid)
                     # is someone doing something nefarious?
                     if oid == user.id or user.is_superuser:
-                        obj.delete()
+                        instance.delete()
                         msg = "Success"
                     else:
                         msg = "Fail: Inadequate Permissions"
-                except Exception, e:
-                    msg = "Fail: {0}".format(str(e))
-            except Exception, e:
-                    msg = "Fail: {0}".format(str(e))
-        except Exception, e:
-            msg = "Fail: {0}".format(str(e))
+                except Exception as get_error:
+                    msg = "Fail: {0}".format(str(get_error))
+            except Exception as content_type_error:
+                msg = "Fail: {0}".format(str(content_type_error))
+        except Exception as error:
+            msg = "Fail: {0}".format(str(error))
     else:
         msg = "AJAX POST required"
 
-    return HttpResponse(
-        msg, content_type="text/plain; charset=utf-8"
-    )
+    return HttpResponse(msg, content_type="text/plain; charset=utf-8")

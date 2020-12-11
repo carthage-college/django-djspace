@@ -1,76 +1,77 @@
-from django.db.models import Q
+# -*- coding: utf-8 -*-
+
+import json
+
+import django
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.forms.models import model_to_dict
-from django.utils.safestring import mark_safe
+from django.http import Http404
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-from django.contrib.contenttypes.models import ContentType
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-
 from djspace.application.forms import *
-from djspace.registration.forms import *
-from djspace.core.utils import get_start_date
-from djspace.core.utils import profile_status, files_status
-from djspace.core.utils import PROFESSIONAL_PROGRAMS
 from djspace.application.models import ROCKET_COMPETITIONS_EXCLUDE
-from djspace.dashboard.forms import UserForm, UserProfileForm
 from djspace.core.forms import UserFilesForm
 from djspace.core.models import UserFiles
-
+from djspace.core.utils import PROFESSIONAL_PROGRAMS
+from djspace.core.utils import get_start_date
+from djspace.core.utils import profile_status
+from djspace.dashboard.forms import UserForm
+from djspace.dashboard.forms import UserProfileForm
+from djspace.registration.forms import *
 from djtools.utils.convert import str_to_class
-
-import json
-import django
 
 
 UPLOAD_FORMS = {
-  'highereducationinitiatives': HigherEducationInitiativesUploadsForm,
-  'researchinfrastructure': ResearchInfrastructureUploadsForm,
-  'aerospaceoutreach': AerospaceOutreachUploadsForm,
-  'specialinitiatives': SpecialInitiativesUploadsForm,
-  'undergraduatescholarship': UndergraduateScholarshipUploadsForm,
-  'stembridgescholarship': StemBridgeScholarshipUploadsForm,
-  'womeninaviationscholarship': WomenInAviationScholarshipUploadsForm,
-  'undergraduateresearch': UndergraduateResearchUploadsForm,
-  'graduatefellowship': GraduateFellowshipUploadsForm,
-  'clarkgraduatefellowship': ClarkGraduateFellowshipUploadsForm,
-  'highaltitudeballoonpayload': HighAltitudeBalloonPayloadUploadsForm,
-  #'highaltitudeballoonlaunch': HighAltitudeBalloonLaunchUploadsForm,
-  'rocketlaunchteam': RocketLaunchTeamUploadsForm,
-  'firstnationsrocketcompetition': FirstNationsRocketCompetitionUploadsForm,
-  'midwesthighpoweredrocketcompetition': MidwestHighPoweredRocketCompetitionUploadsForm,
-  'collegiaterocketcompetition': CollegiateRocketCompetitionUploadsForm,
-  'nasacompetition': NasaCompetitionUploadsForm,
-  'industryinternship': IndustryInternshipUploadsForm,
-  'professionalprogramstudent': ProfessionalProgramStudentUploadsForm
+    'highereducationinitiatives': HigherEducationInitiativesUploadsForm,
+    'researchinfrastructure': ResearchInfrastructureUploadsForm,
+    'aerospaceoutreach': AerospaceOutreachUploadsForm,
+    'specialinitiatives': SpecialInitiativesUploadsForm,
+    'undergraduatescholarship': UndergraduateScholarshipUploadsForm,
+    'stembridgescholarship': StemBridgeScholarshipUploadsForm,
+    'womeninaviationscholarship': WomenInAviationScholarshipUploadsForm,
+    'undergraduateresearch': UndergraduateResearchUploadsForm,
+    'graduatefellowship': GraduateFellowshipUploadsForm,
+    'clarkgraduatefellowship': ClarkGraduateFellowshipUploadsForm,
+    'highaltitudeballoonpayload': HighAltitudeBalloonPayloadUploadsForm,
+    'rocketlaunchteam': RocketLaunchTeamUploadsForm,
+    'firstnationsrocketcompetition': FirstNationsRocketCompetitionUploadsForm,
+    'midwesthighpoweredrocketcompetition': MidwestHighPoweredRocketCompetitionUploadsForm,
+    'collegiaterocketcompetition': CollegiateRocketCompetitionUploadsForm,
+    'nasacompetition': NasaCompetitionUploadsForm,
+    'industryinternship': IndustryInternshipUploadsForm,
+    'professionalprogramstudent': ProfessionalProgramStudentUploadsForm,
 }
 
 
 @login_required
 def home(request):
-    """
-    User dashboard home
-    """
-
+    """User dashboard home."""
     user = request.user
     try:
         files = UserFiles.objects.get(user=user)
-    except:
+    except Exception:
         files = None
 
-    mugshot_status=biography_status=irs_w9_status=media_release_status = None
+    mugshot_status = None
+    biography_status = None
+    irs_w9_status = None
+    media_release_status = None
 
     user_files = UserFilesForm(instance=files)
     try:
         mod = django.apps.apps.get_model(
-            app_label='registration', model_name=user.profile.registration_type
+            app_label='registration', model_name=user.profile.registration_type,
         )
         reg = mod.objects.get(user=user)
-    except:
+    except Exception:
         reg = None
 
     # if the user does not have any applications, the gm2m
@@ -84,31 +85,15 @@ def home(request):
         # past grant cycle applications
         past_apps = []
         start_date = get_start_date()
-        for a in apps.all():
-            if a.date_created >= start_date:
-                current_apps.append(a)
+        for app in apps.all():
+            if app.date_created >= start_date:
+                current_apps.append(app)
                 if a.status:
-                    approved.append(a)
-            elif a.multi_year and a.status:
-                past_apps.append(a)
-    except:
+                    approved.append(app)
+            elif app.multi_year and app.status:
+                past_apps.append(app)
+    except Exception:
         apps = None
-
-    # check if the user has upload all of her user files.
-    # wsgc would like to remove this message for now. i suspect
-    # they will want to put it back in the future
-    """
-    if approved:
-        user_files_status = files_status(user)
-        if not user_files_status:
-            messages.add_message(
-                request, messages.ERROR,
-                '''
-                You have not uploaded required files. Please do so below.
-                ''',
-                extra_tags='danger'
-            )
-    """
 
     status = profile_status(user)
 
@@ -144,108 +129,116 @@ def home(request):
 @csrf_exempt
 @login_required
 def get_users(request):
-    """
-    AJAX GET for retrieving users via auto-complete
-    """
-
+    """AJAX GET for retrieving users via auto-complete."""
     if request.is_ajax():
-        q = request.GET.get('term', '')
+        query = request.GET.get('term', '')
 
         users = User.objects.filter(
-            Q( first_name__icontains = q ) |
-            Q( last_name__icontains = q ) ).order_by( 'last_name' )
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query),
+        ).order_by('last_name')
 
-        #users = User.objects.filter(last_name__icontains = q )[:20]
-        results = []
-        for u in users:
+        auto_complete = []
+        for user in users:
             user_json = {}
-            name = u"{}, {}".format(u.last_name, u.first_name)
-            user_json['id'] = u.id
+            name = "{0}, {1}".format(user.last_name, user.first_name)
+            user_json['id'] = user.id
             user_json['label'] = name
             user_json['value'] = name
-            results.append(user_json)
+            auto_complete.append(user_json)
 
     return HttpResponse(
-        json.dumps(results),
-        content_type='application/json; charset=utf-8'
+        json.dumps(auto_complete),
+        content_type='application/json; charset=utf-8',
     )
 
 
 @csrf_exempt
 @login_required
 def registration_type(request):
-    """
-    AJAX post for retrieving registration forms based on type
-    """
+    """AJAX post for retrieving registration forms based on type."""
     if request.method == 'POST':
         reg_type = request.POST.get('registration_type')
         try:
             mod = django.apps.apps.get_model(
-                app_label='registration', model_name=reg_type
+                app_label='registration', model_name=reg_type,
             )
             reg = mod.objects.get(user=request.user)
-        except:
+        except Exception:
             reg = None
-        #try:
-        if True:
+        try:
             reg_form = str_to_class(
-                'djspace.registration.forms', (reg_type+'Form')
+                'djspace.registration.forms', '{0}Form'.format(reg_type),
             )(instance=reg, prefix='reg', use_required_attribute=False)
-        #except:
-        else:
+        except Exception:
             raise Http404
         reggie = None
         if reg:
             reggie = model_to_dict(reg)
             # remove file field because json barfs on it and we don't need it
-            if 'cv' in reggie:
+            if reggie.get('cv'):
                 reggie['cv'] = ''
 
-        t = loader.get_template('dashboard/registration_form.inc.html')
-        context = {'reg_form':reg_form,'reg_type':reg_type}
-        data = {
-            'form':t.render(context, request),
-            'reg':reggie,'reg_type':reg_type
+        template = loader.get_template('dashboard/registration_form.inc.html')
+        context = {'reg_form': reg_form, 'reg_type': reg_type}
+        jason = {
+            'form': template.render(context, request),
+            'reg': reggie,
+            'reg_type': reg_type,
         }
-        response = HttpResponse(
-            json.dumps(data),
-            content_type='application/json; charset=utf-8'
+        return HttpResponse(
+            json.dumps(jason),
+            content_type='application/json; charset=utf-8',
         )
-        return response
     else:
         raise Http404
 
 
 @login_required
 def profile_form(request):
-    """
-    Form method that handles user profile data.
-    """
+    """Form method that handles user profile data."""
     user = request.user
     profile = user.profile
     reg_type = profile.registration_type
     # user may have changed registration type
-    if request.method=='POST' and request.POST.get('pro-registration_type') != '' and \
-      reg_type != request.POST.get('pro-registration_type'):
+    mod_reg = (
+        request.method == 'POST' and
+        request.POST.get('pro-registration_type') != '' and
+        reg_type != request.POST.get('pro-registration_type')
+    )
+    if mod_reg:
         reg_type = request.POST.get('pro-registration_type')
     try:
         mod = django.apps.apps.get_model(
-            app_label='registration', model_name=reg_type
+            app_label='registration', model_name=reg_type,
         )
         reg = mod.objects.get(user=user)
-    except:
+    except Exception:
         reg = None
     if request.method == 'POST':
-
-        reg_form = str_to_class('djspace.registration.forms', (reg_type+'Form'))(instance=reg, prefix='reg', label_suffix='', data=request.POST, files=request.FILES, use_required_attribute=False)
+        reg_form = str_to_class(
+            'djspace.registration.forms', '{0}Form'.format(reg_type),
+        )(
+            instance=reg,
+            prefix='reg',
+            label_suffix='',
+            data=request.POST,
+            files=request.FILES,
+            use_required_attribute=False,
+        )
 
         pro_form = UserProfileForm(
-            instance=profile, data=request.POST, prefix='pro', label_suffix='',
-            use_required_attribute=False
+            instance=profile,
+            data=request.POST,
+            prefix='pro',
+            label_suffix='',
+            use_required_attribute=False,
         )
         usr_form = UserForm(
-            prefix='usr', data=request.POST, label_suffix='',
-            use_required_attribute=False
+            prefix='usr',
+            data=request.POST,
+            label_suffix='',
+            use_required_attribute=False,
         )
         if pro_form.is_valid() and reg_form.is_valid() and usr_form.is_valid():
             # User
@@ -267,84 +260,98 @@ def profile_form(request):
             pro.save()
             # redirect to dashboard with message
             messages.add_message(
-                request, messages.SUCCESS, 'Your profile has been saved.',
-                extra_tags='success'
+                request,
+                messages.SUCCESS,
+                'Your profile has been saved.',
+                extra_tags='success',
             )
             return HttpResponseRedirect(reverse('dashboard_home'))
     else:
-        usr_form = UserForm(initial={
-            'salutation':profile.salutation,'first_name':user.first_name,
-            'second_name':profile.second_name,'last_name':user.last_name
-        }, prefix='usr', label_suffix='', use_required_attribute=False)
+        usr_form = UserForm(
+            initial={
+                'salutation': profile.salutation,
+                'first_name': user.first_name,
+                'second_name': profile.second_name,
+                'last_name': user.last_name,
+            },
+            prefix='usr',
+            label_suffix='',
+            use_required_attribute=False,
+        )
         reg_form = str_to_class(
-            'djspace.registration.forms', (reg_type+'Form')
-        )(instance=reg, prefix='reg', label_suffix='', use_required_attribute=False)
+            'djspace.registration.forms', '{0}Form'.format(reg_type),
+        )(
+            instance=reg,
+            prefix='reg',
+            label_suffix='',
+            use_required_attribute=False,
+        )
         pro_form = UserProfileForm(
-            instance=profile, prefix='pro', label_suffix='',
-            use_required_attribute=False
+            instance=profile,
+            prefix='pro',
+            label_suffix='',
+            use_required_attribute=False,
         )
     return render(
-        request, 'dashboard/profile_form.html', {
-            'pro_form':pro_form,'reg_form':reg_form,'usr_form':usr_form,
-            'reg_type':reg_type
-        }
+        request,
+        'dashboard/profile_form.html',
+        {
+            'pro_form': pro_form,
+            'reg_form': reg_form,
+            'usr_form': usr_form,
+            'reg_type': reg_type,
+        },
     )
 
 
 @csrf_exempt
 @login_required
 def set_val(request):
-    """
-    AJAX POST for setting arbitrary values to an object
-    """
-
+    """AJAX POST for setting arbitrary values to an object."""
     user = request.user
     msg = "fail"
-    obj = None
-    if request.method != 'POST':
-        msg = "POST required"
-    else:
-
+    instance = None
+    if request.method == 'POST':
         cid = request.POST.get('cid')
         oid = request.POST.get('oid')
         field = request.POST.get('field')
-        value = request.POST.get('value')
+        instance_value = request.POST.get('value')
 
         try:
             ct = ContentType.objects.get(pk=int(cid))
             mod = ct.model_class()
-            obj = mod.objects.get(pk=int(oid))
-        except:
+            instance = mod.objects.get(pk=int(oid))
+        except Exception:
             msg = """
-                Could not retrieve ContentType ({}) or object ({})
+                Could not retrieve ContentType ({0}) or object ({1})
             """.format(cid, oid)
 
-        if obj:
+        if instance:
             # team leaders, co-advisors, and grants officers can upload files
             # for rocket launch teams and professional programs
             manager = False
             try:
-                goid = obj.grants_officer.id
-            except:
+                goid = instance.grants_officer.id
+            except Exception:
                 goid = None
             try:
-                coid = obj.co_advisor.id
-            except:
+                coid = instance.co_advisor.id
+            except Exception:
                 coid = None
             if ct.model == 'rocketlaunchteam':
-                if obj.leader.id == user.id or goid == user.id or coid == user.id:
+                if instance.leader.id == user.id or goid == user.id or coid == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
                 if goid == user.id:
                     manager = True
             # is someone being naughty?
-            if obj.user != user and not manager:
-                msg =  "Something is rotten in Denmark"
+            if instance.user != user and not manager:
+                msg = "Something is rotten in Denmark"
             else:
-                setattr(obj, field, value)
+                setattr(instance, field, instance_value)
                 msg = "success"
-            obj.save()
+            instance.save()
+    else:
+        msg = "POST required"
 
-    return HttpResponse(
-        msg, content_type='text/plain; charset=utf-8'
-    )
+    return HttpResponse(msg, content_type='text/plain; charset=utf-8')
