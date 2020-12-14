@@ -1161,6 +1161,20 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
     )
+    signed_certification = forms.BooleanField(
+        label="""
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required=True,
+    )
 
     class Meta:
         """Attributes about the form and options."""
@@ -1225,6 +1239,20 @@ class HighAltitudeBalloonLaunchForm(forms.ModelForm):
         """,
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
+    )
+    signed_certification = forms.BooleanField(
+        label="""
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required=True,
     )
 
     class Meta:
@@ -1948,6 +1976,20 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
     SpecialInitiatives = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput(),
     )
+    signed_certification = forms.BooleanField(
+        label="""
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        required=True,
+    )
 
     class Meta:
         """Attributes about the form and options."""
@@ -1960,6 +2002,7 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
             'past_funding',
             'past_funding_year',
             'anticipating_funding',
+            'signed_certification',
         )
 
     def __init__(self, *args, **kwargs):

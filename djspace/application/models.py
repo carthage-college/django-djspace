@@ -1403,6 +1403,20 @@ class HighAltitudeBalloon(BaseModel):
         null=True,
         blank=True,
     )
+    signed_certification = models.BooleanField(
+        """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        default=False,
+    )
 
     def required_files(self):
         """Used when building a tarball of required files."""
@@ -2680,6 +2694,20 @@ class ProfessionalProgramStudent(BaseModel):
         related_name='special_initiatives_student',
         null=True,
         blank=True,
+    )
+    signed_certification = models.BooleanField(
+        """
+        I certify that I am, will be, or have applied to be a
+        full-time undergraduate student at one of the Wisconsin Space
+        Grant Consortium colleges or universities during the award period
+        covered in this application, and the information
+        contained in this application is accurate to the best of my
+        knowledge. I understand that, should I receive funding,
+        some or all of this scholarship/fellowship may be taxable according
+        to IRS regulations and that I am responsible for making sure all
+        tax requirements are met.
+        """,
+        default=False,
     )
 
     class Meta:

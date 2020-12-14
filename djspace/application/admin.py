@@ -381,6 +381,7 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     model = HighAltitudeBalloonPayload
 
     list_display = PROFILE_LIST_DISPLAY + [
+        'signed_certification',
         'cv_file',
         'position',
         'commit_short',
@@ -426,6 +427,7 @@ class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
     model = HighAltitudeBalloonLaunch
 
     list_display = PROFILE_LIST_DISPLAY + [
+        'signed_certification',
         'cv_file',
         'letter_interest_file',
         'past_funding',
@@ -1473,6 +1475,7 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
 
     model = ProfessionalProgramStudent
     list_display = PROFILE_LIST_DISPLAY + [
+        'signed_certification',
         'program_link',
         'program_application_link',
         'mentor',
