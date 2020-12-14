@@ -48,6 +48,7 @@ UPLOAD_FORMS = {
     'nasacompetition': NasaCompetitionUploadsForm,
     'industryinternship': IndustryInternshipUploadsForm,
     'professionalprogramstudent': ProfessionalProgramStudentUploadsForm,
+    'unmannedaerialvehiclesresearchscholarship': UnmannedAerialVehiclesResearchScholarshipUploadsForm,
 }
 
 

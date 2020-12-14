@@ -1,0 +1,15 @@
+{% extends "application/email/base.html" %}
+{% block title %}Unmanned Aerial Vehicles Research Scholarship Application{% endblock %}
+{% block data %}
+<h4>Do you currently hold another Federal fellowship or traineeship?</h4>
+<p>{{data.other_fellowship|default:"No"}}</p>
+{% if data.other_funding == 'Yes' %}
+<h4>If 'Yes', explain</h4>
+<p>{{data.other_fellowship_explain}}</p>
+{% endif %}
+<h4>
+    Will you be able to commit 32-40 hours/week
+    to this 10-week summer experience?
+</h4>
+<p>{{data.commit}}</p>
+{% endblock %}

@@ -41,6 +41,11 @@
       High Altitude Balloon Payload
     </a>
   </li>
+  <li>
+    <a href="{% url 'application_create' 'unmanned-aerial-vehicles-research-scholarship' %}">
+      Unmanned Aerial Vehicles Research Scholarship
+    </a>
+  </li>
   {% if user.profile.registration_type != "Undergraduate" and user.profile.registration_type != "Graduate" %}
   <li>
     <a href="{% url 'application_create' 'higher-education-initiatives' %}">

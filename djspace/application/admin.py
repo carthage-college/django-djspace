@@ -236,6 +236,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         'specialinitiatives',
         'undergraduateresearch',
         'undergraduatescholarship',
+        'unmannedaerialvehiclesresearchscholarship',
     ]
 
     field_names = [field.name for field in modeladmin.model._meta.get_fields()]
@@ -423,6 +424,22 @@ class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
     """Admin class for High Altitude Balloon Launch."""
 
     model = HighAltitudeBalloonLaunch
+
+    list_display = PROFILE_LIST_DISPLAY + [
+        'cv_file',
+        'letter_interest_file',
+        'past_funding',
+        'past_funding_year',
+        'funded_code',
+        'complete',
+        'status',
+    ]
+
+
+class UnmannedAerialVehiclesResearchScholarshipAdmin(HighAltitudeBalloonPayloadAdmin):
+    """Admin class for Unmanned Aerial Vehicles Research Scholarship."""
+
+    model = UnmannedAerialVehiclesResearchScholarship
 
     list_display = PROFILE_LIST_DISPLAY + [
         'cv_file',

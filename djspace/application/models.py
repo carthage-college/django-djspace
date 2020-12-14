@@ -190,6 +190,7 @@ STUDENT_PROFESSIONAL_PROGRAMS = (
     ('NasaInternship', 'NASA Internship'),
     ('ResearchInfrastructure', 'Research Infrastructure'),
     ('SpecialInitiatives', 'Special Initiatives'),
+    ('Student Ambassador', 'Student Ambassador'),
 )
 # only used at UI level
 ROCKET_COMPETITIONS_EXCLUDE = [
@@ -1485,6 +1486,25 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
         """Attributes about the data model and admin options."""
 
         verbose_name_plural = "High altitude balloon payload"
+
+
+class UnmannedAerialVehiclesResearchScholarship(HighAltitudeBalloon):
+    """Unmanned Aerial Vehicles Research Scholarship."""
+
+    def __unicode__(self):
+        return "Unmanned Aerial Vehicles Research Scholarship"
+
+    def get_application_type(self):
+        return 'Unmanned Aerial Vehicles Research Scholarship'
+
+    def get_slug(self):
+        return 'unmanned-aerial-vehicles-research-scholarship'
+
+    def get_code(self):
+        return 'UAV{0}'.format(YEAR_2)
+
+    class Meta:
+        verbose_name_plural = "Unmanned Aerial Vehicles Research Scholarship"
 
 
 class Fellowship(BaseModel):

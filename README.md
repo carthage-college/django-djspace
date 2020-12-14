@@ -17,13 +17,13 @@ Wisconsin Space Grant Consortium grant programs application infrastructure.
 
 6. create admin class in application/admin.py
 
-7. email template for after submission and print view on admin dashboard
+7. create the email template for after submission and print view on admin dashboard
 
 8. update application/views.py if need be
 
 9. update templates/application/form.html if need be
 
-10. update the UPLOAD_FORMS dictionary with the name of the model in lowercase
+10. update the UPLOAD_FORMS dictionary with the name of the model in lowercase: dashboard/views.py
 
 # New Field added to a Model
 

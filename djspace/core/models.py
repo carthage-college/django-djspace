@@ -51,7 +51,6 @@ ALLOWED_EXTENSIONS = [
     'ppt',
     'pptx',
 ]
-
 REG_TYPE = (
     ('', "----select----"),
     ('HighSchool', "High School"),
@@ -61,7 +60,6 @@ REG_TYPE = (
     ('GrantsOfficer', "Grants Officer"),
     ('Professional', "Professional"),
 )
-
 BIRTH_YEAR_CHOICES = list(reversed(range(1926, date.today().year - 11)))
 PAST_FUNDING_YEAR_CHOICES = [
     (yr, yr) for yr in reversed(range(date.today().year - 5, date.today().year + 1))
@@ -607,6 +605,7 @@ class UserProfile(models.Model):
         'application.NasaCompetition',
         'application.IndustryInternship',
         'application.ProfessionalProgramStudent',
+        'application.UnmannedAerialVehiclesResearchScholarship',
     )
 
     class Meta:

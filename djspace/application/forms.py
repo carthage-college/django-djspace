@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from functools import partial
-
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -814,7 +812,7 @@ class WomenInAviationScholarshipForm(forms.ModelForm):
     statement = forms.FileField(
         help_text=mark_safe("""
             Maximum two-page statement containing the following:
-            <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">
+            <ol class="help_text">
             <li>interest in aviation</li>
             <li>experience in aviation (coursework, pilot training, etc.)</li>
             <li>benefit of attending the 2020 Women in Aviation conference</li>
@@ -1159,9 +1157,7 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
         required=False,
     )
     other_fellowship = forms.TypedChoiceField(
-        label="""
-            Do you currently hold another Federal fellowship or traineeship?
-        """,
+        label="Do you currently hold another Federal fellowship or traineeship?",
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
     )
@@ -1264,6 +1260,78 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
         """Attributes about the form and options."""
 
         model = HighAltitudeBalloonLaunch
+        fields = (
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'team_photo',
+            'team_biography',
+        )
+
+
+class UnmannedAerialVehiclesResearchScholarshipForm(forms.ModelForm):
+    """Unmanned Aerial Vehicles Research Scholarship form."""
+
+    commit = forms.TypedChoiceField(
+        label="""
+            Will you be able to commit 32-40 hours/week
+            to this 10-week summer experience?
+        """,
+        required=True,
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required=False,
+    )
+    other_fellowship = forms.TypedChoiceField(
+        label="Do you currently hold another Federal fellowship or traineeship?",
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+
+    class Meta:
+        """Attributes about the form and options."""
+
+        model = UnmannedAerialVehiclesResearchScholarship
+        exclude = (
+            'complete',
+            'user',
+            'status',
+            'funded_code',
+            'funds_authorized',
+            'authorized_match',
+            'award_acceptance',
+            'final_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'interim_report',
+            'url1',
+            'url2',
+            'url3',
+            'team_photo',
+            'team_biography',
+        )
+
+
+class UnmannedAerialVehiclesResearchScholarshipUploadsForm(forms.ModelForm):
+    """Unmanned Aerial Vehicles Research Scholarship uploads form."""
+
+    class Meta:
+        """Attributes about the form and options."""
+
+        model = UnmannedAerialVehiclesResearchScholarship
         fields = (
             'award_acceptance',
             'final_report',
@@ -1519,9 +1587,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to set team choices."""
-        super(FirstNationsRocketCompetitionForm, self).__init__(
-            *args, **kwargs,
-        )
+        super(FirstNationsRocketCompetitionForm, self).__init__(*args, **kwargs)
         self.fields['team'].queryset = RocketLaunchTeam.objects.filter(
             competition__contains="First Nations",
         ).filter(date_created__gte=get_start_date()).order_by("name")
