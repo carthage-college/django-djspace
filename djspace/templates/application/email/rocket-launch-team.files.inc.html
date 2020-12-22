@@ -75,7 +75,7 @@
 {% if data.openrocketrocksim %}
 <li>
   <a href="{{media_url}}{{data.openrocketrocksim}}">
-    OpenRocket or RockSim Design Review
+    RockSim Design Review
   </a>
   <ul>
     <li>Created: {{data.openrocketrocksim_timestamp}}</li>
@@ -86,13 +86,13 @@
 </li>
 {% else %}
   {% if data.status %}
-<li>OpenRocketRockSim: Missing</li>
+<li>RockSim: Missing</li>
   {% endif %}
 {% endif %}
 {% if data.openrocketrocksim2 %}
 <li>
   <a href="{{media_url}}{{data.openrocketrocksim2}}">
-    OpenRocket or RockSim Design Review 2
+    RockSim Design Review 2
   </a>
   <ul>
     <li>Created: {{data.openrocketrocksim2_timestamp}}</li>
@@ -103,7 +103,7 @@
 </li>
 {% else %}
   {% if data.status %}
-<li>OpenRocketRockSim 2: Missing</li>
+<li>RockSim 2: Missing</li>
   {% endif %}
 {% endif %}
 {% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}

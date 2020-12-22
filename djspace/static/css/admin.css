@@ -33,3 +33,6 @@ thead th {
 .field-virtual_pdr_file, .field-virtual_frr_file,
 .field-final_motor_selection_trunk
 {text-align:center;}
+.submit-row a.deletelink {
+    height: auto;
+}
