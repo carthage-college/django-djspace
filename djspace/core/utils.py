@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import os
+import secrets
 from datetime import datetime
 
 from allauth.account.models import EmailAddress
 from django.conf import settings
 from django.forms.models import model_to_dict
-from djtools.fields import NOW
-from djtools.utils.cypher import AESCipher
+from django.utils.safestring import mark_safe
 from djtools.utils.mail import send_mail
 
 
@@ -52,20 +52,16 @@ CRL_REQUIRED_FILES = [
 
 def get_start_date():
     """Obtain the start date for the current grant cycle."""
-    year = NOW.year
-    if NOW.month < settings.GRANT_CYCLE_START_MES:
-        year = NOW.year - 1
+    now = datetime.now()
+    year = now.year
+    if now.month < settings.GRANT_CYCLE_START_MES:
+        year = now.year - 1
     return datetime(year, settings.GRANT_CYCLE_START_MES, 1)
 
 
 def upload_to_path(field_name, instance, filename):
     """Generates the path as a string for file field."""
-    cipher = AESCipher(bs=16)
-    try:
-        uid = str(instance.user.id)
-    except Exception:
-        uid = str(instance.user().id)
-    cid = cipher.encrypt(uid)
+    cid = secrets.token_urlsafe(32)
     ext = filename.split('.')[-1]
     filename = '{0}_{1}.{2}'.format(instance.get_file_name(), field_name, ext)
     path = '{0}/{1}/{2}/'.format(
@@ -204,22 +200,28 @@ def admin_display_file(instance, field, team=False):
     if attr and field in {'mugshot', 'biography', 'irs_w9', 'media_release'}:
         status = instance.user.user_files.status(field)
         if status:
-            icon = """<a href="{0}" target="_blank">
+            icon = mark_safe(
+                """<a href="{0}" target="_blank">
                 <i class="fa fa-check green" aria-hidden="true"></i></a>
-            """.format(attr.url)
+                """.format(attr.url),
+            )
         else:
-            icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+            icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     elif team:
         if attr:
-            icon = """<a href="{0}" target="_blank">
+            icon = mark_safe(
+                """<a href="{0}" target="_blank">
                 <i class="fa fa-check green" aria-hidden="true"></i></a>
-            """.format(attr.url)
+                """.format(attr.url),
+            )
         else:
-            icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+            icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     elif attr:
-        icon = """<a href="{0}" target="_blank">
+        icon = mark_safe(
+            """<a href="{0}" target="_blank">
             <i class="fa fa-check green" aria-hidden="true"></i></a>
-        """.format(attr.url)
+            """.format(attr.url),
+        )
     else:
-        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     return icon

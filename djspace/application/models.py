@@ -180,6 +180,7 @@ PROFESSIONAL_PROGRAMS = [
     'researchinfrastructure',
     'specialinitiatives',
 ]
+# update excludes in application/views.py for non-programs
 STUDENT_PROFESSIONAL_PROGRAMS = (
     ('AerospaceOutreach', 'Aerospace Outreach'),
     ('CaNOP', 'CaNOP'),
@@ -387,7 +388,10 @@ class HigherEducationInitiatives(EducationInitiatives):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -410,13 +414,15 @@ class ResearchInfrastructure(EducationInitiatives):
         "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
-        help_text="""
+        help_text=mark_safe(
+            """
             See NASA's
             <a href="https://www.nasa.gov/offices/education/missions/"
               target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
-        """,
+            """,
+        ),
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
@@ -460,7 +466,10 @@ class ResearchInfrastructure(EducationInitiatives):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -501,13 +510,15 @@ class AerospaceOutreach(EducationInitiatives):
         "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
-        help_text="""
+        help_text=mark_safe(
+            """
             See NASA's
             <a href="https://www.nasa.gov/offices/education/missions/"
               target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
-        """,
+            """,
+        ),
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
@@ -542,7 +553,10 @@ class AerospaceOutreach(EducationInitiatives):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -580,13 +594,15 @@ class SpecialInitiatives(EducationInitiatives):
         "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
-        help_text="""
+        help_text=mark_safe(
+            """
             See NASA's
             <a href="https://www.nasa.gov/offices/education/missions/"
               target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
-        """,
+            """,
+        ),
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
@@ -621,7 +637,10 @@ class SpecialInitiatives(EducationInitiatives):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -982,7 +1001,10 @@ class RocketLaunchTeam(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     def required_files(self):
         """Used when building a tarball of required files."""
@@ -1175,7 +1197,10 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class CollegiateRocketCompetition(BaseModel):
@@ -1266,7 +1291,10 @@ class CollegiateRocketCompetition(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class FirstNationsRocketCompetition(BaseModel):
@@ -1333,7 +1361,10 @@ class FirstNationsRocketCompetition(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class HighAltitudeBalloon(BaseModel):
@@ -1440,7 +1471,10 @@ class HighAltitudeBalloon(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
@@ -1518,7 +1552,8 @@ class UnmannedAerialVehiclesResearchScholarship(HighAltitudeBalloon):
         return 'UAV{0}'.format(YEAR_2)
 
     class Meta:
-        verbose_name_plural = "Unmanned Aerial Vehicles Research Scholarship"
+        verbose_name = "UAV Scholarship"
+        verbose_name_plural = "UAV Scholarships"
 
 
 class Fellowship(BaseModel):
@@ -1552,13 +1587,15 @@ class Fellowship(BaseModel):
         "NASA Mission Directorate",
         max_length=128,
         choices=DIRECTORATE_CHOICES,
-        help_text="""
+        help_text=mark_safe(
+            """
             See NASA's
             <a href="http://www.nasa.gov/offices/education/missions/"
               target="_blank">
                 Mission Directorates Education and Outreach
             </a> page for more information.
-        """,
+            """,
+        ),
     )
     nasa_mission_directorate_other = models.CharField(
         "Other",
@@ -1709,7 +1746,10 @@ class Fellowship(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class ClarkGraduateFellowship(Fellowship):
@@ -1927,7 +1967,10 @@ class UndergraduateResearch(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -2111,7 +2154,10 @@ class WomenInAviationScholarship(Scholarship):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -2143,7 +2189,10 @@ class UndergraduateScholarship(Scholarship):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class StemBridgeScholarship(Scholarship):
@@ -2167,7 +2216,10 @@ class StemBridgeScholarship(Scholarship):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     class Meta:
         """Attributes about the data model and admin options."""
@@ -2406,7 +2458,10 @@ class NasaCompetition(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class IndustryInternship(BaseModel):
@@ -2633,7 +2688,10 @@ class IndustryInternship(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
 
 class ProfessionalProgramStudent(BaseModel):
@@ -2721,7 +2779,10 @@ class ProfessionalProgramStudent(BaseModel):
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
-        return reverse('application_update', [self.get_slug(), str(self.id)])
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
 
     def get_application_type(self):
         """Application type title for display."""
@@ -2762,7 +2823,7 @@ class ProfessionalProgramStudent(BaseModel):
                 'application_print',
                 kwargs={'application_type': app.get_slug(), 'aid': app.id},
             )
-            link = '<a href="{0}">{1}</a>'.format(url, title)
+            link = mark_safe('<a href="{0}">{1}</a>'.format(url, title))
         return link
 
     def get_code(self):

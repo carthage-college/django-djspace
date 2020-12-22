@@ -249,7 +249,12 @@ def application_form(request, application_type, aid=None):
             # deal with FK relationships for programs
             if application_type == 'professional-program-student':
                 program = cd['program']
-                excludes = ['CaNOP', 'MicroPropellantGauging', 'NasaInternship']
+                excludes = [
+                    'CaNOP',
+                    'MicroPropellantGauging',
+                    'NasaInternship',
+                    'Student Ambassador',
+                ]
                 if program not in excludes:
                     mod = django.apps.apps.get_model(
                         app_label='application', model_name=program,

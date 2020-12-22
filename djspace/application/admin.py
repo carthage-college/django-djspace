@@ -18,6 +18,7 @@ from django.urls import reverse_lazy
 from django.utils.encoding import smart_bytes
 from django.utils.encoding import smart_str
 from django.utils.html import strip_tags
+from django.utils.safestring import mark_safe
 from django.utils.text import Truncator
 from djspace.application.models import *
 from djspace.core.admin import PROFILE_LIST_DISPLAY
@@ -240,6 +241,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     ]
 
     field_names = [field.name for field in modeladmin.model._meta.get_fields()]
+    slug = modeladmin.model.get_slug()
     headers = PROFILE_HEADERS + field_names
     # remove unwanted headers
     for exclu in exclude:
@@ -255,30 +257,30 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         fields = []
         profile_fields = get_profile_fields(reg)
         # deal with non-standard characters
-        for f in profile_fields:
-            fields.append(smart_str(f))
-        field_names = [f.name for f in reg._meta.get_fields()]
-        for field in field_names:
-            if field and field not in exclude:
-                value = getattr(reg, field, None)
-                if value != '':
-                    if field == 'synopsis':
-                        value = unicode(
-                            strip_tags(value)
+        for prof in profile_fields:
+            fields.append(smart_str(prof))
+        field_names = [field.name for field in reg._meta.get_fields()]
+        for name in field_names:
+            if name and name not in exclude:
+                attr = getattr(reg, name, None)
+                if attr != '':
+                    if name == 'synopsis':
+                        attr = unicode(
+                            strip_tags(attr),
                         ).encode('utf-8', 'ignore').strip()
-                    elif field in file_fields:
-                        earl = u'https://{0}{1}{2}'.format(
-                            settings.SERVER_URL, settings.MEDIA_URL, value,
+                    elif name in file_fields:
+                        earl = 'https://{0}{1}{2}'.format(
+                            settings.SERVER_URL, settings.MEDIA_URL, attr,
                         )
-                        value = '=HYPERLINK("{0}","{1}")'.format(earl, field)
-                    elif field in username_fields:
-                        if value:
-                            value = '{0}, {1} ({2})'.format(
-                                value.last_name, value.first_name, value.email,
+                        attr = '=HYPERLINK("{0}","{1}")'.format(earl, name)
+                    elif name in username_fields:
+                        if attr:
+                            attr = '{0}, {1} ({2})'.format(
+                                attr.last_name, attr.first_name, attr.email,
                             )
                     else:
-                        value = unicode(value).encode('utf-8', 'ignore')
-                fields.append(value)
+                        attr = unicode(attr).encode('utf-8', 'ignore')
+                fields.append(attr)
         writer.writerow(fields)
     wb = load_workbook(
         '{0}/application/applications.xlsx'.format(settings.ROOT_DIR),
@@ -293,9 +295,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         save_virtual_workbook(wb), content_type='application/ms-excel',
     )
 
-    response['Content-Disposition'] = 'attachment;filename={0}.xlsx'.format(
-        reg.get_slug(),
-    )
+    response['Content-Disposition'] = 'attachment;filename={0}.xlsx'.format(slug)
 
     return response
 
@@ -315,19 +315,20 @@ def _build_tarball(queryset, object_name, field, userfiles=False):
         object_name, field,
     )
     tar_ball = tarfile.open(fileobj=response, mode='w:gz')
-    for obj in queryset:
+    for row in queryset:
         if userfiles:
             # some users might not have a user_files relationship
             try:
-                obj = obj.user.user_files
-            except:
-                continue
-        phile = getattr(obj, field, None)
-        if phile:
-            path = phile.path
-            path_list = path.split('/')
-            name = path_list[-1]
-            tar_ball.add(path, arcname=name)
+                row = row.user.user_files
+            except Exception:
+                row = None
+        if row:
+            phile = getattr(row, field, None)
+            if phile:
+                path = phile.path
+                path_list = path.split('/')
+                name = path_list[-1]
+                tar_ball.add(path, arcname=name)
     tar_ball.close()
 
     return response
@@ -494,6 +495,7 @@ class ClarkGraduateFellowshipAdmin(GenericAdmin):
     ]
 
     def synopsis_trunk(self, instance):
+        """Return the truncated synopsis text."""
         return Truncator(instance.synopsis).words(
             25, html=True, truncate=' ...',
         )
@@ -744,12 +746,12 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     def grants_officer_name(self, obj):
         name = None
         if obj.grants_officer:
-            name = u'<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
+            name = mark_safe('<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
                 obj.grants_officer.email,
                 obj.grants_officer.last_name,
                 obj.grants_officer.first_name,
                 obj.grants_officer.email,
-            )
+            ))
         return name
     grants_officer_name.allow_tags = True
     grants_officer_name.short_description = "Authorized User"
@@ -757,12 +759,12 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     def co_advisor_name(self, obj):
         name = None
         if obj.co_advisor:
-            name = u'<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
+            name = mark_safe('<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
                 obj.co_advisor.email,
                 obj.co_advisor.last_name,
                 obj.co_advisor.first_name,
                 obj.co_advisor.email,
-            )
+            ))
         return name
     co_advisor_name.allow_tags = True
     co_advisor_name.short_description = "Co-Advisor"
@@ -771,12 +773,12 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         """Return the team leader's name as link to email address."""
         name = None
         if instance.leader:
-            name = '<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
+            name = mark_safe('<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
                 instance.leader.email,
                 instance.leader.last_name,
                 instance.leader.first_name,
                 instance.leader.email,
-            )
+            ))
         return name
     leader_name.allow_tags = True
     leader_name.short_description = "Leader"
@@ -825,22 +827,26 @@ class RocketLaunchTeamAdmin(GenericAdmin):
 
     def flight_demo_file(self, instance):
         """Construct display file code for the admin dashboard."""
-        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
         if instance.flight_demo:
-            icon = """
-              <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            """.format(instance.flight_demo)
+            icon = mark_safe(
+                """
+                <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
+                """.format(instance.flight_demo),
+            )
         return icon
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo URL"
 
     def final_motor_selection_trunk(self, instance):
         """Construct display file code for the admin dashboard."""
-        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
         if instance.final_motor_selection:
-            icon = """
-              <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            """.format(instance.final_motor_selection)
+            icon = mark_safe(
+                """
+                <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
+                """.format(instance.final_motor_selection),
+            )
         return icon
     final_motor_selection_trunk.allow_tags = True
     final_motor_selection_trunk.short_description = "Final Motor"
@@ -901,11 +907,13 @@ class RocketLaunchTeamAdmin(GenericAdmin):
 
     def proceeding_paper_file(self, instance):
         """Construct display file code for the admin dashboard."""
-        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
         if instance.proceeding_paper:
-            icon = """
-              <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
-            """.format(instance.proceeding_paper)
+            icon = mark_safe(
+                """
+                <i class="fa fa-check green" aria-hidden="true" title="{0}"></i>
+                """.format(instance.proceeding_paper),
+            )
         return icon
     proceeding_paper_file.allow_tags = True
     proceeding_paper_file.short_description = "Proceeding Paper Date"
@@ -988,10 +996,12 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
         """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.team.flight_demo:
-            icon = """
-              <a href="{0}">
-              <i class="fa fa-check green" aria-hidden="true" title="{1}"></i></a>
-            """.format(instance.team.flight_demo, instance.team.flight_demo)
+            icon = mark_safe(
+                """
+                <a href="{0}">
+                <i class="fa fa-check green" aria-hidden="true" title="{1}"></i></a>
+                """.format(instance.team.flight_demo, instance.team.flight_demo),
+            )
         return icon
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo URL"
@@ -1142,10 +1152,12 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
         """Construct display file code for the admin dashboard."""
         icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
         if instance.team.flight_demo:
-            icon = """
-              <a href="{0}">
-              <i class="fa fa-check green" aria-hidden="true" title="{1}"></i></a>
-            """.format(instance.team.flight_demo, instance.team.flight_demo)
+            icon = mark_safe(
+                """
+                <a href="{0}">
+                <i class="fa fa-check green" aria-hidden="true" title="{1}"></i></a>
+                """.format(instance.team.flight_demo, instance.team.flight_demo),
+            )
         return icon
     flight_demo_file.allow_tags = True
     flight_demo_file.short_description = "Flight Demo URL"
@@ -1501,13 +1513,13 @@ class ProfessionalProgramStudentAdmin(GenericAdmin):
 
     def program_link(self, instance):
         """Construct link to admin update view."""
-        return '<a href="{0}">{1}</a>'.format(
+        return mark_safe('<a href="{0}">{1}</a>'.format(
             reverse(
                 'admin:application_professionalprogramstudent_change',
                 args=(instance.id,),
             ),
             instance.program,
-        )
+        ))
     program_link.allow_tags = True
     program_link.short_description = 'Program Name (view/edit)'
 
@@ -1563,6 +1575,10 @@ admin.site.register(
 )
 admin.site.register(
     UndergraduateResearch, UndergraduateResearchAdmin,
+)
+admin.site.register(
+    UnmannedAerialVehiclesResearchScholarship,
+    UnmannedAerialVehiclesResearchScholarshipAdmin,
 )
 admin.site.register(
     IndustryInternship, IndustryInternshipAdmin,

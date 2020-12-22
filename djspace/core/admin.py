@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 from djspace.core.forms import EmailApplicantsForm
 from djspace.core.models import GenericChoice
 from djspace.core.models import UserProfile
@@ -114,7 +115,6 @@ class GenericAdmin(admin.ModelAdmin):
 
     list_per_page = 20
     raw_id_fields = ('user', 'updated_by')
-    salutation = lambda s, o: o.user.profile.salutation
 
     class Media:
         """Inject static files into the admin view."""
@@ -133,24 +133,28 @@ class GenericAdmin(admin.ModelAdmin):
             '/static/djspace/js/admin.js',
         )
 
+    def salutation(self, instance):
+        """Return the user's salutation."""
+        return instance.user.profile.salutation
+
     def second_name(self, instance):
         """Return the user's second name."""
         return instance.user.profile.second_name
 
     def last_name(self, instance):
         """Construct the link to the print view using the user's last name."""
-        return '<a href="{0}" target="_blank">{1}</a>'.format(
+        return mark_safe('<a href="{0}" target="_blank">{1}</a>'.format(
             reverse("application_print", args=(instance.get_slug(), instance.id)),
             instance.user.last_name,
-        )
+        ))
     last_name.allow_tags = True
     last_name.short_description = "Last Name (print)"
 
     def first_name(self, instance):
         """Construct the link to the default view using the user's first name."""
-        return '<a href="{0}" target="_blank">{1}</a>'.format(
+        return mark_safe('<a href="{0}" target="_blank">{1}</a>'.format(
             instance.get_absolute_url(), instance.user.first_name,
-        )
+        ))
     first_name.allow_tags = True
     first_name.short_description = "Given Name (edit)"
 
@@ -245,9 +249,9 @@ class GenericAdmin(admin.ModelAdmin):
 
     def email(self, instance):
         """Return the user's primary email."""
-        return '<a href="mailto:{0}">{1}</a>'.format(
+        return mark_safe('<a href="mailto:{0}">{1}</a>'.format(
             instance.user.email, instance.user.email,
-        )
+        ))
     email.allow_tags = True
     email.short_description = 'Email'
 
@@ -258,7 +262,7 @@ class GenericAdmin(admin.ModelAdmin):
     def registration_type(self, instance):
         """Return the user's registration type."""
         try:
-            reg_type = '<a href="{0}">{1}</a>'.format(
+            reg_type = mark_safe('<a href="{0}">{1}</a>'.format(
                 reverse(
                     'admin:registration_{0}_change'.format(
                         instance.user.profile.registration_type.lower(),
@@ -266,7 +270,7 @@ class GenericAdmin(admin.ModelAdmin):
                     args=(instance.user.profile.get_registration().id,),
                 ),
                 instance.user.profile.registration_type,
-            )
+            ))
         except Exception:
             return None
         return reg_type
@@ -275,15 +279,16 @@ class GenericAdmin(admin.ModelAdmin):
 
     def wsgc_affiliate(self, instance):
         """Return the user's WSGC affiliate organization."""
+        reggie = instance.user.profile.get_registration()
         try:
-            wsgc_affiliate = instance.user.profile.get_registration().wsgc_affiliate
+            wsgc_affiliate = reggie.wsgc_affiliate
         except Exception:
             wsgc_affiliate = None
         try:
             if wsgc_affiliate.name == 'Other':
-                wsgc_affiliate = instance.user.profile.get_registration().wsgc_affiliate_other
+                wsgc_affiliate = reggie.wsgc_affiliate_other
         except Exception:
-            pass
+            wsgc_affiliate = None
         return wsgc_affiliate
     wsgc_affiliate.short_description = "Institution Name"
 
@@ -292,7 +297,7 @@ class GenericAdmin(admin.ModelAdmin):
         try:
             return admin_display_file(instance.user.user_files, 'mugshot')
         except Exception:
-            return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+            return mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     mugshot_file.allow_tags = True
     mugshot_file.short_description = "Photo"
 
@@ -301,7 +306,7 @@ class GenericAdmin(admin.ModelAdmin):
         try:
             return admin_display_file(instance.user.user_files, 'biography')
         except Exception:
-            return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+            return mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     biography_file.allow_tags = True
     biography_file.short_description = "Bio"
 
@@ -310,7 +315,7 @@ class GenericAdmin(admin.ModelAdmin):
         try:
             return admin_display_file(instance.user.user_files, 'media_release')
         except Exception:
-            return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+            return mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     media_release_file.allow_tags = True
     media_release_file.short_description = "Media"
 
@@ -319,7 +324,7 @@ class GenericAdmin(admin.ModelAdmin):
         try:
             return admin_display_file(instance.user.user_files, 'irs_w9')
         except Exception:
-            return '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+            return mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     irs_w9_file.allow_tags = True
     irs_w9_file.short_description = "W9"
 

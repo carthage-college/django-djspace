@@ -161,10 +161,10 @@ class UndergraduateAdmin(GenericAdmin):
 
     def last_name(self, instance):
         """Construct the link to the print view."""
-        return '<a href="{0}">{1}</a>'.format(
+        return mark_safe('<a href="{0}">{1}</a>'.format(
             reverse('registration_print', args=[instance.user.id]),
             instance.user.last_name,
-        )
+        ))
     last_name.allow_tags = True
     last_name.short_description = 'Last Name (print)'
 
