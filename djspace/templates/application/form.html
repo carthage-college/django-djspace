@@ -71,7 +71,11 @@ $(function() {
     /* Professional Program Student Mentor */
     function getProgramSubmissions(mentor, program, aid) {
         var excludes = [
-            'CaNOP', 'MicroPropellantGauging', 'NasaInternship'
+            'CaNOP',
+            'MicroPropellantGauging',
+            'NasaInternship',
+            'ProfessionalProgramStudent',
+            'Student Ambassador'
         ]
         /* indexOf does not work in IE < 9 */
         if (excludes.indexOf(program) == -1) {
