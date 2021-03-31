@@ -169,6 +169,7 @@ ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
 EDUCATION_INITITATIVES_PROGRAMS = [
     'aerospaceoutreach',
     'highereducationinitiatives',
+    'industryinternship',
     'researchinfrastructure',
     'specialinitiatives',
 ]
@@ -2609,6 +2610,15 @@ class IndustryInternship(BaseModel):
         validators=FILE_VALIDATORS,
         max_length=255,
         help_text="PDF format",
+    )
+    # grants officer / authorized user field
+    grants_officer = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User",
+        related_name='iip_grants_officer',
     )
     # approved files
     invoice = models.FileField(
