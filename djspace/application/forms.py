@@ -1797,6 +1797,16 @@ class NasaCompetitionForm(forms.ModelForm):
         choices=BINARY_CHOICES,
         widget=forms.RadioSelect(),
     )
+    grants_officer = forms.CharField(
+        label="Authorized User",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be 
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -1831,8 +1841,10 @@ class NasaCompetitionForm(forms.ModelForm):
         )
 
     def clean(self):
-        """Check "other" fields if need be."""
+        """Deal with grants officer and 'other' fields if need be."""
         cd = self.cleaned_data
+        gid = cd.get('grants_officer')
+        uid = str(self.request.user.id)
 
         if cd.get("competition_type") == "Other":
             if cd.get("competition_type_other") == "":
@@ -1842,7 +1854,28 @@ class NasaCompetitionForm(forms.ModelForm):
             if cd.get("facility_name_other") == "":
                 self.add_error('facility_name_other', "Required field")
 
-        return cd
+        # Assign a User object to grants officer
+        if gid:
+            if gid == uid:
+                self.add_error(
+                    'grants_officer',
+                    "You cannot also be an authorized user",
+                )
+                cd['grants_officer'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=gid)
+                    cd['grants_officer'] = user
+                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                        user.last_name, user.first_name,
+                    )
+                except Exception:
+                    self.add_error(
+                        'grants_officer',
+                        "That User does not exist in the system",
+                    )
+        else:
+            cd['grants_officer'] = None
 
 
 class NasaCompetitionUploadsForm(forms.ModelForm):
