@@ -170,6 +170,7 @@ EDUCATION_INITITATIVES_PROGRAMS = [
     'aerospaceoutreach',
     'highereducationinitiatives',
     'industryinternship',
+    'nasacompetition',
     'researchinfrastructure',
     'specialinitiatives',
 ]
