@@ -119,6 +119,7 @@ def home(request):
             'professional_programs': [
                 'aerospaceoutreach',
                 'highereducationinitiatives',
+                'nasacompetition',
                 'researchinfrastructure',
                 'specialinitiatives',
             ],
