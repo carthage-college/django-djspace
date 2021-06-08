@@ -7,7 +7,7 @@ django-localflavor==3.0.1
 mysqlclient==2.0.1
 openpyxl==3.0.5
 pathlib==1.0.1
-Pillow==8.0.1
+Pillow==8.2.0
 pycryptodome==3.9.9
 cryptography==3.2.2
 python-magic==0.4.18
