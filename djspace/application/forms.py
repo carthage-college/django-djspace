@@ -1501,6 +1501,18 @@ class RocketLaunchTeamForm(forms.ModelForm):
             if cid == uid:
                 self.add_error('co_advisor', "You cannot also be a co-advisor")
                 cd['co_advisor'] = None
+            elif cid == lid:
+                self.add_error(
+                    'co_advisor',
+                    "Co-advisor and Team Lead cannot be the same person.",
+                )
+                cd['co_advisor'] = None
+            elif cid == gid:
+                self.add_error(
+                    'co_advisor',
+                    "Co-advisor and Authorized User cannot be the same person.",
+                )
+                cd['leader'] = None
             else:
                 try:
                     user = User.objects.get(pk=cid)
@@ -1518,7 +1530,19 @@ class RocketLaunchTeamForm(forms.ModelForm):
         # Assign a User object to team leader
         if lid:
             if lid == uid:
-                self.add_error('leader', "You cannot also be a co-advisor")
+                self.add_error('leader', "You cannot also be a team lead.")
+                cd['leader'] = None
+            elif lid == gid:
+                self.add_error(
+                    'leader',
+                    "Authorized user and team lead cannot be the same person.",
+                )
+                cd['leader'] = None
+            elif lid == cid:
+                self.add_error(
+                    'leader',
+                    "Team Lead and co-adivsor cannot be the same person.",
+                )
                 cd['leader'] = None
             else:
                 try:

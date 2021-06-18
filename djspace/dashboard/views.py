@@ -89,7 +89,7 @@ def home(request):
         for app in apps.all():
             if app.date_created >= start_date:
                 current_apps.append(app)
-                if a.status:
+                if app.status:
                     approved.append(app)
             elif app.multi_year and app.status:
                 past_apps.append(app)
