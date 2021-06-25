@@ -178,7 +178,7 @@ def registration_type(request):
         if reg:
             reggie = model_to_dict(reg)
             # remove file field because json barfs on it and we don't need it
-            if reggie.get('cv'):
+            if 'cv' in reggie.keys():
                 reggie['cv'] = ''
 
         template = loader.get_template('dashboard/registration_form.inc.html')
