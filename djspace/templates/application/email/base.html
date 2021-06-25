@@ -67,7 +67,7 @@ Department program.......... {{data.user.profile.get_registration.department_pro
 {% if data.user.profile.registration_type == "HighSchool" %}
     {% include "application/email/highschool.inc.html" %}
 {% endif %}
-<h2>Profile Files</h2>
+<h2>Personally Identifiable Information</h2>
 {% with data.user as user %}
   {% include "application/email/user_files.inc.html" %}
 {% endwith %}
