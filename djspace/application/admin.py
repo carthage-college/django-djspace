@@ -185,7 +185,7 @@ def longitudinal_tracking(modeladmin, request):
     )
     response = HttpResponse(rendered_data, content_type='text/csv')
     response['Content-Disposition'] = 'attachment;filename={0}.csv'.format(
-        erogram,
+        program,
     )
 
     return response
