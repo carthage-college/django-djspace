@@ -5,7 +5,7 @@
 import os
 
 
-DEBUG = True
+DEBUG = False
 ADMINS = ()
 MANAGERS = ADMINS
 SECRET_KEY = ''
