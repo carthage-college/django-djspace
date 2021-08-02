@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.urls import reverse
 from django.utils.encoding import smart_str
+from django.utils.safestring import mark_safe
 from djspace.core.admin import PROFILE_LIST
 from djspace.core.admin import GenericAdmin
 from djspace.registration.models import *

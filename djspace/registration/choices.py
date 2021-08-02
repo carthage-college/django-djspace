@@ -13,6 +13,15 @@ GRADUATE_DEGREE = (
     ('M.D.', 'M.D.'),
     ('Other', 'Other'),
 )
+GRANTS_PROCESS_STAGES = (
+    ('', '---------'),
+    ('Pre-Award (Application Process)', 'Pre-Award (Application Process)'),
+    (
+        'Post-Award (Award Acceptance/Grant Management)',
+        'Post-Award (Award Acceptance/Grant Management)',
+    ),
+    ('Both', 'Both'),
+)
 UNDERGRADUATE_DEGREE = (
     ("Bachelor's degree", "Bachelor's degree"),
     ("Associate's degree/certificate", "Associate's degree/certificate"),

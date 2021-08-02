@@ -56,6 +56,7 @@ Date updated................ {{data.user.profile.date_updated}}
 Title....................... {{data.user.profile.get_registration.title}}
 WSGC affiliate.............. {{data.user.profile.get_registration.wsgc_affiliate}}
 Department program.......... {{data.user.profile.get_registration.department_program}}
+{% if data.user.profile.registration_type == "GrantsOfficer" %}Grants Process Stage........ {{data.user.profile.get_registration.stage}}{% endif %}
 </pre>
 {% endif %}
 {% if data.user.profile.registration_type == "Graduate" %}

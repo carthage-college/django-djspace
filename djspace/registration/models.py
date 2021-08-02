@@ -8,6 +8,7 @@ from djspace.core.models import Base
 from djspace.core.models import GenericChoice
 from djspace.core.utils import upload_to_path
 from djspace.registration.choices import GRADUATE_DEGREE
+from djspace.registration.choices import GRANTS_PROCESS_STAGES
 from djspace.registration.choices import MAJORS
 from djspace.registration.choices import UNDERGRADUATE_DEGREE
 from djspace.registration.choices import YEAR_CHOICES
@@ -260,6 +261,13 @@ class Faculty(Academic):
 
 class GrantsOfficer(Academic):
     """Grants Officer registration type."""
+
+    stage = models.CharField(
+        "Grants Process Stage",
+        max_length=128,
+        choices=GRANTS_PROCESS_STAGES,
+        help_text="Select the stage of the grant process you will assist awardees",
+    )
 
     class Meta:
         """Attributes about the data model and admin options."""

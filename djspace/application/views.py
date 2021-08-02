@@ -374,6 +374,9 @@ def application_form(request, application_type, aid=None):
                 bcc = [settings.ADMINS[0][1], settings.WSGC_EMAIL]
                 # send confirmation email to WSGC staff and applicant
                 to_list.append(data.user.email)
+                # add folks for rocket competitions
+                if 'rocket' in application_type:
+                    to_list.append(settings.WSGC_ROCKET_EMAIL)
                 if aid:
                     app_name += ' (UPDATED)'
                 subject = '{0} {1}: {2}, {3}'.format(

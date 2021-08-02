@@ -3,6 +3,7 @@
 from django import forms
 from djspace.core.models import GenericChoice
 from djspace.registration.choices import GRADUATE_DEGREE
+from djspace.registration.choices import GRANTS_PROCESS_STAGES
 from djspace.registration.choices import UNDERGRADUATE_DEGREE
 from djspace.registration.models import Faculty
 from djspace.registration.models import Graduate

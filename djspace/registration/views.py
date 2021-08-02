@@ -66,9 +66,9 @@ def user_files(request):
 
 
 @staff_member_required
-def registration_print(request, uid):
+def registration_print(request, pid):
     """Registration print view."""
-    user = get_object_or_404(User, pk=uid)
+    user = get_object_or_404(User, pk=pid)
     return render(
         request, 'application/email/base.html', {'data': {'user': user}},
     )
