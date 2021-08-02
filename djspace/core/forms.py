@@ -72,6 +72,7 @@ class SignupForm(forms.Form):
         widget=forms.RadioSelect(),
     )
     race = forms.ModelMultipleChoiceField(
+        label="Race and Ethnicity",
         queryset=RACES,
         help_text='Check all that apply',
         widget=forms.CheckboxSelectMultiple(),

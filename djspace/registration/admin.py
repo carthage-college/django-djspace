@@ -33,7 +33,7 @@ PROFILE_HEADERS = [
     'Postal Code',
     'Date of Birth',
     'Gender',
-    'Race',
+    'Race/Ethnicity',
     'Tribe',
     'Disability',
     'Disability Specifics',

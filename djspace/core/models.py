@@ -102,6 +102,10 @@ EMPLOYMENT_CHOICES = (
         "Employed in other STEM academic field",
     ),
     (
+        'Pursuit of Advance Degree',
+        "Pursuit of Advance Degree",
+    ),
+    (
         'Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)',
         "Other (e.g. non-STEM employment, non-STEM academic degree, unemployed)",
     ),
@@ -551,6 +555,7 @@ class UserProfile(models.Model):
     gender = models.CharField(max_length=16, choices=GENDER_CHOICES)
     race = models.ManyToManyField(
         GenericChoice,
+        verbose_name="Race and Ethnicity",
         related_name="user_profile_race",
         help_text='Check all that apply',
     )

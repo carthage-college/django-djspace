@@ -224,7 +224,7 @@ $(document).ready(function(){
 <form method="post" action="." class="form" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="forms-container large-6 medium-12 small-12">
-        <h2>Account information</h2>
+        <h2>Account Information</h2>
         <fieldset class="blockLabels">
             <ol>
                 {% for field in usr_form %}
@@ -240,6 +240,9 @@ $(document).ready(function(){
                     </ol></fieldset>
                     <fieldset class="blockLabels">
                     <legend>Permanent Address</legend>
+                    <p><small>
+                      Payments requiring a W9 will be issued directly to the permanent address.
+                    </small></p>
                     <ol>
                     {% endif %}
                     {% if field.name == "address1_current" %}
