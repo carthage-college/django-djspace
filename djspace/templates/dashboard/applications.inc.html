@@ -36,6 +36,7 @@
     </a>
   </li>
   {% endif %}
+  {% if user.profile.registration_type != "Faculty" %}
   <li>
     <a href="{% url 'application_create' 'high-altitude-balloon-payload' %}">
       High Altitude Balloon Payload
@@ -46,6 +47,7 @@
       Unmanned Aerial Vehicles Research Scholarship
     </a>
   </li>
+  {% endif %}
   {% if user.profile.registration_type != "Undergraduate" and user.profile.registration_type != "Graduate" %}
   <li>
     <a href="{% url 'application_create' 'higher-education-initiatives' %}">
