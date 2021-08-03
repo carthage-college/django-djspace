@@ -592,6 +592,7 @@ class UserProfile(models.Model):
     )
     applications = GM2MField(
         'application.HigherEducationInitiatives',
+        'application.EarlyStageInvestigator',
         'application.ResearchInfrastructure',
         'application.AerospaceOutreach',
         'application.SpecialInitiatives',

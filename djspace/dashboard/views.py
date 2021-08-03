@@ -31,6 +31,7 @@ from djtools.utils.convert import str_to_class
 
 UPLOAD_FORMS = {
     'highereducationinitiatives': HigherEducationInitiativesUploadsForm,
+    'earlystageinvestigator': EarlyStageInvestigatorUploadsForm,
     'researchinfrastructure': ResearchInfrastructureUploadsForm,
     'aerospaceoutreach': AerospaceOutreachUploadsForm,
     'specialinitiatives': SpecialInitiativesUploadsForm,
@@ -118,6 +119,7 @@ def home(request):
             'past_apps': past_apps,
             'professional_programs': [
                 'aerospaceoutreach',
+                'earlystageinvestigator',
                 'highereducationinitiatives',
                 'nasacompetition',
                 'researchinfrastructure',

@@ -13,6 +13,7 @@ from djtools.utils.mail import send_mail
 
 PROFESSIONAL_PROGRAMS = [
     'aerospaceoutreach',
+    'earlystageinvestigator',
     'highereducationinitiatives',
     'industryinternship',
     'nasacompetition',

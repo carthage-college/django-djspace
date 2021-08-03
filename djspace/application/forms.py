@@ -317,8 +317,56 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
         )
 
 
-class EarlyStageInvestigatorForm(ResearchInfrastructureForm):
+class EarlyStageInvestigatorForm(forms.ModelForm):
     """Early-Stage Investigator form."""
+
+    budget = forms.FileField(
+        help_text="""
+            Note the spend down date requirement in the
+            Announcement of Opportunity.
+        """,
+    )
+    past_funding = forms.TypedChoiceField(
+        label="Have you received WSGC funding within the past five years?",
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+    past_funding_year = forms.CharField(
+        label="If 'Yes', what year?",
+        widget=forms.Select(choices=PAST_FUNDING_YEAR_CHOICES),
+        required=False,
+    )
+    other_fellowship = forms.TypedChoiceField(
+        label="""
+            Do you currently hold another Federal fellowship or traineeship?
+        """,
+        choices=BINARY_CHOICES,
+        widget=forms.RadioSelect(),
+    )
+    finance_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
+    )
+    grant_officer_phone = USPhoneNumberField(
+        label="Phone number",
+        max_length=12,
+        help_text="Format: XXX-XXX-XXXX",
+        widget=forms.TextInput(attrs={'class': 'phone'}),
+        required=True,
+    )
+    grants_officer = forms.CharField(
+        label="Authorized User",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -370,6 +418,35 @@ class EarlyStageInvestigatorForm(ResearchInfrastructureForm):
             'member_9',
             'member_10',
         )
+
+    def clean(self):
+        """Deal with grants officer."""
+        cd = self.cleaned_data
+        gid = cd.get('grants_officer')
+        uid = str(self.request.user.id)
+
+        # Assign a User object to grants officer
+        if gid:
+            if gid == uid:
+                self.add_error(
+                    'grants_officer',
+                    "You cannot also be an authorized user",
+                )
+                cd['grants_officer'] = None
+            else:
+                try:
+                    user = User.objects.get(pk=gid)
+                    cd['grants_officer'] = user
+                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                        user.last_name, user.first_name,
+                    )
+                except Exception:
+                    self.add_error(
+                        'grants_officer',
+                        "That User does not exist in the system",
+                    )
+        else:
+            cd['grants_officer'] = None
 
 
 class EarlyStageInvestigatorUploadsForm(forms.ModelForm):
