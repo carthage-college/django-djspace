@@ -29,7 +29,7 @@
     </a>
   </li>
   {% endif %}
-  {% if user.profile.registration_type == "Professional" %}
+  {% if user.profile.registration_type == "Professional" or user.profile.registration_type == "Faculty" %}
   <li>
     <a href="{% url 'application_create' 'industry-internship' %}">
       Industry Internship
@@ -49,6 +49,11 @@
   </li>
   {% endif %}
   {% if user.profile.registration_type != "Undergraduate" and user.profile.registration_type != "Graduate" %}
+  <li>
+    <a href="{% url 'application_create' 'early-stage-investigator' %}">
+      Early-Stage Investigator
+    </a>
+  </li>
   <li>
     <a href="{% url 'application_create' 'higher-education-initiatives' %}">
       Higher Education Initiatives

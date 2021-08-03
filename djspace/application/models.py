@@ -168,6 +168,7 @@ ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
 ]
 EDUCATION_INITITATIVES_PROGRAMS = [
     'aerospaceoutreach',
+    'earlystageinvestigator',
     'highereducationinitiatives',
     'industryinternship',
     'nasacompetition',
@@ -176,6 +177,7 @@ EDUCATION_INITITATIVES_PROGRAMS = [
 ]
 PROFESSIONAL_PROGRAMS = [
     'aerospaceoutreach',
+    'earlystageinvestigator',
     'highereducationinitiatives',
     'industryinternship',
     'nasacompetition',
@@ -186,6 +188,7 @@ PROFESSIONAL_PROGRAMS = [
 STUDENT_PROFESSIONAL_PROGRAMS = (
     ('AerospaceOutreach', 'Aerospace Outreach'),
     ('CaNOP', 'CaNOP'),
+    ('EarlyStageInvestigator', 'Early-Stage Investigator'),
     ('HigherEducationInitiatives', 'Higher Education Initiatives'),
     ('IndustryInternship', 'Industry Internship'),
     ('MicroPropellantGauging', 'Micro-Propellant Gauging'),
@@ -477,6 +480,84 @@ class ResearchInfrastructure(EducationInitiatives):
         """Attributes about the data model and admin options."""
 
         verbose_name_plural = "Research Infrastructure"
+
+
+class EarlyStageInvestigator(EducationInitiatives):
+    """Early-Stage Investigator (ESI)."""
+
+    award_type = models.CharField(
+        "Award",
+        max_length=128,
+        choices=EDUCATION_INITIATIVES_AWARD_TYPES,
+        help_text="""
+            Select the opportunity to which the proposal is being submitted.
+        """,
+    )
+    nasa_mission_directorate = models.CharField(
+        "NASA Mission Directorate",
+        max_length=128,
+        choices=DIRECTORATE_CHOICES,
+        help_text=mark_safe(
+            """
+            See NASA's
+            <a href="https://www.nasa.gov/offices/education/missions/"
+              target="_blank">
+                Mission Directorates Education and Outreach
+            </a> page for more information.
+            """,
+        ),
+    )
+    nasa_mission_directorate_other = models.CharField(
+        "Other",
+        max_length=128,
+        null=True,
+        blank=True,
+        help_text="""
+            If you have choosen "Other" in the field above,
+            please identify the NASA Mission Directorate in which you are
+            requesting funds to participate.
+        """,
+    )
+    # grants officer user
+    grants_officer = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer User",
+        related_name='esi_grants_officer',
+    )
+
+    def get_code(self):
+        """Three letter code for WSGC administrative purposes."""
+        award_type = 'MNR'
+        if 'Major' in self.award_type:
+            award_type = 'MJR'
+        return 'ESI{0}_{1}'.format(YEAR_2, award_type)
+
+    def __str__(self):
+        """Default data for display."""
+        return self.project_title
+
+    def get_application_type(self):
+        """Application type title for display."""
+        return 'Research Infrastructure'
+
+    def get_slug(self):
+        """Slug for the application, used for many things."""
+        return 'early-stage-investigator'
+
+    def get_absolute_url(self):
+        """Returns the absolute URL from root URL."""
+        return reverse(
+            'application_update',
+            kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
+        )
+
+    class Meta:
+        """Attributes about the data model and admin options."""
+
+        verbose_name_plural = "Early-Stage Investigator"
 
 
 class AerospaceOutreach(EducationInitiatives):
@@ -2757,6 +2838,13 @@ class ProfessionalProgramStudent(BaseModel):
         null=True,
         blank=True,
     )
+    EarlyStageInvestigator = models.ForeignKey(
+        EarlyStageInvestigator,
+        on_delete=models.SET_NULL,
+        related_name='early_stage_investigator',
+        null=True,
+        blank=True,
+    )
     SpecialInitiatives = models.ForeignKey(
         SpecialInitiatives,
         on_delete=models.SET_NULL,
@@ -2816,6 +2904,8 @@ class ProfessionalProgramStudent(BaseModel):
             program = self.NasaCompetition
         elif self.ResearchInfrastructure:
             program = self.ResearchInfrastructure
+        elif self.EarlyStageInvestigator:
+            program = self.EarlyStageInvestigator
         elif self.SpecialInitiatives:
             program = self.SpecialInitiatives
         return program

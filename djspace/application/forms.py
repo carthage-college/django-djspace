@@ -317,6 +317,80 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
         )
 
 
+class EarlyStageInvestigatorForm(ResearchInfrastructureForm):
+    """Early-Stage Investigator form."""
+
+    def __init__(self, *args, **kwargs):
+        """Override of the initialization method to obtain the request object."""
+        self.request = kwargs.pop('request', None)
+        super(EarlyStageInvestigatorForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        """Attributes about the form and options."""
+
+        model = EarlyStageInvestigator
+        fields = (
+            'project_title',
+            'award_type',
+            'funds_requested',
+            'proposed_match',
+            'source_match',
+            'past_funding',
+            'past_funding_year',
+            'anticipating_funding',
+            'other_fellowship',
+            'other_fellowship_explain',
+            'begin_date',
+            'end_date',
+            'location',
+            'synopsis',
+            'proposal',
+            'budget',
+            'nasa_mission_directorate',
+            'nasa_mission_directorate_other',
+            'finance_officer_name',
+            'finance_officer_title',
+            'finance_officer_address',
+            'finance_officer_email',
+            'finance_officer_phone',
+            'grant_officer_name',
+            'grant_officer_title',
+            'grant_officer_address',
+            'grant_officer_email',
+            'grant_officer_phone',
+            'grants_officer',
+            'member_1',
+            'member_2',
+            'member_3',
+            'member_4',
+            'member_5',
+            'member_6',
+            'member_7',
+            'member_8',
+            'member_9',
+            'member_10',
+        )
+
+
+class EarlyStageInvestigatorUploadsForm(forms.ModelForm):
+    """Early-Stage Investigator uploads form."""
+
+    class Meta:
+        """Attributes about the form and options."""
+
+        model = EarlyStageInvestigator
+        fields = (
+            'award_acceptance',
+            'final_report',
+            'interim_report',
+            'other_file',
+            'other_file2',
+            'other_file3',
+            'invoice',
+            'close_out_finance_document',
+        )
+
+
 class AerospaceOutreachForm(forms.ModelForm):
     """Aerospace Outreach Form."""
 
@@ -2051,6 +2125,9 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
         """,
     )
     AerospaceOutreach = forms.CharField(
+        required=False, max_length=64, widget=forms.HiddenInput(),
+    )
+    EarlyStageInvestigator = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput(),
     )
     HigherEducationInitiatives = forms.CharField(

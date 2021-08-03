@@ -226,6 +226,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         'clarkgraduatefellowship',
         'first_nations_rocket_competition',
         'collegiate_rocket_competition',
+        'earlystageinvestigator',
         'midwest_high_powered_rocket_competition',
         'graduatefellowship',
         'highaltitudeballoonpayload',
@@ -1281,6 +1282,12 @@ class ResearchInfrastructureAdmin(HigherEducationInitiativesAdmin):
     model = ResearchInfrastructure
 
 
+class EarlyStageInvestigatorAdmin(HigherEducationInitiativesAdmin):
+    """Admin class for Early-Stage Investigator."""
+
+    model = EarlyStageInvestigator
+
+
 class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
     """Admin class for Aerospace Outreach."""
 
@@ -1529,6 +1536,9 @@ admin.site.register(
 )
 admin.site.register(
     ResearchInfrastructure, ResearchInfrastructureAdmin,
+)
+admin.site.register(
+    EarlyStageInvestigator, EarlyStageInvestigatorAdmin,
 )
 admin.site.register(
     AerospaceOutreach, AerospaceOutreachAdmin,
