@@ -541,7 +541,7 @@ class EarlyStageInvestigator(EducationInitiatives):
 
     def get_application_type(self):
         """Application type title for display."""
-        return 'Research Infrastructure'
+        return 'Early-Stage Investigator'
 
     def get_slug(self):
         """Slug for the application, used for many things."""
