@@ -53,7 +53,7 @@ class BaseStudent(Base):
     current_cumulative_gpa = models.CharField(
         "Current cumulative GPA",
         max_length=4,
-        validators=[credit_gpa_validator],
+        #validators=[credit_gpa_validator],
     )
     gpa_in_major = models.CharField(
         "GPA in major",
@@ -93,7 +93,7 @@ class BaseStudent(Base):
     cv = models.FileField(
         "Résumé (optional)",
         upload_to=partial(upload_to_path, 'CV'),
-        validators=FILE_VALIDATORS,
+        #validators=FILE_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,
@@ -131,12 +131,12 @@ class HighSchool(Base):
     gpa = models.CharField(
         "Cumulative GPA",
         max_length=4,
-        validators=[credit_gpa_validator],
+        #validators=[credit_gpa_validator],
     )
     gpa_scale = models.CharField(
         "GPA Scale",
         max_length=4,
-        validators=[credit_gpa_validator],
+        #validators=[credit_gpa_validator],
     )
     secondary_education = models.CharField(
         "College or University attending in the Fall", max_length=128,
@@ -200,17 +200,17 @@ class Graduate(BaseStudent):
     graduate_gpa = models.CharField(
         "Current cumulative GPA",
         max_length=4,
-        validators=[credit_gpa_validator],
+        #validators=[credit_gpa_validator],
     )
     graduate_scale = models.CharField(
         "GPA Scale",
         max_length=4,
-        validators=[credit_gpa_validator],
+        #validators=[credit_gpa_validator],
     )
     graduate_graduation_year = models.CharField(
         "Anticipated graduation year",
         max_length=4,
-        validators=[four_digit_year_validator],
+        #validators=[four_digit_year_validator],
     )
 
 
@@ -273,6 +273,16 @@ class GrantsOfficer(Academic):
         """Attributes about the data model and admin options."""
 
         verbose_name_plural = "Authorized User"
+
+
+class TechnicalAdvisor(Academic):
+    """Technical Advisory Panel registration type."""
+
+    programs = models.ManyToManyField(
+        GenericChoice,
+        related_name="tech_advisor_programs",
+        help_text="Please select which programs you are willing to serve as a TAP member",
+    )
 
 
 class Professional(Base):

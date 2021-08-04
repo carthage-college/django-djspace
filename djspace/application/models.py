@@ -17,17 +17,22 @@ from djspace.core.utils import upload_to_path
 from djtools.fields import BINARY_CHOICES
 from djtools.fields import TODAY
 
-
 YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
+FILE_VALIDATORS=[]
+PHOTO_VALIDATORS=[]
+PPT_EXTENSIONS=[]
+OPENROCKET_EXTENSIONS=[]
+'''
 PPT_EXTENSIONS = [
     FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),
 ]
 OPENROCKET_EXTENSIONS = [
     FileExtensionValidator(allowed_extensions=['rkt', 'RKT']),
 ]
+'''
 DIRECTORATE_CHOICES = (
     ('Aeronautics Research', 'Aeronautics Research'),
     (
@@ -1561,7 +1566,7 @@ class HighAltitudeBalloon(BaseModel):
 
 
 class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
-    """High Altitude Balloon Launch. AKA Elijah Balloon Launch."""
+    """High Altitude Balloon Launch."""
 
     def __str__(self):
         """Default data for display."""

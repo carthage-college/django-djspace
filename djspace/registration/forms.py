@@ -3,13 +3,13 @@
 from django import forms
 from djspace.core.models import GenericChoice
 from djspace.registration.choices import GRADUATE_DEGREE
-from djspace.registration.choices import GRANTS_PROCESS_STAGES
 from djspace.registration.choices import UNDERGRADUATE_DEGREE
 from djspace.registration.models import Faculty
 from djspace.registration.models import Graduate
 from djspace.registration.models import GrantsOfficer
 from djspace.registration.models import HighSchool
 from djspace.registration.models import Professional
+from djspace.registration.models import TechnicalAdvisor
 from djspace.registration.models import Undergraduate
 from djtools.fields import STATE_CHOICES
 
@@ -20,6 +20,10 @@ try:
     ).filter(active=True).order_by('ranking', 'name')
 except Exception:
     AFFILIATES = GenericChoice.objects.none()
+
+PROGRAMS = GenericChoice.objects.filter(
+    tags__name__in=['Programs'],
+).filter(active=True).order_by('ranking', 'name')
 
 
 class HighSchoolForm(forms.ModelForm):
@@ -324,6 +328,39 @@ class GrantsOfficerForm(forms.ModelForm):
         """Attributes about the form and options."""
 
         model = GrantsOfficer
+        exclude = ('user', 'status')
+
+    def clean(self):
+        """Error handling for affiliate fields."""
+        cleaned_data = self.cleaned_data
+        # WSGC Affiliate
+        wsgc_affiliate = cleaned_data.get('wsgc_affiliate')
+        wsgc_affiliate_other = cleaned_data.get('wsgc_affiliate_other')
+
+        if wsgc_affiliate and wsgc_affiliate.name == 'Other' and not wsgc_affiliate_other:
+            self.add_error('wsgc_affiliate_other', "Required field.")
+
+        return cleaned_data
+
+
+class TechnicalAdvisorForm(forms.ModelForm):
+    """A form to collect technical advisor information."""
+
+    wsgc_affiliate = forms.ModelChoiceField(
+        label="WSGC Affiliate", queryset=AFFILIATES,
+    )
+    title = forms.CharField(label="Title")
+    programs = forms.ModelMultipleChoiceField(
+        label="Programs",
+        queryset=PROGRAMS,
+        help_text='Check all that apply',
+        widget=forms.CheckboxSelectMultiple(),
+    )
+
+    class Meta:
+        """Attributes about the form and options."""
+
+        model = TechnicalAdvisor
         exclude = ('user', 'status')
 
     def clean(self):
