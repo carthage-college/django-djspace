@@ -48,7 +48,10 @@ FUNDED_FILES = (
     ('virtual_frr', 'Virtual Flight Readiness Report'),
     ('interim_progress_report', 'Interim Progress Report'),
     ('interim_report', 'Interim Report'),
-    ('invoice', 'Invoice'),
+    ('invoice_q1', 'Invoice Q1'),
+    ('invoice_q2', 'Invoice Q2'),
+    ('invoice_q3', 'Invoice Q3'),
+    ('invoice_q4', 'Invoice Q4'),
     ('lodging_list', 'Lodging List'),
     ('media_release', 'Media Release'),
     ('mugshot', 'Mugshot'),
@@ -1202,7 +1205,10 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     model = HigherEducationInitiatives
 
     list_display = PROFILE_LIST_DISPLAY + [
-        'invoice_file',
+        'invoice_q1_file',
+        'invoice_q2_file',
+        'invoice_q3_file',
+        'invoice_q4_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1263,11 +1269,29 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     proposal_file.allow_tags = True
     proposal_file.short_description = 'Proposal'
 
-    def invoice_file(self, instance):
+    def invoice_q1_file(self, instance):
         """Construct display file code for the admin dashboard."""
-        return admin_display_file(instance, 'invoice')
-    invoice_file.allow_tags = True
-    invoice_file.short_description = "Invoice"
+        return admin_display_file(instance, 'invoice_q1')
+    invoice_q1_file.allow_tags = True
+    invoice_q1_file.short_description = "Invoice Q1"
+
+    def invoice_q2_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q2')
+    invoice_q2_file.allow_tags = True
+    invoice_q2_file.short_description = "Invoice Q2"
+
+    def invoice_q3_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q3')
+    invoice_q3_file.allow_tags = True
+    invoice_q3_file.short_description = "Invoice Q3"
+
+    def invoice_q4_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q4')
+    invoice_q4_file.allow_tags = True
+    invoice_q4_file.short_description = "Invoice Q4"
 
     def close_out_finance_document_file(self, instance):
         """Construct display file code for the admin dashboard."""
@@ -1294,7 +1318,10 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
     model = AerospaceOutreach
 
     list_display = PROFILE_LIST_DISPLAY + [
-        'invoice_file',
+        'invoice_q1_file',
+        'invoice_q2_file',
+        'invoice_q3_file',
+        'invoice_q4_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1331,7 +1358,10 @@ class NasaCompetitionAdmin(GenericAdmin):
 
     model = NasaCompetition
     list_display = PROFILE_LIST_DISPLAY + [
-        'invoice_file',
+        'invoice_q1_file',
+        'invoice_q2_file',
+        'invoice_q3_file',
+        'invoice_q4_file',
         'intended_program_match_file',
         'close_out_finance_document_file',
         'statement_file',
@@ -1392,11 +1422,29 @@ class NasaCompetitionAdmin(GenericAdmin):
     statement_file.allow_tags = True
     statement_file.short_description = 'Statement'
 
-    def invoice_file(self, instance):
+    def invoice_q1_file(self, instance):
         """Construct display file code for the admin dashboard."""
-        return admin_display_file(instance, 'invoice')
-    invoice_file.allow_tags = True
-    invoice_file.short_description = "Invoice"
+        return admin_display_file(instance, 'invoice_q1')
+    invoice_q1_file.allow_tags = True
+    invoice_q1_file.short_description = "Invoice Q1"
+
+    def invoice_q2_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q2')
+    invoice_q2_file.allow_tags = True
+    invoice_q2_file.short_description = "Invoice Q2"
+
+    def invoice_q3_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q3')
+    invoice_q3_file.allow_tags = True
+    invoice_q3_file.short_description = "Invoice Q3"
+
+    def invoice_q4_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q4')
+    invoice_q4_file.allow_tags = True
+    invoice_q4_file.short_description = "Invoice Q4"
 
     def intended_program_match_file(self, instance):
         """Construct display file code for the admin dashboard."""
@@ -1429,7 +1477,10 @@ class IndustryInternshipAdmin(GenericAdmin):
 
     list_display = PROFILE_LIST_DISPLAY + [
         'budget_file',
-        'invoice_file',
+        'invoice_q1_file',
+        'invoice_q2_file',
+        'invoice_q3_file',
+        'invoice_q4_file',
         'intended_program_match_file',
         'close_out_finance_document_file',
         'award_type',
@@ -1470,11 +1521,29 @@ class IndustryInternshipAdmin(GenericAdmin):
     budget_file.allow_tags = True
     budget_file.short_description = "Budget"
 
-    def invoice_file(self, instance):
+    def invoice_q1_file(self, instance):
         """Construct display file code for the admin dashboard."""
-        return admin_display_file(instance, 'invoice')
-    invoice_file.allow_tags = True
-    invoice_file.short_description = "Invoice"
+        return admin_display_file(instance, 'invoice_q1')
+    invoice_q1_file.allow_tags = True
+    invoice_q1_file.short_description = "Invoice Q1"
+
+    def invoice_q2_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q2')
+    invoice_q2_file.allow_tags = True
+    invoice_q2_file.short_description = "Invoice Q2"
+
+    def invoice_q3_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q3')
+    invoice_q3_file.allow_tags = True
+    invoice_q3_file.short_description = "Invoice Q3"
+
+    def invoice_q4_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q4')
+    invoice_q4_file.allow_tags = True
+    invoice_q4_file.short_description = "Invoice Q4"
 
     def intended_program_match_file(self, instance):
         """Construct display file code for the admin dashboard."""

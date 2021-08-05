@@ -22,15 +22,17 @@ thead th {
 .field-final_motor_selection_file,.field-lodging_list_file,
 .field-critical_design_report_file,.field-post_flight_performance_report_file,
 .field-education_outreach_file,.field-flight_readiness_report_file,
-.field-proceeding_paper_file,.field-interim_report_file,
-.field-final_report_file,.field-invoice_file,.field-program_match_file,
+.field-proceeding_paper_file,.field-interim_report_file,.field-final_report_file,
+.field-invoice_q1_file,.field-invoice_q2_file,.field-invoice_q3_file,.field-invoice_q4_file,
+.field-other_file_file,.field-other_file2_file,.field-other_file3_file,
+.field-program_match_file,.field-close_out_finance_document_file,
 .field-payment_information_file,.field-letter_interest_file,.field-cv_file,
 .field-signed_certification_file,.field-proposal_file,
 .field-undergraduate_transcripts_file,.field-graduate_transcripts_file,
 .field-recommendation_1_file,.field-recommendation_2_file,
 .field-high_school_transcripts_file,.field-wsgc_advisor_recommendation_file,
-.field-recommendation_file,.field-statement_file, .field-virtual_cdr_file,
-.field-virtual_pdr_file, .field-virtual_frr_file,
+.field-recommendation_file,.field-statement_file,.field-virtual_cdr_file,
+.field-virtual_pdr_file,.field-virtual_frr_file,
 .field-final_motor_selection_trunk
 {text-align:center;}
 .submit-row a.deletelink {

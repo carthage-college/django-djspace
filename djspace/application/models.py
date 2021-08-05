@@ -314,8 +314,32 @@ class EducationInitiatives(BaseModel):
         max_length=12,
         help_text="Format: XXX-XXX-XXXX",
     )
-    invoice = models.FileField(
-        upload_to=partial(upload_to_path, 'Invoice'),
+    invoice_q1 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q1'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q2 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q2'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q3 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q3'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q4 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q4'),
         validators=FILE_VALIDATORS,
         max_length=255,
         null=True,
@@ -343,9 +367,21 @@ class EducationInitiatives(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('budget')
 
-    def invoice_timestamp(self):
+    def invoice_q1_timestamp(self):
         """Timestamp method for UI level display."""
-        return self.get_file_timestamp('invoice')
+        return self.get_file_timestamp('invoice_q1')
+
+    def invoice_q2_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q2')
+
+    def invoice_q3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q3')
+
+    def invoice_q4_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q4')
 
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
@@ -818,8 +854,32 @@ class RocketLaunchTeam(BaseModel):
         blank=True,
         help_text="PDF format",
     )
-    invoice = models.FileField(
-        upload_to=partial(upload_to_path, 'Invoice'),
+    invoice_q1 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q1'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q2 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q2'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q3 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q3'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q4 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q4'),
         validators=FILE_VALIDATORS,
         max_length=255,
         null=True,
@@ -1111,9 +1171,21 @@ class RocketLaunchTeam(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('verified_budget')
 
-    def invoice_timestamp(self):
+    def invoice_q1_timestamp(self):
         """Timestamp method for UI level display."""
-        return self.get_file_timestamp('invoice')
+        return self.get_file_timestamp('invoice_q1')
+
+    def invoice_q2_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q2')
+
+    def invoice_q3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q3')
+
+    def invoice_q4_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q4')
 
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
@@ -1121,7 +1193,7 @@ class RocketLaunchTeam(BaseModel):
 
     def charges_certification_timestamp(self):
         """Timestamp method for UI level display."""
-        return self.get_file_timestamp('invoice')
+        return self.get_file_timestamp('charges_certification')
 
     def institutional_w9_timestamp(self):
         """Timestamp method for UI level display."""
@@ -1149,7 +1221,7 @@ class RocketLaunchTeam(BaseModel):
 
     def flight_demo_timestamp(self):
         """Timestamp method for UI level display."""
-        return self.get_file_timestamp('invoice')
+        return self.get_file_timestamp('flight_demo')
 
     def final_motor_selection_timestamp(self):
         """Timestamp method for UI level display."""
@@ -2455,8 +2527,32 @@ class NasaCompetition(BaseModel):
         blank=True,
     )
     # approved files
-    invoice = models.FileField(
-        upload_to=partial(upload_to_path, 'Invoice'),
+    invoice_q1 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q1'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q2 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q2'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q3 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q3'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q4 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q4'),
         validators=FILE_VALIDATORS,
         max_length=255,
         null=True,
@@ -2524,9 +2620,21 @@ class NasaCompetition(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('budget')
 
-    def invoice_timestamp(self):
+    def invoice_q1_timestamp(self):
         """Timestamp method for UI level display."""
-        return self.get_file_timestamp('invoice')
+        return self.get_file_timestamp('invoice_q1')
+
+    def invoice_q2_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q2')
+
+    def invoice_q3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q3')
+
+    def invoice_q4_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q4')
 
     def intended_program_match_timestamp(self):
         """Timestamp method for UI level display."""
@@ -2708,8 +2816,32 @@ class IndustryInternship(BaseModel):
         related_name='iip_grants_officer',
     )
     # approved files
-    invoice = models.FileField(
-        upload_to=partial(upload_to_path, 'Invoice'),
+    invoice_q1 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q1'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q2 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q2'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q3 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q3'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    invoice_q4 = models.FileField(
+        upload_to=partial(upload_to_path, 'Invoice_Q4'),
         validators=FILE_VALIDATORS,
         max_length=255,
         null=True,
@@ -2767,9 +2899,21 @@ class IndustryInternship(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('budget')
 
-    def invoice_timestamp(self):
+    def invoice_q1_timestamp(self):
         """Timestamp method for UI level display."""
-        return self.get_file_timestamp('invoice')
+        return self.get_file_timestamp('invoice_q1')
+
+    def invoice_q2_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q2')
+
+    def invoice_q3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q3')
+
+    def invoice_q4_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('invoice_q4')
 
     def intended_program_match_timestamp(self):
         """Timestamp method for UI level display."""
