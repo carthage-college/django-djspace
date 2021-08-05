@@ -42,19 +42,64 @@
   {% if data.status %}<li>Budget: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.invoice %}
+{% if data.invoice_q1 %}
   <li>
-    <a href="{{media_url}}{{data.invoice}}" target="_blank">
-      Invoice
+    <a href="{{media_url}}{{data.invoice_q1}}" target="_blank">
+      Invoice Q1
     </a>
     <ul>
-      <li>Created: {{data.invoice_timestamp}}</li>
-      <li>https://{{server_url}}{{media_url}}{{data.invoice}}</li>
+      <li>Created: {{data.invoice_q1_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.invoice_q1}}</li>
     </ul>
   </li>
 {% else %}
   {% if data.get_slug in "higher-education-initiatives,early-stage-investigator,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition,industry-internship" %}
-  {% if data.status %}<li>Invoice: Missing</li>{% endif %}
+  {% if data.status %}<li>Invoice Q1: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.invoice_q2 %}
+  <li>
+    <a href="{{media_url}}{{data.invoice_q2}}" target="_blank">
+      Invoice
+    </a>
+    <ul>
+      <li>Created: {{data.invoice_q2_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.invoice_q2}}</li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,early-stage-investigator,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition,industry-internship" %}
+  {% if data.status %}<li>Invoice Q2: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.invoice_q3 %}
+  <li>
+    <a href="{{media_url}}{{data.invoice_q3}}" target="_blank">
+      Invoice
+    </a>
+    <ul>
+      <li>Created: {{data.invoice_q3_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.invoice_q3}}</li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,early-stage-investigator,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition,industry-internship" %}
+  {% if data.status %}<li>Invoice Q3: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
+{% if data.invoice_q4 %}
+  <li>
+    <a href="{{media_url}}{{data.invoice_q4}}" target="_blank">
+      Invoice
+    </a>
+    <ul>
+      <li>Created: {{data.invoice_q4_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.invoice_q4}}</li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,early-stage-investigator,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition,industry-internship" %}
+  {% if data.status %}<li>Invoice Q4: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
 {% if data.intended_program_match %}
