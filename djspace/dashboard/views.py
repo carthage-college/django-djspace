@@ -25,7 +25,13 @@ from djspace.core.utils import get_start_date
 from djspace.core.utils import profile_status
 from djspace.dashboard.forms import UserForm
 from djspace.dashboard.forms import UserProfileForm
-from djspace.registration.forms import *
+from djspace.registration.forms import FacultyForm
+from djspace.registration.forms import GraduateForm
+from djspace.registration.forms import GrantsOfficerForm
+from djspace.registration.forms import HighSchoolForm
+from djspace.registration.forms import ProfessionalForm
+from djspace.registration.forms import TechnicalAdvisorForm
+from djspace.registration.forms import UndergraduateForm
 from djtools.utils.convert import str_to_class
 
 
@@ -49,7 +55,8 @@ UPLOAD_FORMS = {
     'nasacompetition': NasaCompetitionUploadsForm,
     'industryinternship': IndustryInternshipUploadsForm,
     'professionalprogramstudent': ProfessionalProgramStudentUploadsForm,
-    'unmannedaerialvehiclesresearchscholarship': UnmannedAerialVehiclesResearchScholarshipUploadsForm,
+    'unmannedaerialvehiclesresearchscholarship':
+    UnmannedAerialVehiclesResearchScholarshipUploadsForm,
 }
 
 
@@ -161,6 +168,7 @@ def get_users(request):
 @login_required
 def registration_type(request):
     """AJAX post for retrieving registration forms based on type."""
+    jason = {}
     if request.method == 'POST':
         reg_type = request.POST.get('registration_type')
         try:
@@ -190,12 +198,10 @@ def registration_type(request):
             'reg': reggie,
             'reg_type': reg_type,
         }
-        return HttpResponse(
-            json.dumps(jason),
-            content_type='application/json; charset=utf-8',
-        )
-    else:
-        raise Http404
+    return HttpResponse(
+        json.dumps(jason),
+        content_type='application/json; charset=utf-8',
+    )
 
 
 @login_required
@@ -254,6 +260,10 @@ def profile_form(request):
             reg = reg_form.save(commit=False)
             reg.user = user
             reg.updated_by = user
+            # delete all objects, then add current list because that is easier.
+            reg.programs.clear()
+            for prog in request.POST.getlist('reg-programs'):
+                reg.programs.add(prog)
             reg.save()
             # UserProfile
             pro = pro_form.save(commit=False)
@@ -261,7 +271,12 @@ def profile_form(request):
             pro.second_name = usr['second_name']
             pro.updated_by = user
             pro.user = user
+            # delete all objects, then add current list because that is easier.
+            pro.race.clear()
+            for raza in request.POST.getlist('pro-race'):
+                pro.race.add(raza)
             pro.save()
+
             # redirect to dashboard with message
             messages.add_message(
                 request,
