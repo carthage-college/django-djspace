@@ -134,10 +134,17 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
@@ -276,7 +283,6 @@ class ResearchInfrastructureForm(forms.ModelForm):
         cd = self.cleaned_data
         gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
-
         # Assign a User object to grants officer
         if gid:
             if gid == uid:
@@ -288,10 +294,17 @@ class ResearchInfrastructureForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
@@ -442,10 +455,17 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
@@ -597,10 +617,17 @@ class AerospaceOutreachForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
@@ -767,10 +794,17 @@ class SpecialInitiativesForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
@@ -1653,10 +1687,17 @@ class RocketLaunchTeamForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
@@ -1999,7 +2040,7 @@ class NasaCompetitionForm(forms.ModelForm):
         help_text="""
             I authorize the individual listed above to submit
             the required documents associated with this proposal on my behalf.
-            (NOTE: In order to choose an Authorized User, the individual must be 
+            (NOTE: In order to choose an Authorized User, the individual must be
             registered with WSGC prior to submitting this application.)
         """,
     )
@@ -2064,10 +2105,17 @@ class NasaCompetitionForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
@@ -2177,10 +2225,17 @@ class IndustryInternshipForm(forms.ModelForm):
             else:
                 try:
                     user = User.objects.get(pk=gid)
-                    cd['grants_officer'] = user
-                    self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
+                    if user.profile:
+                        cd['grants_officer'] = user
+                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
+                            user.last_name, user.first_name,
+                        )
+                    else:
+                        self.add_error(
+                            'grants_officer',
+                            "This user does not have a complete profile",
+                        )
+                        cd['grants_officer'] = None
                 except Exception:
                     self.add_error(
                         'grants_officer',
