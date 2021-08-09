@@ -354,6 +354,14 @@ class EducationInitiatives(BaseModel):
         blank=True,
         help_text="PDF format",
     )
+    institutional_w9 = models.FileField(
+        upload_to=partial(upload_to_path, 'Institutional_W9'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
 
     def required_files(self):
         """Used when building a tarball of required files."""
@@ -382,6 +390,10 @@ class EducationInitiatives(BaseModel):
     def invoice_q4_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('invoice_q4')
+
+    def institutional_w9_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('institutional_w9')
 
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
@@ -2559,6 +2571,14 @@ class NasaCompetition(BaseModel):
         blank=True,
         help_text="PDF format",
     )
+    institutional_w9 = models.FileField(
+        upload_to=partial(upload_to_path, 'Institutional_W9'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
     intended_program_match = models.FileField(
         upload_to=partial(upload_to_path, 'Intended_Program_Match'),
         validators=FILE_VALIDATORS,
@@ -2639,6 +2659,10 @@ class NasaCompetition(BaseModel):
     def intended_program_match_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('intended_program_match')
+
+    def institutional_w9_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('institutional_w9')
 
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
