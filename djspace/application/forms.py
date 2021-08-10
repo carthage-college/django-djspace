@@ -2207,7 +2207,6 @@ class IndustryInternshipForm(forms.ModelForm):
             'invoice_q2',
             'invoice_q3',
             'invoice_q4',
-            'institutional_w9',
             'intended_program_match',
             'close_out_finance_document',
             'funds_authorized',
@@ -2271,7 +2270,6 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
             'invoice_q2',
             'invoice_q3',
             'invoice_q4',
-            'institutional_w9',
             'intended_program_match',
             'close_out_finance_document',
         )
