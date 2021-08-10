@@ -102,6 +102,23 @@
   {% if data.status %}<li>Invoice Q4: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
+{% if data.institutional_w9 %}
+  <li>
+    <a href="{{media_url}}{{data.institutional_w9}}" target="_blank">
+      Institutional W9
+    </a>
+    <ul>
+      <li>Created: {{data.institutional_w9_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.institutional_w9}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.get_slug in "higher-education-initiatives,early-stage-investigator,research-infrastructure,aerospace-outreach,special-initiatives,nasa-competition" %}
+  {% if data.status %}<li>Institutional W9: Missing</li>{% endif %}
+  {% endif %}
+{% endif %}
 {% if data.intended_program_match %}
   <li>
     <a href="{{media_url}}{{data.intended_program_match}}" target="_blank">

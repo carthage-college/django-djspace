@@ -1209,6 +1209,7 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
         'invoice_q2_file',
         'invoice_q3_file',
         'invoice_q4_file',
+        'institutional_w9_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1293,6 +1294,12 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     invoice_q4_file.allow_tags = True
     invoice_q4_file.short_description = "Invoice Q4"
 
+    def institutional_w9_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'institutional_w9')
+    institutional_w9_file.allow_tags = True
+    institutional_w9_file.short_description = "Institutional W9"
+
     def close_out_finance_document_file(self, instance):
         """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'close_out_finance_document')
@@ -1322,6 +1329,7 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'invoice_q2_file',
         'invoice_q3_file',
         'invoice_q4_file',
+        'institutional_w9_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1362,6 +1370,7 @@ class NasaCompetitionAdmin(GenericAdmin):
         'invoice_q2_file',
         'invoice_q3_file',
         'invoice_q4_file',
+        'institutional_w9_file',
         'intended_program_match_file',
         'close_out_finance_document_file',
         'statement_file',
@@ -1445,6 +1454,12 @@ class NasaCompetitionAdmin(GenericAdmin):
         return admin_display_file(instance, 'invoice_q4')
     invoice_q4_file.allow_tags = True
     invoice_q4_file.short_description = "Invoice Q4"
+
+    def institutional_w9_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'institutional_w9')
+    institutional_w9_file.allow_tags = True
+    institutional_w9_file.short_description = "Institutional W9"
 
     def intended_program_match_file(self, instance):
         """Construct display file code for the admin dashboard."""
