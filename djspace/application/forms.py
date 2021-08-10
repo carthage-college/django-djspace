@@ -173,6 +173,8 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
             'invoice_q3',
             'invoice_q4',
             'institutional_w9',
+            'photos_overview',
+            'publications_overview',
             'close_out_finance_document',
         )
 
@@ -334,6 +336,8 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
             'invoice_q3',
             'invoice_q4',
             'institutional_w9',
+            'photos_overview',
+            'publications_overview',
             'close_out_finance_document',
         )
 
@@ -496,6 +500,8 @@ class EarlyStageInvestigatorUploadsForm(forms.ModelForm):
             'invoice_q3',
             'invoice_q4',
             'institutional_w9',
+            'photos_overview',
+            'publications_overview',
             'close_out_finance_document',
         )
 
@@ -659,6 +665,8 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
             'invoice_q3',
             'invoice_q4',
             'institutional_w9',
+            'photos_overview',
+            'publications_overview',
             'close_out_finance_document',
         )
 
@@ -837,6 +845,8 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
             'invoice_q3',
             'invoice_q4',
             'institutional_w9',
+            'photos_overview',
+            'publications_overview',
             'close_out_finance_document',
         )
 
@@ -2077,6 +2087,8 @@ class NasaCompetitionForm(forms.ModelForm):
             'invoice_q3',
             'invoice_q4',
             'institutional_w9',
+            'photos_overview',
+            'publications_overview',
             'intended_program_match',
             'close_out_finance_document',
             'url1',
@@ -2147,6 +2159,8 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
             'invoice_q3',
             'invoice_q4',
             'institutional_w9',
+            'photos_overview',
+            'publications_overview',
             'intended_program_match',
             'close_out_finance_document',
             'other_file',
