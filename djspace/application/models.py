@@ -362,6 +362,28 @@ class EducationInitiatives(BaseModel):
         blank=True,
         help_text="PDF format",
     )
+    photos_overview = models.FileField(
+        upload_to=partial(upload_to_path, 'Photos_Overview'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="""
+            Please provide a brief overview of each photo submitted above,
+            include participant names and media releases.
+        """,
+    )
+    publications_overview = models.FileField(
+        upload_to=partial(upload_to_path, 'Publications_Overview'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="""
+            Please provide an overview with links to all media, articles,
+            publications, etc that this project received.
+        """,
+    )
 
     def required_files(self):
         """Used when building a tarball of required files."""
@@ -2578,6 +2600,28 @@ class NasaCompetition(BaseModel):
         null=True,
         blank=True,
         help_text="PDF format",
+    )
+    photos_overview = models.FileField(
+        upload_to=partial(upload_to_path, 'Photos_Overview'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="""
+            Please provide a brief overview of each photo submitted above,
+            include participant names and media releases.
+        """,
+    )
+    publications_overview = models.FileField(
+        upload_to=partial(upload_to_path, 'Publications_Overview'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="""
+            Please provide an overview with links to all media, articles,
+            publications, etc that this project received.
+        """,
     )
     intended_program_match = models.FileField(
         upload_to=partial(upload_to_path, 'Intended_Program_Match'),

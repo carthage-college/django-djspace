@@ -1210,6 +1210,8 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
         'invoice_q3_file',
         'invoice_q4_file',
         'institutional_w9_file',
+        'photos_overview_file',
+        'publications_overview_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1300,6 +1302,18 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     institutional_w9_file.allow_tags = True
     institutional_w9_file.short_description = "Institutional W9"
 
+    def photos_overview_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'photos_overview')
+    photos_overview_file.allow_tags = True
+    photos_overview_file.short_description = "Photos Overview"
+
+    def publications_overview_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'publications_overview')
+    publications_overview_file.allow_tags = True
+    publications_overview_file.short_description = "Publications Overview"
+
     def close_out_finance_document_file(self, instance):
         """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'close_out_finance_document')
@@ -1330,6 +1344,8 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'invoice_q3_file',
         'invoice_q4_file',
         'institutional_w9_file',
+        'photos_overview_file',
+        'publications_overview_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1371,6 +1387,8 @@ class NasaCompetitionAdmin(GenericAdmin):
         'invoice_q3_file',
         'invoice_q4_file',
         'institutional_w9_file',
+        'photos_overview_file',
+        'publications_overview_file',
         'intended_program_match_file',
         'close_out_finance_document_file',
         'statement_file',
@@ -1460,6 +1478,18 @@ class NasaCompetitionAdmin(GenericAdmin):
         return admin_display_file(instance, 'institutional_w9')
     institutional_w9_file.allow_tags = True
     institutional_w9_file.short_description = "Institutional W9"
+
+    def photos_overview_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'photos_overview')
+    photos_overview_file.allow_tags = True
+    photos_overview_file.short_description = "Photos Overview"
+
+    def publications_overview_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'publications_overview')
+    publications_overview_file.allow_tags = True
+    publications_overview_file.short_description = "Publications Overview"
 
     def intended_program_match_file(self, instance):
         """Construct display file code for the admin dashboard."""
