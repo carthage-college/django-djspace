@@ -210,6 +210,48 @@
           </li>
           <li class="form-group ctrlHolder">
             <h3>
+              <label for="id_photos_overview">Photos Overview [PDF]</label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+              data-content-type="{{app.get_content_type.id}}"
+              data-oid="{{app.id}}"
+              name="photos_overview" id="id_photos_overview">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.photos_overview %}
+              <a class="fa-wrap" href="{{media_url}}{{app.photos_overview}}"
+                target="_blank">
+              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-times red fa-wrap" aria-hidden="true"
+                title="Missing file"></i>
+            {% endif %}
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_publications_overview">Publications Overview [PDF]</label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+              data-content-type="{{app.get_content_type.id}}"
+              data-oid="{{app.id}}"
+              name="publications_overview" id="id_publications_overview">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.publications_overview %}
+              <a class="fa-wrap" href="{{media_url}}{{app.publications_overview}}"
+                target="_blank">
+              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-times red fa-wrap" aria-hidden="true"
+                title="Missing file"></i>
+            {% endif %}
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
               <label for="id_close_out_finance_document">
                 Payment Information Form [PDF]
               </label>
