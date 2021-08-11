@@ -165,6 +165,7 @@ class Photo(models.Model):
         'content_type',
         'object_id',
     )
+    tags = TaggableManager()
 
     def __str__(self):
         """Default display value in unicode encoding."""
