@@ -417,6 +417,14 @@ class EducationInitiatives(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('institutional_w9')
 
+    def photos_overview_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('photos_overview')
+
+    def publications_overview_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('publications_overview')
+
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('close_out_finance_document')
@@ -2707,6 +2715,14 @@ class NasaCompetition(BaseModel):
     def institutional_w9_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('institutional_w9')
+
+    def photos_overview_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('photos_overview')
+
+    def publications_overview_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('publications_overview')
 
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
