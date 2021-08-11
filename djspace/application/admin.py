@@ -1212,6 +1212,10 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
         'institutional_w9_file',
         'photos_overview_file',
         'publications_overview_file',
+        'budget_modification_file',
+        'performance_modification_file',
+        'scope_modification_file',
+        'no_cost_extension_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1314,6 +1318,30 @@ class HigherEducationInitiativesAdmin(GenericAdmin):
     publications_overview_file.allow_tags = True
     publications_overview_file.short_description = "Publications Overview"
 
+    def budget_modification_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'budget_modification')
+    budget_modification_file.allow_tags = True
+    budget_modification_file.short_description = "Budget Modification"
+
+    def performance_modification_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'performance_modification')
+    performance_modification_file.allow_tags = True
+    performance_modification_file.short_description = "Performance Modification"
+
+    def scope_modification_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'scope_modification')
+    scope_modification_file.allow_tags = True
+    scope_modification_file.short_description = "Scope Modification"
+
+    def no_cost_extension_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'no_cost_extension')
+    no_cost_extension_file.allow_tags = True
+    no_cost_extension_file.short_description = "No Cost Extension"
+
     def close_out_finance_document_file(self, instance):
         """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'close_out_finance_document')
@@ -1346,6 +1374,10 @@ class AerospaceOutreachAdmin(HigherEducationInitiativesAdmin):
         'institutional_w9_file',
         'photos_overview_file',
         'publications_overview_file',
+        'budget_modification_file',
+        'performance_modification_file',
+        'scope_modification_file',
+        'no_cost_extension_file',
         'close_out_finance_document_file',
         'project_title',
         'begin_date',
@@ -1389,6 +1421,10 @@ class NasaCompetitionAdmin(GenericAdmin):
         'institutional_w9_file',
         'photos_overview_file',
         'publications_overview_file',
+        'budget_modification_file',
+        'performance_modification_file',
+        'scope_modification_file',
+        'no_cost_extension_file',
         'intended_program_match_file',
         'close_out_finance_document_file',
         'statement_file',
@@ -1490,6 +1526,30 @@ class NasaCompetitionAdmin(GenericAdmin):
         return admin_display_file(instance, 'publications_overview')
     publications_overview_file.allow_tags = True
     publications_overview_file.short_description = "Publications Overview"
+
+    def budget_modification_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'budget_modification')
+    budget_modification_file.allow_tags = True
+    budget_modification_file.short_description = "Budget Modification"
+
+    def performance_modification_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'performance_modification')
+    performance_modification_file.allow_tags = True
+    performance_modification_file.short_description = "Performance Modification"
+
+    def scope_modification_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'scope_modification')
+    scope_modification_file.allow_tags = True
+    scope_modification_file.short_description = "Scope Modification"
+
+    def no_cost_extension_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'no_cost_extension')
+    no_cost_extension_file.allow_tags = True
+    no_cost_extension_file.short_description = "No Cost Extension"
 
     def intended_program_match_file(self, instance):
         """Construct display file code for the admin dashboard."""

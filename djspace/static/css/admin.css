@@ -34,6 +34,8 @@ thead th {
 .field-high_school_transcripts_file,.field-wsgc_advisor_recommendation_file,
 .field-recommendation_file,.field-statement_file,.field-virtual_cdr_file,
 .field-virtual_pdr_file,.field-virtual_frr_file,
+.field-budget_modification_file,.field-performance_modification_file,
+.field-scope_modification_file,.field-no_cost_extension_file,
 .field-final_motor_selection_trunk
 {text-align:center;}
 .submit-row a.deletelink {

@@ -175,6 +175,10 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
             'institutional_w9',
             'photos_overview',
             'publications_overview',
+            'budget_modification',
+            'performance_modification',
+            'scope_modification',
+            'no_cost_extension',
             'close_out_finance_document',
         )
 
@@ -338,6 +342,10 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
             'institutional_w9',
             'photos_overview',
             'publications_overview',
+            'budget_modification',
+            'performance_modification',
+            'scope_modification',
+            'no_cost_extension',
             'close_out_finance_document',
         )
 
@@ -502,6 +510,10 @@ class EarlyStageInvestigatorUploadsForm(forms.ModelForm):
             'institutional_w9',
             'photos_overview',
             'publications_overview',
+            'budget_modification',
+            'performance_modification',
+            'scope_modification',
+            'no_cost_extension',
             'close_out_finance_document',
         )
 
@@ -667,6 +679,10 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
             'institutional_w9',
             'photos_overview',
             'publications_overview',
+            'budget_modification',
+            'performance_modification',
+            'scope_modification',
+            'no_cost_extension',
             'close_out_finance_document',
         )
 
@@ -847,6 +863,10 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
             'institutional_w9',
             'photos_overview',
             'publications_overview',
+            'budget_modification',
+            'performance_modification',
+            'scope_modification',
+            'no_cost_extension',
             'close_out_finance_document',
         )
 
@@ -2089,6 +2109,10 @@ class NasaCompetitionForm(forms.ModelForm):
             'institutional_w9',
             'photos_overview',
             'publications_overview',
+            'budget_modification',
+            'performance_modification',
+            'scope_modification',
+            'no_cost_extension',
             'intended_program_match',
             'close_out_finance_document',
             'url1',
@@ -2161,6 +2185,10 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
             'institutional_w9',
             'photos_overview',
             'publications_overview',
+            'budget_modification',
+            'performance_modification',
+            'scope_modification',
+            'no_cost_extension',
             'intended_program_match',
             'close_out_finance_document',
             'other_file',

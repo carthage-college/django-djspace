@@ -384,6 +384,34 @@ class EducationInitiatives(BaseModel):
             publications, etc that this project received.
         """,
     )
+    budget_modification = models.FileField(
+        upload_to=partial(upload_to_path, 'Budget_Modification_Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    performance_modification = models.FileField(
+        upload_to=partial(upload_to_path, 'POP Modification Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    scope_modification = models.FileField(
+        upload_to=partial(upload_to_path, 'Scope Modification Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    no_cost_extension = models.FileField(
+        upload_to=partial(upload_to_path, 'NCE Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
 
     def required_files(self):
         """Used when building a tarball of required files."""
@@ -424,6 +452,22 @@ class EducationInitiatives(BaseModel):
     def publications_overview_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('publications_overview')
+
+    def budget_modification_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('budget_modification')
+
+    def performance_modification_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('performance_modification')
+
+    def scope_modification_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('scope_modification')
+
+    def no_cost_extension_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('no_cost_extension')
 
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
@@ -2631,6 +2675,34 @@ class NasaCompetition(BaseModel):
             publications, etc that this project received.
         """,
     )
+    budget_modification = models.FileField(
+        upload_to=partial(upload_to_path, 'Budget_Modification_Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    performance_modification = models.FileField(
+        upload_to=partial(upload_to_path, 'POP Modification Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    scope_modification = models.FileField(
+        upload_to=partial(upload_to_path, 'Scope Modification Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
+    no_cost_extension = models.FileField(
+        upload_to=partial(upload_to_path, 'NCE Request_Submitted'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+    )
     intended_program_match = models.FileField(
         upload_to=partial(upload_to_path, 'Intended_Program_Match'),
         validators=FILE_VALIDATORS,
@@ -2723,6 +2795,22 @@ class NasaCompetition(BaseModel):
     def publications_overview_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('publications_overview')
+
+    def budget_modification_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('budget_modification')
+
+    def performance_modification_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('performance_modification')
+
+    def scope_modification_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('scope_modification')
+
+    def no_cost_extension_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('no_cost_extension')
 
     def close_out_finance_document_timestamp(self):
         """Timestamp method for UI level display."""
