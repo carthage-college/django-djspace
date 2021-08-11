@@ -252,6 +252,78 @@
           </li>
           <li class="form-group ctrlHolder">
             <h3>
+              <label for="id_budget_modification">Budget Modification [PDF]</label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+              data-content-type="{{app.get_content_type.id}}"
+              data-oid="{{app.id}}"
+              name="budget_modification" id="id_budget_modification">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.budget_modification %}
+              <a class="fa-wrap" href="{{media_url}}{{app.budget_modification}}"
+                target="_blank">
+              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% endif %}
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_performance_modification">Performance Modification [PDF]</label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+              data-content-type="{{app.get_content_type.id}}"
+              data-oid="{{app.id}}"
+              name="performance_modification" id="id_performance_modification">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.performance_modification %}
+              <a class="fa-wrap" href="{{media_url}}{{app.performance_modification}}"
+                target="_blank">
+              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% endif %}
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_scope_modification">Scope Modification [PDF]</label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+              data-content-type="{{app.get_content_type.id}}"
+              data-oid="{{app.id}}"
+              name="scope_modification" id="id_scope_modification">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.scope_modification %}
+              <a class="fa-wrap" href="{{media_url}}{{app.scope_modification}}"
+                target="_blank">
+              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% endif %}
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_no_cost_extension">No Cost Extension [PDF]</label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+              data-content-type="{{app.get_content_type.id}}"
+              data-oid="{{app.id}}"
+              name="no_cost_extension" id="id_no_cost_extension">
+              <span class='filebutt'>Select File</span>
+              <span class='filevalu'></span>
+            </div>
+            {% if app.no_cost_extension %}
+              <a class="fa-wrap" href="{{media_url}}{{app.no_cost_extension}}"
+                target="_blank">
+              <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+            {% endif %}
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
               <label for="id_close_out_finance_document">
                 Payment Information Form [PDF]
               </label>
