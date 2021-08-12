@@ -64,6 +64,10 @@ def upload_to_path(field_name, instance, filename):
     """Generates the path as a string for file field."""
     cid = secrets.token_urlsafe(32)
     ext = filename.split('.')[-1]
+    if field_name == 'Program_Photo':
+        field_name = '{0}_{1}'.format(
+            field_name, instance.content_object.get_photo_suffix(),
+        )
     filename = '{0}_{1}.{2}'.format(instance.get_file_name(), field_name, ext)
     path = '{0}/{1}/{2}/'.format(
         instance.get_file_path(), instance.get_slug(), cid,

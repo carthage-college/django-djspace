@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import time
 from datetime import date
 from datetime import datetime
@@ -171,6 +172,9 @@ class Photo(models.Model):
         """Default display value in unicode encoding."""
         return "{0}".format(self.caption)
 
+    def filename(self):
+        return os.path.basename(self.phile.name)
+
     def user(self):
         """Return the user owner of the object."""
         return self.content_object.user
@@ -185,7 +189,7 @@ class Photo(models.Model):
 
     def get_file_name(self):
         """Return the file name based on content object code and user's name."""
-        return '{0}_{1}.{2}'.format(
+        return '{0}_{1}_{2}'.format(
             self.content_object.get_code(),
             self.user().last_name,
             self.user().first_name,
@@ -349,6 +353,17 @@ class BaseModel(Base):
     )
     photos = GenericRelation(Photo)
 
+    def get_photo_suffix(self):
+        """Obtain the current suffix value."""
+        suffix = 1
+        if self.photos.count() > 0:
+            sufis = []
+            for foto in self.photos.all():
+                sufis.append(int(foto.filename().split('.')[0][-1]))
+            while suffix in sufis:
+                suffix += 1
+        return suffix
+
     def multi_year(self):
         """Report that this application spans multiple grant cycles."""
         return True
@@ -359,7 +374,7 @@ class BaseModel(Base):
 
     def get_file_name(self):
         """Return the file name based on content object code and user's name."""
-        return '{0}_{1}.{2}'.format(
+        return '{0}_{1}_{2}'.format(
             self.get_code(), self.user.last_name, self.user.first_name,
         )
 
@@ -464,7 +479,7 @@ class UserFiles(models.Model):
 
     def get_file_name(self):
         """Return the file name based on the user's name."""
-        return '{0}.{1}'.format(
+        return '{0}_{1}'.format(
             self.user.last_name, self.user.first_name,
         )
 

@@ -116,7 +116,7 @@ class BaseStudent(Base):
 
     def get_file_name(self):
         """Construct the file name."""
-        return '{0}.{1}'.format(
+        return '{0}_{1}'.format(
             self.user.last_name, self.user.first_name,
         )
 

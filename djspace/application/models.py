@@ -1225,7 +1225,7 @@ class RocketLaunchTeam(BaseModel):
             '-',
             self.user.profile.get_registration().wsgc_affiliate.name,
         )
-        return '{0}_{1}_{2}_{3}.{4}'.format(
+        return '{0}_{1}_{2}_{3}_{4}'.format(
             code,
             team_name,
             school_name,
@@ -1425,7 +1425,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
             '-',
             self.team.user.profile.get_registration().wsgc_affiliate.name,
         )
-        return '{0}_{1}_{2}_{3}.{4}'.format(
+        return '{0}_{1}_{2}_{3}_{4}'.format(
             self.get_code(),
             team_name,
             school_name,
@@ -1511,7 +1511,7 @@ class CollegiateRocketCompetition(BaseModel):
             '-',
             self.team.user.profile.get_registration().wsgc_affiliate.name,
         )
-        return '{0}_{1}_{2}_{3}.{4}'.format(
+        return '{0}_{1}_{2}_{3}_{4}'.format(
             self.get_code(),
             team_name,
             school_name,
@@ -1589,7 +1589,7 @@ class FirstNationsRocketCompetition(BaseModel):
             '-',
             self.team.user.profile.get_registration().wsgc_affiliate.name,
         )
-        return '{0}_{1}_{2}_{3}.{4}'.format(
+        return '{0}_{1}_{2}_{3}_{4}'.format(
             self.get_code(),
             team_name,
             school_name,

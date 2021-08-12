@@ -21,7 +21,7 @@ user = User.objects.get(pk=666)
 
 apps = user.profile.applications.all()
 
-print apps
+print(apps)
 '''
 if apps:
     for a in apps:
