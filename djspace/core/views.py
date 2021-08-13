@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import mimetypes
+from os.path import join
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -220,6 +223,32 @@ def check_files_status(request):
         status = "POST required"
 
     return HttpResponse(status, content_type='text/plain; charset=utf-8')
+
+
+@staff_member_required
+def download_file(request, field, ct, oid, uid):
+    """Download a file with a name that matches the program."""
+    files = {
+        'mugshot': 'Photo',
+        'biography': 'Bio',
+        'irs_w9': 'W9',
+        'media_release': 'Media_Release',
+    }
+    user = User.objects.get(pk=uid)
+    attr = getattr(user.user_files, field, None)
+    path = join(settings.MEDIA_ROOT, attr.name)
+    extension = path.split('.')[-1]
+    ct = ContentType.objects.get(pk=ct)
+    mod = ct.model_class()
+    instance = mod.objects.get(pk=oid)
+    filename = '{0}_{1}.{2}'.format(
+        instance.get_file_name(), files[field], extension,
+    )
+    with open(path, 'rb') as phile:
+        mime_type, _ = mimetypes.guess_type(path)
+        response = HttpResponse(phile, content_type=mime_type)
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    return response
 
 
 @csrf_exempt

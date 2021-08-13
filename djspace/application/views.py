@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Count
 from django.http import Http404
 from django.http import HttpResponse
@@ -465,7 +466,7 @@ def get_program_submissions(request):
     return HttpResponse(template, content_type='text/plain; charset=utf-8')
 
 
-@login_required
+@staff_member_required
 def application_print(request, application_type, aid):
     """Print view for applications. AKA: the demographic page/view."""
     user = request.user
@@ -475,19 +476,16 @@ def application_print(request, application_type, aid):
     for slug in slug_list:
         app_name += ' {0}'.format(slug.capitalize())
     app_type = ''.join(app_name.split(' '))
-
     mod = django.apps.apps.get_model(
         app_label='application', model_name=app_type,
     )
-
-    data = get_object_or_404(mod, pk=aid)
-
-    if data.user == user or user.is_superuser:
+    content_type = ContentType.objects.get_for_model(mod)
+    instance = get_object_or_404(mod, pk=aid)
+    if instance.user == user or user.is_superuser:
         try:
-            files = data.user.user_files
+            files = instance.user.user_files
         except Exception:
             files = None
-
         # deal with user profile files
         mugshot_status = None
         biography_status = None
@@ -503,7 +501,8 @@ def application_print(request, application_type, aid):
             request,
             'application/email/{0}.html'.format(application_type),
             {
-                'data': data,
+                'data': instance,
+                'content_type': content_type.id,
                 'mugshot_status': mugshot_status,
                 'biography_status': biography_status,
                 'irs_w9_status': irs_w9_status,

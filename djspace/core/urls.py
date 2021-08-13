@@ -26,6 +26,13 @@ urlpatterns = [
         views.user_files_test,
         name='user_files_test',
     ),
+    # download user files with a name that matches the program
+    path(
+        'account/user-files/<str:field>/<str:ct>/<int:oid>/<str:uid>/download/',
+        views.download_file,
+        name='download_file',
+    ),
+    # Update user files via ajax post
     path('account/user-files/', views.user_files, name='user_files'),
     # check files status
     path('account/files-status/', views.check_files_status, name='files_status'),

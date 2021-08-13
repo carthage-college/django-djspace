@@ -1,43 +1,44 @@
 <ul>
     {% if user.user_files.mugshot and mugshot_status %}
       <li>
-        <a href="{{media_url}}{{user.user_files.mugshot}}"
+        <a href="{% url 'download_file' 'mugshot' content_type data.id user.id %}"
           target="_blank">
           Head shot
         </a><br>
-        https://{{server_url}}{{media_url}}{{user.user_files.mugshot}}
+        https://{{server_url}}{% url 'download_file' 'mugshot' 'content_type' data.id user.id %}
       </li>
     {% else %}
       <li>Head shot: Missing</li>
     {% endif %}
     {% if user.user_files.biography and biography_status %}
       <li>
-        <a href="{{media_url}}{{user.user_files.biography}}"
+        <a href="{% url 'download_file' 'biography' content_type data.id user.id %}"
           target="_blank">
           Biography
         </a><br>
-        https://{{server_url}}{{media_url}}{{user.user_files.biography}}
+        https://{{server_url}}{% url 'download_file' 'biography' content_type data.id user.id %}
       </li>
     {% else %}
       <li>Biography: Missing</li>
     {% endif %}
     {% if user.user_files.media_release and media_release_status %}
       <li>
-        <a href="{{media_url}}{{user.user_files.media_release}}"
+        <a href="{% url 'download_file' 'media_release' content_type data.id user.id %}"
           target="_blank">
           Media release
         </a><br>
-        https://{{server_url}}{{media_url}}{{user.user_files.media_release}}
+        https://{{server_url}}{% url 'download_file' 'media_release' content_type data.id user.id %}
       </li>
     {% else %}
       <li>Media release form: Missing</li>
     {% endif %}
     {% if user.user_files.irs_w9 and irs_w9_status %}
       <li>
-        <a href="{{media_url}}{{user.user_files.irs_w9}}" target="_blank">
+        <a href="{% url 'download_file' 'irs_w9' content_type data.id user.id %}"
+          target="_blank">
           IRS W9 form
         </a><br>
-        https://{{server_url}}{{media_url}}{{user.user_files.irs_w9}}
+        https://{{server_url}}{% url 'download_file' 'irs_w9' content_type data.id user.id %}
       </li>
     {% else %}
       <li>IRS W9 form: Missing</li>

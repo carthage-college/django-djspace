@@ -17,22 +17,17 @@ from djspace.core.utils import upload_to_path
 from djtools.fields import BINARY_CHOICES
 from djtools.fields import TODAY
 
+
 YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
-FILE_VALIDATORS=[]
-PHOTO_VALIDATORS=[]
-PPT_EXTENSIONS=[]
-OPENROCKET_EXTENSIONS=[]
-'''
 PPT_EXTENSIONS = [
     FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),
 ]
 OPENROCKET_EXTENSIONS = [
     FileExtensionValidator(allowed_extensions=['rkt', 'RKT']),
 ]
-'''
 DIRECTORATE_CHOICES = (
     ('Aeronautics Research', 'Aeronautics Research'),
     (
@@ -1785,19 +1780,25 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
 class UnmannedAerialVehiclesResearchScholarship(HighAltitudeBalloon):
     """Unmanned Aerial Vehicles Research Scholarship."""
 
-    def __unicode__(self):
+    def __str__(self):
+        """Default data for display."""
         return "Unmanned Aerial Vehicles Research Scholarship"
 
     def get_application_type(self):
+        """Application type title for display."""
         return 'Unmanned Aerial Vehicles Research Scholarship'
 
     def get_slug(self):
+        """Slug for the application, used for many things."""
         return 'unmanned-aerial-vehicles-research-scholarship'
 
     def get_code(self):
+        """Three letter code for WSGC administrative purposes."""
         return 'UAV{0}'.format(YEAR_2)
 
     class Meta:
+        """Attributes about the data model and admin options."""
+
         verbose_name = "UAV Scholarship"
         verbose_name_plural = "UAV Scholarships"
 
@@ -2239,7 +2240,7 @@ class Scholarship(BaseModel):
         max_length=255,
         help_text=mark_safe("""
             Maximum two-page statement containing the following:
-            <ol style="font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px;">
+            <ol class="help_text">
             <li>a clear and concise account of your reasons
             for seeking this scholarship</li>
             <li>evidence of previous interest and experience
