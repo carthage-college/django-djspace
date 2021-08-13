@@ -40,7 +40,7 @@
             data-html="true"
             data-title="<b>NOTE:</b>"
             data-trigger="focus"
-            data-content="<span class='help'>An X means you have not uploaded the file. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
+            data-content="<span class='help'>An X means that you have not uploaded the file and it is required. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
             aria-hidden="true"></i>
           </span>
         </legend>
@@ -482,6 +482,26 @@
                 {% include "dashboard/view_photo.ajax.html" %}
               {% endfor %}
             </ul>
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset>
+        <legend>
+            Required Actions
+            <span class="fright">
+              <i tabindex="0"
+              class="fa fa-question-circle-o green popover-toggle"
+              data-html="true"
+              data-trigger="focus"
+              data-content="<span class='help'>Please be certain to complete these tasks.</span>."
+              aria-hidden="true"></i>
+            </span>
+        </legend>
+        <ol>
+          <li class="form-group ctrlHolder">
+            <strong>NASA Office of Education Survey:</strong>
+            Due at award closeout or by December 1 (whichever comes first),
+            see Award Letter for link.
           </li>
         </ol>
       </fieldset>
