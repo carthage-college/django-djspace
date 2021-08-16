@@ -106,6 +106,40 @@
 <li>RockSim 2: Missing</li>
   {% endif %}
 {% endif %}
+{% if data.openrocketrocksim3 %}
+<li>
+  <a href="{{media_url}}{{data.openrocketrocksim3}}">
+    RockSim Design Review 3
+  </a>
+  <ul>
+    <li>Created: {{data.openrocketrocksim3_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.openrocketrocksim3}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}
+<li>RockSim 3: Missing</li>
+  {% endif %}
+{% endif %}
+{% if data.openrocketrocksim4 %}
+<li>
+  <a href="{{media_url}}{{data.openrocketrocksim4}}">
+    RockSim Design Review 4
+  </a>
+  <ul>
+    <li>Created: {{data.openrocketrocksim4_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.openrocketrocksim4}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}
+<li>RockSim 4: Missing</li>
+  {% endif %}
+{% endif %}
 {% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
   {% if data.final_design_report %}
     <li>

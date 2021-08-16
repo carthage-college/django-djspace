@@ -58,8 +58,10 @@ FUNDED_FILES = (
     ('oral_presentation', 'Oral Presentation'),
     ('close_out_finance_document', 'Close Out Finance Document'),
     ('other_file', 'Other File'),
-    ('openrocketrocksim', 'RockSim Design Review'),
+    ('openrocketrocksim', 'RockSim Design Review 1'),
     ('openrocketrocksim2', 'RockSim Design Review 2'),
+    ('openrocketrocksim3', 'RockSim Design Review 3'),
+    ('openrocketrocksim4', 'RockSim Design Review 4'),
     ('post_flight_performance_report', 'Post Flight Performance Report'),
     ('preliminary_design_report', 'Preliminary Design Report'),
     ('virtual_pdr', 'Virtual Preliminary Design Report'),
@@ -721,7 +723,9 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'final_design_report_file',
         'flight_demo_file',
         'openrocketrocksim_file',
-        'openrocketrocksim_file2',
+        'openrocketrocksim2_file',
+        'openrocketrocksim3_file',
+        'openrocketrocksim4_file',
         'final_motor_selection_trunk',
         'lodging_list_file',
         'critical_design_report_file',
@@ -901,13 +905,25 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'openrocketrocksim')
     openrocketrocksim_file.allow_tags = True
-    openrocketrocksim_file.short_description = "ORK"
+    openrocketrocksim_file.short_description = "ORK1"
 
-    def openrocketrocksim_file2(self, instance):
+    def openrocketrocksim2_file(self, instance):
         """Construct display file code for the admin dashboard."""
         return admin_display_file(instance, 'openrocketrocksim2')
-    openrocketrocksim_file2.allow_tags = True
-    openrocketrocksim_file2.short_description = "ORK2"
+    openrocketrocksim2_file.allow_tags = True
+    openrocketrocksim2_file.short_description = "ORK2"
+
+    def openrocketrocksim3_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'openrocketrocksim3')
+    openrocketrocksim3_file.allow_tags = True
+    openrocketrocksim3_file.short_description = "ORK3"
+
+    def openrocketrocksim4_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'openrocketrocksim4')
+    openrocketrocksim4_file.allow_tags = True
+    openrocketrocksim4_file.short_description = "ORK4"
 
     def proceeding_paper_file(self, instance):
         """Construct display file code for the admin dashboard."""

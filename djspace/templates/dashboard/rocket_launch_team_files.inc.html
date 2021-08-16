@@ -87,7 +87,7 @@
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_openrocketrocksim">
-      RockSim Design Review [RKT]
+      RockSim Design Review 1 [RKT]
     </label>
   </h3>
   <div class="filewrap fleft">
@@ -107,7 +107,7 @@
 </li>
 <li class="form-group ctrlHolder">
   <h3>
-    <label for="id_openrocketrocksim">
+    <label for="id_openrocketrocksim2">
       RockSim Design Review 2 [RKT]
     </label>
   </h3>
@@ -121,6 +121,48 @@
   </div>
   {% if app.openrocketrocksim2 or app.team.openrocketrocksim2 %}
     <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim2 %}{{app.openrocketrocksim2}}{% else %}{{app.team.openrocketrocksim2}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_openrocketrocksim3">
+      RockSim Design Review 3 [RKT]
+    </label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+      name="openrocketrocksim3" id="id_openrocketrocksim3">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.openrocketrocksim3 or app.team.openrocketrocksim3 %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim3 %}{{app.openrocketrocksim3}}{% else %}{{app.team.openrocketrocksim3}}{% endif %}" target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3>
+    <label for="id_openrocketrocksim4">
+      RockSim Design Review 4 [RKT]
+    </label>
+  </h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+      name="openrocketrocksim4" id="id_openrocketrocksim4">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.openrocketrocksim4 or app.team.openrocketrocksim4 %}
+    <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim4 %}{{app.openrocketrocksim4}}{% else %}{{app.team.openrocketrocksim4}}{% endif %}" target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>

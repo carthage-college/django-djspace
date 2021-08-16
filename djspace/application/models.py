@@ -1362,6 +1362,14 @@ class RocketLaunchTeam(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('openrocketrocksim2')
 
+    def openrocketrocksim3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('openrocketrocksim3')
+
+    def openrocketrocksim4_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('openrocketrocksim4')
+
     def team_photo_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('team_photo')

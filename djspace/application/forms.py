@@ -1822,6 +1822,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'lodging_list',
             'openrocketrocksim',
             'openrocketrocksim2',
+            'openrocketrocksim3',
+            'openrocketrocksim4',
             'other_file',
             'other_file2',
             'other_file3',
