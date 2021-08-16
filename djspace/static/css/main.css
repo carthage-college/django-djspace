@@ -1,0 +1,3 @@
+.form span.error-message, .form .inlineLabels .error-message {
+    background-color: yellow;
+}
