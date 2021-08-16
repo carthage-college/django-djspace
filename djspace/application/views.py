@@ -370,6 +370,13 @@ def application_form(request, application_type, aid=None):
             # email confirmation
             template = 'application/email/{0}.html'.format(application_type)
             if not settings.DEBUG:
+                # deal with user profile files
+                if uf:
+                    data.mugshot_status = uf.status('mugshot')
+                    data.biography_status = uf.status('biography')
+                    data.irs_w9_status = uf.status('irs_w9')
+                    data.media_release_status = uf.status('media_release')
+                    data.content_type = data.get_content_type().id
                 # email distribution list and bcc parameters
                 to_list = [settings.WSGC_APPLICATIONS]
                 bcc = [settings.ADMINS[0][1], settings.WSGC_EMAIL]
@@ -486,27 +493,17 @@ def application_print(request, application_type, aid):
             files = instance.user.user_files
         except Exception:
             files = None
-        # deal with user profile files
-        mugshot_status = None
-        biography_status = None
-        irs_w9_status = None
-        media_release_status = None
         if files:
-            mugshot_status = files.status('mugshot')
-            biography_status = files.status('biography')
-            irs_w9_status = files.status('irs_w9')
-            media_release_status = files.status('media_release')
-
+            instance.mugshot_status = files.status('mugshot')
+            instance.biography_status = files.status('biography')
+            instance.irs_w9_status = files.status('irs_w9')
+            instance.media_release_status = files.status('media_release')
+            instance.content_type = content_type.id
         response = render(
             request,
             'application/email/{0}.html'.format(application_type),
             {
                 'data': instance,
-                'content_type': content_type.id,
-                'mugshot_status': mugshot_status,
-                'biography_status': biography_status,
-                'irs_w9_status': irs_w9_status,
-                'media_release_status': media_release_status,
             },
         )
     else:

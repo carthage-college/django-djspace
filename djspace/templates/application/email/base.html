@@ -69,9 +69,7 @@ Department program.......... {{data.user.profile.get_registration.department_pro
     {% include "application/email/highschool.inc.html" %}
 {% endif %}
 <h2>Personally Identifiable Information</h2>
-{% with data.user as user %}
-  {% include "application/email/user_files.inc.html" %}
-{% endwith %}
+{% include "application/email/user_files.inc.html" %}
 {% endblock %}
 <h2>Application Information</h2>
 <h4>Have you received WSGC funding within the past five years?</h4>

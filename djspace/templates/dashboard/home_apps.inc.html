@@ -505,7 +505,43 @@
           </li>
         </ol>
       </fieldset>
-      {% endif %}{# required photos for professional_programs #}
+      {% endif %}
+      {# end required for professional_programs #}
+      {% if app.get_content_type.model not in professional_programs %}
+      <fieldset>
+        <legend>
+            Photos
+            <span class="fright">
+              <i tabindex="0"
+              class="fa fa-question-circle-o green popover-toggle"
+              data-html="true"
+              data-trigger="focus"
+              data-content="<span class='help'>Maximum of three photos.</span>." 
+              aria-hidden="true"></i>
+            </span>
+        </legend>
+        <ol>
+          <li class="form-group ctrlHolder">
+            <div class="filewrap fleft">
+              <input type="file" class="photo-upload"
+                name="phile" id="id_phile"
+                data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
+                data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}">
+              <span class='filevalu'></span>
+              <span class='filebutt'>Select File</span>
+            </div>
+          </li>
+          <li class="form-group ctrlHolder">
+            <ul id="phoc_{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}" class="photo-container">
+                {% for photo in app.photos.all %}
+                {% include "dashboard/view_photo.ajax.html" %}
+              {% endfor %}
+            </ul>
+          </li>
+        </ol>
+        <div class="help">Include the student awardee who is engaged in the project.</div>
+      </fieldset>
+      {% endif %}{# end exception for professional programs #}
       <fieldset>
         <legend>
           Optional Files
@@ -686,40 +722,5 @@
           </li>
         </ol>
       </fieldset>
-      {% if app.get_content_type.model not in professional_programs %}
-      <fieldset>
-        <legend>
-            Photos
-            <span class="fright">
-              <i tabindex="0"
-              class="fa fa-question-circle-o green popover-toggle"
-              data-html="true"
-              data-trigger="focus"
-              data-content="<span class='help'>Maximum of three photos.</span>."
-              aria-hidden="true"></i>
-            </span>
-        </legend>
-        <ol>
-          <li class="form-group ctrlHolder">
-            <div class="filewrap fleft">
-              <input type="file" class="photo-upload"
-                name="phile" id="id_phile"
-                data-content-type="{% if team %}{{team.ct}}{% else %}{{app.get_content_type.id}}{% endif %}"
-                data-oid="{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}">
-              <span class='filevalu'></span>
-              <span class='filebutt'>Select File</span>
-            </div>
-          </li>
-          <li class="form-group ctrlHolder">
-            <ul id="phoc_{% if team %}{{team.id}}{% else %}{{app.id}}{% endif %}" class="photo-container">
-                {% for photo in app.photos.all %}
-                {% include "dashboard/view_photo.ajax.html" %}
-              {% endfor %}
-            </ul>
-          </li>
-        </ol>
-        <div class="help">Include the student awardee who is engaged in the project.</div>
-      </fieldset>
-      {% endif %}{# end exception for professional programs #}
     {% endif %}{# /app.status #}
 </li>

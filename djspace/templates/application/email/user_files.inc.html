@@ -1,53 +1,53 @@
 <ul>
-    {% if user.user_files.mugshot and mugshot_status %}
+    {% if data.user.user_files.mugshot and data.mugshot_status %}
       <li>
-        <a href="{% url 'download_file' 'mugshot' content_type data.id user.id %}"
+        <a href="https://{{server_url}}{% url 'download_file' 'mugshot' data.content_type data.id data.user.id %}"
           target="_blank">
           Head shot
         </a><br>
-        https://{{server_url}}{% url 'download_file' 'mugshot' 'content_type' data.id user.id %}
+        https://{{server_url}}{% url 'download_file' 'mugshot' data.content_type data.id data.user.id %}
       </li>
     {% else %}
       <li>Head shot: Missing</li>
     {% endif %}
-    {% if user.user_files.biography and biography_status %}
+    {% if data.user.user_files.biography and data.biography_status %}
       <li>
-        <a href="{% url 'download_file' 'biography' content_type data.id user.id %}"
+        <a href="https://{{server_url}}{% url 'download_file' 'biography' data.content_type data.id data.user.id %}"
           target="_blank">
           Biography
         </a><br>
-        https://{{server_url}}{% url 'download_file' 'biography' content_type data.id user.id %}
+        https://{{server_url}}{% url 'download_file' 'biography' data.content_type data.id data.user.id %}
       </li>
     {% else %}
       <li>Biography: Missing</li>
     {% endif %}
-    {% if user.user_files.media_release and media_release_status %}
+    {% if data.user.user_files.media_release and data.media_release_status %}
       <li>
-        <a href="{% url 'download_file' 'media_release' content_type data.id user.id %}"
+        <a href="https://{{server_url}}{% url 'download_file' 'media_release' data.content_type data.id data.user.id %}"
           target="_blank">
           Media release
         </a><br>
-        https://{{server_url}}{% url 'download_file' 'media_release' content_type data.id user.id %}
+        https://{{server_url}}{% url 'download_file' 'media_release' data.content_type data.id data.user.id %}
       </li>
     {% else %}
       <li>Media release form: Missing</li>
     {% endif %}
-    {% if user.user_files.irs_w9 and irs_w9_status %}
+    {% if data.user.user_files.irs_w9 and data.irs_w9_status %}
       <li>
-        <a href="{% url 'download_file' 'irs_w9' content_type data.id user.id %}"
+        <a href="https://{{server_url}}{% url 'download_file' 'irs_w9' data.content_type data.id data.user.id %}"
           target="_blank">
           IRS W9 form
         </a><br>
-        https://{{server_url}}{% url 'download_file' 'irs_w9' content_type data.id user.id %}
+        https://{{server_url}}{% url 'download_file' 'irs_w9' data.content_type data.id data.user.id %}
       </li>
     {% else %}
       <li>IRS W9 form: Missing</li>
     {% endif %}
-    {% if user.profile.get_registration.cv %}
+    {% if data.user.profile.get_registration.cv %}
     <li>
-      <a href="https://{{server_url}}{{media_url}}{{user.profile.get_registration.cv}}">
+      <a href="https://{{server_url}}{{media_url}}{{data.user.profile.get_registration.cv}}">
         CV</a>
-      {% if user.profile.get_registration.cv_authorize %}
+      {% if data.user.profile.get_registration.cv_authorize %}
         <strong>Authorized</strong>
       {% else %}
         <strong>Not Authorized</strong>
