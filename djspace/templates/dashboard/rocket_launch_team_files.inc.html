@@ -39,6 +39,46 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
+<li class="form-group ctrlHolder">
+  <h3><label for="id_invoice_q1">Partial Reimbursement Invoice (March) [PDF]</label></h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{{app.get_content_type.id}}"
+      data-oid="{{app.id}}"
+      name="invoice_q1" id="id_invoice_q1">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.invoice_q1 %}
+    <a class="fa-wrap" href="{{media_url}}{{app.invoice_q1}}"
+      target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue"
+      aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true"
+      title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3><label for="id_invoice_q2">Final Reimbursement Invoice (May) [PDF]</label></h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{{app.get_content_type.id}}"
+      data-oid="{{app.id}}"
+      name="invoice_q2" id="id_invoice_q2">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.invoice_q2 %}
+    <a class="fa-wrap" href="{{media_url}}{{app.invoice_q2}}"
+      target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue"
+      aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true"
+      title="Missing file"></i>
+  {% endif %}
+</li>
 {% endif %}
 {% if app.competition == "Collegiate Rocket Competition" or app.team.competition == "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
