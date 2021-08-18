@@ -140,6 +140,23 @@
 <li>RockSim 4: Missing</li>
   {% endif %}
 {% endif %}
+{% if data.patch_contest %}
+<li>
+  <a href="{{media_url}}{{data.patch_contest}}">
+    Patch Contest Submission
+  </a>
+  <ul>
+    <li>Created: {{data.patch_contest_timestamp}}</li>
+    <li>
+      https://{{server_url}}{{media_url}}{{data.patch_contest}}
+    </li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}
+<li>Patch Contest Submission: Missing</li>
+  {% endif %}
+{% endif %}
 {% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
   {% if data.final_design_report %}
     <li>

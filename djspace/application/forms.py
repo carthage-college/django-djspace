@@ -1824,6 +1824,7 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'openrocketrocksim2',
             'openrocketrocksim3',
             'openrocketrocksim4',
+            'patch_contest',
             'other_file',
             'other_file2',
             'other_file3',

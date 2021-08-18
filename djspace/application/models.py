@@ -1147,6 +1147,15 @@ class RocketLaunchTeam(BaseModel):
         blank=True,
         help_text="RKT file",
     )
+    patch_contest = models.FileField(
+        "Patch Contest Submission",
+        upload_to=partial(upload_to_path, 'Patch Contest'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
     team_photo = models.ImageField(
         upload_to=partial(upload_to_path, 'Team_Photo'),
         validators=PHOTO_VALIDATORS,
@@ -1369,6 +1378,10 @@ class RocketLaunchTeam(BaseModel):
     def openrocketrocksim4_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('openrocketrocksim4')
+
+    def patch_contest_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('patch_contest')
 
     def team_photo_timestamp(self):
         """Timestamp method for UI level display."""
