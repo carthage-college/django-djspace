@@ -155,7 +155,7 @@ class Photo(models.Model):
     phile = models.ImageField(
         "Photo",
         upload_to=partial(upload_to_path, 'Program_Photo'),
-        #validators=PHOTO_VALIDATORS,
+        validators=PHOTO_VALIDATORS,
         max_length=768,
         help_text="JPEG only",
     )
@@ -284,7 +284,7 @@ class BaseModel(Base):
     )
     award_acceptance = models.FileField(
         upload_to=partial(upload_to_path, 'Award_Acceptance'),
-        #validators=FILE_VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,
@@ -292,7 +292,7 @@ class BaseModel(Base):
     )
     interim_report = models.FileField(
         upload_to=partial(upload_to_path, 'Interim_Report'),
-        #validators=FILE_VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,
@@ -300,7 +300,7 @@ class BaseModel(Base):
     )
     final_report = models.FileField(
         upload_to=partial(upload_to_path, 'Final_Report'),
-        #validators=FILE_VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,
@@ -309,7 +309,7 @@ class BaseModel(Base):
     other_file = models.FileField(
         "Ancillary File 1",
         upload_to=partial(upload_to_path, 'Other_File'),
-        #validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
         help_text=ALLOWED_EXTENSIONS,
         max_length=768,
         null=True,
@@ -318,7 +318,7 @@ class BaseModel(Base):
     other_file2 = models.FileField(
         "Ancillary File 2",
         upload_to=partial(upload_to_path, 'Other_File2'),
-        #validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
         help_text=ALLOWED_EXTENSIONS,
         max_length=768,
         null=True,
@@ -327,7 +327,7 @@ class BaseModel(Base):
     other_file3 = models.FileField(
         "Ancillary File 3",
         upload_to=partial(upload_to_path, 'Other_File3'),
-        #validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
         help_text=ALLOWED_EXTENSIONS,
         max_length=768,
         null=True,
@@ -429,7 +429,7 @@ class UserFiles(models.Model):
     mugshot = models.FileField(
         "Photo",
         upload_to=partial(upload_to_path, 'Photo'),
-        #validators=PHOTO_VALIDATORS,
+        validators=PHOTO_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,
@@ -437,7 +437,7 @@ class UserFiles(models.Model):
     )
     biography = models.FileField(
         upload_to=partial(upload_to_path, 'Bio'),
-        #validators=FILE_VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,
@@ -445,7 +445,7 @@ class UserFiles(models.Model):
     )
     media_release = models.FileField(
         upload_to=partial(upload_to_path, 'Media_Release'),
-        #validators=FILE_VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,
@@ -457,7 +457,7 @@ class UserFiles(models.Model):
     irs_w9 = models.FileField(
         "IRS W9",
         upload_to=partial(upload_to_path, 'W9'),
-        #validators=FILE_VALIDATORS,
+        validators=FILE_VALIDATORS,
         max_length=768,
         null=True,
         blank=True,

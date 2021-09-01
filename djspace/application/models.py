@@ -22,12 +22,8 @@ YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
-FILE_VALIDATORS = []
-PHOTO_VALIDATORS = []
-PPT_EXTENSIONS = []
-#PPT_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),]
-OPENROCKET_EXTENSIONS = []
-#OPENROCKET_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['rkt', 'RKT'])]
+PPT_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),]
+OPENROCKET_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['rkt', 'RKT'])]
 DIRECTORATE_CHOICES = (
     ('Aeronautics Research', 'Aeronautics Research'),
     (
@@ -152,15 +148,14 @@ NASA_CENTER_CHOICES = (
 FIRST_NATIONS_ROCKET_COMPETITIONS = (
     ('Moon Challenge', 'Moon Challenge'),
     ('Mars Challenge', 'Mars Challenge'),
+    ('First Nations Launch Gateway Challenge', 'First Nations Launch Gateway Challenge'),
 )
 ROCKET_COMPETITIONS = (
     ('Collegiate Rocket Competition', 'Collegiate Rocket Competition'),
     ('First Nations Mars Challenge', 'First Nations Mars Challenge'),
     ('First Nations Moon Challenge', 'First Nations Moon Challenge'),
-    (
-        'Midwest High Powered Rocket Competition',
-        'Midwest High Powered Rocket Competition',
-    ),
+    ('First Nations Launch Gateway Challenge', 'First Nations Launch Gateway Challenge'),
+    ('Midwest High Powered Rocket Competition', 'Midwest High Powered Rocket Competition'),
 )
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
     'Midwest High Powered Rocket Competition',
@@ -1121,7 +1116,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="RKT file",
     )
     openrocketrocksim2 = models.FileField(
-        "OpenRocket or RockSim Design Review 2",
+        "RockSim Design Review 2",
         upload_to=partial(upload_to_path, 'RockSim2'),
         validators=OPENROCKET_EXTENSIONS,
         max_length=255,
@@ -1130,7 +1125,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="RKT file",
     )
     openrocketrocksim3 = models.FileField(
-        "OpenRocket or RockSim Design Review 3",
+        "RockSim Design Review 3",
         upload_to=partial(upload_to_path, 'RockSim3'),
         validators=OPENROCKET_EXTENSIONS,
         max_length=255,
@@ -1139,7 +1134,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="RKT file",
     )
     openrocketrocksim4 = models.FileField(
-        "OpenRocket or RockSim Design Review 4",
+        "RockSim Design Review 4",
         upload_to=partial(upload_to_path, 'ORRS'),
         validators=OPENROCKET_EXTENSIONS,
         max_length=255,
