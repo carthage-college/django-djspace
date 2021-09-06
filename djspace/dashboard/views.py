@@ -262,9 +262,10 @@ def profile_form(request):
             reg.updated_by = user
             # delete all objects, then add current list because that is easier.
             if reg_type == 'TechnicalAdvisor':
-                reg.programs.clear()
-                for prog in request.POST.getlist('reg-programs'):
-                    reg.programs.add(prog)
+                if reg.programs:
+                    reg.programs.clear()
+                    for prog in request.POST.getlist('reg-programs'):
+                        reg.programs.add(prog)
             reg.save()
             # UserProfile
             pro = pro_form.save(commit=False)
