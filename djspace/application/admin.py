@@ -2,7 +2,7 @@
 
 import csv
 import tarfile
-from io import BytesIO
+from io import StringIO
 
 from django import forms
 from django.conf import settings
@@ -248,19 +248,21 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
     ]
 
     field_names = [field.name for field in modeladmin.model._meta.get_fields()]
-    slug = modeladmin.model.get_slug()
     headers = PROFILE_HEADERS + field_names
     # remove unwanted headers
     for exclu in exclude:
         if exclu in headers:
             headers.remove(exclu)
 
-    bi = BytesIO()
     csv.register_dialect('pipes', delimiter='|')
-    writer = csv.writer(bi, dialect='pipes')
+    buffy = StringIO()
+    writer = csv.writer(buffy, dialect='pipes')
     writer.writerow(headers)
 
+    slug = None
     for reg in queryset:
+        if not slug:
+            slug = reg.get_slug()
         fields = []
         profile_fields = get_profile_fields(reg)
         # deal with non-standard characters
@@ -272,9 +274,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
                 attr = getattr(reg, name, None)
                 if attr != '':
                     if name == 'synopsis':
-                        attr = unicode(
-                            strip_tags(attr),
-                        ).encode('utf-8', 'ignore').strip()
+                        attr = strip_tags(attr).strip()
                     elif name in file_fields:
                         earl = 'https://{0}{1}{2}'.format(
                             settings.SERVER_URL, settings.MEDIA_URL, attr,
@@ -285,15 +285,13 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
                             attr = '{0}, {1} ({2})'.format(
                                 attr.last_name, attr.first_name, attr.email,
                             )
-                    else:
-                        attr = unicode(attr).encode('utf-8', 'ignore')
                 fields.append(attr)
         writer.writerow(fields)
     wb = load_workbook(
         '{0}/application/applications.xlsx'.format(settings.ROOT_DIR),
     )
     ws = wb.active
-    reader = csv.reader(BytesIO(bi.getvalue()), dialect='pipes')
+    reader = csv.reader(StringIO(buffy.getvalue()), dialect='pipes')
     for row in reader:
         ws.append(row)
 
