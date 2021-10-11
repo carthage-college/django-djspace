@@ -53,7 +53,7 @@ def get_profile_fields(registrant):
         affiliate = reg.profile.get_registration().wsgc_affiliate
         if not affiliate:
             affiliate = reg.profile.get_registration().wsgc_affiliate_other
-    except Except:
+    except Exception:
         affiliate = None
 
     race = [raza.name for raza in reg.profile.race.all()]
