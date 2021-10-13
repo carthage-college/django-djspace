@@ -94,7 +94,7 @@ def home(request):
         # past grant cycle applications
         past_apps = []
         start_date = get_start_date()
-        for app in apps.all():
+        for app in apps.all().order_by('-id'):
             if app.date_created >= start_date:
                 current_apps.append(app)
                 if app.status:
