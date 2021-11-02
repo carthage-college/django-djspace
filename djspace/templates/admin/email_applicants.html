@@ -28,7 +28,7 @@
 {% endblock %}
 {% block content %}
     <h4>Email {{title}} Applicants</h4>
-    <form method="post" action="sendmail/" class="form" id="profile">
+    <form method="post" action="{% url 'sendmail' %}" class="form" id="profile">
         {% csrf_token %}
         <input type="hidden" name="content_type" value="{{content_type}}">
         <input type="hidden" name="title" value="{{title}}">

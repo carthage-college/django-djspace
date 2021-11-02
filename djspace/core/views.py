@@ -23,9 +23,9 @@ from djtools.utils.mail import send_mail
 
 
 @staff_member_required
-def sendmail(request, redirect):
+def sendmail(request):
     """Send emails to program applicants from admin action email_applicants."""
-    redirect = '{0}/{1}'.format(settings.ROOT_URL, redirect)
+    redirect = request.META['HTTP_REFERER']
     if request.POST:
         # form stuff
         form = EmailApplicantsForm(request.POST, use_required_attribute=False)
@@ -49,7 +49,7 @@ def sendmail(request, redirect):
                 sub,
                 settings.SERVER_EMAIL,
                 'admin/email_data.html',
-                {'obj': instance, 'content': cd['content']},
+                {'obj': instance, 'content': cd.get('content')},
                 bcc,
             )
         messages.add_message(

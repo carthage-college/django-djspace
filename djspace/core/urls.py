@@ -44,7 +44,7 @@ urlpatterns = [
     # grants applications
     path('application/', include('djspace.application.urls')),
     # admin actions
-    re_path(r'^(.+)/sendmail/$', views.sendmail, name='sendmail'),
+    path('sendmail/', views.sendmail, name='sendmail'),
     # registered users dashboard
     path('dashboard/', include('djspace.dashboard.urls')),
     # registration

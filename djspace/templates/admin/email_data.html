@@ -3,4 +3,4 @@ Greetings,
 {{data.obj.user.first_name}}
 {{data.obj.user.last_name}}:
 
-{{data.content|safe}}
+{{data.content|default:''|safe}}
