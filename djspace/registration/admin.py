@@ -204,9 +204,16 @@ class ProfessionalAdmin(UndergraduateAdmin):
     model = Professional
 
 
-admin.site.register(HighSchool, HighSchoolAdmin)
-admin.site.register(Undergraduate, UndergraduateAdmin)
-admin.site.register(Graduate, GraduateAdmin)
+class TechnicalAdvisorAdmin(UndergraduateAdmin):
+    """Technical Advisor Admin model."""
+
+    model = TechnicalAdvisor
+
+
 admin.site.register(Faculty, FacultyAdmin)
+admin.site.register(Graduate, GraduateAdmin)
 admin.site.register(GrantsOfficer, GrantsOfficerAdmin)
+admin.site.register(HighSchool, HighSchoolAdmin)
 admin.site.register(Professional, ProfessionalAdmin)
+admin.site.register(TechnicalAdvisor, TechnicalAdvisorAdmin)
+admin.site.register(Undergraduate, UndergraduateAdmin)

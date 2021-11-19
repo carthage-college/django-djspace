@@ -145,6 +145,12 @@ class HighSchool(Base):
         "College or University Student ID", max_length=32,
     )
 
+    class Meta:
+        """Attributes about the data model and admin options."""
+
+        verbose_name_plural = "High School Students"
+
+
 
 class Undergraduate(BaseStudent):
     """Undergraduate student registration type."""
@@ -169,6 +175,11 @@ class Undergraduate(BaseStudent):
         max_length=24,
         choices=YEAR_CHOICES,
     )
+
+    class Meta:
+        """Attributes about the data model and admin options."""
+
+        verbose_name_plural = "Undergraduate Students"
 
 
 class Graduate(BaseStudent):
@@ -213,14 +224,14 @@ class Graduate(BaseStudent):
         #validators=[four_digit_year_validator],
     )
 
-
-class Academic(Base):
-    """Abstract data model base class for academics."""
-
     class Meta:
         """Attributes about the data model and admin options."""
 
-        abstract = True
+        verbose_name_plural = "Graduate Students"
+
+
+class Academic(Base):
+    """Abstract data model base class for academics."""
 
     # core
     wsgc_affiliate = models.ForeignKey(
@@ -249,6 +260,11 @@ class Academic(Base):
         max_length=128,
     )
 
+    class Meta:
+        """Attributes about the data model and admin options."""
+
+        abstract = True
+
 
 class Faculty(Academic):
     """Faculty registration type."""
@@ -272,7 +288,7 @@ class GrantsOfficer(Academic):
     class Meta:
         """Attributes about the data model and admin options."""
 
-        verbose_name_plural = "Authorized User"
+        verbose_name_plural = "Grants Officer"
 
 
 class TechnicalAdvisor(Academic):
@@ -283,6 +299,11 @@ class TechnicalAdvisor(Academic):
         related_name="tech_advisor_programs",
         help_text="Please select which programs you are willing to serve as a TAP member",
     )
+
+    class Meta:
+        """Attributes about the data model and admin options."""
+
+        verbose_name_plural = "Technical Advisor"
 
 
 class Professional(Base):
@@ -348,3 +369,8 @@ class Professional(Base):
         null=True,
         blank=True,
     )
+
+    class Meta:
+        """Attributes about the data model and admin options."""
+
+        verbose_name_plural = "Professionals"
