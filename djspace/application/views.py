@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import os
-
+import datetime
 import django
+
 from django.conf import settings
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -26,7 +27,6 @@ from djspace.application.models import ProfessionalProgramStudent
 from djspace.core.forms import UserFilesForm
 from djspace.core.models import UserFiles
 from djspace.core.utils import profile_status
-from djtools.fields import TODAY
 from djtools.fields.helpers import handle_uploaded_file
 from djtools.utils.convert import str_to_class
 from djtools.utils.mail import send_mail
@@ -517,6 +517,7 @@ def application_export(request, application_type):
     """Export applications."""
     users = User.objects.all().order_by('last_name')
 
+    today = datetime.date.today()
     exports = []
     for user in users:
         try:
@@ -533,7 +534,7 @@ def application_export(request, application_type):
         response = render(
             request,
             'application/export.html',
-            {'exports': exports, 'program': program, 'year': TODAY.year},
+            {'exports': exports, 'program': program, 'year': today.year},
             content_type='text/plain; charset=utf-8',
         )
     else:
@@ -546,7 +547,7 @@ def application_export(request, application_type):
         context = {
             'exports': exports,
             'program': program,
-            'year': TODAY.year,
+            'year': today.year,
         }
         response.write(template.render(context, request))
 

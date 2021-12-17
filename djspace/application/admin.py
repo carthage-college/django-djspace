@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import csv
+import datetime
 import tarfile
 from io import StringIO
 
@@ -27,7 +28,6 @@ from djspace.core.models import UserFiles
 from djspace.core.utils import admin_display_file
 from djspace.registration.admin import PROFILE_HEADERS
 from djspace.registration.admin import get_profile_fields
-from djtools.fields import TODAY
 from openpyxl import load_workbook
 from openpyxl.writer.excel import save_virtual_workbook
 
@@ -181,8 +181,9 @@ def longitudinal_tracking(modeladmin, request):
     # this could all be accomplished by a list of lists but building a list
     # for each row would be ugly. this seems more pythonic, and we can reuse
     # for CSV export if need be.
+    today = datetime.date.today()
     template = loader.get_template('application/export.longitudinal.html')
-    context = {'exports': exports, 'program': program, 'year': TODAY.year}
+    context = {'exports': exports, 'program': program, 'year': today.year}
     rendered_data = smart_bytes(
         template.render(context, request),
         encoding='utf-8',
