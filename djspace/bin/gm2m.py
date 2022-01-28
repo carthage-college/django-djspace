@@ -1,23 +1,21 @@
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+import argparse
+import django
 import os
 import sys
 
-# env
-sys.path.append('/usr/lib/python2.7/dist-packages/')
-sys.path.append('/usr/lib/python2.7/')
-sys.path.append('/usr/local/lib/python2.7/dist-packages/')
-sys.path.append('/data2/django_1.11/')
-sys.path.append('/data2/django_projects/')
-sys.path.append('/data2/django_third/')
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djspace.settings')
 
-import django
 django.setup()
+
+# env
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djspace.settings.shell')
 
 from django.contrib.auth.models import User
 
-#users = User.objects.all().order_by('last_name')
-user = User.objects.get(pk=666)
+user = User.objects.get(pk=1217743)
+print(user)
 
 apps = user.profile.applications.all()
 
