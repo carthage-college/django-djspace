@@ -1106,6 +1106,38 @@ class RocketLaunchTeam(BaseModel):
         blank=True,
         help_text="Power point",
     )
+    flysheet_1 = models.FileField(
+        upload_to=partial(upload_to_path, 'Flysheet_1'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    flysheet_2 = models.FileField(
+        upload_to=partial(upload_to_path, 'Flysheet_2'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    flysheet_3 = models.FileField(
+        upload_to=partial(upload_to_path, 'Flysheet_3'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
+    flysheet_4 = models.FileField(
+        upload_to=partial(upload_to_path, 'Flysheet_4'),
+        validators=FILE_VALIDATORS,
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="PDF format",
+    )
     openrocketrocksim = models.FileField(
         "RockSim Design Review",
         upload_to=partial(upload_to_path, 'RockSim1'),
@@ -1269,6 +1301,22 @@ class RocketLaunchTeam(BaseModel):
     def budget_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('budget')
+
+    def flysheet_1_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('flysheet_1')
+
+    def flysheet_2_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('flysheet_2')
+
+    def flysheet_3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('flysheet_3')
+
+    def flysheet_4_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('flysheet_4')
 
     def verified_budget_timestamp(self):
         """Timestamp method for UI level display."""

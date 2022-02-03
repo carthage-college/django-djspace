@@ -384,6 +384,58 @@
   {% else %}
     {% if data.status %}<li>Close Out Finance Document: Missing</li>{% endif %}
   {% endif %}
+  {% if data.flysheet_1 %}
+  <li>
+    <a href="{{media_url}}{{data.flysheet_1}}" target="_blank">
+      Flysheet 1
+    </a>
+    <ul>
+      <li>Created: {{data.flysheet_1_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.flysheet_1}}</li>
+    </ul>
+  </li>
+  {% else %}
+    {% if data.status %}<li>Flyseet 1: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.flysheet_2 %}
+  <li>
+    <a href="{{media_url}}{{data.flysheet_2}}" target="_blank">
+      Flysheet 2
+    </a>
+    <ul>
+      <li>Created: {{data.flysheet_2_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.flysheet_2}}</li>
+    </ul>
+  </li>
+  {% else %}
+    {% if data.status %}<li>Flyseet 2: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.flysheet_3 %}
+  <li>
+    <a href="{{media_url}}{{data.flysheet_3}}" target="_blank">
+      Flysheet 3
+    </a>
+    <ul>
+      <li>Created: {{data.flysheet_3_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.flysheet_3}}</li>
+    </ul>
+  </li>
+  {% else %}
+    {% if data.status %}<li>Flyseet 3: Missing</li>{% endif %}
+  {% endif %}
+  {% if data.flysheet_4 %}
+  <li>
+    <a href="{{media_url}}{{data.flysheet_4}}" target="_blank">
+      Flysheet 4
+    </a>
+    <ul>
+      <li>Created: {{data.flysheet_4_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.flysheet_4}}</li>
+    </ul>
+  </li>
+  {% else %}
+    {% if data.status %}<li>Flyseet 2: Missing</li>{% endif %}
+  {% endif %}
   {% if data.invoice_q1 %}
   <li>
     <a href="{{media_url}}{{data.invoice_q1}}" target="_blank">

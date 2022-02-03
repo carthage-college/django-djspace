@@ -48,6 +48,10 @@ FUNDED_FILES = (
     ('virtual_frr', 'Virtual Flight Readiness Report'),
     ('interim_progress_report', 'Interim Progress Report'),
     ('interim_report', 'Interim Report'),
+    ('flysheet_1', 'Flysheet 1'),
+    ('flysheet_2', 'Flysheet 2'),
+    ('flysheet_3', 'Flysheet 3'),
+    ('flysheet_4', 'Flysheet 4'),
     ('invoice_q1', 'Invoice Q1'),
     ('invoice_q2', 'Invoice Q2'),
     ('invoice_q3', 'Invoice Q3'),
@@ -726,6 +730,14 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'openrocketrocksim2_file',
         'openrocketrocksim3_file',
         'openrocketrocksim4_file',
+        'flysheet_1_file',
+        'flysheet_2_file',
+        'flysheet_3_file',
+        'flysheet_4_file',
+        'invoice_q1_file',
+        'invoice_q2_file',
+        'invoice_q3_file',
+        'invoice_q4_file',
         'patch_contest_file',
         'final_motor_selection_trunk',
         'lodging_list_file',
@@ -901,6 +913,54 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         return admin_display_file(instance, 'virtual_frr')
     virtual_frr_file.allow_tags = True
     virtual_frr_file.short_description = "VFRR"
+
+    def flysheet_1_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'flysheet_1')
+    flysheet_1_file.allow_tags = True
+    flysheet_1_file.short_description = "FLY1"
+
+    def flysheet_2_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'flysheet_2')
+    flysheet_2_file.allow_tags = True
+    flysheet_2_file.short_description = "FLY2"
+
+    def flysheet_3_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'flysheet_3')
+    flysheet_3_file.allow_tags = True
+    flysheet_3_file.short_description = "FLY3"
+
+    def flysheet_4_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'flysheet_4')
+    flysheet_4_file.allow_tags = True
+    flysheet_4_file.short_description = "FLY4"
+
+    def invoice_q1_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q1')
+    invoice_q1_file.allow_tags = True
+    invoice_q1_file.short_description = "INV1"
+
+    def invoice_q2_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q2')
+    invoice_q2_file.allow_tags = True
+    invoice_q2_file.short_description = "INV2"
+
+    def invoice_q3_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q3')
+    invoice_q3_file.allow_tags = True
+    invoice_q3_file.short_description = "INV3"
+
+    def invoice_q4_file(self, instance):
+        """Construct display file code for the admin dashboard."""
+        return admin_display_file(instance, 'invoice_q4')
+    invoice_q4_file.allow_tags = True
+    invoice_q4_file.short_description = "INV4"
 
     def openrocketrocksim_file(self, instance):
         """Construct display file code for the admin dashboard."""

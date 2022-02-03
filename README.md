@@ -68,7 +68,7 @@ def required_files(self):
 
       etc
 
-6. add class names in the td tag to static/djspace/css/admin.css
+6. add class names in the td tag to static/css/admin.css
 
   field-virtual_cdr_file
   field-virtual_pdr_file
