@@ -160,26 +160,6 @@
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
-  <h3><label for="id_flysheet_4">Flysheet 4 [PDF]</label></h3>
-  <div class="filewrap fleft">
-    <input type="file" class="upload-file"
-      data-content-type="{{app.get_content_type.id}}"
-      data-oid="{{app.id}}"
-      name="flysheet_4" id="id_flysheet_4">
-    <span class='filebutt'>Select File</span>
-    <span class='filevalu'></span>
-  </div>
-  {% if app.flysheet_4 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.flysheet_4}}"
-      target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
-  {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
-  {% endif %}
-</li>
-<li class="form-group ctrlHolder">
   <h3><label for="id_flysheet_3">Flysheet 3 [PDF]</label></h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
@@ -191,6 +171,26 @@
   </div>
   {% if app.flysheet_3 %}
     <a class="fa-wrap" href="{{media_url}}{{app.flysheet_3}}"
+      target="_blank">
+      <i class="fa fa-times fa-file-pdf-o blue"
+      aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true"
+      title="Missing file"></i>
+  {% endif %}
+</li>
+<li class="form-group ctrlHolder">
+  <h3><label for="id_flysheet_4">Flysheet 4 [PDF]</label></h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{{app.get_content_type.id}}"
+      data-oid="{{app.id}}"
+      name="flysheet_4" id="id_flysheet_4">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.flysheet_4 %}
+    <a class="fa-wrap" href="{{media_url}}{{app.flysheet_4}}"
       target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue"
       aria-hidden="true"></i></a>
