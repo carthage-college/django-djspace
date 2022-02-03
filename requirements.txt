@@ -1,4 +1,4 @@
-django>=2.2.24
+django==2.2.26
 django-allauth>=0.44.1
 django-taggit>=1.4.0
 django-loginas>=0.3.9
