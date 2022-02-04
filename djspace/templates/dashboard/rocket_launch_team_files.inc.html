@@ -1,4 +1,4 @@
-{% if app.competition == "Mars Challenge" or app.competition == "Moon Challenge" or app.competition == "First Nations Mars Challenge" or app.competition == "First Nations Moon Challenge" or app.competition == "AISES Challenge" or app.competition == "Tribal Challenge" or app.competition == "First Nations AISES" or app.competition == "First Nations Tribal" %}
+{% if app.competition != "Midwest High Powered Rocket Competition" or app.team.competition != "Midwest High Powered Rocket Competition" or app.competition != "Collegiate Rocket Competition" or app.team.competition != "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_proposal">Proposal [PDF]</label>
@@ -349,7 +349,7 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
-{% if app.competition == "Mars Challenge" or app.competition == "Moon Challenge" or app.competition == "First Nations Mars Challenge" or app.competition == "First Nations Moon Challenge" or app.competition == "AISES Challenge" or app.competition == "Tribal Challenge" or app.competition == "First Nations AISES" or app.competition == "First Nations Tribal" %}
+{% if app.competition != "Midwest High Powered Rocket Competition" or app.team.competition != "Midwest High Powered Rocket Competition" or app.competition != "Collegiate Rocket Competition" or app.team.competition != "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_virtual_pdr">
@@ -418,7 +418,7 @@
   </div>
 </li>
 {% endif %}
-{% if app.competition == "Mars Challenge" or app.competition == "Moon Challenge" or app.competition == "First Nations Mars Challenge" or app.competition == "First Nations Moon Challenge" or app.competition == "AISES Challenge" or app.competition == "Tribal Challenge" or app.competition == "First Nations AISES" or app.competition == "First Nations Tribal" %}
+{% if app.competition != "Midwest High Powered Rocket Competition" or app.team.competition != "Midwest High Powered Rocket Competition" or app.competition != "Collegiate Rocket Competition" or app.team.competition != "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_critical_design_report">Critical Design Report [PDF]</label>
