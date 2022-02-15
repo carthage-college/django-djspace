@@ -495,6 +495,22 @@ class UserFiles(models.Model):
             stat = False
         return stat
 
+    def media_release_status(self):
+        """Determine if the file was uploaded before the deadline date."""
+        return self.status('media_release')
+
+    def biography_status(self):
+        """Determine if the file was uploaded before the deadline date."""
+        return self.status('biography')
+
+    def irs_w9_status(self):
+        """Determine if the file was uploaded before the deadline date."""
+        return self.status('irs_w9')
+
+    def mugshot_status(self):
+        """Determine if the file was uploaded before the deadline date."""
+        return self.status('mugshot')
+
     def __str__(self):
         """Default display value in unicode encoding."""
         return 'User Profile File'

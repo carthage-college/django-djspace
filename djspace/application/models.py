@@ -1255,8 +1255,8 @@ class RocketLaunchTeam(BaseModel):
             team = self.first_nations_rocket_competition
         return team
 
-    def get_file_name(self):
-        """Construct the file name based on code, team, school, leader."""
+    def get_file_name(self, lackey=False):
+        """Construct the file name based on code, team, school, person's name."""
         if self.competition == 'Collegiate Rocket Competition':
             code = 'CRL{0}'.format(YEAR_2)
         elif self.competition == 'Midwest High Powered Rocket Competition':
@@ -1274,12 +1274,18 @@ class RocketLaunchTeam(BaseModel):
             '-',
             self.user.profile.get_registration().wsgc_affiliate.name,
         )
+        last_name = self.user.last_name
+        first_name = self.user.first_name
+        if lackey:
+            user = getattr(self, lackey, None)
+            last_name = user.last_name
+            first_name = user.first_name
         return '{0}_{1}_{2}_{3}_{4}'.format(
             code,
             team_name,
             school_name,
-            self.leader.last_name,
-            self.leader.first_name,
+            last_name,
+            first_name,
         )
 
     def get_absolute_url(self):

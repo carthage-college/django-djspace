@@ -234,6 +234,9 @@ def download_file(request, field, ct, oid, uid):
         'irs_w9': 'W9',
         'media_release': 'Media_Release',
     }
+    lackey = None
+    if request.GET.get('lackey'):
+        lackey = request.GET['lackey']
     user = User.objects.get(pk=uid)
     attr = getattr(user.user_files, field, None)
     path = join(settings.MEDIA_ROOT, attr.name)
@@ -242,7 +245,7 @@ def download_file(request, field, ct, oid, uid):
     mod = ct.model_class()
     instance = mod.objects.get(pk=oid)
     filename = '{0}_{1}.{2}'.format(
-        instance.get_file_name(), files[field], extension,
+        instance.get_file_name(lackey=lackey), files[field], extension,
     )
     with open(path, 'rb') as phile:
         mime_type, _ = mimetypes.guess_type(path)
