@@ -43,8 +43,8 @@ DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
         'PORT': '3306',
-        'NAME': 'django_djspace',
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_djspace',
         'USER': '',
         'PASSWORD': '',
     },
