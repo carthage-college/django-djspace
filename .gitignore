@@ -59,7 +59,7 @@ staging.py
 production.py
 wsgi.py
 migrations
-uwsgi_*.ini
+uwsgi.*.ini
 
 # Scrapy stuff:
 .scrapy
