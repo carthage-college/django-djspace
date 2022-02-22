@@ -1500,7 +1500,7 @@ class MidwestHighPoweredRocketCompetition(BaseModel):
         """Three letter code for WSGC administrative purposes."""
         return 'MRL{0}'.format(YEAR_2)
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Construct the file name based on code, team, school, user."""
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
@@ -1586,7 +1586,7 @@ class CollegiateRocketCompetition(BaseModel):
         """Three letter code for WSGC administrative purposes."""
         return 'CRL{0}'.format(YEAR_2)
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Construct the file name based on code, team, school, user."""
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
@@ -1664,7 +1664,7 @@ class FirstNationsRocketCompetition(BaseModel):
             suffix = 'Moon'
         return 'FNL{0}_{1}'.format(YEAR_2, suffix)
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Construct the file name based on code, team, school, user."""
         team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
