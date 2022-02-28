@@ -2175,12 +2175,6 @@ class UndergraduateResearch(BaseModel):
         max_length=255,
         help_text="PDF format",
     )
-    budget = models.FileField(
-        upload_to=partial(upload_to_path, 'Budget'),
-        validators=FILE_VALIDATORS,
-        max_length=255,
-        help_text="[PDF format]",
-    )
     high_school_transcripts = models.FileField(
         upload_to=partial(upload_to_path, 'High_School_Transcripts'),
         validators=FILE_VALIDATORS,
@@ -2269,7 +2263,6 @@ class UndergraduateResearch(BaseModel):
         """Used when building a tarball of required files."""
         return [
             'proposal',
-            'budget',
             'high_school_transcripts',
             'undergraduate_transcripts',
             'wsgc_advisor_recommendation',
@@ -2279,10 +2272,6 @@ class UndergraduateResearch(BaseModel):
     def proposal_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('proposal')
-
-    def budget_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('budget')
 
     def high_school_transcripts_timestamp(self):
         """Timestamp method for UI level display."""
