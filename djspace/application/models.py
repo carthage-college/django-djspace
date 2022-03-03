@@ -2351,8 +2351,10 @@ class Scholarship(BaseModel):
         null=True,
         blank=True,
         help_text=mark_safe("""
-            Recommendation letter is required for the application but may be
-            emailed by Advisor directly to WSGC at
+            Recommendation letters are not required for this scholarship
+            application, but will be accepted as additional application
+            documentation. Letters may be uploaded with your application
+            or emailed directly to WSGC by an Advisor
             <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
             [PDF format]
         """),
@@ -2368,12 +2370,12 @@ class Scholarship(BaseModel):
         null=True,
         blank=True,
         help_text=mark_safe("""
-         Recommendation letters are not required for this scholarship
-         application, but will be accepted as additional application
-         documentation. Letters may be uploaded with your application
-         or emailed directly to WSGC by an Advisor
-         <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
-         [PDF format]
+            Recommendation letters are not required for this scholarship
+            application, but will be accepted as additional application
+            documentation. Letters may be uploaded with your application
+            or emailed directly to WSGC by an Advisor
+            <a href="mailto:spacegrant@carthage.edu">spacegrant@carthage.edu</a>.
+            [PDF format]
         """
         ),
     )
