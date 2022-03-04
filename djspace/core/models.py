@@ -187,7 +187,7 @@ class Photo(models.Model):
         """Return the slug for the associated content object."""
         return self.content_object.get_slug()
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Return the file name based on content object code and user's name."""
         return '{0}_{1}_{2}'.format(
             self.content_object.get_code(),
@@ -232,7 +232,7 @@ class Base(models.Model):
         """Return the content type of the associciated object."""
         return ContentType.objects.get_for_model(self)
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Return the file name which is a uuid4 hex."""
         return uuid4().hex
 
@@ -372,7 +372,7 @@ class BaseModel(Base):
         """Return the path prefix for the file."""
         return 'files/applications'
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Return the file name based on content object code and user's name."""
         return '{0}_{1}_{2}'.format(
             self.get_code(), self.user.last_name, self.user.first_name,
@@ -477,7 +477,7 @@ class UserFiles(models.Model):
         """Return the slug for this object class."""
         return 'users'
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Return the file name based on the user's name."""
         return '{0}_{1}'.format(
             self.user.last_name, self.user.first_name,

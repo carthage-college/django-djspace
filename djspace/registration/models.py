@@ -114,7 +114,7 @@ class BaseStudent(Base):
         """Obtain the slug for the data model."""
         return 'users'
 
-    def get_file_name(self):
+    def get_file_name(self, lackey=False):
         """Construct the file name."""
         return '{0}_{1}'.format(
             self.user.last_name, self.user.first_name,
