@@ -1,5 +1,5 @@
 cryptography>=3.4.7
-django==3.2.12
+django==3.2.13
 django-allauth>=0.44.1
 django-gm2m>=1.1.1
 django-imagekit>=4.0.2
