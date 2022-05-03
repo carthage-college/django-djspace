@@ -119,16 +119,8 @@ class GenericAdmin(admin.ModelAdmin):
     class Media:
         """Inject static files into the admin view."""
 
-        css = {
-            'all': (
-                '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
-                '//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css',
-                '/static/djspace/css/admin.css',
-            ),
-        }
         js = (
             'https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',
-            'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
             '//www.carthage.edu/static/vendor/jquery/plugins/jqDoubleScroll/jquery.doubleScroll.js',
             '/static/djspace/js/admin.js',
         )
