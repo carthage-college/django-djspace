@@ -1,0 +1,49 @@
+{% extends "admin/base_site.html" %}
+{% block title %}
+    Email {{title}} Applicants Form &mdash;
+{% endblock %}
+
+{% block extrahead %}
+    <script src="{{media_url}}assets/admin/js/vendor/jquery/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <script src="//www.carthage.edu/static/vendor/summernote/summernote.min.js"
+        type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#id_content').summernote({height: 300});
+        });
+    </script>
+{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="//www.carthage.edu/static/vendor/summernote/summernote.css"
+        rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    .note-editor{
+        width:500px;background: #fff;
+        border: solid 1px #ccc;
+    }
+    ol {list-style-type: none;}
+    </style>
+{% endblock %}
+{% block content %}
+    <h4>Email {{title}} Applicants</h4>
+    <form method="post" action="{% url 'sendmail' %}" class="form" id="profile">
+        {% csrf_token %}
+        <input type="hidden" name="content_type" value="{{content_type}}">
+        <input type="hidden" name="title" value="{{title}}">
+        {% for o in objs %}
+        <input type="hidden" name="pids[]" value="{{o.id}}">
+        {% endfor %}
+        <fieldset class="blockLabels">
+        <ol>
+            <li class="ctrlHolder">
+                <div class="span-12">
+                <textarea id="id_content" rows="10" cols="40" name="content"></textarea>
+                </div>
+            </li>
+        </ol>
+        </fieldset>
+        {% include "form_submit.inc.html" %}
+    </form>
+{% endblock %}

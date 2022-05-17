@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
+from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -99,9 +100,9 @@ class GenericAdmin(admin.ModelAdmin):
         We can then submit the form without selecting any objects.
         """
         if 'action' in request.POST and request.POST['action'] in POST_NO_OBJECTS:
-            if not request.POST.getlist(admin.ACTION_CHECKBOX_NAME):
+            if not request.POST.getlist(ACTION_CHECKBOX_NAME):
                 post = request.POST.copy()
-                post.update({admin.ACTION_CHECKBOX_NAME: str(1)})
+                post.update({ACTION_CHECKBOX_NAME: str(1)})
                 request._set_post(post)
         return super(GenericAdmin, self).changelist_view(request, extra_context)
 
