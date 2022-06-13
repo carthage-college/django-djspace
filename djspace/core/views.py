@@ -304,8 +304,12 @@ def object_delete(request):
                 mod = ct.model_class()
                 try:
                     instance = mod.objects.get(pk=oid)
+                    if ct.model == 'photo':
+                        uid = instance.content_object.user.id
+                    else:
+                        uid = instance.user.id
                     # is someone doing something nefarious?
-                    if oid == user.id or user.is_superuser:
+                    if uid == user.id or user.is_superuser:
                         instance.delete()
                         msg = "Success"
                     else:
