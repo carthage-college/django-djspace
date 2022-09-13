@@ -39,6 +39,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
