@@ -12,6 +12,7 @@ import django
 django.setup()
 
 from django.conf import settings
+from django.contrib.auth.models import User
 
 import argparse
 import logging
@@ -29,11 +30,11 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument(
-    '-x',
-    '--equis',
+    '-u',
+    '--user',
     required=True,
-    help="Lorem ipsum dolor sit amet.",
-    dest='equis',
+    help="Provide a username.",
+    dest='user',
 )
 parser.add_argument(
     '--test',
@@ -50,11 +51,13 @@ def main():
         logger.debug("debug = %s" % test)
     else:
         print("this is not a test")
+        user = User.objects.get(username=user)
+        print(user)
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    equis = args.equis
+    user = args.user
     test = args.test
 
     if test:

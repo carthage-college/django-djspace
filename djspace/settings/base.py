@@ -109,24 +109,6 @@ TEMPLATES = [
         },
     },
 ]
-# LDAP Constants
-LDAP_SERVER = ''
-LDAP_PORT = ''
-LDAP_PROTOCOL = ''
-LDAP_BASE = ''
-LDAP_USER = ''
-LDAP_PASS = None
-LDAP_OBJECT_CLASS = ''
-LDAP_GROUPS = None
-LDAP_RETURN = ()
-LDAP_ID_ATTR = ''
-LDAP_AUTH_USER_PK = False
-LDAP_EMAIL_DOMAIN = ''
-LDAP_OBJECT_CLASS_LIST = []
-LDAP_GROUPS = {}
-LDAP_RETURN = []
-LDAP_ID_ATTR = ''
-LDAP_AUTH_USER_PK = False
 # auth backends
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
