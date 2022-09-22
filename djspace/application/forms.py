@@ -67,6 +67,16 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -105,6 +115,7 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'grant_officer_email',
             'grant_officer_phone',
             'grants_officer',
+            'grants_officer2',
             'member_1',
             'member_2',
             'member_3',
@@ -118,40 +129,44 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         )
 
     def clean(self):
-        """Deal with grants officer."""
+        """Deal with grants officer(s)."""
         cd = self.cleaned_data
-        gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
 
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
                     self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
+                        key,
+                        "You cannot also be an authorized user",
                     )
-        else:
-            cd['grants_officer'] = None
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
 
 class HigherEducationInitiativesUploadsForm(forms.ModelForm):
@@ -233,6 +248,16 @@ class ResearchInfrastructureForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -273,6 +298,7 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'grant_officer_email',
             'grant_officer_phone',
             'grants_officer',
+            'grants_officer2',
             'member_1',
             'member_2',
             'member_3',
@@ -288,37 +314,42 @@ class ResearchInfrastructureForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
+
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
                     self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
+                        key,
+                        "You cannot also be an authorized user",
                     )
-        else:
-            cd['grants_officer'] = None
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
 
 class ResearchInfrastructureUploadsForm(forms.ModelForm):
@@ -400,6 +431,16 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -440,6 +481,7 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
             'grant_officer_email',
             'grant_officer_phone',
             'grants_officer',
+            'grants_officer2',
             'member_1',
             'member_2',
             'member_3',
@@ -455,38 +497,42 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
 
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
                     self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
+                        key,
+                        "You cannot also be an authorized user",
                     )
-        else:
-            cd['grants_officer'] = None
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
 
 class EarlyStageInvestigatorUploadsForm(forms.ModelForm):
@@ -569,6 +615,16 @@ class AerospaceOutreachForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -609,6 +665,7 @@ class AerospaceOutreachForm(forms.ModelForm):
             'grant_officer_email',
             'grant_officer_phone',
             'grants_officer',
+            'grants_officer2',
             'member_1',
             'member_2',
             'member_3',
@@ -624,38 +681,42 @@ class AerospaceOutreachForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
 
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
                     self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
+                        key,
+                        "You cannot also be an authorized user",
                     )
-        else:
-            cd['grants_officer'] = None
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
 
 class AerospaceOutreachUploadsForm(forms.ModelForm):
@@ -753,6 +814,16 @@ class SpecialInitiativesForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -793,6 +864,7 @@ class SpecialInitiativesForm(forms.ModelForm):
             'grant_officer_email',
             'grant_officer_phone',
             'grants_officer',
+            'grants_officer2',
             'member_1',
             'member_2',
             'member_3',
@@ -808,38 +880,42 @@ class SpecialInitiativesForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
 
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
                     self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
+                        key,
+                        "You cannot also be an authorized user",
                     )
-        else:
-            cd['grants_officer'] = None
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
 
 class SpecialInitiativesUploadsForm(forms.ModelForm):
@@ -1637,6 +1713,16 @@ class RocketLaunchTeamForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -1714,40 +1800,43 @@ class RocketLaunchTeamForm(forms.ModelForm):
     def clean(self):
         """Deal with the auto populate fields."""
         cd = self.cleaned_data
-        cid = cd.get('co_advisor')
-        gid = cd.get('grants_officer')
-        lid = cd.get('leader')
         uid = str(self.request.user.id)
-
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
+        cid = cd.get('co_advisor')
+        lid = cd.get('leader')
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
                     self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
+                        key,
+                        "You cannot also be an authorized user",
                     )
-        else:
-            cd['grants_officer'] = None
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
         # Assign a User object to co-advisor
         if cid:
@@ -2094,6 +2183,16 @@ class NasaCompetitionForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -2140,8 +2239,41 @@ class NasaCompetitionForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer and 'other' fields if need be."""
         cd = self.cleaned_data
-        gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
+                    self.add_error(
+                        key,
+                        "You cannot also be an authorized user",
+                    )
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
         if cd.get("competition_type") == "Other":
             if cd.get("competition_type_other") == "":
@@ -2150,36 +2282,6 @@ class NasaCompetitionForm(forms.ModelForm):
         if cd.get("facility_name") == "Other":
             if cd.get("facility_name_other") == "":
                 self.add_error('facility_name_other', "Required field")
-
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
-                    self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
-                    )
-        else:
-            cd['grants_officer'] = None
 
 
 class NasaCompetitionUploadsForm(forms.ModelForm):
@@ -2237,6 +2339,16 @@ class IndustryInternshipForm(forms.ModelForm):
             registered with WSGC prior to submitting this application.)
         """,
     )
+    grants_officer2 = forms.CharField(
+        label="Authorized User 2",
+        required=False,
+        help_text="""
+            I authorize the individual listed above to submit
+            the required documents associated with this proposal on my behalf.
+            (NOTE: In order to choose an Authorized User, the individual must be
+            registered with WSGC prior to submitting this application.)
+        """,
+    )
 
     def __init__(self, *args, **kwargs):
         """Override of the initialization method to obtain the request object."""
@@ -2275,38 +2387,41 @@ class IndustryInternshipForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        gid = cd.get('grants_officer')
         uid = str(self.request.user.id)
-
-        # Assign a User object to grants officer
-        if gid:
-            if gid == uid:
-                self.add_error(
-                    'grants_officer',
-                    "You cannot also be an authorized user",
-                )
-                cd['grants_officer'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=gid)
-                    if user.profile:
-                        cd['grants_officer'] = user
-                        self.request.session['grants_officer_name'] = '{0}, {1}'.format(
-                            user.last_name, user.first_name,
-                        )
-                    else:
-                        self.add_error(
-                            'grants_officer',
-                            "This user does not have a complete profile",
-                        )
-                        cd['grants_officer'] = None
-                except Exception:
+        authuser = {}
+        authuser['grants_officer'] = cd.get('grants_officer')
+        authuser['grants_officer2'] = cd.get('grants_officer2')
+        # Assign a User object to grants officer(s)
+        for key, gid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            if gid:
+                if gid == uid:
                     self.add_error(
-                        'grants_officer',
-                        "That User does not exist in the system",
+                        key,
+                        "You cannot also be an authorized user",
                     )
-        else:
-            cd['grants_officer'] = None
+                    cd[key] = None
+                else:
+                    try:
+                        user = User.objects.get(pk=gid)
+                        if user.profile:
+                            cd[key] = user
+                            self.request.session[sesh_key] = '{0}, {1}'.format(
+                                user.last_name, user.first_name,
+                            )
+                        else:
+                            self.add_error(
+                                key,
+                                "This user does not have a complete profile",
+                            )
+                            cd[key] = None
+                    except Exception:
+                        self.add_error(
+                            key,
+                            "That User does not exist in the system",
+                        )
+            else:
+                cd[key] = None
 
 
 class IndustryInternshipUploadsForm(forms.ModelForm):

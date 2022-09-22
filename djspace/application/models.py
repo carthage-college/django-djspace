@@ -484,7 +484,6 @@ class HigherEducationInitiatives(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User",
         related_name='hei_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -493,7 +492,6 @@ class HigherEducationInitiatives(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='hei_grants_officer2',
     )
-    '''
     award_type = models.CharField(
         "Award",
         max_length=128,
@@ -580,7 +578,6 @@ class ResearchInfrastructure(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User",
         related_name='rip_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -589,7 +586,6 @@ class ResearchInfrastructure(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='rip_grants_officer2',
     )
-    '''
 
     def get_code(self):
         """Three letter code for WSGC administrative purposes."""
@@ -668,7 +664,6 @@ class EarlyStageInvestigator(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User",
         related_name='esi_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -677,7 +672,6 @@ class EarlyStageInvestigator(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='esi_grants_officer2',
     )
-    '''
 
     def get_code(self):
         """Three letter code for WSGC administrative purposes."""
@@ -723,7 +717,6 @@ class AerospaceOutreach(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User",
         related_name='aop_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -732,7 +725,6 @@ class AerospaceOutreach(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='aop_grants_officer2',
     )
-    '''
     project_category = models.CharField(
         max_length=128,
         choices=PROJECT_CATEGORIES,
@@ -820,7 +812,6 @@ class SpecialInitiatives(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User",
         related_name='sip_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -829,7 +820,6 @@ class SpecialInitiatives(EducationInitiatives):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='sip_grants_officer2',
     )
-    '''
     project_category = models.CharField(max_length=128, choices=PROJECT_CATEGORIES)
     other_fellowship = None
     other_fellowship_explain = None
@@ -932,7 +922,6 @@ class RocketLaunchTeam(BaseModel):
         verbose_name="Grants Officer / Authorized User",
         related_name='rocket_launch_team_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -941,7 +930,6 @@ class RocketLaunchTeam(BaseModel):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='rocket_launch_team_grants_officer2',
     )
-    '''
     members = models.ManyToManyField(User, related_name='rocket_launch_team_members')
     industry_mentor_name = models.CharField(
         "Industry, Tripoli, or National Rocketry Association mentor name",
@@ -2742,7 +2730,6 @@ class NasaCompetition(BaseModel):
         verbose_name="Grants Officer / Authorized User",
         related_name='opp_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -2751,7 +2738,6 @@ class NasaCompetition(BaseModel):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='opp_grants_officer2',
     )
-    '''
     # this is crazy and should be m2m but for now they do not
     # want to require members to be registered with the site
     member_1 = models.CharField(max_length=128, null=True, blank=True)
@@ -3144,7 +3130,6 @@ class IndustryInternship(BaseModel):
         verbose_name="Grants Officer / Authorized User",
         related_name='iip_grants_officer',
     )
-    '''
     grants_officer2 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -3153,7 +3138,6 @@ class IndustryInternship(BaseModel):
         verbose_name="Grants Officer / Authorized User 2",
         related_name='iip_grants_officer2',
     )
-    '''
     # approved files
     invoice_q1 = models.FileField(
         upload_to=partial(upload_to_path, 'Invoice_Q1'),

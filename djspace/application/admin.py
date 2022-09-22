@@ -226,7 +226,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         'wsgc_advisor_recommendation',
         'statement',
     ]
-    username_fields = ['co_advisor', 'leader', 'grants_officer']
+    username_fields = ['co_advisor', 'leader', 'grants_officer', 'grants_officer2']
     exclude = [
         'user',
         'userprofile',
@@ -715,6 +715,9 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'grants_officer__last_name',
         'grants_officer__first_name',
         'grants_officer__email',
+        'grants_officer2__last_name',
+        'grants_officer2__first_name',
+        'grants_officer2__email',
     )
 
     list_display = PROFILE_LIST_DISPLAY + [
@@ -750,6 +753,7 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'name',
         'competition',
         'grants_officer_name',
+        'grants_officer2_name',
         'co_advisor_name',
         'leader_name',
         'industry_mentor_name',
@@ -776,6 +780,19 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         return name
     grants_officer_name.allow_tags = True
     grants_officer_name.short_description = "Authorized User"
+
+    def grants_officer2_name(self, obj):
+        name = None
+        if obj.grants_officer2:
+            name = mark_safe('<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
+                obj.grants_officer2.email,
+                obj.grants_officer2.last_name,
+                obj.grants_officer2.first_name,
+                obj.grants_officer2.email,
+            ))
+        return name
+    grants_officer2_name.allow_tags = True
+    grants_officer2_name.short_description = "Authorized User 2"
 
     def co_advisor_name(self, obj):
         name = None
