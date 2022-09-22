@@ -37,6 +37,8 @@ from taggit.managers import TaggableManager
 # comment out for migrations
 FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
 PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
+FILE_VALIDATORS = []
+PHOTO_VALIDATORS = []
 ALLOWED_EXTENSIONS = [
     'doc',
     'docx',
@@ -52,6 +54,8 @@ ALLOWED_EXTENSIONS = [
     'ppt',
     'pptx',
 ]
+ALLOWED_EXTENSIONS_VALIDATOR = [FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)]
+ALLOWED_EXTENSIONS_VALIDATOR = []
 REG_TYPE = (
     ('', "----select----"),
     ('HighSchool', "High School"),
@@ -309,7 +313,7 @@ class BaseModel(Base):
     other_file = models.FileField(
         "Ancillary File 1",
         upload_to=partial(upload_to_path, 'Other_File'),
-        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        validators=ALLOWED_EXTENSIONS_VALIDATOR,
         help_text=ALLOWED_EXTENSIONS,
         max_length=768,
         null=True,
@@ -318,7 +322,7 @@ class BaseModel(Base):
     other_file2 = models.FileField(
         "Ancillary File 2",
         upload_to=partial(upload_to_path, 'Other_File2'),
-        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        validators=ALLOWED_EXTENSIONS_VALIDATOR,
         help_text=ALLOWED_EXTENSIONS,
         max_length=768,
         null=True,
@@ -327,7 +331,7 @@ class BaseModel(Base):
     other_file3 = models.FileField(
         "Ancillary File 3",
         upload_to=partial(upload_to_path, 'Other_File3'),
-        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)],
+        validators=ALLOWED_EXTENSIONS_VALIDATOR,
         help_text=ALLOWED_EXTENSIONS,
         max_length=768,
         null=True,

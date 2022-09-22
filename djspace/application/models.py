@@ -23,7 +23,11 @@ if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
 PPT_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),]
+PPT_EXTENSIONS = []
+FILE_VALIDATORS = []
+PHOTO_VALIDATORS = []
 OPENROCKET_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['rkt', 'RKT'])]
+OPENROCKET_EXTENSIONS = []
 DIRECTORATE_CHOICES = (
     ('Aeronautics Research', 'Aeronautics Research'),
     (
@@ -477,9 +481,19 @@ class HigherEducationInitiatives(EducationInitiatives):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Grants Officer User",
+        verbose_name="Grants Officer / Authorized User",
         related_name='hei_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='hei_grants_officer2',
+    )
+    '''
     award_type = models.CharField(
         "Award",
         max_length=128,
@@ -563,9 +577,19 @@ class ResearchInfrastructure(EducationInitiatives):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Grants Officer User",
+        verbose_name="Grants Officer / Authorized User",
         related_name='rip_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='rip_grants_officer2',
+    )
+    '''
 
     def get_code(self):
         """Three letter code for WSGC administrative purposes."""
@@ -641,9 +665,19 @@ class EarlyStageInvestigator(EducationInitiatives):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Grants Officer User",
+        verbose_name="Grants Officer / Authorized User",
         related_name='esi_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='esi_grants_officer2',
+    )
+    '''
 
     def get_code(self):
         """Three letter code for WSGC administrative purposes."""
@@ -686,9 +720,19 @@ class AerospaceOutreach(EducationInitiatives):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Grants Officer User",
+        verbose_name="Grants Officer / Authorized User",
         related_name='aop_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='aop_grants_officer2',
+    )
+    '''
     project_category = models.CharField(
         max_length=128,
         choices=PROJECT_CATEGORIES,
@@ -773,9 +817,19 @@ class SpecialInitiatives(EducationInitiatives):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Grants Officer User",
+        verbose_name="Grants Officer / Authorized User",
         related_name='sip_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='sip_grants_officer2',
+    )
+    '''
     project_category = models.CharField(max_length=128, choices=PROJECT_CATEGORIES)
     other_fellowship = None
     other_fellowship_explain = None
@@ -875,9 +929,19 @@ class RocketLaunchTeam(BaseModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Grants Officer User",
+        verbose_name="Grants Officer / Authorized User",
         related_name='rocket_launch_team_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='rocket_launch_team_grants_officer2',
+    )
+    '''
     members = models.ManyToManyField(User, related_name='rocket_launch_team_members')
     industry_mentor_name = models.CharField(
         "Industry, Tripoli, or National Rocketry Association mentor name",
@@ -2675,9 +2739,19 @@ class NasaCompetition(BaseModel):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Grants Officer User",
+        verbose_name="Grants Officer / Authorized User",
         related_name='opp_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='opp_grants_officer2',
+    )
+    '''
     # this is crazy and should be m2m but for now they do not
     # want to require members to be registered with the site
     member_1 = models.CharField(max_length=128, null=True, blank=True)
@@ -3070,6 +3144,16 @@ class IndustryInternship(BaseModel):
         verbose_name="Grants Officer / Authorized User",
         related_name='iip_grants_officer',
     )
+    '''
+    grants_officer2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Grants Officer / Authorized User 2",
+        related_name='iip_grants_officer2',
+    )
+    '''
     # approved files
     invoice_q1 = models.FileField(
         upload_to=partial(upload_to_path, 'Invoice_Q1'),
