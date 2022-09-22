@@ -127,6 +127,7 @@ def application_form(request, application_type, aid=None):
     tl_orig = None
     # grants officer
     go_orig = None
+    go2_orig = None
     if app:
         # we want to remove the old person if a new one is submitted
         # and add the new one to the application gm2m relationship
@@ -153,6 +154,12 @@ def application_form(request, application_type, aid=None):
                     app.grants_officer.last_name, app.grants_officer.first_name,
                 )
                 go_orig = app.grants_officer
+            if app.grants_officer2:
+                # for autocomplete form field at the UI level
+                request.session['grants_officer2_name'] = '{0}, {1}'.format(
+                    app.grants_officer2.last_name, app.grants_officer2.first_name,
+                )
+                go2_orig = app.grants_officer2
 
     # fetch the form class
     formclass = str_to_class(
@@ -349,24 +356,38 @@ def application_form(request, application_type, aid=None):
                     # new application or new leader on update
                     tl.profile.applications.add(data)
 
-            # add grants officer to generic many-to-many relationsip if new
+            # add grants officer(s) to generic many-to-many relationsip if new
             # and remove the old one if need be
             if data.get_content_type().model in EDUCATION_INITITATIVES_PROGRAMS \
               or application_type == 'rocket-launch-team':
+                # if we have grants officer, check if the old matches new
                 go = data.grants_officer
-                # we have a grants officer, check if the old matches new
                 if (go_orig and go) and go.id != go_orig.id:
                     # update
                     go.profile.applications.add(data)
                     # delete the old grants officer
                     go_orig.profile.applications.remove(data)
                 elif go_orig and not go:
-                    # delete the old co-advisor because they removed
-                    # the co-advisor from the field
+                    # delete the old grants officer because they removed
+                    # the grants officer from the field
                     go_orig.profile.applications.remove(data)
                 elif go and not go_orig:
                     # new application or new co-advisor on update
                     go.profile.applications.add(data)
+                # if we have grants officer2, check if the old matches new
+                go2 = data.grants_officer
+                if (go2_orig and go2) and go2.id != go2_orig.id:
+                    # update
+                    go2.profile.applications.add(data)
+                    # delete the old grants officer
+                    go2_orig.profile.applications.remove(data)
+                elif go2_orig and not go2:
+                    # delete the old grants officer because they removed
+                    # the grants officer from the field
+                    go2_orig.profile.applications.remove(data)
+                elif go2 and not go2_orig:
+                    # new application or new co-advisor on update
+                    go2.profile.applications.add(data)
             # email confirmation
             template = 'application/email/{0}.html'.format(application_type)
             if not settings.DEBUG:

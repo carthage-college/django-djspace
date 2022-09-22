@@ -122,15 +122,19 @@ def user_files(request):
             except Exception:
                 goid = None
             try:
+                goid2 = instance.grants_officer2.id
+            except Exception:
+                goid2 = None
+            try:
                 coid = instance.co_advisor.id
             except Exception:
                 coid = None
 
             if ct.model == 'rocketlaunchteam':
-                if instance.leader.id == user.id or goid == user.id or coid == user.id:
+                if instance.leader.id == user.id or goid == user.id or goid2 == user.id or coid == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
-                if goid == user.id:
+                if goid == user.id or goid2 == user.id:
                     manager = True
 
             # is someone being naughty?
