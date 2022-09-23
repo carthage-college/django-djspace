@@ -375,7 +375,7 @@ def application_form(request, application_type, aid=None):
                     # new application or new co-advisor on update
                     go.profile.applications.add(data)
                 # if we have grants officer2, check if the old matches new
-                go2 = data.grants_officer
+                go2 = data.grants_officer2
                 if (go2_orig and go2) and go2.id != go2_orig.id:
                     # update
                     go2.profile.applications.add(data)

@@ -173,7 +173,7 @@ $(function() {
     });
     /* End Rocket Launch Team */
     {% endif %}
-    /* Grants Officer autocomplete */
+    /* Grants Officers autocomplete */
     {% if form.grants_officer.value %}
     {% if form.grants_officer.errors %}
     document.grantsOfficerAutocomplete = "";
@@ -181,6 +181,14 @@ $(function() {
     {% else %}
     document.grantsOfficerAutocomplete = {{form.grants_officer.value|default:""}};
     $('#id_grants_officer').val("{{request.session.grants_officer_name}}");
+    {% endif %}{% endif %}
+    {% if form.grants_officer2.value %}
+    {% if form.grants_officer2.errors %}
+    document.grantsOfficer2Autocomplete = "";
+    $('#id_grants_officer2').val("");
+    {% else %}
+    document.grantsOfficer2Autocomplete = {{form.grants_officer2.value|default:""}};
+    $('#id_grants_officer2').val("{{request.session.grants_officer2_name}}");
     {% endif %}{% endif %}
     $('#id_grants_officer').autocomplete({
         autoFocus: true,
@@ -196,6 +204,23 @@ $(function() {
               $(this).val('');
               $('#id_grants_officer').val('');
               document.grantsOfficerAutocomplete = ""
+          }
+       }
+    });
+    $('#id_grants_officer2').autocomplete({
+        autoFocus: true,
+        source: '{% url "get_users" %}',
+        minLength: 3,
+        select: function (event, uic) {
+            var cid = uic.item.id;
+            // store in session
+            document.grantsOfficer2Autocomplete = cid
+        },
+        change: function (event, ui) {
+          if (ui.item === null) {
+              $(this).val('');
+              $('#id_grants_officer2').val('');
+              document.grantsOfficer2Autocomplete = ""
           }
        }
     });
@@ -276,6 +301,7 @@ $(function() {
         {% endif %}
         // set grants_officer field to selected User's ID
         $('#id_grants_officer').val(document.grantsOfficerAutocomplete);
+        $('#id_grants_officer2').val(document.grantsOfficer2Autocomplete);
         {% if app_name == "Professional Program Student" %}
             // set mentor field to selected User's ID
             if (typeof document.mentorAutocomplete == "undefined") {
