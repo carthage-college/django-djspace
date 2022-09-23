@@ -34,11 +34,6 @@ from gm2m import GM2MField
 from taggit.managers import TaggableManager
 
 
-# comment out for migrations
-FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
-PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
-FILE_VALIDATORS = []
-PHOTO_VALIDATORS = []
 ALLOWED_EXTENSIONS = [
     'doc',
     'docx',
@@ -54,8 +49,13 @@ ALLOWED_EXTENSIONS = [
     'ppt',
     'pptx',
 ]
+FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
 ALLOWED_EXTENSIONS_VALIDATOR = [FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)]
-ALLOWED_EXTENSIONS_VALIDATOR = []
+if settings.DEBUG:
+    FILE_VALIDATORS = []
+    PHOTO_VALIDATORS = []
+    ALLOWED_EXTENSIONS_VALIDATOR = []
 REG_TYPE = (
     ('', "----select----"),
     ('HighSchool', "High School"),

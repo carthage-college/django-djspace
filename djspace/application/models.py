@@ -23,11 +23,12 @@ if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
 PPT_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),]
-PPT_EXTENSIONS = []
-FILE_VALIDATORS = []
-PHOTO_VALIDATORS = []
 OPENROCKET_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['rkt', 'RKT'])]
-OPENROCKET_EXTENSIONS = []
+if settings.DEBUG:
+    PPT_EXTENSIONS = []
+    OPENROCKET_EXTENSIONS = []
+    FILE_VALIDATORS = []
+    PHOTO_VALIDATORS = []
 DIRECTORATE_CHOICES = (
     ('Aeronautics Research', 'Aeronautics Research'),
     (
