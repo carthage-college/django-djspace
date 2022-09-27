@@ -1800,7 +1800,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
         cd = self.cleaned_data
         uids = [str(self.request.user.id)]
         authuser = {}
-        authuser['co-advisor'] = cd.get('co-advisor')
+        authuser['co_advisor'] = cd.get('co_advisor')
         authuser['leader'] = cd.get('leader')
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
@@ -1816,26 +1816,20 @@ class RocketLaunchTeamForm(forms.ModelForm):
                 error = True
             else:
                 uids.append(aid)
-
-        if not error:
-            for key, aid in authuser.items():
-                sesh_key = '{0}_name'.format(key)
+        # convert auth users from ID to User object
+        for key, aid in authuser.items():
+            sesh_key = '{0}_name'.format(key)
+            user = User.objects.filter(pk=int(aid)).first()
+            if user and user.profile:
+                cd[key] = user
                 full_name = '{0}, {1}'.format(user.last_name, user.first_name)
-                try:
-                    if user.profile:
-                        user = User.objects.get(pk=aid)
-                        cd[key] = user
-                        self.request.session[sesh_key] = full_name
-                    else:
-                        self.add_error(
-                            key,
-                            "This user does not have a complete profile",
-                        )
-                        cd[key] = None
-                except Exception:
-                    self.add_error(
-                        key, "User does not exist in the system",
-                    )
+                self.request.session[sesh_key] = full_name
+            else:
+                self.add_error(
+                    key,
+                    "This user does not have a complete profile",
+                )
+                cd[key] = None
         return cd
 
 
