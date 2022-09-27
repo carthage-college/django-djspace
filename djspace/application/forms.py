@@ -131,6 +131,7 @@ class HigherEducationInitiativesForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer(s)."""
         cd = self.cleaned_data
+        # user
         uid = str(self.request.user.id)
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
@@ -1799,6 +1800,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
 
     def clean(self):
         """Deal with the auto populate fields."""
+        error = False
         cd = self.cleaned_data
         uid = str(self.request.user.id)
         cid = cd.get('co_advisor')
@@ -1806,100 +1808,103 @@ class RocketLaunchTeamForm(forms.ModelForm):
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-        # Assign a User object to grants officer(s)
+        #authuser['co-advisor'] = cd.get('co-advisor')
+        #authuser['leader'] = cd.get('leader')
+
+        # verify grants officer(s)
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid == uid or gid == lid or gid == cid:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already authorized for this team.",
                     )
                     cd[key] = None
-                else:
-                    try:
-                        user = User.objects.get(pk=gid)
-                        if user.profile:
-                            cd[key] = user
-                            self.request.session[sesh_key] = '{0}, {1}'.format(
-                                user.last_name, user.first_name,
-                            )
-                        else:
-                            self.add_error(
-                                key,
-                                "This user does not have a complete profile",
-                            )
-                            cd[key] = None
-                    except Exception:
-                        self.add_error(
-                            key,
-                            "That User does not exist in the system",
-                        )
+                    error = True
             else:
                 cd[key] = None
 
-        # Assign a User object to co-advisor
+        # verify co-advisor
         if cid:
             if cid == uid:
-                self.add_error('co_advisor', "You cannot also be a co-advisor")
+                self.add_error(
+                    'co_advisor',
+                    "User is already authorized for this team.",
+                )
                 cd['co_advisor'] = None
+                error = True
             elif cid == lid:
                 self.add_error(
                     'co_advisor',
-                    "Co-advisor and Team Lead cannot be the same person.",
+                    "User is already authorized for this team.",
                 )
                 cd['co_advisor'] = None
-            elif cid == gid:
-                self.add_error(
-                    'co_advisor',
-                    "Co-advisor and Authorized User cannot be the same person.",
-                )
-                cd['leader'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=cid)
-                    cd['co_advisor'] = user
-                    self.request.session['co_advisor_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
-                except Exception:
-                    self.add_error(
-                        'co_advisor', "That User does not exist in the system",
-                    )
+                error = True
         else:
             cd['co_advisor'] = None
 
-        # Assign a User object to team leader
+        # verify team leader
         if lid:
             if lid == uid:
-                self.add_error('leader', "You cannot also be a team lead.")
-                cd['leader'] = None
-            elif lid == gid:
                 self.add_error(
                     'leader',
-                    "Authorized user and team lead cannot be the same person.",
+                    "User is already authorized for this team.",
                 )
                 cd['leader'] = None
+                error = True
             elif lid == cid:
                 self.add_error(
                     'leader',
-                    "Team Lead and co-adivsor cannot be the same person.",
+                    "User is already authorized for this team.",
                 )
                 cd['leader'] = None
-            else:
-                try:
-                    user = User.objects.get(pk=lid)
-                    cd['leader'] = user
-                    self.request.session['leader_name'] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
-                except Exception:
-                    self.add_error(
-                        'leader', "The team leader does not exist in the system",
-                    )
+                error = True
         else:
             cd['leader'] = None
 
+        if not error:
+            # team leader
+            try:
+                user = User.objects.get(pk=lid)
+                cd['leader'] = user
+                self.request.session['leader_name'] = '{0}, {1}'.format(
+                    user.last_name, user.first_name,
+                )
+            except Exception:
+                self.add_error(
+                    'leader', "The team leader does not exist in the system",
+                )
+            # co-advisor
+            try:
+                user = User.objects.get(pk=cid)
+                cd['co_advisor'] = user
+                self.request.session['co_advisor_name'] = '{0}, {1}'.format(
+                    user.last_name, user.first_name,
+                )
+            except Exception:
+                self.add_error(
+                    'co_advisor', "That User does not exist in the system",
+                )
+            # authorized users
+            try:
+                user = User.objects.get(pk=gid)
+                if user.profile:
+                    cd[key] = user
+                    self.request.session[sesh_key] = '{0}, {1}'.format(
+                        user.last_name, user.first_name,
+                    )
+                else:
+                    self.add_error(
+                        key,
+                        "This user does not have a complete profile",
+                    )
+                    cd[key] = None
+            except Exception:
+                self.add_error(
+                    key,
+                    "That User does not exist in the system",
+                )
         return cd
 
 
