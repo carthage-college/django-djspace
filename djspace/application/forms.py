@@ -319,7 +319,6 @@ class ResearchInfrastructureForm(forms.ModelForm):
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-
         # Assign a User object to grants officer(s)
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
@@ -502,7 +501,6 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-
         # Assign a User object to grants officer(s)
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
@@ -686,7 +684,6 @@ class AerospaceOutreachForm(forms.ModelForm):
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-
         # Assign a User object to grants officer(s)
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
@@ -885,7 +882,6 @@ class SpecialInitiativesForm(forms.ModelForm):
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-
         # Assign a User object to grants officer(s)
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
@@ -1802,109 +1798,44 @@ class RocketLaunchTeamForm(forms.ModelForm):
         """Deal with the auto populate fields."""
         error = False
         cd = self.cleaned_data
-        uid = str(self.request.user.id)
-        cid = cd.get('co_advisor')
-        lid = cd.get('leader')
+        uids = [str(self.request.user.id)]
         authuser = {}
+        authuser['co-advisor'] = cd.get('co-advisor')
+        authuser['leader'] = cd.get('leader')
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-        #authuser['co-advisor'] = cd.get('co-advisor')
-        #authuser['leader'] = cd.get('leader')
 
         # verify grants officer(s)
-        for key, gid in authuser.items():
-            sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid == uid or gid == lid or gid == cid:
-                    self.add_error(
-                        key,
-                        "User is already authorized for this team.",
-                    )
-                    cd[key] = None
-                    error = True
-            else:
-                cd[key] = None
-
-        # verify co-advisor
-        if cid:
-            if cid == uid:
-                self.add_error(
-                    'co_advisor',
-                    "User is already authorized for this team.",
-                )
-                cd['co_advisor'] = None
-                error = True
-            elif cid == lid:
-                self.add_error(
-                    'co_advisor',
-                    "User is already authorized for this team.",
-                )
-                cd['co_advisor'] = None
-                error = True
-        else:
-            cd['co_advisor'] = None
-
-        # verify team leader
-        if lid:
-            if lid == uid:
-                self.add_error(
-                    'leader',
-                    "User is already authorized for this team.",
-                )
-                cd['leader'] = None
-                error = True
-            elif lid == cid:
-                self.add_error(
-                    'leader',
-                    "User is already authorized for this team.",
-                )
-                cd['leader'] = None
-                error = True
-        else:
-            cd['leader'] = None
-
-        if not error:
-            # team leader
-            try:
-                user = User.objects.get(pk=lid)
-                cd['leader'] = user
-                self.request.session['leader_name'] = '{0}, {1}'.format(
-                    user.last_name, user.first_name,
-                )
-            except Exception:
-                self.add_error(
-                    'leader', "The team leader does not exist in the system",
-                )
-            # co-advisor
-            try:
-                user = User.objects.get(pk=cid)
-                cd['co_advisor'] = user
-                self.request.session['co_advisor_name'] = '{0}, {1}'.format(
-                    user.last_name, user.first_name,
-                )
-            except Exception:
-                self.add_error(
-                    'co_advisor', "That User does not exist in the system",
-                )
-            # authorized users
-            try:
-                user = User.objects.get(pk=gid)
-                if user.profile:
-                    cd[key] = user
-                    self.request.session[sesh_key] = '{0}, {1}'.format(
-                        user.last_name, user.first_name,
-                    )
-                else:
-                    self.add_error(
-                        key,
-                        "This user does not have a complete profile",
-                    )
-                    cd[key] = None
-            except Exception:
+        for key, aid in authuser.items():
+            if aid in uids:
                 self.add_error(
                     key,
-                    "That User does not exist in the system",
+                    "User is already has a role on this team.",
                 )
+                cd[key] = None
+                error = True
+            else:
+                uids.append(aid)
+
+        if not error:
+            for key, aid in authuser.items():
+                sesh_key = '{0}_name'.format(key)
+                full_name = '{0}, {1}'.format(user.last_name, user.first_name)
+                try:
+                    if user.profile:
+                        user = User.objects.get(pk=aid)
+                        cd[key] = user
+                        self.request.session[sesh_key] = full_name
+                    else:
+                        self.add_error(
+                            key,
+                            "This user does not have a complete profile",
+                        )
+                        cd[key] = None
+                except Exception:
+                    self.add_error(
+                        key, "User does not exist in the system",
+                    )
         return cd
 
 
