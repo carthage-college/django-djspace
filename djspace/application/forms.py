@@ -1819,7 +1819,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
         # convert auth users from ID to User object
         for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            user = User.objects.filter(pk=int(aid)).first()
+            user = User.objects.filter(pk=aid).first()
             if user and user.profile:
                 cd[key] = user
                 full_name = '{0}, {1}'.format(user.last_name, user.first_name)
