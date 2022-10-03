@@ -200,7 +200,7 @@ $(document).ready(function(){
     <h1 id="page_title">
         {{user.profile.salutation}}
         {{user.first_name}}
-        {{user.profile.second_name}}
+        {% if '/' not in  user.profile.second_name %}{{user.profile.second_name|default:''}}{% endif %}
         {{user.last_name}}
         <small class="fright" style="margin-right:20px;">
             <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x"></i></a>
