@@ -1818,18 +1818,19 @@ class RocketLaunchTeamForm(forms.ModelForm):
                 uids.append(aid)
         # convert auth users from ID to User object
         for key, aid in authuser.items():
-            sesh_key = '{0}_name'.format(key)
-            user = User.objects.filter(pk=aid).first()
-            if user and user.profile:
-                cd[key] = user
-                full_name = '{0}, {1}'.format(user.last_name, user.first_name)
-                self.request.session[sesh_key] = full_name
-            else:
-                self.add_error(
-                    key,
-                    "This user does not have a complete profile",
-                )
-                cd[key] = None
+            if aid:
+                sesh_key = '{0}_name'.format(key)
+                user = User.objects.filter(pk=aid).first()
+                if user and user.profile:
+                    cd[key] = user
+                    full_name = '{0}, {1}'.format(user.last_name, user.first_name)
+                    self.request.session[sesh_key] = full_name
+                else:
+                    self.add_error(
+                        key,
+                        "This user does not have a complete profile",
+                    )
+                    cd[key] = None
         return cd
 
 
