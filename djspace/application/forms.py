@@ -1805,7 +1805,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
 
-        # verify grants officer(s)
+        # verify authorized user(s)
         for key, aid in authuser.items():
             if aid in uids:
                 self.add_error(
@@ -1816,7 +1816,7 @@ class RocketLaunchTeamForm(forms.ModelForm):
                 error = True
             else:
                 uids.append(aid)
-        # convert auth users from ID to User object
+        # convert authorized users from ID to User object
         for key, aid in authuser.items():
             if aid:
                 sesh_key = '{0}_name'.format(key)
@@ -1831,6 +1831,8 @@ class RocketLaunchTeamForm(forms.ModelForm):
                         "This user does not have a complete profile",
                     )
                     cd[key] = None
+            else:
+                cd[key] = None
         return cd
 
 
