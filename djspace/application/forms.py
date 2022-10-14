@@ -131,23 +131,23 @@ class HigherEducationInitiativesForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer(s)."""
         cd = self.cleaned_data
-        # user
-        uid = str(self.request.user.id)
+        # authorized users
+        uids = [str(self.request.user.id)]
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-
         # Assign a User object to grants officer(s)
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid in uids:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
+                    uids.append(gid)
                     try:
                         user = User.objects.get(pk=gid)
                         if user.profile:
@@ -315,7 +315,8 @@ class ResearchInfrastructureForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        uid = str(self.request.user.id)
+        # authorized users
+        uids = [str(self.request.user.id)]
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
@@ -323,13 +324,14 @@ class ResearchInfrastructureForm(forms.ModelForm):
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid in uids:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
+                    uids.append(gid)
                     try:
                         user = User.objects.get(pk=gid)
                         if user.profile:
@@ -497,7 +499,8 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        uid = str(self.request.user.id)
+        # authorized users
+        uids = [str(self.request.user.id)]
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
@@ -505,13 +508,14 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid in uids:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
+                    uids.append(gid)
                     try:
                         user = User.objects.get(pk=gid)
                         if user.profile:
@@ -680,7 +684,8 @@ class AerospaceOutreachForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        uid = str(self.request.user.id)
+        # authorized users
+        uids = [str(self.request.user.id)]
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
@@ -688,13 +693,14 @@ class AerospaceOutreachForm(forms.ModelForm):
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid in uids:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
+                    uids.append(aid)
                     try:
                         user = User.objects.get(pk=gid)
                         if user.profile:
@@ -878,7 +884,8 @@ class SpecialInitiativesForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        uid = str(self.request.user.id)
+        # authorized users
+        uids = [str(self.request.user.id)]
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
@@ -886,13 +893,14 @@ class SpecialInitiativesForm(forms.ModelForm):
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid in uids:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
+                    uids.append(gid)
                     try:
                         user = User.objects.get(pk=gid)
                         if user.profile:
@@ -1804,7 +1812,6 @@ class RocketLaunchTeamForm(forms.ModelForm):
         authuser['leader'] = cd.get('leader')
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
-
         # verify authorized user(s)
         for key, aid in authuser.items():
             if aid in uids:
@@ -2172,7 +2179,8 @@ class NasaCompetitionForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer and 'other' fields if need be."""
         cd = self.cleaned_data
-        uid = str(self.request.user.id)
+        # authorized users
+        uids = [str(self.request.user.id)]
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
@@ -2180,13 +2188,14 @@ class NasaCompetitionForm(forms.ModelForm):
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid in uids:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
+                    uids.append(gid)
                     try:
                         user = User.objects.get(pk=gid)
                         if user.profile:
@@ -2320,7 +2329,8 @@ class IndustryInternshipForm(forms.ModelForm):
     def clean(self):
         """Deal with grants officer."""
         cd = self.cleaned_data
-        uid = str(self.request.user.id)
+        # authorized users
+        uids = [str(self.request.user.id)]
         authuser = {}
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
@@ -2328,13 +2338,14 @@ class IndustryInternshipForm(forms.ModelForm):
         for key, gid in authuser.items():
             sesh_key = '{0}_name'.format(key)
             if gid:
-                if gid == uid:
+                if gid in uids:
                     self.add_error(
                         key,
-                        "You cannot also be an authorized user",
+                        "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
+                    uids.append(gid)
                     try:
                         user = User.objects.get(pk=gid)
                         if user.profile:
