@@ -137,19 +137,19 @@ class HigherEducationInitiativesForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
         # Assign a User object to grants officer(s)
-        for key, gid in authuser.items():
+        for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid in uids:
+            if aid:
+                if aid in uids:
                     self.add_error(
                         key,
                         "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
-                    uids.append(gid)
+                    uids.append(aid)
                     try:
-                        user = User.objects.get(pk=gid)
+                        user = User.objects.get(pk=aid)
                         if user.profile:
                             cd[key] = user
                             self.request.session[sesh_key] = '{0}, {1}'.format(
@@ -321,19 +321,19 @@ class ResearchInfrastructureForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
         # Assign a User object to grants officer(s)
-        for key, gid in authuser.items():
+        for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid in uids:
+            if aid:
+                if aid in uids:
                     self.add_error(
                         key,
                         "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
-                    uids.append(gid)
+                    uids.append(aid)
                     try:
-                        user = User.objects.get(pk=gid)
+                        user = User.objects.get(pk=aid)
                         if user.profile:
                             cd[key] = user
                             self.request.session[sesh_key] = '{0}, {1}'.format(
@@ -505,19 +505,19 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
         # Assign a User object to grants officer(s)
-        for key, gid in authuser.items():
+        for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid in uids:
+            if aid:
+                if aid in uids:
                     self.add_error(
                         key,
                         "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
-                    uids.append(gid)
+                    uids.append(aid)
                     try:
-                        user = User.objects.get(pk=gid)
+                        user = User.objects.get(pk=aid)
                         if user.profile:
                             cd[key] = user
                             self.request.session[sesh_key] = '{0}, {1}'.format(
@@ -690,10 +690,10 @@ class AerospaceOutreachForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
         # Assign a User object to grants officer(s)
-        for key, gid in authuser.items():
+        for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid in uids:
+            if aid:
+                if aid in uids:
                     self.add_error(
                         key,
                         "User is already has a role on this team.",
@@ -702,7 +702,7 @@ class AerospaceOutreachForm(forms.ModelForm):
                 else:
                     uids.append(aid)
                     try:
-                        user = User.objects.get(pk=gid)
+                        user = User.objects.get(pk=aid)
                         if user.profile:
                             cd[key] = user
                             self.request.session[sesh_key] = '{0}, {1}'.format(
@@ -890,19 +890,19 @@ class SpecialInitiativesForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
         # Assign a User object to grants officer(s)
-        for key, gid in authuser.items():
+        for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid in uids:
+            if aid:
+                if aid in uids:
                     self.add_error(
                         key,
                         "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
-                    uids.append(gid)
+                    uids.append(aid)
                     try:
-                        user = User.objects.get(pk=gid)
+                        user = User.objects.get(pk=aid)
                         if user.profile:
                             cd[key] = user
                             self.request.session[sesh_key] = '{0}, {1}'.format(
@@ -2185,19 +2185,19 @@ class NasaCompetitionForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
         # Assign a User object to grants officer(s)
-        for key, gid in authuser.items():
+        for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid in uids:
+            if aid:
+                if aid in uids:
                     self.add_error(
                         key,
                         "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
-                    uids.append(gid)
+                    uids.append(aid)
                     try:
-                        user = User.objects.get(pk=gid)
+                        user = User.objects.get(pk=aid)
                         if user.profile:
                             cd[key] = user
                             self.request.session[sesh_key] = '{0}, {1}'.format(
@@ -2335,19 +2335,19 @@ class IndustryInternshipForm(forms.ModelForm):
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')
         # Assign a User object to grants officer(s)
-        for key, gid in authuser.items():
+        for key, aid in authuser.items():
             sesh_key = '{0}_name'.format(key)
-            if gid:
-                if gid in uids:
+            if aid:
+                if aid in uids:
                     self.add_error(
                         key,
                         "User is already has a role on this team.",
                     )
                     cd[key] = None
                 else:
-                    uids.append(gid)
+                    uids.append(aid)
                     try:
-                        user = User.objects.get(pk=gid)
+                        user = User.objects.get(pk=aid)
                         if user.profile:
                             cd[key] = user
                             self.request.session[sesh_key] = '{0}, {1}'.format(
