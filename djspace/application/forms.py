@@ -143,7 +143,7 @@ class HigherEducationInitiativesForm(forms.ModelForm):
                 if aid in uids:
                     self.add_error(
                         key,
-                        "User is already has a role on this team.",
+                        "User already has a role on this team.",
                     )
                     cd[key] = None
                 else:
@@ -327,7 +327,7 @@ class ResearchInfrastructureForm(forms.ModelForm):
                 if aid in uids:
                     self.add_error(
                         key,
-                        "User is already has a role on this team.",
+                        "User already has a role on this team.",
                     )
                     cd[key] = None
                 else:
@@ -511,7 +511,7 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
                 if aid in uids:
                     self.add_error(
                         key,
-                        "User is already has a role on this team.",
+                        "User already has a role on this team.",
                     )
                     cd[key] = None
                 else:
@@ -696,7 +696,7 @@ class AerospaceOutreachForm(forms.ModelForm):
                 if aid in uids:
                     self.add_error(
                         key,
-                        "User is already has a role on this team.",
+                        "User already has a role on this team.",
                     )
                     cd[key] = None
                 else:
@@ -896,7 +896,7 @@ class SpecialInitiativesForm(forms.ModelForm):
                 if aid in uids:
                     self.add_error(
                         key,
-                        "User is already has a role on this team.",
+                        "User already has a role on this team.",
                     )
                     cd[key] = None
                 else:
@@ -1817,11 +1817,11 @@ class RocketLaunchTeamForm(forms.ModelForm):
             if aid in uids:
                 self.add_error(
                     key,
-                    "User is already has a role on this team.",
+                    "User already has a role on this team.",
                 )
                 cd[key] = None
                 error = True
-            else:
+            elif aid:
                 uids.append(aid)
         # convert authorized users from ID to User object
         for key, aid in authuser.items():
@@ -2191,7 +2191,7 @@ class NasaCompetitionForm(forms.ModelForm):
                 if aid in uids:
                     self.add_error(
                         key,
-                        "User is already has a role on this team.",
+                        "User already has a role on this team.",
                     )
                     cd[key] = None
                 else:
@@ -2341,7 +2341,7 @@ class IndustryInternshipForm(forms.ModelForm):
                 if aid in uids:
                     self.add_error(
                         key,
-                        "User is already has a role on this team.",
+                        "User already has a role on this team.",
                     )
                     cd[key] = None
                 else:
