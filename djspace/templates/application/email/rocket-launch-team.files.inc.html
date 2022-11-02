@@ -3,8 +3,13 @@
   <li>
     <a href="{{media_url}}{{data.award_acceptance}}">
       Advisor's Award Acceptance
-    </a><br>
-    https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+    </a>
+    <ul>
+      <li>Created: {{data.award_acceptance_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.award_acceptance}}
+      </li>
+    </ul>
   </li>
 {% else %}
   {% if data.status %}<li>Advisor's Award Acceptance: Missing</li>{% endif %}
