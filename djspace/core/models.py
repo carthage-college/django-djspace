@@ -207,10 +207,6 @@ class Photo(models.Model):
         """Return the content type of the associciated object."""
         return ContentType.objects.get_for_model(self)
 
-    def award_acceptance_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('award_acceptance')
-
 
 class Base(models.Model):
     """

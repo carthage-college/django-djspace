@@ -1353,6 +1353,10 @@ class RocketLaunchTeam(BaseModel):
         return ['budget']
 
     # timestamp methods are for UI level display
+    def award_acceptance_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('award_acceptance')
+
     def proposal_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('proposal')
@@ -1747,6 +1751,10 @@ class FirstNationsRocketCompetition(BaseModel):
             'application_update',
             kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
         )
+
+    def award_acceptance_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('award_acceptance')
 
 
 class HighAltitudeBalloon(BaseModel):
