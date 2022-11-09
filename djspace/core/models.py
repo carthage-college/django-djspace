@@ -49,7 +49,11 @@ ALLOWED_EXTENSIONS = [
     'ppt',
     'pptx',
 ]
-FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
+FILE_VALIDATORS = [
+    MimetypeValidator('application/pdf'),
+    MimetypeValidator('application/xls'),
+    MimetypeValidator('application/xlsx'),
+]
 PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
 ALLOWED_EXTENSIONS_VALIDATOR = [FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)]
 if settings.DEBUG:
@@ -138,8 +142,11 @@ def _timestamp(phile, field):
             time.mktime(time.localtime(getmtime(path))),
         )
     except Exception:
-        # we might not have the files on dev/staging
-        ts = datetime.today()
+        if settings.DEBUG:
+            # we might not have the files on dev/staging
+            ts = datetime.today()
+        else:
+            ts = 'File not found.'
 
     return ts
 
@@ -388,6 +395,10 @@ class BaseModel(Base):
             'application_print',
             kwargs={'application_type': self.get_slug(), 'aid': self.id},
         )
+
+    def award_acceptance_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('award_acceptance')
 
 
 class GenericChoice(models.Model):

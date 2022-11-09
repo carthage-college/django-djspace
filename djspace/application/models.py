@@ -32,10 +32,11 @@ if settings.DEBUG:
 DIRECTORATE_CHOICES = (
     ('Aeronautics Research', 'Aeronautics Research'),
     (
-        'Human Exploration and Operations Mission Directorate',
-        'Human Exploration and Operations Mission Directorate',
+        'Explorations Systems Development Mission Directorate',
+        'Explorations Systems Development Mission Directorate',
     ),
     ('Science', 'Science'),
+    ('Space Operations Mission Directorate', 'Space Operations Mission Directorate'),
     ('Space Technology', 'Space Technology'),
     ('Other', 'Other'),
 )
@@ -1165,7 +1166,7 @@ class RocketLaunchTeam(BaseModel):
         max_length=255,
         null=True,
         blank=True,
-        help_text="PDF format",
+        help_text="XLSX format",
     )
     flysheet_2 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_2'),
@@ -1173,7 +1174,7 @@ class RocketLaunchTeam(BaseModel):
         max_length=255,
         null=True,
         blank=True,
-        help_text="PDF format",
+        help_text="XLSX format",
     )
     flysheet_3 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_3'),
@@ -1181,7 +1182,7 @@ class RocketLaunchTeam(BaseModel):
         max_length=255,
         null=True,
         blank=True,
-        help_text="PDF format",
+        help_text="XLSX format",
     )
     flysheet_4 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_4'),
@@ -1189,7 +1190,7 @@ class RocketLaunchTeam(BaseModel):
         max_length=255,
         null=True,
         blank=True,
-        help_text="PDF format",
+        help_text="XLSX format",
     )
     openrocketrocksim = models.FileField(
         "RockSim Design Review",
@@ -1227,15 +1228,15 @@ class RocketLaunchTeam(BaseModel):
         blank=True,
         help_text="RKT file",
     )
-    patch_contest = models.FileField(
-        "Patch Contest Submission",
-        upload_to=partial(upload_to_path, 'Patch Contest'),
-        validators=FILE_VALIDATORS,
-        max_length=255,
-        null=True,
-        blank=True,
-        help_text="PDF format",
-    )
+    # patch_contest = models.FileField(
+    #     "Patch Contest Submission",
+    #     upload_to=partial(upload_to_path, 'Patch Contest'),
+    #     validators=FILE_VALIDATORS,
+    #     max_length=255,
+    #     null=True,
+    #     blank=True,
+    #     help_text="PDF format",
+    # )
     team_photo = models.ImageField(
         upload_to=partial(upload_to_path, 'Team_Photo'),
         validators=PHOTO_VALIDATORS,
@@ -1353,10 +1354,6 @@ class RocketLaunchTeam(BaseModel):
         return ['budget']
 
     # timestamp methods are for UI level display
-    def award_acceptance_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('award_acceptance')
-
     def proposal_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('proposal')
@@ -1485,9 +1482,9 @@ class RocketLaunchTeam(BaseModel):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('openrocketrocksim4')
 
-    def patch_contest_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('patch_contest')
+    # def patch_contest_timestamp(self):
+    #     """Timestamp method for UI level display."""
+    #     return self.get_file_timestamp('patch_contest')
 
     def team_photo_timestamp(self):
         """Timestamp method for UI level display."""
@@ -1751,10 +1748,6 @@ class FirstNationsRocketCompetition(BaseModel):
             'application_update',
             kwargs={'application_type': self.get_slug(), 'aid': str(self.id)},
         )
-
-    def award_acceptance_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('award_acceptance')
 
 
 class HighAltitudeBalloon(BaseModel):
