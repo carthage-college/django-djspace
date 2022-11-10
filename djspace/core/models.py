@@ -49,11 +49,10 @@ ALLOWED_EXTENSIONS = [
     'ppt',
     'pptx',
 ]
-FILE_VALIDATORS = [
-    MimetypeValidator('application/pdf'),
-    MimetypeValidator('application/xls'),
-    MimetypeValidator('application/xlsx'),
-]
+# do not seem to work
+#SPREADSHEET_VALIDATORS = [MimetypeValidator('application/vnd.ms-excel')]  # xls
+#SPREADSHEET_VALIDATORS = [MimetypeValidator('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')]  #  xlsx
+FILE_VALIDATORS = [MimetypeValidator('application/pdf')]
 PHOTO_VALIDATORS = [MimetypeValidator('image/jpeg')]
 ALLOWED_EXTENSIONS_VALIDATOR = [FileExtensionValidator(allowed_extensions=ALLOWED_EXTENSIONS)]
 if settings.DEBUG:
@@ -127,6 +126,20 @@ FUNDING_CHOICES = (
     ('Federal', 'Federal'),
     ('Not Applicable', 'Not Applicable'),
 )
+
+
+def _file_validators(phile):
+    """use multiple validators."""
+    err = None
+    for validator in FILE_VALIDATORS:
+        try:
+            validator(phile)
+            # Valid value, return it
+            return phile
+        except ValidationError as exc:
+            err = exc
+    # Value match nothing, raise error
+    raise err
 
 
 def _timestamp(phile, field):

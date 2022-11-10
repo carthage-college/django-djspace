@@ -23,7 +23,8 @@ if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
 
 PPT_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['ppt', 'pptx', 'pot', 'pps']),]
-OPENROCKET_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['rkt', 'RKT'])]
+OPENROCKET_EXTENSIONS = [FileExtensionValidator(allowed_extensions=['rkt'])]
+SPREADSHEET_VALIDATORS = [FileExtensionValidator(allowed_extensions=['xls', 'xlsx'])]
 if settings.DEBUG:
     PPT_EXTENSIONS = []
     OPENROCKET_EXTENSIONS = []
@@ -1162,7 +1163,7 @@ class RocketLaunchTeam(BaseModel):
     )
     flysheet_1 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_1'),
-        validators=FILE_VALIDATORS,
+        validators=SPREADSHEET_VALIDATORS,
         max_length=255,
         null=True,
         blank=True,
@@ -1170,7 +1171,7 @@ class RocketLaunchTeam(BaseModel):
     )
     flysheet_2 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_2'),
-        validators=FILE_VALIDATORS,
+        validators=SPREADSHEET_VALIDATORS,
         max_length=255,
         null=True,
         blank=True,
@@ -1178,7 +1179,7 @@ class RocketLaunchTeam(BaseModel):
     )
     flysheet_3 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_3'),
-        validators=FILE_VALIDATORS,
+        validators=SPREADSHEET_VALIDATORS,
         max_length=255,
         null=True,
         blank=True,
@@ -1186,7 +1187,7 @@ class RocketLaunchTeam(BaseModel):
     )
     flysheet_4 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_4'),
-        validators=FILE_VALIDATORS,
+        validators=SPREADSHEET_VALIDATORS,
         max_length=255,
         null=True,
         blank=True,
