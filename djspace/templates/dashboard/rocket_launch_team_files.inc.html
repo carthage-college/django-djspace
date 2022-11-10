@@ -39,7 +39,8 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
-<!-- <li class="form-group ctrlHolder">
+{% if 'Challenge' not in app.competition %}
+<li class="form-group ctrlHolder">
   <h3><label for="id_invoice_q1">Partial Reimbursement Invoice (March) [PDF]</label></h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
@@ -53,76 +54,11 @@
     <a class="fa-wrap" href="{{media_url}}{{app.invoice_q1}}"
       target="_blank">
       <i class="fa fa-times fa-file-pdf-o blue"
-      <aria-hidden="true"></i></a>
+      aria-hidden="true"></i></a>
   {% else %}
     <i class="fa fa-times red fa-wrap" aria-hidden="true"
       title="Missing file"></i>
   {% endif %}
-</li>      aria-hidden="true"></i></a>
-{% else %}
-  <i class="fa fa-times red fa-wrap" aria-hidden="true"
-    title="Missing file"></i>
-{% endif %}
-</li>
-<li class="form-group ctrlHolder">
-<h3><label for="id_invoice_q2">Final Reimbursement Invoice (May) [PDF]</label></h3>
-<div class="filewrap fleft">
-  <input type="file" class="upload-file"
-    data-content-type="{{app.get_content_type.id}}"
-    data-oid="{{app.id}}"
-    name="invoice_q2" id="id_invoice_q2">
-  <span class='filebutt'>Select File</span>
-  <span class='filevalu'></span>
-</div>
-{% if app.invoice_q2 %}
-  <a class="fa-wrap" href="{{media_url}}{{app.invoice_q2}}"
-    target="_blank">
-    <i class="fa fa-times fa-file-pdf-o blue"
-    aria-hidden="true"></i></a>
-{% else %}
-  <i class="fa fa-times red fa-wrap" aria-hidden="true"
-    title="Missing file"></i>
-{% endif %}
-</li>
-<li class="form-group ctrlHolder">
-<h3><label for="id_invoice_q3">Invoice Q3 [PDF]</label></h3>
-<div class="filewrap fleft">
-  <input type="file" class="upload-file"
-    data-content-type="{{app.get_content_type.id}}"
-    data-oid="{{app.id}}"
-    name="invoice_q3" id="id_invoice_q3">
-  <span class='filebutt'>Select File</span>
-  <span class='filevalu'></span>
-</div>
-{% if app.invoice_q3 %}
-  <a class="fa-wrap" href="{{media_url}}{{app.invoice_q3}}"
-    target="_blank">
-    <i class="fa fa-times fa-file-pdf-o blue"
-    aria-hidden="true"></i></a>
-{% else %}
-  <i class="fa fa-times red fa-wrap" aria-hidden="true"
-    title="Missing file"></i>
-{% endif %}
-</li>
-<li class="form-group ctrlHolder">
-<h3><label for="id_invoice_q4">Invoice Q4 [PDF]</label></h3>
-<div class="filewrap fleft">
-  <input type="file" class="upload-file"
-    data-content-type="{{app.get_content_type.id}}"
-    data-oid="{{app.id}}"
-    name="invoice_q4" id="id_invoice_q4">
-  <span class='filebutt'>Select File</span>
-  <span class='filevalu'></span>
-</div>
-{% if app.invoice_q4 %}
-  <a class="fa-wrap" href="{{media_url}}{{app.invoice_q4}}"
-    target="_blank">
-    <i class="fa fa-times fa-file-pdf-o blue"
-    aria-hidden="true"></i></a>
-{% else %}
-  <i class="fa fa-times red fa-wrap" aria-hidden="true"
-    title="Missing file"></i>
-{% endif %}
 </li>
 <li class="form-group ctrlHolder">
   <h3><label for="id_invoice_q2">Final Reimbursement Invoice (May) [PDF]</label></h3>
@@ -183,7 +119,8 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true"
       title="Missing file"></i>
   {% endif %}
-</li> -->
+</li>
+{% endif %}
 <li class="form-group ctrlHolder">
   <h3><label for="id_flysheet_1">Flysheet 1 [XLSX]</label></h3>
   <div class="filewrap fleft">
@@ -393,27 +330,6 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
-<!-- <li class="form-group ctrlHolder">
-  <h3>
-    <label for="id_patch_contest">
-      Patch Contest Submission [PDF]
-    </label>
-  </h3>
-  <div class="filewrap fleft">
-    <input type="file" class="upload-file"
-      data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
-      data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-      name="patch_contest" id="id_patch_contest">
-    <span class='filebutt'>Select File</span>
-    <span class='filevalu'></span>
-  </div>
-  {% if app.patch_contest or app.team.patch_contest %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.patch_contest %}{{app.patch_contest}}{% else %}{{app.team.patch_contest}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
-  {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
-  {% endif %}
-</li> -->
 {% if app.competition != "Midwest High Powered Rocket Competition" or app.team.competition != "Midwest High Powered Rocket Competition" or app.competition != "Collegiate Rocket Competition" or app.team.competition != "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
