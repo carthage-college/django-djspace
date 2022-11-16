@@ -73,6 +73,45 @@
 {% else %}
   {% if data.status %}<li>Flyseet 1: Missing</li>{% endif %}
 {% endif %}
+{% if data.flysheet_2 %}
+<li>
+  <a href="{{media_url}}{{data.flysheet_2}}" target="_blank">
+    Flysheet 2
+  </a>
+  <ul>
+    <li>Created: {{data.flysheet_2_timestamp}}</li>
+    <li>https://{{server_url}}{{media_url}}{{data.flysheet_2}}</li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}<li>Flyseet 2: Missing</li>{% endif %}
+{% endif %}
+{% if data.flysheet_3 %}
+<li>
+  <a href="{{media_url}}{{data.flysheet_3}}" target="_blank">
+    Flysheet 3
+  </a>
+  <ul>
+    <li>Created: {{data.flysheet_3_timestamp}}</li>
+    <li>https://{{server_url}}{{media_url}}{{data.flysheet_3}}</li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}<li>Flyseet 3: Missing</li>{% endif %}
+{% endif %}
+{% if data.flysheet_4 %}
+<li>
+  <a href="{{media_url}}{{data.flysheet_4}}" target="_blank">
+    Flysheet 4
+  </a>
+  <ul>
+    <li>Created: {{data.flysheet_4_timestamp}}</li>
+    <li>https://{{server_url}}{{media_url}}{{data.flysheet_4}}</li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}<li>Flyseet 4: Missing</li>{% endif %}
+{% endif %}
 {% if data.openrocketrocksim %}
 <li>
   <a href="{{media_url}}{{data.openrocketrocksim}}">
@@ -104,19 +143,6 @@
   </li>
 {% else %}
   {% if data.status %}<li>Preliminary Design Report: Missing</li>{% endif %}
-{% endif %}
-{% if data.flysheet_2 %}
-<li>
-  <a href="{{media_url}}{{data.flysheet_2}}" target="_blank">
-    Flysheet 2
-  </a>
-  <ul>
-    <li>Created: {{data.flysheet_2_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.flysheet_2}}</li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}<li>Flyseet 2: Missing</li>{% endif %}
 {% endif %}
 {% if data.openrocketrocksim2 %}
 <li>
@@ -169,36 +195,6 @@
     {% if data.status %}<li>Flight Demo: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-
-
-{% if data.flysheet_3 %}
-<li>
-  <a href="{{media_url}}{{data.flysheet_3}}" target="_blank">
-    Flysheet 3
-  </a>
-  <ul>
-    <li>Created: {{data.flysheet_3_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.flysheet_3}}</li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}<li>Flyseet 3: Missing</li>{% endif %}
-{% endif %}
-{% if data.flysheet_4 %}
-<li>
-  <a href="{{media_url}}{{data.flysheet_4}}" target="_blank">
-    Flysheet 4
-  </a>
-  <ul>
-    <li>Created: {{data.flysheet_4_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.flysheet_4}}</li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}<li>Flyseet 4: Missing</li>{% endif %}
-{% endif %}
-
-
 {% if data.openrocketrocksim3 %}
 <li>
   <a href="{{media_url}}{{data.openrocketrocksim3}}">
@@ -233,23 +229,6 @@
 <li>RockSim 4: Missing</li>
   {% endif %}
 {% endif %}
-<!-- {% if data.patch_contest %}
-<li>
-  <a href="{{media_url}}{{data.patch_contest}}">
-    Patch Contest Submission
-  </a>
-  <ul>
-    <li>Created: {{data.patch_contest_timestamp}}</li>
-    <li>
-      https://{{server_url}}{{media_url}}{{data.patch_contest}}
-    </li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}
-    <li>Patch Contest Submission: Missing</li>
-  {% endif %}
-{% endif %} -->
 {% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
   {% if data.final_design_report %}
     <li>

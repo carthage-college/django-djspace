@@ -66,7 +66,6 @@ FUNDED_FILES = (
     ('openrocketrocksim2', 'RockSim Design Review 2'),
     ('openrocketrocksim3', 'RockSim Design Review 3'),
     ('openrocketrocksim4', 'RockSim Design Review 4'),
-    # ('patch_contest', 'Patch Contest Submission'),
     ('post_flight_performance_report', 'Post Flight Performance Report'),
     ('preliminary_design_report', 'Preliminary Design Report'),
     ('virtual_pdr', 'Virtual Preliminary Design Report'),
@@ -741,7 +740,6 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'invoice_q2_file',
         'invoice_q3_file',
         'invoice_q4_file',
-        # 'patch_contest_file',
         'final_motor_selection_trunk',
         'lodging_list_file',
         'critical_design_report_file',
@@ -1002,12 +1000,6 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         return admin_display_file(instance, 'openrocketrocksim4')
     openrocketrocksim4_file.allow_tags = True
     openrocketrocksim4_file.short_description = "ORK4"
-
-    # def patch_contest_file(self, instance):
-    #     """Construct display file code for the admin dashboard."""
-    #     return admin_display_file(instance, 'patch_contest')
-    # patch_contest_file.allow_tags = True
-    # patch_contest_file.short_description = "Patch"
 
     def proceeding_paper_file(self, instance):
         """Construct display file code for the admin dashboard."""
