@@ -1,4 +1,4 @@
-{% if data.get_slug == 'rocket-launch-team' %}
+{% if data.get_slug in 'rocket-launch-team'%}
   {% include "application/email/rocket-launch-team.files.inc.html" %}
 {% else %}
 <ul>
@@ -12,7 +12,7 @@
 </li>
 {% else %}
   {% if data.get_slug in "midwest-high-powered-rocket-competition,collegiate-rocket-competition,high-altitude-balloon-launch,high-altitude-balloon-payload,clark-graduate-fellowship,graduate-fellowship" %}
-  {% if data.status %}<li>CV: Missing</li>{% endif %}
+    {% if data.status %}<li>CV: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
 {% if data.proposal %}

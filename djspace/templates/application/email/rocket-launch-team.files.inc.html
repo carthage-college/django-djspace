@@ -43,6 +43,23 @@
 {% else %}
   {% if data.status %}<li>Institutional W9: Missing</li>{% endif %}
 {% endif %}
+{% if "First Nations" in data.competition or "First Nations" in data.team.competition %}
+  {% if data.proposal %}
+  <li>
+    <a href="{{media_url}}{{data.proposal}}">
+      Proposal
+    </a>
+    <ul>
+      <li>Created: {{data.proposal_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.proposal}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+    {% if data.status %}<li>Proposal: Missing</li>{% endif %}
+{% endif %}
+{% endif %}
 {% if data.budget %}
   <li>
     <a href="{{media_url}}{{data.budget}}">
@@ -72,45 +89,6 @@
 </li>
 {% else %}
   {% if data.status %}<li>Flyseet 1: Missing</li>{% endif %}
-{% endif %}
-{% if data.flysheet_2 %}
-<li>
-  <a href="{{media_url}}{{data.flysheet_2}}" target="_blank">
-    Flysheet 2
-  </a>
-  <ul>
-    <li>Created: {{data.flysheet_2_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.flysheet_2}}</li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}<li>Flyseet 2: Missing</li>{% endif %}
-{% endif %}
-{% if data.flysheet_3 %}
-<li>
-  <a href="{{media_url}}{{data.flysheet_3}}" target="_blank">
-    Flysheet 3
-  </a>
-  <ul>
-    <li>Created: {{data.flysheet_3_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.flysheet_3}}</li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}<li>Flyseet 3: Missing</li>{% endif %}
-{% endif %}
-{% if data.flysheet_4 %}
-<li>
-  <a href="{{media_url}}{{data.flysheet_4}}" target="_blank">
-    Flysheet 4
-  </a>
-  <ul>
-    <li>Created: {{data.flysheet_4_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.flysheet_4}}</li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}<li>Flyseet 4: Missing</li>{% endif %}
 {% endif %}
 {% if data.openrocketrocksim %}
 <li>
@@ -144,6 +122,19 @@
 {% else %}
   {% if data.status %}<li>Preliminary Design Report: Missing</li>{% endif %}
 {% endif %}
+{% if data.flysheet_2 %}
+<li>
+  <a href="{{media_url}}{{data.flysheet_2}}" target="_blank">
+    Flysheet 2
+  </a>
+  <ul>
+    <li>Created: {{data.flysheet_2_timestamp}}</li>
+    <li>https://{{server_url}}{{media_url}}{{data.flysheet_2}}</li>
+  </ul>
+</li>
+{% else %}
+  {% if data.status %}<li>Flyseet 2: Missing</li>{% endif %}
+{% endif %}
 {% if data.openrocketrocksim2 %}
 <li>
   <a href="{{media_url}}{{data.openrocketrocksim2}}">
@@ -159,24 +150,6 @@
 {% else %}
   {% if data.status %}
     <li>RockSim 2: Missing</li>
-  {% endif %}
-{% endif %}
-
-{% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
-  {% if data.interim_progress_report %}
-    <li>
-      <a href="{{media_url}}{{data.interim_progress_report}}" target="_blank">
-         Critical Design Report
-      </a>
-      <ul>
-        <li>Created: {{data.interim_progress_report_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.interim_progress_report}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Interim Progress Report: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
 {% if data.competition != "Midwest High Powered Rocket Competition" or data.team.competion != "Midwest High Powered Rocket Competition" %}
@@ -195,39 +168,177 @@
     {% if data.status %}<li>Flight Demo: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.openrocketrocksim3 %}
-<li>
-  <a href="{{media_url}}{{data.openrocketrocksim3}}">
-    RockSim Design Review 3
-  </a>
-  <ul>
-    <li>Created: {{data.openrocketrocksim3_timestamp}}</li>
-    <li>
-      https://{{server_url}}{{media_url}}{{data.openrocketrocksim3}}
-    </li>
-  </ul>
-</li>
+{% if data.virtual_pdr %}
+  <li>
+    <a href="{{media_url}}{{data.virtual_pdr}}">
+      Virtual PDR
+    </a>
+    <ul>
+      <li>Created: {{data.virtual_pdr_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.virtual_pdr}}
+      </li>
+    </ul>
+  </li>
 {% else %}
-  {% if data.status %}
-<li>RockSim 3: Missing</li>
+  {% if data.status %}<li>Virtual PDR: Missing</li>{% endif %}
+{% endif %}
+{% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
+  {% if data.interim_progress_report %}
+    <li>
+      <a href="{{media_url}}{{data.interim_progress_report}}" target="_blank">
+         Critical Design Report
+      </a>
+      <ul>
+        <li>Created: {{data.interim_progress_report_timestamp}}</li>
+        <li>
+          https://{{server_url}}{{media_url}}{{data.interim_progress_report}}
+        </li>
+      </ul>
+    </li>
+  {% else %}
+    {% if data.status %}<li>Interim Progress Report: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.openrocketrocksim4 %}
+{% if data.flysheet_3 %}
+  <li>
+    <a href="{{media_url}}{{data.flysheet_3}}" target="_blank">
+      Flysheet 3
+    </a>
+    <ul>
+      <li>Created: {{data.flysheet_3_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.flysheet_3}}</li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Flyseet 3: Missing</li>{% endif %}
+{% endif %}
+{% if data.openrocketrocksim3 %}
+  <li>
+    <a href="{{media_url}}{{data.openrocketrocksim3}}">
+      RockSim Design Review 3
+    </a>
+    <ul>
+      <li>Created: {{data.openrocketrocksim3_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.openrocketrocksim3}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>RockSim 3: Missing</li>{% endif %}
+{% endif %}
+{% if data.lodging_list %}
+  <li>
+    <a href="{{media_url}}{{data.lodging_list}}" target="_blank">
+      Lodging List
+    </a>
+    <ul>
+      <li>Created: {{data.lodging_list_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.lodging_list}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Lodging List: Missing</li>{% endif %}
+{% endif %}
+{% if data.team_biography %}
+  <li>
+    <a href="{{media_url}}{{data.team_biography}}" target="_blank">Team Biography</a>
+    <ul>
+      <li>Created: {{data.team_biography_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.team_biography}}</li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Team Biography: Missing</li>{% endif %}
+{% endif %}
+{% if data.team_photo %}
+  <li>
+    <a href="{{media_url}}{{data.team_photo}}" target="_blank">Team Photo</a>
+    <ul>
+      <li>Created: {{data.team_photo_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.team_photo}}</li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Team Photo: Missing</li>{% endif %}
+{% endif %}
+{% if data.virtual_cdr %}
 <li>
-  <a href="{{media_url}}{{data.openrocketrocksim4}}">
-    RockSim Design Review 4
+  <a href="{{media_url}}{{data.virtual_cdr}}">
+  Virtual CDR
   </a>
   <ul>
-    <li>Created: {{data.openrocketrocksim4_timestamp}}</li>
+    <li>Created: {{data.virtual_cdr_timestamp}}</li>
     <li>
-      https://{{server_url}}{{media_url}}{{data.openrocketrocksim4}}
+    https://{{server_url}}{{media_url}}{{data.virtual_cdr}}
     </li>
   </ul>
 </li>
 {% else %}
+  {% if data.status %}<li>Virtual CDR: Missing</li>{% endif %}
+{% endif %}
+{% if data.flight_readiness_report %}
+  <li>
+    <a href="{{media_url}}{{data.flight_readiness_report}}" target="_blank">
+      Flight Readiness Review
+    </a>
+    <ul>
+      <li>Created: {{data.flight_readiness_report_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.flight_readiness_report}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Flight Readiness Report: Missing</li>{% endif %}
+{% endif %}
+{% if data.virtual_frr %}
+  <li>
+    <a href="{{media_url}}{{data.virtual_frr}}">
+      Virtual FRR
+    </a>
+    <ul>
+      <li>Created: {{data.virtual_frr_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.virtual_frr}}
+      </li>
+    </ul>
+  </li>
+{% else %}
   {% if data.status %}
-<li>RockSim 4: Missing</li>
+    <li>Virtual FRR: Missing</li>
   {% endif %}
+{% endif %}
+{% if data.flysheet_4 %}
+  <li>
+    <a href="{{media_url}}{{data.flysheet_4}}" target="_blank">
+      Flysheet 4
+    </a>
+    <ul>
+      <li>Created: {{data.flysheet_4_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.flysheet_4}}</li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Flyseet 4: Missing</li>{% endif %}
+{% endif %}
+{% if data.openrocketrocksim4 %}
+  <li>
+    <a href="{{media_url}}{{data.openrocketrocksim4}}">
+      RockSim Design Review 4
+    </a>
+    <ul>
+      <li>Created: {{data.openrocketrocksim4_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.openrocketrocksim4}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>RockSim 4: Missing</li>{% endif %}
 {% endif %}
 {% if data.competition == "Collegiate Rocket Competition" or data.team.competition == "Collegiate Rocket Competition" %}
   {% if data.final_design_report %}
@@ -247,105 +358,36 @@
   {% endif %}
 {% endif %}
 
-{% if "First Nations" in data.competition or "First Nations" in data.team.competition %}
-  {% if data.proposal %}
+{% if data.critical_design_report %}
   <li>
-    <a href="{{media_url}}{{data.proposal}}">
-      Proposal
+    <a href="{{media_url}}{{data.critical_design_report}}" target="_blank">
+      Critical Design Review
     </a>
     <ul>
-      <li>Created: {{data.proposal_timestamp}}</li>
+      <li>Created: {{data.critical_design_report_timestamp}}</li>
       <li>
-        https://{{server_url}}{{media_url}}{{data.proposal}}
+        https://{{server_url}}{{media_url}}{{data.critical_design_report}}
       </li>
     </ul>
   </li>
-  {% else %}
-    {% if data.status %}
-    <li>Proposal: Missing</li>
-    {% endif %}
-  {% endif %}
-  {% if data.virtual_cdr %}
-    <li>
-      <a href="{{media_url}}{{data.virtual_cdr}}">
-      Virtual CDR
-      </a>
-      <ul>
-        <li>Created: {{data.virtual_cdr_timestamp}}</li>
-        <li>
-        https://{{server_url}}{{media_url}}{{data.virtual_cdr}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}
-    <li>Virtual CDR: Missing</li>
-    {% endif %}
-  {% endif %}
-  {% if data.virtual_pdr %}
-    <li>
-      <a href="{{media_url}}{{data.virtual_pdr}}">
-        Virtual PDR
-      </a>
-      <ul>
-        <li>Created: {{data.virtual_pdr_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.virtual_pdr}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-      {% if data.status %}
-    <li>Virtual PDR: Missing</li>
-      {% endif %}
-  {% endif %}
-  {% if data.virtual_frr %}
-    <li>
-      <a href="{{media_url}}{{data.virtual_frr}}">
-        Virtual FRR
-      </a>
-      <ul>
-        <li>Created: {{data.virtual_frr_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.virtual_frr}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-      {% if data.status %}
-    <li>Virtual FRR: Missing</li>
-      {% endif %}
-  {% endif %}
-  {% if data.lodging_list %}
-    <li>
-      <a href="{{media_url}}{{data.lodging_list}}" target="_blank">
-        Lodging List
-      </a>
-      <ul>
-        <li>Created: {{data.lodging_list_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.lodging_list}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Lodging List: Missing</li>{% endif %}
-  {% endif %}
-  {% if data.critical_design_report %}
-    <li>
-      <a href="{{media_url}}{{data.critical_design_report}}" target="_blank">
-        Critical Design Review
-      </a>
-      <ul>
-        <li>Created: {{data.critical_design_report_timestamp}}</li>
-        <li>
-          https://{{server_url}}{{media_url}}{{data.critical_design_report}}
-        </li>
-      </ul>
-    </li>
-  {% else %}
-    {% if data.status %}<li>Critical Design Report: Missing</li>{% endif %}
-  {% endif %}
+{% else %}
+  {% if data.status %}<li>Critical Design Report: Missing</li>{% endif %}
+{% endif %}
+
+{% if data.education_outreach %}
+  <li>
+    <a href="{{media_url}}{{data.education_outreach}}" target="_blank">
+      Education Outreach
+    </a>
+    <ul>
+      <li>Created: {{data.education_outreach_timestamp}}</li>
+      <li>
+        https://{{server_url}}{{media_url}}{{data.education_outreach}}
+      </li>
+    </ul>
+  </li>
+{% else %}
+  {% if data.status %}<li>Education Outreach: Missing</li>{% endif %}
 {% endif %}
 {% if data.competition != "Midwest High Powered Rocket Competition" or data.team.competion != "Midwest High Powered Rocket Competition" %}
   {% if data.oral_presentation %}
@@ -378,36 +420,6 @@
   </li>
 {% else %}
   {% if data.status %}<li>Post Launch Assessment Review: Missing</li>{% endif %}
-{% endif %}
-{% if data.education_outreach %}
-  <li>
-    <a href="{{media_url}}{{data.education_outreach}}" target="_blank">
-      Education Outreach
-    </a>
-    <ul>
-      <li>Created: {{data.education_outreach_timestamp}}</li>
-      <li>
-        https://{{server_url}}{{media_url}}{{data.education_outreach}}
-      </li>
-    </ul>
-  </li>
-{% else %}
-  {% if data.status %}<li>Education Outreach: Missing</li>{% endif %}
-{% endif %}
-{% if data.flight_readiness_report %}
-  <li>
-    <a href="{{media_url}}{{data.flight_readiness_report}}" target="_blank">
-      Flight Readiness Review
-    </a>
-    <ul>
-      <li>Created: {{data.flight_readiness_report_timestamp}}</li>
-      <li>
-        https://{{server_url}}{{media_url}}{{data.flight_readiness_report}}
-      </li>
-    </ul>
-  </li>
-{% else %}
-  {% if data.status %}<li>Flight Readiness Report: Missing</li>{% endif %}
 {% endif %}
 {% if data.competition == "Midwest High Powered Rocket Competition" or data.team.competion == "Midwest High Powered Rocket Competition" %}
   {% if data.verified_budget %}
@@ -509,26 +521,5 @@
     {% if data.status %}<li>Charges Certification: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
-{% if data.team_biography %}
-<li>
-  <a href="{{media_url}}{{data.team_biography}}" target="_blank">Team Biography</a>
-  <ul>
-    <li>Created: {{data.team_biography_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.team_biography}}</li>
-  </ul>
-</li>
-{% else %}
-  {% if data.status %}<li>Team Biography: Missing</li>{% endif %}
-{% endif %}
-{% if data.team_photo %}
-<li>
-  <a href="{{media_url}}{{data.team_photo}}" target="_blank">Team Photo</a>
-  <ul>
-    <li>Created: {{data.team_photo_timestamp}}</li>
-    <li>https://{{server_url}}{{media_url}}{{data.team_photo}}</li>
-  </ul>
-</li>-
-{% else %}
-  {% if data.status %}<li>Team Photo: Missing</li>{% endif %}
-{% endif %}
+
 </ul>
