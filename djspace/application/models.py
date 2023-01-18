@@ -1043,7 +1043,7 @@ class RocketLaunchTeam(BaseModel):
     )
     interim_progress_report = models.FileField(
         "Critical Design Report",
-        upload_to=partial(upload_to_path, ' Critical_Design_Report'),
+        upload_to=partial(upload_to_path, 'Critical_Design_Report'),
         validators=FILE_VALIDATORS,
         max_length=255,
         null=True,
@@ -1052,7 +1052,7 @@ class RocketLaunchTeam(BaseModel):
     )
     virtual_cdr = models.FileField(
         "CDR - Virtual Presentation",
-        upload_to=partial(upload_to_path, 'VCDR'),
+        upload_to=partial(upload_to_path, 'CDRV'),
         validators=PPT_EXTENSIONS,
         max_length=255,
         null=True,
@@ -1070,7 +1070,7 @@ class RocketLaunchTeam(BaseModel):
     )
     virtual_pdr = models.FileField(
         "PDR - Virtual Presentation",
-        upload_to=partial(upload_to_path, 'VPDR'),
+        upload_to=partial(upload_to_path, 'PDRV'),
         validators=PPT_EXTENSIONS,
         max_length=255,
         null=True,
@@ -1128,7 +1128,7 @@ class RocketLaunchTeam(BaseModel):
     )
     post_flight_performance_report = models.FileField(
         "Post Launch Assessment Review",
-        upload_to=partial(upload_to_path, 'PFPR'),
+        upload_to=partial(upload_to_path, 'PLAR'),
         validators=FILE_VALIDATORS,
         max_length=255,
         null=True,
@@ -1314,7 +1314,7 @@ class RocketLaunchTeam(BaseModel):
                 suffix = 'Moon'
             code = 'FNL{0}_{1}'.format(YEAR_2, suffix)
         # replace anything that is not a word character with a dash
-        team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.name)
+        # team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.name) 
         school_name = re.sub(
             r'[^a-zA-Z0-9]',
             '-',
@@ -1326,9 +1326,9 @@ class RocketLaunchTeam(BaseModel):
             user = getattr(self, lackey, None)
             last_name = user.last_name
             first_name = user.first_name
-        return '{0}_{1}_{2}_{3}_{4}'.format(
+        return '{0}_{1}_{2}_{3}'.format(
             code,
-            team_name,
+            # team_name,
             school_name,
             last_name,
             first_name,
@@ -1708,15 +1708,15 @@ class FirstNationsRocketCompetition(BaseModel):
 
     def get_file_name(self, lackey=False):
         """Construct the file name based on code, team, school, user."""
-        team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
+        # team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
         school_name = re.sub(
             r'[^a-zA-Z0-9]',
             '-',
             self.team.user.profile.get_registration().wsgc_affiliate.name,
         )
-        return '{0}_{1}_{2}_{3}_{4}'.format(
+        return '{0}_{1}_{2}_{3}'.format(
             self.get_code(),
-            team_name,
+            # team_name,
             school_name,
             self.user.last_name,
             self.user.first_name,

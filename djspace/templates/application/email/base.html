@@ -122,42 +122,60 @@ Department program.......... {{data.user.profile.get_registration.department_pro
     <li>
       <a href="{{media_url}}{{data.other_file}}" target="_blank">
         Optional File 1
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.other_file}}
+      </a>
+      <ul>
+        <li>Created: {{data.other_file1_timestamp}}</li>
+        <li>https://{{server_url}}{{media_url}}{{data.other_file}}</li>
+      </ul>
     </li>
   {% endif %}
   {% if data.other_file2 %}
     <li>
       <a href="{{media_url}}{{data.other_file2}}" target="_blank">
         Optional File 2
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.other_file2}}
+      </a>
+      <ul>
+        <li>Created: {{data.other_file2_timestamp}}</li>
+        <li>https://{{server_url}}{{media_url}}{{data.other_file2}}</li>
+      </ul>
     </li>
   {% endif %}
   {% if data.other_file3 %}
     <li>
       <a href="{{media_url}}{{data.other_file3}}" target="_blank">
         Optional File 3
-      </a><br>
-      https://{{server_url}}{{media_url}}{{data.other_file3}}
+      </a>
+      <ul>
+        <li>Created: {{data.other_file3_timestamp}}</li>
+        <li>https://{{server_url}}{{media_url}}{{data.other_file3}}</li>
+      </ul>
     </li>
   {% endif %}
   {% if data.url1 %}
     <li>
-      <a href="{{data.url1}}" target="_blank">Optional URL 1</a><br>
-      {{data.url1}}
+      <a href="{{data.url1}}" target="_blank">Optional URL 1</a>
+      <ul>
+        <li>Created: {{data.url1_timestamp}}</li>
+        <li>{{data.url1}}</li>
+      </ul>
     </li>
   {% endif %}
   {% if data.url2 %}
     <li>
-      <a href="{{data.url2}}" target="_blank">Optional URL 2</a><br>
-      {{data.url2}}
+      <a href="{{data.url2}}" target="_blank">Optional URL 2</a>
+      <ul>
+        <li>Created: {{data.url2_timestamp}}</li>
+        <li>{{data.url2}}</li>
+      </ul>
     </li>
   {% endif %}
   {% if data.url3 %}
     <li>
-      <a href="{{data.url3}}" target="_blank">Optional URL 3</a><br>
-      {{data.url3}}
+      <a href="{{data.url3}}" target="_blank">Optional URL 3</a>
+      <ul>
+        <li>Created: {{data.url3_timestamp}}</li>
+        <li>{{data.url3}}</li>
+      </ul>
     </li>
   {% endif %}
 </ul>

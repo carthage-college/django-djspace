@@ -413,6 +413,30 @@ class BaseModel(Base):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('award_acceptance')
 
+    def other_file1_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('other_file')
+
+    def other_file2_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('other_file2')
+
+    def other_file3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('other_file3')
+    
+    def url1_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('url1')
+
+    def url2_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('url2')
+
+    def url3_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('url3')
+
 
 class GenericChoice(models.Model):
     """For making choices for choice fields for forms."""
