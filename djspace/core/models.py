@@ -335,7 +335,7 @@ class BaseModel(Base):
         upload_to=partial(upload_to_path, 'Other_File'),
         validators=ALLOWED_EXTENSIONS_VALIDATOR,
         help_text=ALLOWED_EXTENSIONS,
-        max_length=768,
+        max_length=225,
         null=True,
         blank=True,
     )
@@ -344,7 +344,7 @@ class BaseModel(Base):
         upload_to=partial(upload_to_path, 'Other_File2'),
         validators=ALLOWED_EXTENSIONS_VALIDATOR,
         help_text=ALLOWED_EXTENSIONS,
-        max_length=768,
+        max_length=225,
         null=True,
         blank=True,
     )
@@ -353,7 +353,7 @@ class BaseModel(Base):
         upload_to=partial(upload_to_path, 'Other_File3'),
         validators=ALLOWED_EXTENSIONS_VALIDATOR,
         help_text=ALLOWED_EXTENSIONS,
-        max_length=768,
+        max_length=225,
         null=True,
         blank=True,
     )
