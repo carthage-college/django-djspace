@@ -961,7 +961,7 @@ class RocketLaunchTeam(BaseModel):
     proposal = models.FileField(
         upload_to=partial(upload_to_path, 'Proposal'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -969,7 +969,7 @@ class RocketLaunchTeam(BaseModel):
     budget = models.FileField(
         upload_to=partial(upload_to_path, 'Budget'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="""
@@ -980,7 +980,7 @@ class RocketLaunchTeam(BaseModel):
     verified_budget = models.FileField(
         upload_to=partial(upload_to_path, 'Verified_Budget'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -988,7 +988,7 @@ class RocketLaunchTeam(BaseModel):
     invoice_q1 = models.FileField(
         upload_to=partial(upload_to_path, 'Invoice_Q1'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -996,7 +996,7 @@ class RocketLaunchTeam(BaseModel):
     invoice_q2 = models.FileField(
         upload_to=partial(upload_to_path, 'Invoice_Q2'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1004,7 +1004,7 @@ class RocketLaunchTeam(BaseModel):
     invoice_q3 = models.FileField(
         upload_to=partial(upload_to_path, 'Invoice_Q3'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1012,7 +1012,7 @@ class RocketLaunchTeam(BaseModel):
     invoice_q4 = models.FileField(
         upload_to=partial(upload_to_path, 'Invoice_Q4'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1020,7 +1020,7 @@ class RocketLaunchTeam(BaseModel):
     close_out_finance_document = models.FileField(
         upload_to=partial(upload_to_path, 'Closeout_Finance_Document'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1028,7 +1028,7 @@ class RocketLaunchTeam(BaseModel):
     charges_certification = models.FileField(
         upload_to=partial(upload_to_path, 'Charges_Certification'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1036,7 +1036,7 @@ class RocketLaunchTeam(BaseModel):
     institutional_w9 = models.FileField(
         upload_to=partial(upload_to_path, 'Institutional_W9'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1045,7 +1045,7 @@ class RocketLaunchTeam(BaseModel):
         "Critical Design Report",
         upload_to=partial(upload_to_path, 'Critical_Design_Report'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1054,7 +1054,7 @@ class RocketLaunchTeam(BaseModel):
         "CDR - Virtual Presentation",
         upload_to=partial(upload_to_path, 'CDRV'),
         validators=PPT_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="Power point",
@@ -1063,7 +1063,7 @@ class RocketLaunchTeam(BaseModel):
         "Preliminary Design Review",
         upload_to=partial(upload_to_path, 'PDR'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1072,7 +1072,7 @@ class RocketLaunchTeam(BaseModel):
         "PDR - Virtual Presentation",
         upload_to=partial(upload_to_path, 'PDRV'),
         validators=PPT_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="Power point",
@@ -1080,13 +1080,13 @@ class RocketLaunchTeam(BaseModel):
     final_design_report = models.FileField(
         upload_to=partial(upload_to_path, 'FDR'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
     )
     flight_demo = models.CharField(
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="URL where your video is located",
@@ -1104,7 +1104,7 @@ class RocketLaunchTeam(BaseModel):
     lodging_list = models.FileField(
         upload_to=partial(upload_to_path, 'Lodging_List'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1113,7 +1113,7 @@ class RocketLaunchTeam(BaseModel):
         "Critical Design Review",
         upload_to=partial(upload_to_path, 'CDR'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1121,7 +1121,7 @@ class RocketLaunchTeam(BaseModel):
     oral_presentation = models.FileField(
         upload_to=partial(upload_to_path, 'PPT'),
         validators=PPT_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="Power point",
@@ -1130,7 +1130,7 @@ class RocketLaunchTeam(BaseModel):
         "Post Launch Assessment Review",
         upload_to=partial(upload_to_path, 'PLAR'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1138,7 +1138,7 @@ class RocketLaunchTeam(BaseModel):
     education_outreach = models.FileField(
         upload_to=partial(upload_to_path, 'Education_Outreach'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1147,7 +1147,7 @@ class RocketLaunchTeam(BaseModel):
         "Flight Readiness Review",
         upload_to=partial(upload_to_path, 'FRR'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -1156,7 +1156,7 @@ class RocketLaunchTeam(BaseModel):
         "FRR - Virtual Presentation",
         upload_to=partial(upload_to_path, 'VFRR'),
         validators=PPT_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="Power point",
@@ -1164,7 +1164,7 @@ class RocketLaunchTeam(BaseModel):
     flysheet_1 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_1'),
         validators=SPREADSHEET_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="XLSX format",
@@ -1172,7 +1172,7 @@ class RocketLaunchTeam(BaseModel):
     flysheet_2 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_2'),
         validators=SPREADSHEET_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="XLSX format",
@@ -1180,7 +1180,7 @@ class RocketLaunchTeam(BaseModel):
     flysheet_3 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_3'),
         validators=SPREADSHEET_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="XLSX format",
@@ -1188,7 +1188,7 @@ class RocketLaunchTeam(BaseModel):
     flysheet_4 = models.FileField(
         upload_to=partial(upload_to_path, 'Flysheet_4'),
         validators=SPREADSHEET_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="XLSX format",
@@ -1197,7 +1197,7 @@ class RocketLaunchTeam(BaseModel):
         "RockSim Design Review",
         upload_to=partial(upload_to_path, 'RockSim1'),
         validators=OPENROCKET_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="RKT file",
@@ -1206,7 +1206,7 @@ class RocketLaunchTeam(BaseModel):
         "RockSim Design Review 2",
         upload_to=partial(upload_to_path, 'RockSim2'),
         validators=OPENROCKET_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="RKT file",
@@ -1215,7 +1215,7 @@ class RocketLaunchTeam(BaseModel):
         "RockSim Design Review 3",
         upload_to=partial(upload_to_path, 'RockSim3'),
         validators=OPENROCKET_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="RKT file",
@@ -1224,7 +1224,7 @@ class RocketLaunchTeam(BaseModel):
         "RockSim Design Review 4",
         upload_to=partial(upload_to_path, 'ORRS'),
         validators=OPENROCKET_EXTENSIONS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="RKT file",
@@ -1232,7 +1232,7 @@ class RocketLaunchTeam(BaseModel):
     team_photo = models.ImageField(
         upload_to=partial(upload_to_path, 'Team_Photo'),
         validators=PHOTO_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
         help_text="JPEG only",
@@ -1240,7 +1240,7 @@ class RocketLaunchTeam(BaseModel):
     team_biography = models.FileField(
         upload_to=partial(upload_to_path, 'Team_Biography'),
         validators=FILE_VALIDATORS,
-        max_length=255,
+        max_length=225,
         null=True,
         blank=True,
     )
@@ -1256,12 +1256,12 @@ class RocketLaunchTeam(BaseModel):
     member_7 = models.CharField(max_length=128, null=True, blank=True)
     member_8 = models.CharField(max_length=128, null=True, blank=True)
     member_9 = models.CharField(max_length=128, null=True, blank=True)
-    member_10 = models.CharField(
-        "Member 10",
-        max_length=128,
-        null=True,
-        blank=True,
-    )
+    member_10 = models.CharField(max_length=128, null=True, blank=True)
+    member_11 = models.CharField(max_length=128, null=True, blank=True)
+    member_12 = models.CharField(max_length=128, null=True, blank=True)
+    member_13 = models.CharField(max_length=128, null=True, blank=True)
+    member_14 = models.CharField(max_length=128, null=True, blank=True)
+    member_15 = models.CharField(max_length=128, null=True, blank=True)
 
     class Meta:
         """Attributes about the data model and admin options."""
