@@ -424,18 +424,6 @@ class BaseModel(Base):
     def other_file3_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('other_file3')
-    
-    def url1_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('url1')
-
-    def url2_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('url2')
-
-    def url3_timestamp(self):
-        """Timestamp method for UI level display."""
-        return self.get_file_timestamp('url3')
 
 
 class GenericChoice(models.Model):
