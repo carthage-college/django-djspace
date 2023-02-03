@@ -293,7 +293,7 @@ def application_form(request, application_type, aid=None):
                 expected_outcome = request.POST.getlist('expected_outcome[]')
 
                 # remove deleted tasks
-                task_list = [unicode(t.id) for t in data.work_plan_tasks.all()]
+                task_list = [t.id for t in data.work_plan_tasks.all()]
                 dif = set(task_list).difference(tid)
                 if len(dif) > 0:
                     for t in list(dif):
