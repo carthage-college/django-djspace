@@ -11,7 +11,7 @@
   </ul>
 </li>
 {% else %}
-  {% if data.get_slug in "midwest-high-powered-rocket-competition,collegiate-rocket-competition,high-altitude-balloon-launch,high-altitude-balloon-payload,clark-graduate-fellowship,graduate-fellowship" %}
+  {% if data.get_slug in "midwest-high-powered-rocket-competition,collegiate-rocket-competition,high-altitude-balloon-launch,undergraduate-aerospace-design-research-scholarship,clark-graduate-fellowship,graduate-fellowship" %}
     {% if data.status %}<li>CV: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
@@ -246,7 +246,7 @@
     </ul>
   </li>
 {% else %}
-  {% if data.get_slug in "high-altitude-balloon-launch,high-altitude-balloon-payload" %}
+  {% if data.get_slug in "high-altitude-balloon-launch,undergraduate-aerospace-design-research-scholarship" %}
   {% if data.status %}<li>Letter of Interest: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
@@ -409,7 +409,7 @@
   </ul>
 </li>
 {% else %}
-  {% if data.get_slug in "high-altitude-balloon-launch,high-altitude-balloon-payload,nasa-competition" %}
+  {% if data.get_slug in "high-altitude-balloon-launch,undergraduate-aerospace-design-research-scholarship,nasa-competition" %}
   {% if data.status %}<li>Team Biography: Missing</li>{% endif %}
   {% endif %}
 {% endif %}
@@ -422,7 +422,7 @@
   </ul>
 </li> 
 {% else %}
-  {% if data.get_slug in "high-altitude-balloon-launch,high-altitude-balloon-payload,nasa-competition" %}
+  {% if data.get_slug in "high-altitude-balloon-launch,undergraduate-aerospace-design-research-scholarship,nasa-competition" %}
   {% if data.status %}<li>Team Photo: Missing</li>{% endif %}
   {% endif %}
 {% endif %}

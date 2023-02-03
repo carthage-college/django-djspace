@@ -47,7 +47,7 @@ UPLOAD_FORMS = {
     'undergraduateresearch': UndergraduateResearchUploadsForm,
     'graduatefellowship': GraduateFellowshipUploadsForm,
     'clarkgraduatefellowship': ClarkGraduateFellowshipUploadsForm,
-    'highaltitudeballoonpayload': HighAltitudeBalloonPayloadUploadsForm,
+    'undergraduateaerospacedesignresearchscholarship': UndergraduateAerospaceDesignResearchScholarshipUploadsForm,
     'rocketlaunchteam': RocketLaunchTeamUploadsForm,
     'firstnationsrocketcompetition': FirstNationsRocketCompetitionUploadsForm,
     'midwesthighpoweredrocketcompetition': MidwestHighPoweredRocketCompetitionUploadsForm,
@@ -55,8 +55,7 @@ UPLOAD_FORMS = {
     'nasacompetition': NasaCompetitionUploadsForm,
     'industryinternship': IndustryInternshipUploadsForm,
     'professionalprogramstudent': ProfessionalProgramStudentUploadsForm,
-    'unmannedaerialvehiclesresearchscholarship':
-    UnmannedAerialVehiclesResearchScholarshipUploadsForm,
+    'unmannedaerialvehiclesresearchscholarship': UnmannedAerialVehiclesResearchScholarshipUploadsForm,
 }
 
 

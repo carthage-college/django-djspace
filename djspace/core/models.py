@@ -674,7 +674,6 @@ class UserProfile(models.Model):
         'application.CollegiateRocketCompetition',
         'application.FirstNationsRocketCompetition',
         'application.HighAltitudeBalloonLaunch',
-        'application.HighAltitudeBalloonPayload',
         'application.ClarkGraduateFellowship',
         'application.GraduateFellowship',
         'application.StemBridgeScholarship',
@@ -684,6 +683,7 @@ class UserProfile(models.Model):
         'application.NasaCompetition',
         'application.IndustryInternship',
         'application.ProfessionalProgramStudent',
+        'application.UndergraduateAerospaceDesignResearchScholarship',
         'application.UnmannedAerialVehiclesResearchScholarship',
     )
 

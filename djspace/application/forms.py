@@ -1450,8 +1450,8 @@ class ClarkGraduateFellowshipUploadsForm(forms.ModelForm):
         )
 
 
-class HighAltitudeBalloonPayloadForm(forms.ModelForm):
-    """High Altitude Balloon Payload form."""
+class UndergraduateAerospaceDesignResearchScholarshipForm(forms.ModelForm):
+    """Undergraduate Aerospace Design Research Scholarship"""
 
     commit = forms.TypedChoiceField(
         label="""
@@ -1495,7 +1495,7 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
     class Meta:
         """Attributes about the form and options."""
 
-        model = HighAltitudeBalloonPayload
+        model = UndergraduateAerospaceDesignResearchScholarship
         exclude = (
             'complete',
             'user',
@@ -1517,13 +1517,13 @@ class HighAltitudeBalloonPayloadForm(forms.ModelForm):
         )
 
 
-class HighAltitudeBalloonPayloadUploadsForm(forms.ModelForm):
-    """High Altitude Balloon Payload uploads form."""
+class UndergraduateAerospaceDesignResearchScholarshipUploadsForm(forms.ModelForm):
+    """Undergraduate Aerospace Design Research Scholarship."""
 
     class Meta:
         """Attributes about the form and options."""
 
-        model = HighAltitudeBalloonPayload
+        model = UndergraduateAerospaceDesignResearchScholarship
         fields = (
             'award_acceptance',
             'final_report',

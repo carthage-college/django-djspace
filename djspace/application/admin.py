@@ -239,7 +239,7 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         'earlystageinvestigator',
         'midwest_high_powered_rocket_competition',
         'graduatefellowship',
-        'highaltitudeballoonpayload',
+        'undergraduateaerospacedesignresearchscholarship',
         'highaltitudeballoonlaunch',
         'highereducationinitiatives',
         'industryinternship',
@@ -385,10 +385,10 @@ class TarballActionForm(ActionForm):
     )
 
 
-class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
-    """Admin class for High Altitude Balloon Payload."""
+class UndergraduateAerospaceDesignResearchScholarshipAdmin(GenericAdmin):
+    """Admin class for Undergraduate Aerospace Design Research Scholarship."""
 
-    model = HighAltitudeBalloonPayload
+    model = UndergraduateAerospaceDesignResearchScholarship
 
     list_display = PROFILE_LIST_DISPLAY + [
         'signed_certification',
@@ -431,7 +431,7 @@ class HighAltitudeBalloonPayloadAdmin(GenericAdmin):
     letter_interest_file.short_description = "Interest"
 
 
-class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
+class HighAltitudeBalloonLaunchAdmin(UndergraduateAerospaceDesignResearchScholarshipAdmin):
     """Admin class for High Altitude Balloon Launch."""
 
     model = HighAltitudeBalloonLaunch
@@ -448,7 +448,7 @@ class HighAltitudeBalloonLaunchAdmin(HighAltitudeBalloonPayloadAdmin):
     ]
 
 
-class UnmannedAerialVehiclesResearchScholarshipAdmin(HighAltitudeBalloonPayloadAdmin):
+class UnmannedAerialVehiclesResearchScholarshipAdmin(UndergraduateAerospaceDesignResearchScholarshipAdmin):
     """Admin class for Unmanned Aerial Vehicles Research Scholarship."""
 
     model = UnmannedAerialVehiclesResearchScholarship
@@ -1829,7 +1829,7 @@ admin.site.register(
     HighAltitudeBalloonLaunch, HighAltitudeBalloonLaunchAdmin,
 )
 admin.site.register(
-    HighAltitudeBalloonPayload, HighAltitudeBalloonPayloadAdmin,
+    UndergraduateAerospaceDesignResearchScholarship, UndergraduateAerospaceDesignResearchScholarshipAdmin,
 )
 admin.site.register(
     ClarkGraduateFellowship, ClarkGraduateFellowshipAdmin,

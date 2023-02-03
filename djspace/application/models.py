@@ -1873,7 +1873,7 @@ class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
         verbose_name_plural = "High altitude balloon launch"
 
 
-class HighAltitudeBalloonPayload(HighAltitudeBalloon):
+class UndergraduateAerospaceDesignResearchScholarship(HighAltitudeBalloon):
     """Undergraduate Aerospace Design Research Scholarship."""
 
     position = models.CharField(
@@ -1895,7 +1895,7 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
 
     def get_slug(self):
         """Slug for the application, used for many things."""
-        return 'high-altitude-balloon-payload'
+        return 'undergraduate-aerospace-design-research-scholarship'
 
     def get_code(self):
         """Three letter code for WSGC administrative purposes."""
