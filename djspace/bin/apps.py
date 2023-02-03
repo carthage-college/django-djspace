@@ -50,7 +50,9 @@ def main():
     start_date = get_start_date()
     apps = user.profile.applications
     for app in apps.all().order_by('-id'):
-        if app.date_created >= start_date:
+        if test:
+            print(app.id)
+        elif app.date_created >= start_date:
             print(app.id)
 
 
