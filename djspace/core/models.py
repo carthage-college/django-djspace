@@ -193,7 +193,7 @@ class Photo(models.Model):
     tags = TaggableManager()
 
     def __str__(self):
-        """Default display value in unicode encoding."""
+        """Default display value."""
         return "{0}".format(self.caption)
 
     def filename(self):
@@ -448,7 +448,7 @@ class GenericChoice(models.Model):
     tags = TaggableManager()
 
     def __str__(self):
-        """Default display value in unicode encoding."""
+        """Default display value."""
         return self.name
 
     class Meta:
@@ -552,7 +552,7 @@ class UserFiles(models.Model):
         return self.status('mugshot')
 
     def __str__(self):
-        """Default display value in unicode encoding."""
+        """Default display value."""
         return 'User Profile File'
 
 
@@ -693,7 +693,7 @@ class UserProfile(models.Model):
         db_table = 'core_userprofile'
 
     def __str__(self):
-        """Default display value in unicode encoding."""
+        """Default display value."""
         return "{0} {1}'s profile".format(
             self.user.first_name, self.user.last_name,
         )
