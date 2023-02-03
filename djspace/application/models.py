@@ -1874,7 +1874,7 @@ class HighAltitudeBalloonLaunch(HighAltitudeBalloon):
 
 
 class HighAltitudeBalloonPayload(HighAltitudeBalloon):
-    """Undergraduate Aerospace Design Research Scholarship."""
+    """High Altitude Balloon Payload."""
 
     position = models.CharField(
         max_length=16,
@@ -1887,11 +1887,11 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
 
     def __str__(self):
         """Default data for display."""
-        return "Undergraduate Aerospace Design Research Scholarship"
+        return "High Altitude Balloon Payload"
 
     def get_application_type(self):
         """Application type title for display."""
-        return 'Undergraduate Aerospace Design Research Scholarship'
+        return 'High Altitude Balloon Payload'
 
     def get_slug(self):
         """Slug for the application, used for many things."""
@@ -1904,7 +1904,7 @@ class HighAltitudeBalloonPayload(HighAltitudeBalloon):
     class Meta:
         """Attributes about the data model and admin options."""
 
-        verbose_name_plural = "Undergraduate Aerospace Design Research Scholarship"
+        verbose_name_plural = "High altitude balloon payload"
 
 
 class UnmannedAerialVehiclesResearchScholarship(HighAltitudeBalloon):
