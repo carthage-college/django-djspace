@@ -269,14 +269,25 @@ $(function() {
         }
     });
     $(".clone-member").click(function () {
-        if (members < 10) {
-            members++;
-            field = $("#id_member_" + members);
-            field.closest('li').slideDown(200);
-            $.growlUI('Team Members: ', members);
-        }else{
-            $.growlUI('Warning', 'Team Member Limit is 10');
-        }
+        {% if app_name == "Rocket Launch Team" %}
+            if (members < 15) {
+                members++;
+                field = $("#id_member_" + members);
+                field.closest('li').slideDown(200);
+                $.growlUI('Team Members: ', members);
+            }else if (members == 15) {
+                $.growlUI('Warning', 'Team Member Limit is 15');
+            }
+        {% else %}
+            if (members < 10) {
+                members++;
+                field = $("#id_member_" + members);
+                field.closest('li').slideDown(200);
+                $.growlUI('Team Members: ', members);
+            }else {
+                $.growlUI('Warning', 'Team Member Limit is 10');
+            }
+        {% endif %}
     });
     $(".destroy-member").click(function () {
         if (members > 1) {
