@@ -48,12 +48,19 @@ def main():
     """Main function description."""
     user = User.objects.get(username=username)
     start_date = get_start_date()
-    apps = user.profile.applications
-    for app in apps.all().order_by('-id'):
-        if test:
-            print(app.id)
-        elif app.date_created >= start_date:
-            print(app.id)
+    #print(user.profile.__dict__)
+    try:
+        apps = user.profile.applications.all().order_by('-id')
+    except Exception:
+        apps = None
+    if apps:
+        for app in apps:
+            if test:
+                print(app.id)
+            elif app.date_created >= start_date:
+                print(app.id)
+    else:
+        print('no apps for {0}'.format(user))
 
 
 if __name__ == '__main__':
