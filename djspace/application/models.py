@@ -1899,7 +1899,7 @@ class UndergraduateAerospaceDesignResearchScholarship(HighAltitudeBalloon):
 
     def get_code(self):
         """Three letter code for WSGC administrative purposes."""
-        return 'EBP{0}'.format(YEAR_2)
+        return 'UAS{0}'.format(YEAR_2)
 
     class Meta:
         """Attributes about the data model and admin options."""
