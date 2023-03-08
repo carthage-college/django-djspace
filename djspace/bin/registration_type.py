@@ -74,13 +74,13 @@ def main():
     print('reg = {0}'.format(reg))
     if reg:
         reggie = model_to_dict(reg)
+        print('reggie = ')
+        pprint(reggie)
         # remove some fields because json barfs on them and we don't need it
         if 'cv' in reggie.keys():
             reggie['cv'] = ''
         if 'programs' in reggie.keys():
             reggie['programs'] = ''
-    print('reggie = ')
-    pprint(reggie)
     template = loader.get_template('dashboard/registration_form.inc.html')
     context = {'reg_form': reg_form, 'reg_type': reg_type}
     jason = {
