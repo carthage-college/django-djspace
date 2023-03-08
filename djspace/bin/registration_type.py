@@ -77,10 +77,9 @@ def main():
         print('reggie = ')
         pprint(reggie)
         # remove some fields because json barfs on them and we don't need it
-        if 'cv' in reggie.keys():
-            reggie['cv'] = ''
-        if 'programs' in reggie.keys():
-            reggie['programs'] = ''
+        for key in {'cv', 'programs'}:
+            if key in reggie.keys():
+                reggie[key] = ''
     template = loader.get_template('dashboard/registration_form.inc.html')
     context = {'reg_form': reg_form, 'reg_type': reg_type}
     jason = {
