@@ -186,9 +186,11 @@ def registration_type(request):
         reggie = None
         if reg:
             reggie = model_to_dict(reg)
-            # remove file field because json barfs on it and we don't need it
+            # remove some fields because json barfs on them and we don't need it
             if 'cv' in reggie.keys():
                 reggie['cv'] = ''
+            if 'programs' in reggie.keys():
+                reggie['programs'] = ''
 
         template = loader.get_template('dashboard/registration_form.inc.html')
         context = {'reg_form': reg_form, 'reg_type': reg_type}
