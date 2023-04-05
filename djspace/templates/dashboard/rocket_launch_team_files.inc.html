@@ -479,7 +479,6 @@
     <i class="fa fa-times green fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
-{% if app.competition == "Collegiate Rocket Competition" or app.team.competition == "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_flight_readiness_report">Flight Readiness Review [PDF]</label>
@@ -499,6 +498,7 @@
     <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
+{% if app.competition == "Collegiate Rocket Competition" or app.team.competition == "Collegiate Rocket Competition" %}
 <li class="form-group ctrlHolder">
   <h3>
     <label for="id_virtual_cdr">
