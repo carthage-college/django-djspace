@@ -1880,6 +1880,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'flysheet_4',
             'invoice_q1',
             'invoice_q2',
+            'invoice_q3',
+            'invoice_q4',
             'charges_certification',
             'institutional_w9',
             'virtual_cdr',
