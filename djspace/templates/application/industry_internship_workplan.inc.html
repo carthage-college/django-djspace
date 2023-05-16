@@ -1,15 +1,15 @@
 <div class="large-10 small-12">
 <p class="fleft">
     Click on the
-    <img src="//www.carthage.edu/assets/img/ico/silk/icons/add.png"
+    <img src="https://app.carthage.edu/assets/img/ico/silk/icons/add.png"
         class="clone" style="margin-bottom:-3px;">
     symbol to add more tasks. Click on the
-    <img src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png"
+    <img src="https://app.carthage.edu/assets/img/ico/silk/icons/delete.png"
         class="destroy-task" style="margin-bottom:-3px;">
     icon to remove tasks.
 </p>
 <div class="ctrlcx">
-    <img class="clone" src="//www.carthage.edu/assets/img/ico/silk/icons/add.png">
+    <img class="clone" src="https://app.carthage.edu/assets/img/ico/silk/icons/add.png">
 </div>
 <div id="duplicates">
 {% if form.instance.work_plan_tasks.all %}
@@ -18,7 +18,7 @@
         <input type="hidden" name="tid[]" value="{{task.id}}">
         <h3 class="fleft"><label>Task</label></h3>
         <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
-            src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+            src="https://app.carthage.edu/assets/img/ico/silk/icons/delete.png">
         <ul>
             <li>
                 <input type="text" name="title[]" maxlength="128" value="{{ task.title }}" placeholder="Title">
@@ -40,7 +40,7 @@
     <input type="hidden" name="tid[]" value="">
     <h3 class="fleft"><label>Task</label></h3>
     <img alt="Remove Task" title="Remove Task" class="destroy-task fright"
-        src="//www.carthage.edu/assets/img/ico/silk/icons/delete.png">
+        src="https://app.carthage.edu/assets/img/ico/silk/icons/delete.png">
     <ul>
         <li>
             <input type="text" name="title[]" maxlength="128" placeholder="Title">
