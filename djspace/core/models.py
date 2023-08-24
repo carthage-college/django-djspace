@@ -322,7 +322,7 @@ class BaseModel(Base):
     award_acceptance = models.FileField(
         upload_to=partial(upload_to_path, 'Award_Acceptance'),
         validators=FILE_VALIDATORS,
-        max_length=768,
+        max_length=255,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -330,7 +330,7 @@ class BaseModel(Base):
     interim_report = models.FileField(
         upload_to=partial(upload_to_path, 'Interim_Report'),
         validators=FILE_VALIDATORS,
-        max_length=768,
+        max_length=255,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -338,7 +338,7 @@ class BaseModel(Base):
     final_report = models.FileField(
         upload_to=partial(upload_to_path, 'Final_Report'),
         validators=FILE_VALIDATORS,
-        max_length=768,
+        max_length=255,
         null=True,
         blank=True,
         help_text="PDF format",
@@ -371,19 +371,19 @@ class BaseModel(Base):
         blank=True,
     )
     url1 = models.CharField(
-        max_length=768,
+        max_length=255,
         null=True,
         blank=True,
         help_text="Other URL for linking to files or photos",
     )
     url2 = models.CharField(
-        max_length=768,
+        max_length=255,
         null=True,
         blank=True,
         help_text="Other URL for linking to files or photos",
     )
     url3 = models.CharField(
-        max_length=768,
+        max_length=255,
         null=True,
         blank=True,
         help_text="Other URL for linking to files or photos",
