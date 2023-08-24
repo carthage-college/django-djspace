@@ -155,13 +155,13 @@ NASA_CENTER_CHOICES = (
 FIRST_NATIONS_ROCKET_COMPETITIONS = (
     ('Moon Challenge', 'Moon Challenge'),
     ('Mars Challenge', 'Mars Challenge'),
-    ('First Nations Launch Gateway Challenge', 'First Nations Launch Gateway Challenge'),
+    ('First Nations Launch Moon Challenge', 'First Nations Launch Moon Challenge'),
 )
 ROCKET_COMPETITIONS = (
     ('Collegiate Rocket Competition', 'Collegiate Rocket Competition'),
     ('First Nations Mars Challenge', 'First Nations Mars Challenge'),
     ('First Nations Moon Challenge', 'First Nations Moon Challenge'),
-    ('First Nations Launch Gateway Challenge', 'First Nations Launch Gateway Challenge'),
+    ('First Nations Launch Moon Challenge', 'First Nations Launch Moon Challenge'),
     ('Midwest High Powered Rocket Competition', 'Midwest High Powered Rocket Competition'),
 )
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
@@ -1313,23 +1313,14 @@ class RocketLaunchTeam(BaseModel):
             else:
                 suffix = 'Moon'
             code = 'FNL{0}_{1}'.format(YEAR_2, suffix)
-        # replace anything that is not a word character with a dash
-        # team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.name) 
-        school_name = re.sub(
-            r'[^a-zA-Z0-9]',
-            '-',
-            self.user.profile.get_registration().wsgc_affiliate.name,
-        )
         last_name = self.user.last_name
         first_name = self.user.first_name
         if lackey:
             user = getattr(self, lackey, None)
             last_name = user.last_name
             first_name = user.first_name
-        return '{0}_{1}_{2}_{3}'.format(
+        return '{0}_{1}_{2}'.format(
             code,
-            # team_name,
-            school_name,
             last_name,
             first_name,
         )
@@ -1707,17 +1698,9 @@ class FirstNationsRocketCompetition(BaseModel):
         return 'FNL{0}_{1}'.format(YEAR_2, suffix)
 
     def get_file_name(self, lackey=False):
-        """Construct the file name based on code, team, school, user."""
-        # team_name = re.sub(r'[^a-zA-Z0-9]', '-', self.team.name)
-        school_name = re.sub(
-            r'[^a-zA-Z0-9]',
-            '-',
-            self.team.user.profile.get_registration().wsgc_affiliate.name,
-        )
-        return '{0}_{1}_{2}_{3}'.format(
+        """Construct the file name based on code, user."""
+        return '{0}_{1}_{2}'.format(
             self.get_code(),
-            # team_name,
-            school_name,
             self.user.last_name,
             self.user.first_name,
         )
