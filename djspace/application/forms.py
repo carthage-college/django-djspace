@@ -1961,6 +1961,25 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
             competition__contains="First Nations",
         ).filter(date_created__gte=get_start_date()).order_by("name")
 
+    def clean(self):
+        """Deal with TRA/NAR fields if need be."""
+        cd = self.cleaned_data
+
+        member = cd.get('tra_nar_member')
+        number = cd.get('tra_nar_number')
+        level = cd.get('tra_nar_levelr')
+        if member == 'Yes':
+            if not number:
+                self.add_error(
+                    'tra_nar_number',
+                    "Please provide your TRA/NAR membership number",
+                )
+            if not level:
+                self.add_error(
+                    'tra_nar_level',
+                    "Please provide your TRA/NAR level",
+                )
+
 
 class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
     """
