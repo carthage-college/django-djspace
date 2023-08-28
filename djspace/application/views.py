@@ -122,7 +122,9 @@ def application_form(request, application_type, aid=None):
             )
 
     # rocket launch team co-advisor
-    coa_orig = None
+    coa_orig1 = None
+    coa_orig2 = None
+    coa_orig3 = None
     # rocket launch team team leader
     tl_orig = None
     # grants officer
@@ -132,12 +134,24 @@ def application_form(request, application_type, aid=None):
         # we want to remove the old person if a new one is submitted
         # and add the new one to the application gm2m relationship
         # so that they can upload files on the dashboard
-        if application_type == 'rocket-launch-team' and app.co_advisor:
+        if application_type == 'rocket-launch-team' and app.co_advisor1:
             # for autocomplete form field at the UI level
-            request.session['co_advisor_name'] = '{0}, {1}'.format(
-                app.co_advisor.last_name, app.co_advisor.first_name,
+            request.session['co_advisor1_name'] = '{0}, {1}'.format(
+                app.co_advisor1.last_name, app.co_advisor1.first_name,
             )
-            coa_orig = app.co_advisor
+            coa_orig1 = app.co_advisor1
+        if application_type == 'rocket-launch-team' and app.co_advisor2:
+            # for autocomplete form field at the UI level
+            request.session['co_advisor2_name'] = '{0}, {1}'.format(
+                app.co_advisor2.last_name, app.co_advisor2.first_name,
+            )
+            coa_orig2 = app.co_advisor2
+        if application_type == 'rocket-launch-team' and app.co_advisor3:
+            # for autocomplete form field at the UI level
+            request.session['co_advisor3_name'] = '{0}, {1}'.format(
+                app.co_advisor3.last_name, app.co_advisor3.first_name,
+            )
+            coa_orig3 = app.co_advisor3
 
         if application_type == 'rocket-launch-team' and app.leader:
             # for autocomplete form field at the UI level
@@ -323,20 +337,50 @@ def application_form(request, application_type, aid=None):
             # add co-advisor to generic many-to-many relationsip (gm2m) if new
             # and remove the old one if need be
             if application_type == 'rocket-launch-team':
-                coa = data.co_advisor
-                # we have a co-advisor, check if the old matches new
-                if (coa_orig and coa) and coa.id != coa_orig.id:
+                coa1 = data.co_advisor1
+                # we have a co_advisor1, check if the old matches new
+                if (coa_orig1 and coa1) and coa1.id != coa_orig1.id:
                     # update
-                    coa.profile.applications.add(data)
-                    # delete the old co-advisor
-                    coa_orig.profile.applications.remove(data)
-                elif coa_orig and not coa:
-                    # delete the old co-advisor because they removed
-                    # the co-advisor from the field
-                    coa_orig.profile.applications.remove(data)
-                elif coa and not coa_orig:
-                    # new application or new co-advisor on update
-                    coa.profile.applications.add(data)
+                    coa1.profile.applications.add(data)
+                    # delete the old co_advisor1
+                    coa_orig1.profile.applications.remove(data)
+                elif coa_orig1 and not coa1:
+                    # delete the old co_advisor1 because they removed
+                    # the co_advisor1 from the field
+                    coa_orig1.profile.applications.remove(data)
+                elif coa1 and not coa_orig1:
+                    # new application or new co_advisor1 on update
+                    coa1.profile.applications.add(data)
+
+                coa2 = data.co_advisor2
+                # we have a co_advisor2, check if the old matches new
+                if (coa_orig2 and coa2) and coa2.id != coa_orig2.id:
+                    # update
+                    coa2.profile.applications.add(data)
+                    # delete the old co_advisor2
+                    coa_orig2.profile.applications.remove(data)
+                elif coa_orig2 and not coa2:
+                    # delete the old co_advisor2 because they removed
+                    # the co_advisor2 from the field
+                    coa_orig2.profile.applications.remove(data)
+                elif coa2 and not coa_orig2:
+                    # new application or new co_advisor2 on update
+                    coa2.profile.applications.add(data)
+
+                coa3 = data.co_advisor3
+                # we have a co_advisor3, check if the old matches new
+                if (coa_orig3 and coa3) and coa3.id != coa_orig3.id:
+                    # update
+                    coa3.profile.applications.add(data)
+                    # delete the old co_advisor3
+                    coa_orig3.profile.applications.remove(data)
+                elif coa_orig3 and not coa3:
+                    # delete the old co_advisor3 because they removed
+                    # the co_advisor3 from the field
+                    coa_orig3.profile.applications.remove(data)
+                elif coa3 and not coa_orig3:
+                    # new application or new co_advisor3 on update
+                    coa3.profile.applications.add(data)
 
             # add leader to generic many-to-many relationsip (gm2m) if new
             # and remove the old one if need be
@@ -448,8 +492,8 @@ def application_form(request, application_type, aid=None):
             request.session['grants_officer'] = ''
             request.session['leader_id'] = ''
             request.session['leader_name'] = ''
-            request.session['co_advisor_id'] = ''
-            request.session['co_advisor_name'] = ''
+            request.session['co_advisor1_id'] = ''
+            request.session['co_advisor1_name'] = ''
     return render(
         request,
         'application/form.html',

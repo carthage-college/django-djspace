@@ -360,11 +360,19 @@ def set_val(request):
             except Exception:
                 goid2 = None
             try:
-                coid = instance.co_advisor.id
+                coid1 = instance.co_advisor1.id
             except Exception:
-                coid = None
+                coid1 = None
+            try:
+                coid2 = instance.co_advisor2.id
+            except Exception:
+                coid2 = None
+            try:
+                coid3 = instance.co_advisor3.id
+            except Exception:
+                coid3 = None
             if ct.model == 'rocketlaunchteam':
-                if instance.leader.id == user.id or goid == user.id or goid2 == user.id or coid == user.id:
+                if instance.leader.id == user.id or goid == user.id or goid2 == user.id or coid1 == user.id or coid2 == user.id or coid3 == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
                 if goid == user.id or goid2 == user.id:

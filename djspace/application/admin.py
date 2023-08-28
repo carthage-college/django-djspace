@@ -225,7 +225,14 @@ def export_applications(modeladmin, request, queryset, reg_type=None):
         'wsgc_advisor_recommendation',
         'statement',
     ]
-    username_fields = ['co_advisor', 'leader', 'grants_officer', 'grants_officer2']
+    username_fields = [
+        'co_advisor1',
+        'co_advisor2',
+        'co_advisor3',
+        'leader',
+        'grants_officer',
+        'grants_officer2',
+    ]
     exclude = [
         'user',
         'userprofile',
@@ -705,9 +712,15 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'user__last_name',
         'user__first_name',
         'user__email',
-        'co_advisor__last_name',
-        'co_advisor__first_name',
-        'co_advisor__email',
+        'co_advisor1__last_name',
+        'co_advisor1__first_name',
+        'co_advisor1__email',
+        'co_advisor2__last_name',
+        'co_advisor2__first_name',
+        'co_advisor2__email',
+        'co_advisor3__last_name',
+        'co_advisor3__first_name',
+        'co_advisor3__email',
         'leader__last_name',
         'leader__first_name',
         'leader__email',
@@ -752,7 +765,9 @@ class RocketLaunchTeamAdmin(GenericAdmin):
         'competition',
         'grants_officer_name',
         'grants_officer2_name',
-        'co_advisor_name',
+        'co_advisor1_name',
+        'co_advisor2_name',
+        'co_advisor3_name',
         'leader_name',
         'industry_mentor_name',
         'industry_mentor_email',
@@ -764,7 +779,14 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     ]
     list_display_links = ['name']
     list_editable = ['funded_code', 'complete', 'status']
-    raw_id_fields = ('user', 'co_advisor', 'leader', 'members')
+    raw_id_fields = (
+        'user',
+        'co_advisor1',
+        'co_advisor2',
+        'co_advisor3',
+        'leader',
+        'members',
+    )
 
     def grants_officer_name(self, obj):
         name = None
@@ -792,18 +814,44 @@ class RocketLaunchTeamAdmin(GenericAdmin):
     grants_officer2_name.allow_tags = True
     grants_officer2_name.short_description = "Authorized User 2"
 
-    def co_advisor_name(self, obj):
+    def co_advisor1_name(self, obj):
         name = None
-        if obj.co_advisor:
+        if obj.co_advisor1:
             name = mark_safe('<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
-                obj.co_advisor.email,
-                obj.co_advisor.last_name,
-                obj.co_advisor.first_name,
-                obj.co_advisor.email,
+                obj.co_advisor1.email,
+                obj.co_advisor1.last_name,
+                obj.co_advisor1.first_name,
+                obj.co_advisor1.email,
             ))
         return name
-    co_advisor_name.allow_tags = True
-    co_advisor_name.short_description = "Co-Advisor"
+    co_advisor1_name.allow_tags = True
+    co_advisor1_name.short_description = "Co-Advisor"
+
+    def co_advisor2_name(self, obj):
+        name = None
+        if obj.co_advisor2:
+            name = mark_safe('<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
+                obj.co_advisor2.email,
+                obj.co_advisor2.last_name,
+                obj.co_advisor2.first_name,
+                obj.co_advisor2.email,
+            ))
+        return name
+    co_advisor2_name.allow_tags = True
+    co_advisor2_name.short_description = "Co-Advisor 2"
+
+    def co_advisor3_name(self, obj):
+        name = None
+        if obj.co_advisor3:
+            name = mark_safe('<a href="mailto:{0}">{1}, {2} ({3})</a>'.format(
+                obj.co_advisor3.email,
+                obj.co_advisor3.last_name,
+                obj.co_advisor3.first_name,
+                obj.co_advisor3.email,
+            ))
+        return name
+    co_advisor3_name.allow_tags = True
+    co_advisor3_name.short_description = "Co-Advisor 3"
 
     def leader_name(self, instance):
         """Return the team leader's name as link to email address."""
@@ -1090,7 +1138,7 @@ class CollegiateRocketCompetitionAdmin(GenericAdmin):
 
     def flight_demo_file(self, instance):
         """Construct display file code for the admin dashboard."""
-        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
         if instance.team.flight_demo:
             icon = mark_safe(
                 """
@@ -1246,7 +1294,7 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
 
     def flight_demo_file(self, instance):
         """Construct display file code for the admin dashboard."""
-        icon = '<i class="fa fa-times-circle red" aria-hidden="true"></i>'
+        icon = mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
         if instance.team.flight_demo:
             icon = mark_safe(
                 """

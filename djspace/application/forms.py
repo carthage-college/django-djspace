@@ -1719,8 +1719,22 @@ class RocketLaunchTeamForm(forms.ModelForm):
     uid = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput(),
     )
-    co_advisor = forms.CharField(
-        label="Co-Advisor",
+    co_advisor1 = forms.CharField(
+        label="Co-Advisor 1",
+        required=False,
+        help_text="""
+            Co-Advisor must be registered for auto-population of this field.
+        """,
+    )
+    co_advisor2 = forms.CharField(
+        label="Co-Advisor 2",
+        required=False,
+        help_text="""
+            Co-Advisor must be registered for auto-population of this field.
+        """,
+    )
+    co_advisor3 = forms.CharField(
+        label="Co-Advisor 3",
         required=False,
         help_text="""
             Co-Advisor must be registered for auto-population of this field.
@@ -1833,7 +1847,9 @@ class RocketLaunchTeamForm(forms.ModelForm):
         cd = self.cleaned_data
         uids = [str(self.request.user.id)]
         authuser = {}
-        authuser['co_advisor'] = cd.get('co_advisor')
+        authuser['co_advisor1'] = cd.get('co_advisor1')
+        authuser['co_advisor2'] = cd.get('co_advisor2')
+        authuser['co_advisor3'] = cd.get('co_advisor3')
         authuser['leader'] = cd.get('leader')
         authuser['grants_officer'] = cd.get('grants_officer')
         authuser['grants_officer2'] = cd.get('grants_officer2')

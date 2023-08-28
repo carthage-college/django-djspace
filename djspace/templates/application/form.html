@@ -146,28 +146,65 @@ $(function() {
         }
     });
     /* Rocket Launch Co-Advisor */
-    {% if form.co_advisor.value %}
-    {% if form.co_advisor.errors %}
-    document.coAdvisorAutocomplete = "";
-    $('#id_co_advisor').val("");
+    const coAdvisos = [];
+    {% if form.co_advisor1.value %}
+    {% if form.co_advisor1.errors %}
+    document.coAdvisor1Autocomplete = "";
+    $('#id_co_advisor1').val("");
     {% else %}
-    document.coAdvisorAutocomplete = {{form.co_advisor.value|default:""}};
-    $('#id_co_advisor').val("{{request.session.co_advisor_name}}");
+    document.coAdvisor1Autocomplete = {{form.co_advisor1.value|default:""}};
+    $('#id_co_advisor1').val("{{request.session.co_advisor1_name}}");
     {% endif %}{% endif %}
-    $('#id_co_advisor').autocomplete({
+    {% if form.co_advisor2.value %}
+    {% if form.co_advisor2.errors %}
+    document.coAdvisor2Autocomplete = "";
+    $('#id_co_advisor2').val("");
+    {% else %}
+    document.coAdvisor2Autocomplete = {{form.co_advisor2.value|default:""}};
+    $('#id_co_advisor2').val("{{request.session.co_advisor2_name}}");
+    {% endif %}{% endif %}
+    {% if form.co_advisor3.value %}
+    {% if form.co_advisor3.errors %}
+    document.coAdvisor3Autocomplete = "";
+    $('#id_co_advisor3').val("");
+    {% else %}
+    document.coAdvisor3Autocomplete = {{form.co_advisor3.value|default:""}};
+    $('#id_co_advisor3').val("{{request.session.co_advisor3_name}}");
+    {% endif %}{% endif %}
+    $('input[id^=id_co_advisor]').autocomplete({
         autoFocus: true,
         source: '{% url "get_users" %}',
         minLength: 3,
         select: function (event, uic) {
             var cid = uic.item.id;
+            var dom = $(this).attr('id');
+            var did = dom[dom.length - 1];
             // store in session
-            document.coAdvisorAutocomplete = cid
+            if (did == '1') {
+                document.coAdvisor1Autocomplete = cid;
+            }
+            if (did == '2') {
+                document.coAdvisor2Autocomplete = cid;
+            }
+            if (did == '3') {
+                document.coAdvisor3Autocomplete = cid;
+            }
         },
         change: function (event, ui) {
           if (ui.item === null) {
+              var dom = $(this).attr('id');
+              var did = dom[dom.length - 1];
+              $('#' + dom).val('');
               $(this).val('');
-              $('#id_co_advisor').val('');
-              document.coAdvisorAutocomplete = ""
+              if (did == '1') {
+                  document.coAdvisor1Autocomplete = "";
+              }
+              if (did == '2') {
+                  document.coAdvisor2Autocomplete = "";
+              }
+              if (did == '3') {
+                  document.coAdvisor3Autocomplete = "";
+              }
           }
        }
     });
@@ -307,8 +344,10 @@ $(function() {
         {% if app_name == "Rocket Launch Team" %}
             // set leader field to selected User's ID
             $('#id_leader').val(document.leaderAutocomplete);
-            // set co_advisor field to selected User's ID
-            $('#id_co_advisor').val(document.coAdvisorAutocomplete);
+            // set co_advisor fields to selected User's ID
+            $('#id_co_advisor1').val(document.coAdvisor1Autocomplete);
+            $('#id_co_advisor2').val(document.coAdvisor2Autocomplete);
+            $('#id_co_advisor3').val(document.coAdvisor3Autocomplete);
         {% endif %}
         // set grants_officer field to selected User's ID
         $('#id_grants_officer').val(document.grantsOfficerAutocomplete);

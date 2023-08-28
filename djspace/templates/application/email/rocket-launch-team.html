@@ -20,11 +20,29 @@
   <h4>Grants Officer 2</h4>
   <p>{{data.grants_officer2.last_name}}, {{data.grants_officer2.first_name}}</p>
 {% endif %}
-{% if data.co_advisor %}
-  <h4>Co-Advisor</h4>
-  <p>{{data.co_advisor.last_name}}, {{data.co_advisor.first_name}}</p>
+{% if data.co_advisor1 %}
+  <h4>Co-Advisor 1</h4>
+  <p>{{data.co_advisor1.last_name}}, {{data.co_advisor1.first_name}}</p>
   {% if data.status %}
-    {% with user=data.co_advisor lackey='co_advisor' %}
+    {% with user=data.co_advisor1 lackey='co_advisor1' %}
+      {% include "application/email/user_files_rocket_launch_team.inc.html" %}
+    {% endwith %}
+  {% endif %}
+{% endif %}
+{% if data.co_advisor2 %}
+  <h4>Co-Advisor 2</h4>
+  <p>{{data.co_advisor2.last_name}}, {{data.co_advisor2.first_name}}</p>
+  {% if data.status %}
+    {% with user=data.co_advisor2 lackey='co_advisor2' %}
+      {% include "application/email/user_files_rocket_launch_team.inc.html" %}
+    {% endwith %}
+  {% endif %}
+{% endif %}
+{% if data.co_advisor3 %}
+  <h4>Co-Advisor 3</h4>
+  <p>{{data.co_advisor3.last_name}}, {{data.co_advisor3.first_name}}</p>
+  {% if data.status %}
+    {% with user=data.co_advisor3 lackey='co_advisor3' %}
       {% include "application/email/user_files_rocket_launch_team.inc.html" %}
     {% endwith %}
   {% endif %}

@@ -905,13 +905,29 @@ class RocketLaunchTeam(BaseModel):
         "Team name",
         max_length=255,
     )
-    co_advisor = models.ForeignKey(
+    co_advisor1 = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        verbose_name="Co-Advisor",
-        related_name='rocket_launch_team_co_advisor',
+        verbose_name="Co-Advisor 1",
+        related_name='rocket_launch_team_co_advisor1',
+    )
+    co_advisor2 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Co-Advisor 2",
+        related_name='rocket_launch_team_co_advisor2',
+    )
+    co_advisor3 = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Co-Advisor 3",
+        related_name='rocket_launch_team_co_advisor3',
     )
     leader = models.ForeignKey(
         User,
