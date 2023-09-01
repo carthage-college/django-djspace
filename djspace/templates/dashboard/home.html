@@ -336,7 +336,7 @@
 <form id="user-files" method="post" action="{% url 'user_files' %}"
   class="form" enctype="multipart/form-data">
 <div class="large-6 medium-12 small-12">
-{% if reg %}
+{% if reg and status %}
     <div class="info">
       <h2>
         Current Grant Cycle Applications
@@ -479,36 +479,6 @@
             Individual W9 forms must be your permanent address.
           </div>
         </li>
-        <li class="form-group ctrlHolder">
-          <h3>
-            <label for="id_media_release">
-            Media Release Form [PDF] |
-            <a href="https://spacegrant.carthage.edu/live/files/4575"
-              target="_blank">Adult</a> |
-            <a href="https://spacegrant.carthage.edu/live/files/5138"
-              target="_blank">Minor</a>
-            </label>
-          </h3>
-          <div class="filewrap fleft">
-            <input type="file" class="upload-file"
-              name="media_release" id="id_media_release">
-            <span class='filevalu'></span>
-            <span class='filebutt'>Select File</span>
-          </div>
-          {% if user_files.media_release.value and media_release_status %}
-            <a class="fa-wrap"
-              href="{{media_url}}{{user_files.media_release.value}}"
-              target="_blank">
-              <i class="fa fa-times fa-file-pdf-o blue"
-                aria-hidden="true"></i></a>
-          {% else %}
-            <i class="fa fa-times red fa-wrap" aria-hidden="true"
-              title="Missing file"></i>
-          {% endif %}
-          <p class="help">
-            Media release forms may contain a digital signature with a time stamp.
-          </p>
-        </li>
       </ol>
     </fieldset>
     </li></ol>
@@ -534,15 +504,20 @@
     <div class="grant-list" style="margin-left:8px;">
     {% endif %}
     {% if not reg or not status %}
-    <i class="fa fa-times red"></i>
-    You must update your
-    <a href="{% url 'dashboard_profile' %}"
+      <i class="fa fa-times red"></i>
+      {% if user.profile.media_release == 'I do not agree' %}
+      You have not agreed to the media release waiver. You have to do so
+      by updating your
+      {% else %}
+      You must update your
+      {% endif %}
+      <a href="{% url 'dashboard_profile' %}"
         style="color:blue;">
         registration profile
-    </a> before applying for grants from NASA.
+      </a> before applying for grants from NASA.
     {% else %}
     <div style="margin-left:9px;">
-        {% include "dashboard/applications.inc.html" %}
+      {% include "dashboard/applications.inc.html" %}
     </div>
     {% endif %}
     </div>

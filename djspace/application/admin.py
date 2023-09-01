@@ -57,7 +57,6 @@ FUNDED_FILES = (
     ('invoice_q3', 'Invoice Q3'),
     ('invoice_q4', 'Invoice Q4'),
     ('lodging_list', 'Lodging List'),
-    ('media_release', 'Media Release'),
     ('mugshot', 'Mugshot'),
     ('oral_presentation', 'Oral Presentation'),
     ('close_out_finance_document', 'Close Out Finance Document'),
@@ -87,10 +86,7 @@ def required_files(modeladmin, request, queryset):
         tar_ball = tarfile.open(fileobj=response, mode='w:gz')
         for instance in queryset:
             for field in instance.required_files():
-                if field == 'media_release':
-                    phile = instance.user.user_files.media_release
-                else:
-                    phile = getattr(instance, field)
+                phile = getattr(instance, field)
                 if phile:
                     path = phile.path
                     path_list = path.split('/')

@@ -227,7 +227,6 @@ def application_form(request, application_type, aid=None):
             use_required_attribute=False,
         )
         if teams:
-            form_user_files.fields['media_release'].required = True
             if application_type != 'first-nations-rocket-competition':
                 form_user_files.fields['irs_w9'].required = True
         if form.is_valid() and form_user_files.is_valid():
@@ -248,25 +247,10 @@ def application_form(request, application_type, aid=None):
                 else:
                     data.limit = 0
 
-            # save media_release and w9 files to UserProfileFiles
             try:
                 uf = user.user_files
             except Exception:
                 uf = UserFiles(user=user)
-            if request.FILES.get('media_release'):
-                file_root = '{0}/{1}/{2}/'.format(
-                    uf.get_file_path(),
-                    uf.get_slug(),
-                    str(user.id),
-                )
-                path = os.path.join(settings.MEDIA_ROOT, file_root)
-                media_release = handle_uploaded_file(
-                    request.FILES['media_release'],
-                    path,
-                    '{0}_media_release'.format(uf.get_file_name()),
-                )
-                uf.media_release = '{0}{1}'.format(file_root, media_release)
-                uf.save()
 
             # deal with FK relationships for programs
             if application_type == 'professional-program-student':
@@ -440,7 +424,6 @@ def application_form(request, application_type, aid=None):
                     data.mugshot_status = uf.status('mugshot')
                     data.biography_status = uf.status('biography')
                     data.irs_w9_status = uf.status('irs_w9')
-                    data.media_release_status = uf.status('media_release')
                     data.content_type = data.get_content_type().id
                 # email distribution list and bcc parameters
                 to_list = [settings.WSGC_APPLICATIONS]
@@ -482,7 +465,6 @@ def application_form(request, application_type, aid=None):
             use_required_attribute=False,
         )
         if teams:
-            form_user_files.fields['media_release'].required = True
             if application_type != 'first-nations-rocket-competition':
                 form_user_files.fields['irs_w9'].required = True
 
@@ -562,7 +544,6 @@ def application_print(request, application_type, aid):
             instance.mugshot_status = files.status('mugshot')
             instance.biography_status = files.status('biography')
             instance.irs_w9_status = files.status('irs_w9')
-            instance.media_release_status = files.status('media_release')
             instance.content_type = content_type.id
         response = render(
             request,

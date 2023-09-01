@@ -71,7 +71,6 @@ def home(request):
     mugshot_status = None
     biography_status = None
     irs_w9_status = None
-    media_release_status = None
 
     user_files = UserFilesForm(instance=files)
     try:
@@ -109,7 +108,6 @@ def home(request):
         mugshot_status = files.status('mugshot')
         biography_status = files.status('biography')
         irs_w9_status = files.status('irs_w9')
-        media_release_status = files.status('media_release')
 
     return render(
         request, 'dashboard/home.html', {
@@ -120,7 +118,6 @@ def home(request):
             'mugshot_status': mugshot_status,
             'biography_status': biography_status,
             'irs_w9_status': irs_w9_status,
-            'media_release_status': media_release_status,
             'current_apps': current_apps,
             'past_apps': past_apps,
             'professional_programs': [

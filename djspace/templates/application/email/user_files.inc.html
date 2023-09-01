@@ -21,17 +21,6 @@
     {% else %}
       <li>Biography: Missing</li>
     {% endif %}
-    {% if data.user.user_files.media_release and data.media_release_status %}
-      <li>
-        <a href="https://{{server_url}}{% url 'download_file' 'media_release' data.content_type data.id data.user.id %}"
-          target="_blank">
-          Media release
-        </a><br>
-        https://{{server_url}}{% url 'download_file' 'media_release' data.content_type data.id data.user.id %}
-      </li>
-    {% else %}
-      <li>Media release form: Missing</li>
-    {% endif %}
     {% if data.user.user_files.irs_w9 and data.irs_w9_status %}
       <li>
         <a href="https://{{server_url}}{% url 'download_file' 'irs_w9' data.content_type data.id data.user.id %}"

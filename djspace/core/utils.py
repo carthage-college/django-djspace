@@ -147,8 +147,10 @@ def profile_status(user):
     value for the month and the first day of the month.
     """
     status = False
+    mr = user.profile.media_release
     if user.profile.date_updated > get_start_date():
-        status = True
+        if mr in {'I agree', 'I am a minor'}:
+            status = True
     return status
 
 
@@ -202,7 +204,7 @@ def admin_display_file(instance, field, team=False):
     else:
         attr = getattr(instance, field)
     # user profile files expire each grant cycle
-    if attr and field in {'mugshot', 'biography', 'irs_w9', 'media_release'}:
+    if attr and field in {'mugshot', 'biography', 'irs_w9'}:
         status = instance.user.user_files.status(field)
         if status:
             icon = mark_safe(

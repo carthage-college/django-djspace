@@ -1,9 +1,5 @@
 {% load livewhale_api %}
 <div class="intro clear">
-    {% if app_name == "First Nations Rocket Competition" %}
-        {% get_lw_content as media_release blurbs 2155 %}
-        {{media_release.body}}
-    {% endif %}
     {% if app_name == "Undergraduate Scholarship" or app_name == "STEM Bridge Scholarship" %}
         {% get_lw_content as scholarhsip blurbs 2831 %}
         {{scholarship.body}}

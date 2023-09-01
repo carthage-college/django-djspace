@@ -1653,10 +1653,6 @@ class CollegiateRocketCompetition(BaseModel):
             self.user.first_name,
         )
 
-    def get_media_release(self):
-        """Return the user's media release file object."""
-        return self.user.user_files.media_release
-
     def get_irs_w9(self):
         """Return the user's IRS W9 file object."""
         return self.user.user_files.irs_w9
@@ -1740,14 +1736,6 @@ class FirstNationsRocketCompetition(BaseModel):
             self.user.last_name,
             self.user.first_name,
         )
-
-    def get_media_release(self):
-        """Return the user's media release file object."""
-        return self.user.user_files.media_release
-
-    def required_files(self):
-        """Used when building a tarball of required files."""
-        return ['media_release']
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
@@ -3411,10 +3399,6 @@ class ProfessionalProgramStudent(BaseModel):
     def get_code(self):
         """Three letter code for WSGC administrative purposes."""
         return 'PPS{0}_{1}'.format(YEAR_2, self.program)
-
-    def media_release(self):
-        """Return the user's media release file object."""
-        return self.user.user_files.media_release
 
     def irs_w9(self):
         """Return the user's IRS W9 file object."""

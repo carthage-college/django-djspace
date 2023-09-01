@@ -136,6 +136,7 @@ class UserProfileForm(forms.ModelForm):
             'postal_code',
             'phone_primary',
             'phone_mobile',
+            'media_release',
         ]
 
     def clean(self):

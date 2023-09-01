@@ -197,7 +197,7 @@ def user_files(request):
                         'obj': phile,
                         'field_name': field_name,
                         'userfiles': [
-                            'mugshot', 'biography', 'irs_w9', 'media_release',
+                            'mugshot', 'biography', 'irs_w9',
                         ],
                     },
                     bcc,
@@ -243,7 +243,6 @@ def download_file(request, field, ct, oid, uid):
         'mugshot': 'Photo',
         'biography': 'Bio',
         'irs_w9': 'W9',
-        'media_release': 'Media_Release',
     }
     lackey = None
     if request.GET.get('lackey'):

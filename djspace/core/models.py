@@ -126,6 +126,12 @@ FUNDING_CHOICES = (
     ('Federal', 'Federal'),
     ('Not Applicable', 'Not Applicable'),
 )
+MEDIA_RELEASE = (
+    ('', "----select----"),
+    ('I agree', "I agree"),
+    ('I do not agree', "I do not agree"),
+    ('I am a minor', "I am a minor and will submit a media release signed by a guardian."),
+)
 
 
 def _file_validators(phile):
@@ -496,17 +502,6 @@ class UserFiles(models.Model):
         blank=True,
         help_text="PDF format",
     )
-    media_release = models.FileField(
-        upload_to=partial(upload_to_path, 'Media_Release'),
-        validators=FILE_VALIDATORS,
-        max_length=768,
-        null=True,
-        blank=True,
-        help_text="""
-            Media release forms may contain a handwritten or digital signature.
-            File must be in PDF format.
-        """,
-    )
     irs_w9 = models.FileField(
         "IRS W9",
         upload_to=partial(upload_to_path, 'W9'),
@@ -547,10 +542,6 @@ class UserFiles(models.Model):
         if timestamp < get_start_date():
             stat = False
         return stat
-
-    def media_release_status(self):
-        """Determine if the file was uploaded before the deadline date."""
-        return self.status('media_release')
 
     def biography_status(self):
         """Determine if the file was uploaded before the deadline date."""
@@ -676,6 +667,13 @@ class UserProfile(models.Model):
         max_length=32,
         choices=REG_TYPE,
     )
+    media_release = models.CharField(
+        "Media_Release",
+        max_length=16,
+        choices=MEDIA_RELEASE,
+        null=True,
+    )
+
     applications = GM2MField(
         'application.HigherEducationInitiatives',
         'application.EarlyStageInvestigator',

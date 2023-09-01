@@ -323,16 +323,9 @@ class UserFilesForm(forms.ModelForm):
             Path(self.instance.mugshot.path).touch()
         return mugshot
 
-    def clean_media_release(self):
-        """Touch file so we can update the timestamp."""
-        media_release = self.cleaned_data.get('media_release')
-        if media_release and self.instance.media_release:
-            Path(self.instance.media_release.path).touch()
-        return media_release
-
     class Meta:
         """Information about the form class."""
 
         model = UserFiles
         exclude = ('user', 'status')
-        fields = ['mugshot', 'biography', 'media_release', 'irs_w9']
+        fields = ['mugshot', 'biography', 'irs_w9']

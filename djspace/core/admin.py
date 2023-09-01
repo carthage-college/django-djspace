@@ -52,7 +52,6 @@ PROFILE_LIST = [
 PROFILE_LIST_DISPLAY = PROFILE_LIST + [
     'mugshot_file',
     'biography_file',
-    'media_release_file',
     'irs_w9_file',
     'award_acceptance_file',
     'interim_report_file',
@@ -308,15 +307,6 @@ class GenericAdmin(admin.ModelAdmin):
             return mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     biography_file.allow_tags = True
     biography_file.short_description = "Bio"
-
-    def media_release_file(self, instance):
-        """Return the user's media release file."""
-        try:
-            return admin_display_file(instance.user.user_files, 'media_release')
-        except Exception:
-            return mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
-    media_release_file.allow_tags = True
-    media_release_file.short_description = "Media"
 
     def irs_w9_file(self, instance):
         """Return the user's IRS W9 file."""

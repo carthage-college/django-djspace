@@ -606,11 +606,8 @@ you will receive a notification email.
         <fieldset class="blockLabels">
           <ol>
           {% for field in form_user_files.visible_fields %}
-            {% if field.name in "irs_w9,media_release" %}
+            {% if field.name == "irs_w9" %}
               {% if field.name == 'irs_w9' and app_name != 'First Nations Rocket Competition' %}
-                {% include "form_field.inc.html" %}
-              {% endif %}
-              {% if field.name == 'media_release' %}
                 {% include "form_field.inc.html" %}
               {% endif %}
             {% endif %}
