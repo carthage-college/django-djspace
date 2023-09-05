@@ -138,6 +138,7 @@ def user_files(request):
             except Exception:
                 coid3 = None
             if ct.model == 'rocketlaunchteam':
+                # this should be optimized
                 if instance.leader.id == user.id or goid == user.id or goid2 == user.id or coid1 == user.id or coid2 == user.id or coid3 == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
@@ -177,7 +178,7 @@ def user_files(request):
                     phile.user = user
                 phile.save()
                 earl = getattr(phile, field_name)
-                # notify wsgc that a user uploaded one of her profile files
+                # notify wsgc that a user uploaded one of their profile files
                 if settings.DEBUG:
                     to = [settings.ADMINS[0][1]]
                 else:
@@ -186,6 +187,7 @@ def user_files(request):
                     field_name, user.last_name, user.first_name,
                 )
                 bcc = [settings.SERVER_MAIL]
+                # set up CC for WSGC folks for specific programs
                 send_mail(
                     request,
                     to,
