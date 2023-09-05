@@ -124,6 +124,7 @@ class UserProfileForm(forms.ModelForm):
             'employment',
             'military',
             'us_citizen',
+            'nasa_stem_gateway_email',
             'address1_current',
             'address2_current',
             'city_current',

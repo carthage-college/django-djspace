@@ -291,19 +291,6 @@ class BaseModel(Base):
         null=True,
         blank=True,
     )
-    nasa_stem_gateway = models.BooleanField(
-        help_text="""
-            In order for your application to be complete, you must
-            create or update a profile with
-            <a href="https://stemgateway.nasa.gov/public/s/login/" target="_blank">
-            NASA STEM Gateway</a>.
-        """,
-        verbose_name="I registered with NASA STEM Gateway",
-        default=False,
-        null=False,
-        blank=False,
-    )
-    nasa_stem_gateway_email = models.EmailField("I registered with NASA STEM Gateway with the following email")
     past_funding = models.CharField(
         "Have you received WSGC funding within the past five years?",
         max_length=4,
@@ -666,6 +653,16 @@ class UserProfile(models.Model):
     registration_type = models.CharField(
         max_length=32,
         choices=REG_TYPE,
+    )
+    nasa_stem_gateway_email = models.EmailField(
+        "I registered with NASA STEM Gateway with the following email",
+        max_length=128,
+        help_text="""
+            In order for your application to be complete, you must
+            create or update a profile with
+            <a href="https://stemgateway.nasa.gov/public/s/login/" target="_blank">
+            NASA STEM Gateway</a>.
+        """,
     )
     media_release = models.CharField(
         "Media_Release",
