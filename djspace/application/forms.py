@@ -1983,7 +1983,7 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
 
         member = cd.get('tra_nar_member')
         number = cd.get('tra_nar_number')
-        level = cd.get('tra_nar_levelr')
+        level = cd.get('tra_nar_level')
         if member == 'Yes':
             if not number:
                 self.add_error(
