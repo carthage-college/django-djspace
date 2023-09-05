@@ -20,7 +20,6 @@ from djtools.fields.localflavor import USPhoneNumberField
 class HigherEducationInitiativesForm(forms.ModelForm):
     """Higher Education Initiatives Form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     budget = forms.FileField(
         help_text="""
             Note the spend down date requirement in the
@@ -94,7 +93,6 @@ class HigherEducationInitiativesForm(forms.ModelForm):
             'funds_requested',
             'proposed_match',
             'source_match',
-            'nasa_stem_gateway',
             'past_funding',
             'past_funding_year',
             'anticipating_funding',
@@ -204,7 +202,6 @@ class HigherEducationInitiativesUploadsForm(forms.ModelForm):
 class ResearchInfrastructureForm(forms.ModelForm):
     """Research Infrastructure form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     budget = forms.FileField(
         help_text="""
             Note the spend down date requirement in the
@@ -278,7 +275,6 @@ class ResearchInfrastructureForm(forms.ModelForm):
             'funds_requested',
             'proposed_match',
             'source_match',
-            'nasa_stem_gateway',
             'past_funding',
             'past_funding_year',
             'anticipating_funding',
@@ -390,7 +386,6 @@ class ResearchInfrastructureUploadsForm(forms.ModelForm):
 class EarlyStageInvestigatorForm(forms.ModelForm):
     """Early-Stage Investigator form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     budget = forms.FileField(
         help_text="""
             Note the spend down date requirement in the
@@ -464,7 +459,6 @@ class EarlyStageInvestigatorForm(forms.ModelForm):
             'funds_requested',
             'proposed_match',
             'source_match',
-            'nasa_stem_gateway',
             'past_funding',
             'past_funding_year',
             'anticipating_funding',
@@ -576,7 +570,6 @@ class EarlyStageInvestigatorUploadsForm(forms.ModelForm):
 class AerospaceOutreachForm(forms.ModelForm):
     """Aerospace Outreach Form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     budget = forms.FileField(
         help_text="""
             Note the spend down date requirement in the
@@ -651,7 +644,6 @@ class AerospaceOutreachForm(forms.ModelForm):
             'funds_requested',
             'proposed_match',
             'source_match',
-            'nasa_stem_gateway',
             'past_funding',
             'past_funding_year',
             'anticipating_funding',
@@ -763,7 +755,6 @@ class AerospaceOutreachUploadsForm(forms.ModelForm):
 class SpecialInitiativesForm(forms.ModelForm):
     """Special Initiatives Form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     budget = forms.FileField(
         help_text="""
             Note the spend down date requirement in the
@@ -853,7 +844,6 @@ class SpecialInitiativesForm(forms.ModelForm):
             'funds_requested',
             'proposed_match',
             'source_match',
-            'nasa_stem_gateway',
             'past_funding',
             'past_funding_year',
             'anticipating_funding',
@@ -965,7 +955,6 @@ class SpecialInitiativesUploadsForm(forms.ModelForm):
 class UndergraduateScholarshipForm(forms.ModelForm):
     """Undergraduate Scholarship Form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -1051,7 +1040,6 @@ class UndergraduateScholarshipUploadsForm(forms.ModelForm):
 class StemBridgeScholarshipForm(forms.ModelForm):
     """STEM Bridge Scholarship form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -1137,7 +1125,6 @@ class StemBridgeScholarshipUploadsForm(forms.ModelForm):
 class WomenInAviationScholarshipForm(forms.ModelForm):
     """Women in Aviation Scholarship form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     statement = forms.FileField(
         help_text=mark_safe("""
             Maximum two-page statement containing the following:
@@ -1234,7 +1221,6 @@ class WomenInAviationScholarshipUploadsForm(forms.ModelForm):
 class UndergraduateResearchForm(forms.ModelForm):
     """Undergraduate Research form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -1315,7 +1301,6 @@ class UndergraduateResearchUploadsForm(forms.ModelForm):
 class GraduateFellowshipForm(forms.ModelForm):
     """Graduate Fellowship form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -1392,7 +1377,6 @@ class GraduateFellowshipUploadsForm(forms.ModelForm):
 class ClarkGraduateFellowshipForm(forms.ModelForm):
     """Clark Graduate Fellowship form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -1469,7 +1453,6 @@ class ClarkGraduateFellowshipUploadsForm(forms.ModelForm):
 class UndergraduateAerospaceDesignResearchScholarshipForm(forms.ModelForm):
     """Undergraduate Aerospace Design Research Scholarship"""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     commit = forms.TypedChoiceField(
         label="""
             Will you be able to commit 32-40 hours/week
@@ -1556,7 +1539,6 @@ class UndergraduateAerospaceDesignResearchScholarshipUploadsForm(forms.ModelForm
 class HighAltitudeBalloonLaunchForm(forms.ModelForm):
     """High Altitude Balloon Launch form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -1637,7 +1619,6 @@ class HighAltitudeBalloonLaunchUploadsForm(forms.ModelForm):
 class UnmannedAerialVehiclesResearchScholarshipForm(forms.ModelForm):
     """Unmanned Aerial Vehicles Research Scholarship form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     commit = forms.TypedChoiceField(
         label="""
             Will you be able to commit 32-40 hours/week
@@ -1710,7 +1691,6 @@ class UnmannedAerialVehiclesResearchScholarshipUploadsForm(forms.ModelForm):
 class RocketLaunchTeamForm(forms.ModelForm):
     """Form that handles the create/update for Rocket Launch Teams."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     uid = forms.CharField(
         required=False, max_length=64, widget=forms.HiddenInput(),
     )
@@ -1931,7 +1911,6 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
 class FirstNationsRocketCompetitionForm(forms.ModelForm):
     """First Nations Rocket Competition form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -2012,7 +1991,6 @@ class FirstNationsRocketCompetitionUploadsForm(forms.ModelForm):
 class MidwestHighPoweredRocketCompetitionForm(forms.ModelForm):
     """Midwest High Powered Rocket Competition form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -2087,7 +2065,6 @@ class MidwestHighPoweredRocketCompetitionUploadsForm(forms.ModelForm):
 class CollegiateRocketCompetitionForm(forms.ModelForm):
     """Collegiate Rocket Competition form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -2155,7 +2132,6 @@ class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
 class NasaCompetitionForm(forms.ModelForm):
     """NASA Competition form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -2319,7 +2295,6 @@ class NasaCompetitionUploadsForm(forms.ModelForm):
 class IndustryInternshipForm(forms.ModelForm):
     """Industry Internship form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -2453,7 +2428,6 @@ class IndustryInternshipUploadsForm(forms.ModelForm):
 class ProfessionalProgramStudentForm(forms.ModelForm):
     """Professional Programs for Student form."""
 
-    nasa_stem_gateway = forms.BooleanField(label="NASA STEM Gateway", required=True)
     past_funding = forms.TypedChoiceField(
         label="Have you received WSGC funding within the past five years?",
         choices=BINARY_CHOICES,
@@ -2516,7 +2490,6 @@ class ProfessionalProgramStudentForm(forms.ModelForm):
             'program',
             'mentor',
             'award_acceptance',
-            'nasa_stem_gateway',
             'past_funding',
             'past_funding_year',
             'anticipating_funding',
