@@ -1806,6 +1806,10 @@ class RocketLaunchTeamForm(forms.ModelForm):
             'url3',
             'team_photo',
             'team_biography',
+            'academics_url',
+            'academics_pdf',
+            'stories_url',
+            'stories_pdf',
             'virtual_cdr',
             'virtual_pdr',
             'virtual_frr',
@@ -1905,6 +1909,8 @@ class RocketLaunchTeamUploadsForm(forms.ModelForm):
             'virtual_frr',
             'team_photo',
             'team_biography',
+            'academics_pdf',
+            'stories_pdf',
         )
 
 

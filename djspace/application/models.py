@@ -1262,6 +1262,36 @@ class RocketLaunchTeam(BaseModel):
         null=True,
         blank=True,
     )
+    academics_url = models.CharField(
+        "Academic Posters, Presentations, Papers (URL)",
+        max_length=225,
+        null=True,
+        blank=True,
+        help_text="URL for your academic presenations.",
+    )
+    academics_pdf = models.FileField(
+        "Academic Posters, Presentations, Papers (File)",
+        upload_to=partial(upload_to_path, 'Academics_Presentations'),
+        validators=FILE_VALIDATORS,
+        max_length=225,
+        null=True,
+        blank=True,
+    )
+    stories_url = models.CharField(
+        "News Articles/Stories (URL)",
+        max_length=225,
+        null=True,
+        blank=True,
+        help_text="URL for your academic presenations.",
+    )
+    stories_pdf = models.FileField(
+        "News Articles/Stories (File)",
+        upload_to=partial(upload_to_path, 'Team_Stories'),
+        validators=FILE_VALIDATORS,
+        max_length=225,
+        null=True,
+        blank=True,
+    )
     # misc
     proceeding_paper = models.DateField(null=True, blank=True)
     # team members
@@ -1490,6 +1520,14 @@ class RocketLaunchTeam(BaseModel):
     def team_biography_timestamp(self):
         """Timestamp method for UI level display."""
         return self.get_file_timestamp('team_biography')
+
+    def academics_pdf_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('academics_pdf')
+
+    def stories_pdf_timestamp(self):
+        """Timestamp method for UI level display."""
+        return self.get_file_timestamp('stories_pdf')
 
 
 class MidwestHighPoweredRocketCompetition(BaseModel):

@@ -476,7 +476,7 @@
     <a class="fa-wrap" href="{{media_url}}{% if app.education_outreach %}{{app.education_outreach}}{% else %}{{app.team.education_outreach}}{% endif %}" target="_blank">
     <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times green fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -694,11 +694,7 @@
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
-  <h3>
-    <label for="id_team_photo">
-      Team Photo [JPG]
-    </label>
-  </h3>
+  <h3><label for="id_team_photo">Team Photo [JPG]</label></h3>
   <div class="filewrap fleft">
     <input type="file" class="upload-file"
       data-content-type="{{app.get_content_type.id}}"
@@ -717,3 +713,90 @@
       title="Missing file"></i>
   {% endif %}
 </li>
+{% if app.competition != "Midwest High Powered Rocket Competition" or app.team.competition != "Midwest High Powered Rocket Competition" or app.competition != "Collegiate Rocket Competition" or app.team.competition != "Collegiate Rocket Competition" %}
+<li class="form-group ctrlHolder">
+  <h3><label for="id_academics_pdf">"Academic Posters, Presentations, Papers" [PDF]</label></h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{{app.get_content_type.id}}"
+      data-oid="{{app.id}}"
+      name="academics_pdf" id="id_academics_pdf">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.academics_pdf %}
+    <a class="fa-wrap"
+      href="{{media_url}}{{app.academics_pdf}}"
+      target="_blank">
+      <i class="fa fa-times fa-file-image-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true"
+      title="Missing file"></i>
+  {% endif %}
+</li>
+
+
+
+<li class="form-group ctrlHolder">
+  <h3><label for="id_academics_url">Academic Posters, Presentations, Papers (URL)</label></h3>
+  <div>
+    {% if app.academics_url %}
+    <input type="url" name="academics_url" class="url-field fleft"
+    data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+    data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+    value="{{app.academics_url}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
+    <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+    {% else %}
+    <input type="input" name="academics_url" class="url-field fleft"
+    data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+    data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+    id="id_academics_url" style="margin-right:17px;">
+    <i class="fa fa-times red" aria-hidden="true" id="id_academics_url_missing"
+      title="Provide a URL for your work"></i>
+    {% endif %}
+  </div>
+</li>
+
+
+<li class="form-group ctrlHolder">
+  <h3><label for="id_stories_pdf">News Articles/Stories [PDF]</label></h3>
+  <div class="filewrap fleft">
+    <input type="file" class="upload-file"
+      data-content-type="{{app.get_content_type.id}}"
+      data-oid="{{app.id}}"
+      name="stories_pdf" id="id_stories_pdf">
+    <span class='filebutt'>Select File</span>
+    <span class='filevalu'></span>
+  </div>
+  {% if app.stories_pdf %}
+    <a class="fa-wrap"
+      href="{{media_url}}{{app.stories_pdf}}"
+      target="_blank">
+      <i class="fa fa-times fa-file-image-o blue" aria-hidden="true"></i></a>
+  {% else %}
+    <i class="fa fa-times red fa-wrap" aria-hidden="true"
+      title="Missing file"></i>
+  {% endif %}
+</li>
+
+<li class="form-group ctrlHolder">
+  <h3><label for="id_stories_url">News Articles/Stories (URL)</label></h3>
+  <div>
+    {% if app.stories_url %}
+    <input type="url" name="stories_url" class="url-field fleft"
+    data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+    data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+    value="{{app.stories_url}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
+    <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+    {% else %}
+    <input type="input" name="stories_url" class="url-field fleft"
+    data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
+    data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
+    id="id_stories_url" style="margin-right:17px;">
+    <i class="fa fa-times red" aria-hidden="true" id="id_stories_url_missing"
+      title="Provide a URL for your work"></i>
+    {% endif %}
+  </div>
+</li>
+{% endif %}
+

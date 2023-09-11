@@ -56,9 +56,43 @@
       </li>
     </ul>
   </li>
-{% else %}
+  {% else %}
     {% if data.status %}<li>Proposal: Missing</li>{% endif %}
-{% endif %}
+  {% endif %}
+  {% if data.academics_pdf %}
+  <li>
+    <a href="{{media_url}}{{data.academics_pdf}}" target="_blank">Academic Posters, Presentations, Papers [File]</a>
+    <ul>
+      <li>Created: {{data.academics_pdf_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.academics_pdf}}</li>
+    </ul>
+  </li>
+  {% endif %}
+  {% if data.academics_url %}
+    <li>
+      <a href="{{data.academics_url}}" target="_blank">Academic Posters, Presentations, Papers (URL)</a>
+      <ul>
+        <li>{{data.academics_url}}</li>
+      </ul>
+    </li>
+  {% endif %}
+  {% if data.stories_pdf %}
+  <li>
+    <a href="{{media_url}}{{data.stories_pdf}}" target="_blank">News Articles/Stories [File]</a>
+    <ul>
+      <li>Created: {{data.stories_pdf_timestamp}}</li>
+      <li>https://{{server_url}}{{media_url}}{{data.stories_pdf}}</li>
+    </ul>
+  </li>
+  {% endif %}
+  {% if data.stories_url %}
+    <li>
+      <a href="{{data.stories_url}}" target="_blank">News Articles/Stories (URL)</a>
+      <ul>
+        <li>{{data.stories_url}}</li>
+      </ul>
+    </li>
+  {% endif %}
 {% endif %}
 {% if data.budget %}
   <li>
@@ -469,7 +503,7 @@
   {% if data.invoice_q2 %}
   <li>
     <a href="{{media_url}}{{data.invoice_q2}}" target="_blank">
-      Invoice
+      Invoice 2
     </a>
     <ul>
       <li>Created: {{data.invoice_q2_timestamp}}</li>
@@ -482,7 +516,7 @@
   {% if data.invoice_q3 %}
   <li>
     <a href="{{media_url}}{{data.invoice_q3}}" target="_blank">
-      Invoice
+      Invoice 3
     </a>
     <ul>
       <li>Created: {{data.invoice_q3_timestamp}}</li>
@@ -495,7 +529,7 @@
   {% if data.invoice_q4 %}
   <li>
     <a href="{{media_url}}{{data.invoice_q4}}" target="_blank">
-      Invoice
+      Invoice 4
     </a>
     <ul>
       <li>Created: {{data.invoice_q4_timestamp}}</li>
