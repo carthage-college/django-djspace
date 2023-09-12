@@ -369,6 +369,7 @@ def set_val(request):
             except Exception:
                 coid3 = None
             if ct.model == 'rocketlaunchteam':
+                # this should be optimized
                 if instance.leader.id == user.id or goid == user.id or goid2 == user.id or coid1 == user.id or coid2 == user.id or coid3 == user.id:
                     manager = True
             if ct.model in PROFESSIONAL_PROGRAMS:
