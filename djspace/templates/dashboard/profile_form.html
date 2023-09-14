@@ -178,6 +178,7 @@ $(document).ready(function(){
             $('#id_reg-secondary_major_minor_other').closest('li').slideUp(200);
         }
     });
+    $('#id_pro-media_release').addClass('required');
     /* graduate degree other */
     {% if reg_form.degree_program.value != "Other" %}
     $('#id_reg-degree_program_other').closest('li').slideUp(200);
