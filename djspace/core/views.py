@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import mimetypes
-from os.path import join
+import os
+
 
 from django.conf import settings
 from django.contrib import messages
@@ -105,7 +106,7 @@ def photo_upload(request):
 @csrf_exempt
 @login_required
 def user_files(request):
-    """Update user files via ajax post."""
+    """Update user and program files via ajax post."""
     user = request.user
     response = None
     if request.method == 'POST':
@@ -178,17 +179,23 @@ def user_files(request):
                     phile.user = user
                 phile.save()
                 earl = getattr(phile, field_name)
-                # notify wsgc that a user uploaded one of their profile files
-                if settings.DEBUG:
-                    to = [settings.ADMINS[0][1]]
+                # notify wsgc that a user uploaded one of their files
+                to = [settings.WSGC_EMAIL]
+                to_list = None
+                # send email to specific folks for various programs
+                if settings.FILE_UPLOADED_EMAILS.get(ct.model):
+                    to.extend(settings.FILE_UPLOADED_EMAILS[ct.model])
                 else:
-                    to = [settings.WSGC_EMAIL]
+                    to.extend(settings.FILE_UPLOADED_EMAILS['all'])
+                if settings.DEBUG:
+                    to_list = to
+                    to = [settings.ADMINS[0][1]]
                 subject = "[File Upload] {0}: {1}, {2}".format(
                     field_name, user.last_name, user.first_name,
                 )
                 bcc = [settings.SERVER_MAIL]
                 # set up CC for WSGC folks for specific programs
-                send_mail(
+                sent = send_mail(
                     request,
                     to,
                     subject,
@@ -198,6 +205,7 @@ def user_files(request):
                         'earl': earl.url,
                         'obj': phile,
                         'field_name': field_name,
+                        'to_list': to_list,
                         'userfiles': [
                             'mugshot', 'biography', 'irs_w9',
                         ],
@@ -251,7 +259,7 @@ def download_file(request, field, ct, oid, uid):
         lackey = request.GET['lackey']
     user = User.objects.get(pk=uid)
     attr = getattr(user.user_files, field, None)
-    path = join(settings.MEDIA_ROOT, attr.name)
+    path = os.path.join(settings.MEDIA_ROOT, attr.name)
     extension = path.split('.')[-1]
     ct = ContentType.objects.get(pk=ct)
     mod = ct.model_class()

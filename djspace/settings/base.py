@@ -141,8 +141,10 @@ EMAIL_FAIL_SILENTLY = True
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 SERVER_MAIL = ''
-# logging
-LOG_FILEPATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/')
+
+LOG_FILEPATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/',
+)
 LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'debug.log')
 DEBUG_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'debug.log')
 INFO_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'info.log')
@@ -236,7 +238,6 @@ LOGGING = {
         },
     },
 }
-
 #
 # app config
 #
@@ -245,6 +246,12 @@ WSGC_EMAIL = ''
 WSGC_APPLICATIONS = ''
 WSGC_ROCKET_EMAIL = ''
 ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT = 100
+FILE_UPLOADED_EMAILS = {
+    'all': [],
+    'rocketlaunchteam': [],
+    'firstnationsrocketcompetition': [],
+    'collegiaterocketcompetition': [],
+}
 # the month after which the new grant cycle begins
 GRANT_CYCLE_START_MES = 8
 # allauth configuration
