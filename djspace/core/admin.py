@@ -53,6 +53,8 @@ PROFILE_LIST_DISPLAY = PROFILE_LIST + [
     'mugshot_file',
     'biography_file',
     'irs_w9_file',
+    'media_release_status',
+    'nasa_stem_gateway_email',
     'award_acceptance_file',
     'interim_report_file',
     'final_report_file',
@@ -316,6 +318,21 @@ class GenericAdmin(admin.ModelAdmin):
             return mark_safe('<i class="fa fa-times-circle red" aria-hidden="true"></i>')
     irs_w9_file.allow_tags = True
     irs_w9_file.short_description = "W9"
+
+    def media_release_status(self, instance):
+        """Return the user's media release status."""
+        return instance.user.profile.media_release
+    media_release_status.allow_tags = True
+    media_release_status.short_description = "Media Release"
+
+    def nasa_stem_gateway_email(self, instance):
+        """Return the user's nasa_stem_gateway_email."""
+        return mark_safe('<a href="mailto:{0}">{1}</a>'.format(
+            instance.user.profile.nasa_stem_gateway_email,
+            instance.user.profile.nasa_stem_gateway_email,
+        ))
+    nasa_stem_gateway_email.allow_tags = True
+    nasa_stem_gateway_email.short_description = "NASA Gateway Email"
 
     def award_acceptance_file(self, instance):
         """Return the user's Award Acceptance file."""
