@@ -74,15 +74,6 @@ def application_form(request, application_type, aid=None):
             if app.complete:
                 return HttpResponseRedirect(reverse('dashboard_home'))
 
-    # userfiles
-    try:
-        userfiles = UserFiles.objects.get(user=user)
-    except Exception:
-        userfiles = UserFiles(user=user)
-        userfiles.save()
-    # UserFilesForm
-    form_user_files = None
-
     # verify that the user has completed registration
     reg_type = user.profile.registration_type
     try:
@@ -219,20 +210,8 @@ def application_form(request, application_type, aid=None):
             # app_type does not match an existing form
             raise Http404
 
-        # some forms have user files
-        form_user_files = UserFilesForm(
-            instance=userfiles,
-            data=post,
-            files=request.FILES,
-            use_required_attribute=False,
-        )
-        if teams:
-            if application_type != 'first-nations-rocket-competition':
-                form_user_files.fields['irs_w9'].required = True
-        if form.is_valid() and form_user_files.is_valid():
+        if form.is_valid():
             cd = form.cleaned_data
-            form_user_files.save()
-
             data = form.save(commit=False)
             # we do not want to change owner of an application if a manager
             # is updating it
@@ -247,6 +226,7 @@ def application_form(request, application_type, aid=None):
                 else:
                     data.limit = 0
 
+            # we should do this as a signal on user create
             try:
                 uf = user.user_files
             except Exception:
@@ -419,12 +399,6 @@ def application_form(request, application_type, aid=None):
             # email confirmation
             template = 'application/email/{0}.html'.format(application_type)
             if not settings.DEBUG:
-                # deal with user profile files
-                if uf:
-                    data.mugshot_status = uf.status('mugshot')
-                    data.biography_status = uf.status('biography')
-                    data.irs_w9_status = uf.status('irs_w9')
-                    data.content_type = data.get_content_type().id
                 # email distribution list and bcc parameters
                 to_list = [settings.WSGC_APPLICATIONS]
                 bcc = [settings.ADMINS[0][1], settings.WSGC_EMAIL]
@@ -459,15 +433,6 @@ def application_form(request, application_type, aid=None):
                 )
             return HttpResponseRedirect(reverse('application_success'))
     else:
-        # UserFilesForm
-        form_user_files = UserFilesForm(
-            instance=userfiles,
-            use_required_attribute=False,
-        )
-        if teams:
-            if application_type != 'first-nations-rocket-competition':
-                form_user_files.fields['irs_w9'].required = True
-
         if not app:
             # set session values to null for GET requests that are not updates
             request.session['grants_officer_id'] = ''
@@ -483,7 +448,6 @@ def application_form(request, application_type, aid=None):
             'form': form,
             'app_name': app_name,
             'obj': app,
-            'form_user_files': form_user_files,
         },
     )
 

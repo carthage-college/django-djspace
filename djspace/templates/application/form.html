@@ -447,7 +447,7 @@ you will receive a notification email.
       {{hidden}}
       {% endfor %}
     {% endif %}
-    {% if form.errors or form_user_files.errors %}
+    {% if form.errors %}
       <p class="error">
        Your application is incomplete or there were errors with the
        data submitted. See below for more details.
@@ -571,49 +571,6 @@ you will receive a notification email.
             {% endfor %}
         </ol>
     </fieldset>
-    {% if app_name == "Professional Program Student" %}
-        <fieldset class="blockLabels">
-          <ol>
-          {% for field in form_user_files.visible_fields %}
-            {% if field.name == "irs_w9" %}
-            <li class="form-group ctrlHolder">
-              <h3>
-                <label for="id_irs_w9">
-                IRS W9, W4, or Carthage College Educational Experience HR Package
-                </label>
-              </h3>
-              {% if field.errors %}
-              <div class="required warning">
-                <span class="error-message">{{ field.errors|join:", "}}</span>
-              {% else %}
-              <div{% if field.field.required %} class="required"{% endif %}>
-              {% endif %}
-              {% if field.help_text %}
-                <p class="help">{{field.help_text|safe}}</p>
-              {% endif %}
-              {{field}}
-              </div>
-            </li>
-            {% else %}
-            {% include "form_field.inc.html" %}
-            {% endif %}
-          {% endfor %}
-          </ol>
-        </fieldset>
-    {% endif %}
-    {% if app_name == "Collegiate Rocket Competition" or app_name == "Midwest High Powered Rocket Competition" or app_name == "First Nations Rocket Competition" %}
-        <fieldset class="blockLabels">
-          <ol>
-          {% for field in form_user_files.visible_fields %}
-            {% if field.name == "irs_w9" %}
-              {% if field.name == 'irs_w9' and app_name != 'First Nations Rocket Competition' %}
-                {% include "form_field.inc.html" %}
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-          </ol>
-        </fieldset>
-    {% endif %}
     <fieldset class="btnHolder">
       <ol>
         <li>
