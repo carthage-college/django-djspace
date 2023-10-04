@@ -1,5 +1,5 @@
 cryptography
-django==3.2.20
+django==3.2.21
 django-allauth
 django-gm2m
 django-imagekit
