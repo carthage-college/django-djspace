@@ -155,13 +155,13 @@ NASA_CENTER_CHOICES = (
 FIRST_NATIONS_ROCKET_COMPETITIONS = (
     ('Moon Challenge', 'Moon Challenge'),
     ('Mars Challenge', 'Mars Challenge'),
-    ('First Nations Launch Moon Challenge', 'First Nations Launch Moon Challenge'),
+    ('Gateway Challenge', 'Gateway Challenge'),
 )
 ROCKET_COMPETITIONS = (
     ('Collegiate Rocket Competition', 'Collegiate Rocket Competition'),
     ('First Nations Mars Challenge', 'First Nations Mars Challenge'),
     ('First Nations Moon Challenge', 'First Nations Moon Challenge'),
-    ('First Nations Launch Moon Challenge', 'First Nations Launch Moon Challenge'),
+    ('First Nations Launch Gateway Challenge', 'First Nations Launch Gateway Challenge'),
     ('Midwest High Powered Rocket Competition', 'Midwest High Powered Rocket Competition'),
 )
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
