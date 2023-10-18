@@ -137,22 +137,21 @@ def home(request):
 @login_required
 def get_users(request):
     """AJAX GET for retrieving users via auto-complete."""
-    if request.is_ajax():
-        query = request.GET.get('term', '')
+    query = request.GET.get('term', '')
 
-        users = User.objects.filter(
-            Q(first_name__icontains=query) |
-            Q(last_name__icontains=query),
-        ).order_by('last_name')
+    users = User.objects.filter(
+        Q(first_name__icontains=query) |
+        Q(last_name__icontains=query),
+    ).order_by('last_name')
 
-        auto_complete = []
-        for user in users:
-            user_json = {}
-            name = "{0}, {1}".format(user.last_name, user.first_name)
-            user_json['id'] = user.id
-            user_json['label'] = name
-            user_json['value'] = name
-            auto_complete.append(user_json)
+    auto_complete = []
+    for user in users:
+        user_json = {}
+        name = "{0}, {1}".format(user.last_name, user.first_name)
+        user_json['id'] = user.id
+        user_json['label'] = name
+        user_json['value'] = name
+        auto_complete.append(user_json)
 
     return HttpResponse(
         json.dumps(auto_complete),

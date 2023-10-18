@@ -68,7 +68,7 @@ def sendmail(request):
 def photo_upload(request):
     """AJAX POST for uploading a photo for any given application."""
     response = None
-    if request.is_ajax() and request.method == 'POST':
+    if request.method == 'POST':
         form = PhotoForm(
             data=request.POST, files=request.FILES, use_required_attribute=False,
         )
@@ -313,7 +313,7 @@ def user_files_test(request):
 def object_delete(request):
     """AJAX POST for deleting arbitrary objects."""
     user = request.user
-    if request.is_ajax() and request.method == 'POST':
+    if request.method == 'POST':
         try:
             # object ID
             oid = int(request.POST.get('oid'))

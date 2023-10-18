@@ -458,7 +458,7 @@ def get_program_submissions(request):
     """Obtain the program submissions."""
     programs = None
 
-    if request.is_ajax() and request.method == 'POST':
+    if request.method == 'POST':
         program = request.POST.get('program')
         mentor_id = request.POST.get('mentor_id')
         aid = None
