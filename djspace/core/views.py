@@ -183,7 +183,7 @@ def user_files(request):
                 to = [settings.WSGC_EMAIL]
                 to_list = None
                 # send email to specific folks for various programs
-                if settings.FILE_UPLOADED_EMAILS.get(ct.model):
+                if ct and settings.FILE_UPLOADED_EMAILS.get(ct.model):
                     to.extend(settings.FILE_UPLOADED_EMAILS[ct.model])
                 else:
                     to.extend(settings.FILE_UPLOADED_EMAILS['all'])
