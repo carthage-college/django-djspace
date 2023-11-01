@@ -757,6 +757,7 @@ class SpecialInitiativesForm(forms.ModelForm):
 
     budget = forms.FileField(
         help_text="""
+            [PDF format]
             Note the spend down date requirement in the
             Announcement of Opportunity.
         """,
