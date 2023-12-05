@@ -1104,7 +1104,7 @@ class RocketLaunchTeam(BaseModel):
         help_text="PDF format",
     )
     flight_demo = models.CharField(
-        max_length=225,
+        max_length=768,
         null=True,
         blank=True,
         help_text="URL where your video is located",
