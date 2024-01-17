@@ -1,9 +1,8 @@
 cryptography
-django==3.2.21
+django==4.2.9
 django-allauth
-django-gm2m
+django-gm2m  #  user forked repo: /d2/django_projects/django-gm2m
 django-imagekit
-django-loginas
 django-localflavor
 django-taggit
 mysqlclient

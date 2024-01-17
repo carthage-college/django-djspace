@@ -99,12 +99,12 @@ INDUSTRY_AWARD_TYPES = (
 )
 UNDERGRADUATE_RESEARCH_AWARD_TYPES = (
     (
-        'Summer Research: Up to $4000',
-        'Summer Research: Up to $4000',
+        'Summer Research: Up to $5000',
+        'Summer Research: Up to $5000',
     ),
     (
-        'Academic-Year Research: Up to $4000',
-        'Academic-Year Research: Up to $4000',
+        'Academic-Year Research: Up to $5000',
+        'Academic-Year Research: Up to $5000',
     ),
 )
 EDUCATION_INITIATIVES_AWARD_TYPES = (
@@ -2211,7 +2211,7 @@ class UndergraduateResearch(BaseModel):
 
     # core
     project_title = models.CharField("Title of project", max_length=255)
-    funds_requested = models.IntegerField(help_text="In Dollars")
+    #funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
         null=True,
         blank=True,

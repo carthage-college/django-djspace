@@ -1269,6 +1269,7 @@ class UndergraduateResearchForm(forms.ModelForm):
             'status',
             'funded_code',
             'funds_authorized',
+            'funds_requested',
             'authorized_match',
             'award_acceptance',
             'final_report',
