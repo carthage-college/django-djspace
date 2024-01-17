@@ -2211,7 +2211,6 @@ class UndergraduateResearch(BaseModel):
 
     # core
     project_title = models.CharField("Title of project", max_length=255)
-    #funds_requested = models.IntegerField(help_text="In Dollars")
     funds_authorized = models.IntegerField(
         null=True,
         blank=True,
