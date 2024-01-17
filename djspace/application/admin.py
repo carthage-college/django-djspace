@@ -618,7 +618,6 @@ class UndergraduateResearchAdmin(UndergraduateAdmin):
         'project_title',
         'begin_date',
         'end_date',
-        'funds_requested',
         'funds_authorized',
         'other_funding',
         'other_funding_explain',
