@@ -556,10 +556,8 @@ class ResearchInfrastructure(EducationInitiatives):
         help_text=mark_safe(
             """
             See NASA's
-            <a href="https://www.nasa.gov/offices/education/missions/"
-              target="_blank">
-                Mission Directorates Education and Outreach
-            </a> page for more information.
+            <a href="https://www.nasa.gov/directorates/"
+              target="_blank"> Mission Directorates</a> page for more information.
             """,
         ),
     )
@@ -642,10 +640,8 @@ class EarlyStageInvestigator(EducationInitiatives):
         help_text=mark_safe(
             """
             See NASA's
-            <a href="https://www.nasa.gov/offices/education/missions/"
-              target="_blank">
-                Mission Directorates Education and Outreach
-            </a> page for more information.
+            <a href="https://www.nasa.gov/directorates/"
+              target="_blank"> Mission Directorates</a> page for more information.
             """,
         ),
     )
@@ -754,10 +750,8 @@ class AerospaceOutreach(EducationInitiatives):
         help_text=mark_safe(
             """
             See NASA's
-            <a href="https://www.nasa.gov/offices/education/missions/"
-              target="_blank">
-                Mission Directorates Education and Outreach
-            </a> page for more information.
+            <a href="https://www.nasa.gov/directorates/"
+              target="_blank"> Mission Directorates</a> page for more information.
             """,
         ),
     )
@@ -846,10 +840,8 @@ class SpecialInitiatives(EducationInitiatives):
         help_text=mark_safe(
             """
             See NASA's
-            <a href="https://www.nasa.gov/offices/education/missions/"
-              target="_blank">
-                Mission Directorates Education and Outreach
-            </a> page for more information.
+            <a href="https://www.nasa.gov/directorates/"
+              target="_blank"> Mission Directorates</a> page for more information.
             """,
         ),
     )
@@ -2012,10 +2004,8 @@ class Fellowship(BaseModel):
         help_text=mark_safe(
             """
             See NASA's
-            <a href="http://www.nasa.gov/offices/education/missions/"
-              target="_blank">
-                Mission Directorates Education and Outreach
-            </a> page for more information.
+            <a href="https://www.nasa.gov/directorates/"
+              target="_blank"> Mission Directorates</a> page for more information.
             """,
         ),
     )
