@@ -1,7 +1,7 @@
 cryptography
-django==4.2.9
+django==4.2.10
 django-allauth
-django-gm2m  #  user forked repo: /d2/django_projects/django-gm2m
+#django-gm2m  #  user forked repo: /d2/django_projects/django-gm2m
 django-imagekit
 django-localflavor
 django-taggit
