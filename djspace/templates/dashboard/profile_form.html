@@ -198,18 +198,6 @@ $(document).ready(function(){
 {% block page_header %}
     Account Manager
 {% endblock %}
-{% block content_head %}
-    <h1 id="page_title">
-        {{user.profile.salutation}}
-        {{user.first_name}}
-        {% if '/' not in  user.profile.second_name %}{{user.profile.second_name|default:''}}{% endif %}
-        {{user.last_name}}
-        <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x"></i></a>
-        </small>
-        <span id="secondary-dropdown"></span>
-    </h1>
-{% endblock %}
 {% block content %}
 {% if messages %}
     {% for message in messages %}
@@ -225,7 +213,8 @@ $(document).ready(function(){
 {% endif %}
 <form method="post" action="." class="form" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="forms-container large-6 medium-12 small-12">
+    <div class="grid-x" id="aside">
+      <div class="forms-container large-6 medium-12 small-12">
         <h2>Account Information</h2>
         <fieldset class="blockLabels">
             <ol>
@@ -265,11 +254,11 @@ $(document).ready(function(){
                 {% endfor %}
             </ol>
         </fieldset>
-    </div>
-    <div class="forms-container column2 large-6 medium-12 small-12" id="reggie">
+      </div>
+      <div class="forms-container column2 large-6 medium-12 small-12" id="reggie">
         {% include "dashboard/registration_form.inc.html" %}
-    </div>
-    <div class="forms-container large-12 medium-12 small-12">
+      </div>
+      <div class="forms-container large-12 medium-12 small-12">
         <fieldset class="btnHolder">
         <legend>Media Release</legend>
         {% get_lw_content as media_release blurbs 3675 %}
@@ -281,16 +270,17 @@ $(document).ready(function(){
         {% endif %}
         {{pro_form.media_release}}
         </fieldset>
-    </div>
-    <div class="forms-container large-12 medium-12 small-12">
+      </div>
+      <div class="forms-container large-12 medium-12 small-12">
         <fieldset class="btnHolder">
-            <ol>
-                <li style="text-align:center;">
-                <label for="id_submit"></label>
-                <input id="id_submit" class="button" type="submit" value="Submit">
-                </li>
-            </ol>
+          <ol>
+            <li style="text-align:center;">
+            <label for="id_submit"></label>
+            <input id="id_submit" class="button" type="submit" value="Submit">
+            </li>
+          </ol>
         </fieldset>
-    </div>
+      </div>
+    </div> <!-- /.grid-x -->
 </form>
 {% endblock %}

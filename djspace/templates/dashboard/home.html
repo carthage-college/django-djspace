@@ -4,54 +4,26 @@
 {% endblock %}
 {% block css %}
 {{block.super}}
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-        crossorigin="anonymous" rel="stylesheet">
-    <link href="https://app.carthage.edu/themes/europa/assets/css/master.css"
-        type="text/css" rel="stylesheet">
-    <link href="https://app.carthage.edu/themes/europa/assets/css/addons.css"
-       type="text/css" rel="stylesheet">
-    <link href="https://app.carthage.edu/themes/shared/css/forms.css"
-        rel="stylesheet" type="text/css">
-    <link href="https://app.carthage.edu/themes/shared/css/tables.css"
-        type="text/css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        type="text/css" rel="stylesheet">
-    <link href="https://app.carthage.edu/static/vendor/jquery/ui/datepicker/css/smoothness/jquery-ui-1.10.4.custom.min.css"
-        rel="stylesheet" type="text/css" />
-    <!--[if lt IE 9]>
-        <script src="https://app.carthage.edu/themes/shared/js/html5shiv.js"
-            type="text/javascript"></script>
-    <![endif]-->
+<link href="https://app.carthage.edu/static/vendor/jquery/ui/datepicker/css/smoothness/jquery-ui-1.10.4.custom.min.css"
+  rel="stylesheet" type="text/css" />
 {% endblock css %}
 {% block extra_style %}
 {{block.super}}
 <link rel="stylesheet"
-    href="https://app.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.css"
-    type="text/css" media="screen" />
+  href="https://app.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.css"
+  type="text/css" media="screen" />
 {% endblock %}
 {% block extra_javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"
+  type="text/javascript" charset="utf-8"></script>
 <script src="https://app.carthage.edu/static/vendor/jquery/ui/datepicker/js/jquery-ui-1.10.4.custom.min.js"
-    type="text/javascript" charset="utf-8"></script>
-<script src="https://app.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript"
-    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  type="text/javascript" charset="utf-8"></script>
+<script src="https://app.carthage.edu/static/vendor/jquery/plugins/fancybox/jquery.fancybox.pack.js"
+  type="text/javascript" charset="utf-8"></script>
 <script src="https://malsup.github.io/min/jquery.blockUI.min.js"
-    type="text/javascript"></script>
+  type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
   $(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-    $('.popover-toggle').popover({
-        trigger: 'hover',
-        placement: 'left'
-    });
-    $('.popover-toggle-right').popover({
-        trigger: 'hover',
-        placement: 'right'
-    });
     function validateURL(textval) {
       var regexp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
       return regexp.test(textval);
@@ -78,14 +50,14 @@
       var $fname = $dis.attr("name");
       var $content_type = $dis.attr("data-content-type");
       var $oid = $dis.attr("data-oid");
-      var $fawe = $dis.parent().next('.fa-times');
+      var $fawe = $dis.parent().next('.fa-xmark');
       var $update = false;
       if ($fawe.length == 0) {
         // we have a replace file manoeuvre
         $update = true;
         $fawe = $dis.parent().next('a');
       }
-      var $fawe_error = '<i class="fa fa-times fa-exclamation-triangle red" aria-hidden="true"></i>';
+      var $fawe_error = '<i class="fa fa-xmark fa-exclamation-triangle red" aria-hidden="true"></i>';
       if(file.name.length < 5) {
         alert("Is that a proper filename?");
       }
@@ -98,7 +70,7 @@
             formData.append( 'content_type', $content_type );
             formData.append( 'oid', $oid );
         }
-        $fawe.html('<i class="fa fa-times fa-cog fa-spin fa-fw"></i>');
+        $fawe.html('<i class="fa fa-xmark fa-cog fa-spin fa-fw"></i>');
         $.ajax({
             url: '{% url 'user_files' %}',
             type: 'POST',
@@ -311,227 +283,224 @@
 </script>
 {% endblock %}
 {% block page_header %}
-    Program Applications
+  Program Applications
 {% endblock %}
 {% block content_head %}
-    <h1 id="page_title">
-        {{user.profile.salutation}}
-        {{user.first_name}}
-        {% if '/' not in  user.profile.second_name %}{{user.profile.second_name|default:''}}{% endif %}
-        {{user.last_name}}
-        <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}">
-                <i class="fa fa-globe fa-2x"></i></a>
-        </small>
-        <span id="secondary-dropdown"></span>
-    </h1>
+<h1 id="page_title" class="margin-left-2">
+  {{user.profile.salutation}}
+  {{user.first_name}}
+  {% if '/' not in  user.profile.second_name %}{{user.profile.second_name|default:''}}{% endif %}
+  {{user.last_name}}
+  <small class="fright" style="margin-right:20px;">
+    <a href="{% url 'dashboard_home' %}">
+  </small>
+</h1>
 {% endblock %}
 {% block content %}
 {% if messages %}
-    {% for message in messages %}
+  {% for message in messages %}
     <div id="messages" class="{{ message.tags }} large-12 medium-12 small-12">
-        {{ message }}
+      {{ message }}
     </div>
-    {% endfor %}
+  {% endfor %}
 {% endif %}
-<form id="user-files" method="post" action="{% url 'user_files' %}"
-  class="form" enctype="multipart/form-data">
-<div class="large-6 medium-12 small-12">
-{% if reg and status %}
-    <div class="info">
-      <h2>
-        Current Grant Cycle Applications
-        <span class="fright">
+<form id="user-files" method="post" action="{% url 'user_files' %}" class="form" enctype="multipart/form-data">
+  <div class="grid-x" id="aside">
+    <div class="large-7 medium-7 small-12">
+    {% if reg and status %}
+      <div class="info">
+        <h2>
+          Current Applications
+          <span class="fright">
             <i tabindex="0"
-            class="fa fa-question-circle-o green popover-toggle"
+            class="fa-regular fa-circle-question green popover-toggle"
             data-html="true"
             data-title="<b>NOTE:</b>"
             data-trigger="focus"
             data-content="<span class='help'>All of the applications that you have submitted for this grant cycle appear below.</span>"
             aria-hidden="true"></i>
-         </span>
-      </h2>
-    </div>
-    <ul>
-    {% for app in current_apps %}
+          </span>
+        </h2>
+      </div> <!-- /.info -->
+      <ul>
+      {% for app in current_apps %}
         {% include "dashboard/home_apps.inc.html" %}
-    {% endfor %}
-    </ul>
-    <div class="info">
-      <h2>
-        Past Grant Cycle Applications
-        <span class="fright">
-            <i tabindex="0"
-            class="fa fa-question-circle-o green popover-toggle"
-            data-html="true"
-            data-title="<b>NOTE:</b>"
-            data-trigger="focus"
-            data-content="<span class='help'>Applications from past years appear below.</span>"
-            aria-hidden="true"></i>
-         </span>
-      </h2>
-    </div>
-    <ul>
-    {% for app in past_apps %}
+      {% endfor %}
+      </ul>
+      <div class="info">
+        <h2>
+          Past Applications
+          <span class="fright">
+              <i tabindex="0"
+              class="fa-regular fa-circle-question green popover-toggle"
+              data-html="true"
+              data-title="<b>NOTE:</b>"
+              data-trigger="focus"
+              data-content="<span class='help'>Applications from past years appear below.</span>"
+              aria-hidden="true"></i>
+          </span>
+        </h2>
+      </div> <!-- /.info -->
+      <ul>
+      {% for app in past_apps %}
         {% include "dashboard/home_apps.inc.html" %}
-    {% endfor %}
-    </ul>
-{% endif %}
-</div>
-<div class="column2 large-6 medium-12 small-12">
-    {% if approved %}
-    <div class="info">
-      <h2>
-        Personally Identifiable Information
-        <span class="fright">
+      {% endfor %}
+      </ul>
+    {% endif %}
+    </div><!-- /.large-6 -->
+    <div class="column2 large-5 medium-5 small-12">
+      {% if approved %}
+      <div class="info">
+        <h2>
+          Personally Identifiable Information
+          <span class="fright">
+              <i tabindex="0"
+              class="fa-regular fa-circle-question green popover-toggle"
+              data-html="true"
+              data-title="<b>NOTE:</b>"
+              data-trigger="focus"
+              data-content="<span class='help'>The following files will serve all programs to which you have submitted an application. All files have to be uploaded every year</span>."
+              aria-hidden="true"></i>
+          </span>
+        </h2>
+      </div>
+      <ol><li>
+      <fieldset>
+        <legend>
+          All Program Files
+          <span class="fright">
             <i tabindex="0"
-            class="fa fa-question-circle-o green popover-toggle"
+            class="fa-regular fa-circle-question green popover-toggle"
             data-html="true"
             data-title="<b>NOTE:</b>"
             data-trigger="focus"
-            data-content="<span class='help'>The following files will serve all programs to which you have submitted an application. All files have to be uploaded every year</span>."
+            data-content="<span class='help'>An X means you have not uploaded the file. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
             aria-hidden="true"></i>
-         </span>
-      </h2>
-    </div>
-    <ol><li>
-    <fieldset>
-      <legend>
-        All Program Files
-        <span class="fright">
-          <i tabindex="0"
-          class="fa fa-question-circle-o green popover-toggle"
-          data-html="true"
-          data-title="<b>NOTE:</b>"
-          data-trigger="focus"
-          data-content="<span class='help'>An X means you have not uploaded the file. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
-          aria-hidden="true"></i>
-        </span>
-      </legend>
-      <ol>
-        <li class="form-group ctrlHolder">
-          <h3><label for="id_mugshot">Photo [JPG] (FNL participants exempt)</label></h3>
-          <div class="filewrap fleft">
-            <input type="file" class="upload-file"
-              name="mugshot" id="id_mugshot">
-            <span class='filevalu'></span>
-            <span class='filebutt'>Select File</span>
-          </div>
-          {% if user_files.mugshot.value and mugshot_status %}
-            <a class="fa-wrap" href="{{media_url}}{{user_files.mugshot.value}}"
-              target="_blank">
-            <i class="fa fa-times fa-file-image-o blue"
-              aria-hidden="true"></i></a>
-          {% else %}
-            <i class="fa fa-times red fa-wrap" aria-hidden="true"
-              title="Missing file"></i>
-          {% endif %}
-          <div class="help">
-            Professional photo for WSGC marketing and promotion
-          </div>
-        </li>
-        <li class="form-group ctrlHolder">
-          <h3><label for="id_biography">Biography [PDF] (FNL participants exempt)</label></h3>
-          <div class="filewrap fleft">
-            <input type="file" class="upload-file"
-              name="biography" id="id_biography">
-            <span class='filevalu'></span>
-            <span class='filebutt'>Select File</span>
-          </div>
-          {% if user_files.biography.value and biography_status %}
-            <a class="fa-wrap"
-              href="{{media_url}}{{user_files.biography.value}}"
-              target="_blank">
-            <i class="fa fa-times fa-file-pdf-o blue"
-              aria-hidden="true"></i></a>
-          {% else %}
-            <i class="fa fa-times red fa-wrap" aria-hidden="true"
-              title="Missing file"></i>
-          {% endif %}
-          <div class="help">
-            Use third person point of view
-          </div>
-        </li>
-        <li class="form-group ctrlHolder">
-          <h3>
-            <label for="id_irs_w9">
-            W9 Form [PDF] |
-            <a href="https://spacegrant.carthage.edu/live/files/5485"
-              target="_blank">Download</a>
-            </label>
-          </h3>
-          <div class="filewrap fleft">
-            <input type="file" class="upload-file"
-              name="irs_w9" id="id_irs_w9">
-            <span class='filevalu'></span>
-            <span class='filebutt'>Select File</span>
-          </div>
-          {% if user_files.irs_w9.value and irs_w9_status %}
-            <a class="fa-wrap" href="{{media_url}}{{user_files.irs_w9.value}}"
-              target="_blank">
-            <i class="fa fa-times fa-file-pdf-o blue"
-              aria-hidden="true"></i></a>
-          {% else %}
-            <i class="fa fa-times red fa-wrap" aria-hidden="true"
-              title="Missing file"></i>
-          {% endif %}
-          <div class="help">
-            Submit a W9 based upon the parameters of your award.
-            Individual W9 forms must be your permanent address.
-          </div>
-        </li>
-      </ol>
-    </fieldset>
-    </li></ol>
-    {% endif %}
-    {% if not reg %}
-    <h2>Message Center</h2>
-    <div class="notice">
-    {% else %}
-    <div class="info">
-      <h2>
-        Grant Application Forms
-        <span class="fright">
-            <i tabindex="0"
-            class="fa fa-question-circle-o green popover-toggle"
-            data-html="true"
-            data-title="<b>NOTE:</b>"
-            data-trigger="focus"
-            data-content="<span class='help'>Find below all of the programs for which you may submit an application.</span>"
-            aria-hidden="true"></i>
-         </span>
-      </h2>
-    </div>
-    <div class="grant-list" style="margin-left:8px;">
-    {% endif %}
-    {% if not reg or not status %}
-      <i class="fa fa-times red"></i>
-      {% if user.profile.media_release == 'I do not agree' %}
-      You have not agreed to the media release waiver. You have to do so
-      by updating your
-      {% else %}
-      You must update your
+          </span>
+        </legend>
+        <ol>
+          <li class="form-group ctrlHolder">
+            <h3><label for="id_mugshot">Photo [JPG] (FNL participants exempt)</label></h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+                name="mugshot" id="id_mugshot">
+              <span class='filevalu'></span>
+              <span class='filebutt'>Select File</span>
+            </div>
+            {% if user_files.mugshot.value and mugshot_status %}
+              <a class="fa-wrap" href="{{media_url}}{{user_files.mugshot.value}}"
+                target="_blank">
+              <i class="fa fa-xmark fa-file-image blue"
+                aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-xmark red fa-wrap" aria-hidden="true"
+                title="Missing file"></i>
+            {% endif %}
+            <div class="help">
+              Professional photo for WSGC marketing and promotion
+            </div>
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3><label for="id_biography">Biography [PDF] (FNL participants exempt)</label></h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+                name="biography" id="id_biography">
+              <span class='filevalu'></span>
+              <span class='filebutt'>Select File</span>
+            </div>
+            {% if user_files.biography.value and biography_status %}
+              <a class="fa-wrap"
+                href="{{media_url}}{{user_files.biography.value}}"
+                target="_blank">
+              <i class="fa fa-xmark fa-file-pdf blue"
+                aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-xmark red fa-wrap" aria-hidden="true"
+                title="Missing file"></i>
+            {% endif %}
+            <div class="help">
+              Use third person point of view
+            </div>
+          </li>
+          <li class="form-group ctrlHolder">
+            <h3>
+              <label for="id_irs_w9">
+              W9 Form [PDF] |
+              <a href="https://spacegrant.carthage.edu/live/files/5485"
+                target="_blank">Download</a>
+              </label>
+            </h3>
+            <div class="filewrap fleft">
+              <input type="file" class="upload-file"
+                name="irs_w9" id="id_irs_w9">
+              <span class='filevalu'></span>
+              <span class='filebutt'>Select File</span>
+            </div>
+            {% if user_files.irs_w9.value and irs_w9_status %}
+              <a class="fa-wrap" href="{{media_url}}{{user_files.irs_w9.value}}"
+                target="_blank">
+              <i class="fa fa-xmark fa-file-pdf blue"
+                aria-hidden="true"></i></a>
+            {% else %}
+              <i class="fa fa-xmark red fa-wrap" aria-hidden="true"
+                title="Missing file"></i>
+            {% endif %}
+            <div class="help">
+              Submit a W9 based upon the parameters of your award.
+              Individual W9 forms must be your permanent address.
+            </div>
+          </li>
+        </ol>
+      </fieldset>
+      </li></ol>
       {% endif %}
-      <a href="{% url 'dashboard_profile' %}"
-        style="color:blue;">
-        registration profile
-      </a> before applying for grants from NASA.
-    {% else %}
-    <div style="margin-left:9px;">
-      {% include "dashboard/applications.inc.html" %}
-    </div>
-    {% endif %}
-    </div>
-</div> <!-- /.column2 -->
+      {% if reg and status %}
+      <div class="info">
+        <h2>
+          Grant Forms
+          <span class="fright">
+              <i tabindex="0"
+              class="fa-regular fa-circle-question green popover-toggle"
+              data-html="true"
+              data-title="<b>NOTE:</b>"
+              data-trigger="focus"
+              data-content="<span class='help'>Find below all of the programs for which you may submit an application.</span>"
+              aria-hidden="true"></i>
+          </span>
+        </h2>
+      </div>
+      <div class="grant-list">
+        <div>
+          {% include "dashboard/applications.inc.html" %}
+        </div>
+      </div> <!-- .grant-list -->
+      {% else %}
+      <div class="notice">
+        <h2>Message Center</h2>
+        <i class="fa fa-xmark red"></i>
+        {% if user.profile.media_release == 'I do not agree' %}
+        You have not agreed to the media release waiver. You have to do so
+        by updating your
+        {% else %}
+        You must update your
+        {% endif %}
+        <a href="{% url 'dashboard_profile' %}"
+          style="color:blue;">
+          registration profile
+        </a> before applying for grants from NASA.
+      </div>
+      {% endif %}
+    </div> <!-- /.column2 .large-6 -->
+  </div> <!-- /.grid-x -->
 </form>
 <!-- file fail modal -->
 <div id="file-fail" style="display:none;width:500px;">
-    <h2>Your file was not uploaded</h2>
-    <p id="file-fail-error" style="font-weight:bold;" class="red">
-      Verify that the file is a PDF for documents and JPEG for images.
-    </p>
-    <p>
-        <a href="javascript:$.fancybox.close();">Close</a>
-    </p>
+  <h2>Your file was not uploaded</h2>
+  <p id="file-fail-error" style="font-weight:bold;" class="red">
+    Verify that the file is a PDF for documents and JPEG for images.
+  </p>
+  <p>
+    <a href="javascript:$.fancybox.close();">Close</a>
+  </p>
 </div>
 {% endblock %}

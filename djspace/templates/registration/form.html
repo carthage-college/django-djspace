@@ -25,12 +25,8 @@
     WSGC Registration
 {% endblock %}
 {% block content_head %}
-    <h1 id="page_title">
+    <h1 id="page_title" class="margin-left-2">
         WSGC {{reg_type|capfirst}} Registration
-        <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-globe fa-2x"></i></a>
-        </small>
-        <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
 {% block content %}

@@ -1,68 +1,10 @@
 {% extends "base.html" %}
 {% block title %}
-    WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
+  WSGC {{reg_type|capfirst}} Registration &mdash; Carthage College
 {% endblock %}
 {% block extra_javascript %}{% endblock %}
 {% block extra_style %}
-<link href="https://wsgc.carthage.edu/static/djspace/css/main.css" rel="stylesheet" type="text/css">
+<link href="/static/djspace/css/main.css" rel="stylesheet" type="text/css">
 {% endblock %}
-{% block page_header %}
-    Wisconsin Space Grant Consortium
-{% endblock %}
-{% block page_content %}large-9-half small-12"{% endblock %}>
-{% block left_nav %}
-    <h3>
-        <a href="{% url 'dashboard_home' %}">Account</a>
-    </h3>
-    <div style="margin-bottom:14px;">
-        <ul>
-            {% if user.is_authenticated %}
-                <li>
-                    <a href="{% url 'dashboard_home' %}">
-                      Manage applications
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'dashboard_profile' %}">Manage profile</a>
-                </li>
-                <li>
-                    <a href="{% url 'account_email' %}">
-                        Manage email addresses
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'account_change_password' %}">
-                        Change password
-                    </a>
-                </li>
-                {% if user.is_staff %}
-                <li>
-                    <a href="{% url 'admin:index' %}">Administration</a>
-                </li>
-                {% endif %}
-                <li><a href="{% url 'account_logout' %}">Sign out</a></li>
-            {% else %}
-                <li><a href="{% url 'account_login' %}">Sign in</a></li>
-            {% endif %}
-        </ul>
-    </div>
-{% endblock %}
-{% block left_audience %}{% endblock %}
-{% block content_head %}
-    <h1 id="page_title">
-    {% if user.is_authenticated %}
-        {{user.profile.salutation}}
-        {{user.first_name}}
-        {{user.profile.second_name}}
-        {{user.last_name}}
-        <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}"><i class="fa fa-home fa-2x"></i></a>
-        </small>
-    {% else %}
-        WSGC {{reg_type|capfirst}} Registration
-        <span id="secondary-dropdown"></span>
-    {% endif %}
-    </h1>
-{% endblock %}
-{% block content %}
-{% endblock %}
+{% block page_header %}Wisconsin Space Grant Consortium{% endblock %}
+{% block content %}{% endblock %}

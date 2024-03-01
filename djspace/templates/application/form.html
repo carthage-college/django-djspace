@@ -387,12 +387,10 @@ $(function() {
 <style type="text/css" media="screen, projection">
     .form h3, .h3back {background-color: #efefef; padding: 0 5px; }
     .help {margin:5px 0 9px 9px;}
-    .clear {font-weight:bold;}
     #doop-master{display:none;}
     .work-plan-task{float:left; border: 2px solid #cacaca;margin:5px;padding:5px;background-color:#efefef;}
     .work-plan-task textarea {width:325px;}
     .ctrlcx { float: right; width: 25px; }
-    li.ctrlHolder div ul li {display:inline; padding-right:3px;}
     ol.help_text {font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px}
 </style>
 {% endblock %}
@@ -400,7 +398,7 @@ $(function() {
     Program Applications
 {% endblock %}
 {% block content_head %}
-    <h1 id="page_title">
+    <h1 id="page_title" class="margin-left-2">
         <span class="large-10 small-12">
         {% if app_name == "Clark Graduate Fellowship" %}
           Dr. Laurel Salton Clark Memorial<br>Research Fellowship
@@ -414,12 +412,6 @@ $(function() {
           {{app_name}}
         {% endif %}{% endif %}{% endif %}{% endif %}
         </span>
-        <small class="fright" style="margin-right:20px;">
-            <a href="{% url 'dashboard_home' %}">
-                <i class="fa fa-globe fa-2x"></i>
-            </a>
-        </small>
-        <span id="secondary-dropdown"></span>
     </h1>
 {% endblock %}
 {% block content %}
@@ -435,7 +427,6 @@ you will receive a notification email.
     </div>
     {% endfor %}
 {% endif %}
-<div class="forms-container clear">
 {% if form %}
     <form class="form" enctype="multipart/form-data" action="." novalidate
         id="profile" method="post">
@@ -612,5 +603,4 @@ you will receive a notification email.
     join it and submit your application.
     </p>
 {% endif %}
-</div>
 {% endblock %}
