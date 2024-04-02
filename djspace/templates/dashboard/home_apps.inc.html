@@ -34,14 +34,12 @@
       <fieldset>
         <legend>
           Requisite Files
-          <span class="fright">
-            <i tabindex="0"
-            class="fa-regular fa-circle-question green popover-toggle"
-            data-html="true"
-            data-title="<b>NOTE:</b>"
-            data-trigger="focus"
-            data-content="<span class='help'>An X means that you have not uploaded the file and it is required. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file</span>."
-            aria-hidden="true"></i>
+          <span class="fright has-tip radius round"
+            data-tooltip
+            data-click-open="false"
+            aria-haspopup="true"
+            title="An X means that you have not uploaded the file and it is required. Click the 'Select File' button to upload a file. Click on the file's icon to view the current file.">
+            <i tabindex="0" class="fa-regular fa-circle-question green"></i>
           </span>
         </legend>
         <ol>
@@ -456,13 +454,12 @@
       <fieldset>
         <legend>
             Required Photos
-            <span class="fright">
-              <i tabindex="0"
-              class="fa-regular fa-circle-question green popover-toggle"
-              data-html="true"
-              data-trigger="focus"
-              data-content="<span class='help'>Maximum of three photos.</span>."
-              aria-hidden="true"></i>
+            <span class="fright has-tip radius round"
+              data-tooltip
+              data-click-open="false"
+              aria-haspopup="true"
+              title="Maximum of three photos.">
+              <i tabindex="0" class="fa-regular fa-circle-question green"></i>
             </span>
         </legend>
         <ol>
@@ -488,13 +485,12 @@
       <fieldset>
         <legend>
             Required Actions
-            <span class="fright">
-              <i tabindex="0"
-              class="fa-regular fa-circle-question green popover-toggle"
-              data-html="true"
-              data-trigger="focus"
-              data-content="<span class='help'>Please be certain to complete these tasks.</span>."
-              aria-hidden="true"></i>
+            <span class="fright has-tip radius round"
+              data-tooltip
+              data-click-open="false"
+              aria-haspopup="true"
+              title="Please be certain to complete these tasks">
+              <i tabindex="0" class="fa-regular fa-circle-question green"></i>
             </span>
         </legend>
         <ol>
@@ -511,13 +507,12 @@
       <fieldset>
         <legend>
             Photos
-            <span class="fright">
-              <i tabindex="0"
-              class="fa-regular fa-circle-question green popover-toggle"
-              data-html="true"
-              data-trigger="focus"
-              data-content="<span class='help'>Maximum of three photos.</span>."
-              aria-hidden="true"></i>
+            <span class="fright has-tip radius round"
+              data-tooltip
+              data-click-open="false"
+              aria-haspopup="true"
+              title="Maximum of three photos.">
+              <i tabindex="0" class="fa-regular fa-circle-question green"></i>
             </span>
         </legend>
         <ol>
@@ -545,6 +540,13 @@
       <fieldset>
         <legend>
           Optional Files
+          <span class="fright has-tip radius round"
+            data-tooltip
+            data-click-open="false"
+            aria-haspopup="true"
+            title="{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body|striptags}}">
+            <i tabindex="0" class="fa-regular fa-circle-question green"></i>
+          </span>
         </legend>
         <ol>
           {% if app.get_content_type.model == "rocketlaunchteam" or app.get_content_type.model in rocket_competitions and app.team.status and app.team.leader.id == user.id %}
@@ -590,7 +592,6 @@
             {% else %}
               <i class="fa-regular fa-xmark red" aria-hidden="true" title="Optional file 1"></i>
             {% endif %}
-            <i tabindex="0" class="fa-regular fa-circle-question green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true"></i>
           </li>
           <li class="form-group ctrlHolder">
             <h3>
@@ -615,7 +616,6 @@
             {% else %}
               <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Optional file 2"></i>
             {% endif %}
-            <i tabindex="0" class="fa-regular fa-circle-question green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true"></i>
           </li>
           <li class="form-group ctrlHolder">
             <h3>
@@ -640,20 +640,18 @@
             {% else %}
               <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Optional file 3"></i>
             {% endif %}
-            <i tabindex="0" class="fa-regular fa-circle-question green popover-toggle" data-html="true" data-trigger="focus" data-content="<span class='help'>{% get_lw_content as other_file_help blurbs 2688 %}{{other_file_help.body}}</span>" aria-hidden="true"></i>
           </li>
         </ol>
       </fieldset>
       <fieldset>
         <legend>
             Optional URLs
-            <span class="fright">
-              <i tabindex="0"
-              class="fa-regular fa-circle-question green popover-toggle"
-              data-html="true"
-              data-trigger="focus"
-              data-content="<span class='help'>Provide up to three URLs to files, videos, and photos that you would like to include.</span>"
-              aria-hidden="true"></i>
+            <span class="fright has-tip radius round"
+              data-tooltip
+              data-click-open="false"
+              aria-haspopup="true"
+              title="Provide up to three URLs to files, videos, and photos that you would like to include.">
+              <i tabindex="0" class="fa-regular fa-circle-question green"></i>
             </span>
         </legend>
         <ol>

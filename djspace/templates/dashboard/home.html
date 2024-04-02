@@ -1,6 +1,6 @@
 {% extends "home.html" %}
 {% block title %}
-    WSGC {{reg_type|capfirst}} Dashboard &mdash; Carthage College
+  WSGC {{reg_type|capfirst}} Dashboard &mdash; Carthage College
 {% endblock %}
 {% block css %}
 {{block.super}}
@@ -29,21 +29,20 @@
       return regexp.test(textval);
     }
     function FilesStatus() {
-        $.ajax({
-            type: "POST",
-            url:  "{% url 'files_status' %}",
-            dataType: "html",
-            success: function(response) {
-                if ( response == "True") {
-                    $("#messages").remove();
-                }
-            },
-            error: function(response) {
-                alert(response);
-            }
-        });
+      $.ajax({
+        type: "POST",
+        url:  "{% url 'files_status' %}",
+        dataType: "html",
+        success: function(response) {
+          if ( response == "True") {
+            $("#messages").remove();
+          }
+        },
+        error: function(response) {
+          alert(response);
+        }
+      });
     }
-
     $('.upload-file').change(function(){
       var $dis = $(this);
       var file = this.files[0];
@@ -291,9 +290,6 @@
   {{user.first_name}}
   {% if '/' not in  user.profile.second_name %}{{user.profile.second_name|default:''}}{% endif %}
   {{user.last_name}}
-  <small class="fright" style="margin-right:20px;">
-    <a href="{% url 'dashboard_home' %}">
-  </small>
 </h1>
 {% endblock %}
 {% block content %}
@@ -311,14 +307,12 @@
       <div class="info">
         <h2>
           Current Applications
-          <span class="fright">
-            <i tabindex="0"
-            class="fa-regular fa-circle-question green popover-toggle"
-            data-html="true"
-            data-title="<b>NOTE:</b>"
-            data-trigger="focus"
-            data-content="<span class='help'>All of the applications that you have submitted for this grant cycle appear below.</span>"
-            aria-hidden="true"></i>
+          <span class="fright has-tip radius round"
+            data-tooltip
+            data-click-open="false"
+            aria-haspopup="true"
+            title="All of the applications that you have submitted for this grant cycle appear below.">
+            <i tabindex="0" class="fa-regular fa-circle-question green"></i>
           </span>
         </h2>
       </div> <!-- /.info -->
@@ -330,14 +324,12 @@
       <div class="info">
         <h2>
           Past Applications
-          <span class="fright">
-              <i tabindex="0"
-              class="fa-regular fa-circle-question green popover-toggle"
-              data-html="true"
-              data-title="<b>NOTE:</b>"
-              data-trigger="focus"
-              data-content="<span class='help'>Applications from past years appear below.</span>"
-              aria-hidden="true"></i>
+          <span class="fright has-tip radius round"
+            data-tooltip
+            data-click-open="false"
+            aria-haspopup="true"
+            title="Applications from past years appear below.">
+            <i tabindex="0" class="fa-regular fa-circle-question green"></i>
           </span>
         </h2>
       </div> <!-- /.info -->
@@ -353,14 +345,12 @@
       <div class="info">
         <h2>
           Personally Identifiable Information
-          <span class="fright">
-              <i tabindex="0"
-              class="fa-regular fa-circle-question green popover-toggle"
-              data-html="true"
-              data-title="<b>NOTE:</b>"
-              data-trigger="focus"
-              data-content="<span class='help'>The following files will serve all programs to which you have submitted an application. All files have to be uploaded every year</span>."
-              aria-hidden="true"></i>
+          <span class="fright has-tip radius round"
+            data-tooltip
+            data-click-open="false"
+            aria-haspopup="true"
+            title="The following files will serve all programs to which you have submitted an application. All files have to be uploaded every year.">
+            <i tabindex="0" class="fa-regular fa-circle-question green"></i>
           </span>
         </h2>
       </div>
@@ -458,14 +448,12 @@
       <div class="info">
         <h2>
           Grant Forms
-          <span class="fright">
-              <i tabindex="0"
-              class="fa-regular fa-circle-question green popover-toggle"
-              data-html="true"
-              data-title="<b>NOTE:</b>"
-              data-trigger="focus"
-              data-content="<span class='help'>Find below all of the programs for which you may submit an application.</span>"
-              aria-hidden="true"></i>
+          <span class="fright has-tip radius round"
+            data-tooltip
+            data-click-open="false"
+            aria-haspopup="true"
+            title="Find below all of the programs for which you may submit an application.">
+            <i tabindex="0" class="fa-regular fa-circle-question green"></i>
           </span>
         </h2>
       </div>
