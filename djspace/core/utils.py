@@ -170,14 +170,16 @@ def registration_notify(request, action, user):
         'server_url': settings.SERVER_URL,
         'media_url': settings.MEDIA_URL,
     }
+    frum = user.email
     send_mail(
         request,
         to_list,
         subject,
-        user.email,
+        frum,
         template,
         context,
-        settings.MANAGERS,
+        reply_to=[frum,],
+        bcc=bcc,
     )
 
 

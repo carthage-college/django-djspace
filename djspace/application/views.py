@@ -415,14 +415,16 @@ def application_form(request, application_type, aid=None):
                     data.user.last_name,
                     data.user.first_name,
                 )
+                frum = data.user.email
                 send_mail(
                     request,
                     to_list,
                     subject,
-                    data.user.email,
+                    frum,
                     template,
                     data,
-                    bcc,
+                    reply_to=[frum,],
+                    bcc=bcc,
                 )
                 return HttpResponseRedirect(reverse('application_success'))
             else:

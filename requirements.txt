@@ -1,6 +1,7 @@
 cryptography
 django==4.2.11
 django-allauth
+django-gmailapi-json-backend
 #django-gm2m  #  user forked repo: /d2/django_projects/django-gm2m
 django-imagekit
 django-localflavor

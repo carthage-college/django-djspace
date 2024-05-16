@@ -63,8 +63,13 @@ INSTALLED_APPS = (
     # registration and authentication
     'allauth',
     'allauth.account',
+    # gmail api for send mail
+    'gmailapi_backend',
+    # generice many to many
     'gm2m',
+    # sign in as user
     'loginas',
+    # tagging
     'taggit',
     # core
     'djspace.application',
@@ -133,17 +138,18 @@ SESSION_COOKIE_NAME = ''
 SESSION_COOKIE_AGE = 86400
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
-# SMTP settings
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_FAIL_SILENTLY = True
+# gmail API settings
+EMAIL_FROM = ''
+GMAIL_USER = ''
+EMAIL_BACKEND = 'gmailapi_backend.service.GmailApiBackend'
+GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+GMAIL_SERVICE_ACCOUNT_JSON = ''
+GOOGLE_SERVICE_ACCOUNT = ''
+# system email addresses
 DEFAULT_FROM_EMAIL = ''
 SERVER_EMAIL = ''
 SERVER_MAIL = ''
-
+# logging
 LOG_FILEPATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/',
 )

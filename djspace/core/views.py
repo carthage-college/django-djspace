@@ -44,14 +44,16 @@ def sendmail(request):
         for pid in pids:
             instance = ct.get_object_for_this_type(pk=pid)
             to = [instance.user.email]
+            frum = settings.SERVER_EMAIL
             send_mail(
                 request,
                 to,
                 sub,
-                settings.SERVER_EMAIL,
+                frum,
                 'admin/email_data.html',
                 {'obj': instance, 'content': cd.get('content')},
-                bcc,
+                reply_to=[frum,],
+                bcc=bcc,
             )
         messages.add_message(
             request,
@@ -195,10 +197,12 @@ def user_files(request):
                 )
                 bcc = [settings.SERVER_MAIL]
                 # set up CC for WSGC folks for specific programs
-                sent = send_mail(
+                frum = user.email
+                send_mail(
                     request,
                     to,
                     subject,
+                    frum,
                     user.email,
                     'dashboard/email_file_uploaded.html',
                     {
@@ -210,7 +214,8 @@ def user_files(request):
                             'mugshot', 'biography', 'irs_w9',
                         ],
                     },
-                    bcc,
+                    reply_to=[frum,],
+                    bcc=bcc,
                 )
                 response = render(
                     request,
