@@ -203,7 +203,6 @@ def user_files(request):
                     to,
                     subject,
                     frum,
-                    user.email,
                     'dashboard/email_file_uploaded.html',
                     {
                         'earl': earl.url,
