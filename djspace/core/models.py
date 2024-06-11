@@ -526,7 +526,10 @@ class UserFiles(models.Model):
         """Determine if the file was uploaded before the deadline date."""
         timestamp = self.get_file_timestamp(field)
         stat = True
-        if timestamp < get_start_date():
+        try:
+            if timestamp < get_start_date():
+                stat = False
+        except Exception as error:
             stat = False
         return stat
 

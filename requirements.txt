@@ -5,11 +5,13 @@ django-gmailapi-json-backend
 #django-gm2m  #  user forked repo: /d2/django_projects/django-gm2m
 django-imagekit
 django-localflavor
+django-loginas
 django-taggit
 mysqlclient
-openpyxl
+openpyxl==3.0.10
 pathlib
 Pillow
 pycryptodome
+pymemcache
 python-magic
 python-memcached
