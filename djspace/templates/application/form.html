@@ -14,7 +14,7 @@
 <script src="https://app.carthage.edu/static/vendor/jquery/ui/datepicker/js/jquery-ui-1.10.4.custom.min.js"
     type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript"
-    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
 <script src="https://malsup.github.io/min/jquery.blockUI.min.js"
     type="text/javascript"></script>
 <script src="https://app.carthage.edu/static/vendor/cleave.js/cleave.min.js"></script>
@@ -119,6 +119,7 @@ $(function() {
     $('#id_mentor').autocomplete({
         source: '{% url "get_users" %}',
         minLength: 3,
+        //appendTo: '.help',
         select: function (event, uil) {
             var lid = uil.item.id;
             //store in session
@@ -392,6 +393,7 @@ $(function() {
     .work-plan-task textarea {width:325px;}
     .ctrlcx { float: right; width: 25px; }
     ol.help_text {font-weight:bold;color:#000;list-style-type:upper-alpha;margin-left:25px}
+    .ui-autocomplete {position: inherit;}
 </style>
 {% endblock %}
 {% block page_header %}
