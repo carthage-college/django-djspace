@@ -179,7 +179,7 @@ def registration_notify(request, action, user):
         template,
         context,
         reply_to=[frum,],
-        bcc=bcc,
+        bcc=[settings.ADMINS[0][1]],
     )
 
 
