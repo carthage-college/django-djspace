@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import re
 from functools import partial
 
@@ -15,9 +16,9 @@ from djspace.core.models import BaseModel
 from djspace.core.utils import get_term
 from djspace.core.utils import upload_to_path
 from djtools.fields import BINARY_CHOICES
-from djtools.fields import TODAY
 
 
+TODAY = datetime.date.today()
 YEAR_2 = int(TODAY.strftime('%y'))
 if TODAY.month >= settings.GRANT_CYCLE_START_MES:
     YEAR_2 = YEAR_2 + 1
