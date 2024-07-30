@@ -66,7 +66,14 @@ PROFILE_LIST_DISPLAY = PROFILE_LIST + [
 POST_NO_OBJECTS = ['export_longitudinal_tracking']
 
 
-class GenericAdmin(admin.ModelAdmin):
+class CSSAdminMixin(object):
+    class Media:
+        css = {
+            'all': ('css/admin.css',),
+        }
+
+
+class GenericAdmin(admin.ModelAdmin, CSSAdminMixin):
     """
     Base admin class.
 

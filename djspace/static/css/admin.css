@@ -44,3 +44,27 @@ thead th {
 .submit-row a.deletelink {
     height: auto;
 }
+/* freeze first two columns on list display */
+.results th {
+    position: sticky;
+    top: 0;
+    width: 100px;
+    min-width: 100px;
+}
+
+    .results th:nth-child(3),
+    .results td:nth-child(3) {
+        position: sticky;
+        left: 0;
+        width: 130px;
+        min-width: 130px;
+    }
+
+    .results td:nth-child(3) {
+        background: #00363a;
+        z-index: 200;
+    }
+
+.results th:nth-child(3) {
+    z-index: 300;
+}
