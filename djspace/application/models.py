@@ -952,10 +952,6 @@ class RocketLaunchTeam(BaseModel):
     industry_mentor_email = models.EmailField(
         "Industry, Tripoli, or National Rocketry Association mentor email",
         max_length=128,
-        help_text="""
-            NOTE: Only required for the Collegiate Rocket Competition
-            and the Midwest High-Powered Rocket Competition
-        """,
     )
     team_roster = models.TextField(
         "Team Roster",
