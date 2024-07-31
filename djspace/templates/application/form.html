@@ -505,6 +505,14 @@ you will receive a notification email.
                     </ol></fieldset>
                     <fieldset class="blockLabels">
                     <legend>Team members</legend>
+                    {% if obj.id %}
+                      <strong>Confirmed Team Members:</strong>
+                      <ol>
+                      {% for member in obj.get_team_members.all %}
+                        <li>{{member.user.last_name}}, {{member.user.first_name}}</li>
+                      {% endfor %}
+                      </ol>
+                    {% endif %}
                     <ol>
                     <li>
                         Add or remove team members with the following icons:
