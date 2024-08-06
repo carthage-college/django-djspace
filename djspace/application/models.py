@@ -1620,13 +1620,6 @@ class CollegiateRocketCompetition(BaseModel):
         max_length=255,
         help_text="PDF format",
     )
-    prior_experience = models.TextField(
-        "Prior Rocket Experience",
-        help_text="""
-            Team experience, leadership experience,
-            project experience, hands on experience.
-        """,
-    )
     other_fellowship = models.CharField(
         "Do you currently hold another federal fellowship or traineeship?",
         max_length=4,
@@ -1702,9 +1695,6 @@ class FirstNationsRocketCompetition(BaseModel):
         RocketLaunchTeam,
         on_delete=models.CASCADE,
         related_name='first_nations_rocket_competition',
-    )
-    prior_experience = models.TextField(
-        "Prior Rocket Experience",
     )
     tra_nar_member = models.CharField(
         "Are you a current TRA or NAR member?",
