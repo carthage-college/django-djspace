@@ -57,7 +57,7 @@ def get_start_date():
     year = now.year
     if now.month < settings.GRANT_CYCLE_START_MES:
         year = now.year - 1
-    return datetime(year, settings.GRANT_CYCLE_START_MES, 5)
+    return datetime(year, settings.GRANT_CYCLE_START_MES, 1)
 
 
 def upload_to_path(field_name, instance, filename):
@@ -148,7 +148,7 @@ def profile_status(user):
     """
     status = False
     mr = user.profile.media_release
-    if user.profile.date_updated > get_start_date():
+    if user.profile.date_updated >= get_start_date():
         if mr in {'I agree', 'I am a minor'}:
             status = True
     return status

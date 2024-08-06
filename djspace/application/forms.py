@@ -1956,8 +1956,8 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
         """Override of the initialization method to set team choices."""
         super(FirstNationsRocketCompetitionForm, self).__init__(*args, **kwargs)
         self.fields['team'].queryset = RocketLaunchTeam.objects.filter(
-            competition__contains="First Nations",
-        ).filter(date_created__gte=get_start_date()).order_by("name")
+            competition__contains='First Nations',
+        ).filter(date_created__gte=get_start_date()).order_by('name')
 
     def clean(self):
         """Deal with TRA/NAR fields if need be."""

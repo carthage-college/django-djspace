@@ -153,11 +153,6 @@ NASA_CENTER_CHOICES = (
     ('Wallops Flight Facility', 'Wallops Flight Facility'),
     ('Other', 'Other'),
 )
-FIRST_NATIONS_ROCKET_COMPETITIONS = (
-    ('Moon Challenge', 'Moon Challenge'),
-    ('Mars Challenge', 'Mars Challenge'),
-    ('Gateway Challenge', 'Gateway Challenge'),
-)
 ROCKET_COMPETITIONS = (
     ('Collegiate Rocket Competition', 'Collegiate Rocket Competition'),
     ('First Nations Mars Challenge', 'First Nations Mars Challenge'),
@@ -1708,11 +1703,6 @@ class FirstNationsRocketCompetition(BaseModel):
         RocketLaunchTeam,
         on_delete=models.CASCADE,
         related_name='first_nations_rocket_competition',
-    )
-    competition = models.CharField(
-        "Rocket Competition",
-        max_length=128,
-        choices=FIRST_NATIONS_ROCKET_COMPETITIONS,
     )
     prior_experience = models.TextField(
         "Prior Rocket Experience",
