@@ -203,7 +203,6 @@ ROCKET_COMPETITIONS_EXCLUDE = [
     'firstnationsrocketcompetition',
 ]
 TRA_NAR_MEMBER = (('Yes', 'Yes'), ('No', 'No'), ('Not certain', 'Not certain'))
-TRA_NAR_LEVEL = (('1', '1'), ('2', '2'), ('3', '3'), ('N/A', 'N/A'))
 
 
 class EducationInitiatives(BaseModel):
@@ -1715,13 +1714,6 @@ class FirstNationsRocketCompetition(BaseModel):
     tra_nar_number = models.CharField(
         "What is your TRA or NAR membership number?",
         max_length=32,
-        null=True,
-        blank=True,
-    )
-    tra_nar_level = models.CharField(
-        "What level of certification have you received?",
-        max_length=4,
-        choices=TRA_NAR_LEVEL,
         null=True,
         blank=True,
     )

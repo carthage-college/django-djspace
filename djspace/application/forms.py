@@ -1965,17 +1965,11 @@ class FirstNationsRocketCompetitionForm(forms.ModelForm):
 
         member = cd.get('tra_nar_member')
         number = cd.get('tra_nar_number')
-        level = cd.get('tra_nar_level')
         if member == 'Yes':
             if not number:
                 self.add_error(
                     'tra_nar_number',
                     "Please provide your TRA/NAR membership number",
-                )
-            if not level:
-                self.add_error(
-                    'tra_nar_level',
-                    "Please provide your TRA/NAR level",
                 )
 
 
