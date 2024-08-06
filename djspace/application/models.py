@@ -1613,6 +1613,17 @@ class CollegiateRocketCompetition(BaseModel):
         on_delete=models.CASCADE,
         related_name='collegiate_rocket_competition',
     )
+    tra_nar_member = models.CharField(
+        "Are you a current TRA or NAR member?",
+        max_length=16,
+        choices=TRA_NAR_MEMBER,
+    )
+    tra_nar_number = models.CharField(
+        "What is your TRA or NAR membership number?",
+        max_length=32,
+        null=True,
+        blank=True,
+    )
     cv = models.FileField(
         "Résumé",
         upload_to=partial(upload_to_path, 'CV'),

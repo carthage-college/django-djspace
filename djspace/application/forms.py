@@ -2118,6 +2118,19 @@ class CollegiateRocketCompetitionForm(forms.ModelForm):
             count__gte=settings.ROCKET_LAUNCH_COMPETITION_TEAM_LIMIT,
         ).order_by("name")
 
+    def clean(self):
+        """Deal with TRA/NAR fields if need be."""
+        cd = self.cleaned_data
+
+        member = cd.get('tra_nar_member')
+        number = cd.get('tra_nar_number')
+        if member == 'Yes':
+            if not number:
+                self.add_error(
+                    'tra_nar_number',
+                    "Please provide your TRA/NAR membership number",
+                )
+
 
 class CollegiateRocketCompetitionUploadsForm(forms.ModelForm):
     """Collegiate Rocket Competition uploads form."""
