@@ -1256,6 +1256,7 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
         'critical_design_report_file',
         'post_flight_performance_report_file',
         'team',
+        'competition',
         'past_funding',
         'past_funding_year',
         'funded_code',
@@ -1264,7 +1265,6 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
     ]
     list_display_links = ['team']
     list_editable = ['funded_code', 'complete', 'status']
-
     action_form = TarballActionForm
     actions = [
         export_longitudinal_tracking,
@@ -1274,6 +1274,11 @@ class FirstNationsRocketCompetitionAdmin(GenericAdmin):
         export_photo_files,
         'email_applicants',
     ]
+
+    @admin.display(ordering='team__competition', description='Competition')
+    def competition(self, instance):
+        """Display the competition value from NOI object on admin dashboard."""
+        return instance.team.competition
 
     def budget_file(self, instance):
         """Construct display file code for the admin dashboard."""

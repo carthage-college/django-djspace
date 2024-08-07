@@ -157,7 +157,7 @@ ROCKET_COMPETITIONS = (
     ('Collegiate Rocket Competition', 'Collegiate Rocket Competition'),
     ('First Nations Mars Challenge', 'First Nations Mars Challenge'),
     ('First Nations Moon Challenge', 'First Nations Moon Challenge'),
-    ('First Nations Launch Gateway Challenge', 'First Nations Launch Gateway Challenge'),
+    ('First Nations Gateway Challenge', 'First Nations Gateway Challenge'),
     ('Midwest High Powered Rocket Competition', 'Midwest High Powered Rocket Competition'),
 )
 ROCKET_LAUNCH_COMPETITION_WITH_LIMIT = [
@@ -1339,10 +1339,7 @@ class RocketLaunchTeam(BaseModel):
         elif self.competition == 'Midwest High Powered Rocket Competition':
             code = 'MRL{0}'.format(YEAR_2)
         elif 'First Nations' in self.competition:
-            if self.competition == 'First Nations Mars Challenge':
-                suffix = 'Mars'
-            else:
-                suffix = 'Moon'
+            suffix = self.competition.split(' ')[2]
             code = 'FNL{0}_{1}'.format(YEAR_2, suffix)
         last_name = self.user.last_name
         first_name = self.user.first_name
@@ -1355,6 +1352,7 @@ class RocketLaunchTeam(BaseModel):
             last_name,
             first_name,
         )
+
 
     def get_absolute_url(self):
         """Returns the absolute URL from root URL."""
