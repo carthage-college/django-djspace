@@ -12,10 +12,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.proposal or app.team.proposal %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.proposal %}{{app.proposal}}{% else %}{{app.team.proposal}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.proposal %}{{app.proposal}}{% else %}{{app.team.proposal}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf fa-fw blue" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -33,10 +33,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.budget or app.team.budget %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.budget %}{{app.budget}}{% else %}{{app.team.budget}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.budget %}{{app.budget}}{% else %}{{app.team.budget}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% if 'Challenge' not in app.competition %}
@@ -51,13 +51,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.invoice_q1 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.invoice_q1}}"
+    <a href="{{media_url}}{{app.invoice_q1}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -71,13 +69,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.invoice_q2 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.invoice_q2}}"
+    <a href="{{media_url}}{{app.invoice_q2}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -91,13 +87,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.invoice_q3 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.invoice_q3}}"
+    <a href="{{media_url}}{{app.invoice_q3}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -111,13 +105,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.invoice_q4 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.invoice_q4}}"
+    <a href="{{media_url}}{{app.invoice_q4}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -132,13 +124,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.flysheet_1 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.flysheet_1}}"
+    <a href="{{media_url}}{{app.flysheet_1}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -152,13 +142,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.flysheet_2 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.flysheet_2}}"
+    <a href="{{media_url}}{{app.flysheet_2}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -172,13 +160,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.flysheet_3 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.flysheet_3}}"
+    <a href="{{media_url}}{{app.flysheet_3}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -192,13 +178,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.flysheet_4 %}
-    <a class="fa-wrap" href="{{media_url}}{{app.flysheet_4}}"
+    <a href="{{media_url}}{{app.flysheet_4}}"
       target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue"
-      aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -218,10 +202,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.interim_progress_report or app.team.interim_progress_report %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.interim_progress_report %}{{app.interim_progress_report}}{% else %}{{app.team.interim_progress_report}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.interim_progress_report %}{{app.interim_progress_report}}{% else %}{{app.team.interim_progress_report}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -240,10 +224,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.preliminary_design_report or app.team.preliminary_design_report %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.preliminary_design_report %}{{app.preliminary_design_report}}{% else %}{{app.team.preliminary_design_report}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.preliminary_design_report %}{{app.preliminary_design_report}}{% else %}{{app.team.preliminary_design_report}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -261,10 +245,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.openrocketrocksim or app.team.openrocketrocksim %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim %}{{app.openrocketrocksim}}{% else %}{{app.team.openrocketrocksim}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.openrocketrocksim %}{{app.openrocketrocksim}}{% else %}{{app.team.openrocketrocksim}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -282,10 +266,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.openrocketrocksim2 or app.team.openrocketrocksim2 %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim2 %}{{app.openrocketrocksim2}}{% else %}{{app.team.openrocketrocksim2}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.openrocketrocksim2 %}{{app.openrocketrocksim2}}{% else %}{{app.team.openrocketrocksim2}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -303,10 +287,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.openrocketrocksim3 or app.team.openrocketrocksim3 %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim3 %}{{app.openrocketrocksim3}}{% else %}{{app.team.openrocketrocksim3}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.openrocketrocksim3 %}{{app.openrocketrocksim3}}{% else %}{{app.team.openrocketrocksim3}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -324,10 +308,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.openrocketrocksim4 or app.team.openrocketrocksim4 %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.openrocketrocksim4 %}{{app.openrocketrocksim4}}{% else %}{{app.team.openrocketrocksim4}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.openrocketrocksim4 %}{{app.openrocketrocksim4}}{% else %}{{app.team.openrocketrocksim4}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% if app.competition != "Midwest High Powered Rocket Competition" or app.team.competition != "Midwest High Powered Rocket Competition" or app.competition != "Collegiate Rocket Competition" or app.team.competition != "Collegiate Rocket Competition" %}
@@ -346,10 +330,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.virtual_pdr or app.team.virtual_pdr %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.virtual_pdr %}{{app.virtual_pdr}}{% else %}{{app.team.virtual_pdr}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.virtual_pdr %}{{app.virtual_pdr}}{% else %}{{app.team.virtual_pdr}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-powerpoint blue" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -367,10 +351,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.final_design_report or app.team.final_design_report %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.final_design_report %}{{app.final_design_report}}{% else %}{{app.team.final_design_report}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.final_design_report %}{{app.final_design_report}}{% else %}{{app.team.final_design_report}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -385,14 +369,14 @@
       data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       value="{% if app.flight_demo %}{{app.flight_demo}}{% else %}{{app.team.flight_demo}}{% endif %}"
-      id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
-    <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+      id="id_flight_demo_{{forloop.counter}}">
+    <i class="fa-solid fa-thumbs-up blue" aria-hidden="true"></i>
     {% else %}
     <input type="input" name="flight_demo" class="url-field fleft"
       data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-      id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
-      <i class="fa fa-times red" aria-hidden="true"
+      id="id_flight_demo_{{forloop.counter}}">
+      <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true"
         id="id_flight_demo_{{forloop.counter}}_missing" title="Missing file"></i>
     {% endif %}
     <p class="help fleft">Provide the URL where video is located</p>
@@ -413,10 +397,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.critical_design_report or app.team.critical_design_report %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.critical_design_report %}{{app.critical_design_report}}{% else %}{{app.team.critical_design_report}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.critical_design_report %}{{app.critical_design_report}}{% else %}{{app.team.critical_design_report}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -434,10 +418,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.virtual_cdr or app.team.virtual_cdr %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.virtual_cdr %}{{app.virtual_cdr}}{% else %}{{app.team.virtual_cdr}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.virtual_cdr %}{{app.virtual_cdr}}{% else %}{{app.team.virtual_cdr}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-powerpoint blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -453,10 +437,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.lodging_list or app.team.lodging_list %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.lodging_list %}{{app.lodging_list}}{% else %}{{app.team.lodging_list}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.lodging_list %}{{app.lodging_list}}{% else %}{{app.team.lodging_list}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -473,10 +457,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.education_outreach or app.team.education_outreach %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.education_outreach %}{{app.education_outreach}}{% else %}{{app.team.education_outreach}}{% endif %}" target="_blank">
-    <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.education_outreach %}{{app.education_outreach}}{% else %}{{app.team.education_outreach}}{% endif %}" target="_blank">
+    <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -492,10 +476,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.flight_readiness_report or app.team.flight_readiness_report %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.flight_readiness_report %}{{app.flight_readiness_report}}{% else %}{{app.team.flight_readiness_report}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.flight_readiness_report %}{{app.flight_readiness_report}}{% else %}{{app.team.flight_readiness_report}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% if app.competition == "Collegiate Rocket Competition" or app.team.competition == "Collegiate Rocket Competition" %}
@@ -514,10 +498,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.virtual_frr or app.team.virtual_frr %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.virtual_frr %}{{app.virtual_frr}}{% else %}{{app.team.virtual_frr}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.virtual_frr %}{{app.virtual_frr}}{% else %}{{app.team.virtual_frr}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-powerpoint blue" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -535,10 +519,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.verified_budget or app.team.verified_budget %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.verified_budget %}{{app.verified_budget}}{% else %}{{app.team.verified_budget}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.verified_budget %}{{app.verified_budget}}{% else %}{{app.team.verified_budget}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -556,10 +540,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.close_out_finance_document or app.team.close_out_finance_document %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.close_out_finance_document %}{{app.close_out_finance_document}}{% else %}{{app.team.close_out_finance_document}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.close_out_finance_document %}{{app.close_out_finance_document}}{% else %}{{app.team.close_out_finance_document}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -575,10 +559,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.invoice or app.team.invoice %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.invoice %}{{app.invoice}}{% else %}{{app.team.invoice}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.invoice %}{{app.invoice}}{% else %}{{app.team.invoice}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -594,10 +578,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.charges_certification or app.team.charges_certification %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.charges_certification %}{{app.charges_certification}}{% else %}{{app.team.charges_certification}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.charges_certification %}{{app.charges_certification}}{% else %}{{app.team.charges_certification}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -612,15 +596,14 @@
       data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
       value="{% if app.proceeding_paper %}{{app.proceeding_paper|date:"m/d/Y"}}{% else %}{{app.team.proceeding_paper|date:"m/d/Y"}}{% endif %}"
-      id="id_proceeding_paper" style="margin-right:17px;">
-        <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+      id="id_proceeding_paper">
+        <i class="fa-solid fa-thumbs-up blue fa-fw" aria-hidden="true"></i>
     {% else %}
     <input type="input" name="proceeding_paper" class="fleft"
       data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
       data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-      id="id_proceeding_paper" style="margin-right:17px;">
-      <i class="fa fa-times red" aria-hidden="true"
-        id="proceeding-missing" title="Missing file"></i>
+      id="id_proceeding_paper">
+      <i class="fa-solid fa-xmark red fa-fw" id="proceeding-missing" aria-hidden="true" title="Missing file"></i>
     {% endif %}
     <p class="help fleft">Provide the date on which you presented the paper</p>
   </div>
@@ -640,10 +623,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.oral_presentation or app.team.oral_presentation %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.oral_presentation %}{{app.oral_presentation}}{% else %}{{app.team.oral_presentation}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-powerpoint-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.oral_presentation %}{{app.oral_presentation}}{% else %}{{app.team.oral_presentation}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-powerpoint blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% endif %}
@@ -662,10 +645,10 @@
     <span class='filevalu'></span>
   </div>
   {% if app.post_flight_performance_report or app.team.post_flight_performance_report %}
-    <a class="fa-wrap" href="{{media_url}}{% if app.post_flight_performance_report %}{{app.post_flight_performance_report}}{% else %}{{app.team.post_flight_performance_report}}{% endif %}" target="_blank">
-      <i class="fa fa-times fa-file-pdf-o blue" aria-hidden="true"></i></a>
+    <a href="{{media_url}}{% if app.post_flight_performance_report %}{{app.post_flight_performance_report}}{% else %}{{app.team.post_flight_performance_report}}{% endif %}" target="_blank">
+      <i class="fa-solid fa-file-pdf blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true" title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -683,14 +666,12 @@
     <span class='filevalu'></span>
   </div>
   {% if app.team_biography %}
-    <a class="fa-wrap"
-      href="{{media_url}}{{app.team_biography}}"
+    <a href="{{media_url}}{{app.team_biography}}"
       target="_blank">
-      <i class="fa fan-ban fa-file-pdf-o blue"
+      <i class="fa-solid fan-ban fa-file-pdf blue fa-fw"
       aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 <li class="form-group ctrlHolder">
@@ -704,13 +685,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.team_photo %}
-    <a class="fa-wrap"
-      href="{{media_url}}{{app.team_photo}}"
+    <a href="{{media_url}}{{app.team_photo}}"
       target="_blank">
-      <i class="fa fa-times fa-file-image-o blue" aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-image blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 {% if app.competition != "Midwest High Powered Rocket Competition" or app.team.competition != "Midwest High Powered Rocket Competition" or app.competition != "Collegiate Rocket Competition" or app.team.competition != "Collegiate Rocket Competition" %}
@@ -725,18 +704,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.academics_pdf %}
-    <a class="fa-wrap"
-      href="{{media_url}}{{app.academics_pdf}}"
+    <a href="{{media_url}}{{app.academics_pdf}}"
       target="_blank">
-      <i class="fa fa-times fa-file-image-o blue" aria-hidden="true"></i></a>
-  {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
-  {% endif %}
+      <i class="fa-solid fa-file-image blue fa-fw" aria-hidden="true"></i></a>
+  {% else %}<i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>{% endif %}
 </li>
-
-
-
 <li class="form-group ctrlHolder">
   <h3><label for="id_academics_url">Academic Posters, Presentations, Papers (URL)</label></h3>
   <div>
@@ -744,20 +716,17 @@
     <input type="url" name="academics_url" class="url-field fleft"
     data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
     data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-    value="{{app.academics_url}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
-    <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+    value="{{app.academics_url}}" id="id_flight_demo_{{forloop.counter}}">
+    <i class="fa-solid fa-thumbs-up blue fa-fw" aria-hidden="true"></i>
     {% else %}
     <input type="input" name="academics_url" class="url-field fleft"
     data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
     data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-    id="id_academics_url" style="margin-right:17px;">
-    <i class="fa fa-times red" aria-hidden="true" id="id_academics_url_missing"
-      title="Provide a URL for your work"></i>
+    id="id_academics_url">
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" id="id_academics_url_missing" title="Provide a URL for your work"></i>
     {% endif %}
   </div>
 </li>
-
-
 <li class="form-group ctrlHolder">
   <h3><label for="id_stories_pdf">News Articles/Stories [PDF]</label></h3>
   <div class="filewrap fleft">
@@ -769,13 +738,11 @@
     <span class='filevalu'></span>
   </div>
   {% if app.stories_pdf %}
-    <a class="fa-wrap"
-      href="{{media_url}}{{app.stories_pdf}}"
+    <a href="{{media_url}}{{app.stories_pdf}}"
       target="_blank">
-      <i class="fa fa-times fa-file-image-o blue" aria-hidden="true"></i></a>
+      <i class="fa-solid fa-file-image blue fa-fw" aria-hidden="true"></i></a>
   {% else %}
-    <i class="fa fa-times red fa-wrap" aria-hidden="true"
-      title="Missing file"></i>
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
   {% endif %}
 </li>
 
@@ -786,15 +753,14 @@
     <input type="url" name="stories_url" class="url-field fleft"
     data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
     data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-    value="{{app.stories_url}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:17px;">
-    <i class="fa fa-times fa-thumbs-o-up blue" aria-hidden="true"></i>
+    value="{{app.stories_url}}" id="id_flight_demo_{{forloop.counter}}">
+    <i class="fa-solid fa-thumbs-up blue fa-fw" aria-hidden="true"></i>
     {% else %}
     <input type="input" name="stories_url" class="url-field fleft"
     data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
     data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-    id="id_stories_url" style="margin-right:17px;">
-    <i class="fa fa-times red" aria-hidden="true" id="id_stories_url_missing"
-      title="Provide a URL for your work"></i>
+    id="id_stories_url">
+    <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" id="id_stories_url_missing" title="Provide a URL for your work"></i>
     {% endif %}
   </div>
 </li>

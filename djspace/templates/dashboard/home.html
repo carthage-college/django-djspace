@@ -199,7 +199,7 @@
         var $cid = $dis.attr("data-content-type");
         var $oid = $dis.attr("data-oid");
         var $fawe = $('#' + $did + '_missing');
-        var $fawe_done = '<i class="fa fa-thumbs-o-up blue" aria-hidden="true"></i>';
+        var $fawe_done = '<i class="fa-solid fa-thumbs-up blue fa-fw" aria-hidden="true"></i>';
         var $data = {
             'cid':$cid,
             'oid':$oid,
@@ -222,6 +222,7 @@
                 $fawe.replaceWith($fawe_done);
                 $.growlUI("Success", "URL saved.");
               }else{
+                console.log(data);
                 $.growlUI("Fail", "Please input your URL again.");
               }
             },
@@ -245,7 +246,7 @@
         var $cid = $dis.attr("data-content-type");
         var $oid = $dis.attr("data-oid");
         var $fawe = $('#proceeding-missing');
-        var $fawe_done = '<i class="fa fa-thumbs-o-up blue" aria-hidden="true"></i>';
+        var $fawe_done = '<i class="fa-solid fa-thumbs-up blue fa-fw" aria-hidden="true"></i>';
         var $data = {
             'cid':$cid,
             'oid':$oid,
@@ -379,7 +380,7 @@
             {% if user_files.mugshot.value and mugshot_status %}
               <a class="fa-wrap" href="{{media_url}}{{user_files.mugshot.value}}"
                 target="_blank">
-              <i class="fa fa-xmark fa-file-image blue"
+              <i class="fa fa-file-image blue"
                 aria-hidden="true"></i></a>
             {% else %}
               <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
@@ -400,7 +401,7 @@
               <a class="fa-wrap"
                 href="{{media_url}}{{user_files.biography.value}}"
                 target="_blank">
-              <i class="fa fa-xmark fa-file-pdf blue"
+              <i class="fa fa-file-pdf blue"
                 aria-hidden="true"></i></a>
             {% else %}
               <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>
@@ -426,7 +427,7 @@
             {% if user_files.irs_w9.value and irs_w9_status %}
               <a class="fa-wrap" href="{{media_url}}{{user_files.irs_w9.value}}"
                 target="_blank">
-              <i class="fa fa-xmark fa-file-pdf blue"
+              <i class="fa fa-file-pdf blue"
                 aria-hidden="true"></i></a>
             {% else %}
               <i class="fa-solid fa-xmark red fa-fw" aria-hidden="true" title="Missing file"></i>

@@ -77,7 +77,6 @@ transition: 500ms all;
 .filebutt:hover {
 background-color: blue;
 }
-.fa-wrap{margin-left:20px;}
 .fa-circle-question {margin-top: -4px;}
 /* end hide 'no file selected' text */
 #main-content {margin:0;}

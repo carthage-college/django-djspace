@@ -661,16 +661,16 @@
             </h3>
             <div>
               {% if app.url1 %}
-              <input type="url" name="url1" class="url-field fleft"
+              <input type="url" name="url1" class="url-field fleft" maxlength="255"
               data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
               data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-              value="{{app.url1}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:12px;">
-              <i class="fa-solid fa-mark fa-thumbs-o-up blue" aria-hidden="true"></i>
+              value="{{app.url1}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:4px;">
+              <i class="fa-solid fa-xmark fa-thumbs-up blue fa-fw" aria-hidden="true"></i>
               {% else %}
-              <input type="input" name="url1" class="url-field fleft"
+              <input type="input" name="url1" class="url-field fleft" maxlength="255"
               data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
               data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-              id="id_url1" style="margin-right:12px;">
+              id="id_url1" style="margin-right:4px;">
               <i class="fa-solid fa-xmark red" aria-hidden="true" id="id_url1_missing"
                 title="Provide an optional URL"></i>
               {% endif %}
@@ -682,16 +682,16 @@
             </h3>
             <div>
               {% if app.url2 %}
-              <input type="url" name="url2" class="url-field fleft"
+              <input type="url" name="url2" class="url-field fleft" maxlength="255"
               data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
               data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-              value="{{app.url2}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:12px;">
-              <i class="fa-solid fa-xmark fa-thumbs-o-up blue" aria-hidden="true"></i>
+              value="{{app.url2}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:4px;">
+              <i class="fa-solid fa-xmark fa-thumbs-up blue fa-fw" aria-hidden="true"></i>
               {% else %}
-              <input type="input" name="url2" class="url-field fleft"
+              <input type="input" name="url2" class="url-field fleft" maxlength="255"
               data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
               data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-              id="id_url2" style="margin-right:12px;">
+              id="id_url2" style="margin-right:4px;">
               <i class="fa-solid fa-xmark red" aria-hidden="true" id="id_url2_missing"
                 title="Provide an optional URL"></i>
               {% endif %}
@@ -703,16 +703,16 @@
             </h3>
             <div>
               {% if app.url3 %}
-              <input type="url" name="url3" class="url-field fleft"
+              <input type="url" name="url3" class="url-field fleft" maxlength="255"
               data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
               data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-              value="{{app.url3}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:12px;">
-              <i class="fa-solid fa-xmark fa-thumbs-o-up blue" aria-hidden="true"></i>
+              value="{{app.url3}}" id="id_flight_demo_{{forloop.counter}}" style="margin-right:4px;">
+              <i class="fa-solid fa-xmark fa-thumbs-up blue fa-fw" aria-hidden="true"></i>
               {% else %}
-              <input type="input" name="url3" class="url-field fleft"
+              <input type="input" name="url3" class="url-field fleft" maxlength="255"
               data-content-type="{% if app.team %}{{app.team.get_content_type.id}}{% else %}{{app.get_content_type.id}}{% endif %}"
               data-oid="{% if app.team.id %}{{app.team.id}}{% else %}{{app.id}}{% endif %}"
-              id="id_url3" style="margin-right:12px;">
+              id="id_url3" style="margin-right:4px;">
               <i class="fa-solid fa-xmark red" aria-hidden="true" id="id_url3_missing"
                 title="Provide an optional URL"></i>
               {% endif %}
