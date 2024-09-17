@@ -269,7 +269,7 @@ $(function() {
     /* Industry Internship Work Plans */
     {% if app_name == "Industry Internship" %}
     // number of work plan tasks
-    var tasks = {{form.instance.work_plan_tasks.all|length|default:1}};
+    var tasks = {{form.instance.workplantasks_set.all|length|default:1}};
     $(".clone").click(function () {
         if (tasks < 10) {
             tasks++;

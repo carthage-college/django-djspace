@@ -3428,7 +3428,7 @@ class WorkPlanTask(models.Model):
     industry_internship = models.ForeignKey(
         IndustryInternship,
         on_delete=models.CASCADE,
-        related_name='work_plan_tasks',
+        #related_name='work_plan_tasks',
     )
     title = models.CharField(
         max_length=128,

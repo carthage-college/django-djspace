@@ -1712,11 +1712,13 @@ class SpecialInitiativesAdmin(AerospaceOutreachAdmin):
     model = SpecialInitiatives
 
 
+'''
 class WorkPlanTaskInline(admin.TabularInline):
     """Inline Admin class for Work Plan Task."""
 
     model = WorkPlanTask
     fields = ('title', 'description', 'hours_percent', 'expected_outcome')
+'''
 
 
 class IndustryInternshipAdmin(GenericAdmin):
@@ -1760,7 +1762,7 @@ class IndustryInternshipAdmin(GenericAdmin):
         export_photo_files,
         'email_applicants',
     ]
-    inlines = [WorkPlanTaskInline]
+    #inlines = [WorkPlanTaskInline]
 
     def budget_file(self, instance):
         """Construct display file code for the admin dashboard."""
