@@ -209,6 +209,9 @@ $(function() {
           }
        }
     });
+    {% if app_name == "Rocket Launch Team" %}
+      $('#proposal_qtip_help').text("NOTE: Only the First Nations Mars and Moon Challenge competitions must provide a proposal at this time. [PDF format]");
+    {% endif %}
     /* End Rocket Launch Team */
     {% endif %}
     /* Grants Officers autocomplete */
