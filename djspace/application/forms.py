@@ -1276,7 +1276,6 @@ class UndergraduateResearchForm(forms.ModelForm):
             'other_file',
             'other_file2',
             'other_file3',
-            'proposal',
             'interim_report',
             'url1',
             'url2',
